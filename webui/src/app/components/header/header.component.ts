@@ -332,10 +332,10 @@ export class HeaderComponent implements OnInit, DoCheck {
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
-        currentTab: !!path && path.includes("drives") || path.includes("drive-checklist") ||
-        path.includes("drive-target") || path.includes("drive-progress-record") || 
-        path.includes("drive-failure-analysis") || path.includes("drive-electrification-targets") ||
-        path.includes("drive-inspection") || path.includes("drive-stipulation")  ? "open" : "",  
+        currentTab: !!path && path.includes("drives") || path.includes("checklist") ||
+        path.includes("target") || path.includes("progress-record") || 
+        path.includes("failure-analysis") || path.includes("electrification-targets") ||
+        path.includes("inspection") || path.includes("stipulation")  ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Drives",
@@ -345,53 +345,53 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("drives") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Checklist",
-            subMenuURL: "drive-checklist",
+            subMenuName: "Checklist",
+            subMenuURL: "checklist",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-checklist") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("checklist") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Target",
-            subMenuURL: "drive-target",
+            subMenuName: "Target",
+            subMenuURL: "target",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-target") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("target") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Progress Record",
-            subMenuURL: "drive-progress-record",
+            subMenuName: "Progress Record",
+            subMenuURL: "progress-record",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-progress-record") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("progress-record") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Failure Analysis",
-            subMenuURL: "drive-failure-analysis",
+            subMenuName: "Failure Analysis",
+            subMenuURL: "failure-analysis",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-failure-analysis") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Electrification Targets",
-            subMenuURL: "drive-electrification-targets",
+            subMenuName: "Electrification Targets",
+            subMenuURL: "electrification-targets",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-electrification-targets") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("electrification-targets") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Inspection",
-            subMenuURL: "drive-inspection",
+            subMenuName: "Inspection",
+            subMenuURL: "inspection",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-inspection") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("inspection") ? "active-item" : "",
           },
           {
-            subMenuName: "Drive Stipulation",
-            subMenuURL: "drive-stipulation",
+            subMenuName: "Stipulation",
+            subMenuURL: "stipulation",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("drive-stipulation") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("stipulation") ? "active-item" : "",
           }
         ]
       }

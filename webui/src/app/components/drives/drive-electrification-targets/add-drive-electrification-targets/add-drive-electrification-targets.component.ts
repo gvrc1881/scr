@@ -26,11 +26,11 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
 
   //stateList: any;
   constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,    
     private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
+    private route: ActivatedRoute,
     private router: Router,
   ) {
     // Reactive form errors
@@ -122,7 +122,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
           id: this.resp.id,
           section: this.resp.section,
           guage: this.resp.guage,
-          targetDate: this.resp.targetDate,
+          targetDate: new Date(this.resp.targetDate),
           status: this.resp.status,
           division: this.resp.division,
           executionAgency: this.resp.executionAgency,
@@ -137,7 +137,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
           proposalScheme: this.resp.proposalScheme,
           sanctionByBoard: this.resp.sanctionByBoard,
           yearOfSanction: this.resp.yearOfSanction,
-          dateOfCompletion: this.resp.dateOfCompletion,
+          dateOfCompletion: new Date(this.resp.dateOfCompletion),
         });
         this.spinnerService.hide();
       })

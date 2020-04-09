@@ -4,6 +4,7 @@ import { StipulationstModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -18,7 +19,7 @@ export class DriveStipulationComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
 
   displayedColumns = ['sno', 'stipulation', 'stipulationTo', 'dateOfStipulation', 'dateComplied',
-   'compliance', 'attachment', 'compliedBy', 'assetType'];
+   'compliance', 'attachment', 'compliedBy', 'assetType','actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
 
 
@@ -32,6 +33,8 @@ export class DriveStipulationComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private drivesService: DrivesService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -62,5 +65,20 @@ export class DriveStipulationComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
-
+  processEditAction(id){
+    this.router.navigate([id],{relativeTo: this.route});
+  }
+  delete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteStipulationData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Stipulation Successfully");
+      this.getStipulationData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Inspection Stipulation Failed.");
+    })
+  }
 }

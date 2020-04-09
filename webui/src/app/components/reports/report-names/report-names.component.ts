@@ -21,7 +21,7 @@ export class ReportNamesComponent implements OnInit {
     console.log(this.router.url);
     let reportType = '';
    
-    if(this.router.url == '/daily-progress-reports'){
+    if(this.router.url == '/report-names'){
       reportType = 'DailyProgress';  
       console.log("reportType"+reportType)    
     }

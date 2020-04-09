@@ -4,6 +4,7 @@ import { InspectionstModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-drive-inspection',
@@ -33,6 +34,8 @@ export class DriveInspectionComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private drivesService: DrivesService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -42,7 +45,6 @@ export class DriveInspectionComponent implements OnInit {
 
     this.spinnerService.show();
     this.getInspectionData();
-
   }
 
   getInspectionData() {
@@ -63,5 +65,20 @@ export class DriveInspectionComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
-
+  processEditAction(id){
+    this.router.navigate([id],{relativeTo: this.route});
+  }
+  delete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteInspectionsData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Inspection Successfully");
+      this.getInspectionData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Inspection Deletion Failed.");
+    })
+  }
 }

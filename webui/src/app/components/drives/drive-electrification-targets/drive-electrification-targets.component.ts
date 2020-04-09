@@ -69,5 +69,17 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   processEditAction(id){
     this.router.navigate([id],{relativeTo: this.route});
   }
-
+  delete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteElectrificationTargetsData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Electrification Targets Successfully");
+      this.getElectrificationTargetsData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Electrification Targets Deletion Failed.");
+    })
+  }
 }

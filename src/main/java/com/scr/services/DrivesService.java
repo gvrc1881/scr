@@ -96,7 +96,7 @@ public class DrivesService {
 	}
 
 	public List<ElectrificationTargets> findAllElectrificationTargets() {
-		return driveElectrificationTargetsRepository.findAll();
+		return driveElectrificationTargetsRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
 	
 	public @Valid boolean saveElectrificationTargetsData(@Valid DriveRequest electrificationTargetsRequest) {

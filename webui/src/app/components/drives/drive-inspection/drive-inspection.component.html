@@ -7,7 +7,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
                         <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Drive Inspection</li>
+                        <li class="breadcrumb-item active" aria-current="page">Inspection</li>
                     </ol>
                 </nav>
             </div>
@@ -15,14 +15,14 @@
             <div class="clear"> </div>
             <div class="row-fluid">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Drive Inspection Information</div>
+                    <div class="panel-heading">Inspection Information</div>
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
 <!-- *ngIf="addPermission" -->
                             <div class="p-24" style="text-align: right" >
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
-                                    [routerLink]="['add-drive-inspection']"> <!-- *ngIf="rolePermission"  -->
-                                    Add Drive Inspection
+                                    [routerLink]="['add-inspection']"> <!-- *ngIf="rolePermission"  -->
+                                    Add Inspection
                                 </button></div>
 
                             <div class="p-24">
@@ -69,7 +69,7 @@
 
                                         <ng-container matColumnDef="dateOfInspection">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Inspection</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection | date :  "yyyy-MM-dd"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="RKM">
@@ -89,12 +89,12 @@
 
                                         <ng-container matColumnDef="authorisationDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Authorisation Date</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate | date :  "yyyy-MM-dd"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="chargingDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Charging Date</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.chargingDate}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.chargingDate | date :  "yyyy-MM-dd"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="attachment">
@@ -116,15 +116,15 @@
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
-                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
+                                                <a mat-icon-button matTooltip="Edit" ><!--*ngIf="editPermission"-->
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">
                                                         <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                                                     </button>
                                                 </a>
                                                 <button mat-icon-button matTooltip="Delete"
-                                                    (click)="deleteUserList(row.id)"
-                                                    *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission">
+                                                    (click)="delete(row.id)"
+                                                    > <!--*ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
                                                     <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                 </button>
                                             </mat-cell>

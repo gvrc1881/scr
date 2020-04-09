@@ -29,8 +29,7 @@ reportParameterNames() {
     return this.http.get<ReportParameterModel>(environment.apiUrl + '/reportParameterNames' , { headers: this.header });
 }
 
-reportNames(reportType:string) {
-    
+reportNames(reportType:string) {    
     return this.http.get(this.url + '/reportNames/'+reportType,{ headers: this.header });
 }
 facilityNames(){

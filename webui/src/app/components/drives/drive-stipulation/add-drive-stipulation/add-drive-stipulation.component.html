@@ -8,7 +8,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
                         <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Drive Stipulation</li>
+                        <li class="breadcrumb-item active" aria-current="page">Stipulation</li>
                     </ol>
                 </nav>
             </div>
@@ -16,18 +16,18 @@
             <div class="clear"> </div>
             <div class="row-fluid">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Drive Stipulation Information</div>
+                    <div class="panel-heading">Stipulation Information</div>
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Drive Stipulation Form</div>
+                                <div class="panel-heading">Add Stipulation Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
 
                                             <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
                                                 fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
-                                                [formGroup]="addDriveStipulationFormGroup" (ngSubmit)="onAddDriveFormSubmit();">
+                                                [formGroup]="addDriveStipulationFormGroup" (ngSubmit)="onAddStipulationFormSubmit();">
 
                                                 <div class="col-md-12">
 
@@ -86,7 +86,8 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose Date Complied"
-                                                                [formControl]="addDriveStipulationFormGroup.controls['dateComplied']">
+                                                                [formControl]="addDriveStipulationFormGroup.controls['dateComplied']"
+                                                                >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker2></mat-datepicker>
@@ -165,12 +166,12 @@
                                                     <div class="float-right" style="float: right;">
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
-                                                            [disabled]="addDriveStipulationFormGroup.invalid" *ngIf="saveUser">
+                                                            [disabled]="addDriveStipulationFormGroup.invalid" *ngIf="save">
                                                             Submit
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             [disabled]="addDriveStipulationFormGroup.invalid" color="accent"
-                                                            mat-raised-button="" *ngIf="updateUser">
+                                                            mat-raised-button="" *ngIf="update">
                                                             Update
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"

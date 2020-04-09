@@ -117,7 +117,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   }, 
   {
-    path: 'daily-progress-reports',
+    path: 'report-names',
     loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
     canActivate: [AuthGuard]
   },
@@ -197,37 +197,37 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-checklist',
+    path: 'checklist',
     loadChildren: './components/drives/drive-checklist/drive-checklist.module#DriveChecklistModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-target',
+    path: 'target',
     loadChildren: './components/drives/drive-target/drive-target.module#DriveTargetModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-progress-record',
+    path: 'progress-record',
     loadChildren: './components/drives/drive-progress-record/drive-progress-record.module#DriveProgressRecordModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-failure-analysis',
+    path: 'failure-analysis',
     loadChildren: './components/drives/drive-failure-analysis/drive-failure-analysis.module#DriveFailureAnalysisModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-electrification-targets',
+    path: 'electrification-targets',
     loadChildren: './components/drives/drive-electrification-targets/drive-electrification-targets.module#DriveElectrificationTargetsModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-inspection',
+    path: 'inspection',
     loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'drive-stipulation',
+    path: 'stipulation',
     loadChildren: './components/drives/drive-stipulation/drive-stipulation.module#DriveStipulationModule',
     canActivate: [AuthGuard]
   }
