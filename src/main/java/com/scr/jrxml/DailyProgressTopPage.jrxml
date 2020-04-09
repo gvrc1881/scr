@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGEReport" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fe40c65c-28c7-4f02-bf35-05522e1132b7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/opentaps/Desktop/adireddy/macp_application_files/testReport/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR4" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR5" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR6" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR7" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="failureFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="failureToDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select
+ d.type_of_failure, d.FY, d.month1, d.week1, d.date1, Cum_delay_time_daily, Cum_delay_time_weekly, Cum_delay_time_monthly, Cum_delay_time_fy,
+daily_count,w_count,m_count,fy_count
+from (
+select  type_of_failure, FY, Sum(delay_time) Cum_delay_time_fy, sum(daily_count) fy_count
+ from v_failures_count_duration_daily
+ group by type_of_failure, FY
+) fy,
+(select type_of_failure, FY, month1, Sum(delay_time) Cum_delay_time_monthly, sum(daily_count) m_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1,   FY
+) m,
+(select type_of_failure, FY, month1, week1 , Sum(delay_time)    Cum_delay_time_weekly, sum(daily_count) w_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1, week1 ,   FY
+) w,
+(
+select type_of_failure, FY, month1, week1 , date1,  Sum(delay_time) Cum_delay_time_daily, sum(daily_count) daily_count
+ from v_failures_count_duration_daily
+ group by   type_of_failure, month1, week1, date1, FY
+) d
+where date1 ::date =$P{fromDate}::date
+
+and D.type_of_failure ='FAILURE_OCCURENCE'
+and D.FY= w.FY
+and  D.FY= m.FY
+and  D.FY= fy.FY
+and D.type_of_failure= fy.type_of_failure
+and  D.month1= m.month1
+and  D.month1= w.month1
+and D.type_of_failure= m.type_of_failure
+and  D.week1= w.week1
+and D.type_of_failure= w.type_of_failure ;]]>
+	</queryString>
+	<field name="type_of_failure" class="java.lang.String"/>
+	<field name="fy" class="java.lang.String"/>
+	<field name="month1" class="java.lang.Double"/>
+	<field name="week1" class="java.lang.Double"/>
+	<field name="date1" class="java.lang.String"/>
+	<field name="cum_delay_time_daily" class="java.lang.Double"/>
+	<field name="cum_delay_time_weekly" class="java.lang.Double"/>
+	<field name="cum_delay_time_monthly" class="java.lang.Double"/>
+	<field name="cum_delay_time_fy" class="java.lang.Double"/>
+	<field name="daily_count" class="java.math.BigDecimal"/>
+	<field name="w_count" class="java.math.BigDecimal"/>
+	<field name="m_count" class="java.math.BigDecimal"/>
+	<field name="fy_count" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="56" width="327" height="24" uuid="d69fbab0-55c7-49ca-bd1b-f2725bf46b87"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Traction Distribution Unit]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="802" height="26" uuid="e6f4d7b0-296f-411d-b9fc-841d2be929ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="802" height="30" uuid="40ab9812-e171-4c5f-8bc8-b518ba74e5f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="700" y="56" width="102" height="24" uuid="2049031b-cc04-4f5f-9975-2c80d0bea321"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{date1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="127" height="20" uuid="632224cd-205a-46d5-8335-14626f0709a0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type of Failure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="127" y="80" width="100" height="20" uuid="03be6b8b-9ae8-4041-83c3-e22ff65d7dd2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[YEAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="80" width="100" height="20" uuid="217bf67f-1681-4e46-aeac-62700ebf52db"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COUNT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="127" y="0" width="100" height="28" uuid="04e9bcc6-b0d8-4ebb-b41d-eec5ca96c692"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="227" y="0" width="100" height="28" uuid="3e45fc07-e71d-41ed-b426-5a4bd6b0f42c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy_count}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="127" height="28" uuid="03682427-e702-431c-b434-c3dbbb3ac60a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{type_of_failure}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="f3320d97-bf6d-4dd1-84ff-48c8f06d689e"/>
+				<subreportParameter name="failureFromDate">
+					<subreportParameterExpression><![CDATA[$P{failureFromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="failureToDate">
+					<subreportParameterExpression><![CDATA[$P{failureToDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily position report PDF results\\daily Ireports\\DpTopPageSubCumLastyear_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="2d2fd634-2ac2-4b03-8b54-f6b6c2850404"/>
+				<subreportParameter name="failureFromDate">
+					<subreportParameterExpression><![CDATA[$P{failureFromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="failureToDate">
+					<subreportParameterExpression><![CDATA[$P{failureToDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily Position Reports\\gopal\\DP_TOP_PAGE_subreport2_cumOfCurrentYear.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="8f5e2c5a-65db-4142-9e31-931e4402b823"/>
+				<subreportParameter name="failureFromDate">
+					<subreportParameterExpression><![CDATA[$P{failureFromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="failureToDate">
+					<subreportParameterExpression><![CDATA[$P{failureToDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily Position Reports\\gopal\\DP_TOP_PAGE_subreportCumofTotalYear.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="61372530-2562-453c-a3c8-c573e5e95d15"/>
+				<subreportParameter name="fromDate">
+					<subreportParameterExpression><![CDATA[$P{fromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily position report PDF results\\daily Ireports\\towercar_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="12439aff-1a9e-4313-8388-7becd9419d3a"/>
+				<subreportParameter name="fromDate">
+					<subreportParameterExpression><![CDATA[$P{fromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily position report PDF results\\daily Ireports\\towercarpositionbreakdown_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="6b23b786-a983-4bee-b7cd-a7b165b4855b"/>
+				<subreportParameter name="division"/>
+				<subreportParameter name="failureFromDate">
+					<subreportParameterExpression><![CDATA[$P{failureFromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="failureToDate">
+					<subreportParameterExpression><![CDATA[$P{failureToDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="subDivision"/>
+				<subreportParameter name="depot"/>
+				<subreportParameter name="zone"/>
+				<subreportParameter name="reportHeader"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily Position Reports\\gopal\\Powerfailure_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="379" height="50" uuid="9ee993d4-7185-4a14-9570-77b116a699c0"/>
+				<subreportParameter name="fromDate">
+					<subreportParameterExpression><![CDATA[$P{fromDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\opentaps\\Desktop\\Daily position report PDF results\\daily Ireports\\unUsualOcuurense_SubReport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="405" y="0" width="72" height="20" uuid="e8886b22-94a0-4863-a134-0c9d521aafde"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="700" y="0" width="102" height="20" uuid="03cd7094-ddea-4a6d-8e21-c0b9fb4da991"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="0" width="80" height="20" uuid="2b0a83bb-1f0c-460a-9f8b-e588fb83bf15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="600" y="0" width="100" height="20" uuid="de57718c-5f04-403d-bfa8-80bc7eea92b2"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Generated on : ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="36">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="36" forecolor="#EC1313" uuid="11fdb415-c252-4371-814e-b50e0b296117"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

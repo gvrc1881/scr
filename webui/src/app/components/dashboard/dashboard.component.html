@@ -1,0 +1,100 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="clearfix"> </div>
+<div class="content">
+  <div class="row">
+    <div class="col-12">
+      <!--   <div class="breadcrumb-section">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Data</li>
+          </ol>
+        </nav>
+      </div> -->
+
+      <!-- <div class="row-fluid">
+        <div class="span12">
+          <h3 class="page-title">
+            Application Settings
+          </h3>
+        </div>
+      </div>
+      <mat-grid-list cols="5" rowHeight="100px">
+        <div class="dashboard-blocks">
+          <a *ngFor="let tile of MenusList" [routerLink]="['/'+tile.menuUrl]">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="tile.color" class="block-view">
+              <span> <i class="{{tile.icon}}"></i> </span> {{tile.menuName}}
+            </mat-grid-tile>
+          </a>
+        </div>
+      </mat-grid-list> -->
+    </div>
+  </div>
+  <div class="row" style="margin-top: 5%;">
+    <div class="col-12">
+      <div class="row-fluid">
+        <!--        <div class="panel panel-primary">
+          <div class="panel-heading">Graphs</div>
+          <div class="panel-body"> -->
+
+        <!-- Current Date Tracking Info Graphs -->
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Tracking Info Graphs</div>
+            <div class="panel-body">
+              <div class="col-md-4 col-lg-4" style="display: none">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Division Wise</div>
+                  <div class="panel-body">
+                    <fusioncharts [width]="width" [height]="height" type="Column3D" dataFormat="JSON"
+                      [dataSource]="lastProcessedDivisionDataSource"></fusioncharts>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Jobs Wise</div>
+                  <div class="panel-body">
+                    <fusioncharts [width]="width" [height]="height" type="scrollstackedcolumn2d" [dataFormat]="dataFormat"
+                      [dataSource]="lastProcessedJobsDataSource"
+                      (dataplotRollOver)="findLastProcessedOperationTypeDataSource($event)">
+                    </fusioncharts>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Operation Types Wise</div>
+                  <div class="panel-body">
+                    <fusioncharts [width]="width" [height]="height" [type]="multiBarType" [dataFormat]="dataFormat"
+                      [dataSource]="lastProcessedOperationTypeDataSource">
+                    </fusioncharts>
+                  </div>
+                </div>
+              </div>
+              <!-- Last One Week Division Wise Info Graphs -->
+              <div class="col-md-12 col-lg-12">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Last One Week Division Wise Tracking Info Graphs</div>
+                  <div class="panel-body">
+                    <div class="col-md-12">
+                      <fusioncharts [width]="widthone" [height]="heightone" [type]="type" [dataFormat]="dataFormat" class="division-week-chat"
+                        [dataSource]="lastOneWeekDivisionsDataSourceObj" >
+                      </fusioncharts>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  </div>
+            </div> -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

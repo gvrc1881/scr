@@ -1,0 +1,250 @@
+<div class="content">
+	<div class="">
+		<div class="col-12">
+			<div class="breadcrumb-section">
+	            <nav aria-label="breadcrumb">
+	                <ol class="breadcrumb">
+	                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+	                        <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment </a></li>
+	                          <li class="breadcrumb-item active" aria-current="page">Traction Energy Tariff</li>
+	                </ol>
+	            </nav>
+	          </div>
+			<div class="clear"></div>
+			<div class="row-fluid">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Traction Energy Tariff Information</div>
+						<div class="panel-body">
+							<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+								<div class="p-24">
+									<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+										<div class="p-12" style="text-align: right;" *ngIf="addPermission">
+											<span class="mat-raised-button mat-accent" (click)="addNewTractionEnergyTariff()" *ngIf="!addTractionEnergyTariff"
+                                              color="accent" mat-raised-button="">
+                                              Add TractionEnergyTariff
+                                            </span>
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addTractionEnergyTariff" fxLayout="column"
+                                                fxLayoutAlign="start" [formGroup]="tractionEnergyTariffFormGroup" fxFlex="1 0 auto"
+                                                (ngSubmit)="onTractionEneTariffSubmit();">
+                                            	<div class="panel panel-primary">
+                                            		<div class="panel-heading">{{title}} TractionEnergyTariff</div>
+	                                            		<div class="panel-body">
+	                                                    <div class="col-md-12">
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="supplier" [formControl]="tractionEnergyTariffFormGroup.controls['supplier']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <!-- <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="year" [formControl]="tractionEnergyTariffFormGroup.controls['year']" />
+	                                                            </mat-form-field>
+	                                                        </div> -->
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="rate" [formControl]="tractionEnergyTariffFormGroup.controls['rate']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field>
+	                                                                <input matInput [matDatepicker]="fromDate" placeholder="Choose from date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
+	                                                                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+	                                                                    <mat-datepicker #fromDate  ></mat-datepicker><!--  (yearSeleceted)="close($event)" -->
+	                                                              </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field>
+	                                                                <input matInput [matDatepicker]="thruDate" placeholder="Choose thru date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
+	                                                                    <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
+	                                                                    <mat-datepicker #thruDate  ></mat-datepicker> <!-- (yearSeleceted)="close($event)" -->
+	                                                              </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3 mt-15">
+	                                                                <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+	                                                                    <button mat-raised-button color="accent" [disabled]="tractionEnergyTariffFormGroup.invalid"
+	                                                                        class="submit-button" aria-label="Submit">
+	                                                                        {{title}}
+	                                                                    </button>
+	                                                                </div>
+	                                                                <div class="p-12 d-inline">
+	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+	                                                                      mat-raised-button="">
+	                                                                      Close
+	                                                                    </span>
+	                                                                  </div>
+	                                                        </div>
+	                                                    </div>
+	                                                    <div class="col-md-12">
+	                                                    </div>
+	                                                </div>
+                                            	</div>    
+                                            </form>    
+										</div>
+										<div class = "p-24">
+											<form [formGroup]="contentManagementFormGroup" novalidate
+						                        (ngSubmit)="onContentManagementSubmit()" *ngIf="uploadFile">
+						                        <div class="col-md-12">
+						                          <div class="col-md-3">
+						                            <mat-form-field fxFlex="30">
+						                              <mat-select placeholder="Content Category" formControlName="contentCategory">
+						                                <mat-option *ngFor="let contentCategory of contentCategoryList" [value]="contentCategory.code">
+						                                  {{ contentCategory.code}}
+						                                </mat-option>
+						                              </mat-select>
+						                              <mat-error *ngIf="isSubmit && f.contentCategory.errors && f.contentCategory.errors.required"
+						                                class="alert alert-danger">Select Content Category</mat-error>
+						                            </mat-form-field>
+						                          </div>
+						                          <div class="col-md-3">
+						                            <mat-form-field fxFlex="30">
+						                              <mat-select placeholder="Content Topic" formControlName="contentTopic" >
+						                                <mat-option *ngFor="let contentTopic of contentTopicList" [value]="contentTopic.code">
+						                                  {{ contentTopic.code}}
+						                                </mat-option>
+						                              </mat-select>
+						                              <mat-error *ngIf="isSubmit && f.contentTopic.errors && f.contentTopic.errors.required"
+						                                class="alert alert-danger">Select Content Topic</mat-error>
+						                            </mat-form-field>
+						                          </div>
+						                          <div class="col-md-3">
+						                            <mat-form-field fxFlex="30">
+						                              <input matInput placeholder="Description" formControlName="description"
+						                                required />
+						                              <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.required"
+						                                class="alert alert-danger">Description required</mat-error>
+						                              <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.pattern"
+						                                class="alert alert-danger">Only alphabets allowed
+						                              </mat-error>
+						                            </mat-form-field>
+						                          </div>
+						                      </div>
+						                      <div class="clear"> </div>
+						                        <div class="col-md-12">
+						                            <input type="file"  formControlName="uploadFiles" name="uploadFile" id="uploadFile" multiple (change)="upload($event)" />
+						                            <mat-error *ngIf="isSubmit && f.uploadFiles.errors && f.uploadFiles.errors.required"
+						                                class="alert alert-danger">File required</mat-error>
+						                      	</div>
+						                      	<div>
+					                              <table class="table" *ngIf="filesExists">
+					                                <thead>
+					                                  <th>Sno</th>
+					                                  <th>File Name</th>
+					                                  <th>Size</th>
+					                                  <th>Action</th>
+					                                </thead>
+					                                <tbody id="uploadedFilesTBodyId">
+					                                    <tr *ngFor="let file of selectedFiles;let i=index">
+					                                        <td>{{i+1}}</td>
+					                                        <td>{{file.name}}</td>
+					                                        <td>{{(file.size/1024) | number : '1.2-2'}} MB</td>
+					                                        <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
+					                                          <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+					                                      </button>  </td>
+					                                    </tr>
+					                                </tbody>
+					                              </table>
+					                            </div>
+						                      <button *ngIf="uploadFile" class="mat-raised-button mat-accent" color="accent" class="d-inline"
+							                        mat-raised-button="" type="submit">
+							                        Submit
+							                    </button>
+							                    <div class="p-12 d-inline">
+	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+	                                                                      mat-raised-button="">
+	                                                                      Close
+	                                                                    </span>
+	                                                                  </div>      
+						                    </form>      
+										</div> 
+										<div class="example-header">
+	                                        <div class="col-sm-4">
+	                                            <mat-form-field>
+	                                              <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+	                                            </mat-form-field>
+	                                        </div>
+                                    	</div>
+                                    	<div class="clear"> </div>
+                                    	<div class="mat-elevation-z8">
+                                    		<mat-table [dataSource]="tractionEnergyTariffDataSource" matSort>
+                                    			<ng-container matColumnDef="sno">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="supplier">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>supplier</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.supplier}}</mat-cell>
+	                                            </ng-container>
+	                                            <!-- <ng-container matColumnDef="year">
+	                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>year</mat-header-cell>
+	                                                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                      {{row.year}}</mat-cell>
+	                                            </ng-container> -->
+	                                            <ng-container matColumnDef="rate">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>rate</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.rate}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="fromDate">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>fromDate</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.fromDate | date}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="thruDate">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>thruDate</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.thruDate | date}}</mat-cell>
+	                                            </ng-container>
+	                                           <ng-container matColumnDef="specification">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>specification</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.specification}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="condition">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>condition</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.condition}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="id">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                    <mat-cell *matCellDef="let row">
+	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+	                                                        (click)="editTractionEneTariff(row.id)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+	                                                      </a>
+	                                                      <a mat-icon-button matTooltip="attach file" *ngIf="editPermission"
+	                                                        (click)="fileUpload(row.id)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">attach_file</mat-icon>
+	                                                      </a>
+	                                                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+	                                                        (click)="deleteTractionEneTariff(row.id)">
+	                                                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+	                                                      </button>
+	                                                    </mat-cell>
+	                                            </ng-container>
+	                                            <mat-header-row *matHeaderRowDef="TractionEneTariffDisplayedColumns"></mat-header-row>
+                                            	<mat-row *matRowDef="let row; columns: TractionEneTariffDisplayedColumns">
+                                            	</mat-row>
+                                    		</mat-table>
+                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    	</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

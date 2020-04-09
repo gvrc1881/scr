@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cgl_25 Yearlyof 25KV SF6 CGL Sp-Spring" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="432"/>
+	<parameter name="depot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="assetType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="assetId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="scheduleType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="scheduleDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from v_asset_schedule_activity_record
+where asset_type  = $P{assetType}
+and asset_id = $P{assetId}
+and schedule_code = $P{scheduleType}
+and schedule_date = $P{scheduleDate}::date
+and facility_name = $P{depot}]]>
+	</queryString>
+	<field name="s_no" class="java.lang.Long"/>
+	<field name="asset_id" class="java.lang.String"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="schedule_code" class="java.lang.String"/>
+	<field name="schedule_date" class="java.sql.Timestamp"/>
+	<field name="schedule_actual_date" class="java.sql.Timestamp"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="details_of_maint" class="java.lang.String"/>
+	<field name="done_by" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="kilometer" class="java.math.BigDecimal"/>
+	<field name="position_id" class="java.math.BigDecimal"/>
+	<field name="span" class="java.math.BigDecimal"/>
+	<field name="measure_entry_status" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="depot_type" class="java.lang.String"/>
+	<field name="make" class="java.lang.String"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="oem_serial" class="java.lang.String"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="date_of_manufacture" class="java.sql.Timestamp"/>
+	<field name="date_of_commision" class="java.sql.Timestamp"/>
+	<field name="m1" class="java.lang.String"/>
+	<field name="m2" class="java.math.BigDecimal"/>
+	<field name="m3" class="java.math.BigDecimal"/>
+	<field name="m4" class="java.math.BigDecimal"/>
+	<field name="m5" class="java.math.BigDecimal"/>
+	<field name="m6" class="java.math.BigDecimal"/>
+	<field name="m7" class="java.math.BigDecimal"/>
+	<field name="m8" class="java.math.BigDecimal"/>
+	<field name="m9" class="java.math.BigDecimal"/>
+	<field name="m10" class="java.math.BigDecimal"/>
+	<field name="a1" class="java.lang.String"/>
+	<field name="a2" class="java.lang.String"/>
+	<field name="a3" class="java.lang.String"/>
+	<field name="a4" class="java.lang.String"/>
+	<field name="a5" class="java.lang.String"/>
+	<field name="a6" class="java.lang.String"/>
+	<field name="a7" class="java.lang.String"/>
+	<field name="a8" class="java.lang.String"/>
+	<field name="a9" class="java.lang.String"/>
+	<field name="a10" class="java.lang.String"/>
+	<field name="m11" class="java.math.BigDecimal"/>
+	<field name="m12" class="java.math.BigDecimal"/>
+	<field name="m13" class="java.math.BigDecimal"/>
+	<field name="m14" class="java.math.BigDecimal"/>
+	<field name="m15" class="java.math.BigDecimal"/>
+	<field name="m16" class="java.math.BigDecimal"/>
+	<field name="m17" class="java.math.BigDecimal"/>
+	<field name="m18" class="java.math.BigDecimal"/>
+	<field name="m19" class="java.math.BigDecimal"/>
+	<field name="m20" class="java.math.BigDecimal"/>
+	<field name="m21" class="java.math.BigDecimal"/>
+	<field name="m22" class="java.math.BigDecimal"/>
+	<field name="m23" class="java.math.BigDecimal"/>
+	<field name="m24" class="java.math.BigDecimal"/>
+	<field name="m25" class="java.math.BigDecimal"/>
+	<field name="m26" class="java.math.BigDecimal"/>
+	<field name="m27" class="java.math.BigDecimal"/>
+	<field name="m28" class="java.math.BigDecimal"/>
+	<field name="m29" class="java.math.BigDecimal"/>
+	<field name="m30" class="java.math.BigDecimal"/>
+	<field name="m31" class="java.math.BigDecimal"/>
+	<field name="m32" class="java.math.BigDecimal"/>
+	<field name="m33" class="java.math.BigDecimal"/>
+	<field name="m34" class="java.math.BigDecimal"/>
+	<field name="m35" class="java.math.BigDecimal"/>
+	<field name="m36" class="java.math.BigDecimal"/>
+	<field name="m37" class="java.math.BigDecimal"/>
+	<field name="m38" class="java.math.BigDecimal"/>
+	<field name="m39" class="java.math.BigDecimal"/>
+	<field name="m40" class="java.math.BigDecimal"/>
+	<field name="m41" class="java.math.BigDecimal"/>
+	<field name="m42" class="java.math.BigDecimal"/>
+	<field name="m43" class="java.math.BigDecimal"/>
+	<field name="m44" class="java.math.BigDecimal"/>
+	<field name="m45" class="java.math.BigDecimal"/>
+	<field name="m46" class="java.math.BigDecimal"/>
+	<field name="m47" class="java.math.BigDecimal"/>
+	<field name="m48" class="java.math.BigDecimal"/>
+	<field name="m49" class="java.math.BigDecimal"/>
+	<field name="m50" class="java.math.BigDecimal"/>
+	<field name="a11" class="java.lang.String"/>
+	<field name="a12" class="java.lang.String"/>
+	<field name="a13" class="java.lang.String"/>
+	<field name="a14" class="java.lang.String"/>
+	<field name="a15" class="java.lang.String"/>
+	<field name="a16" class="java.lang.String"/>
+	<field name="a17" class="java.lang.String"/>
+	<field name="a18" class="java.lang.String"/>
+	<field name="a19" class="java.lang.String"/>
+	<field name="a20" class="java.lang.String"/>
+	<field name="a21" class="java.lang.String"/>
+	<field name="a22" class="java.lang.String"/>
+	<field name="a23" class="java.lang.String"/>
+	<field name="a24" class="java.lang.String"/>
+	<field name="a25" class="java.lang.String"/>
+	<field name="a26" class="java.lang.String"/>
+	<field name="a27" class="java.lang.String"/>
+	<field name="a28" class="java.lang.String"/>
+	<field name="a29" class="java.lang.String"/>
+	<field name="a30" class="java.lang.String"/>
+	<field name="a31" class="java.lang.String"/>
+	<field name="a32" class="java.lang.String"/>
+	<field name="a33" class="java.lang.String"/>
+	<field name="a34" class="java.lang.String"/>
+	<field name="a35" class="java.lang.String"/>
+	<field name="a36" class="java.lang.String"/>
+	<field name="a37" class="java.lang.String"/>
+	<field name="a38" class="java.lang.String"/>
+	<field name="a39" class="java.lang.String"/>
+	<field name="a40" class="java.lang.String"/>
+	<field name="a41" class="java.lang.String"/>
+	<field name="a42" class="java.lang.String"/>
+	<field name="a43" class="java.lang.String"/>
+	<field name="a44" class="java.lang.String"/>
+	<field name="a45" class="java.lang.String"/>
+	<field name="a46" class="java.lang.String"/>
+	<field name="a47" class="java.lang.String"/>
+	<field name="a48" class="java.lang.String"/>
+	<field name="a49" class="java.lang.String"/>
+	<field name="a50" class="java.lang.String"/>
+	<field name="mma1" class="java.lang.String"/>
+	<field name="mma2" class="java.lang.String"/>
+	<field name="mma3" class="java.lang.String"/>
+	<field name="mma4" class="java.lang.String"/>
+	<field name="mma5" class="java.lang.String"/>
+	<field name="mma6" class="java.lang.String"/>
+	<field name="mma7" class="java.lang.String"/>
+	<field name="mma8" class="java.lang.String"/>
+	<field name="mma9" class="java.lang.String"/>
+	<field name="mma10" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOUTH CENTRAL RAILWAY ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="752" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Yearly maintenance of 25KV SF-6 Circuit Breaker of M/s. CGL make (Spring/ Spring)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="52" y="59" width="538" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tem of Inspection]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="59" width="52" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl. No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="59" width="162" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observations /Action taken.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="19"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Location:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I.D.No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="39" width="165" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of inspection/schedule:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="513" y="0" width="100" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[YOM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="21" width="160" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Model:	(Pole & Mechanism) ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="513" y="20" width="100" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="0" width="100" height="21"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Maker’s No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="613" y="20" width="139" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_of_commision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="613" y="0" width="139" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_of_manufacture}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="424" splitType="Stretch">
+			<staticText>
+				<reportElement x="52" y="0" width="538" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Feel the temperature at the terminal connector, if warm open the connector clean properly and tight the                       fasteners gently apply anti-corrosive paste if required.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="30" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Clean the surface of the insulators with dry cloth; observe for flash over, cracks, and gas leakages at joints.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="45" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the foundation, foundation bolts, structure earthing for intactness.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="60" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the tightness of all wiring connections on close coil/Trip coil, terminal boxes.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="75" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the condition of cable, cable glands.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="90" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the mechanism of CB for its position, for loosen/dislocated parts such as check nuts, circlips, split pins                  lock plats etc., attend  if required.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="116" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the spring charging motor for gear linkages, commutator, carbon brushes wiring clean them wherever                     needed and lubricate.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="142" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Lubricate the mechanism linkages Turbine oil for support pins and grease for Bevel gear, rollers& pawl.                                   ( Machine grease and oil)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="168" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for the operation and indicators working correctly for ‘ON’/ ‘OFF’.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="183" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for the spring charging indicator working.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="198" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for the mechanical counter working; record the readings before & after maintenance.Before maintenance.  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="213" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for the mechanical counter working; record the readings before & after maintenance.After maintenance ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="228" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for working of heaters, thermostat and illumination lamps.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="243" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the functioning of CTD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="258" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check and record the actual SF-6 gas pressure and temperature and also record required SF-6 gas pressure at that temperature (5Kg/cm2 at 200C)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="364" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the IR values of CB pole with 2.5 KV megger. Top terminal  - Earth]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="379" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the IR values of CB pole with 2.5 KV megger.  Top terminal  - Lower terminal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="394" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the IR values of CB pole with 2.5 KV megger.  Lower terminal  -Earth.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="409" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the IR values of CB pole with 2.5 KV megger.  Record make of meggar and scale range.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="284" width="352" height="80"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check and record the IR (with 250 V megger) and Ohmic values of spring changing motor, trip coil, close coil and compare with last readings.
+
+a)	Motor
+b)	Trip coil
+c)	Close coil.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="284" width="186" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[I.R. value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="284" width="162" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Ohmic value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="304" width="85" height="60"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Last reading]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="304" width="101" height="60"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Present Reading
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="304" width="80" height="60"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Last reading]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="670" y="304" width="82" height="60"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Present Reading
+]]></text>
+			</staticText>
+		</band>
+		<band height="157">
+			<staticText>
+				<reportElement x="52" y="0" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check for CB closing and opening timings and record.[Closing time is less than 100m. Sec.]
+[Opening time is less than 43 m. Sec.]
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="26" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the time of spring charging record and compare with previous reading.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="41" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the shock absorber for any oil leakages, attend if required. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="56" width="538" height="26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the pressure switches of SF 6 gas for proper working i.e. Alarm, Trip and lock out pressure.                                             (By closing pole valves reduce the gas pressure from the pipeline. After test normalise the valves position. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="82" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the condition of auxiliary switches, limit switch, inter locks and clean them.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="97" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the door gaskets for proper condition replace if required.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="112" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Check the terminal connectors with thermo vision camera ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="127" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Paint the mechanism box if required.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="142" width="538" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Remarks if any.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="590" y="127" width="162" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a20}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="590" y="142" width="162" height="15"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a21}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="652" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="566" y="0" width="86" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="357" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="437" y="0" width="40" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement x="581" y="0" width="171" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signature of the Technician]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="49" width="73" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="49" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="165" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signature of the supervisor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="30" width="73" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="20" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

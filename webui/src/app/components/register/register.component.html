@@ -1,0 +1,80 @@
+<div class="content container-fluid registration-content">
+  <div class="row">
+      <div class="login-bg-image">
+       
+     
+
+    <div class="col-sm-12">
+      <div class="login registration-box">
+        <div class="logo"> <h3 class="form-title">Create an Account</h3></div>
+        <div class="logincontent">
+          <form [formGroup]="registerDetailsForm" novalidate *ngIf="registerSucces"
+            (ngSubmit)="onSubmitAccountDetails(registerDetailsForm.value)">
+
+           
+            <mat-form-field class="full-width">
+              <input matInput maxlength="25" placeholder="Username" formControlName="username" required>
+              <mat-error *ngFor="let validation of registration_validation_messages.username">
+                <mat-error class="error-message"
+                  *ngIf="registerDetailsForm.get('username').hasError(validation.type) && (registerDetailsForm.get('username').dirty || registerDetailsForm.get('username').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput type="email" placeholder="Email" formControlName="email" required>
+              <mat-error *ngFor="let validation of registration_validation_messages.email">
+                <mat-error class="error-message"
+                  *ngIf="registerDetailsForm.get('email').hasError(validation.type) && (registerDetailsForm.get('email').dirty || registerDetailsForm.get('email').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <div formGroupName="matching_passwords">
+              <mat-form-field class="full-width">
+                <input matInput type="password" placeholder="Password" formControlName="password" required
+               >
+                <mat-error *ngFor="let validation of registration_validation_messages.password">
+                  <mat-error class="error-message"
+                    *ngIf="registerDetailsForm.get('matching_passwords').get('password').hasError(validation.type) && (registerDetailsForm.get('matching_passwords').get('password').dirty || registerDetailsForm.get('matching_passwords').get('password').touched)">
+                    {{validation.message}}</mat-error>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <input matInput type="password" placeholder="Confirm Password" formControlName="confirm_password"
+                  [errorStateMatcher]="parentErrorStateMatcher" required>
+                <mat-error *ngFor="let validation of registration_validation_messages.confirm_password">
+                  <mat-error class="error-message"
+                    *ngIf="(registerDetailsForm.get('matching_passwords').get('confirm_password').hasError(validation.type)|| registerDetailsForm.get('matching_passwords').hasError(validation.type)) && (registerDetailsForm.get('matching_passwords').get('confirm_password').dirty || registerDetailsForm.get('matching_passwords').get('confirm_password').touched)">
+                    {{validation.message}}</mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <mat-checkbox formControlName="terms">
+              I accept terms and conditions
+            </mat-checkbox>
+            <mat-error *ngFor="let validation of registration_validation_messages.terms">
+              <mat-error class="error-message"
+                *ngIf="registerDetailsForm.get('terms').hasError(validation.type) && (registerDetailsForm.get('terms').dirty || registerDetailsForm.get('terms').touched)">
+                {{validation.message}}</mat-error>
+            </mat-error>
+
+            <button class="submit-btn" color="primary" mat-raised-button type="submit"
+              [disabled]="!registerDetailsForm.valid">
+              Submit
+            </button>
+          
+          </form>
+         <hr>
+          <div class="login1" fxLayout="row" fxLayoutAlign="center center">
+            <a class="link" [routerLink]="['/login']">Go back to login</a>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+</div>

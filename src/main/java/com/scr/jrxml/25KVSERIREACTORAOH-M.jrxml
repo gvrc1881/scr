@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="25KVSERIREACTORAOH-M" pageWidth="1750" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1710" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="449"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="depot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="assetType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="scheduleType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="assetId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="scheduleFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="scheduleThruDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  $P{division} ||' '|| 'Division' as division, $P{reportHeader} || ' '|| $P{assetType}  as reportHeader, *
+from v_asset_schedule_activity_record
+where  facility_id =$P{depot}
+and asset_type=$P{assetType}
+and schedule_code =$P{scheduleType}
+and case when $P{assetId}!='' then asset_id=$P{assetId}
+else asset_id is not null
+end
+and to_char(schedule_date,'yyyy-mm-dd')::date >=$P{scheduleFromDate}::date
+and to_char(schedule_date,'yyyy-mm-dd')::date <=$P{scheduleThruDate}::date]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="reportheader" class="java.lang.String"/>
+	<field name="s_no" class="java.lang.Long"/>
+	<field name="asset_id" class="java.lang.String"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="schedule_code" class="java.lang.String"/>
+	<field name="schedule_date" class="java.sql.Timestamp"/>
+	<field name="schedule_actual_date" class="java.sql.Timestamp"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="details_of_maint" class="java.lang.String"/>
+	<field name="done_by" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="kilometer" class="java.math.BigDecimal"/>
+	<field name="position_id" class="java.math.BigDecimal"/>
+	<field name="span" class="java.math.BigDecimal"/>
+	<field name="measure_entry_status" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="depot_type" class="java.lang.String"/>
+	<field name="make" class="java.lang.String"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="oem_serial" class="java.lang.String"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="date_of_manufacture" class="java.sql.Timestamp"/>
+	<field name="date_of_commision" class="java.sql.Timestamp"/>
+	<field name="m1" class="java.lang.String"/>
+	<field name="m2" class="java.math.BigDecimal"/>
+	<field name="m3" class="java.math.BigDecimal"/>
+	<field name="m4" class="java.math.BigDecimal"/>
+	<field name="m5" class="java.math.BigDecimal"/>
+	<field name="m6" class="java.math.BigDecimal"/>
+	<field name="m7" class="java.math.BigDecimal"/>
+	<field name="m8" class="java.math.BigDecimal"/>
+	<field name="m9" class="java.math.BigDecimal"/>
+	<field name="m10" class="java.math.BigDecimal"/>
+	<field name="a1" class="java.lang.String"/>
+	<field name="a2" class="java.lang.String"/>
+	<field name="a3" class="java.lang.String"/>
+	<field name="a4" class="java.lang.String"/>
+	<field name="a5" class="java.lang.String"/>
+	<field name="a6" class="java.lang.String"/>
+	<field name="a7" class="java.lang.String"/>
+	<field name="a8" class="java.lang.String"/>
+	<field name="a9" class="java.lang.String"/>
+	<field name="a10" class="java.lang.String"/>
+	<field name="m11" class="java.math.BigDecimal"/>
+	<field name="m12" class="java.math.BigDecimal"/>
+	<field name="m13" class="java.math.BigDecimal"/>
+	<field name="m14" class="java.math.BigDecimal"/>
+	<field name="m15" class="java.math.BigDecimal"/>
+	<field name="m16" class="java.math.BigDecimal"/>
+	<field name="m17" class="java.math.BigDecimal"/>
+	<field name="m18" class="java.math.BigDecimal"/>
+	<field name="m19" class="java.math.BigDecimal"/>
+	<field name="m20" class="java.math.BigDecimal"/>
+	<field name="m21" class="java.math.BigDecimal"/>
+	<field name="m22" class="java.math.BigDecimal"/>
+	<field name="m23" class="java.math.BigDecimal"/>
+	<field name="m24" class="java.math.BigDecimal"/>
+	<field name="m25" class="java.math.BigDecimal"/>
+	<field name="m26" class="java.math.BigDecimal"/>
+	<field name="m27" class="java.math.BigDecimal"/>
+	<field name="m28" class="java.math.BigDecimal"/>
+	<field name="m29" class="java.math.BigDecimal"/>
+	<field name="m30" class="java.math.BigDecimal"/>
+	<field name="m31" class="java.math.BigDecimal"/>
+	<field name="m32" class="java.math.BigDecimal"/>
+	<field name="m33" class="java.math.BigDecimal"/>
+	<field name="m34" class="java.math.BigDecimal"/>
+	<field name="m35" class="java.math.BigDecimal"/>
+	<field name="m36" class="java.math.BigDecimal"/>
+	<field name="m37" class="java.math.BigDecimal"/>
+	<field name="m38" class="java.math.BigDecimal"/>
+	<field name="m39" class="java.math.BigDecimal"/>
+	<field name="m40" class="java.math.BigDecimal"/>
+	<field name="m41" class="java.math.BigDecimal"/>
+	<field name="m42" class="java.math.BigDecimal"/>
+	<field name="m43" class="java.math.BigDecimal"/>
+	<field name="m44" class="java.math.BigDecimal"/>
+	<field name="m45" class="java.math.BigDecimal"/>
+	<field name="m46" class="java.math.BigDecimal"/>
+	<field name="m47" class="java.math.BigDecimal"/>
+	<field name="m48" class="java.math.BigDecimal"/>
+	<field name="m49" class="java.math.BigDecimal"/>
+	<field name="m50" class="java.math.BigDecimal"/>
+	<field name="a11" class="java.lang.String"/>
+	<field name="a12" class="java.lang.String"/>
+	<field name="a13" class="java.lang.String"/>
+	<field name="a14" class="java.lang.String"/>
+	<field name="a15" class="java.lang.String"/>
+	<field name="a16" class="java.lang.String"/>
+	<field name="a17" class="java.lang.String"/>
+	<field name="a18" class="java.lang.String"/>
+	<field name="a19" class="java.lang.String"/>
+	<field name="a20" class="java.lang.String"/>
+	<field name="a21" class="java.lang.String"/>
+	<field name="a22" class="java.lang.String"/>
+	<field name="a23" class="java.lang.String"/>
+	<field name="a24" class="java.lang.String"/>
+	<field name="a25" class="java.lang.String"/>
+	<field name="a26" class="java.lang.String"/>
+	<field name="a27" class="java.lang.String"/>
+	<field name="a28" class="java.lang.String"/>
+	<field name="a29" class="java.lang.String"/>
+	<field name="a30" class="java.lang.String"/>
+	<field name="a31" class="java.lang.String"/>
+	<field name="a32" class="java.lang.String"/>
+	<field name="a33" class="java.lang.String"/>
+	<field name="a34" class="java.lang.String"/>
+	<field name="a35" class="java.lang.String"/>
+	<field name="a36" class="java.lang.String"/>
+	<field name="a37" class="java.lang.String"/>
+	<field name="a38" class="java.lang.String"/>
+	<field name="a39" class="java.lang.String"/>
+	<field name="a40" class="java.lang.String"/>
+	<field name="a41" class="java.lang.String"/>
+	<field name="a42" class="java.lang.String"/>
+	<field name="a43" class="java.lang.String"/>
+	<field name="a44" class="java.lang.String"/>
+	<field name="a45" class="java.lang.String"/>
+	<field name="a46" class="java.lang.String"/>
+	<field name="a47" class="java.lang.String"/>
+	<field name="a48" class="java.lang.String"/>
+	<field name="a49" class="java.lang.String"/>
+	<field name="a50" class="java.lang.String"/>
+	<field name="mma1" class="java.lang.String"/>
+	<field name="mma2" class="java.lang.String"/>
+	<field name="mma3" class="java.lang.String"/>
+	<field name="mma4" class="java.lang.String"/>
+	<field name="mma5" class="java.lang.String"/>
+	<field name="mma6" class="java.lang.String"/>
+	<field name="mma7" class="java.lang.String"/>
+	<field name="mma8" class="java.lang.String"/>
+	<field name="mma9" class="java.lang.String"/>
+	<field name="mma10" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="1710" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="1710" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="58" width="1710" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{reportheader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="132" y="0" width="68" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Location:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="0" width="87" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ScheduleDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="0" width="85" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ScheduleCode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="83" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Maker’s S.No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="0" width="77" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AssetId]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="76" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Make/Model:	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="55" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="0" width="45" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOC:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="804" y="0" width="113" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Clean the series reactor from dust thoroughly with Blower and between inner and Outer layers.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="917" y="0" width="90" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Check the Tightness of foundation bolts and earth Connections.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="576" y="0" width="90" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Feel the temperature at the Terminal connectors, if warm gently tighten the nuts.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="666" y="0" width="138" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Clean the supporting insulators of the series reactor with dry clean cloth and look for any flashover marks, Cracks, Chippings etc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1007" y="0" width="123" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Check and record IR Values with the 2500 V Megger between TOP Terminal to Earth.
+ (Record ambient Temperature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1130" y="0" width="171" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Check and record OHMIC (inductance) values of the series reactor. (By applying 230 V and measuring voltage & current) compare with previous readings.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1301" y="0" width="96" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Coat the series reactor with UVEA Paint, (i.e. TRU color paint) if, Requires.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1582" y="0" width="128" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Remarks, If any.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1492" y="0" width="90" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Check the terminal with thermo vision camera.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1397" y="0" width="95" height="93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Observe for any abnormal sound from S.R while in service.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="55" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="0" width="77" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{asset_id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="0" width="68" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{section}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="76" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{make}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="276" y="0" width="83" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{oem_serial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="359" y="0" width="45" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_of_commision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="404" y="0" width="85" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{schedule_code}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="489" y="0" width="87" height="41"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{schedule_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="576" y="0" width="90" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="666" y="0" width="138" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="804" y="0" width="113" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="917" y="0" width="90" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1007" y="0" width="123" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{m1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1130" y="0" width="171" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{m2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1582" y="0" width="128" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a6}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1301" y="0" width="96" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1397" y="0" width="95" height="41"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{a8}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement x="1397" y="60" width="313" height="27"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ DESIGNATION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="213" height="42"/>
+				<textElement verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIGNATURE OF THE SUPERVISOR	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1397" y="33" width="313" height="27"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1397" y="0" width="313" height="33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ SIGNATURE OF THE TECHNICIAN ]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="1710" height="50" forecolor="#E02323"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

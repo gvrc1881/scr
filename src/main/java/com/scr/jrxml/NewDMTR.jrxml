@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dmtr" pageWidth="2000" pageHeight="1000" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.8467108950806659"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="DepotName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonThruDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+select
+d.dmtr_seq_id,
+f.facility_name,
+d.dmtr_id,
+transaction_date,
+product_id,
+case when d.order_id is not null then (select group_name from party_group  where party_id  in (select distinct(bill_from_party_id) from order_header oh   where d.order_id = oh.order_id))
+
+     when d.stock_voucher_id is not null then stock_voucher_id
+     when d.it_challan_id_to is not null then it_challan_id_to
+     when d.it_challan_id_from is not null then it_challan_id_from
+     when d.advice_note_id is not null then advice_note_id
+     when d.cash_bill_id is not null then cash_bill_id
+     when d.work_effort_id is not null then (select we.work_effort_parent_id  from work_effort we where we.work_effort_id = d.work_effort_id)
+      when d.return_voucher is not null then d.return_voucher
+     when d.work_order_name is not null then work_order_name end as no,
+
+case when d.quantity > '0' then round((d.quantity),3)  end as QuantityReceived,
+case when d.quantity < '0' then round((d.quantity),3)  end as QuantityIssued,
+
+
+ case
+
+when d.it_challan_id_from is not null or d.it_challan_id_to is not null  then
+ (select 'SSE/'||right(facility_name, length(facility_name) -position ( '_' in facility_name) )||'/'||
+ left(facility_name, position ( '_' in facility_name) ) from facility
+    where facility_id in (select distinct it.facility_id from facility f1,inventory_transfer it
+				where d.facility_id = it.facility_id_to
+				and   it.facility_id_to = (select distinct facility_id from facility
+								where facility_name=$P{DepotName})
+				and it.challan_no=d.it_challan_id_to))
+
+--case when d.it_challan_id_from is  null
+ --then (select facility_name from facility where facility_id = it.facility_id)
+      when  d.order_id is not null  then   (select group_name from party_group  where party_id  in (select distinct(bill_from_party_id) from order_header oh   where d.order_id = oh.order_id and  d.quantity >'0'))
+      when  d.stock_voucher_id is not null  then (select distinct material_depot from requirement req where voucher_no in  (select distinct(stock_voucher_id) from dmtr d where d.stock_voucher_id = req.voucher_no and  d.quantity >'0'  ))
+      when (d.contractor_name is not null or d.work_order_name is not null) and d.quantity >'0' then  d.contractor_name
+      when (d.cash_bill_id is not null) and d.quantity > '0' then  d.cash_bill_id
+       when d.return_voucher is not null then d.return_voucher
+      when d.work_effort_id is not null then (select distinct work_effort_name from work_effort we where work_effort_id in (select work_effort_id from dmtr d where d.work_effort_id=we.work_effort_id and  d.quantity >'0'))
+end as Received_from,
+
+case
+when d.it_challan_id_from is not null or d.it_challan_id_to is not null  then
+(select 'SSE/'||right(facility_name, length(facility_name) -position ( '_' in facility_name) )||'/'||
+ left(facility_name, position ( '_' in facility_name) ) from facility
+where facility_id in (
+select distinct facility_id_to from facility f1,inventory_transfer it
+where d.facility_id = it.facility_id
+and   it.facility_id = (select distinct facility_id from facility where facility_name=$P{DepotName})
+and it.challan_no=d.it_challan_id_from))
+--case when d.it_challan_id_to is  null
+    -- then (select facility_name from facility where facility_id = it.facility_id_to )
+     when d.advice_note_id is not null  then   'DY.CMM/SCRAP/LGT'
+     when d.work_effort_id is not null  then
+    (select distinct work_effort_name from work_effort we where work_effort_id in (select work_effort_id from dmtr d  where d.work_effort_id=we.work_effort_id and  d.quantity <'0' ))
+	end as send_to
+
+from dmtr d ,
+facility f
+--dmtr_inventoryetc_assoc  dia ,
+--inventory_transfer it
+where
+--it.inventory_transfer_id = dia.inventory_transfer_id and
+-- d.dmtr_seq_id =  dia.dmtr_seq_id and
+ d.facility_id = f.facility_id
+ and f.facility_name = $P{DepotName}
+and case when $P{CommonFromDate} is not null then
+	d.transaction_date ::date  >= $P{CommonFromDate}::date
+	else d.transaction_date ::date  is not null
+	end
+and case when $P{CommonThruDate}  is not null then
+	d.transaction_date ::date  <= $P{CommonThruDate}::date
+	else d.transaction_date ::date  is not null
+	end
+order by d.dmtr_id asc,d.transaction_date asc]]>
+	</queryString>
+	<field name="dmtr_seq_id" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="dmtr_id" class="java.math.BigDecimal"/>
+	<field name="transaction_date" class="java.sql.Timestamp"/>
+	<field name="product_id" class="java.lang.String"/>
+	<field name="no" class="java.lang.String"/>
+	<field name="quantityreceived" class="java.math.BigDecimal"/>
+	<field name="quantityissued" class="java.math.BigDecimal"/>
+	<field name="received_from" class="java.lang.String"/>
+	<field name="send_to" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA[$V{COLUMN_COUNT}.toString()]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="771" y="-1" width="230" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOUTH CENTRAL RAILWAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="744" y="57" width="357" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily Material Transaction Register]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="37" width="1960" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1079" y="17" width="21" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ED/ID]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1751" y="57" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{DepotName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="148" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="26" width="40" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="26" width="142" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of
+Transaction]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="26" width="356" height="76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reference to reciept
+Issue Voucher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="103" width="165" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="102" width="192" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="24" width="345" height="77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Full particulars of material
+ Recieved or Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="102" width="45" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Class]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="587" y="102" width="156" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PL NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="743" y="103" width="74" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomen
+ Clature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="817" y="102" width="70" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[New ,Second-
+hand,scrap]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="887" y="26" width="114" height="122"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity Recieved]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1001" y="23" width="99" height="125"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1101" y="24" width="249" height="76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recieved & Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1101" y="101" width="133" height="47"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[From]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1233" y="98" width="118" height="49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1351" y="27" width="250" height="120"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reference to ledger/Imprest Material at site, etc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1600" y="27" width="249" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1851" y="27" width="108" height="120"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Intital of
+P.W.L]]></text>
+			</staticText>
+			<line>
+				<reportElement x="40" y="26" width="1" height="121"/>
+			</line>
+			<line>
+				<reportElement x="182" y="26" width="1" height="121"/>
+			</line>
+			<line>
+				<reportElement x="540" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="887" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1000" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1100" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1349" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1600" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1850" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="183" y="101" width="706" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1101" y="100" width="248" height="1"/>
+			</line>
+			<line>
+				<reportElement x="347" y="102" width="1" height="45"/>
+			</line>
+			<line>
+				<reportElement x="587" y="101" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="743" y="102" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="817" y="101" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="1233" y="100" width="1" height="47"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1960" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1959" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="0" y="147" width="1960" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement x="182" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="40" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="887" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1100" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="1000" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="1600" y="0" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="1850" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="347" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="587" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="817" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="743" y="0" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="0" y="52" width="1960" height="1"/>
+			</line>
+			<line>
+				<reportElement x="11060" y="1" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1233" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="540" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1959" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="1349" y="-1" width="1" height="53"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="1" width="40" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{dmtr_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="41" y="1" width="141" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{transaction_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="184" y="1" width="163" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="348" y="1" width="192" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{transaction_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="588" y="1" width="155" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="887" y="1" width="114" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityreceived}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1000" y="1" width="100" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityissued}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1100" y="1" width="133" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{received_from}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1233" y="1" width="116" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{send_to}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="898" y="33" width="81" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated on :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="979" y="33" width="100" height="17"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="887" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="540" y="17" width="280" height="33" forecolor="#D8191B"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

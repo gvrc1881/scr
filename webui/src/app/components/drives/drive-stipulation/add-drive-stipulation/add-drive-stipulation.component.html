@@ -1,0 +1,196 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Drive Stipulation</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Drive Stipulation Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Add Drive Stipulation Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addDriveStipulationFormGroup" (ngSubmit)="onAddDriveFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <!-- stipulation -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Stipulation" size="12" maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['stipulation']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('required') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">Enter Stipulation</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('minlength') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">section minimum of 3
+                                                                charecters
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- stipulationTo -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Stipulation To" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['stipulationTo']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulationTo'].hasError('required') && addDriveStipulationFormGroup.controls['stipulationTo'].touched"
+                                                                class="alert alert-danger">Enter Stipulation To</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulationTo'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulationTo'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- dateOfStipulation -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker1"
+                                                                placeholder="Choose Date Of Stipulation"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['dateOfStipulation']">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- dateComplied -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                placeholder="Choose Date Complied"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['dateComplied']">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- compliance -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Compliance" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['compliance']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('required') && addDriveStipulationFormGroup.controls['compliance'].touched"
+                                                                class="alert alert-danger">Enter Compliance</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('pattern') && addDriveStipulationFormGroup.controls['compliance'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- attachment -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="attachment" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['attachment']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['attachment'].hasError('required') && addDriveStipulationFormGroup.controls['attachment'].touched"
+                                                                class="alert alert-danger">Enter Compliance</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['attachment'].hasError('pattern') && addDriveStipulationFormGroup.controls['attachment'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- compliedBy -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Complied By" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['compliedBy']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliedBy'].hasError('required') && addDriveStipulationFormGroup.controls['compliedBy'].touched"
+                                                                class="alert alert-danger">Enter Complied By</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliedBy'].hasError('pattern') && addDriveStipulationFormGroup.controls['compliedBy'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- assetType -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Asset Type" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['assetType']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('required') && addDriveStipulationFormGroup.controls['assetType'].touched"
+                                                                class="alert alert-danger">Enter Asset Type</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('pattern') && addDriveStipulationFormGroup.controls['assetType'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addDriveStipulationFormGroup.invalid" *ngIf="saveUser">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            [disabled]="addDriveStipulationFormGroup.invalid" color="accent"
+                                                            mat-raised-button="" *ngIf="updateUser">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content" style="margin: 0px">
+  <div class="login-block-page">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="login-bg-image" style="background: url(assets/Images/home-bg.jpg);
+        background-size: cover;
+        background-position: center center;">
+        <!-- <img src="assets/Images/bg-login.png" alt="bg image" class="img-responsive" width="100%;"> -->
+        </div>
+
+        <div class="login-block">
+            <div class="login">
+                <div class="logo-title"> <h3 class="form-title">Login to your account</h3></div>
+               
+                <div class="logincontent">
+                  <form [formGroup]="accountDetailsForm" novalidate
+                    (ngSubmit)="onSubmitAccountDetails(accountDetailsForm.value)">
+        
+                   
+                    <mat-form-field class="full-width">
+                      <input matInput type="text" placeholder="UserName" formControlName="userName" required>
+                      <mat-error *ngFor="let validation of account_validation_messages.userName">
+                        <mat-error class="error-message"
+                          *ngIf="accountDetailsForm.get('userName').hasError(validation.type) && (accountDetailsForm.get('userName').dirty || accountDetailsForm.get('userName').touched)">
+                          {{validation.message}}</mat-error>
+                      </mat-error>
+                    </mat-form-field>
+        
+                    <mat-form-field class="full-width">
+                      <input matInput type="password" placeholder="Password" formControlName="password" required>
+                      <mat-error *ngFor="let validation of account_validation_messages.password">
+                        <mat-error class="error-message"
+                          *ngIf="accountDetailsForm.get('password').hasError(validation.type) && (accountDetailsForm.get('password').dirty || accountDetailsForm.get('password').touched)">
+                          {{validation.message}}</mat-error>
+                      </mat-error>
+                    </mat-form-field>
+        
+        <!--formControlName="terms"-->
+                    <mat-checkbox >
+                      Remember me
+                    </mat-checkbox>
+                   <!--  <mat-error *ngFor="let validation of account_validation_messages.terms">
+                      <mat-error class="error-message"
+                        *ngIf="accountDetailsForm.get('terms').hasError(validation.type) && (accountDetailsForm.get('terms').dirty || accountDetailsForm.get('terms').touched)">
+                        {{validation.message}}</mat-error>
+                    </mat-error> -->
+                    <div class="clear"></div>
+                    <!-- <button mat-button color="primary">Primary</button> -->
+   
+                  <button class="btn btn-primary" color="primary" mat-raised-button type="submit"
+                    [disabled]="!accountDetailsForm.valid">
+                    Login
+                  </button>
+
+                    <div class="form-actions"></div>
+                  </form>
+                  <div class="row ">
+                    <div class="col-md-6 col-12">
+                        <a href="javascript:;" class="" [routerLink]="['/forgotPassword']" id="forget"  style="color: #034dbf;font-size: 15px;text-decoration: underline;">Reset password</a>
+                    </div>
+                    <div class="col-md-6 col-12" *ngIf="!registrationFlag">
+                        <a href="javascript:;" id="register-btn" [routerLink]="['/registration']" style="color: #034dbf;font-size: 15px;text-decoration: underline;">Create
+                          account</a>
+                    </div>
+                  </div>
+
+                  <!-- <div class="forget-password">
+                    <h4>Forgot your password ?</h4>
+                    <p>
+                      Click <a href="javascript:;" class="" [routerLink]="['/forgotPassword']" id="forget"
+                        style="color:#ff0000;">here</a>
+                      to Reset your password.
+                    </p>
+                  </div> -->
+        
+                  <!-- <div class="create-account" *ngIf="registrationFlag">
+                    <p>
+                      Don't have an account yet ?&nbsp;
+                      <a href="javascript:;" id="register-btn" [routerLink]="['/registration']" style="color:#ff0000;">Create an
+                        account</a>
+                    </p>
+                  </div> -->
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+

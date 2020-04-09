@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T_WAGONAOH_POH_withduesReport" pageWidth="840" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="800" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38f87bea-f57e-4bb5-ab53-428b173e319d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="40"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select $P{reportHeader}||' '||date_of_status::date as reportheader,asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
+, ash1.Schedule_date POH_DONE_DATE , ash2.Schedule_date AOH_DONE_DATE, asa1.duration poh_duration, asa1.uom_of_duration poh_uom_duration,
+case when asa1.uom_of_duration ='Time in Years' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date +(asa1.duration||' years')::interval
+     when asa1.uom_of_duration ='Time in Months' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date+(asa1.duration||' months')::interval
+end poh_due_date,
+asa2.duration aoh_duration, asa2.uom_of_duration aoh_uom_duration,
+case when asa2.uom_of_duration ='Time in Years' and asa2.duration is not null and ash2.Schedule_date is not null then ash2.Schedule_date+(asa2.duration||' years')::interval
+     when asa2.uom_of_duration ='Time in Months' and asa2.duration is not null and ash2.Schedule_date is not null then ash2.Schedule_date+(asa2.duration||' months')::interval
+end aoh_due_date,
+case when asu_st.status ='IN_USE' then 'Working'
+     when asu_st.status ='UNDER_POH' then 'POH'
+     when asu_st.status ='UNDER_AOH' then 'AOH'
+     when asu_st.status ='UNDER_REPAIR' then 'Under Repair'
+     when asu_st.status ='READY_TO_USE' then 'READY_TO_USE'
+end as Remarks_condition
+
+from (
+select max(date_of_status) latest_date_of_status,
+asset_id, asset_type, asu1.facility_id ,division, facility_name
+from product_category_member pcm, Facility f  , asset_status_update asu1
+where asu1.facility_id = f.Facility_id and
+asu1.asset_type = pcm.product_id
+and  pcm.product_category_id ='TOWERCAR'
+group by asset_id, asset_type, asu1.facility_id ,division,facility_name
+)asu
+
+left outer join assets_schedule_history ash1 on (asu.asset_id = ash1.asset_id and asu.asset_type = ash1.asset_type and asu.facility_id = ash1.facility_id
+                                                                                          and ash1.schedule_code ='POH'
+                                                                                          and ash1.schedule_date = (select max(schedule_date)
+                                                                                                                                       from assets_schedule_history ash11
+                                                                                                                                       where asu.asset_id = ash11.asset_id
+                                                                                                                                       and asu.asset_type = ash11.asset_type
+                                                                                                                                       and asu.facility_id = ash11.facility_id
+                                                                                                                                       and 'POH' = ash11.schedule_code
+                                                                                                                                       )
+                                                                                          )
+left outer join assets_schedule_history ash2 on (asu.asset_id = ash2.asset_id and asu.asset_type = ash2.asset_type and asu.facility_id = ash2.facility_id
+                                                and ash2.schedule_code ='AOH'
+                                                and ash2.schedule_date = (select max(schedule_date)
+                                                from assets_schedule_history ash22
+                                                where asu.asset_id = ash22.asset_id
+                                                and asu.asset_type = ash22.asset_type
+                                                and asu.facility_id = ash22.facility_id
+                                                and 'AOH' = ash22.schedule_code
+                                                )
+                                                                                          )
+ left outer join asset_schedule_assoc asa1 on (asu.asset_type = asa1.asset_type and asa1.schedule_code ='POH')
+ left outer join asset_schedule_assoc asa2 on (asu.asset_type = asa2.asset_type and asa2.schedule_code ='AOH'),
+--, product_category_member pcm, Facility f
+
+
+asset_master_data amd , asset_status_update asu_st
+where asu.facility_id = asu_st.Facility_id
+and asu.asset_type = asu_st.asset_type
+and asu.asset_id = asu_st.asset_id
+and asu.latest_date_of_status = asu_st.date_of_status
+and asu.facility_id = amd.Facility_id
+and asu.asset_type = amd.asset_type
+and asu.asset_id = amd.asset_id
+ and date_of_status=$P{fromDate}::date]]>
+	</queryString>
+	<field name="reportheader" class="java.lang.String"/>
+	<field name="division" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="tower_car_no" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="make" class="java.lang.String"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="date_of_manufacture" class="java.sql.Timestamp"/>
+	<field name="poh_done_date" class="java.sql.Timestamp"/>
+	<field name="aoh_done_date" class="java.sql.Timestamp"/>
+	<field name="poh_duration" class="java.lang.Double"/>
+	<field name="poh_uom_duration" class="java.lang.String"/>
+	<field name="poh_due_date" class="java.sql.Timestamp"/>
+	<field name="aoh_duration" class="java.lang.Double"/>
+	<field name="aoh_uom_duration" class="java.lang.String"/>
+	<field name="aoh_due_date" class="java.sql.Timestamp"/>
+	<field name="remarks_condition" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="800" height="32" uuid="9aaa0f95-fd7d-4645-ac02-91df966aa0fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="32" width="800" height="27" uuid="86997cef-b76f-4411-896f-286033dc2b97"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportheader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="50" y="0" width="59" height="35" uuid="8a2d3f7b-87a1-4cd1-b5b6-faae29e5b68c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Divn
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="0" width="59" height="35" uuid="76087b97-0b61-4710-ad5f-9100188d1a6f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Depot
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="35" uuid="0b08aba1-01bc-43cb-8d3e-8ba9b5c26070"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl. No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="0" width="111" height="35" uuid="30f0e49d-a0ae-4a0f-b62f-a3d8786df263"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="0" width="101" height="35" uuid="4c1e0a13-9b01-4061-8695-fc464f3e14fc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Year Built
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="0" width="76" height="35" uuid="9192e3d3-4915-4b01-a53c-6be5b5abb214"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tower Car No.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="100" height="35" uuid="10fc323b-6d24-4a5a-a5f6-639c5e8acac1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Make
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="556" y="0" width="67" height="35" uuid="c231dd27-f029-4353-8ead-34831a4ce431"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Due Date for POH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="623" y="0" width="67" height="35" uuid="d669561e-4f86-4c66-9d68-7feac1d91a94"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Due Date for AOH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="0" width="110" height="35" uuid="972bfebe-0a4d-42c4-a32b-d181c5fe9c42"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Remarks/Condition]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="50" y="0" width="59" height="20" uuid="e40352b7-b87b-43db-89bf-1561774b8ffd"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="109" y="0" width="59" height="20" uuid="98704c00-d81f-4430-b072-0dde07b80c5d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="168" y="0" width="76" height="20" uuid="bcf9032e-1e68-4c54-9ecd-56d56513720d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tower_car_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="244" y="0" width="111" height="20" uuid="ab08117a-f232-4c04-97b4-980a1e213913"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{asset_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="355" y="0" width="100" height="20" uuid="0170ebe8-a4e6-47a6-a737-20e8a164b1fd"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{make}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="455" y="0" width="101" height="20" uuid="588a2bf8-7b05-40e6-a1fc-d8e3649c2ef0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{date_of_manufacture}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="556" y="0" width="67" height="20" uuid="2450a5d2-ce5b-40c9-a6c4-e76f8f4d3fbf"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{poh_due_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="623" y="0" width="67" height="20" uuid="365dc6c5-8826-4605-bbe9-dd9b8c867d44"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{aoh_due_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="690" y="0" width="110" height="20" uuid="dadc8bc5-48b0-412a-965f-4aaf01e60e35"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{remarks_condition}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="20" uuid="331a14b6-fd9d-43b9-9ee6-7c733fe11074"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="690" y="0" width="110" height="20" uuid="cf36d1dd-52a9-409b-99d0-280f9f1e472f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="100" height="20" uuid="d7ccb2eb-74a2-4da3-94eb-26e793cfd543"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="455" y="0" width="101" height="20" uuid="78fd2fc5-7dc1-4c72-8baa-1462fe998466"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="556" y="0" width="134" height="20" uuid="d2114d1c-115a-4669-9799-fcae0f8d0867"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Generated On:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="34">
+			<staticText>
+				<reportElement x="1" y="0" width="799" height="34" forecolor="#FF0000" uuid="6452e3f3-ec4f-4cb8-a902-a290aed43c06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

@@ -1,0 +1,170 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Drive Electrification Targets</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Drive Electrification Targets Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+<!-- *ngIf="addPermission" -->
+                            <div class="p-24" style="text-align: right" >
+                                <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                    [routerLink]="['add-drive-electrification-targets']"> <!-- *ngIf="rolePermission"  -->
+                                    Add Drive Electrification Targets
+                                </button></div>
+
+                            <div class="p-24">
+
+                                <div class="example-header">
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="clear"> </div>
+                                </div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="dataSource" matSort>
+
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="section">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="guage">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Guage</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.guage}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="targetDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Target Date
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.targetDate| date :  "yyyy-MM-dd"}}</mat-cell>
+                                        </ng-container>
+                                       
+                                        <ng-container matColumnDef="status">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="division">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.division}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="executionAgency">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Execution Agency</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.executionAgency}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="TKM">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>TKM</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.TKM}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="RKM">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>RKM</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.RKM}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="crsInspection">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>CRS Inspection</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.crsInspection}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="crsAuthorisation">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>CRS Authorisation</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.crsAuthorisation}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="targetSetBy">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Target Set By</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.targetSetBy}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="doublingTrippling">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Doubling Trippling</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.doublingTrippling}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="state">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.state}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="phase">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Phase</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.phase}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="proposalScheme">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Proposal Scheme</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.proposalScheme}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="sanctionByBoard">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sanction By Board</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sanctionByBoard}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="yearOfSanction">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Year Of Sanction</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.yearOfSanction}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="dateOfCompletion">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Completion</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfCompletion | date :  "yyyy-MM-dd"}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="actions">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
+                                                    <button mat-icon-button matTooltip="Edit"
+                                                        (click)="processEditAction(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </button>
+                                                </a>
+                                                <button mat-icon-button matTooltip="Delete"
+                                                    (click)="deleteUserList(row.id)"
+                                                   ><!-- *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </mat-row>
+                                    </mat-table>
+                                   
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

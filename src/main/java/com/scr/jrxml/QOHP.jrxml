@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QOHP" pageWidth="512" pageHeight="600" whenNoDataType="NoDataSection" columnWidth="472" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="productId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT II.PRODUCT_ID as PRODUCT_ID,F.facility_id as FACILITY_ID,ROUND(SUM(II.QUANTITY_ON_HAND_TOTAL),3) as QOH,round(minimum_stock),
+       (case when II.additional_specifications is null then P.INTERNAL_NAME
+			else P.INTERNAL_NAME||' '||II.additional_specifications
+			end ) as INTERNAL_NAME,
+
+
+
+        --P.INTERNAL_NAME as INTERNAL_NAME,
+        F.FACILITY_NAME as FACILITY_NAME,U.description as UOM_ID
+        --,PF.MINIMUM_STOCK as MINIMUM_STOCK
+        FROM
+        INVENTORY_ITEM II
+	Left outer join PRODUCT_FACILITY pf on (pf.PRODUCT_ID = ii.PRODUCT_ID and pf.FACILITY_ID =  II.FACILITY_ID ),
+        PRODUCT P,
+        FACILITY F,
+        --PRODUCT_FACILITY PF,
+        UOM U
+        --REQUIREMENT R
+        WHERE
+          P.PRODUCT_ID= $P{productId}
+        --AND F.FACILITY_ID=R.FACILITY_ID
+ 	and depot_type != 'SCRAP'
+        AND P.PRODUCT_ID=II.PRODUCT_ID
+        AND F.FACILITY_ID=II.FACILITY_ID
+        --AND P.PRODUCT_ID=PF.PRODUCT_ID
+         AND P.QUANTITY_UOM_ID=U.UOM_ID
+	--and p.quantity_uom_id = uom.uom_id
+         GROUP BY II.PRODUCT_ID,F.facility_id
+         ,P.INTERNAL_NAME
+       ,II.additional_specifications
+        ,U.UOM_ID,minimum_stock
+        --,PF.MINIMUM_STOCK
+        ORDER BY FACILITY_NAME]]>
+	</queryString>
+	<field name="product_id" class="java.lang.String"/>
+	<field name="facility_id" class="java.lang.String"/>
+	<field name="qoh" class="java.math.BigDecimal"/>
+	<field name="round" class="java.math.BigDecimal"/>
+	<field name="internal_name" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="uom_id" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{COLUMN_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="32" y="16" width="433" height="49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Material Availability At All Depots]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="70" width="93" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCT NAME :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="70" width="336" height="23"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{internal_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="63" splitType="Stretch">
+			<line>
+				<reportElement x="33" y="39" width="432" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="0" width="198" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="33" y="39" width="44" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="39" width="223" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEPOT NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="0" width="42" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UOM :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="40" width="85" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QUANTITY]]></text>
+			</staticText>
+			<line>
+				<reportElement x="32" y="39" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement x="77" y="39" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="301" y="39" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="464" y="39" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement x="32" y="62" width="433" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="388" y="40" width="76" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIN QUANTITY]]></text>
+			</staticText>
+			<line>
+				<reportElement x="387" y="39" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement x="43" y="23" width="421" height="16"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ QOH AT EACH DEPOT :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="376" y="0" width="45" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uom_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="43" y="0" width="93" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCT ID        :]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement x="33" y="23" width="431" height="1"/>
+			</line>
+			<line>
+				<reportElement x="32" y="0" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement x="77" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="301" y="0" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement x="464" y="-1" width="1" height="25"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="0" width="85" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{qoh}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="387" y="-1" width="1" height="25"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="32" y="0" width="45" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="77" y="1" width="225" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="388" y="0" width="76" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{round}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="334" y="0" width="100" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="60" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="230" y="0" width="37" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="24">
+			<staticText>
+				<reportElement x="0" y="0" width="472" height="24" forecolor="#FF0000"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

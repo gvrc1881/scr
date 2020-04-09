@@ -1,0 +1,144 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content">
+    <div class="">
+        <div class="col-12">
+                <div class="breadcrumb-section">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                                    <li class="breadcrumb-item"><a [routerLink]="['/schedule']">Schedule Tracking </a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Tracking Info</li>
+                            </ol>
+                        </nav>
+                      </div>
+
+            <div class="clear"> </div>
+            
+            <div class="row-fluid admin-scheduler-panel">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Scheduler Jobs Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+                        <div class="p-24">                             
+
+
+                                <div class="example-header">
+                                    <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="schedulerDataSource" matSort>
+
+                                        <ng-container matColumnDef="sno" >
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:60px">Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row" style="max-width:60px"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="trackingId">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:70px">PId
+                                                </mat-header-cell>
+                                                <mat-cell *matCellDef="let row" (click)="operationTypes(row.trackingId)"  style="max-width:70px;cursor: pointer;"> {{row.trackingId}}</mat-cell>
+                                            </ng-container>
+
+                                        <ng-container matColumnDef="jobId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:70px">Scheduled Id
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" [routerLink]="['/jobs/'+row.trackingId]" style="max-width:70px;cursor: pointer; text-decoration: underline;font-weight: 600;color: #014884;"> {{row.jobId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="divisionCode" >
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:80px">Division Code
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" style="max-width:80px"> {{row.divisionCode}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="timeInterval">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Time Interval
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.timeInterval}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="processedDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Processed Date</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.processedDate | date:'yyyy-MM-dd ' }}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="startTime">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:120px">Start Time
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" style="max-width:120px"> {{row.startTime}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="endTime" >
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:120px">End Time
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row" style="max-width:120px"> {{row.endTime}}</mat-cell>
+                                        </ng-container>
+                                        
+                                      
+                                           
+                                                <ng-container matColumnDef="runType">
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Run Type
+                                                        </mat-header-cell>
+                                                        <mat-cell *matCellDef="let row"> {{row.runType}}</mat-cell>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="runBy">
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Run By
+                                                        </mat-header-cell>
+                                                        <mat-cell *matCellDef="let row"> {{row.runBy}}</mat-cell>
+                                                    </ng-container>
+
+                                                    <ng-container matColumnDef="jobStatus">
+                                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Job Status
+                                                            </mat-header-cell>
+                                                            <mat-cell *matCellDef="let row"> {{row.jobStatus}}</mat-cell>
+                                                        </ng-container>
+                                       
+                                        <ng-container matColumnDef="id">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                   <!--  <button mat-icon-button matTooltip="View"
+                                                    (click)="viewDivisionDetails(row.divisionCode, row.id)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                                                </button> -->
+                                                <button mat-icon-button matTooltip="Rerun"
+                                                (click)="runSchedulerJobById(row.jobId, 1, row.processedDate)">
+                                                <mat-icon style="color: rgb(0, 145, 234);">autorenew</mat-icon>
+                                            </button>
+                                             <button mat-icon-button matTooltip="Reload"
+                                                (click)="runSchedulerJobById(row.jobId, 2, row.processedDate)">
+                                                <mat-icon style="color: rgb(0, 145, 234);">refresh</mat-icon>
+                                            </button>
+                                            <button mat-icon-button matTooltip="Download">
+                                           
+                                           <a href="http://localhost:9090/scr/api/auth/download/{{row.trackingId}}" target="_blank"> <mat-icon style="color: rgb(0, 145, 234);" style="line-height: 40px;">save</mat-icon></a>
+                                        </button> 
+                                                   
+                                               
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="schedulerDisplayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: schedulerDisplayedColumns;">
+                                        </mat-row>
+                                    </mat-table>
+                                    <div [hidden]="!status" style="color: rgb(244, 67, 54);text-align: center">delected
+                                        Successfully!!!
+                                    </div>
+                                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 500]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

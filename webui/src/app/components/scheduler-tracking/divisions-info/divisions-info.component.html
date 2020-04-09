@@ -1,0 +1,122 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/schedule']">Schedule Tracking </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Divisions Info</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Divisions Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="p-12" style="text-align: right;" >
+                                <span class="mat-raised-button mat-accent" [routerLink]="['/jobs/'+pid]"
+                                    color="accent" mat-raised-button="">
+                                    Back
+                                </span>
+                            </div>
+                            <div class="p-24">
+
+
+                                <div class="example-header">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="schedulerDataSource" matSort>
+
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="operationId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Job Id
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.operationId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="operationType">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Operation Name
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.operationType}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="processedDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Processed Date
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.processedDate | date:'yyyy-MM-dd' }}
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="startTime">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Start Time
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.startTime}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="endTime">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>End Time
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.endTime}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="totalTablesCount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Total Tables
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.totalTablesCount}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="successTablesCount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Success Tables
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.successTablesCount}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="failedTablesCount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Failed Tables
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.failedTablesCount}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="jobStatus">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Job Status
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.jobStatus}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="id">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <button mat-icon-button matTooltip="View"
+                                                    (click)="viewDivisionDetails(row.id)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                                                </button>
+
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="schedulerDisplayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: schedulerDisplayedColumns;">
+                                        </mat-row>
+                                    </mat-table>                                    
+                                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 500]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

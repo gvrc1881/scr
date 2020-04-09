@@ -1,0 +1,105 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content">
+  <div class="">
+    <div class="col-12">
+        <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/master']">Masters </a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Role Permission</li>
+                </ol>
+            </nav>
+          </div>
+
+<div class="clear"> </div>
+      <div class="row-fluid">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Role Permission Information</div>
+          <div class="panel-body">
+            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+              <!--  <mat-form-field>
+          <mat-select [(value)]="selected" placeholder="Select Role" >
+              <mat-option *ngFor="let role of rolesList" (click)="loadRolePermissionDataById(role.ID)" [value]="role.ID">
+                {{ role.RoleType }}
+              </mat-option>
+            </mat-select>
+            </mat-form-field>
+      
+         <br> -->
+              <div class="clearfix"></div>
+            <!--   <div class="h1 mt-16">Role Permission Information</div> -->
+
+
+              <div class="p-24">
+                <div class="example-header">
+                  <div class="col-sm-4">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+                </div>
+                <div class="clear"> </div>
+                <div class="example-container mat-elevation-z8">
+                  <mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="sno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                    </ng-container>
+                    <!-- MenuName Column -->
+                    <ng-container matColumnDef="roleName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.roleName}}</mat-cell>
+                    </ng-container>
+
+                    <!-- PermissionName Column -->
+                    <ng-container matColumnDef="permission">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Role Permission </mat-header-cell>
+
+                      <mat-cell *matCellDef="let row">
+                        <section *ngIf="!row.editMode">
+                          {{row.permission}}</section>
+                        <mat-select placeholder="No permissions" *ngIf="row.editMode"
+                          (selectionChange)="onChange($event)">
+                          <mat-option *ngFor="let permission of permisssionList;let i = index;" [value]="permission">
+                            {{ permission.permission }}
+                          </mat-option>
+                        </mat-select>
+
+                      </mat-cell>
+
+
+                    </ng-container>
+
+                    <!-- Actions Column -->
+
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let row;let i=index">
+                        <a mat-icon-button matTooltip="Edit"  (click)="editPermissions(row)" *ngIf="editPermission">
+
+                          <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                        </a>
+                        <a mat-icon-button matTooltip="Save" *ngIf="row.editMode" (click)="saveRoleTypePermission(row)">
+
+                          <mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
+                        </a>
+                        <a mat-icon-button matTooltip="Cancel" *ngIf="row.editMode"
+                          (click)="cancelRoleTypePermission(row)">
+
+                          <mat-icon style="color: red;">cancel</mat-icon>
+                        </a>
+                      </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </mat-row>
+                  </mat-table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

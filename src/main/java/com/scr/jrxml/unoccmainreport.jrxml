@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="unoccmainreport" pageWidth="650" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="org.opentaps.common.reporting.UtilReports"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="org.opentaps.base.entities.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["component://warehouse/webapp/warehouse/reports/repository/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="failureSeqId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select $P{division} || ' ' || 'Division' as division,*
+from failure_actions_causes_impact faci, failures f
+where f.failure_seq_id = faci.failure_seq_id
+and f.type_of_failure = 'UNUSUAL_OCCURRENCE'
+and f.failure_seq_id = $P{failureSeqId}::text]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="seq_id" class="java.lang.String"/>
+	<field name="failure_seq_id" class="java.lang.String"/>
+	<field name="failure_activity" class="java.lang.String"/>
+	<field name="from_time" class="java.sql.Timestamp"/>
+	<field name="thru_time" class="java.sql.Timestamp"/>
+	<field name="location" class="java.lang.String"/>
+	<field name="by" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="special_remarks" class="java.lang.String"/>
+	<field name="root_cause" class="java.lang.String"/>
+	<field name="last_updated_stamp" class="java.sql.Timestamp"/>
+	<field name="last_updated_tx_stamp" class="java.sql.Timestamp"/>
+	<field name="created_stamp" class="java.sql.Timestamp"/>
+	<field name="created_tx_stamp" class="java.sql.Timestamp"/>
+	<field name="train_no" class="java.lang.String"/>
+	<field name="created_date" class="java.sql.Timestamp"/>
+	<field name="type_of_failure" class="java.lang.String"/>
+	<field name="feed_of" class="java.lang.String"/>
+	<field name="extended_of" class="java.lang.String"/>
+	<field name="from_date_time" class="java.sql.Timestamp"/>
+	<field name="thru_date_time" class="java.sql.Timestamp"/>
+	<field name="max_demand" class="java.lang.String"/>
+	<field name="staff" class="java.lang.String"/>
+	<field name="facility_id" class="java.lang.String"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="sub_station" class="java.lang.String"/>
+	<field name="asset_id" class="java.lang.String"/>
+	<field name="equipment" class="java.lang.String"/>
+	<field name="failure_date_time" class="java.sql.Timestamp"/>
+	<field name="resume_date_time" class="java.sql.Timestamp"/>
+	<field name="relay_indication" class="java.lang.String"/>
+	<field name="r_value" class="java.lang.String"/>
+	<field name="x_value" class="java.lang.String"/>
+	<field name="fault_distance" class="java.lang.String"/>
+	<field name="voltage" class="java.lang.String"/>
+	<field name="current" class="java.lang.String"/>
+	<field name="phase_angle" class="java.lang.String"/>
+	<field name="nature_of_closure" class="java.lang.String"/>
+	<field name="occurrence" class="java.lang.String"/>
+	<field name="place" class="java.lang.String"/>
+	<field name="duration" class="java.lang.String"/>
+	<field name="cause_of_failure" class="java.lang.String"/>
+	<field name="punctuality_affected_to" class="java.lang.String"/>
+	<field name="time_delay" class="java.lang.String"/>
+	<field name="current_status" class="java.lang.String"/>
+	<field name="created_by" class="java.lang.String"/>
+	<field name="created_on" class="java.sql.Timestamp"/>
+	<field name="feed_extended_from_date_time" class="java.sql.Timestamp"/>
+	<field name="feed_extended_thru_date_time" class="java.sql.Timestamp"/>
+	<field name="feed_extended_duration" class="java.lang.String"/>
+	<field name="impact" class="java.lang.String"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="tripped_identified_fault" class="java.lang.String"/>
+	<field name="cascade_assets" class="java.lang.String"/>
+	<field name="tpc_board" class="java.lang.String"/>
+	<field name="division_local" class="java.lang.String"/>
+	<field name="actual_fault_distance" class="java.lang.String"/>
+	<group name="Event">
+		<groupExpression><![CDATA[$P{failureSeqId}]]></groupExpression>
+		<groupHeader>
+			<band height="200">
+				<subreport>
+					<reportElement x="0" y="0" width="610" height="40"/>
+					<subreportParameter name="failureSeqId">
+						<subreportParameterExpression><![CDATA[$P{failureSeqId}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[UtilReports.getReportObject("component://warehouse/webapp/warehouse/reports/repository/subReport1.jrxml")]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement x="0" y="40" width="610" height="40"/>
+					<subreportParameter name="failureSeqId">
+						<subreportParameterExpression><![CDATA[$P{failureSeqId}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[UtilReports.getReportObject("component://warehouse/webapp/warehouse/reports/repository/subreport4.jrxml")]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement x="0" y="80" width="610" height="40"/>
+					<subreportParameter name="failureSeqId">
+						<subreportParameterExpression><![CDATA[$P{failureSeqId}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[UtilReports.getReportObject("component://warehouse/webapp/warehouse/reports/repository/subreport3.jrxml")]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement x="0" y="120" width="610" height="40"/>
+					<subreportParameter name="failureSeqId">
+						<subreportParameterExpression><![CDATA[$P{failureSeqId}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[UtilReports.getReportObject("component://warehouse/webapp/warehouse/reports/repository/subreport5.jrxml")]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement x="0" y="160" width="610" height="40"/>
+					<subreportParameter name="failureSeqId">
+						<subreportParameterExpression><![CDATA[$P{failureSeqId}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[UtilReports.getReportObject("component://warehouse/webapp/warehouse/reports/repository/subreport2.jrxml")]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Work done">
+		<groupExpression><![CDATA[new Boolean($F{failure_activity}.equals("Work done")?true:false)]]></groupExpression>
+	</group>
+	<group name="Repurcussions">
+		<groupExpression><![CDATA[new Boolean($F{failure_activity}.equals("Repurcussions")?true:false)]]></groupExpression>
+	</group>
+	<group name="Availability">
+		<groupExpression><![CDATA[new Boolean($F{failure_activity}.equals("Availability")?true:false)]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="103" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="610" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="styled"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["<b>Generated On : </b>"+ new SimpleDateFormat("dd-MMM-yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="610" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="78" width="610" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="50" width="610" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<lastPageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="610" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"+" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<noData>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="610" height="25" forecolor="#FF0033"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DETA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

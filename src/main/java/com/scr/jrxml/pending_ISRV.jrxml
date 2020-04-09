@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Pending ISRV" pageWidth="712" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="672" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select row_number() over(order by group_name) AS SNO,ic.party_id,ic.order_id,ic.received_by,ic.no_of_items_received,pg.group_name,
+TO_CHAR(ic.date_received, 'YYYY-MM-DD') as DATE_RECEIVED,
+
+
+(to_char((now()- DATE_RECEIVED),'dd')),
+
+
+inward_no from incoming_consignment ic,party_group pg where ic.incoming_consignment_id NOT IN (select incoming_consignment_id from incoming_consignment_detail)
+and ic.party_id=pg.party_id]]>
+	</queryString>
+	<field name="sno" class="java.lang.Long"/>
+	<field name="party_id" class="java.lang.String"/>
+	<field name="order_id" class="java.lang.String"/>
+	<field name="received_by" class="java.lang.String"/>
+	<field name="no_of_items_received" class="java.lang.String"/>
+	<field name="group_name" class="java.lang.String"/>
+	<field name="date_received" class="java.lang.String"/>
+	<field name="to_char" class="java.lang.String"/>
+	<field name="inward_no" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="121" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="567" y="101" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="533" y="101" width="46" height="13"/>
+				<textElement/>
+				<text><![CDATA[DATE:]]></text>
+			</staticText>
+			<!--<image>
+				<reportElement x="-4" y="1" width="99" height="61"/>
+				<imageExpression class="java.lang.String"><![CDATA["http://192.168.1.7/snm/MIC-Electronics-logo.jpg"]]></imageExpression>
+			</image>-->
+			<staticText>
+				<reportElement x="166" y="12" width="434" height="31"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Limited, Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="55" width="145" height="18"/>
+				<textElement>
+					<font size="14" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Pending  ISRV]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="117" width="684" height="1"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="386" y="1" width="62" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received by]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="2" width="34" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="36" y="2" width="68" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supplier]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="16" width="684" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="189" y="2" width="71" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="1" width="81" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Items Received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="534" y="1" width="69" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="609" y="1" width="75" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pending Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="1" width="60" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inward No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="186" y="2" width="129" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="2" width="149" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{group_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="385" y="2" width="90" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{received_by}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="475" y="3" width="54" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_of_items_received}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="18" width="684" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="316" y="1" width="69" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inward_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="2" width="32" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="534" y="0" width="75" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{date_received}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="609" y="0" width="58" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{to_char}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="28" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="14" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,25 @@
+.herader-breadcrumb{
+    margin-top: 4%;
+    text-align: right;
+}
+.disabled {
+    pointer-events:none;
+    opacity:0.6;        
+}
+.dropmenu_icon {
+    position: absolute;
+    right: 0;
+}
+.right-img img {
+    width: 71px;
+    margin-top: 0;
+    position: relative;
+    top: 7px;
+}
+.admin-view a {
+    background: #5dbae8 !important;
+
+}
+.admin-view .submenuul {
+    background: #f9f9f9;
+}

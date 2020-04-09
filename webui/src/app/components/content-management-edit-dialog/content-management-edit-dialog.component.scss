@@ -1,0 +1,45 @@
+.close-box i.material-icons {
+    font-size: 23px;
+    color: #fff;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    background: red;
+    font-weight: 600;
+    line-height: 30px;
+    position: absolute;
+    top: -52px;
+    right: -39px;
+}
+.close-box button {
+    background: transparent !important;
+}
+.close-box {
+    position: absolute;
+    right: 188px;
+    margin-top: 4px;
+}
+.panel-primary {
+    position: relative;
+}
+
+.close-box {
+    position: absolute;
+    right: -27px;
+    margin-top: 4px;
+    top: -28px;
+    z-index: 999;
+}
+.mat-dialog-container {
+    position: relative !important;
+}
+.row-fluid {
+    position: relative;
+}
+.close-box{
+    position: absolute;
+    right: 35px;
+    margin-top: 4px;
+    top: 21px;
+    z-index: 99999;
+}

@@ -1,0 +1,60 @@
+package com.scr;
+
+import io.swagger.annotations.*;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import com.scr.jobs.response.Login;
+import com.scr.jobs.response.OperationResponse.ResponseStatusEnum;
+import com.scr.jobs.response.SessionItem;
+import com.scr.jobs.response.SessionResponse;
+import com.scr.model.User;
+import com.scr.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.*;
+
+
+/*
+This is a dummy rest controller, for the purpose of documentation (/session) path is map to a filter
+ - This will only be invoked if security is disabled
+ - If Security is enabled then SessionFilter.java is invoked
+ - Enabling and Disabling Security is done at config/applicaton.properties 'security.ignored=/**'
+*/
+
+@RestController
+@Api(tags = {"Authentication"})
+public class SessionController {
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Will return a security token, which must be passed in every request", response = SessionResponse.class) })
+    @RequestMapping(value = "/session", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public SessionResponse newSession(@RequestBody Login login, HttpServletRequest request, HttpServletResponse response) {
+        User user = userRepo.findByEmailIgnoreCase(login.getUsername());
+        		//findOneByUserIdAndPassword(login.getUsername(), login.getPassword()).orElse(null);
+        SessionResponse resp = new SessionResponse();
+        SessionItem sessionItem = new SessionItem();
+        if (user != null){
+            /*sessionItem.setToken("xxx.xxx.xxx");
+            sessionItem.setUserId(user.getUserId());
+            sessionItem.setFirstName(user.getFirstName());
+            sessionItem.setLastName(user.getLastName());
+            sessionItem.setEmail(user.getEmail());*/
+            //sessionItem.setRole(user.getRole());
+
+            resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
+            resp.setOperationMessage("Dummy Login Success");
+            resp.setItem(sessionItem);
+      }
+      else{
+            resp.setOperationStatus(ResponseStatusEnum.ERROR);
+            resp.setOperationMessage("Login Failed");
+      }
+      return resp;
+  }
+
+}

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CARDEX"  pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="productId" class="java.lang.String"/>
+	<parameter name="CommonFromDate" class="java.sql.Timestamp"/>
+	<parameter name="CommonThruDate" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[select ROW_NUMBER() OVER(ORDER BY '') AS SNO,
+mr.mirNo,mr.IssueQty,mr.csrvNo,mr.ReceiveQty,
+round(row_number() over(order by' mr.Bal')) as Balance,mr.Description,mr.Location,mr.CSRVDate
+from (select
+case when(id.work_effort_id is null) then ' '  else (id.MIR_ID) end as mirNo,
+case when(p.QUANTITY_UOM_ID is null) then   '' else   (select DESCRIPTION from uom where UOM_ID=p.QUANTITY_UOM_ID) end AS Unit,
+case when(id.work_effort_id is null) then   0  else   (round(id.QUANTITY_ON_HAND_DIFF,2)) end as IssueQty,
+case when(id.work_effort_id is null) then  ' ' else    to_char(id.EFFECTIVE_DATE,'YYYY-MM-DD')end as MIRDate,
+case when(id.work_effort_id is null) then              ii.INWARD_NO else '' end as csrvNo,
+case when(id.work_effort_id is null) then             (round(id.QUANTITY_ON_HAND_DIFF,0)) else 0 end as ReceiveQty,
+case when(id.work_effort_id is null) then             to_char(id.EFFECTIVE_DATE,'YYYY-MM-DD')  else '' end as CSRVDate,
+id.EFFECTIVE_DATE as dates,
+id.QUANTITY_ON_HAND_DIFF as Bal,
+p.Internal_name as Description,
+f.FACILITY_NAME AS Location
+from inventory_item_detail id,inventory_item ii,facility f,product p
+where ii.PRODUCT_ID=$P{productId}
+  and ii.INVENTORY_ITEM_ID=id.INVENTORY_ITEM_ID
+  and f.FACILITY_ID= ii.FACILITY_ID
+  and p.product_id=ii.PRODUCT_ID
+and (case when((select EFFECTIVE_DATE from inventory_item_detail id,inventory_item i where PRODUCT_ID=$P{productId} and
+i.INVENTORY_ITEM_ID=id.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >= $P{CommonFromDate} limit 1) is null) then
+(id.EFFECTIVE_DATE>='2011-02-26 12:00:34') else
+(id.EFFECTIVE_DATE >=$P{CommonFromDate}) end)
+and (case when((select EFFECTIVE_DATE from inventory_item_detail id,inventory_item i where PRODUCT_ID=$P{productId} and
+i.INVENTORY_ITEM_ID=id.INVENTORY_ITEM_ID AND EFFECTIVE_DATE <=$P{CommonThruDate} limit 1) is null) then (id.EFFECTIVE_DATE <=('now()'))
+else (id.EFFECTIVE_DATE <=$P{CommonThruDate}) end)) mr,
+(select (SELECT
+case when('ID.QUANTITY_ON_HAND_DIFF' is null) then 0 else SUM(ID.QUANTITY_ON_HAND_DIFF) end as Balance
+FROM inventory_item I, inventory_item_detail ID
+WHERE I.PRODUCT_ID=$P{productId} AND
+I.INVENTORY_ITEM_ID=ID.INVENTORY_ITEM_ID
+and (case when((select EFFECTIVE_DATE from inventory_item_detail id,inventory_item i where PRODUCT_ID=$P{productId} and
+i.INVENTORY_ITEM_ID=id.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonFromDate}  limit 1) is null) then
+(id.EFFECTIVE_DATE<='2011-06-17 11:43:25') else (id.EFFECTIVE_DATE <=$P{CommonFromDate} ) end)))t
+order by mr.dates asc]]>
+	</queryString>
+	<field name="sno" class="java.lang.Long"/>
+	<field name="mirNo" class="java.lang.String"/>
+	<field name="IssueQty" class="java.lang.String"/>
+	<field name="csrvNo" class="java.lang.String"/>
+	<field name="ReceiveQty" class="java.lang.String"/>
+	<field name="Balance" class="java.lang.Double"/>
+	<field name="Description" class="java.lang.String"/>
+	<field name="Location" class="java.lang.String"/>
+	<field name="CSRVDate" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="138" splitType="Stretch">
+			<staticText>
+				<reportElement x="205" y="0" width="364" height="37"/>
+				<textElement>
+					<font fontName="Times New Roman" size="24" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Ltd, Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="58" width="59" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[EXCISE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="44" width="124" height="20" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CARDEX  CARD]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="606" y="17" width="84" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="584" y="73" width="53" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[card no:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="103" width="59" height="20"/>
+				<textElement/>
+				<text><![CDATA[LOCATION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="79" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[commonfromdate:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="106" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[commonthrudate:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="131" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="121" y="79" width="149" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$P{CommonFromDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="106" width="149" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$P{CommonThruDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="649" y="103" width="111" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Location}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="40" width="36" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[sno]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="65" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="569" y="13" width="54" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[M. CODE :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="8" width="70" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[description:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="40" width="72" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[csrvNo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="40" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[ReceiveQty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="578" y="44" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="40" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[CSRVDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="42" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[mirNo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="41" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[IssueQty]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="640" y="13" width="140" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{productId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="8" width="114" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="6" width="45" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="6" width="72" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{csrvNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="8" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ReceiveQty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="584" y="8" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="698" y="6" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CSRVDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="8" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mirNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="8" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{IssueQty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="69">
+			<textField>
+				<reportElement x="598" y="35" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="680" y="35" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="606" y="8" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

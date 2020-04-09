@@ -1,0 +1,167 @@
+<div class="content">
+    <div class="">
+      <div class="col-12">
+
+      </div>
+        <div class="clear"></div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Guidence Item Information</div>
+                    <div class="panel-body">
+                            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                <div class="p-24">
+                                    <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                        <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                                            <span class="mat-raised-button mat-accent" (click)="NewGuidenceItem()" *ngIf="!addGuidenceItem"
+                                              color="accent" mat-raised-button="">
+                                               Add Guidence Item
+                                            </span>
+                                        </div>
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addGuidenceItem" fxLayout="column"
+                                                fxLayoutAlign="start" [formGroup]="guidenceItemFormGroup" fxFlex="1 0 auto"
+                                                (ngSubmit)="gudenceItemSubmit();">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">{{title}} Gudence Item</div>
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="agency rb rdso" [formControl]="guidenceItemFormGroup.controls['agencyRbRdso']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="guidenceItemFormGroup.controls['date']">
+                                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                                        <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="details of issue" [formControl]="guidenceItemFormGroup.controls['detailsOfIssue']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="heading" [formControl]="guidenceItemFormGroup.controls['heading']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="letter no" [formControl]="guidenceItemFormGroup.controls['letterNo']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="report continue" [formControl]="guidenceItemFormGroup.controls['reportContinue']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="response" [formControl]="guidenceItemFormGroup.controls['response']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="short description" [formControl]="guidenceItemFormGroup.controls['shortDescription']" />
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                    <mat-form-field fxFlex="30">
+                                                                        <input matInput placeholder="status" [formControl]="guidenceItemFormGroup.controls['status']" />
+                                                                    </mat-form-field>
+                                                            </div> 
+                                                            <div class="col-md-3">
+                                                                    <mat-form-field fxFlex="30">
+                                                                        <input matInput placeholder="closed remark" [formControl]="guidenceItemFormGroup.controls['closedRemark']" />
+                                                                    </mat-form-field>
+                                                            </div>    
+                                                            <div class="col-md-3 mt-15">
+                                                                <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                                                                    <button mat-raised-button color="accent" [disabled]="guidenceItemFormGroup.invalid"
+                                                                        class="submit-button" aria-label="Submit">
+                                                                        {{title}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="p-12 d-inline">
+                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                                                      mat-raised-button="">
+                                                                      Close
+                                                                    </span>
+                                                                  </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                    </div>
+                                    <div class="example-header">
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                              <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="mat-elevation-z8">
+                                        <mat-table [dataSource]="guidenceItemDataSource" matSort>
+                                            <ng-container matColumnDef="sno">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="agencyRbRdso">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>agency Rb Rdso</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.agencyRbRdso}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="date">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>date</mat-header-cell>
+                                                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                      {{row.date | date}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="detailsOfIssue">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>details of issue</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.detailsOfIssue}}</mat-cell>
+                                            </ng-container>
+                                           <ng-container matColumnDef="heading">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>heading</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.heading}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="closedRemark">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>closed remark</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.closedRemark}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="letterNo">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>letter no</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.letterNo}} </mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="id">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                                                        (click)="editGuidenceItem(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                      </a>
+                                                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                                                        (click)="deleteGuidenceItem(row.id)">
+                                                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                      </button>
+                                                    </mat-cell>
+                                            </ng-container>
+                                            <mat-header-row *matHeaderRowDef="guidenceItemDisplayColumns"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: guidenceItemDisplayColumns;">
+                                            </mat-row>
+                                        </mat-table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>      

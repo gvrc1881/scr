@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PrecautionaryMeasureReport" pageWidth="750" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="710" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6f08166-b87a-4dc8-99f0-e390144b44c5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="toDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="facilityName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.facility_name,a.precautionary_measure,sum(CROW_NEST_REMOVED) as CROW_NEST_REMOVED,sum(CROW_SCARES_PROVIDED) as CROW_SCARES_PROVIDED,
+sum(MONKEY_SCARES_PROVIDED) as MONKEY_SCARES_PROVIDED,sum(TREE_CUT_FULL) as TREE_CUT_FULL,sum(TREE_BARNCHES_TRIM) as TREE_BARNCHES_TRIM,
+sum(INSULATOR_REPLACED) as INSULATOR_REPLACED,sum(INSULATORS_CLEANED) as INSULATORS_CLEANED,
+sum(REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB) as REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from
+(
+select fac.facility_name, pm.precautionary_measure,count(*) CROW_NEST_REMOVED ,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+pm.precautionary_measure = 'CROW NEST REMOVED'
+and
+case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+union --1
+
+select fac.facility_name,pm.precautionary_measure,0 CROW_NEST_REMOVED,count(*) CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+ pm.precautionary_measure = 'CROW SCARES PROVIDED'
+and
+case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+union --2
+
+select fac.facility_name, pm.precautionary_measure,0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,count(*) MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+ pm.precautionary_measure = 'MONKEY SCARES PROVIDED'
+and
+case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name,fac.facility_id, pm.precautionary_measure
+
+union --3
+
+select fac.facility_name, pm.precautionary_measure,0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,count(*) TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+ pm.precautionary_measure = 'TREE CUT FULL'
+ and
+ case when  $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name,fac.facility_id, pm.precautionary_measure
+
+union --4
+
+select fac.facility_name, pm.precautionary_measure,0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+count(*) TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+ pm.precautionary_measure = 'TREE BARNCHES TRIM'
+ and
+ case when $P{facilityName}= 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+union --5
+
+select fac.facility_name, pm.precautionary_measure, 0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,count(*) INSULATOR_REPLACED,0 INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+ pm.precautionary_measure = 'INSULATOR REPLACED'
+ and
+ case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name = $P{facilityName} end
+and pm.from_date_time::date >=$P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+union --6
+
+select fac.facility_name, pm.precautionary_measure, 0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,count(*) INSULATORS_CLEANED,0 REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+pm.precautionary_measure = 'INSULATORS CLEANED'
+and
+case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name =$P{facilityName}  end
+and pm.from_date_time::date >= $P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+union --7
+
+select fac.facility_name, pm.precautionary_measure,0 CROW_NEST_REMOVED,0 CROW_SCARES_PROVIDED,0 MONKEY_SCARES_PROVIDED,0 TREE_CUT_FULL,
+0 TREE_BARNCHES_TRIM,0 INSULATOR_REPLACED,0 INSULATORS_CLEANED,count(*) REMOVAL_OF_FOREIGN_BODIES_WITH_OR_Without_PB
+from precautionary_measure pm
+inner join facility fac on fac.facility_name =  pm.facility_name
+where
+pm.precautionary_measure = 'REMOVAL OF FOREIGN BODIES WITH OR W/O PB'
+and
+case when $P{facilityName} = 'All' then fac.facility_name IN(select facility_name from facility)
+ else fac.facility_name =$P{facilityName}  end
+and pm.from_date_time::date >=$P{fromDate}::date
+and pm.thru_date_time::date <=$P{toDate}::date
+group by fac.facility_name, pm.precautionary_measure
+
+) AS a
+
+group by  a.facility_name,a.precautionary_measure]]>
+	</queryString>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="precautionary_measure" class="java.lang.String"/>
+	<field name="crow_nest_removed" class="java.lang.Double"/>
+	<field name="crow_scares_provided" class="java.lang.Double"/>
+	<field name="monkey_scares_provided" class="java.lang.Double"/>
+	<field name="tree_cut_full" class="java.lang.Double"/>
+	<field name="tree_barnches_trim" class="java.lang.Double"/>
+	<field name="insulator_replaced" class="java.lang.Double"/>
+	<field name="insulators_cleaned" class="java.lang.Double"/>
+	<field name="removal_of_foreign_bodies_with_or_without_pb" class="java.lang.Double"/>
+	<variable name="ToatalCrowNestRemoved" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{crow_nest_removed}]]></variableExpression>
+	</variable>
+	<variable name="TotalCrowScaresProvided" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{crow_scares_provided}]]></variableExpression>
+	</variable>
+	<variable name="ToatalMonkeyScaresProvided" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{monkey_scares_provided}]]></variableExpression>
+	</variable>
+	<variable name="TotalTreeCutFull" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tree_cut_full}]]></variableExpression>
+	</variable>
+	<variable name="TotalTreeBarnchesTrim" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tree_barnches_trim}]]></variableExpression>
+	</variable>
+	<variable name="TotalInsulatorReplaced" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{insulator_replaced}]]></variableExpression>
+	</variable>
+	<variable name="TotalInsulatorCleaned" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{insulators_cleaned}]]></variableExpression>
+	</variable>
+	<variable name="TotalRemovalOfForeginBodies" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{removal_of_foreign_bodies_with_or_without_pb}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="710" height="32" uuid="db81d334-8590-4888-aa29-63a8d93265e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="32" width="710" height="32" uuid="585608ba-eb0f-4d52-bf7c-3ed0999dbd17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{division}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="64" width="710" height="24" uuid="5bc10125-c700-45ba-a25f-2e589560f8d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="47" height="35" uuid="aa586992-d8c8-4d4a-a90e-3eddecab483a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Sl.No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="0" width="60" height="35" uuid="000b81bc-4692-4cd9-885b-282d21abda74"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Depot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="0" width="68" height="35" uuid="4bc71862-e891-4d26-95f6-1130ab822466"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Crow Nest Removed
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="0" width="74" height="35" uuid="af647f10-72bc-46b4-bb47-5eff1ab8a5f8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Crow Scares Provided
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="0" width="83" height="35" uuid="bb22d779-3cf6-46ad-8c7d-b2f2ad342886"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Monkey Scares Provided
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="0" width="68" height="35" uuid="2b5e6573-9bca-4310-b2d6-b86ac07a77e0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Tree Cut Full]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="65" height="35" uuid="7d8a3fac-c825-4f21-be06-a19cc3e5225e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Insulator Replaced]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="535" y="0" width="53" height="35" uuid="82ef64e6-dc74-4fcb-8a7e-1e41802a9c05"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Insulator Cleaned
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="588" y="0" width="122" height="35" uuid="9378451b-0bde-4dfa-8523-44100e185bb5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Removal Of Foreign Bodies With Or W/O PB
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="70" height="35" uuid="60d671c5-df4b-470c-9935-196e0444f235"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Tree Barnches Trim
+]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="47" height="20" uuid="85ee6296-306a-48df-82fe-2b12b7031554"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0.0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="47" y="0" width="60" height="20" uuid="148473fb-9488-4313-93e5-f5d8f1dad4e9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="107" y="0" width="68" height="20" uuid="194deb2d-2a6c-4ebe-83e4-ef076f8e4f26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{crow_nest_removed}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="175" y="0" width="74" height="20" uuid="09606f01-9b81-47e5-83bc-eaacf7cf2578"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{crow_scares_provided}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="249" y="0" width="83" height="20" uuid="3535311e-73ec-4b33-83bb-bd53ae7d9b56"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{monkey_scares_provided}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="332" y="0" width="68" height="20" uuid="ee88bdde-1118-4f95-b170-e630a764c81c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tree_cut_full}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="70" height="20" uuid="47d59e98-0aad-48fd-b8ef-e6143c10ed3e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tree_barnches_trim}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="470" y="0" width="65" height="20" uuid="cd4d80ca-24e0-490d-a1a1-2653fd313b88"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{insulator_replaced}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="535" y="0" width="53" height="20" uuid="809877ac-3bd4-4636-b9b1-2dd784453a71"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{insulators_cleaned}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="588" y="0" width="122" height="20" uuid="81a0a6e1-f072-4773-9cc8-3a4e34c22bb8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{removal_of_foreign_bodies_with_or_without_pb}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="293" y="0" width="80" height="20" uuid="45e96a72-b8ed-44b9-9a8e-d18882ec7752"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="373" y="0" width="40" height="20" uuid="bf31491b-88cb-4721-81ea-2a52d1e9ff98"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="510" y="0" width="100" height="20" uuid="c79adf60-ebde-4da0-9bcb-167573c56edb"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Generated on :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="610" y="0" width="100" height="20" uuid="e48f8ced-656c-492e-8dcb-edd1f1d175d3"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="107" height="20" uuid="f3903f38-6760-4a45-9737-e954c85ba81f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="107" y="0" width="68" height="20" uuid="cf3783c4-23e6-4912-9e45-dea025f03f11"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ToatalCrowNestRemoved}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="175" y="0" width="74" height="20" uuid="734c562a-f755-4e38-9181-3bfc255f6eb4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalCrowScaresProvided}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="249" y="0" width="83" height="20" uuid="ccf5d60d-097d-4d25-aa0a-9e8478989101"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ToatalMonkeyScaresProvided}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="332" y="0" width="68" height="20" uuid="d6837cc6-450c-497c-9878-e2bc1bf41e2e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalTreeCutFull}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="70" height="20" uuid="5ffe3ad0-a1a8-49e7-98f2-e9c0f4b8209e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalTreeBarnchesTrim}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="470" y="0" width="65" height="20" uuid="792c058c-61be-462d-acf8-c45937ec6879"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalInsulatorReplaced}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="535" y="0" width="53" height="20" uuid="5069caf4-7b61-4b02-8da8-9c801df0ade7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalInsulatorCleaned}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="588" y="0" width="122" height="20" uuid="34a8e6ee-be0b-40f7-b089-276750bb2dcc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{TotalRemovalOfForeginBodies}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+	<noData>
+		<band height="29">
+			<staticText>
+				<reportElement x="0" y="0" width="710" height="29" forecolor="#FF0000" uuid="45263eeb-c581-496c-82d3-09fe3e8cd5f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

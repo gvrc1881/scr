@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tower cars" pageWidth="800" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="assetType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[-- to get all records of Asset_status update  of tower cars
+-- one record should be there for each with current status atleaset
+-- take the max date of each
+-- asa1 is to get the assettype schedule duration and units of period for POH, asa2 is for AOH
+--ash1 is to get the previous record of POH schedule done recently - ash11 is to pick the latest sch date in case of more than once POH schdule is done
+--ash2 is to get the previous record of AOH schedule done recently - ash22 is to pick the latest sch date in case of more than once SOH schdule is done
+
+
+
+
+
+
+select asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
+, ash1.Schedule_date POH_DONE_DATE , ash2.Schedule_date AOH_DONE_DATE, asa1.duration poh_duration, asa1.uom_of_duration poh_uom_duration,
+case when asa1.uom_of_duration ='Time in Years' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date +(asa1.duration||' years')::interval
+     when asa1.uom_of_duration ='Time in Months' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date+(asa1.duration||' months')::interval
+end poh_due_date,
+asa2.duration aoh_duration, asa2.uom_of_duration aoh_uom_duration,
+case when asa2.uom_of_duration ='Time in Years' and asa2.duration is not null and ash2.Schedule_date is not null then ash2.Schedule_date+(asa2.duration||' years')::interval
+     when asa2.uom_of_duration ='Time in Months' and asa2.duration is not null and ash2.Schedule_date is not null then ash2.Schedule_date+(asa2.duration||' months')::interval
+end aoh_due_date,
+case when asu_st.status ='IN_USE' then 'Working'
+     when asu_st.status ='UNDER_POH' then 'POH'
+     when asu_st.status ='UNDER_AOH' then 'AOH'
+     when asu_st.status ='UNDER_REPAIR' then 'Under Repair'
+     when asu_st.status ='READY_TO_USE' then 'READY_TO_USE'
+end as Remarks_condition
+
+from (
+select max(date_of_status) latest_date_of_status,
+asset_id, asset_type, asu1.facility_id ,division, facility_name
+from product_category_member pcm, Facility f  , asset_status_update asu1
+where asu1.facility_id = f.Facility_id and
+asu1.asset_type = pcm.product_id
+and (upper(pcm.product_category_id) ='TOWERCAR'  or pcm.product_category_id ='Towercar' )
+group by asset_id, asset_type, asu1.facility_id ,division,facility_name
+)asu
+
+left outer join assets_schedule_history ash1 on (asu.asset_id = ash1.asset_id and asu.asset_type = ash1.asset_type and asu.facility_id = ash1.facility_id
+                                                                                          and ash1.schedule_code ='POH'
+                                                                                          and ash1.schedule_date = (select max(schedule_date)
+                                                                                                                                       from assets_schedule_history ash11
+                                                                                                                                       where asu.asset_id = ash11.asset_id
+                                                                                                                                       and asu.asset_type = ash11.asset_type
+                                                                                                                                       and asu.facility_id = ash11.facility_id
+                                                                                                                                       and 'POH' = ash11.schedule_code
+                                                                                                                                       )
+                                                                                          )
+left outer join assets_schedule_history ash2 on (asu.asset_id = ash2.asset_id and asu.asset_type = ash2.asset_type and asu.facility_id = ash2.facility_id
+                                                and ash2.schedule_code ='AOH'
+                                                and ash2.schedule_date = (select max(schedule_date)
+                                                from assets_schedule_history ash22
+                                                where asu.asset_id = ash22.asset_id
+                                                and asu.asset_type = ash22.asset_type
+                                                and asu.facility_id = ash22.facility_id
+                                                and 'AOH' = ash22.schedule_code
+                                                )
+                                                                                          )
+ left outer join asset_schedule_assoc asa1 on (asu.asset_type = asa1.asset_type and asa1.schedule_code ='POH')
+ left outer join asset_schedule_assoc asa2 on (asu.asset_type = asa2.asset_type and asa2.schedule_code ='AOH'),
+--, product_category_member pcm, Facility f
+
+
+asset_master_data amd , asset_status_update asu_st
+where asu.facility_id = asu_st.Facility_id
+and asu.asset_type = asu_st.asset_type
+and asu.asset_id = asu_st.asset_id
+and asu.latest_date_of_status = asu_st.date_of_status
+and asu.facility_id = amd.Facility_id
+and asu.asset_type = amd.asset_type
+and asu.asset_id = amd.asset_id
+and amd.asset_type= $P{assetType}
+--and asu.latest_date_of_status = amd.date_of_status]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="tower_car_no" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="make" class="java.lang.String"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="date_of_manufacture" class="java.sql.Timestamp"/>
+	<field name="poh_done_date" class="java.sql.Timestamp"/>
+	<field name="aoh_done_date" class="java.sql.Timestamp"/>
+	<field name="poh_duration" class="java.lang.Double"/>
+	<field name="poh_uom_duration" class="java.lang.String"/>
+	<field name="poh_due_date" class="java.sql.Timestamp"/>
+	<field name="aoh_duration" class="java.lang.Double"/>
+	<field name="aoh_uom_duration" class="java.lang.String"/>
+	<field name="aoh_due_date" class="java.sql.Timestamp"/>
+	<field name="remarks_condition" class="java.lang.String"/>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="760" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AOH/POH details of Tower Cars available over South Central Railway]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="37" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SL.NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="0" width="75" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DIVN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="0" width="87" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[TOWER CAR NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="199" y="0" width="84" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asset Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="0" width="84" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MAKE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="0" width="80" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[YEAR BUILT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="0" width="110" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DUE DATE FOR POH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="557" y="0" width="110" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DUE DATE FOR AOH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="667" y="0" width="93" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[REMARKS /CONDITION]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="37" y="0" width="75" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="112" y="0" width="87" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tower_car_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="283" y="0" width="84" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{make}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="367" y="0" width="80" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_of_manufacture}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="447" y="0" width="110" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{poh_due_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="557" y="0" width="110" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{aoh_due_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="667" y="0" width="93" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{remarks_condition}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="37" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="84" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{asset_type}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="367" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="367" y="0" width="393" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="760" height="30" forecolor="#CC0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO  DATA  FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

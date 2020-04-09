@@ -1,0 +1,9 @@
+.admin-scheduler-panel .panel-primary>.panel-heading{ 
+    color: #fff;
+    background-color:#5dbae8  !important;
+    border-color: #5dbae8  !important;
+}
+.admin-scheduler-panel .mat-header-cell{
+    background: #5dbae8  !important;
+    color: #000 !important;
+}

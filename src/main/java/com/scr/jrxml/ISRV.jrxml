@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ISRV" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="585" leftMargin="3" rightMargin="7" topMargin="7" bottomMargin="7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="197"/>
+	<property name="ireport.y" value="232"/>
+	<parameter name="inwardNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     row_number() over(order by internal_name) AS SNO,
+     product.internal_name as Name,
+     round((incoming_consignment_detail.QUANTITY_RECEIVED),0) AS QUANTITY_RECEIVED,
+     incoming_consignment_detail.product_id AS PRODUCT_ID,
+     order_header.created_stamp as Order_Date,
+     incoming_consignment_detail.created_stamp AS ISRV_Date,
+     incoming_consignment_detail.incoming_consignment_id AS ISRV_No,
+     incoming_consignment.date_received AS DATE_RECEIVED,
+     incoming_consignment.delivery_challan_no AS CHALLAN_NO,
+     incoming_consignment.order_id as Order_ID,
+     case when(product.quantity_uom_id is null) then ' ' else (select description from uom where UOM_ID=product.QUANTITY_UOM_ID) end AS Unit,
+     party_group.group_name as SName
+FROM
+     incoming_consignment incoming_consignment, incoming_consignment_detail incoming_consignment_detail,
+product product,order_header order_header,party_group party_group
+where
+    incoming_consignment.INWARD_NO=$P{inwardNo}
+    and incoming_consignment_detail.INCOMING_CONSIGNMENT_ID=incoming_consignment.INCOMING_CONSIGNMENT_ID
+    and incoming_consignment_detail.PRODUCT_ID=product.PRODUCT_ID
+    and order_header.ORDER_ID =incoming_consignment.ORDER_ID
+    and party_group.PARTY_ID=incoming_consignment.PARTY_ID]]>
+	</queryString>
+	<field name="sno" class="java.math.BigDecimal"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="quantity_received" class="java.math.BigDecimal"/>
+	<field name="product_id" class="java.lang.String"/>
+	<field name="order_date" class="java.sql.Timestamp"/>
+	<field name="isrv_date" class="java.sql.Timestamp"/>
+	<field name="isrv_no" class="java.lang.String"/>
+	<field name="date_received" class="java.sql.Timestamp"/>
+	<field name="challan_no" class="java.lang.String"/>
+	<field name="order_id" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="sname" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="112" splitType="Stretch">
+			<staticText>
+				<reportElement x="155" y="54" width="276" height="30" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[INITIAL STORES RECEIPT VOUCHER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="10" width="333" height="43"/>
+				<textElement>
+					<font fontName="Times New Roman" size="19" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Ltd,Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="98" width="100" height="13"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[DOT/ N.DOT/ D & D]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="70" width="82" height="13"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Taken Into Stock]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="83" width="15" height="12"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Dt.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="99" width="124" height="12"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[EXCISE/ NON EXCISE]]></text>
+			</staticText>
+			<!--<image>
+				<reportElement x="-2" y="4" width="98" height="53"/>
+				<imageExpression class="java.lang.String"><![CDATA["http://192.168.1.7/snm/MIC-Electronics-logo.jpg"]]></imageExpression>
+			</image>-->
+		</band>
+	</title>
+	<pageHeader>
+		<band height="117" splitType="Stretch">
+			<line>
+				<reportElement x="-1" y="116" width="590" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="4" width="588" height="1"/>
+			</line>
+			<line>
+				<reportElement x="141" y="5" width="1" height="111"/>
+			</line>
+			<line>
+				<reportElement x="296" y="46" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement x="142" y="45" width="304" height="1"/>
+			</line>
+			<line>
+				<reportElement x="446" y="5" width="1" height="111"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="7" width="125" height="13"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supplier's Name & Address :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="21" width="35" height="10"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M/s.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="8" width="43" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P.O. No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="29" width="36" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="8" width="57" height="18"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inward No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="49" width="51" height="16"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice No:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="68" width="34" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="50" width="55" height="12"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Challan No :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="28" width="38" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="10" width="52" height="12"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISRV No :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="53" width="37" height="12"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="90" width="58" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type Code:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="67" width="33" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="345" y="9" width="82" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{inwardNo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="296" y="5" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement x="142" y="86" width="304" height="1"/>
+			</line>
+			<line>
+				<reportElement x="296" y="87" width="1" height="29"/>
+			</line>
+			<staticText>
+				<reportElement x="144" y="88" width="152" height="21"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BY RPP/VPP/ACN/LR/PWB/LC/LD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="90" width="43" height="18"/>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GPI No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="33" width="125" height="47"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="504" y="9" width="80" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{isrv_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="53" width="94" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{isrv_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="49" width="97" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{challan_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="182" y="68" width="114" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_received}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="7" width="108" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="28" width="129" height="17"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{order_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="26" width="102" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_received}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="30" width="588" height="1" forecolor="#000000"/>
+			</line>
+			<staticText>
+				<reportElement x="8" y="9" width="41" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="1" width="184" height="15"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description of the Material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="16" width="56" height="11"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[W.O.No. :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="8" width="82" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIC Code]]></text>
+			</staticText>
+			<line>
+				<reportElement x="296" y="0" width="1" height="30"/>
+			</line>
+			<line>
+				<reportElement x="403" y="0" width="1" height="30"/>
+			</line>
+			<line>
+				<reportElement x="48" y="0" width="1" height="30" forecolor="#333333"/>
+			</line>
+			<staticText>
+				<reportElement x="513" y="0" width="71" height="30"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity Received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="8" width="46" height="17"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<line>
+				<reportElement x="505" y="0" width="1" height="30"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement x="-1" y="21" width="590" height="1" forecolor="#666666"/>
+			</line>
+			<line>
+				<reportElement x="403" y="-2" width="1" height="23" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="505" y="-2" width="1" height="23" forecolor="#666666"/>
+			</line>
+			<line>
+				<reportElement x="296" y="-2" width="1" height="23" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="48" y="-2" width="1" height="23" forecolor="#999999"/>
+			</line>
+			<textField>
+				<reportElement x="3" y="0" width="45" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="0" width="238" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="1" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="100" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="506" y="1" width="98" height="19"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantity_received}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="248" y="70" width="15" height="13"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[of]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="263" y="70" width="18" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="70" width="13" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="10" width="132" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Inspection Remarks:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="34" width="137" height="33"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Signature and date of Inspecting Authority]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="70" width="67" height="15"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[F 043/2/01]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="30" width="118" height="34"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Signature and date of Head Stores Dept.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="441" y="67" width="148" height="1"/>
+			</line>
+			<line>
+				<reportElement x="441" y="4" width="1" height="63" forecolor="#333333"/>
+			</line>
+			<line>
+				<reportElement x="1" y="64" width="121" height="1"/>
+			</line>
+			<line>
+				<reportElement x="121" y="4" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="589" height="1"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

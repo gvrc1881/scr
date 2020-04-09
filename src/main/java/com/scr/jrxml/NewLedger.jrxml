@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LEDGER" pageWidth="900" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="46"/>
+	<parameter name="productId" class="java.lang.String"/>
+	<parameter name="DepotName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonThruDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+ledger_id ,
+effective_Date,
+to_date($P{CommonFromDate},'yyyy-mm-dd') as start_date,
+to_date($P{CommonThruDate},'yyyy-mm-dd') as end_date,
+Receipt_issue_voucher,
+QuantityReceived,
+QuantityIssued,
+facility_name,
+description,
+sum(quantity) over(partition by  facility_id,  product_id order by ledger_id asc ) as balance
+from
+(
+select
+ledger_id ,
+effective_Date,
+Case when status_id is not null then Receipt_issue_voucher||' ('||status_id||')' else Receipt_issue_voucher end as Receipt_issue_voucher,
+QuantityReceived,
+QuantityIssued,
+Case when (status_id ='IXF_REQUESTED' or status_id ='IXF_CANCELLED') then 0 else  quantity end as quantity ,
+ advice_note_id , it_challan_id_from ,it_challan_id_to , stock_voucher_id ,  order_id , cash_bill_id ,work_order_name , it.contractor_name ,
+dia.inventory_transfer_id, it.facility_id facility_id_from, facility_id_to, facility_name,it.status_id, tt.dmtr_seq_id ,dmtr_id ,
+   to_date($P{CommonThruDate},'yyyy-mm-dd')as end_date, quantity as quantity1 ,
+tt.facility_id, tt.facility_id f1, tt.inventory_item_id,
+p.description, return_vouch,p.product_id, dia.inventory_transfer_id,  abbreviation , rly_uom_id , uom_id,
+sum(quantity) over(partition by tt.facility_id, tt.product_id order by tt.ledger_id asc ) as balance1
+from
+(
+-- this is to get the Starting Qty for the product for a given date of depot/facility
+select ' ' dmtr_seq_id , '0' dmtr_id , 0  ledger_id,
+ --Min(tt.start_dt)
+  null as effective_Date ,
+'Starting Balance' Receipt_issue_voucher ,
+0 QuantityReceived,  0 QuantityIssued ,
+ ii.facility_id,f.facility_name, '' inventory_item_id , ii.product_id description,
+ case when sum(quantity_on_hand_diff) is null then 0 else sum(quantity_on_hand_diff) end as quantity ,
+
+ ' '  advice_note_id , ' '  it_challan_id_from , ' ' it_challan_id_to , ' ' stock_voucher_id ,
+' '  order_id , ' '  cash_bill_id , ' '  work_order_name , ' '  contractor_name , ' '  return_vouch, ii.product_id
+from inventory_item_detail iid, inventory_item ii, facility f,
+( select case when sd.dmtr_start_date > to_date($P{CommonFromDate},'yyyy-mm-dd') then sd.dmtr_start_date::date-1   else to_date($P{CommonFromDate},'yyyy-mm-dd')-1 end as start_dt
+  from (select min(transaction_date)  dmtr_start_date from dmtr where facility_id = (select facility_id from facility where facility_name = $P{DepotName} ) and  product_id = $P{productId}  ) sd
+  )tt
+where ii.inventory_item_id = iid.inventory_item_id
+and f.facility_id = ii.facility_id
+and iid.effective_Date  < start_dt
+and f.facility_name = $P{DepotName}
+and product_id = $P{productId}
+group by   product_id,  ii.facility_id,f.facility_name --, facility
+union all
+-- the following is to get all transactions for the the product for a given date of depot/facility from the given date
+(
+select   dmtr_seq_id, dmtr_id ,   ledger_id ,
+ to_char(transaction_date,'yyyy-mm-dd')::date  effective_Date ,
+case when it_challan_id_from is not null then it_challan_id_from
+     when stock_voucher_id is not null then stock_voucher_id
+     when cash_bill_id is not null then cash_bill_id
+     when advice_note_id is not null then advice_note_id
+     when order_id is not null then order_id
+     end as Receipt_issue_voucher,
+case when  quantity > '0' then round(( quantity),3)  end as QuantityReceived,
+case when  quantity < '0' then round(( quantity),3)  end as QuantityIssued,
+dmtr.facility_id , f.facility_name,''  inventory_item_id, ' ' description ,
+quantity ,
+advice_note_id , it_challan_id_from , it_challan_id_to ,stock_voucher_id ,
+ order_id , cash_bill_id , work_order_name ,contractor_name ,return_voucher , product_id
+ from dmtr dmtr, facility f
+where f.facility_name = $P{DepotName}
+and f.facility_id = dmtr.facility_id
+and product_id = $P{productId}
+and to_char(dmtr.transaction_date, 'yyyy-mm-dd') ::date >=$P{CommonFromDate}::date
+and to_char(dmtr.transaction_date, 'yyyy-mm-dd') ::date <=$P{CommonThruDate}::date
+)) as tt
+left outer join dmtr_inventoryetc_assoc dia on ( tt.dmtr_seq_id = dia.dmtr_seq_id)
+left outer join inventory_transfer it on ( it.inventory_transfer_id = dia.inventory_transfer_id),
+product p, uom
+where tt.product_id = p.product_id
+and p.quantity_uom_id = uom_id
+order by ledger_id
+) Netbal]]>
+	</queryString>
+	<field name="ledger_id" class="java.math.BigDecimal"/>
+	<field name="effective_date" class="java.sql.Date"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="end_date" class="java.sql.Date"/>
+	<field name="receipt_issue_voucher" class="java.lang.String"/>
+	<field name="quantityreceived" class="java.math.BigDecimal"/>
+	<field name="quantityissued" class="java.math.BigDecimal"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="balance" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{COLUMN_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="138" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="137" width="860" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="348" y="0" width="248" height="33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRD,  SC Railway, SC Division ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="518" y="55" width="74" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCT ID:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="592" y="55" width="114" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{productId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="0" width="120" height="33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="55" width="195" height="20" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Ledger Of Item - Descritption:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="86" width="24" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="375" y="55" width="138" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="218" y="86" width="92" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="0" width="58" height="33"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Depot :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="86" width="48" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="353" y="86" width="165" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{end_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="-131" y="10" width="73" height="27"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="37" width="73" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="65" width="860" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="567" y="37" width="139" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Receive Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="708" y="36" width="151" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="37" width="270" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Issue Voucher / Challan No / P.O No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="38" width="123" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Issue Quantity]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="36" width="860" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="73" y="37" width="101" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="36" width="1" height="29"/>
+			</line>
+			<line>
+				<reportElement x="73" y="36" width="1" height="29"/>
+			</line>
+			<line>
+				<reportElement x="174" y="37" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="445" y="36" width="1" height="29"/>
+			</line>
+			<line>
+				<reportElement x="566" y="36" width="1" height="29"/>
+			</line>
+			<line>
+				<reportElement x="707" y="36" width="1" height="29"/>
+			</line>
+			<line>
+				<reportElement x="859" y="36" width="1" height="29"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="26" width="860" height="1"/>
+			</line>
+			<line>
+				<reportElement x="859" y="-1" width="1" height="27"/>
+			</line>
+			<line>
+				<reportElement x="707" y="-1" width="1" height="27"/>
+			</line>
+			<line>
+				<reportElement x="566" y="0" width="1" height="26"/>
+			</line>
+			<line>
+				<reportElement x="445" y="-1" width="1" height="27"/>
+			</line>
+			<line>
+				<reportElement x="174" y="0" width="1" height="26"/>
+			</line>
+			<line>
+				<reportElement x="73" y="-1" width="1" height="28"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="27"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="175" y="0" width="270" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{receipt_issue_voucher}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="448" y="0" width="118" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityissued}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="566" y="0" width="140" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityreceived}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="708" y="0" width="151" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="74" y="0" width="101" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{effective_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="0" width="73" height="27"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="274" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="736" y="0" width="124" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="659" y="0" width="77" height="20"/>
+				<textElement/>
+				<text><![CDATA[Generated on :]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="354" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="39">
+			<staticText>
+				<reportElement x="0" y="0" width="860" height="22" forecolor="#FF0033"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

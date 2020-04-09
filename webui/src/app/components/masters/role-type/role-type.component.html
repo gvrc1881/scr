@@ -1,0 +1,134 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content container-fluid">
+  <div class="row">
+    <div class="col-12">
+        <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/master']">Masters </a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Roles</li>
+                </ol>
+            </nav>
+          </div>
+
+<div class="clear"> </div>
+      <div class="row-fluid">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Role Information</div>
+          <div class="panel-body">
+            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+              <!--   <div class="h1 mt-16">Role Master Information</div> -->
+              <div class="p-24">
+                <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                  <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                    <span class="mat-raised-button mat-accent" (click)="AddRole()" *ngIf="!addRole" color="accent"
+                      mat-raised-button="">
+                      Add Role
+                    </span>
+                  </div>
+
+                  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addRole" fxLayout="column"
+                    fxLayoutAlign="start" [formGroup]="RoleType" fxFlex="1 0 auto" (ngSubmit)="onRoleTypeSubmit();">
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">{{title}} Role</div>
+                      <div class="panel-body">
+                        <!-- <div class="h2 mb-24">{{title}} Role</div> -->
+
+                        <div class="col-md-12">
+                          <div class="col-md-3">
+                            <mat-form-field fxFlex="30">
+                              <mat-select placeholder="Select Role Type"
+                              [formControl]="RoleType.controls['roles']" required>
+                              <mat-option *ngFor="let role of availableRolesList"
+                                  [value]="role">
+                                  {{ role }}
+                              </mat-option>
+                          </mat-select>
+                          <mat-error
+                              *ngIf="RoleType.controls['roles'].hasError('required') && RoleType.controls['roles'].touched"
+                              class="alert alert-danger">Select Role Type
+                          </mat-error>
+                            </mat-form-field>
+                          
+                             <!--  <input matInput placeholder="Role" [formControl]="RoleType.controls['roles']" />
+                              <mat-error *ngIf="RoleType.controls['roles'].hasError('required')">
+                                Enter RoleType
+                              </mat-error>
+                              <mat-error
+                                *ngIf="RoleType.controls['roles'].hasError('pattern') && RoleType.controls['roles'].touched"
+                                class="alert alert-danger">Only alphabets allowed</mat-error>
+                              <mat-error *ngIf="RoleType.controls['roles'].hasError('duplicateRoletype')"
+                                class="alert alert-danger">
+                                RoleType Already Exists
+                              </mat-error>
+                            </mat-form-field> -->
+                          </div>
+
+                          <div class="col-md-3 mt-10">
+                            <div fxFlex="10" fxLayoutAlign="center center" class="pr-5 d-inline" style="padding-bottom:10px;">
+                              <button mat-raised-button color="accent" [disabled]="RoleType.invalid"
+                                class="submit-button" aria-label="Submit">
+                                {{title}}
+                              </button></div>
+                              <div class="p-12 d-inline">
+                                  <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                    mat-raised-button="">
+                                    Close
+                                  </span>
+                                </div>
+                          </div>
+                          
+                        </div>
+                        <div [hidden]="!status" style="color:darkgreen;text-align: center">Added Successfully!!!</div>
+                      </div>
+
+                    </div>
+                  </form>
+
+                </div>
+                <div class="example-header">
+                  <div class="col-sm-4">
+                  <mat-form-field>
+                    <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+                </div>
+                <div class="clear"> </div>
+                <div class="mat-elevation-z8">
+                  <mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="sno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="role">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (click)="getRoleTypePermissons(row.id)" style="cursor: pointer">
+                        {{row.roleType}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <a mat-icon-button matTooltip="Edit" *ngIf="editPermission" (click)="editRoleType(row.id)">
+                          <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                        </a>
+                        <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission" (click)="deleteRole(row.id)">
+                          <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </mat-row>
+                  </mat-table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

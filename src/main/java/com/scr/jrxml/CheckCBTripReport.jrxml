@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CB_TripWithMainlineReport" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="63782d9c-aa53-4493-b84a-b6a71f1bd691">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="failureFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="failureToDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+type_of_failure,
+to_char(f.from_date_time, 'yyyy-mm-dd')  AS Date1,sub_division,
+facility_name,
+asset_id,count(asset_id)as count,
+created_date,
+equipment,
+relay_indication ,
+count(*) daily_count,
+SUM(EXTRACT(DAY FROM(thru_date_time - from_date_time))*24*60+ EXTRACT(HOUR FROM(thru_date_time - from_date_time))*60+ EXTRACT(MINUTE FROM(thru_date_time - from_date_time)) )
+failure_duration_min ,
+cause_of_failure,
+nature_of_closure,
+fault_distance,
+x_value ,
+current,
+r_value,
+f.internal_external,
+voltage,
+f.remarks,
+f.cascade_assets,
+to_char(f.from_date_time, 'HH24:MI')as trip_from_time,
+to_char(f.thru_date_time, 'HH24:MI')as trip_thru_time,
+ date_part('year'::text, from_date_time) AS year1,
+  date_part('month'::text, from_date_time) AS month1,
+    date_part('week'::text, from_date_time) AS week1,
+    f.facility_id ,  facility_type_id, depot_type , sub_station ,
+ CASE
+   WHEN ( ( extract(month from from_date_time) = 1) or (extract(month from from_date_time) = 2 ) or (extract(month from from_date_time) = 3)  )then
+    TRIM(TO_char(extract(year from (from_date_time - interval '1 year')::date),'9999'))||'-'||TRIM(To_char(mod(extract(year from (from_date_time))::integer, 100), '99'))
+   WHEN
+	(
+	( extract(month from from_date_time) = 4) or (extract(month from from_date_time) = 5 ) or (extract(month from from_date_time) = 6)  or
+	( extract(month from from_date_time) = 7) or (extract(month from from_date_time) = 8 ) or (extract(month from from_date_time) = 9)  or
+	( extract(month from from_date_time) = 10) or (extract(month from from_date_time) = 11 ) or (extract(month from from_date_time) = 12)
+	)then
+	TRIM(TO_char(extract(year from from_date_time),'9999'))||'-'||TRIM(To_char(mod(extract(year from (from_date_time + interval '1 year')::date)::integer, 100), '99'))
+   END AS FY
+from failures f
+LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
+where
+to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{failureFromDate} ::date
+and to_char(f.thru_date_time, 'yyyy-mm-dd')::date <=$P{failureToDate} ::date
+and type_of_failure ='POWER_FAILURE'
+and current_status = 'ACTIVE'
+
+Group by asset_id, year1, month1, week1, date1, FY, type_of_failure , f.facility_id ,sub_division, facility_name, facility_type_id, depot_type , sub_station , cause_of_failure, nature_of_closure ,
+to_char(f.from_date_time, 'HH24:MI'),to_char(f.thru_date_time, 'HH24:MI'),fault_distance, equipment,relay_indication ,
+x_value ,
+r_value,current,voltage,f.remarks,f.cascade_assets,f.internal_external,created_date]]>
+	</queryString>
+	<field name="type_of_failure" class="java.lang.String"/>
+	<field name="date1" class="java.lang.String"/>
+	<field name="sub_division" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="asset_id" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<field name="created_date" class="java.sql.Timestamp"/>
+	<field name="equipment" class="java.lang.String"/>
+	<field name="relay_indication" class="java.lang.String"/>
+	<field name="daily_count" class="java.lang.Long"/>
+	<field name="failure_duration_min" class="java.lang.Double"/>
+	<field name="cause_of_failure" class="java.lang.String"/>
+	<field name="nature_of_closure" class="java.lang.String"/>
+	<field name="fault_distance" class="java.lang.String"/>
+	<field name="x_value" class="java.lang.String"/>
+	<field name="current" class="java.lang.String"/>
+	<field name="r_value" class="java.lang.String"/>
+	<field name="internal_external" class="java.lang.String"/>
+	<field name="voltage" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="cascade_assets" class="java.lang.String"/>
+	<field name="trip_from_time" class="java.lang.String"/>
+	<field name="trip_thru_time" class="java.lang.String"/>
+	<field name="year1" class="java.lang.Double"/>
+	<field name="month1" class="java.lang.Double"/>
+	<field name="week1" class="java.lang.Double"/>
+	<field name="facility_id" class="java.lang.String"/>
+	<field name="facility_type_id" class="java.lang.String"/>
+	<field name="depot_type" class="java.lang.String"/>
+	<field name="sub_station" class="java.lang.String"/>
+	<field name="fy" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="56" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="555" height="30" uuid="16676c4b-67d2-4006-863c-1f6961bfe5e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="555" height="26" uuid="88b410c6-d3fb-4bcf-bb08-b88c82b00b6e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="35">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="35" uuid="33d2da88-31d1-4faa-8da9-36cd5f90cf02"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CB No./     Check CB No.
+]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="80" height="35" uuid="236d52cd-88dc-4b57-b140-c71ac41eb863"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="80" height="20" uuid="07f1a6b0-b572-494a-bf86-162372f149b0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="20" uuid="9b982b6f-98b8-4123-8556-8b83ca486a57"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{asset_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="453" y="0" width="102" height="20" uuid="a473911d-6fa2-4c91-8c6b-2b5e80cc9f5c"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="166" y="0" width="76" height="20" uuid="370b1fb0-edb4-4baf-a3ba-1067f0317b23"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="242" y="0" width="111" height="20" uuid="79f80b87-d63a-4fee-a9eb-6f3f6d11dc82"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="0" width="100" height="20" uuid="bb2ecfb8-e131-48f2-ae37-63e6be7cdfc6"/>
+				<text><![CDATA[Generated On:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="34" forecolor="#FF0000" uuid="2da154bc-7b59-472f-b2e6-0dafbb28bbe3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

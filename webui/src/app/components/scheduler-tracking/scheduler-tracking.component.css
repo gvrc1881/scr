@@ -1,0 +1,23 @@
+
+
+mar-row .mat-cell{     
+    word-break: break-all;
+    padding: 7px 15px;
+}
+
+mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 15px !important;
+}
+
+.admin-scheduler-panel .panel-primary>.panel-heading{ 
+    color: #fff;
+    background-color:#5dbae8  !important;
+    border-color: #5dbae8  !important;
+}
+.admin-scheduler-panel .mat-header-cell{
+    background: #5dbae8  !important;
+    
+    color: #000 !important;
+
+
+}

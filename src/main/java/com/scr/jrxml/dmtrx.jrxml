@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dmtr" pageWidth="2000" pageHeight="1000" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="392"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="DepotName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonFromDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CommonThruDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[(((select
+iid.effective_date as effective_Date,
+case when it.advice_note_no is not null   then it.advice_note_no end as Receipt_issue_voucher,
+it.receive_date  as Receipt_date,
+--it.send_date,it.status_id,
+ii.product_id as PL_NO,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff < '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityIssued,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id) as Received_from,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id_to) as Issued_to
+from
+inventory_item ii,inventory_item_detail iid,inventory_transfer it,facility f
+where
+f.facility_name=$P{DepotName}
+and
+ii.inventory_item_id = iid.inventory_item_id
+and
+iid.inventory_item_id = it.inventory_item_id
+and it.status_id ='IXF_COMPLETE'
+and  it.facility_id != it.facility_id_to
+and iid.quantity_on_hand_diff = iid.available_to_promise_diff
+and iid.quantity_on_hand_diff > '0'
+and f.facility_id =it.facility_id_to
+and it.advice_note_no is not null
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonThruDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <=$P{CommonThruDate}  ) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >= $P{CommonFromDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) else (iid.EFFECTIVE_DATE >= $P{CommonFromDate}) end))
+order by effective_Date desc
+)
+-------------------------------------
+union all
+-------------------------------------
+(select
+iid.effective_date as effective_Date,
+case when it.challan_no is not null   then it.challan_no end as Receipt_issue_voucher,
+it.receive_date  as Receipt_date,
+--it.send_date,it.status_id,
+ii.product_id as PL_NO,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff < '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityIssued,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id) as Received_from,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id_to) as Issued_to
+from
+inventory_item ii,inventory_item_detail iid,inventory_transfer it,facility f
+where
+f.facility_name=$P{DepotName}
+and
+ii.inventory_item_id = iid.inventory_item_id
+and
+iid.inventory_item_id = it.inventory_item_id
+and it.status_id ='IXF_COMPLETE'
+and  it.facility_id != it.facility_id_to
+and iid.quantity_on_hand_diff = iid.available_to_promise_diff
+and iid.quantity_on_hand_diff > '0'
+and f.facility_id =it.facility_id_to
+and it.challan_no is not null
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonThruDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <=$P{CommonThruDate}  ) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >= $P{CommonFromDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) else (iid.EFFECTIVE_DATE >= $P{CommonFromDate}) end))
+order by effective_Date desc
+)
+-------------------------------------
+union all
+-------------------------------------
+(select
+iid.effective_date as effective_Date,
+case when it.challan_no is not null   then it.challan_no end as Receipt_issue_voucher,
+it.receive_date  as Receipt_date,
+--it.send_date,it.status_id,
+ii.product_id as PL_NO,
+case when iid.quantity_on_hand_diff < '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityIssued,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id) as Received_from,
+(select consignee from  user_defualt_fac_cons_ind_etc  udf where  udf.facility_id=it.facility_id_to) as Issued_to
+from
+inventory_item ii,inventory_item_detail iid,inventory_transfer it,facility f
+where
+f.facility_name=$P{DepotName}
+and
+ii.inventory_item_id = iid.inventory_item_id
+and
+iid.inventory_item_id = it.inventory_item_id
+and it.status_id ='IXF_COMPLETE'
+and  it.facility_id != it.facility_id_to
+and iid.quantity_on_hand_diff = iid.available_to_promise_diff
+and f.facility_id =it.facility_id
+and iid.quantity_on_hand_diff > '0'
+and it.challan_no is not null
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<= $P{CommonThruDate} limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <= $P{CommonThruDate} ) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName}  and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >= $P{CommonFromDate} limit 1) is null) then
+(iid.EFFECTIVE_DATE >= $P{CommonFromDate}) else (iid.EFFECTIVE_DATE >= $P{CommonFromDate}) end))
+--------------------------------------// end inter-transfer
+union all
+-------------------------------------// start Non-stock-items
+(select
+case when iid.order_id is not null   then iid.effective_date end as effective_Date,
+case when iid.order_id is not null   then iid.order_id end as Receipt_issue_voucher,
+case when iid.order_id is not null and iid.order_id= oh.order_id   then oh.order_date end as  Receipt_date,
+case when iid.order_id is not null   then ii.product_id end as  PL_NO,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff < '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityIssued,
+case when iid.order_id is not null  then
+         (select group_name from party_group  where party_id  in
+         (select distinct(bill_from_party_id) from order_header oh   where iid.order_id = oh.order_id
+								     and  iid.quantity_on_hand_diff >'0')) end as Received_from,
+case when iid.order_id is not null then
+        (select group_name from party_group  where party_id  in
+        (select bill_from_party_id from order_header oh where iid.order_id = oh.order_id
+					                   and  iid.quantity_on_hand_diff <'0' ))	end as Issued_to
+from
+inventory_item ii,inventory_item_detail iid,facility f,order_header oh
+where
+ii.inventory_item_id = iid.inventory_item_id
+and
+oh.order_id = iid.order_id
+and
+f.facility_id=ii.facility_id
+and
+f.facility_name=$P{DepotName}
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonThruDate} limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <= $P{CommonThruDate} ) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName}  and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >=$P{CommonFromDate}   limit 1) is null) then
+(iid.EFFECTIVE_DATE >= $P{CommonFromDate}) else (iid.EFFECTIVE_DATE >=$P{CommonFromDate}) end)
+)
+--------------------------------------// end Non-stock items
+union all
+--------------------------------------// start stock items
+(select
+case when  iid.voucher_no is not null  then iid.effective_date end as effective_Date,
+case when  iid.voucher_no is not null  then iid.voucher_no end as Receipt_issue_voucher,
+case when  iid.voucher_no is not null  then iid.effective_date end as  Receipt_date,
+case when  iid.voucher_no is not null   then ii.product_id end as  PL_NO,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff < '0' then round((-(iid.quantity_on_hand_diff)),3)  end as QuantityIssued,
+case  when iid.voucher_no is not null  then
+        (select distinct supplier_depot from requirement req where voucher_no in  (select distinct(voucher_no) from inventory_item_detail
+        where iid.voucher_no = req.voucher_no and  iid.quantity_on_hand_diff >'0'  ))	end as Received_from,
+case    when iid.voucher_no is not null  then
+        (select distinct supplier_depot from requirement req where voucher_no in  (select distinct(voucher_no) from inventory_item_detail
+        where iid.voucher_no = req.voucher_no and  iid.quantity_on_hand_diff <'0'  ))  end as Issued_to
+from
+inventory_item ii,
+inventory_item_detail iid,
+facility f
+where ii.inventory_item_id = iid.inventory_item_id
+and iid.voucher_no is not null
+and ii.facility_id=f.facility_id
+and f.facility_name=$P{DepotName}
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonThruDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <= $P{CommonThruDate}) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >=$P{CommonFromDate} limit 1) is null) then
+(iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) else (iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) end)
+)
+-------------------------------------// end stock-items
+union all
+-------------------------------------// start work_effort
+(select
+case when iid.work_effort_id is not null then iid.effective_date end as effective_Date,
+case when iid.work_effort_id is not null then (select work_effort_parent_id from work_effort we where we.work_effort_id = iid.work_effort_id ) end as Receipt_issue_voucher,
+case when iid.work_effort_id is not null then iid.effective_date end as Receipt_date,
+case when iid.work_effort_id is not null then ii.product_id end as PL_NO,
+case when iid.quantity_on_hand_diff > '0' then round((iid.quantity_on_hand_diff),3)  end as QuantityReceived,
+case when iid.quantity_on_hand_diff < '0' then round((-(iid.quantity_on_hand_diff)),3)  end as QuantityIssued,
+case when iid.work_effort_id is not null then
+      (select distinct work_effort_name from work_effort we where work_effort_id in (select work_effort_id from inventory_item_detail iid where iid.work_effort_id=we.work_effort_id and  iid.quantity_on_hand_diff >'0')) end as Received_from,
+case when iid.work_effort_id is not null  then
+     (select distinct work_effort_name from work_effort we where work_effort_id in (select work_effort_id from inventory_item_detail iid  where iid.work_effort_id=we.work_effort_id and  iid.quantity_on_hand_diff <'0' )) end as Issued_to
+from
+inventory_item ii,
+inventory_item_detail iid,
+facility f
+where
+ii.inventory_item_id = iid.inventory_item_id
+and iid.work_effort_id is not null
+and ii.facility_id=f.facility_id
+and f.facility_name=$P{DepotName}
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName} and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE<=$P{CommonThruDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE<=$P{CommonThruDate})else (iid.EFFECTIVE_DATE <= $P{CommonThruDate} ) end)
+and
+(case when((select effective_Date from inventory_item_detail iid,inventory_item ii,facility f where f.facility_name=$P{DepotName}  and
+ii.INVENTORY_ITEM_ID=iid.INVENTORY_ITEM_ID AND EFFECTIVE_DATE >= $P{CommonFromDate}  limit 1) is null) then
+(iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) else (iid.EFFECTIVE_DATE >=$P{CommonFromDate} ) end)
+)
+order by effective_Date desc]]>
+	</queryString>
+	<field name="effective_date" class="java.sql.Timestamp"/>
+	<field name="receipt_issue_voucher" class="java.lang.String"/>
+	<field name="receipt_date" class="java.sql.Timestamp"/>
+	<field name="pl_no" class="java.lang.String"/>
+	<field name="quantityreceived" class="java.math.BigDecimal"/>
+	<field name="quantityissued" class="java.math.BigDecimal"/>
+	<field name="received_from" class="java.lang.String"/>
+	<field name="issued_to" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA[$V{COLUMN_COUNT}.toString()]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="771" y="-1" width="230" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOUTH CENTRAL RAILWAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="716" y="57" width="384" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily Material Transaction Register]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="37" width="1960" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="1079" y="17" width="31" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ED/ID]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="148" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="26" width="40" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="26" width="142" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of
+Transaction]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="26" width="356" height="74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reference to reciept
+Issue Voucher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="103" width="165" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="102" width="192" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="24" width="345" height="76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Full particulars of material
+ Recieved or Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="102" width="45" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Class]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="587" y="102" width="156" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PL NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="744" y="104" width="71" height="41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomen
+ Clature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="817" y="104" width="70" height="41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[New ,Second-
+hand,scrap]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="889" y="28" width="111" height="118"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity Recieved]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1001" y="24" width="99" height="122"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1101" y="24" width="249" height="75"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recieved & Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1104" y="101" width="129" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[From]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1249" y="100" width="100" height="46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1350" y="26" width="250" height="119"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reference to ledger/Imprest Material at site, etc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1601" y="24" width="249" height="121"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1851" y="27" width="108" height="120"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Intital of
+P.W.L]]></text>
+			</staticText>
+			<line>
+				<reportElement x="40" y="26" width="1" height="121"/>
+			</line>
+			<line>
+				<reportElement x="182" y="26" width="1" height="121"/>
+			</line>
+			<line>
+				<reportElement x="540" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="887" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1000" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1100" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1349" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1600" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="1850" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="183" y="101" width="706" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1101" y="100" width="248" height="1"/>
+			</line>
+			<line>
+				<reportElement x="347" y="102" width="1" height="45"/>
+			</line>
+			<line>
+				<reportElement x="587" y="101" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="743" y="102" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="817" y="101" width="1" height="46"/>
+			</line>
+			<line>
+				<reportElement x="1233" y="100" width="1" height="47"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1960" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1959" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1" height="122"/>
+			</line>
+			<line>
+				<reportElement x="0" y="147" width="1960" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement x="182" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="40" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="887" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1100" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="1000" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="1600" y="0" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="1850" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="347" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="587" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="819" y="-1" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="743" y="0" width="1" height="53"/>
+			</line>
+			<line>
+				<reportElement x="0" y="52" width="1960" height="1"/>
+			</line>
+			<line>
+				<reportElement x="11060" y="1" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1233" y="-1" width="1" height="54"/>
+			</line>
+			<line>
+				<reportElement x="540" y="0" width="1" height="52"/>
+			</line>
+			<line>
+				<reportElement x="1959" y="-1" width="1" height="53"/>
+			</line>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="41" y="1" width="141" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{effective_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="588" y="1" width="155" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pl_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="889" y="2" width="111" height="51"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityreceived}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1001" y="1" width="99" height="51"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantityissued}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="40" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1236" y="1" width="364" height="51"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{issued_to}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1104" y="0" width="129" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{received_from}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="348" y="2" width="192" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{receipt_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="194" y="2" width="153" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{receipt_issue_voucher}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="898" y="33" width="81" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated on :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="979" y="33" width="100" height="17"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="887" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="567" y="17" width="253" height="33"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

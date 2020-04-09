@@ -1,0 +1,8 @@
+<div class="dialog-box">
+<h1 matDialogTitle>Confirm</h1>
+<div mat-dialog-content><p>{{confirmMessage}}</p></div>
+<div mat-dialog-actions class="pt-24">
+    <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close(true)">Confirm</button>&nbsp;&nbsp;
+    <button mat-button class="mat-raised-button mat-warn" (click)="dialogRef.close(false)">Cancel</button>
+</div>
+</div>

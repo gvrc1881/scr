@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MQFPTI" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="580" leftMargin="8" rightMargin="7" topMargin="7" bottomMargin="7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+  ROW_NUMBER() OVER(ORDER BY 'req_id') AS SNO,
+  requirement.REQUIREMENT_ID as Req_id,
+ requirement.QUANTITY as App_Qty,
+  requirement.REQUIRED_BY_DATE as Req_Date,
+  to_char(requirement.REQUIRED_BY_DATE,'YYYY-MM-DD')as pendingDays,
+  requirement.LAST_UPDATED_STAMP as App_Date
+  from requirement requirement
+  where requirement.STATUS_ID='REQ_APPROVED']]>
+	</queryString>
+	<field name="sno" class="java.lang.Long"/>
+	<field name="req_id" class="java.lang.String"/>
+	<field name="app_qty" class="java.math.BigDecimal"/>
+	<field name="req_date" class="java.sql.Timestamp"/>
+	<field name="pendingdays" class="java.lang.String"/>
+	<field name="app_date" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="95" splitType="Stretch">
+			<line>
+				<reportElement x="-8" y="93" width="598" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="136" y="5" width="366" height="40"/>
+				<textElement>
+					<font fontName="Times New Roman" size="19" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Ltd, Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="47" width="364" height="27"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Material Quantity  Due to Pending P.O Released
+]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="499" y="7" width="81" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement x="-10" y="19" width="600" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="503" y="3" width="87" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<text><![CDATA[pendingdays]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="154" y="3" width="113" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<text><![CDATA[req_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="3" width="33" height="13"/>
+				<textElement/>
+				<text><![CDATA[sno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="2" width="53" height="14"/>
+				<textElement/>
+				<text><![CDATA[req_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="0" width="75" height="20"/>
+				<textElement/>
+				<text><![CDATA[app_qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="0" width="74" height="20"/>
+				<textElement/>
+				<text><![CDATA[app_date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="12" width="573" height="1" forecolor="#333333"/>
+			</line>
+			<textField>
+				<reportElement x="3" y="0" width="33" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="1" width="53" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{req_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="292" y="0" width="36" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{app_qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{app_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="-2" width="78" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{req_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="498" y="0" width="75" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pendingdays}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<line>
+				<reportElement x="-10" y="2" width="600" height="1"/>
+			</line>
+			<textField evaluationTime="Report">
+				<reportElement x="521" y="32" width="22" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="498" y="32" width="12" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="510" y="32" width="10" height="14"/>
+				<textElement/>
+				<text><![CDATA[of]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

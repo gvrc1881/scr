@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-12">
+        <div class="row-fluid">
+                <div class="close-box">
+                        <div mat-dialog-actions class="pt-24 ">                        
+                                <button class="mat-accent mr-16" mat-button (click)="dialogRef.close(false)"><i class="material-icons">
+                                        close
+                                        </i>
+                                    </button>
+                        </div>
+                </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Division Information for {{type}}</div>
+                <div class="panel-body">
+                    <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                        <div class="p-24">
+                            <div class="example-header">
+                                <mat-form-field>
+                                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="example-container mat-elevation-z8">
+
+                                <mat-table [dataSource]="schedulerDataSource" matSort>
+
+                                    <ng-container matColumnDef="sno">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100px">Sno.
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="operationType">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Operation Type
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.operationType}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tableName">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Table Name
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.tableName}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="updatedDate">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Processed Date
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            {{row.updatedDate | date:'yyyy-MM-dd HH:mm:ss' }}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="updatedRecords">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Updated Records
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.updatedRecords}}</mat-cell>
+                                    </ng-container>
+                                  <!--   <ng-container matColumnDef="validateMatch">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Validate Match
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.validateMatch}}</mat-cell>
+                                    </ng-container> -->
+
+                                    <ng-container matColumnDef="status">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
+                                    </ng-container>
+
+                                    <mat-header-row *matHeaderRowDef="schedulerDisplayedColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: schedulerDisplayedColumns;">
+                                    </mat-row>
+                                </mat-table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20, 100,500,1000]"></mat-paginator>
+                            </div>
+                        </div>
+                        <br>
+                      <div mat-dialog-actions class="pt-24 text-right">                        
+                            <button class="mat-accent mr-16" mat-button (click)="dialogRef.close(false)">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

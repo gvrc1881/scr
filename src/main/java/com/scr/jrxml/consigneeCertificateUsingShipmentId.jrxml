@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="consigneeCertificate" pageWidth="650" pageHeight="700" whenNoDataType="NoDataSection" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="288"/>
+	<parameter name="OrderId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="shipmentId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+' '||s.supplier_bill_no||'   '||to_char(s.supplier_bill_date,'dd/mm/yyyy') as supplier_bill_date,
+' '||oh.order_id||'   '||to_char(oh.order_date,'dd/mm/yyyy') as orderId,
+' '||p.internal_name as description,
+' '||round(oi.quantity,3) as qty_ordered,
+' '||round(iis.quantity,3) as qty_recvd,
+' '||to_char(oi.ship_before_date,'dd/mm/yyyy') as ship_before_date,
+' '||s.lr_number||'   '|| to_char(s.lr_date,'dd/mm/yyyy')  as lr_number,
+s.condition_of_material,
+' '||s.credit_note_no||'   '||s.amount||''||to_char(s.date ,'dd/mm/yyyy') as credit_note ,
+s.loss_due_to_late_supply_of_delay ,
+' '||s.dmtr_no||''||s.dmtr_page_no||''||s.dmtr_sno||''||s.ledger_id||''||s.ledger_page_no||''||to_char(s.ledger_date ,'dd/mm/yyyy') as accnt_particles,
+s.delivered_date,
+s.damage_weight_age_under_charge_paid,
+s.date_arrival_parcel_office,
+s.date_of_material_arrival
+from product p, order_item oi,order_header oh, item_issuance iis,shipment s
+where
+p.product_id=oi.product_id
+and
+oi.order_id=oh.order_id
+and
+oi.order_id=iis.order_id
+and
+iis.shipment_id=s.shipment_id
+and
+case when $P{OrderId} != '' then oh.order_id  = $P{OrderId}
+else oh.order_id is not null
+end
+and
+case when $P{shipmentId}!= '' then s.shipment_id = $P{shipmentId}
+else s.shipment_id is not null
+end]]>
+	</queryString>
+	<field name="supplier_bill_date" class="java.lang.String"/>
+	<field name="orderid" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="qty_ordered" class="java.math.BigDecimal"/>
+	<field name="qty_recvd" class="java.math.BigDecimal"/>
+	<field name="ship_before_date" class="java.lang.String"/>
+	<field name="lr_number" class="java.lang.String"/>
+	<field name="condition_of_material" class="java.lang.String"/>
+	<field name="credit_note" class="java.lang.String"/>
+	<field name="loss_due_to_late_supply_of_delay" class="java.lang.String"/>
+	<field name="accnt_particles" class="java.lang.String"/>
+	<field name="delivered_date" class="java.sql.Timestamp"/>
+	<field name="damage_weight_age_under_charge_paid" class="java.lang.String"/>
+	<field name="date_arrival_parcel_office" class="java.sql.Timestamp"/>
+	<field name="date_of_material_arrival" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="0" width="266" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CONSIGNEE CERTIFICATE BY SHIPMENTID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="0" width="77" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="500" y="0" width="110" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="569" splitType="Stretch">
+			<line>
+				<reportElement x="51" y="3" width="1" height="565"/>
+			</line>
+			<line>
+				<reportElement x="590" y="3" width="1" height="565"/>
+			</line>
+			<staticText>
+				<reportElement x="71" y="4" width="280" height="28"/>
+				<textElement markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Supplier's Bill No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="33" width="280" height="33"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Purchase order No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="67" width="280" height="40"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Description of Material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="108" width="280" height="27"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Quantity orderd]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="136" width="280" height="25"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Quantity received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="163" width="280" height="24"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Due Date of delivery]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="249" width="280" height="23"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Condition of materials received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="273" width="280" height="35"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Date of material recived by the Consignee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="309" width="280" height="45"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;If fright paid by the Railway, the The credit Note No.  Date &nbsp;and Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="355" width="280" height="61"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Whether there is any loss or Inconvenient caused to the &nbsp;Railway due to&nbsp; the late supply of &nbsp;Materials]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="417" width="280" height="30"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Date of consignment arrived at Goods shed / parcel &nbsp;office]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="448" width="280" height="57"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Account particulars]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="506" width="280" height="32"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;Date of consignment taken Delivary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="539" width="280" height="29"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;If any damage, weight age under Charge &nbsp;paid ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="52" y="32" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="107" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="135" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="51" y="161" width="539" height="2"/>
+			</line>
+			<line>
+				<reportElement x="52" y="187" width="539" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="72" y="188" width="280" height="60"/>
+				<textElement markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[&nbsp;&nbsp;RP/PWB/LR  No. And date under Which consignment &nbsp;is &nbsp;Recived at The destination]]></text>
+			</staticText>
+			<line>
+				<reportElement x="52" y="248" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="308" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="354" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="416" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="447" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="505" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="538" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="350" y="3" width="1" height="565"/>
+			</line>
+			<line>
+				<reportElement x="72" y="3" width="1" height="565"/>
+			</line>
+			<staticText>
+				<reportElement x="52" y="4" width="20" height="28"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="33" width="20" height="33"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="67" width="20" height="40"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="108" width="20" height="27"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="136" width="20" height="25"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="163" width="20" height="24"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="188" width="20" height="60"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="249" width="20" height="23"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="273" width="20" height="35"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="309" width="20" height="45"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="355" width="20" height="61"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="417" width="20" height="30"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="448" width="20" height="57"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[13]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="506" width="20" height="32"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[14]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="539" width="20" height="29"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[15]]></text>
+			</staticText>
+			<line>
+				<reportElement x="52" y="272" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="66" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="52" y="568" width="539" height="1"/>
+			</line>
+			<line>
+				<reportElement x="51" y="3" width="539" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="4" width="240" height="28"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{supplier_bill_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="351" y="33" width="240" height="34"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{orderid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="67" width="240" height="40"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="108" width="240" height="28"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{qty_ordered}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="136" width="240" height="25"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{qty_recvd}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="163" width="240" height="24"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ship_before_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="188" width="240" height="60"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{lr_number}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="248" width="240" height="24"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{condition_of_material}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="309" width="240" height="45"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{credit_note}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="355" width="240" height="61"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{loss_due_to_late_supply_of_delay}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="506" width="240" height="32"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{delivered_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="539" width="240" height="29"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{damage_weight_age_under_charge_paid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="448" width="240" height="57"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{accnt_particles}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="273" width="240" height="35"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_of_material_arrival}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="416" width="240" height="31"/>
+				<textElement/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date_arrival_parcel_office}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="52" y="0" width="207" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signature of the certifying Supervisor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="96" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ADEE/TRD/SKZR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="299" y="0" width="55" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="354" y="0" width="39" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="610" height="25" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

@@ -1,0 +1,19 @@
+
+                   <ng4-loading-spinner> </ng4-loading-spinner>
+                   <div class="content">
+                       <div class="">
+                      
+                   <div class="row-fluid">
+                       <div class="panel panel-primary">
+  <mat-grid-list cols="3" rowHeight="4.5:0.4"><ul   *ngFor="let item of dailyReportData" >
+        
+       <a [routerLink]="['/reportParameterDisplay',item.reportId]" routerLinkActive="router-link-active"> <!-- (click)="data(item)"--> 
+         <mat-grid-tile >{{item.reportId | uppercase}}</mat-grid-tile></a></ul>
+        </mat-grid-list>
+        </div>
+  </div>
+ </div>
+ </div>
+
+
+

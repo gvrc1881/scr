@@ -1,0 +1,257 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+                <div class="breadcrumb-section">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                                    <li class="breadcrumb-item"><a [routerLink]="['/master']">Masters </a></li>
+                                      <li class="breadcrumb-item active" aria-current="page">Users</li>
+                            </ol>
+                        </nav>
+                      </div>
+            
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">User Master Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Add User Form</div>
+                                <div class="panel-body">
+                                    <!-- <div class="h1 mt-12">Add User Form</div> -->
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="users" (ngSubmit)="onUserFormSubmit();">
+                                                <!-- <div class="h2 mb-24">User Details</div> -->
+
+                                                <div class="col-md-12">
+                                                    <!--Repository Name-->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="User Name"
+                                                                size="12" maxlength="12"
+                                                                [formControl]="users.controls['userName']" required>
+                                                            <mat-error
+                                                                *ngIf="users.controls['userName'].hasError('required') && users.controls['userName'].touched"
+                                                                class="alert alert-danger">Enter UserName</mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['userName'].hasError('minlength') && users.controls['userName'].touched"
+                                                                class="alert alert-danger">User Name minimum of 3
+                                                                charecters
+                                                            </mat-error>
+
+                                                            <mat-error
+                                                                *ngIf="users.controls['userName'].hasError('pattern') && users.controls['userName'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+
+                                                        </mat-form-field>
+                                                    </div>
+
+                
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="First Name" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="users.controls['firstName']" required>
+                                                            <mat-error
+                                                                *ngIf="users.controls['firstName'].hasError('required') && users.controls['firstName'].touched"
+                                                                class="alert alert-danger">Enter FirstName</mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['firstName'].hasError('pattern') && users.controls['firstName'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Last Name" size="12"
+                                                                maxlength="12"
+                                                                [formControl]="users.controls['lastName']" required>
+                                                            <mat-error
+                                                                *ngIf="users.controls['lastName'].hasError('required') && users.controls['lastName'].touched"
+                                                                class="alert alert-danger">Enter LastName.</mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['lastName'].hasError('pattern') && users.controls['lastName'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Gender"
+                                                                [formControl]="users.controls['gender']">
+                                                                <mat-option *ngFor="let gender of genders"
+                                                                    [value]="gender.ID">
+                                                                    {{ gender.Gender}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="users.controls['gender'].hasError('required') && users.controls['gender'].touched"
+                                                                class="alert alert-danger">Select Gender</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Email" [readonly]="checkInput"
+                                                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                                                formControlName="email" required
+                                                                [formControl]="users.controls['email']">
+                                                            <mat-error
+                                                                *ngIf="users.controls['email'].hasError('required') && users.controls['email'].touched"
+                                                                class="alert alert-danger">
+                                                                Email is required
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['email'].hasError('pattern')  && users.controls['email'].touched">
+                                                                Please enter a valid email address
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['email'].hasError('emailValidation')">
+                                                                Email already exits
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Mobile Number"
+                                                                (keypress)="keyPress($event)" size="10" maxlength="12"
+                                                                [formControl]="users.controls['mobilenum']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="users.controls['mobilenum'].hasError('required') && users.controls['mobilenum'].touched"
+                                                                class="alert alert-danger">Enter Mobile Number
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['mobilenum'].hasError('minlength') && users.controls['mobilenum'].touched"
+                                                                class="alert alert-danger">Mobile Number Minimum 10
+                                                                digits
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['mobilenum'].hasError('maxlength') && users.controls['mobilenum'].touched"
+                                                                class="alert alert-danger">Mobile Number Maximum 10
+                                                                digits
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3" *ngIf="saveUser">
+                                                        <mat-form-field fxFlex="30" >
+                                                            <input matInput placeholder="Password" type="password"
+                                                                size="15" maxlength="15"
+                                                                pattern="^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^!&*+=]).*$"
+                                                                [formControl]="users.controls['password']">
+                                                            <mat-error
+                                                                *ngIf="users.controls['password'].hasError('required') && users.controls['password'].touched"
+                                                                class="alert alert-danger">Enter Password</mat-error>
+                                                            <mat-error
+                                                                *ngIf="users.controls['password'].hasError('minlength') && users.controls['password'].touched"
+                                                                class="alert alert-danger">Password contain minimum 8
+                                                                charecters</mat-error>
+                                                             <mat-error
+                                                                *ngIf="users.controls['password'].hasError('pattern') && users.controls['password'].touched"
+                                                                class="alert alert-danger">Your password must contain at least one uppercase, one lowercase, one number and one special character</mat-error> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Role" [disabled] ="!rolePermission"
+                                                                [formControl]="users.controls['role']">
+                                                                <mat-option *ngFor="let role of rolesList"
+                                                                    [value]="role.id">
+                                                                    {{ role.roleType }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="users.controls['role'].hasError('required') && users.controls['role'].touched"
+                                                                class="alert alert-danger">Select Role</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3">
+
+                                                        <mat-form-field fxFlex="30">
+
+                                                            <mat-select placeholder="Select Department"  [disabled] ="!rolePermission"
+                                                                [formControl]="users.controls['department']">
+                                                                <mat-option *ngFor="let department of departmentList"
+                                                                    [value]="department.departmentId">
+                                                                    {{ department.departmentName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="users.controls['department'].hasError('required') && users.controls['department'].touched"
+                                                                class="alert alert-danger">Select department</mat-error>
+
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Select Division"  [disabled] ="!rolePermission"
+                                                                [formControl]="users.controls['repositoryCode']">
+                                                                <mat-option value="All">All</mat-option>
+                                                                <mat-option *ngFor="let repository of repositoryList"
+                                                                    [value]="repository.repositoryCode">
+                                                                    {{ repository.repositoryCode }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="users.controls['repositoryCode'].hasError('required') && users.controls['repositoryCode'].touched"
+                                                                class="alert alert-danger">Select Division</mat-error>
+                                                        </mat-form-field>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-15">
+                                                         <div class="float-right" style="float: right;" >
+                                                                <button class="mat-raised-button mat-accent" color="accent" class="d-inline"
+                                                                mat-raised-button="" type="submit"
+                                                                [disabled]="users.invalid" *ngIf="saveUser">
+                                                                Submit
+                                                            </button>
+                                                            <button class="mat-raised-button mat-accent  d-inline"
+                                                                [disabled]="users.invalid" color="accent"
+                                                                mat-raised-button="" *ngIf="updateUser">
+                                                                Update
+                                                            </button>&nbsp;&nbsp;
+                                                            <span class="mat-raised-button mat-accent d-inline" (click)="onGoBack()"
+                                                                color="warn" mat-raised-button="">
+                                                                Back
+                                                            </span>
+                                                         </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
+
+                                                <div [hidden]="!status" style="color:darkgreen;text-align: center">Added
+                                                    Successfully!!!
+                                                </div>
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

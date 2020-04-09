@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mrn" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="mrnId" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct(a.product_id),row_number() over(order by a.product_id) AS SNO,a.uom,
+case when(a.qty is null) then ' ' else (select replace(cast(abs(sum(iid.quantity_on_hand_diff)) as char),'.000000','') from inventory_item_detail
+iid,inventory_item ii,mir m
+  where iid.mir_id=m.mir_id and m.ISSUED_TYPE='MIR' and iid.inventory_item_id=ii.inventory_item_id and
+iid.mir_id=m.mir_id and ii.product_id=a.product_id
+  and iid.WORK_EFFORT_ID=(select DISTINCT(WORK_EFFORT_ID) from mir where mir_id=$P{mrnId}) group by
+ii.product_id,m.ISSUED_TYPE) end as QtyDrawn,
+case when(a.qty is null) then ' ' else replace(cast(abs(a.qty) as char),'.000000','') end as QtyReturn,
+case when(a.type is null) then ' ' else (a.mir_id) end as MrnId,
+case when(a.type is null) then ' ' else to_char(a.mrnDate,'YYYY-MM-DD') end as MrnDate,
+a.internal_name,
+(SELECT distinct weoa.ORDER_ID FROM work_effort we,work_effort_order_association weoa
+where weoa.work_effort_id=we.work_effort_parent_id and we.work_effort_id=(select DISTINCT(WORK_EFFORT_ID) from mir where mir_id=$P{mrnId})) as orderid,
+(SELECT distinct wegs.product_id as project FROM work_effort we,work_effort_good_standard wegs where wegs.work_effort_id=we.work_effort_parent_id
+  and we.work_effort_id=(select DISTINCT(WORK_EFFORT_ID) from mir where mir_id=$P{mrnId})) as Project,
+(select INTERNAL_NAME from product where product_id=(SELECT distinct wegs.product_id as project FROM work_effort we,work_effort_good_standard wegs where wegs.work_effort_id=we.work_effort_parent_id
+  and we.work_effort_id=(select DISTINCT(WORK_EFFORT_ID) from mir where mir_id='3070'))) as prjectname
+
+from (select ii.product_id,sum(iid.quantity_on_hand_diff) as qty,m.ISSUED_TYPE as type,iid.mir_id,m.ISSUED_TIME as mrnDate, p.internal_name,case when(p.QUANTITY_UOM_ID is null) then ' ' else (select DESCRIPTION from uom where UOM_ID=p.QUANTITY_UOM_ID) end AS Uom
+  from inventory_item_detail iid,inventory_item ii,product p,mir m
+
+
+where iid.mir_id=m.mir_id
+  and iid.work_effort_id=m.work_effort_id
+  and m.ISSUED_TYPE='MRN'
+  and iid.inventory_item_id=ii.inventory_item_id
+  and p.product_id=ii.product_id
+  and m.mir_id=$P{mrnId}
+  and iid.WORK_EFFORT_ID=(select DISTINCT(WORK_EFFORT_ID) from mir where mir_id=$P{mrnId}) group by
+p.QUANTITY_UOM_ID,p.internal_name,m.ISSUED_TIME,iid.mir_id,ii.product_id,m.ISSUED_TYPE) a]]>
+	</queryString>
+	<field name="product_id" class="java.lang.String"/>
+	<field name="sno" class="java.lang.Long"/>
+	<field name="uom" class="java.lang.String"/>
+	<field name="qtydrawn" class="java.lang.String"/>
+	<field name="qtyreturn" class="java.lang.String"/>
+	<field name="mrnid" class="java.lang.String"/>
+	<field name="mrndate" class="java.lang.String"/>
+	<field name="internal_name" class="java.lang.String"/>
+	<field name="orderid" class="java.lang.String"/>
+	<field name="project" class="java.lang.String"/>
+	<field name="prjectname" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="145" splitType="Stretch">
+			<staticText>
+				<reportElement x="413" y="104" width="73" height="15"/>
+				<textElement/>
+				<text><![CDATA[W.O.             :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="97" width="71" height="13"/>
+				<textElement/>
+				<text><![CDATA[Project        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="36" width="246" height="18"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Material  Return  Note]]></text>
+			</staticText>
+			<!--<image>
+				<reportElement x="-4" y="-1" width="91" height="57"/>
+				<imageExpression class="java.lang.String"><![CDATA["http://192.168.1.7/snm/MIC-Electronics-logo.jpg"]]></imageExpression>
+			</image>-->
+			<staticText>
+				<reportElement x="127" y="3" width="372" height="31"/>
+				<textElement>
+					<font fontName="Times New Roman" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Limited, Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="84" width="71" height="17"/>
+				<textElement/>
+				<text><![CDATA[MRN No       :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="143" width="596" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="413" y="123" width="74" height="16"/>
+				<textElement/>
+				<text><![CDATA[Date Return  :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="503" y="-1" width="71" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="111" width="72" height="13"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Description :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="479" y="103" width="93" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{orderid}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="72" y="112" width="307" height="30"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{prjectname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="487" y="126" width="68" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mrndate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="97" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{project}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="487" y="87" width="68" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{mrnId}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="-3" y="5" width="37" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="5" width="75" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIC Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="5" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="2" width="42" height="28"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTY. Drawn]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="2" width="46" height="28"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTY . Return]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="30" width="596" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="465" y="4" width="47" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reason ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="504" y="1" width="72" height="29"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QAD Remarks With Sign.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="0" width="56" height="30"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assy Name & SI NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="41" height="30"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ctk Ref No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="6" width="40" height="18"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UOM]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="27" width="593" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="99" y="2" width="150" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{internal_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="4" width="65" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="4" width="23" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="249" y="2" width="41" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="292" y="2" width="44" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{qtydrawn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="336" y="2" width="63" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{qtyreturn}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="3" width="596" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="21" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Returned by]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="22" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Authorised by]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="21" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received by]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="43" width="596" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="12" width="100" height="12"/>
+				<textElement>
+					<font size="9" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[QAD Remarks :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="32" width="149" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[1. May be taken into stock]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="47" width="286" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[2. May be sent to supplier for replacement/rectification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="62" width="94" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[3. May be scrapped]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="63" width="195" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[4. Item(s) under inspection at QA]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="448" y="63" width="36" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="499" y="65" width="71" height="13"/>
+				<textElement/>
+				<text><![CDATA[F 039/ 2/01]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="399" y="63" width="48" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,118 @@
+<div class="content">
+     <div class="">
+    
+ <div class="row-fluid">
+      <h1>{{id  | uppercase }}</h1>
+      <form>
+          
+     <div class="panel panel-primary"> <table border="2" >   <ul *ngFor="let names of parameterData"> <div *ngIf="(names.reportId==id)">
+      <tr>
+        <td  width= 250px>{{names.parameterName}} :</td>
+     <td *ngIf="(names.parameterName=='date')"><input type="Date" name="fromDate" id="fromDate" [(ngModel)]="reportModel.fromDate"></td> 
+     <td *ngIf="(names.parameterName=='Date')"><input type="Date" name="fromDate" id="fromDate" [(ngModel)]="reportModel.fromDate"></td> 
+     <td *ngIf="(names.parameterName=='DayReadings And ConsumptionDate')"><input type="Date" name="fromDate" id="fromDate" [(ngModel)]="reportModel.fromDate"></td> 
+     <td *ngIf="(names.parameterName=='fromDate')"><input type="Date" name="fromDate" id="fromDate" [(ngModel)]="reportModel.fromDate"></td>
+     <td *ngIf="(names.parameterName=='toDate')"><input type="Date" name="toDate" id="toDate" [(ngModel)]="reportModel.toDate"></td>
+     <td *ngIf="(names.parameterName=='failureFromDate')"><input type="Date" name="failureFromDate" id="failureFromDate" [(ngModel)]="reportModel.failureFromDate"></td>
+     <td *ngIf="(names.parameterName=='failureToDate')"><input type="Date" name="failureToDate" id="failureToDate" [(ngModel)]="reportModel.failureToDate"></td>
+
+     <td *ngIf="(names.parameterName=='zone')">
+          <select name="zone" id="zone"  [(ngModel)]="reportModel.zone"  (change)="divisionCode(reportModel.zone)">
+               <option *ngFor = "let item of zoneData" [ngValue]="item">{{item.code}}</option>
+          </select>
+
+     </td>
+     
+     <td *ngIf="(names.parameterName=='division')">
+          <select name="division" id="division"  [(ngModel)]="reportModel.division"  (change)="subDivision(reportModel.division)">
+               <option *ngFor = "let item of divisionsData" [ngValue]="item">{{item.code}}</option>
+          </select>
+
+     </td>
+     <td *ngIf="(names.parameterName=='subDivision')">
+          <select name="subDivision" id="subDivision"  [(ngModel)]="reportModel.subDivision"  (change)="facility(reportModel.subDivision)">
+               <option *ngFor = "let item of subDivisionData" [ngValue]="item">{{item.code}}</option>
+          </select>
+
+     </td>
+     <td *ngIf="(names.parameterName=='depot')">
+          <select name="facilityName" id="facilityName"  [(ngModel)]="reportModel.facility"  >
+               <option *ngFor = "let item of facilityId" [ngValue]="item">{{item.facilityName}}</option>
+          </select>
+    
+     </td>
+     <td *ngIf="(names.parameterName=='department')">
+          <select name="department" id="department"  [(ngModel)]="reportModel.department"  >
+               <option *ngFor = "let item of department" [ngValue]="item">{{item.department}}</option>
+          </select>
+
+     </td>
+     <td *ngIf="(names.parameterName=='observationCategory')">
+          <select name="observationCategory" id="observationCategory"  [(ngModel)]="reportModel.observationCategory"  >
+               <option *ngFor = "let observationCategory of observationCategory" [ngValue]="observationCategory">{{observationCategory.observationCategory}}</option>
+          </select>
+
+     </td>
+     <td *ngIf="(names.parameterName=='scheduleType')">
+          <select name="scheduleCode" id="scheduleCode"  [(ngModel)]="reportModel.scheduleCode" (change)="schAssetIdAndType(reportModel.scheduleCode)">
+               <option *ngFor = "let item of schedule" [ngValue]="item">{{item.scheduleCode}}</option>
+          </select>    
+     </td>
+     <td *ngIf="(names.parameterName=='assetType')">
+          <select name="assetType" id="assetType"  [(ngModel)]="reportModel.productId"  (change)="schAssetType(reportModel.productId)" >
+               <option *ngFor = "let item of assetType" [ngValue]="item"   >{{item.productId}}</option>
+          </select>
+    
+     </td>
+     
+     <td *ngIf="(names.parameterName=='assetId')">
+          <select name="assetId" id="assetId"  [(ngModel)]="reportModel.assetId"  >
+               <option *ngFor = "let item of assetId" [ngValue]="item">{{item.assetId}}</option>
+          </select>
+     </td>
+     <td *ngIf="(names.parameterName=='scheduleDate')">
+          <select name="scheduleDate" id="scheduleDate"  [(ngModel)]="reportModel.scheduleDate" >
+               <option *ngFor = "let item of assetId" [ngValue]="item.scheduleDate">{{item.scheduleDate}}</option>
+          </select>
+     </td>
+     
+     <td *ngIf="(names.parameterName=='SwitchType')">
+          <select name="pbSwitchType" id="pbSwitchType"  [(ngModel)]="reportModel.pbSwitchType" >
+               <option *ngFor = "let item of pbSwitchType" [ngValue]="item">{{item}}</option>
+          </select>
+     </td>
+     <td *ngIf="(names.parameterName=='elementarySection')">
+          <select name="pbExtentCode" id="pbExtentCode"  [(ngModel)]="reportModel.pbExtentCode" >
+               <option *ngFor = "let item of pbSwitchControlData" [ngValue]="item">{{item.pbExtentCode}}</option>
+          </select>
+     </td>
+     <td *ngIf="(names.parameterName=='elementarySectionCode')">
+          <select name="elementarySectionCode" id="elementarySectionCode"  [(ngModel)]="reportModel.elementarySectionCode" >
+               <option *ngFor = "let item of elementarySectionCode" [ngValue]="item">{{item.elementarySectionCode}}</option>
+          </select>
+     </td>
+      <td *ngIf="(names.parameterName=='ActivityType')">
+            <select name="activityType" id="activityType"  [(ngModel)]="reportModel.activityType" >
+                 <option *ngFor = "let item of activityType" [ngValue]="item">{{item}}</option>
+            </select>
+       </td>
+     
+     <td *ngIf="(names.parameterName=='year')"><input type="text"  name="year" id="year" size="10" [(ngModel)]="reportModel.year"/></td>
+     <td *ngIf="(names.parameterName=='fromkm')"><input type="text"  name="fromkm" id="fromkm" size="10" [(ngModel)]="reportModel.fromkm"/></td>
+     <td *ngIf="(names.parameterName=='tokm')"><input type="text"  name="tokm" id="tokm" size="10" [(ngModel)]="reportModel.tokm"/></td>
+          </tr>
+       
+     </div>     </ul> <tr > Report Format:                      
+          <select> 
+               <option *ngFor = "let i of otyp"  id="type">{{i}}</option> 
+            </select> 
+     </tr>
+     <tr align="center">
+     <input type="button" value="Generate" (click)="generateReport()"></tr>
+     <br>
+          
+     
+</table> 
+</div></form> 
+
+

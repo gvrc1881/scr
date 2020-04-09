@@ -1,0 +1,261 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content">
+    <div class="">
+        <div class="col-12">
+                <div class="breadcrumb-section">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                                    <li class="breadcrumb-item"><a [routerLink]="['/settings']">Schedule Settings </a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Repository</li>
+                            </ol>
+                        </nav>
+                      </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid admin-scheduler-panel">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Repository</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+
+                        <div class="p-24">
+                                <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                    <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                                        <span class="mat-raised-button mat-accent" (click)="AddRepository()"
+                                            *ngIf="!addRepository" color="accent" mat-raised-button="">
+                                            Add Repository
+                                        </span>
+                                    </div>
+
+
+                                    <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addRepository"
+                                        fxLayout="column" fxLayoutAlign="start" [formGroup]="repositoryFormGroup"
+                                        fxFlex="1 0 auto" (ngSubmit)="onAddRepositoryFormSubmit();">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">{{title}} Repository</div>
+                                            <div class="panel-body">                                                
+
+                                                <div class="col-md-12">
+                                                    <!--Division Code-->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Division Code"
+                                                                [formControl]="repositoryFormGroup.controls['divisionCode']" required/>
+                                                            <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['divisionCode'].hasError('required')">
+                                                                Enter Division Code
+                                                            </mat-error>
+                                                             <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['divisionCode'].hasError('duplicateDivisionCode')"
+                                                                class="alert alert-danger">
+                                                                Division Code Already Exits
+                                                            </mat-error> 
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- Division Name -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Division Name"
+                                                                [formControl]="repositoryFormGroup.controls['divisionName']" required/>
+                                                            <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['divisionName'].hasError('required')">
+                                                                Enter Division Name
+                                                            </mat-error>
+                                                             <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['divisionName'].hasError('duplicateDivisionName')"
+                                                                class="alert alert-danger">
+                                                                Division Name Already Exits
+                                                            </mat-error> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <!-- Division IP -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="IP" ng-ip-address
+                                                                [formControl]="repositoryFormGroup.controls['ip']" required/>
+                                                            <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['ip'].hasError('required')">
+                                                                Enter Division IP
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="repositoryFormGroup.controls['ip'].hasError('pattern') && repositoryFormGroup.controls['ip'].touched"
+                                                            class="alert alert-danger">Invalid format (0.0.0.0)</mat-error>
+                                                             <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['ip'].hasError('duplicateIP')"
+                                                                class="alert alert-danger">
+                                                                Division IP Already Exits
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <!-- Division Port -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Port"
+                                                                [formControl]="repositoryFormGroup.controls['port']" required/>
+                                                            <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['port'].hasError('required')">
+                                                                Enter Division Port
+                                                            </mat-error>          
+                                                            <mat-error
+                                                            *ngIf="repositoryFormGroup.controls['port'].hasError('pattern') && repositoryFormGroup.controls['port'].touched"
+                                                            class="alert alert-danger">Only numbers allowed with length 4</mat-error>                                                
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+
+                                                    <!-- Division DB Name -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="DB Name"
+                                                                [formControl]="repositoryFormGroup.controls['dbName']" required/>
+                                                            <mat-error
+                                                                *ngIf="repositoryFormGroup.controls['dbName'].hasError('required')">
+                                                                Enter Division DB Name
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- Division User Name -->
+                                                    <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30">
+                                                                <input matInput placeholder="DB User Name"
+                                                                    [formControl]="repositoryFormGroup.controls['userName']" required/>
+                                                                <mat-error
+                                                                    *ngIf="repositoryFormGroup.controls['userName'].hasError('required')">
+                                                                    Enter Division DB User Name
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <!-- Division User Name -->
+                                                        <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <input matInput placeholder="DB Password"
+                                                                        [formControl]="repositoryFormGroup.controls['password']" required/>
+                                                                    <mat-error
+                                                                        *ngIf="repositoryFormGroup.controls['password'].hasError('required')">
+                                                                        Enter Division DB Password
+                                                                    </mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                    
+                                                    <div class="col-md-3 mt-10">
+                                                        <div fxFlex="10" fxLayoutAlign="center center" class="pr-5 d-inline"
+                                                            style="padding-bottom:10px;">
+                                                            <button mat-raised-button color="accent"
+                                                                [disabled]="repositoryFormGroup.invalid"
+                                                                class="submit-button" aria-label="Submit">
+                                                                {{title}}
+                                                            </button></div>
+
+                                                            <div class="p-12 pl-5 d-inline">
+                                                                    <span class="mat-raised-button mat-warn"
+                                                                        (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                                        Close
+                                                                    </span>
+                                                                </div>
+                                                                <div [hidden]="!status" style="color:darkgreen;text-align: center">Added
+                                                                        Successfully!!!</div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <div class="example-header">
+                                    <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="repositoryDataSource" matSort>
+
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="repositoryCode">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division Code
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryCode}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="repositoryName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division Name
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryName}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="repositoryIp">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>IP
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryIp}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="repositoryPort">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Port
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryPort}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="repositoryDbName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>DB Name</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryDbName}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="repositoryUser">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>User Name
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryUser}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="repositoryPassword">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Password
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.repositoryPassword}}</mat-cell>
+                                        </ng-container>
+                                        <!-- <ng-container matColumnDef="isActive">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.isActive}}</mat-cell>
+                                        </ng-container> -->
+                                        <ng-container matColumnDef="id">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <a mat-icon-button matTooltip="Edit">
+                                                    <button mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                                                        (click)="editRepositoryById(row.repositoryId)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </button>
+                                                </a>
+                                                <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                                                    (click)="deleteRepository(row.repositoryId)">
+                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="repositoryDisplayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: repositoryDisplayedColumns;">
+                                        </mat-row>
+                                    </mat-table>
+                                    <div [hidden]="!status" style="color: rgb(244, 67, 54);text-align: center">delected
+                                        Successfully!!!
+                                    </div>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

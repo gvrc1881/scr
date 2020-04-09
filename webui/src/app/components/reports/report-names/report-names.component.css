@@ -1,0 +1,13 @@
+.filler {
+   flex: 1 1 auto;
+}
+.gap {
+   margin-right: 10px;
+}
+mat-grid-tile {
+  background:#b8a71054;
+  font-style:oblique;
+  font-family: 'Times New Roman', Times, serif;
+
+  color: #2338f5d0;
+}

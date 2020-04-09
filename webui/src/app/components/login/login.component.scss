@@ -1,0 +1,124 @@
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+app-forms-page {
+    .container {
+      margin-top: 50px;
+    }    
+    .section-title {
+      margin-bottom: 20px;
+    }
+  
+    .user-details-container {
+      padding: 20px;
+      text-align: center;
+  
+      .user-image {
+        width: 100%;
+        border-radius: 50%;
+      }
+  
+      .user-title {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 30px;
+        display: block;
+      }
+  
+      .user-bio {
+        font-size: 12px;
+        margin-top: 20px;
+        display: block;
+        color: rgba(0, 0, 0, 0.70);
+      }
+    }
+  
+  
+    .content{ overflow: hidden;}
+  
+    .full-width {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .error-message {
+      font-size: 12px;
+    }
+  
+    .double-line-hint {
+      .mat-input-hint-wrapper {
+        flex-wrap: wrap;
+  
+        .hint-line {
+          flex: 0 0 100%;
+        }
+      }
+    }
+  
+    .submit-btn {
+      margin-top: 30px;
+    }
+  }
+
+
+.login .logo {
+  background-color: #fff !important;
+  margin-top: 0px;
+  width: 351px;
+  border-bottom: 1px solid #993333;
+}
+
+.logo {
+   border: 1px solid #993333; 
+  /* border-bottom: none; */
+}
+
+.mat-form-field-infix {
+  display: block;
+  position: relative;
+  flex: auto;
+  min-width: 0;
+  width: 300px !important;
+}
+.login-block-page{ position: relative;}
+.login-block { position: absolute; top: 150px; right: 150px;}
+.content {
+  width: 100%;   
+  margin-right: auto;
+  margin-left: auto;
+  text-align: left;
+  }
+.login-bg-image {height: 100vh; overflow: hidden;}
+ .submit-btn, .submit-btn:hover  {
+    background-color: #3f51b5;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    margin-right: 8px;
+}
+
+.btn{
+    outline: 0;
+    border: none;
+    
+    margin: 0;
+    min-width: 64px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    overflow: visible;
+    transform: translate3d(0,0,0);
+    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+    color:#fff;
+}
+.logo-title h3 {
+  margin: 0;
+  background: #006eb6;
+  padding: 16px 0;
+  text-align: center;
+  color: #fff;
+}
+.logincontent {
+  border: none;
+  border-top: none;
+}
+
+
