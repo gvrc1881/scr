@@ -29,7 +29,7 @@
     "angular-file": "^2.0.0",
     "angular-fusioncharts": "^3.0.3",
     "angular-moment": "^1.3.0",
-    "bootstrap": "^3.4.0",
+    "bootstrap": "^3.4.1",
     "express": "^4.17.1",
     "fusioncharts": "^3.14.0-sr.1",
     "google-libphonenumber": "^3.2.2",
