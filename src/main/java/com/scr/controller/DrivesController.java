@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.CrsEigInspections;
-import com.scr.model.Department;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
@@ -127,6 +126,68 @@ public class DrivesController {
 		}
 		return ResponseEntity.ok((checkList));
 	}
+	
+	@RequestMapping(value = "/saveCheckList", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveCheckListData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {		
+		try {			
+			service.saveCheckListData(driveRequest);
+			return Helper.findResponseStatus("CheckList Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding CheckList data. "+e.getMessage());
+			return Helper.findResponseStatus("CheckList Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/updateCheckList", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateCheckListData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {		
+		try {			
+			String status = service.updateCheckListData(driveRequest);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("CheckList Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating CheckList data. "+e.getMessage());
+			return Helper.findResponseStatus("CheckList Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteCheckList/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteCheckList(@PathVariable("id") Long id) throws JSONException {
+		try {
+			String status = service.deleteCheckList(id);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("CheckList Deleted Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("CheckList Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("CheckList Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/checkListById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<DriveCheckList> findCheckListDataById(@PathVariable("id") Long id){
+		Optional<DriveCheckList> depOptional= null;
+		try {
+			logger.info("Selected Drive Id = "+id);
+			depOptional = service.findCheckListById(id);
+			if(depOptional.isPresent()) {
+				logger.info("CheckList Data = "+depOptional.get());
+				return new ResponseEntity<DriveCheckList>(depOptional.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<DriveCheckList>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Drives Details by id, "+e.getMessage());
+			return new ResponseEntity<DriveCheckList>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	
 	@RequestMapping(value = "/driveTarget", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveTarget>> findAllDriveTargets() throws JSONException {

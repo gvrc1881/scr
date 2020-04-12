@@ -90,7 +90,40 @@ public class DrivesService {
 	public List<DriveCheckList> findAllCheckLists() {
 		return checklistRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
+	public @Valid boolean saveCheckListData(@Valid DriveRequest driveRequest) {
+		DriveCheckList driveCheckList = driveMapper.prepareCheckListModel(driveRequest);
+		driveCheckList = checklistRepository.save(driveCheckList);
+		return true;
+	}	
 
+	public String updateCheckListData(@Valid DriveRequest request) {
+		Optional<DriveCheckList> driveCheckList = checklistRepository.findById(request.getId());
+		if(driveCheckList.isPresent()) {
+			DriveCheckList driveCheckListUpdate = driveMapper.prepareCheckListUpdataData(driveCheckList.get(), request);
+			driveCheckListUpdate = checklistRepository.save(driveCheckListUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid CheckList Id";
+		}
+	}
+	public String deleteCheckList(Long id) {
+		Optional<DriveCheckList> driveCheckListOptional = checklistRepository.findById(id);
+		if (driveCheckListOptional.isPresent()) {
+			DriveCheckList driveCheckListToUpdate = driveCheckListOptional.get();
+			driveCheckListToUpdate.setId(id);
+			driveCheckListToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			checklistRepository.save(driveCheckListToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid CheckList Id";
+		}
+	}
+	
+	public Optional<DriveCheckList> findCheckListById(Long id) {
+		return checklistRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+	
+	
 	public List<DriveTarget> findAllDriveTargets() {
 		return driveTargetRepository.findAll();
 	}
@@ -205,6 +238,8 @@ public class DrivesService {
 	public Optional<CrsEigInspections> findInspectionsById(Long id) {
 		return driveInspectionRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
+
+	
 
 	
 	

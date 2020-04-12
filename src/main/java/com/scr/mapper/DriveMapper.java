@@ -14,13 +14,17 @@ import org.springframework.stereotype.Component;
 import com.scr.controller.DrivesController;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.DriveCheckList;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
+import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.DriveStipulationRepository;
+import com.scr.repository.DrivesRepository;
 import com.scr.repository.FacilityRepository;
+import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
 
@@ -38,6 +42,12 @@ public class DriveMapper {
 	@Autowired
 	private DriveStipulationRepository stipulationRepository;
 
+	@Autowired
+	private MeasureOrActivityListRepository measureOrActivityListRepository;
+	
+	@Autowired
+	private DrivesRepository drivesRepository;
+	
 	public Drives prepareDriveModel(@Valid DriveRequest driveRequest) {
 		Drives drive = null;
 		if (driveRequest != null) {
@@ -103,6 +113,67 @@ public class DriveMapper {
 		}
 		return drive;
 	}
+	public DriveCheckList prepareCheckListModel(@Valid DriveRequest request) {
+		DriveCheckList driveCheckList = null;
+		if(request != null) {
+			driveCheckList = new DriveCheckList();
+			
+			driveCheckList.setActivityPositionId(request.getActivityPositionId());
+			driveCheckList.setDisplayOrder(request.getDisplayOrder());
+			driveCheckList.setActive(request.getActive());
+			driveCheckList.setLowerLimit(request.getLowerLimit());
+			driveCheckList.setUpperLimit(request.getUpperLimit());
+			driveCheckList.setReportColumnHeader(request.getReportColumnHeader());
+			
+			Optional<MeasureOrActivityList> measure = measureOrActivityListRepository.findById(Long.parseLong(request.getActivityId()));
+			if(measure.isPresent()) {
+				driveCheckList.setActivityId(measure.get());
+			}
+			
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveCheckList.setDriveId(drive.get());
+			}
+			
+			driveCheckList.setCreatedBy(request.getCreatedBy());
+			 driveCheckList.setUpdatedBy(request.getUpdatedBy());
+			 driveCheckList.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			 driveCheckList.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			 driveCheckList.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveCheckList;
+	}
+
+	public DriveCheckList prepareCheckListUpdataData(DriveCheckList driveCheckList, @Valid DriveRequest request) {
+		if(request != null) {
+			driveCheckList.setActivityPositionId(request.getActivityPositionId());
+			driveCheckList.setDisplayOrder(request.getDisplayOrder());
+			driveCheckList.setActive(request.getActive());
+			driveCheckList.setLowerLimit(request.getLowerLimit());
+			driveCheckList.setUpperLimit(request.getUpperLimit());
+			driveCheckList.setReportColumnHeader(request.getReportColumnHeader());
+			
+			Optional<MeasureOrActivityList> measure = measureOrActivityListRepository.findById(Long.parseLong(request.getActivityId()));
+			if(measure.isPresent()) {
+				driveCheckList.setActivityId(measure.get());
+			}
+			
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveCheckList.setDriveId(drive.get());
+			}
+			
+			driveCheckList.setCreatedBy(request.getCreatedBy());
+			 driveCheckList.setUpdatedBy(request.getUpdatedBy());
+			 driveCheckList.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			 driveCheckList.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			 driveCheckList.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveCheckList;
+	}
+
 
 	public ElectrificationTargets prepareElectrificationTargetsModel(
 			@Valid DriveRequest request) {
@@ -290,4 +361,5 @@ public class DriveMapper {
 		return inspections;
 	}
 
+	
 }

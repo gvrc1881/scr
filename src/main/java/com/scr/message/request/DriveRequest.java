@@ -2,6 +2,8 @@ package com.scr.message.request;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+
 public class DriveRequest {
 
 	private Long id;
@@ -77,6 +79,14 @@ public class DriveRequest {
 	private Timestamp dateComplied;
 	private String compliance;
 	private String compliedBy;
+	
+	private String activityPositionId;
+	private Integer displayOrder;
+	private double lowerLimit;
+	private double upperLimit;
+	private String reportColumnHeader;
+	private String activityId;
+	private String driveId;
 
 	public String getName() {
 		return name;
@@ -507,6 +517,64 @@ public class DriveRequest {
 	public void setDateComplied(Timestamp dateComplied) {
 		this.dateComplied = dateComplied;
 	}
+	
+	
+	
+	public String getActivityPositionId() {
+		return activityPositionId;
+	}
+
+	public void setActivityPositionId(String activityPositionId) {
+		this.activityPositionId = activityPositionId;
+	}
+
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+
+	public double getLowerLimit() {
+		return lowerLimit;
+	}
+
+	public void setLowerLimit(double lowerLimit) {
+		this.lowerLimit = lowerLimit;
+	}
+
+	public double getUpperLimit() {
+		return upperLimit;
+	}
+
+	public void setUpperLimit(double upperLimit) {
+		this.upperLimit = upperLimit;
+	}
+
+	public String getReportColumnHeader() {
+		return reportColumnHeader;
+	}
+
+	public void setReportColumnHeader(String reportColumnHeader) {
+		this.reportColumnHeader = reportColumnHeader;
+	}
+
+	public String getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(String activityId) {
+		this.activityId = activityId;
+	}
+
+	public String getDriveId() {
+		return driveId;
+	}
+
+	public void setDriveId(String driveId) {
+		this.driveId = driveId;
+	}
 
 	@Override
 	public String toString() {
@@ -527,9 +595,13 @@ public class DriveRequest {
 				+ ", attachment=" + attachment + ", station=" + station + ", stipulationsId=" + stipulationsId
 				+ ", stipulation=" + stipulation + ", stipulationTo=" + stipulationTo + ", dateOfStipulatio="
 				+ dateOfStipulatio + ", dateComplied=" + dateComplied + ", compliance=" + compliance + ", compliedBy="
-				+ compliedBy + "]";
+				+ compliedBy + ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder
+				+ ", lowerLimit=" + lowerLimit + ", upperLimit=" + upperLimit + ", reportColumnHeader="
+				+ reportColumnHeader + ", activityId=" + activityId + ", driveId=" + driveId + "]";
 	}
 
+	
+	
 	
 	
 

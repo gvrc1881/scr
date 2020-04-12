@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel } from '../models/drive.model';
 
 @Injectable()
@@ -43,6 +42,20 @@ export class DrivesService {
     getDrivesCheckListData() {
         return this.http.get<DriveModel[]>(environment.apiUrl + '/checklist', { headers: this.header });            
     }
+    saveCheckListData(save){
+        return this.http.post(environment.apiUrl + '/saveCheckList', save, { headers: this.header });
+    }
+    updateCheckListData(update){
+        return this.http.put(environment.apiUrl + '/updateCheckList', update, { headers: this.header });
+    }
+    findCheckListDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/checkListById/'+id, { headers: this.header });
+    }
+    deleteCheckListData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteCheckList/'+id, { headers: this.header });
+    }
+
+
 
     getElectrificationTargetsData(){
         return this.http.get<ElectrificationTargetstModel[]>(environment.apiUrl + '/electrificationTargets', { headers: this.header });            

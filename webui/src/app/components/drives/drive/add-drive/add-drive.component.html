@@ -100,7 +100,7 @@
                                                                 [formControl]="addDriveFormGroup.controls['depoType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
                                                                     [value]="depoType.id">
-                                                                    {{ depoType.productId }}
+                                                                    {{ depoType.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

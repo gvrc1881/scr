@@ -36,7 +36,7 @@ public class DriveCheckList implements Serializable {
 	private Integer displayOrder;
 
 	@Column(name = "active")
-	private Integer active;
+	private String active;
 
 	@Column(name = "lower_limit")
 	private double lowerLimit;
@@ -94,11 +94,11 @@ public class DriveCheckList implements Serializable {
 		this.displayOrder = displayOrder;
 	}
 
-	public Integer getActive() {
+	public String getActive() {
 		return active;
 	}
 
-	public void setActive(Integer active) {
+	public void setActive(String active) {
 		this.active = active;
 	}
 
@@ -172,6 +172,14 @@ public class DriveCheckList implements Serializable {
 
 	public void setDriveId(Drives driveId) {
 		this.driveId = driveId;
+	}
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 	

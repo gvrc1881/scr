@@ -155,6 +155,7 @@ export class AddDriveComponent implements OnInit {
       this.isSubmit = false;
       return;
     }
+    this.spinnerService.show();
     console.log(this.addDriveFormGroup.value);
     if (this.saveUser) {
       var saveDriveModel = {
