@@ -97,6 +97,8 @@ export class TractionEnergyTariffComponent implements OnInit{
         });
     }
     
+    public get f() { return this.contentManagementFormGroup.controls; }
+    
     viewDocumentDetails(id){
 	    this.spinnerService.show();    
 	    this.tractionEnergyTariffService.attachedDocumentList(id).subscribe((response) => {     

@@ -121,9 +121,9 @@
 						                              <!-- <input matInput placeholder="Description" formControlName="description"
 						                                required /> -->
 						                              <textarea matInput placeholder="Description" [formControl]="contentManagementFormGroup.controls['description']" required></textarea>
-						                              <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.required"
+						                              <mat-error *ngIf="f.description.errors && f.description.errors.required"
 						                                class="alert alert-danger">Description required</mat-error>
-						                              <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.pattern"
+						                              <mat-error *ngIf="f.description.errors && f.description.errors.pattern"
 						                                class="alert alert-danger">Only alphabets allowed
 						                              </mat-error>
 						                            </mat-form-field>
@@ -132,7 +132,7 @@
 						                      <div class="clear"> </div>
 						                        <div class="col-md-12">
 						                            <input type="file"  formControlName="uploadFiles" name="uploadFile" id="uploadFile" multiple (change)="upload($event)" />
-						                            <mat-error *ngIf="isSubmit && f.uploadFiles.errors && f.uploadFiles.errors.required"
+						                            <mat-error *ngIf="f.uploadFiles.errors && f.uploadFiles.errors.required"
 						                                class="alert alert-danger">File required</mat-error>
 						                      	</div>
 						                      	<div>
