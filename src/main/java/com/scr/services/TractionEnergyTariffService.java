@@ -79,9 +79,9 @@ public class TractionEnergyTariffService {
 						String contentLink = tractionEnergyTariff.getContentLink();
 						for (ContentManagement contentManagement : liContentManagements) {
 							if (contentLink != null)
-							contentLink = contentLink+contentManagement.getId().toString()+",";
+								contentLink = contentLink+","+contentManagement.getId().toString();
 							else
-								contentLink = contentManagement.getId().toString()+",";	
+								contentLink = contentManagement.getId().toString();	
 						}
 						tractionEnergyTariff.setContentLink(contentLink);
 						tractionEnergyTariffRepository.save(tractionEnergyTariff);

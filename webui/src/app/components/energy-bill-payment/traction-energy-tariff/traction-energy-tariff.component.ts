@@ -9,6 +9,7 @@ import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { TractionEnergyTariffPayload } from 'src/app/payloads/traction-energy-tariff.payload';
 import { ReportService } from 'src/app/services/report.service';
+import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 
 @Component({
     selector: 'traction-energy-tariff',
@@ -39,6 +40,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     filesExists: boolean = false;
     tractionEnergyTariffId: any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
+    documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     
     constructor(
         private commonService: CommonService,
@@ -66,18 +68,17 @@ export class TractionEnergyTariffComponent implements OnInit{
             "fromDate":[null],
             "thruDate":[null]
         });
+        /*
         this.reportService.getAllContentCategories().subscribe((data) => {
         	 this.contentCategoryList = data;
-        	//console.log("ng oninit function"+JSON.stringify(this.contentCategoryList));
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
             });
        this.reportService.getAllContentTopics().subscribe((data) => {
         	 this.contentTopicList = data;
-        	// console.log("ng oninit function"+JSON.stringify(this.contentTopicList));
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
-            });     
+            });     */
     }    
         
     addNewTractionEnergyTariff() {
@@ -85,7 +86,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     }
     
     fileUpload(id) {
-    	alert("id:::"+id);
     	this.uploadFile = true;
     	this.addPermission = false;
     	this.tractionEnergyTariffId = id;
@@ -96,6 +96,22 @@ export class TractionEnergyTariffComponent implements OnInit{
             contentTopic: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
         });
     }
+    
+    viewDocumentDetails(id){
+	    this.spinnerService.show();    
+	    this.tractionEnergyTariffService.attachedDocumentList(id).subscribe((response) => {     
+	      this.spinnerService.hide(); 
+	      // console.log('vallues::::'+JSON.stringify(response));
+	      this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
+	        	disableClose: false,
+	        	height: '600px',
+	        	width: '80%',       
+	        	data:response,       
+	      	});            
+	    }, error => this.commonService.showAlertMessage(error));
+	   
+	    
+	  }
     
     removeFile(id) {
         this.selectedFiles.splice(id, 1);
@@ -113,10 +129,10 @@ export class TractionEnergyTariffComponent implements OnInit{
                 'divisionCode': this.loggedUserData.divisionCode,
                 'createdBy': this.loggedUserData.id,
                 'createdDate': new Date(),
-                'contentCategory': this.contentManagementFormGroup.value.contentCategory,
+                'contentCategory': 'OPERATIONS',
                 'zonal': 'zonal',
                 'FU': 'PSI',
-                'contentTopic': this.contentManagementFormGroup.value.contentTopic,
+                'contentTopic': 'TARIFF',
           }
           
     	this.tractionEnergyTariffService.uploadAttachedFiles(this.selectedFiles, saveDetails).subscribe(data => {
@@ -189,13 +205,16 @@ export class TractionEnergyTariffComponent implements OnInit{
     
     onGoBack() {
         this.tractionEnergyTariffFormGroup.reset();
-        this.contentManagementFormGroup.reset();
+        this.addTractionEnergyTariff = false;
+        this.title = 'Save';
+    }
+    
+    close() {
+    	this.contentManagementFormGroup.reset();
         this.uploadFile = false;
         this.selectedFiles = [];
         this.filesExists = false;
         this.addPermission = true;
-        this.addTractionEnergyTariff = false;
-        this.title = 'Save';
     }
     
     

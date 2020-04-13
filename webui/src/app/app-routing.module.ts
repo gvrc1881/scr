@@ -57,6 +57,11 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/track/track.module#TrackModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'energyMeter',
+    loadChildren: './components/energy-bill-payment/energy-meter/energy-meter.module#EnergyMeterModule',
+    canActivate: [AuthGuard]
+  },
  
  /*  {
     path: 'slidings',

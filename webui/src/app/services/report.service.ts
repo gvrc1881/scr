@@ -116,6 +116,10 @@ getAllContentTopics(){
 	return this.http.get(this.url + '/existsContentTopic',{ headers: this.header });
 }
 
+getAllTssFeederMaster(){
+	return this.http.get(this.url + '/findAllTssFeederMaster',{ headers: this.header });
+}
+
 }
     
     

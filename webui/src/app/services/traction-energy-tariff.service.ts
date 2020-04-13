@@ -55,5 +55,9 @@ export class TractionEnergyTariffService {
         formdata.append('contentTopic', saveDetails.contentTopic);        
         return this.http.post(environment.apiUrl + '/tariffUploadFiles', formdata, { headers: header });
     }
+    
+    attachedDocumentList(tractionEneTariffId:number) {
+        return this.http.get(environment.apiUrl + '/attachedDocumentList' +"/"+tractionEneTariffId, { headers: this.header });
+    }
 
 }

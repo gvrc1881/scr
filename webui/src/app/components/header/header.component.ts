@@ -249,7 +249,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
-        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) ? "open" : "",  
+        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) || path.includes("energyMeter") ?  "open" : "",  
         subMenus: [
           {
             subMenuName: "Guidence Item",
@@ -260,7 +260,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("guidenceItem") ? "active-item" : "",
           },
           {
-            subMenuName: "work",
+            subMenuName: "Work",
             subMenuURL: "work",
             subMenuIcon: "",
             rolePermission:true,
@@ -295,13 +295,22 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("tractionEneTariff") ? "active-item" : "",
           },
           {
-            subMenuName: "Traction Energy Tariff",
-            subMenuURL: "tractionEneTariff",
+            subMenuName: "Track",
+            subMenuURL: "track",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission:true,
-            permission:this.commonService.findPermission('Traction Energy Tariff', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("tractionEneTariff") ? "active-item" : "",
+            permission:this.commonService.findPermission('Track', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("track") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Energy Meter",
+            subMenuURL: "energyMeter",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Energy Meter', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("energyMeter") ? "active-item" : "",
           },
         ]
       },
