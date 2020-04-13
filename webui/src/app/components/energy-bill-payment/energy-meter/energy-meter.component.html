@@ -1,0 +1,205 @@
+<div class="content">
+	<div class="">
+		<div class="col-12">
+			<div class="breadcrumb-section">
+	            <nav aria-label="breadcrumb">
+	                <ol class="breadcrumb">
+	                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+	                        <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment </a></li>
+	                          <li class="breadcrumb-item active" aria-current="page">Energy Meter</li>
+	                </ol>
+	            </nav>
+	          </div>
+			<div class="clear"></div>
+			<div class="row-fluid">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Energy Meter</div>
+						<div class="panel-body">
+							<div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+								<div class="p-24">
+									<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+										<div class="p-12" style="text-align: right;" *ngIf="addPermission">
+											<span class="mat-raised-button mat-accent" (click)="newEnergyMeter()" *ngIf="!addEnergyMeter"
+                                              color="accent" mat-raised-button="">
+                                              Add Energy Meter
+                                            </span>
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addEnergyMeter" fxLayout="column"
+                                                fxLayoutAlign="start" [formGroup]="energyMeterFormGroup" fxFlex="1 0 auto"
+                                                (ngSubmit)="energyMeterSubmit();">
+                                            	<div class="panel panel-primary">
+                                            		<div class="panel-heading">{{title}} Energy Meter</div>
+	                                            		<div class="panel-body">
+	                                                    <div class="col-md-12">
+	                                                    	<div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Meter Nubmer" [formControl]="energyMeterFormGroup.controls['meterNo']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+									                             <mat-form-field fxFlex="30">
+									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" >
+									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater.feederName">
+									                                  {{ tssFeederMater.feederName}}
+									                                </mat-option>
+									                              </mat-select>
+									                            </mat-form-field>
+									                          </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Multiplication Factor" [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Start Kvah" [formControl]="energyMeterFormGroup.controls['startKvah']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Start Kwh" [formControl]="energyMeterFormGroup.controls['startKwh']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Start Rkvah Lag" [formControl]="energyMeterFormGroup.controls['startRkvahLag']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Start Rkvah Lead" [formControl]="energyMeterFormGroup.controls['startRkvahLead']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="End Kvah" [formControl]="energyMeterFormGroup.controls['endKvah']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="End Kwh" [formControl]="energyMeterFormGroup.controls['endKwh']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                       <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="End Rkvah Lag" [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="End Rkvah Lead" [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Meter Make" [formControl]="energyMeterFormGroup.controls['meterMake']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Meter Model" [formControl]="energyMeterFormGroup.controls['meterModel']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Cmd" [formControl]="energyMeterFormGroup.controls['cmd']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Remark" [formControl]="energyMeterFormGroup.controls['remarks']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+		                                                        <mat-form-field fxFlex="30">
+	    															<input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']">
+	  															</mat-form-field>
+  															</div>
+  															<div class="col-md-2">
+		                                                        <mat-form-field fxFlex="30">
+	    															<input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']">
+	  															</mat-form-field>
+  															</div>
+	                                                        <div class="col-md-3 mt-15">
+	                                                                <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+	                                                                    <button mat-raised-button color="accent" [disabled]="energyMeterFormGroup.invalid"
+	                                                                        class="submit-button" aria-label="Submit">
+	                                                                        {{title}}
+	                                                                    </button>
+	                                                                </div>
+	                                                                <div class="p-12 d-inline">
+	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+	                                                                      mat-raised-button="">
+	                                                                      Close
+	                                                                    </span>
+	                                                                  </div>
+	                                                        </div>
+	                                                    </div>
+	                                                    <div class="col-md-12">
+	                                                    </div>
+	                                                </div>
+                                            	</div>    
+                                            </form>    
+										</div> 
+										<div class="example-header">
+	                                        <div class="col-sm-4">
+	                                            <mat-form-field>
+	                                              <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+	                                            </mat-form-field>
+	                                        </div>
+                                    	</div>
+                                    	<div class="clear"> </div>
+                                    	<div class="mat-elevation-z8">
+                                    		<mat-table [dataSource]="energyMeterDataSource" matSort>
+                                    			<ng-container matColumnDef="sno">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="cmd">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>cmd</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.cmd}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="feederId">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>feederId</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.feederId}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="startKvah">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>startKvah</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.startKvah}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="startKwh">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>startKwh</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.startKwh}}</mat-cell>
+	                                            </ng-container>
+	                                            <ng-container matColumnDef="id">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                    <mat-cell *matCellDef="let row">
+	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+	                                                        (click)="editEnergyMeter(row.id)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+	                                                      </a>
+	                                                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+	                                                        (click)="deleteEnergyMeter(row.id)">
+	                                                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+	                                                      </button>
+	                                                    </mat-cell>
+	                                            </ng-container>
+	                                            <mat-header-row *matHeaderRowDef="energyMeterDisplayColumns"></mat-header-row>
+                                            	<mat-row *matRowDef="let row; columns: energyMeterDisplayColumns">
+                                            	</mat-row>
+                                    		</mat-table>
+                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    	</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

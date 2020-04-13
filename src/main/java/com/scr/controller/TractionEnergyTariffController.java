@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.EnergyBillPayment;
+import com.scr.model.ContentManagement;
 import com.scr.model.TractionEnergyTariff;
+import com.scr.services.ContentManagementService;
 import com.scr.services.TractionEnergyTariffService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -36,6 +38,9 @@ public class TractionEnergyTariffController {
 	
 	@Autowired
 	private TractionEnergyTariffService tractionEnergyTariffService;
+	
+	@Autowired
+	private ContentManagementService contentManagementService;
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/findAllTractionEnergyTariff", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -114,4 +119,40 @@ public class TractionEnergyTariffController {
 		}
 		return responseStatus;
 	}
+	
+	@RequestMapping(value = "/attachedDocumentList/{tractionEneTariffId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("tractionEneTariffId") Integer tractionEneTariffId){
+		List<ContentManagement> contentManagementList = new ArrayList<>();
+		try {
+			logger.info("Getting tariff  Details  = "+tractionEneTariffId);	
+			Optional<TractionEnergyTariff> tractionEneTariffObj =tractionEnergyTariffService.findById(tractionEneTariffId);
+			if (tractionEneTariffObj.isPresent()) {
+				TractionEnergyTariff tractionEneTariff = tractionEneTariffObj.get();
+				String contentManagementIds = tractionEneTariff.getContentLink();
+				if(contentManagementIds.contains(",")) {
+				String[] arrayIds = contentManagementIds.split(",");
+				 for(int i=0; i<arrayIds.length; i++) {
+					 Optional<ContentManagement> contentManagementObj = contentManagementService.findById(Long.parseLong(arrayIds[i]));
+					 if(contentManagementObj.isPresent()) {
+						 contentManagementList.add(contentManagementObj.get());
+					 }
+			      }
+				}else {
+					 Optional<ContentManagement> contentManagementObj = contentManagementService.findById(Long.parseLong(contentManagementIds));
+					 if(contentManagementObj.isPresent()) {
+						 contentManagementList.add(contentManagementObj.get());
+					 }
+				}
+				/*logger.info("before calling value"+contentManagementIds);
+				contentManagementList = contentManagementService.findByIdIn(contentManagementIds);*/	
+				logger.info("content size:::"+contentManagementList.size());
+			}
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while getting DivisionHistory Details"+e.getMessage());
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+		}	
+	}
+	
 }

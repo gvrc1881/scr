@@ -647,6 +647,12 @@
             position: relative;
         }
 
+        .admin-view a {
+            background: #75bdd1;
+            
+
+        }
+
             .page-header .navbar-collapse .navbar-nav .more-dropdown > a:after {
                 top: 22px;
                 right: 30px;

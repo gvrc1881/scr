@@ -22,6 +22,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { DivisionHistoryDialogComponent } from './components/division-history-dialog/division-history-dialog.component';
 import { RemarkDialogComponent } from './components/remark-dialog/remark-dialog.component';
+import { DocumentDialogComponent } from './components/document-view-dialog/document-dialog.component';
 // Import angular-fusioncharts
 import { FusionChartsModule } from 'angular-fusioncharts';
  
@@ -50,6 +51,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     RemarkDialogComponent,    
     DivisionHistoryDialogComponent,    
     ContentManagementDialogComponent,
+    DocumentDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         FuseConfirmDialogComponent,
         DivisionHistoryDialogComponent,
         RemarkDialogComponent,
-        ContentManagementDialogComponent
+        ContentManagementDialogComponent,
+        DocumentDialogComponent,
   ],
   providers: [
     AuthenticationService,

@@ -1,84 +1,111 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["common"],{
 
-/***/ "./src/app/services/report.service.ts":
+/***/ "./src/app/services/drives.service.ts":
 /*!********************************************!*\
-  !*** ./src/app/services/report.service.ts ***!
+  !*** ./src/app/services/drives.service.ts ***!
   \********************************************/
-/*! exports provided: ReportService */
+/*! exports provided: DrivesService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportService", function() { return ReportService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DrivesService", function() { return DrivesService; });
+/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 
 
-class ReportService {
+class DrivesService {
     constructor(http) {
         this.http = http;
-        this.url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl;
+        this.myAppUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl;
         this.accessToken = JSON.parse(localStorage.getItem('accessToken'));
-        this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
-            'Content-Type': 'application/json;charset=UTF-8',
-            'accept': 'application/json',
+        this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
             'Authorization': `Bearer ${this.accessToken}`
         });
     }
-    makeReport(model) {
-        return this.http.post(this.url + '/makeReport', model, { headers: this.header });
+    getDrivesData() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/drives', { headers: this.header });
     }
-    reportParameterNames() {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/reportParameterNames', { headers: this.header });
+    //functionalLocationsTypes
+    findDepoTypeList() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/functionalLocationsTypes', { headers: this.header });
     }
-    dailyProgressReports(reportType) {
-        return this.http.get(this.url + '/dailyProgressReports/' + reportType, { headers: this.header });
+    findAssetTypeList(assetType) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/allAssetTypeReports/' + assetType, { headers: this.header });
     }
-    facilityNames() {
-        console.log('facilityNames::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/facilityNames', { headers: this.header });
+    findFunctionslUnits() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/facilityNames', { headers: this.header });
     }
-    failuresTable() {
-        console.log('failuresTable::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/failuresTable', { headers: this.header });
+    findDriveDataById(id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/driveById/' + id, { headers: this.header });
     }
-    powerBlocks() {
-        console.log('powerBlocks::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/powerBlocks', { headers: this.header });
+    saveDriveData(saveDriveData) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveDrive', saveDriveData, { headers: this.header });
     }
-    oheProductData() {
-        console.log('productTable-8-1-2020::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/oheProductData', { headers: this.header });
+    deleteDriveData(id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteDrive/' + id, { headers: this.header });
     }
-    towerCarAssetTypes() {
-        console.log('towerCarReport::');
-        return this.http.get(this.url + '/towerCarAssetTypes', { headers: this.header });
+    getDrivesCheckListData() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/checklist', { headers: this.header });
     }
-    oheAssetTypes() {
-        console.log('oheAssetTypes::');
-        return this.http.get(this.url + '/oheAssetTypes', { headers: this.header });
+    saveCheckListData(save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveCheckList', save, { headers: this.header });
     }
-    oheAssetId() {
-        console.log('oheAssetIdScheduleDate::');
-        return this.http.get(this.url + '/oheAssetId', { headers: this.header });
+    updateCheckListData(update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateCheckList', update, { headers: this.header });
     }
-    oheScheduleDate() {
-        console.log('oheAssetIdScheduleDate::');
-        return this.http.get(this.url + '/oheScheduleDate', { headers: this.header });
+    findCheckListDataById(id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/checkListById/' + id, { headers: this.header });
     }
-    scheduleCode() {
-        console.log('scheduleCode Services::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/scheduleCode', { headers: this.header });
+    deleteCheckListData(id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteCheckList/' + id, { headers: this.header });
     }
-    pbSwitchControl() {
-        return this.http.get(this.url + '/pbSwitchControl', { headers: this.header });
+    getElectrificationTargetsData() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/electrificationTargets', { headers: this.header });
     }
-    elementarySections() {
-        return this.http.get(this.url + '/elementarySections', { headers: this.header });
+    saveElectrificationTargetsData(save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveElectrificationTargets', save, { headers: this.header });
     }
-    submitForm(reportModel) {
-        console.log("model2-1-2020" + JSON.stringify(reportModel.reportId));
-        return this.http.post(this.url + '/submitForm', reportModel, { headers: this.header });
+    updateElectrificationTargetsData(update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateElectrificationTargets', update, { headers: this.header });
+    }
+    findElectrificationTargetsDataById(id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/electrificationTargetsById/' + id, { headers: this.header });
+    }
+    deleteElectrificationTargetsData(id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteElectrificationTargets/' + id, { headers: this.header });
+    }
+    getInspectionData() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/inspections', { headers: this.header });
+    }
+    saveInspectionsData(save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveInspections', save, { headers: this.header });
+    }
+    updateInspectionsData(update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateInspections', update, { headers: this.header });
+    }
+    findInspectionsDataById(id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/inspectionsById/' + id, { headers: this.header });
+    }
+    deleteInspectionsData(id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteInspections/' + id, { headers: this.header });
+    }
+    getStipulationData() {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/stipulations', { headers: this.header });
+    }
+    saveStipulationData(save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveStipulations', save, { headers: this.header });
+    }
+    updateStipulationData(update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateStipulations', update, { headers: this.header });
+    }
+    findStipulationDataById(id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/stipulationsById/' + id, { headers: this.header });
+    }
+    deleteStipulationData(id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteStipulations/' + id, { headers: this.header });
     }
 }
 

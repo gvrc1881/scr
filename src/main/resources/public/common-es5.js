@@ -1,86 +1,113 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["common"],{
 
-/***/ "./src/app/services/report.service.ts":
+/***/ "./src/app/services/drives.service.ts":
 /*!********************************************!*\
-  !*** ./src/app/services/report.service.ts ***!
+  !*** ./src/app/services/drives.service.ts ***!
   \********************************************/
-/*! exports provided: ReportService */
+/*! exports provided: DrivesService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportService", function() { return ReportService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DrivesService", function() { return DrivesService; });
+/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 
 
-var ReportService = /** @class */ (function () {
-    function ReportService(http) {
+var DrivesService = /** @class */ (function () {
+    function DrivesService(http) {
         this.http = http;
-        this.url = _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl;
+        this.myAppUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl;
         this.accessToken = JSON.parse(localStorage.getItem('accessToken'));
-        this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
-            'Content-Type': 'application/json;charset=UTF-8',
-            'accept': 'application/json',
+        this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
             'Authorization': "Bearer " + this.accessToken
         });
     }
-    ReportService.prototype.makeReport = function (model) {
-        return this.http.post(this.url + '/makeReport', model, { headers: this.header });
+    DrivesService.prototype.getDrivesData = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/drives', { headers: this.header });
     };
-    ReportService.prototype.reportParameterNames = function () {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/reportParameterNames', { headers: this.header });
+    //functionalLocationsTypes
+    DrivesService.prototype.findDepoTypeList = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/functionalLocationsTypes', { headers: this.header });
     };
-    ReportService.prototype.dailyProgressReports = function (reportType) {
-        return this.http.get(this.url + '/dailyProgressReports/' + reportType, { headers: this.header });
+    DrivesService.prototype.findAssetTypeList = function (assetType) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/allAssetTypeReports/' + assetType, { headers: this.header });
     };
-    ReportService.prototype.facilityNames = function () {
-        console.log('facilityNames::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/facilityNames', { headers: this.header });
+    DrivesService.prototype.findFunctionslUnits = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/facilityNames', { headers: this.header });
     };
-    ReportService.prototype.failuresTable = function () {
-        console.log('failuresTable::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/failuresTable', { headers: this.header });
+    DrivesService.prototype.findDriveDataById = function (id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/driveById/' + id, { headers: this.header });
     };
-    ReportService.prototype.powerBlocks = function () {
-        console.log('powerBlocks::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/powerBlocks', { headers: this.header });
+    DrivesService.prototype.saveDriveData = function (saveDriveData) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveDrive', saveDriveData, { headers: this.header });
     };
-    ReportService.prototype.oheProductData = function () {
-        console.log('productTable-8-1-2020::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/oheProductData', { headers: this.header });
+    DrivesService.prototype.deleteDriveData = function (id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteDrive/' + id, { headers: this.header });
     };
-    ReportService.prototype.towerCarAssetTypes = function () {
-        console.log('towerCarReport::');
-        return this.http.get(this.url + '/towerCarAssetTypes', { headers: this.header });
+    DrivesService.prototype.getDrivesCheckListData = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/checklist', { headers: this.header });
     };
-    ReportService.prototype.oheAssetTypes = function () {
-        console.log('oheAssetTypes::');
-        return this.http.get(this.url + '/oheAssetTypes', { headers: this.header });
+    DrivesService.prototype.saveCheckListData = function (save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveCheckList', save, { headers: this.header });
     };
-    ReportService.prototype.oheAssetId = function () {
-        console.log('oheAssetIdScheduleDate::');
-        return this.http.get(this.url + '/oheAssetId', { headers: this.header });
+    DrivesService.prototype.updateCheckListData = function (update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateCheckList', update, { headers: this.header });
     };
-    ReportService.prototype.oheScheduleDate = function () {
-        console.log('oheAssetIdScheduleDate::');
-        return this.http.get(this.url + '/oheScheduleDate', { headers: this.header });
+    DrivesService.prototype.findCheckListDataById = function (id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/checkListById/' + id, { headers: this.header });
     };
-    ReportService.prototype.scheduleCode = function () {
-        console.log('scheduleCode Services::');
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl + '/scheduleCode', { headers: this.header });
+    DrivesService.prototype.deleteCheckListData = function (id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteCheckList/' + id, { headers: this.header });
     };
-    ReportService.prototype.pbSwitchControl = function () {
-        return this.http.get(this.url + '/pbSwitchControl', { headers: this.header });
+    DrivesService.prototype.getElectrificationTargetsData = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/electrificationTargets', { headers: this.header });
     };
-    ReportService.prototype.elementarySections = function () {
-        return this.http.get(this.url + '/elementarySections', { headers: this.header });
+    DrivesService.prototype.saveElectrificationTargetsData = function (save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveElectrificationTargets', save, { headers: this.header });
     };
-    ReportService.prototype.submitForm = function (reportModel) {
-        console.log("model2-1-2020" + JSON.stringify(reportModel.reportId));
-        return this.http.post(this.url + '/submitForm', reportModel, { headers: this.header });
+    DrivesService.prototype.updateElectrificationTargetsData = function (update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateElectrificationTargets', update, { headers: this.header });
     };
-    return ReportService;
+    DrivesService.prototype.findElectrificationTargetsDataById = function (id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/electrificationTargetsById/' + id, { headers: this.header });
+    };
+    DrivesService.prototype.deleteElectrificationTargetsData = function (id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteElectrificationTargets/' + id, { headers: this.header });
+    };
+    DrivesService.prototype.getInspectionData = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/inspections', { headers: this.header });
+    };
+    DrivesService.prototype.saveInspectionsData = function (save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveInspections', save, { headers: this.header });
+    };
+    DrivesService.prototype.updateInspectionsData = function (update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateInspections', update, { headers: this.header });
+    };
+    DrivesService.prototype.findInspectionsDataById = function (id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/inspectionsById/' + id, { headers: this.header });
+    };
+    DrivesService.prototype.deleteInspectionsData = function (id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteInspections/' + id, { headers: this.header });
+    };
+    DrivesService.prototype.getStipulationData = function () {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/stipulations', { headers: this.header });
+    };
+    DrivesService.prototype.saveStipulationData = function (save) {
+        return this.http.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/saveStipulations', save, { headers: this.header });
+    };
+    DrivesService.prototype.updateStipulationData = function (update) {
+        return this.http.put(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/updateStipulations', update, { headers: this.header });
+    };
+    DrivesService.prototype.findStipulationDataById = function (id) {
+        return this.http.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/stipulationsById/' + id, { headers: this.header });
+    };
+    DrivesService.prototype.deleteStipulationData = function (id) {
+        return this.http.delete(src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiUrl + '/deleteStipulations/' + id, { headers: this.header });
+    };
+    return DrivesService;
 }());
 
 
