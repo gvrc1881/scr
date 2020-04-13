@@ -31,7 +31,7 @@
                                                         <i class="icon-user"></i>
                                                         Change Password
                                                     </a></button>
-                                                <button mat-menu-item><a href="" (click)="logout(userType)">
+                                                <button mat-menu-item><a href="" (click)="logout()">
                                                         <i class="icon-key"></i>
                                                         Log Out
                                                     </a></button>
@@ -68,13 +68,13 @@
                 <div id="menuDiv" class="nav-collapse collapse navbar-collapse navbar-responsive-collapse row">
                     <ul *ngFor="let menuList of MenusList; let i = index" class="nav navbar-nav" >
                         <li class="dropdown dropdown-fw dropdown-fw-disabled " 
-                            [ngClass]="[menuList.currentTab]" > <!--*ngIf="menuList.permission"-->
+                            [ngClass]="[menuList.currentTab]" *ngIf="menuList.permission">
                             <a class="text-uppercase" [routerLink]="[menuList.menuUrl]" >
                                 <span> <i class="{{menuList.icon}}"></i> </span> {{menuList.menuName}} 
                             </a>
                             <ul  id="submenuul" class="dropdown-menu dropdown-menu-fw">
                                 <li *ngFor="let menu of menuList.subMenus; let j = index" [ngClass]="menu.subMenuName === 'Jobs Info' ? ['disabled active-item'] : menu.subMenuName === 'Divisions Info' ? ['disabled active-item'] : menu.currentSubMenu !== '' ? ['active-item'] : [''] ">
-                                    <a [routerLink]="[menu.subMenuURL]" > <!--*ngIf="menu.rolePermission && menu.permission"-->
+                                    <a [routerLink]="[menu.subMenuURL]" ngIf="menu.rolePermission && menu.permission">
                                         <span> <i class="{{menu.subMenuIcon}}"></i></span> {{menu.subMenuName}}
                                     </a>
                                 </li>

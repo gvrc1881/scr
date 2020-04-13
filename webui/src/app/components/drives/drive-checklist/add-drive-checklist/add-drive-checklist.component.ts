@@ -4,7 +4,6 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DriveModel } from 'src/app/models/drive.model';
 
 @Component({
   selector: 'app-add-drive-checklist',
@@ -116,7 +115,7 @@ export class AddDriveChecklistComponent implements OnInit {
       'status': [null, Validators.required]
     });
   }
-  onAddStipulationFormSubmit() {
+  onAddDriveChecklistFormSubmit() {
     if (this.addDriveChecklistFormGroup.invalid) {
       this.isSubmit = false;
       return;

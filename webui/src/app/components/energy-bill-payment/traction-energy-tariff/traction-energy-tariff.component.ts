@@ -39,7 +39,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     filesExists: boolean = false;
     tractionEnergyTariffId: any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
-    
+    isSubmit: boolean = false;
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
@@ -48,6 +48,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         private formBuilder: FormBuilder,
         private reportService: ReportService
     ){
+
     }
     
 	ngOnInit() {
@@ -83,7 +84,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
     }
-    
+    public get f() { return this.contentManagementFormGroup.controls; }
     fileUpload(id) {
     	alert("id:::"+id);
     	this.uploadFile = true;

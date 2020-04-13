@@ -4,6 +4,7 @@ import { DriveChecklistModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-drive-checklist',
@@ -31,6 +32,8 @@ export class DriveChecklistComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private drivesService: DrivesService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -42,7 +45,11 @@ export class DriveChecklistComponent implements OnInit {
     this.getDrivesData();
 
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   getDrivesData() {
     const drive: DriveChecklistModel[] = [];
     this.drivesService.getDrivesCheckListData().subscribe((data) => {
@@ -61,6 +68,21 @@ export class DriveChecklistComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
-
+  processEditAction(id){
+    this.router.navigate([id],{relativeTo: this.route});
+  }
+  delete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteDriveData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Drive Successfully");
+      this.getDrivesData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Drive Deletion Failed.");
+    })
+  }
 
 }

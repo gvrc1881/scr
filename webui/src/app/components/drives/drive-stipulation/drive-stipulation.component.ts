@@ -68,6 +68,11 @@ export class DriveStipulationComponent implements OnInit {
   processEditAction(id){
     this.router.navigate([id],{relativeTo: this.route});
   }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteStipulationData(id).subscribe(data => {

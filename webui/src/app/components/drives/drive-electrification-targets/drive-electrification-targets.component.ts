@@ -47,7 +47,11 @@ export class DriveElectrificationTargetsComponent implements OnInit {
     this.getElectrificationTargetsData();
 
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   getElectrificationTargetsData() {
     const electrificationTargets: ElectrificationTargetstModel[] = [];
     this.drivesService.getElectrificationTargetsData().subscribe((data) => {

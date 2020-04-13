@@ -5,6 +5,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { DriveModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
+import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.component.html',
@@ -24,10 +25,10 @@ export class AddDriveComponent implements OnInit {
   isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-  functionalUnitList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-
+  functionalUnitList:any;
+  allFunctionalUnitsList:any;
   driveFormErrors: any;
-  resp:any;
+  resp: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,7 +52,7 @@ export class AddDriveComponent implements OnInit {
       isIdRequired: {},
       functionalUnit: {},
       checklist: {},
-      status:{}
+      status: {}
     };
   }
 
@@ -70,9 +71,10 @@ export class AddDriveComponent implements OnInit {
       this.getDriveDataById(this.id);
 
     } else {
-
       this.findDepoTypeList();
-      this.findAssetTypeList();
+      //this.findAssetTypeList();
+      this.findStatusItemDetails();
+      this.findFunctionalUnits();
     }
   }
   onFormValuesChanged() {
@@ -112,24 +114,50 @@ export class AddDriveComponent implements OnInit {
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
-        //console.log('depoTypes = '+depoTypes)
+        console.log('depoTypes = ' + JSON.stringify(depoTypes))
         this.depoTypeList = depoTypes;
       })
   }
 
-  findAssetTypeList() {
-    this.drivesService.findAssetTypeList('PSI_FIXED_ASSET')
+  findAssetTypeList(assertType) {
+    this.drivesService.findAssetTypeList(assertType)
       .subscribe((assetTypes) => {
         //console.log('assetTypes = '+JSON.stringify(assetTypes))
         this.assetTypeList = assetTypes;
-        this.depoTypeList = assetTypes;
+        // this.depoTypeList = assetTypes;
       })
   }
+  findStatusItemDetails() {
+    /* this.drivesService.findStatusItemDetails()
+      .subscribe((assetTypes) => {
+       console.log('assetTypes = '+JSON.stringify(assetTypes))
+        
+      }) */
+  }
+  findFunctionalUnits() {
+    this.drivesService.findFunctionslUnits()
+      .subscribe((units) => {
+        console.log('findFunctionalUnits = ' + JSON.stringify(units))
+        this.allFunctionalUnitsList = units;
+      })
+  }
+  updateAssertType($event) {
+    console.log($event.value);
+    console.log(Constants.ASSERT_TYPE[$event.value])
+    if ($event.value) {
+      this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
+      this.functionalUnitList = this.allFunctionalUnitsList.filter(element =>{
+        console.log(JSON.stringify(element));
+        return element.depotType == $event.value;
+      })
+      console.log(this.functionalUnitList)
+    }
+  }
 
-  getDriveDataById(id){
+  getDriveDataById(id) {
     this.drivesService.findDriveDataById(id)
       .subscribe((resp) => {
-        console.log('depoTypes = '+JSON.stringify(resp)); 
+        console.log('getDriveDataById = ' + JSON.stringify(resp));
         this.resp = resp;
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
@@ -141,11 +169,11 @@ export class AddDriveComponent implements OnInit {
           assetDescription: this.resp.assetDescription,
           criteria: this.resp.criteria,
           targetQuantity: this.resp.target_qty,
-          functionalUnit:this.resp.functionalUnit,
-          isIdRequired:this.resp.isIdRequired,
-          checklist:this.resp.checklist,
-      }); 
-      this.spinnerService.hide();       
+          functionalUnit: this.resp.functionalUnit,
+          isIdRequired: this.resp.isIdRequired,
+          checklist: this.resp.checklist,
+        });
+        this.spinnerService.hide();
       })
   }
 
@@ -187,7 +215,7 @@ export class AddDriveComponent implements OnInit {
     }
   }
 
-  onGoBack(){
+  onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

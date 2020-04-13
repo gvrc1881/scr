@@ -96,11 +96,11 @@
                                                     <!-- DEPO TYPE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Depo Type"
+                                                            <mat-select placeholder="Select Depo Type" (selectionChange)="updateAssertType($event)"
                                                                 [formControl]="addDriveFormGroup.controls['depoType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
-                                                                    [value]="depoType.id">
-                                                                    {{ depoType.facilityName }}
+                                                                    [value]="depoType.code">
+                                                                    {{ depoType.description }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
@@ -202,7 +202,7 @@
                                                                 [formControl]="addDriveFormGroup.controls['functionalUnit']">
                                                                 <mat-option *ngFor="let functionalUnit of functionalUnitList"
                                                                     [value]="functionalUnit.id">
-                                                                    {{ functionalUnit.value }}
+                                                                    {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

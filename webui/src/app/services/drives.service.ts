@@ -26,6 +26,9 @@ export class DrivesService {
     findAssetTypeList(assetType){
         return this.http.get<any[]>(environment.apiUrl + '/allAssetTypeReports/'+assetType, { headers: this.header });
     }
+    findFunctionslUnits(){
+        return this.http.get<any[]>(environment.apiUrl + '/facilityNames', { headers: this.header });
+    }
     findDriveDataById(id:number){
         return this.http.get<any[]>(environment.apiUrl + '/driveById/'+id, { headers: this.header });
     }

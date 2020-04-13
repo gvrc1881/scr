@@ -46,7 +46,11 @@ export class DrivesComponent implements OnInit {
     this.getDrivesData();
 
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   getDrivesData() {
     const drive: DriveModel[] = [];
     this.drivesService.getDrivesData().subscribe((data) => {

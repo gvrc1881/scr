@@ -46,7 +46,11 @@ export class DriveInspectionComponent implements OnInit {
     this.spinnerService.show();
     this.getInspectionData();
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   getInspectionData() {
     const inspections: InspectionstModel[] = [];
     this.drivesService.getInspectionData().subscribe((data) => {

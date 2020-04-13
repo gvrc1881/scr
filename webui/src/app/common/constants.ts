@@ -30,7 +30,26 @@ export const Constants = {
         {id:4, permission:"View/Edit"},
         {id:5, permission:"View/Add/Edit/Delete"},
         {id:6, permission:"No Permission"}        
-    ]
+    ],
 
-    
+    ASSERT_TYPE:{
+        'RB':'',
+        'ZONE':'',
+        'DIV':'',
+        'SUBDIV':'',
+        'TRD':'',
+        'OHE':'OHE_FIXED_ASSET',
+        'PSI':'PSI_FIXED_ASSET',
+        'SP':'PSI_FIXED_ASSET',
+        'SSP':'PSI_FIXED_ASSET',
+        'TSS':'PSI_FIXED_ASSET',
+        'FP':'',
+        'RCC':'RCC_FIXED_ASSET',
+        'TPCC':'',
+        'DIVOFF':'',
+        'SUBDIV_OFF':'',
+        'ELS':'',
+        'DLS':'',
+        'RDSO':''
+    }
 };
