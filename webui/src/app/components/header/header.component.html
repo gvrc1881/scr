@@ -74,7 +74,7 @@
                             </a>
                             <ul  id="submenuul" class="dropdown-menu dropdown-menu-fw">
                                 <li *ngFor="let menu of menuList.subMenus; let j = index" [ngClass]="menu.subMenuName === 'Jobs Info' ? ['disabled active-item'] : menu.subMenuName === 'Divisions Info' ? ['disabled active-item'] : menu.currentSubMenu !== '' ? ['active-item'] : [''] ">
-                                    <a [routerLink]="[menu.subMenuURL]" ngIf="menu.rolePermission && menu.permission">
+                                    <a [routerLink]="[menu.subMenuURL]" *ngIf="menu.rolePermission && menu.permission">
                                         <span> <i class="{{menu.subMenuIcon}}"></i></span> {{menu.subMenuName}}
                                     </a>
                                 </li>

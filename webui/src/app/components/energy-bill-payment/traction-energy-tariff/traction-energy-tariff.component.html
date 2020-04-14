@@ -228,10 +228,10 @@
 	                                                        <mat-icon style="color: rgb(0, 145, 234);">attach_file</mat-icon>
 	                                                      </a>
 	                                                      <button mat-icon-button matTooltip="Document View"
-			                                                    (click)="viewDocumentDetails(row.id)" *ngIf="row.contentLink ; else elseBlock">
+			                                                    (click)="viewDocumentDetails(row.id)" > <!--*ngIf="row.contentLink ; else elseBlock"-->
 			                                                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
 			                                               </button>
-			                                               <ng-template #elseBlock><mat-icon></mat-icon></ng-template>
+			                                              <!--  <ng-template #elseBlock><mat-icon></mat-icon></ng-template> -->
 	                                                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
 	                                                        (click)="deleteTractionEneTariff(row.id)">
 	                                                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>

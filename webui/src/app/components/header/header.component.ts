@@ -341,6 +341,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
+        permission:this.commonService.findPermission('Drives', 'menu', 'view'),
         currentTab: !!path && path.includes("drives") || path.includes("checklist") ||
         path.includes("target") || path.includes("progress-record") || 
         path.includes("failure-analysis") || path.includes("electrification-targets") ||
@@ -351,12 +352,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuURL: "drives",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
+            permission:this.commonService.findPermission('Drives', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("drives") ? "active-item" : "",
           },
           {
             subMenuName: "Checklist",
             subMenuURL: "checklist",
             subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Checklist', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("checklist") ? "active-item" : "",
           },
@@ -365,18 +368,21 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuURL: "target",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
+            permission:this.commonService.findPermission('Target', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("target") ? "active-item" : "",
           },
           {
             subMenuName: "Progress Record",
             subMenuURL: "progress-record",
             subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Progress Record', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("progress-record") ? "active-item" : "",
           },
           {
             subMenuName: "Failure Analysis",
             subMenuURL: "failure-analysis",
+            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
             subMenuIcon: "fa fa-file",
             rolePermission:true,
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
@@ -385,6 +391,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuName: "Electrification Targets",
             subMenuURL: "electrification-targets",
             subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Electrification Targets', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("electrification-targets") ? "active-item" : "",
           },
@@ -392,6 +399,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuName: "Inspection",
             subMenuURL: "inspection",
             subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Inspection', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("inspection") ? "active-item" : "",
           },
@@ -400,6 +408,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuURL: "stipulation",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
+            permission:this.commonService.findPermission('Stipulation', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("stipulation") ? "active-item" : "",
           }
         ]
