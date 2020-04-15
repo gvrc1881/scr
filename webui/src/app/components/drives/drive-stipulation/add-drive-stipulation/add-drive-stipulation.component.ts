@@ -16,7 +16,8 @@ export class AddDriveStipulationComponent implements OnInit {
   id: number = 0;
   isSubmit: boolean = false;
   resp: any;
-
+  selectedFiles: File[] = [];
+  filesExists: boolean = false;
   addDriveStipulationFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stipulationFormErrors: any;
@@ -176,4 +177,13 @@ export class AddDriveStipulationComponent implements OnInit {
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
+  upload(event) {
+    if (event.target.files.length > 0) { this.filesExists = true; }
+    for (var i = 0; i < event.target.files.length; i++) {
+        this.selectedFiles.push(event.target.files[i]);
+    }
+}
+removeFile(id) {
+    this.selectedFiles.splice(id, 1);
+}
 }

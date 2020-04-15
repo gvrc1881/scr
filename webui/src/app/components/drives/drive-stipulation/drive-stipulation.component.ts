@@ -17,7 +17,7 @@ export class DriveStipulationComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
-
+  filterData;
   displayedColumns = ['sno', 'stipulation', 'stipulationTo', 'dateOfStipulation', 'dateComplied',
    'compliance', 'attachment', 'compliedBy', 'assetType','actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
@@ -26,7 +26,7 @@ export class DriveStipulationComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-
+  gridData =[];
   stipulationsList:any;
 
   constructor(
@@ -44,7 +44,23 @@ export class DriveStipulationComponent implements OnInit {
 
     this.spinnerService.show();
     this.getStipulationData();
-
+    this.filterData={
+      filterColumnNames:[
+          {"Key":'sno',"Value":" "},
+          {"Key":'stipulation',"Value":" "},
+          {"Key":'stipulationTo',"Value":" "},
+          {"Key":'dateOfStipulation',"Value":" "},
+          {"Key":'dateComplied',"Value":" "},
+          {"Key":'compliance',"Value":""},
+          {"Key":'attachment',"Value":" "},
+          {"Key":'compliedBy',"Value":" "},
+          {"Key":'assetType',"Value":" "},
+      ],
+      gridData:  this.gridData,
+      dataSource: this.dataSource,
+      paginator:  this.paginator,
+      sort:  this.sort
+    };
   }
 
   getStipulationData() {
@@ -56,8 +72,9 @@ export class DriveStipulationComponent implements OnInit {
         this.stipulationsList[i].sno = i + 1;
         stipulations.push(this.stipulationsList[i]);
       }
-
+      this.filterData.gridData = stipulations;
       this.dataSource = new MatTableDataSource(stipulations);
+      this.filterData.dataSource=this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;            
       this.spinnerService.hide();
@@ -65,13 +82,17 @@ export class DriveStipulationComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
+  updatePagination(){
+   this.filterData.dataSource=this.filterData.dataSource;
+   this.filterData.dataSource.paginator = this.paginator;
+  }
   processEditAction(id){
     this.router.navigate([id],{relativeTo: this.route});
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    this.filterData.dataSource.filter = filterValue;
   }
   delete(id){
     this.spinnerService.show();

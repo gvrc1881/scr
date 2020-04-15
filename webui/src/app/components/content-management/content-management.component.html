@@ -89,8 +89,7 @@
                         </div>
 
                         <div class="clear"> </div>
-                        <div class="col-md-12">
-                          
+                        <div class="col-md-12">                          
                             <input type="file" *ngIf="addPermission" formControlName="uploadFiles" name="uploadFile" id="uploadFile" multiple (change)="upload($event)" />
                             <mat-error *ngIf="isSubmit && f.uploadFiles.errors && f.uploadFiles.errors.required"
                                 class="alert alert-danger">File required</mat-error>

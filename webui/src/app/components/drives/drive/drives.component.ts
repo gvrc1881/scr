@@ -26,9 +26,7 @@ export class DrivesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-
   drivesList:any;
-
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
