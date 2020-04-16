@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddDriveStipulationComponent implements OnInit {
   save: boolean = true;
   update: boolean = false;
+  title: string;
   id: number = 0;
   isSubmit: boolean = false;
   resp: any;
@@ -22,6 +23,7 @@ export class AddDriveStipulationComponent implements OnInit {
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stipulationFormErrors: any;
   stateList: any;
+  assertTypeList: any;
   constructor(
     private formBuilder: FormBuilder,
     private drivesService: DrivesService,
@@ -46,6 +48,7 @@ export class AddDriveStipulationComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+    this.findAssertTypeList();
     this.createStipulationForm();
     if (!isNaN(this.id)) {
       this.addDriveStipulationFormGroup.valueChanges.subscribe(() => {
@@ -54,20 +57,32 @@ export class AddDriveStipulationComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
+      this.title = 'Edit';
       this.getStipulationDataById(this.id);
 
     } else {
       this.save = true;
       this.update = false;
+      this.title = 'Save';
     }
   }
+  findAssertTypeList() {
+    this.drivesService.findAssertTypeListFromProduct().subscribe((data) => {
+      this.assertTypeList = data;
+      console.log(JSON.stringify(data))
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
 
   getStipulationDataById(id) {
     this.drivesService.findStipulationDataById(id)
       .subscribe((resp) => {
         console.log('depoTypes = ' + JSON.stringify(resp));
         this.resp = resp;
-        console.log('date : '+this.resp.dateOfStipulation)
+        console.log('date : ' + this.resp.dateOfStipulation)
         this.addDriveStipulationFormGroup.patchValue({
           id: this.resp.id,
           stipulation: this.resp.stipulation,
@@ -75,9 +90,9 @@ export class AddDriveStipulationComponent implements OnInit {
           dateOfStipulation: new Date(this.resp.dateOfStipulation),
           dateComplied: new Date(this.resp.dateComplied),
           compliance: this.resp.compliance,
-          attachment: this.resp.attachment,
+          //attachment: this.resp.attachment,
           compliedBy: this.resp.compliedBy,
-          assetType: this.resp.assetType
+          assetType: this.resp.assetType['id']
         });
         this.spinnerService.hide();
       })
@@ -107,7 +122,7 @@ export class AddDriveStipulationComponent implements OnInit {
         'dateOfStipulation': [null, Validators.required],
         'dateComplied': [null, Validators.required],
         'compliance': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
-        'attachment': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
+        'attachment': [null, Validators.compose([Validators.required])],
         'compliedBy': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
         'assetType': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])]
       });
@@ -124,19 +139,20 @@ export class AddDriveStipulationComponent implements OnInit {
     if (this.save) {
       let save = {
         stipulation: this.addDriveStipulationFormGroup.value.stipulation,
-          stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
-          dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
-          dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
-          compliance: this.addDriveStipulationFormGroup.value.compliance,
-          attachment: this.addDriveStipulationFormGroup.value.attachment,
-          compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-          assetType: this.addDriveStipulationFormGroup.value.assetType,
-          "createdBy": "1",
-          "createdOn": "2020-04-01",
-          "updatedBy": "1",
-          "updatedOn": "2020-04-01"
+        stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
+        dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
+        dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
+        compliance: this.addDriveStipulationFormGroup.value.compliance,
+        //  attachment: this.addDriveStipulationFormGroup.value.attachment,
+        compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
+        assetType: this.addDriveStipulationFormGroup.value.assetType,
+        "createdBy": "1",
+        "createdOn": "2020-04-01",
+        "updatedBy": "1",
+        "updatedOn": "2020-04-01"
       }
-      this.drivesService.saveStipulationData(save).subscribe(response => {
+      console.log("save = " + this.selectedFiles)
+      this.drivesService.saveStipulationData(save, this.selectedFiles).subscribe(response => {
         console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Stipulation Data saved Successfully");
@@ -146,23 +162,23 @@ export class AddDriveStipulationComponent implements OnInit {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Stipulation Data saving Failed.");
       })
-    }else if(this.update){
+    } else if (this.update) {
       let update = {
-          id:this.id,
-          stipulation: this.addDriveStipulationFormGroup.value.stipulation,
-          stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
-          dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
-          dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
-          compliance: this.addDriveStipulationFormGroup.value.compliance,
-          attachment: this.addDriveStipulationFormGroup.value.attachment,
-          compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-          assetType: this.addDriveStipulationFormGroup.value.assetType,
-          "createdBy": "1",
-          "createdOn": "2020-04-01",
-          "updatedBy": "1",
-          "updatedOn": "2020-04-01"
+        id: this.id,
+        stipulation: this.addDriveStipulationFormGroup.value.stipulation,
+        stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
+        dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
+        dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
+        compliance: this.addDriveStipulationFormGroup.value.compliance,
+        // attachment: this.addDriveStipulationFormGroup.value.attachment,
+        compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
+        assetType: this.addDriveStipulationFormGroup.value.assetType,
+        "createdBy": "1",
+        "createdOn": "2020-04-01",
+        "updatedBy": "1",
+        "updatedOn": "2020-04-01"
       }
-      this.drivesService.updateStipulationData(update).subscribe(response => {
+      this.drivesService.updateStipulationData(update, this.selectedFiles).subscribe(response => {
         console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Stipulation Data Updated Successfully");
@@ -180,10 +196,11 @@ export class AddDriveStipulationComponent implements OnInit {
   upload(event) {
     if (event.target.files.length > 0) { this.filesExists = true; }
     for (var i = 0; i < event.target.files.length; i++) {
-        this.selectedFiles.push(event.target.files[i]);
+      this.selectedFiles.push(event.target.files[i]);
     }
-}
-removeFile(id) {
+    console.log(this.selectedFiles)
+  }
+  removeFile(id) {
     this.selectedFiles.splice(id, 1);
-}
+  }
 }

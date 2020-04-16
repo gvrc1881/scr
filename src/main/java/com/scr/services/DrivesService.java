@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
@@ -15,6 +16,8 @@ import com.scr.model.DriveCheckList;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.MeasureOrActivityList;
+import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.DriveElectrificationTargetsRepository;
@@ -22,6 +25,8 @@ import com.scr.repository.DriveInspectionRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
+import com.scr.repository.MeasureOrActivityListRepository;
+import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
 
 @Service
@@ -48,6 +53,11 @@ public class DrivesService {
 	@Autowired
 	private DriveInspectionRepository driveInspectionRepository;
 	
+	@Autowired
+	private MeasureOrActivityListRepository measureOrActivityListRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 	
 	public List<Drives> findAllDrives() {
 		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -90,6 +100,11 @@ public class DrivesService {
 	public List<DriveCheckList> findAllCheckLists() {
 		return checklistRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
+	
+	public List<MeasureOrActivityList> findAllMeasureOrActivityList() {
+		return measureOrActivityListRepository.findAll();
+	}
+	
 	public @Valid boolean saveCheckListData(@Valid DriveRequest driveRequest) {
 		DriveCheckList driveCheckList = driveMapper.prepareCheckListModel(driveRequest);
 		driveCheckList = checklistRepository.save(driveCheckList);
@@ -169,16 +184,21 @@ public class DrivesService {
 		return driveStipulationRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
 	
-	public @Valid boolean saveStipulationsData(@Valid DriveRequest stipulationsRequest) {
-		Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest);
+
+	public List<Product> findAllProduct() {		
+		return productRepository.findAll();
+	}
+	
+	public @Valid boolean saveStipulationsData(@Valid DriveRequest stipulationsRequest, List<MultipartFile> file) {
+		Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest, file);
 		stipulations = driveStipulationRepository.save(stipulations);
 		return true;
 	}	
 
-	public String updateStipulationsData(@Valid DriveRequest request) {
+	public String updateStipulationsData(@Valid DriveRequest request, List<MultipartFile> file) {
 		Optional<Stipulations> stipulations = driveStipulationRepository.findById(request.getId());
 		if(stipulations.isPresent()) {
-			Stipulations stipulationsUpdate = driveMapper.prepareStipulationsUpdataData(stipulations.get(), request);
+			Stipulations stipulationsUpdate = driveMapper.prepareStipulationsUpdataData(stipulations.get(), request, file);
 			stipulationsUpdate = driveStipulationRepository.save(stipulationsUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
@@ -206,16 +226,16 @@ public class DrivesService {
 		return driveInspectionRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
 
-	public @Valid boolean saveInspectionsData(@Valid DriveRequest request) {
-		CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request);
+	public @Valid boolean saveInspectionsData(@Valid DriveRequest request, List<MultipartFile> file) {
+		CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request, file);
 		inspections = driveInspectionRepository.save(inspections);
 		return true;
 	}	
 
-	public String updateInspectionsData(@Valid DriveRequest request) {
+	public String updateInspectionsData(@Valid DriveRequest request, List<MultipartFile> file) {
 		Optional<CrsEigInspections> inspections = driveInspectionRepository.findById(request.getId());
 		if(inspections.isPresent()) {
-			CrsEigInspections inspectionsUpdate = driveMapper.prepareInspectionsUpdataData(inspections.get(), request);
+			CrsEigInspections inspectionsUpdate = driveMapper.prepareInspectionsUpdataData(inspections.get(), request, file);
 			inspectionsUpdate = driveInspectionRepository.save(inspectionsUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
@@ -238,10 +258,5 @@ public class DrivesService {
 	public Optional<CrsEigInspections> findInspectionsById(Long id) {
 		return driveInspectionRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
-
-	
-
-	
-	
 
 }

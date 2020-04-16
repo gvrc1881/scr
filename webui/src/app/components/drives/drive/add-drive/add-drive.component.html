@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Drive Form</div>
+                                <div class="panel-heading">{{title}} Drive Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -100,7 +100,7 @@
                                                                 [formControl]="addDriveFormGroup.controls['depoType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
                                                                     [value]="depoType.code">
-                                                                    {{ depoType.description }}
+                                                                    {{ depoType.code }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
@@ -115,7 +115,7 @@
                                                             <mat-select placeholder="Select Asset Type"
                                                                 [formControl]="addDriveFormGroup.controls['assetType']">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
-                                                                    [value]="assetType.id">
+                                                                    [value]="assetType.productId">
                                                                     {{ assetType.productId }}
                                                                 </mat-option>
                                                             </mat-select>
@@ -184,7 +184,7 @@
                                                             <mat-select placeholder="Is Id Required"
                                                                 [formControl]="addDriveFormGroup.controls['isIdRequired']">
                                                                 <mat-option *ngFor="let isIdRequired of isIdRequiredsList"
-                                                                    [value]="isIdRequired.id">
+                                                                    [value]="isIdRequired.value">
                                                                     {{ isIdRequired.value}}
                                                                 </mat-option>
                                                             </mat-select>
@@ -201,7 +201,7 @@
                                                             <mat-select placeholder="Select Functional Unit"
                                                                 [formControl]="addDriveFormGroup.controls['functionalUnit']">
                                                                 <mat-option *ngFor="let functionalUnit of functionalUnitList"
-                                                                    [value]="functionalUnit.id">
+                                                                    [value]="functionalUnit.facilityName" id="functionalUnit.id">
                                                                     {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
@@ -218,7 +218,7 @@
                                                             <mat-select placeholder="Checklist"
                                                                 [formControl]="addDriveFormGroup.controls['checklist']">
                                                                 <mat-option *ngFor="let Checklist of CheckList"
-                                                                    [value]="Checklist.id">
+                                                                    [value]="Checklist.value">
                                                                     {{ Checklist.value}}
                                                                 </mat-option>
                                                             </mat-select>
@@ -234,7 +234,7 @@
                                                             <mat-select placeholder="Status"
                                                                 [formControl]="addDriveFormGroup.controls['status']">
                                                                 <mat-option *ngFor="let status of statusList"
-                                                                    [value]="status.id">
+                                                                    [value]="status.value">
                                                                     {{ status.value}}
                                                                 </mat-option>
                                                             </mat-select>
@@ -250,12 +250,12 @@
                                                     <div class="float-right" style="float: right;">
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
-                                                            [disabled]="addDriveFormGroup.invalid" *ngIf="saveUser">
+                                                            [disabled]="addDriveFormGroup.invalid" *ngIf="save">
                                                             Submit
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             [disabled]="addDriveFormGroup.invalid" color="accent"
-                                                            mat-raised-button="" *ngIf="updateUser">
+                                                            mat-raised-button="" *ngIf="update">
                                                             Update
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"

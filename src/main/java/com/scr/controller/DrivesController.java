@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
@@ -26,6 +31,8 @@ import com.scr.model.DriveCheckList;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.MeasureOrActivityList;
+import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.services.DrivesService;
 import com.scr.util.Constants;
@@ -125,6 +132,19 @@ public class DrivesController {
 			logger.error(e);
 		}
 		return ResponseEntity.ok((checkList));
+	}
+	
+	@RequestMapping(value = "/measureActivityList", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<MeasureOrActivityList>> findAllMeasureActivityList() throws JSONException {
+		List<MeasureOrActivityList> measureOrActivityList = null;
+		try {			
+			measureOrActivityList = service.findAllMeasureOrActivityList();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((measureOrActivityList));
 	}
 	
 	@RequestMapping(value = "/saveCheckList", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -289,10 +309,52 @@ public class DrivesController {
 		return ResponseEntity.ok((stipulationsList));
 	}
 	
-	@RequestMapping(value = "/saveStipulations", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest) throws JSONException {		
+	@RequestMapping(value = "/assertType", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Product>> findAllAssertTypeFromProduct() throws JSONException {
+		List<Product> productList = null;
 		try {			
-			service.saveStipulationsData(stipulationsRequest);
+			productList = service.findAllProduct();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((productList));
+	}
+	
+	@PostMapping(value="/saveStipulations",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public ResponseStatus saveStipulationsData(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("stipulation") String stipulation,
+			@RequestParam("stipulationTo") String stipulationTo,
+			@RequestParam("dateOfStipulation") String dateOfStipulation,
+			@RequestParam("dateComplied") String dateComplied,
+			@RequestParam("compliance") String compliance,
+			@RequestParam("compliedBy") String compliedBy,
+			@RequestParam("assetType") String assetType,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("createdOn") String createdOn,
+			@RequestParam("updatedBy") String updatedBy,
+			@RequestParam("updatedOn") String updatedOn) {
+		try {
+			logger.info("Save Stipulations");
+			logger.info("dateOfStipulation= "+dateOfStipulation);
+			logger.info("dateComplied= "+dateComplied);
+			DriveRequest stipulationsRequest = new DriveRequest();
+			stipulationsRequest.setStipulation(stipulation);
+			stipulationsRequest.setStipulationTo(stipulationTo);
+			stipulationsRequest.setDateOfStipulation(Helper.convertStringToTimestamp(dateOfStipulation));
+			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
+			stipulationsRequest.setCompliance(compliance);
+			stipulationsRequest.setCompliedBy(compliedBy);
+			stipulationsRequest.setAssetType(assetType);
+			stipulationsRequest.setCreatedBy(createdBy);
+			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			stipulationsRequest.setUpdatedBy(updatedBy);
+			//stipulationsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			
+			service.saveStipulationsData(stipulationsRequest, file);
 			return Helper.findResponseStatus("Stipulations Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch (Exception e) {
 			logger.error("ERROR >> While adding Stipulations data. "+e.getMessage());
@@ -300,10 +362,53 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateStipulations", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public ResponseStatus updateStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest) throws JSONException {		
-		try {			
-			String status = service.updateStipulationsData(stipulationsRequest);
+	/*
+	 * @RequestMapping(value = "/saveInspections", method = RequestMethod.POST,
+	 * headers = "Accept=application/json") public ResponseStatus
+	 * saveInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
+	 * throws JSONException { try { service.saveInspectionsData(inspectionsRequest);
+	 * return Helper.findResponseStatus("Inspections Data Added Successfully",
+	 * Constants.SUCCESS_CODE); }catch (Exception e) {
+	 * logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
+	 * return
+	 * Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage
+	 * (), Constants.FAILURE_CODE); } }
+	 */
+	
+	
+	@PostMapping("/updateStipulations")
+	@ResponseBody
+	public ResponseStatus updateStipulationsData(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("id") String id,
+			@RequestParam("stipulation") String stipulation,
+			@RequestParam("stipulationTo") String stipulationTo,
+			@RequestParam("dateOfStipulation") String dateOfStipulation,
+			@RequestParam("dateComplied") String dateComplied,
+			@RequestParam("compliance") String compliance,
+			@RequestParam("compliedBy") String compliedBy,
+			@RequestParam("assetType") String assetType,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("createdOn") String createdOn,
+			@RequestParam("updatedBy") String updatedBy,
+			@RequestParam("updatedOn") String updatedOn) {
+		try {
+			logger.info("dateOfStipulation= "+dateOfStipulation);
+			DriveRequest stipulationsRequest = new DriveRequest();
+			stipulationsRequest.setId(Long.parseLong(id));
+			stipulationsRequest.setStipulation(stipulation);
+			stipulationsRequest.setStipulationTo(stipulationTo);
+			stipulationsRequest.setDateOfStipulation(Helper.convertStringToTimestamp(dateOfStipulation));
+			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
+			stipulationsRequest.setCompliance(compliance);
+			stipulationsRequest.setCompliedBy(compliedBy);
+			stipulationsRequest.setAssetType(assetType);
+			stipulationsRequest.setCreatedBy(createdBy);
+			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			stipulationsRequest.setUpdatedBy(updatedBy);
+			//stipulationsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			
+			String status = service.updateStipulationsData(stipulationsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 				return Helper.findResponseStatus("Stipulations Data Updated Successfully", Constants.SUCCESS_CODE);
 			else
@@ -314,6 +419,32 @@ public class DrivesController {
 		}
 	}
 	
+	/*
+	 * @RequestMapping(value = "/saveStipulations", method = RequestMethod.POST,
+	 * headers = "Accept=application/json") public ResponseStatus
+	 * saveStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest)
+	 * throws JSONException { try {
+	 * service.saveStipulationsData(stipulationsRequest); return
+	 * Helper.findResponseStatus("Stipulations Data Added Successfully",
+	 * Constants.SUCCESS_CODE); }catch (Exception e) {
+	 * logger.error("ERROR >> While adding Stipulations data. "+e.getMessage());
+	 * return Helper.findResponseStatus("Stipulations Addition is Failed with "+e.
+	 * getMessage(), Constants.FAILURE_CODE); } }
+	 */
+	/*
+	 * @RequestMapping(value = "/updateStipulations", method = RequestMethod.PUT,
+	 * headers = "Accept=application/json") public ResponseStatus
+	 * updateStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest)
+	 * throws JSONException { try { String status =
+	 * service.updateStipulationsData(stipulationsRequest);
+	 * if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE)) return
+	 * Helper.findResponseStatus("Stipulations Data Updated Successfully",
+	 * Constants.SUCCESS_CODE); else return Helper.findResponseStatus(status,
+	 * Constants.FAILURE_CODE); }catch (Exception e) {
+	 * logger.error("ERROR >> While updating Stipulations data. "+e.getMessage());
+	 * return Helper.findResponseStatus("Stipulations Updation is Failed with "+e.
+	 * getMessage(), Constants.FAILURE_CODE); } }
+	 */
 	@RequestMapping(value = "/deleteStipulations/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteStipulations(@PathVariable("id") Long id) throws JSONException {
 		try {
@@ -360,10 +491,46 @@ public class DrivesController {
 		return ResponseEntity.ok((inspectionsList));
 	}
 	
-	@RequestMapping(value = "/saveInspections", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest) throws JSONException {		
-		try {			
-			service.saveInspectionsData(inspectionsRequest);
+	@PostMapping(value="/saveInspections",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public ResponseStatus saveInspectionsData(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("inspectionType") String inspectionType,
+			@RequestParam("section") String section,
+			@RequestParam("sectionStartLocation") String sectionStartLocation,
+			@RequestParam("sectionEndLocation") String sectionEndLocation,
+			@RequestParam("dateOfInspection") String dateOfInspection,
+			@RequestParam("tkm") String tkm,
+			@RequestParam("rkm") String rkm,
+			@RequestParam("remarks") String remarks,
+			@RequestParam("authorisationDate") String authorisationDate,
+			@RequestParam("chargingDate") String chargingDate,
+			@RequestParam("station") String station,
+			@RequestParam("stipulationsId") String stipulationsId,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("createdOn") String createdOn,
+			@RequestParam("updatedBy") String updatedBy,
+			@RequestParam("updatedOn") String updatedOn) {
+		try {
+			logger.info("Save Inspection");
+			DriveRequest inspectionsRequest = new DriveRequest();
+			inspectionsRequest.setInspectionType(inspectionType);
+			inspectionsRequest.setSection(section);
+			inspectionsRequest.setSectionStartLocation(sectionStartLocation);
+			inspectionsRequest.setSectionEndLocation(sectionEndLocation);
+			inspectionsRequest.setDateOfInspection(Helper.convertStringToTimestamp(dateOfInspection));
+			inspectionsRequest.setTKM(Double.parseDouble(tkm));
+			inspectionsRequest.setRKM(Double.parseDouble(rkm));
+			inspectionsRequest.setRemarks(remarks);
+			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
+			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
+			inspectionsRequest.setStation(station);
+			inspectionsRequest.setStipulationsId(stipulationsId);inspectionsRequest.setCreatedBy(createdBy);
+			inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			inspectionsRequest.setUpdatedBy(updatedBy);
+			inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			
+			service.saveInspectionsData(inspectionsRequest, file);
 			return Helper.findResponseStatus("Inspections Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch (Exception e) {
 			logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
@@ -371,10 +538,62 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateInspections", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public ResponseStatus updateInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest) throws JSONException {		
-		try {			
-			String status = service.updateInspectionsData(inspectionsRequest);
+	/*
+	 * @RequestMapping(value = "/saveInspections", method = RequestMethod.POST,
+	 * headers = "Accept=application/json") public ResponseStatus
+	 * saveInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
+	 * throws JSONException { try { service.saveInspectionsData(inspectionsRequest);
+	 * return Helper.findResponseStatus("Inspections Data Added Successfully",
+	 * Constants.SUCCESS_CODE); }catch (Exception e) {
+	 * logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
+	 * return
+	 * Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage
+	 * (), Constants.FAILURE_CODE); } }
+	 */
+	
+	
+	@PostMapping("/updateInspections")
+	@ResponseBody
+	public ResponseStatus updateInspectionsData(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("id") String id,
+			@RequestParam("inspectionType") String inspectionType,
+			@RequestParam("section") String section,
+			@RequestParam("sectionStartLocation") String sectionStartLocation,
+			@RequestParam("sectionEndLocation") String sectionEndLocation,
+			@RequestParam("dateOfInspection") String dateOfInspection,
+			@RequestParam("tkm") String tkm,
+			@RequestParam("rkm") String rkm,
+			@RequestParam("remarks") String remarks,
+			@RequestParam("authorisationDate") String authorisationDate,
+			@RequestParam("chargingDate") String chargingDate,
+			@RequestParam("station") String station,
+			@RequestParam("stipulationsId") String stipulationsId,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("createdOn") String createdOn,
+			@RequestParam("updatedBy") String updatedBy,
+			@RequestParam("updatedOn") String updatedOn) {
+		try {
+			logger.info("Update Inspection");
+			DriveRequest inspectionsRequest = new DriveRequest();
+			inspectionsRequest.setId(Long.parseLong(id));
+			inspectionsRequest.setInspectionType(inspectionType);
+			inspectionsRequest.setSection(section);
+			inspectionsRequest.setSectionStartLocation(sectionStartLocation);
+			inspectionsRequest.setSectionEndLocation(sectionEndLocation);
+			inspectionsRequest.setDateOfInspection(Helper.convertStringToTimestamp(dateOfInspection));
+			inspectionsRequest.setTKM(Double.parseDouble(tkm));
+			inspectionsRequest.setRKM(Double.parseDouble(rkm));
+			inspectionsRequest.setRemarks(remarks);
+			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
+			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
+			inspectionsRequest.setStation(station);
+			inspectionsRequest.setStipulationsId(stipulationsId);inspectionsRequest.setCreatedBy(createdBy);
+			inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			inspectionsRequest.setUpdatedBy(updatedBy);
+			inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			
+			String status = service.updateInspectionsData(inspectionsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 				return Helper.findResponseStatus("Inspections Data Updated Successfully", Constants.SUCCESS_CODE);
 			else
@@ -384,6 +603,22 @@ public class DrivesController {
 			return Helper.findResponseStatus("Inspections Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
+	
+	/*
+	 * @RequestMapping(value = "/updateInspections", method = RequestMethod.PUT,
+	 * headers = "Accept=application/json") public ResponseStatus
+	 * updateInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
+	 * throws JSONException { try { String status =
+	 * service.updateInspectionsData(inspectionsRequest);
+	 * if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE)) return
+	 * Helper.findResponseStatus("Inspections Data Updated Successfully",
+	 * Constants.SUCCESS_CODE); else return Helper.findResponseStatus(status,
+	 * Constants.FAILURE_CODE); }catch (Exception e) {
+	 * logger.error("ERROR >> While updating Inspections data. "+e.getMessage());
+	 * return
+	 * Helper.findResponseStatus("Inspections Updation is Failed with "+e.getMessage
+	 * (), Constants.FAILURE_CODE); } }
+	 */
 	
 	@RequestMapping(value = "/deleteInspections/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteInspections(@PathVariable("id") Long id) throws JSONException {

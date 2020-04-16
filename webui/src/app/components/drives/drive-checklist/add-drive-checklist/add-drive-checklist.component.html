@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Checklist Form</div>
+                                <div class="panel-heading">{{title}} Checklist Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -38,7 +38,7 @@
                                                                 [formControl]="addDriveChecklistFormGroup.controls['drive']">
                                                                 <mat-option *ngFor="let drive of driveList"
                                                                     [value]="drive.id">
-                                                                    {{ drive.drive }}
+                                                                    {{ drive.name }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
@@ -53,8 +53,8 @@
                                                             <mat-select placeholder="Select Measure Activity List"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['measureActivityList']">
                                                                 <mat-option *ngFor="let measureActivity of measureActivityList"
-                                                                    [value]="measureActivity.id">
-                                                                    {{ measureActivity.measureActivityList }}
+                                                                    [value]="measureActivity.activityId">
+                                                                    {{ measureActivity.activityName }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
@@ -66,8 +66,7 @@
                                                     <!-- DISPLAY ORDER -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Display Order" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Display Order"                                                               
                                                                 [formControl]="addDriveChecklistFormGroup.controls['displayOrder']"
                                                                 required>
                                                             <mat-error
@@ -83,8 +82,7 @@
                                                     <!-- UPPER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Upper Limit" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Upper Limit"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['upperLimit']"
                                                                 required>
                                                             <mat-error
@@ -100,8 +98,7 @@
                                                     <!-- LOWER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Lower Limit" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Lower Limit"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
                                                                 required>
                                                             <mat-error
@@ -121,8 +118,8 @@
                                                             <mat-select placeholder="Status"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['status']">
                                                                 <mat-option *ngFor="let status of statusList"
-                                                                    [value]="status.id">
-                                                                    {{ status.status}}
+                                                                    [value]="status.value">
+                                                                    {{ status.value}}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

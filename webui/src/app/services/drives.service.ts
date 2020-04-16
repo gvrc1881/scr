@@ -34,16 +34,18 @@ export class DrivesService {
     }
     saveDriveData(saveDriveData){
         return this.http.post(environment.apiUrl + '/saveDrive', saveDriveData, { headers: this.header });
+    }updateDriveData(updateDriveData){
+        return this.http.put(environment.apiUrl + '/updateDrive', updateDriveData, { headers: this.header });
     }
     deleteDriveData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteDrive/'+id, { headers: this.header });
     }
 
-
-
-
     getDrivesCheckListData() {
         return this.http.get<DriveModel[]>(environment.apiUrl + '/checklist', { headers: this.header });            
+    }
+    findMeasureActivityList() {
+        return this.http.get<any[]>(environment.apiUrl + '/measureActivityList', { headers: this.header });            
     }
     saveCheckListData(save){
         return this.http.post(environment.apiUrl + '/saveCheckList', save, { headers: this.header });
@@ -79,11 +81,60 @@ export class DrivesService {
     getInspectionData(){
         return this.http.get<InspectionstModel[]>(environment.apiUrl + '/inspections', { headers: this.header });
     }
-    saveInspectionsData(save){
-        return this.http.post(environment.apiUrl + '/saveInspections', save, { headers: this.header });
+    saveInspectionsData(saveDetails, file: File[]){
+        let formdata: FormData = new FormData();
+       for(var i=0;i<file.length;i++){
+           formdata.append('file', file[i]);
+       }
+       formdata.append('inspectionType', saveDetails.inspectionType);
+       formdata.append('section', saveDetails.section);
+       formdata.append('sectionStartLocation', saveDetails.sectionStartLocation);
+       formdata.append('sectionEndLocation', saveDetails.sectionEndLocation);
+       formdata.append('dateOfInspection', saveDetails.dateOfInspection);
+       formdata.append('tkm', saveDetails.tkm);
+       formdata.append('rkm', saveDetails.rkm);
+       formdata.append('remarks', saveDetails.remarks);
+       formdata.append('authorisationDate', saveDetails.authorisationDate);
+       formdata.append('chargingDate', saveDetails.chargingDate);
+       formdata.append('station', saveDetails.station);
+       formdata.append('stipulationsId', saveDetails.stipulationsId);
+       formdata.append('createdBy', saveDetails.createdBy);
+       formdata.append('createdOn', saveDetails.createdOn);
+       formdata.append('updatedBy', saveDetails.updatedBy);
+       formdata.append('updatedOn', saveDetails.updatedOn);
+       let header = new HttpHeaders({           
+           'Authorization': `Bearer ${this.accessToken}`
+          // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
+       }); 
+        return this.http.post(environment.apiUrl + '/saveInspections', formdata, { headers: this.header });
     }
-    updateInspectionsData(update){
-        return this.http.put(environment.apiUrl + '/updateInspections', update, { headers: this.header });
+    updateInspectionsData(update, file: File[]){
+        let formdata: FormData = new FormData();
+       for(var i=0;i<file.length;i++){
+           formdata.append('file', file[i]);
+       }
+       formdata.append('id', update.id);
+       formdata.append('inspectionType', update.inspectionType);
+       formdata.append('section', update.section);
+       formdata.append('sectionStartLocation', update.sectionStartLocation);
+       formdata.append('sectionEndLocation', update.sectionEndLocation);
+       formdata.append('dateOfInspection', update.dateOfInspection);
+       formdata.append('tkm', update.tkm);
+       formdata.append('rkm', update.rkm);
+       formdata.append('remarks', update.remarks);
+       formdata.append('authorisationDate', update.authorisationDate);
+       formdata.append('chargingDate', update.chargingDate);
+       formdata.append('station', update.station);
+       formdata.append('stipulationsId', update.stipulationsId);
+       formdata.append('createdBy', update.createdBy);
+       formdata.append('createdOn', update.createdOn);
+       formdata.append('updatedBy', update.updatedBy);
+       formdata.append('updatedOn', update.updatedOn);
+       let header = new HttpHeaders({           
+           'Authorization': `Bearer ${this.accessToken}`
+          // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
+       }); 
+        return this.http.post(environment.apiUrl + '/updateInspections', formdata, { headers: this.header });
     }
     findInspectionsDataById(id:number){
         return this.http.get<any[]>(environment.apiUrl + '/inspectionsById/'+id, { headers: this.header });
@@ -96,11 +147,52 @@ export class DrivesService {
     getStipulationData(){
         return this.http.get<StipulationstModel[]>(environment.apiUrl + '/stipulations', { headers: this.header });
     }
-    saveStipulationData(save){
-        return this.http.post(environment.apiUrl + '/saveStipulations', save, { headers: this.header });
+    findAssertTypeListFromProduct() {
+        return this.http.get<any[]>(environment.apiUrl + '/assertType', { headers: this.header });            
     }
-    updateStipulationData(update){
-        return this.http.put(environment.apiUrl + '/updateStipulations', update, { headers: this.header });
+    saveStipulationData(saveDetails, file: File[]){
+         let formdata: FormData = new FormData();
+        for(var i=0;i<file.length;i++){
+            formdata.append('file', file[i]);
+        }
+        formdata.append('stipulation', saveDetails.stipulation);
+        formdata.append('stipulationTo', saveDetails.stipulationTo);
+        formdata.append('dateOfStipulation', saveDetails.dateOfStipulation);
+        formdata.append('dateComplied', saveDetails.dateComplied);
+        formdata.append('compliance', saveDetails.compliance);
+        formdata.append('compliedBy', saveDetails.compliedBy);
+        formdata.append('assetType', saveDetails.assetType);
+        formdata.append('createdBy', saveDetails.createdBy);
+        formdata.append('createdOn', saveDetails.createdOn);
+        formdata.append('updatedBy', saveDetails.updatedBy);
+        formdata.append('updatedOn', saveDetails.updatedOn);
+        let header = new HttpHeaders({           
+            'Authorization': `Bearer ${this.accessToken}`
+           // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
+        }); 
+        return this.http.post(environment.apiUrl + '/saveStipulations', formdata, { headers: header });
+    }
+    updateStipulationData(update, file: File[]){
+        let formdata: FormData = new FormData();
+       for(var i=0;i<file.length;i++){
+           formdata.append('file', file[i]);
+       }
+       formdata.append('id', update.id);
+       formdata.append('stipulation', update.stipulation);
+       formdata.append('stipulationTo', update.stipulationTo);
+       formdata.append('dateOfStipulation', update.dateOfStipulation);
+       formdata.append('dateComplied', update.dateComplied);
+       formdata.append('compliance', update.compliance);
+       formdata.append('compliedBy', update.compliedBy);
+       formdata.append('assetType', update.assetType);
+       formdata.append('createdBy', update.createdBy);
+       formdata.append('createdOn', update.createdOn);
+       formdata.append('updatedBy', update.updatedBy);
+       formdata.append('updatedOn', update.updatedOn);
+       let header = new HttpHeaders({           
+        'Authorization': `Bearer ${this.accessToken}`
+    }); 
+        return this.http.post(environment.apiUrl + '/updateStipulations', formdata, { headers: header });
     }
     findStipulationDataById(id:number){
         return this.http.get<any[]>(environment.apiUrl + '/stipulationsById/'+id, { headers: this.header });

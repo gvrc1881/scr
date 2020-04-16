@@ -53,10 +53,12 @@ export class DriveChecklistComponent implements OnInit {
   getDrivesData() {
     const drive: DriveChecklistModel[] = [];
     this.drivesService.getDrivesCheckListData().subscribe((data) => {
-
+      console.log(data)
       this.drivesCheckList = data;
       for (let i = 0; i < this.drivesCheckList.length; i++) {
         this.drivesCheckList[i].sno = i + 1;
+        this.drivesCheckList[i].drive = this.drivesCheckList[i].driveId['name'];
+        this.drivesCheckList[i].measureActivityList = this.drivesCheckList[i].activityId['activityName'];
         drive.push(this.drivesCheckList[i]);
       }
 

@@ -50,6 +50,17 @@ public class Helper {
 		Date date = new Date();
 		return dateFormat.format(date);
 	}
+	
+	public static Timestamp convertStringToTimestamp(String dateString) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		Date date = new Date(dateString);
+	    String DateToStoreInDataBase= sdf.format(date); // java.util.Date
+	    System.out.println(DateToStoreInDataBase);
+
+	    Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase); // java.sql.Timestamp
+	    System.out.println(ts);
+	    return ts;
+	}
 
 	public static Timestamp currentTimeStamp() {
 		return new Timestamp(Calendar.getInstance().getTime().getTime());

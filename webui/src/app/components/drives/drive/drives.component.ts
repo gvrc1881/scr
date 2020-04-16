@@ -21,7 +21,13 @@ export class DrivesComponent implements OnInit {
     'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
     'checkList', 'active', 'actions'];
   dataSource: MatTableDataSource<DriveModel>;
-
+  depoTypeList = [];
+  assetTypeList = [];
+  isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  functionalUnitList:any;
+  allFunctionalUnitsList:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -41,6 +47,10 @@ export class DrivesComponent implements OnInit {
     this.deletePermission = this.commonService.getPermission("Delete");
 
     this.spinnerService.show();
+    this.findDepoTypeList();
+      //this.findAssetTypeList();
+      this.findStatusItemDetails();
+      this.findFunctionalUnits();
     this.getDrivesData();
 
   }
@@ -49,13 +59,49 @@ export class DrivesComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+  findDepoTypeList() {
+    this.drivesService.findDepoTypeList()
+      .subscribe((depoTypes) => {
+       // console.log('depoTypes = ' + JSON.stringify(depoTypes))
+        this.depoTypeList = depoTypes;
+      })
+  }
+
+  findAssetTypeList(assertType) {
+    this.drivesService.findAssetTypeList(assertType)
+      .subscribe((assetTypes) => {
+        //console.log('assetTypes = '+JSON.stringify(assetTypes))
+        this.assetTypeList = assetTypes;
+        // this.depoTypeList = assetTypes;
+      })
+  }
+  findStatusItemDetails() {
+    /* this.drivesService.findStatusItemDetails()
+      .subscribe((assetTypes) => {
+       console.log('assetTypes = '+JSON.stringify(assetTypes))
+        
+      }) */
+  }
+  findFunctionalUnits() {
+    this.drivesService.findFunctionslUnits()
+      .subscribe((units) => {
+       // console.log('findFunctionalUnits = ' + JSON.stringify(units))
+        this.allFunctionalUnitsList = units;
+      })
+  }
   getDrivesData() {
     const drive: DriveModel[] = [];
     this.drivesService.getDrivesData().subscribe((data) => {
-
+      console.log(data)
       this.drivesList = data;
       for (let i = 0; i < this.drivesList.length; i++) {
+      //  console.log(this.depoTypeList)
         this.drivesList[i].sno = i + 1;
+        console.log(this.drivesList[i])
+        this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
+        this.drivesList[i].status = this.drivesList[i].active;
+        this.drivesList[i].checkList = this.drivesList[i].checklist;
+        this.drivesList[i].depoType = this.drivesList[i].depotType['depotType']
         drive.push(this.drivesList[i]);
       }
 

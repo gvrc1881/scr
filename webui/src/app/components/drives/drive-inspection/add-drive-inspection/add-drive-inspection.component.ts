@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StipulationstModel } from 'src/app/models/drive.model';
 
 @Component({
   selector: 'app-add-drive-inspection',
@@ -13,10 +14,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddDriveInspectionComponent implements OnInit {
   save: boolean = true;
   update: boolean = false;
+  title:string;
   id:number=0;
   isSubmit: boolean = false;
   resp:any;
+  selectedFiles: File[] = [];
+  filesExists: boolean = false;
   addDriveInspectionFormGroup: FormGroup;
+  stipulationsList:any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   inspectionFormErrors:any;
   stateList: any;
@@ -50,6 +55,7 @@ export class AddDriveInspectionComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+    this.getStipulationData();
     this.createInspectionForm();
     if (!isNaN(this.id)) {
       this.addDriveInspectionFormGroup.valueChanges.subscribe(() => {
@@ -58,13 +64,22 @@ export class AddDriveInspectionComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
+      this.title = 'Edit';
       this.getInspectionDataById(this.id);
-
     } else {
-
-
-    }
-    
+      this.save = true;
+      this.update = false;
+      this.title = 'Save'
+    }    
+  }
+  getStipulationData() {    
+    this.drivesService.getStipulationData().subscribe((data) => {
+      this.stipulationsList = data;
+      console.log(JSON.stringify(data))
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
   }
 
   getInspectionDataById(id){
@@ -86,7 +101,7 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: new Date(this.resp.chargingDate),
         attachment: this.resp.attachment,
         station: this.resp.station,
-        stipulationsId: this.resp.stipulationsId
+        stipulationsId: !!this.resp.stipulationsId && this.resp.stipulationsId['id']
       });
       this.spinnerService.hide();
     })
@@ -145,7 +160,7 @@ export class AddDriveInspectionComponent implements OnInit {
         remarks: this.addDriveInspectionFormGroup.value.remarks,
         authorisationDate: this.addDriveInspectionFormGroup.value.authorisationDate,
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
-        attachment: this.addDriveInspectionFormGroup.value.attachment,
+      //  attachment: this.addDriveInspectionFormGroup.value.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
         stipulationsId: this.addDriveInspectionFormGroup.value.stipulationsId,
         "createdBy": "1",
@@ -153,7 +168,7 @@ export class AddDriveInspectionComponent implements OnInit {
         "updatedBy": "1",
         "updatedOn": "2020-04-01"
       }
-      this.drivesService.saveInspectionsData(save).subscribe(response => {
+      this.drivesService.saveInspectionsData(save, this.selectedFiles).subscribe(response => {
         console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Inspection Data saved Successfully");
@@ -184,7 +199,7 @@ export class AddDriveInspectionComponent implements OnInit {
         "updatedBy": "1",
         "updatedOn": "2020-04-01"
       }
-      this.drivesService.updateInspectionsData(update).subscribe(response => {
+      this.drivesService.updateInspectionsData(update, this.selectedFiles).subscribe(response => {
         console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Inspection Data Updated Successfully");
@@ -198,5 +213,16 @@ export class AddDriveInspectionComponent implements OnInit {
   }
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  upload(event) {
+    if (event.target.files.length > 0) { this.filesExists = true; }
+    for (var i = 0; i < event.target.files.length; i++) {
+      this.selectedFiles.push(event.target.files[i]);
+    }
+    console.log(this.selectedFiles)
+  }
+  removeFile(id) {
+    this.selectedFiles.splice(id, 1);
   }
 }

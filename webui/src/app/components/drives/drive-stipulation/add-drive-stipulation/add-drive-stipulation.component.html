@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Stipulation Form</div>
+                                <div class="panel-heading">{{title}} Stipulation Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -141,7 +141,20 @@
 
                                                      <!-- assetType -->
                                                      <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Measure Activity List"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['assetType']">
+                                                                <mat-option *ngFor="let assertType of assertTypeList"
+                                                                    [value]="assertType.id">
+                                                                    {{ assertType.productName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('required') && addDriveStipulationFormGroup.controls['assetType'].touched"
+                                                                class="alert alert-danger">Select Assert Type</mat-error>
+                                                        </mat-form-field>
+
+                                                        <!-- <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Asset Type" size="12"
                                                                 maxlength="12"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['assetType']"
@@ -153,7 +166,7 @@
                                                                 *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('pattern') && addDriveStipulationFormGroup.controls['assetType'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
-                                                        </mat-form-field>
+                                                        </mat-form-field> -->
                                                     </div>
                                                     <div class="clear"> </div>
                                                 <div class="col-md-12">

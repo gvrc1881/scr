@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Electrification Targets Form</div>
+                                <div class="panel-heading">{{title}} Electrification Targets Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -327,12 +327,12 @@
                                                     <div class="float-right" style="float: right;">
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
-                                                            [disabled]="addDriveElectrificationTargetsFormGroup.invalid" *ngIf="saveUser">
+                                                            [disabled]="addDriveElectrificationTargetsFormGroup.invalid" *ngIf="save">
                                                             Submit
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             [disabled]="addDriveElectrificationTargetsFormGroup.invalid" color="accent"
-                                                            mat-raised-button="" *ngIf="updateUser">
+                                                            mat-raised-button="" *ngIf="update">
                                                             Update
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"

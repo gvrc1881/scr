@@ -55,10 +55,12 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   getElectrificationTargetsData() {
     const electrificationTargets: ElectrificationTargetstModel[] = [];
     this.drivesService.getElectrificationTargetsData().subscribe((data) => {
-
+      console.log(JSON.stringify(data))
       this.electrificationTargetsList = data;
       for (let i = 0; i < this.electrificationTargetsList.length; i++) {
         this.electrificationTargetsList[i].sno = i + 1;
+        this.electrificationTargetsList[i].TKM = this.electrificationTargetsList[i].tkm;
+        this.electrificationTargetsList[i].RKM = this.electrificationTargetsList[i].rkm;
         electrificationTargets.push(this.electrificationTargetsList[i]);
       }
 

@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Add Inspection Form</div>
+                                <div class="panel-heading">{{title}} Inspection Form</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -34,17 +34,17 @@
                                                     <!-- inspectionType -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="inspectionType" size="12" maxlength="12"
+                                                            <input matInput placeholder="Inspection Type" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['inspectionType']"
                                                                 required>
                                                             <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('required') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
                                                                 class="alert alert-danger">Enter Inspection Type</mat-error>
-                                                            <mat-error
+                                                           <!--  <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('minlength') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
                                                                 class="alert alert-danger">section minimum of 3
                                                                 charecters
-                                                            </mat-error>
+                                                            </mat-error> -->
                                                             <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('pattern') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
@@ -55,8 +55,7 @@
                                                     <!-- section -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="section" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Section"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['section']"
                                                                 required>
                                                             <mat-error
@@ -184,7 +183,13 @@
 
                                                      <!-- attachment -->
                                                      <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
+                                                        <input type="file" [formControl]="addDriveInspectionFormGroup.controls['attachment']"
+                                                        required name="uploadFile" 
+                                                            style="margin-top: 6%;"
+                                                            id="uploadFile" multiple (change)="upload($event)" />
+                                                            <mat-error *ngIf="isSubmit && f.attachment.errors && f.attachment.errors.required"
+                                                                class="alert alert-danger">File required</mat-error>
+                                                        <!-- <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="attachment" size="12"
                                                                 maxlength="12"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['attachment']"
@@ -196,7 +201,7 @@
                                                                 *ngIf="addDriveInspectionFormGroup.controls['attachment'].hasError('pattern') && addDriveInspectionFormGroup.controls['attachment'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
-                                                        </mat-form-field>
+                                                        </mat-form-field> -->
                                                     </div>
 
                                                      <!-- station -->
@@ -218,6 +223,20 @@
 
                                                     <!-- stipulationsId -->
                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Stipulations Id" 
+                                                                [formControl]="addDriveInspectionFormGroup.controls['stipulationsId']">
+                                                                <mat-option *ngFor="let stipulations of stipulationsList"
+                                                                    [value]="stipulations.id">
+                                                                    {{ stipulations.stipulation }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="addDriveInspectionFormGroup.controls['stipulationsId'].hasError('required') && addDriveInspectionFormGroup.controls['stipulationsId'].touched"
+                                                                class="alert alert-danger">Select Stipulations Id</mat-error>
+                                                        </mat-form-field>
+                                                    </div><!-- 
+                                                    <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Stipulations Id" size="12"
                                                                 maxlength="12"
@@ -231,7 +250,7 @@
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
                                                     <div class="float-right" style="float: right;">

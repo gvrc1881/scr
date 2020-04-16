@@ -72,4 +72,7 @@ public class Constants {
 	public static final String RESET_PASSWORD_SUBJECT = "Please Reset Your Password";
 	public static final String RERUN_SCHEDULER_SUBJECT = "Rerun Scheduler Process";
 	public static final String SCHEDULER_DB_CONNECTION_FAILED_SUBJECT = "Scheduler Database Connection Failed";
+	
+	public static final String STIPULATION = "stipulation";
+	public static final String INSPECTION = "inspection";
 }

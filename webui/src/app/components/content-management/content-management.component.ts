@@ -143,7 +143,6 @@ export class ContentManagementComponent implements OnInit {
             }
         }
         if (this.isSubmit) {
-
             this.spinnerService.show();
             let opsId = this.contentManagementFormGroup.value.GenOps;
             let description = this.contentManagementFormGroup.value.description;

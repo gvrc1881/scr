@@ -16,12 +16,12 @@ export class AddDriveChecklistComponent implements OnInit {
   id: number = 0;
   isSubmit: boolean = false;
   resp: any;
-
+  title:string;
   addDriveChecklistFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   measureActivityList = [];
   driveList = [];
-  statusList = [];
+  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
 
   checkListFormErrors: any;
   constructor(
@@ -45,6 +45,8 @@ export class AddDriveChecklistComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+    this.getDrivesData();
+    this.findMeasureActivityList();
     this.createCheckListForm();
     if (!isNaN(this.id)) {
       this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
@@ -53,12 +55,14 @@ export class AddDriveChecklistComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
+      this.title = 'Edit';
       this.getCheckListData(this.id);
     } else {
       this.save = true;
       this.update = false;
+      this.title = 'Save';
     }
-    this.getDrivesData();
+    
   }
 
   getCheckListData(id) {
@@ -69,12 +73,12 @@ export class AddDriveChecklistComponent implements OnInit {
         console.log('date : ' + this.resp.dateOfStipulation)
         this.addDriveChecklistFormGroup.patchValue({
           id: this.resp.id,
-          drive: this.resp.drive,
-          measureActivityList: this.resp.measureActivityList,
+          drive: this.resp.driveId['id'],
+          measureActivityList: this.resp.activityId['activityId'],
           displayOrder: this.resp.displayOrder,
           lowerLimit: this.resp.lowerLimit,
           upperLimit: this.resp.upperLimit,
-          status: this.resp.status
+          status: this.resp.active
         });
         this.spinnerService.hide();
       })
@@ -83,6 +87,15 @@ export class AddDriveChecklistComponent implements OnInit {
   getDrivesData() {
     this.drivesService.getDrivesData().subscribe((data) => {
       this.driveList = data;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
+  findMeasureActivityList() {
+    this.drivesService.findMeasureActivityList().subscribe((data) => {
+      this.measureActivityList = data;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -107,11 +120,11 @@ export class AddDriveChecklistComponent implements OnInit {
   createCheckListForm() {
     this.addDriveChecklistFormGroup = this.formBuilder.group({
       id: 0,
-      'drive': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'measureActivityList': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
-      'displayOrder': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'lowerLimit': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'upperLimit': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
+      'drive': [null, Validators.compose([Validators.required])],
+      'measureActivityList': [null, Validators.compose([Validators.required])],
+      'displayOrder': [null, Validators.compose([Validators.required])],
+      'lowerLimit': [null, Validators.compose([Validators.required])],
+      'upperLimit': [null, Validators.compose([Validators.required])],
       'status': [null, Validators.required]
     });
   }
@@ -124,12 +137,12 @@ export class AddDriveChecklistComponent implements OnInit {
     console.log(this.addDriveChecklistFormGroup.value);
     if (this.save) {
       let save = {
-        drive: this.addDriveChecklistFormGroup.value.drive,
-        measureActivityList: this.addDriveChecklistFormGroup.value.measureActivityList,
+        driveId: this.addDriveChecklistFormGroup.value.drive,
+        activityId: this.addDriveChecklistFormGroup.value.measureActivityList,
         displayOrder: this.addDriveChecklistFormGroup.value.displayOrder,
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
-        status: this.addDriveChecklistFormGroup.value.status,
+        active: this.addDriveChecklistFormGroup.value.status,
         "createdBy": "1",
         "createdOn": "2020-04-01",
         "updatedBy": "1",
@@ -148,12 +161,12 @@ export class AddDriveChecklistComponent implements OnInit {
     } else if (this.update) {
       let update = {
         id: this.id,
-        drive: this.addDriveChecklistFormGroup.value.drive,
-        measureActivityList: this.addDriveChecklistFormGroup.value.measureActivityList,
+        driveId: this.addDriveChecklistFormGroup.value.drive,
+        activityId: this.addDriveChecklistFormGroup.value.measureActivityList,
         displayOrder: this.addDriveChecklistFormGroup.value.displayOrder,
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
-        status: this.addDriveChecklistFormGroup.value.status,
+        active: this.addDriveChecklistFormGroup.value.status,
         "createdBy": "1",
         "createdOn": "2020-04-01",
         "updatedBy": "1",

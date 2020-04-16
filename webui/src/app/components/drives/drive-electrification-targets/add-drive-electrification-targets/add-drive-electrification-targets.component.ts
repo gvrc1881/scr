@@ -12,11 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AddDriveElectrificationTargetsComponent implements OnInit {
 
-  saveUser: boolean = true;
-  updateUser: boolean = false;
+  save: boolean = true;
+  update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
-
+  title:string;
   addDriveElectrificationTargetsFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
@@ -64,13 +64,14 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
-      this.saveUser = false;
-      this.updateUser = true;
+      this.save = false;
+      this.update = true;
+      this.title = 'Edit';
       this.getElectrificationTargetsDataById(this.id);
-
     } else {
-
-
+      this.save = true;
+      this.update = false;
+      this.title = 'Save';
     }
   }
 
@@ -126,8 +127,8 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
           status: this.resp.status,
           division: this.resp.division,
           executionAgency: this.resp.executionAgency,
-          tkm: this.resp.tkm,
-          rkm: this.resp.rkm,
+          TKM: this.resp.tkm,
+          RKM: this.resp.rkm,
           crsInspection: this.resp.crsInspection,
           crsAuthorisation: this.resp.crsAuthorisation,
           targetSetBy: this.resp.targetSetBy,
@@ -154,7 +155,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
     var data = {};
     var message = '';
     var failedMessage = '';
-    if (this.saveUser) {
+    if (this.save) {
       data = {
         "section": this.addDriveElectrificationTargetsFormGroup.value.section,
         "guage": this.addDriveElectrificationTargetsFormGroup.value.guage,
@@ -191,7 +192,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Electrification Targets Data "+failedMessage+" Failed.");
       })
-    }else if(this.updateUser){
+    }else if(this.update){
       data = {
         "id":this.id,
         "section": this.addDriveElectrificationTargetsFormGroup.value.section,

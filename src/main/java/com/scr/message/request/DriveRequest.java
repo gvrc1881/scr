@@ -2,8 +2,6 @@ package com.scr.message.request;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-
 public class DriveRequest {
 
 	private Long id;
@@ -75,7 +73,7 @@ public class DriveRequest {
 
 	private String stipulation;
 	private String stipulationTo;
-	private Timestamp dateOfStipulatio;
+	private Timestamp dateOfStipulation;
 	private Timestamp dateComplied;
 	private String compliance;
 	private String compliedBy;
@@ -502,12 +500,12 @@ public class DriveRequest {
 		this.chargingDate = chargingDate;
 	}
 
-	public Timestamp getDateOfStipulatio() {
-		return dateOfStipulatio;
+	public Timestamp getDateOfStipulation() {
+		return dateOfStipulation;
 	}
 
-	public void setDateOfStipulatio(Timestamp dateOfStipulatio) {
-		this.dateOfStipulatio = dateOfStipulatio;
+	public void setDateOfStipulation(Timestamp dateOfStipulation) {
+		this.dateOfStipulation = dateOfStipulation;
 	}
 
 	public Timestamp getDateComplied() {
@@ -593,8 +591,8 @@ public class DriveRequest {
 				+ ", sectionEndLocation=" + sectionEndLocation + ", dateOfInspection=" + dateOfInspection + ", remarks="
 				+ remarks + ", authorisationDate=" + authorisationDate + ", chargingDate=" + chargingDate
 				+ ", attachment=" + attachment + ", station=" + station + ", stipulationsId=" + stipulationsId
-				+ ", stipulation=" + stipulation + ", stipulationTo=" + stipulationTo + ", dateOfStipulatio="
-				+ dateOfStipulatio + ", dateComplied=" + dateComplied + ", compliance=" + compliance + ", compliedBy="
+				+ ", stipulation=" + stipulation + ", stipulationTo=" + stipulationTo + ", dateOfStipulation="
+				+ dateOfStipulation + ", dateComplied=" + dateComplied + ", compliance=" + compliance + ", compliedBy="
 				+ compliedBy + ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder
 				+ ", lowerLimit=" + lowerLimit + ", upperLimit=" + upperLimit + ", reportColumnHeader="
 				+ reportColumnHeader + ", activityId=" + activityId + ", driveId=" + driveId + "]";

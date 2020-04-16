@@ -54,10 +54,13 @@ export class DriveInspectionComponent implements OnInit {
   getInspectionData() {
     const inspections: InspectionstModel[] = [];
     this.drivesService.getInspectionData().subscribe((data) => {
-
+      console.log(JSON.stringify(data))
       this.inspectionsList = data;
       for (let i = 0; i < this.inspectionsList.length; i++) {
         this.inspectionsList[i].sno = i + 1;
+        this.inspectionsList[i].TKM = this.inspectionsList[i].tkm;
+        this.inspectionsList[i].RKM = this.inspectionsList[i].rkm;
+        this.inspectionsList[i].stipulationsId = !!this.inspectionsList[i].stipulationsId && this.inspectionsList[i].stipulationsId['stipulation'];
         inspections.push(this.inspectionsList[i]);
       }
 

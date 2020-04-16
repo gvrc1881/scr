@@ -1,7 +1,12 @@
 package com.scr.mapper;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,7 +14,9 @@ import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.controller.DrivesController;
 import com.scr.message.request.DriveRequest;
@@ -27,12 +34,19 @@ import com.scr.repository.FacilityRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
+import com.scr.util.Helper;
 
 
 @Component
 public class DriveMapper {
 	static Logger logger = LogManager.getLogger(DrivesController.class);
-
+	
+	@Value("${stipulation.path}")
+	private String stipulationPath;
+	
+	@Value("${inspection.path}")
+	private String inspectionPath;
+	
 	@Autowired
 	private FacilityRepository facilityRepository;
 	
@@ -61,7 +75,7 @@ public class DriveMapper {
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
 
-			Optional<Facility> facility = facilityRepository.findById(Long.parseLong(driveRequest.getDepotType()));
+			Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
 			drive.setDepotType(facility.get());
 
 			drive.setAssetType(driveRequest.getAssetType());
@@ -94,7 +108,7 @@ public class DriveMapper {
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
 
-			Optional<Facility> facility = facilityRepository.findById(Long.parseLong(driveRequest.getDepotType()));
+			Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
 			drive.setDepotType(facility.get());
 
 			drive.setAssetType(driveRequest.getAssetType());
@@ -118,14 +132,14 @@ public class DriveMapper {
 		if(request != null) {
 			driveCheckList = new DriveCheckList();
 			
-			driveCheckList.setActivityPositionId(request.getActivityPositionId());
+			//driveCheckList.setActivityPositionId(request.getActivityPositionId());
 			driveCheckList.setDisplayOrder(request.getDisplayOrder());
 			driveCheckList.setActive(request.getActive());
 			driveCheckList.setLowerLimit(request.getLowerLimit());
 			driveCheckList.setUpperLimit(request.getUpperLimit());
-			driveCheckList.setReportColumnHeader(request.getReportColumnHeader());
+			//driveCheckList.setReportColumnHeader(request.getReportColumnHeader());
 			
-			Optional<MeasureOrActivityList> measure = measureOrActivityListRepository.findById(Long.parseLong(request.getActivityId()));
+			Optional<MeasureOrActivityList> measure = measureOrActivityListRepository.findByActivityId(request.getActivityId());
 			if(measure.isPresent()) {
 				driveCheckList.setActivityId(measure.get());
 			}
@@ -245,17 +259,17 @@ public class DriveMapper {
 		return electrificationTargets;
 	}
 
-	public Stipulations prepareStipulationsModel(@Valid DriveRequest request) {
+	public Stipulations prepareStipulationsModel(@Valid DriveRequest request, List<MultipartFile> file) {
 		Stipulations stipulations = null;
 		if(request != null) {
 			stipulations = new Stipulations();
-			
+			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
 			stipulations.setStipulationTo(request.getStipulationTo());
-		    stipulations.setDateOfStipulation(request.getDateOfStipulatio());
+		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
-		    stipulations.setAttachment(request.getAttachment());
+		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
 		    Optional<Product> product = productRepository.findById(Long.parseLong(request.getAssetType()));
@@ -273,14 +287,15 @@ public class DriveMapper {
 		return stipulations;
 	}
 
-	public Stipulations prepareStipulationsUpdataData(Stipulations stipulations, @Valid DriveRequest request) {
+	public Stipulations prepareStipulationsUpdataData(Stipulations stipulations, @Valid DriveRequest request, List<MultipartFile> file) {
 		if(request != null) {
+			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
 			stipulations.setStipulationTo(request.getStipulationTo());
-		    stipulations.setDateOfStipulation(request.getDateOfStipulatio());
+		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
-		    stipulations.setAttachment(request.getAttachment());
+		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
 		    Optional<Product> product = productRepository.findById(Long.parseLong(request.getAssetType()));
@@ -298,9 +313,11 @@ public class DriveMapper {
 		return stipulations;
 	}
 
-	public CrsEigInspections prepareInspectionsModel(@Valid DriveRequest request) {
+	public CrsEigInspections prepareInspectionsModel(@Valid DriveRequest request, List<MultipartFile> file) {
 		CrsEigInspections inspections = null;
 		if(request != null) {
+			
+			String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
 			
 			inspections = new CrsEigInspections();
 			
@@ -314,7 +331,7 @@ public class DriveMapper {
 		    inspections.setRemarks(request.getRemarks());
 		    inspections.setAuthorisationDate(request.getAuthorisationDate());
 		    inspections.setChargingDate(request.getChargingDate());
-		    inspections.setAttachment(request.getAttachment());
+		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 
 		    Optional<Stipulations> stipulations = stipulationRepository.findById(Long.parseLong(request.getStipulationsId()));
@@ -331,9 +348,44 @@ public class DriveMapper {
 		return inspections;
 	}
 
+	private String storeDriveFiles(List<MultipartFile> file, String path, String folder) {
+		File saveFiles = new File(path + folder);
+		StringBuffer sb = new StringBuffer();
+		boolean flag = true;
+		if(saveFiles.exists()) {
+			flag = true;
+			logger.info("Folder structure already created.");
+		}else {
+			flag = true;
+			saveFiles.mkdirs();
+			logger.info("Folder created successfully.");
+		}
+		if(flag) {
+		for(MultipartFile mf: file)
+		{
+			logger.info("original filename: "+mf.getOriginalFilename());
+			String fileName = mf.getOriginalFilename().split(Constants.SPLIT_DOT)[0]
+					+ Constants.UNDER_SCORE 
+					+ Helper.currentTimeStampWithString().split(" ")[0] + Constants.UNDER_SCORE
+					+ Helper.currentTimeStampWithString().split(" ")[1].replace(":", "-") + Constants.DOT
+					+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1];
+			logger.info("changed filename = "+fileName);
+			try {
+				Path rootLocation = Paths.get(saveFiles.getAbsolutePath());
+				Files.copy(mf.getInputStream(), rootLocation.resolve(fileName));
+			} catch (Exception e) {
+				logger.error("ERROR >>> while storing "+ folder +" file > "+fileName +" in "+saveFiles.getAbsolutePath());
+			}
+			sb.append(fileName);
+		}
+		}
+		return sb.toString();
+	}
+
 	public CrsEigInspections prepareInspectionsUpdataData(CrsEigInspections inspections,
-			@Valid DriveRequest request) {
+			@Valid DriveRequest request, List<MultipartFile> file) {
 		if(request != null) {
+			String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
 			inspections.setInspectionType(request.getInspectionType());
 			inspections.setSection(request.getSection());
 		    inspections.setSectionStartLocation(request.getSectionStartLocation());
@@ -344,7 +396,7 @@ public class DriveMapper {
 		    inspections.setRemarks(request.getRemarks());
 		    inspections.setAuthorisationDate(request.getAuthorisationDate());
 		    inspections.setChargingDate(request.getChargingDate());
-		    inspections.setAttachment(request.getAttachment());
+		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 
 		    Optional<Stipulations> stipulations = stipulationRepository.findById(Long.parseLong(request.getStipulationsId()));

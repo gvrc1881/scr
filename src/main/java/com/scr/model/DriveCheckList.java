@@ -19,6 +19,7 @@ import javax.persistence.Table;
  * 
  */
 
+
 @Entity
 @Table(name = "drive_check_list")
 @NamedQuery(name = "DriveCheckList.findAll", query = "SELECT dcl FROM DriveCheckList dcl")
