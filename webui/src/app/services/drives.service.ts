@@ -106,7 +106,7 @@ export class DrivesService {
            'Authorization': `Bearer ${this.accessToken}`
           // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
        }); 
-        return this.http.post(environment.apiUrl + '/saveInspections', formdata, { headers: this.header });
+        return this.http.post(environment.apiUrl + '/saveInspections', formdata, { headers: header });
     }
     updateInspectionsData(update, file: File[]){
         let formdata: FormData = new FormData();
@@ -134,7 +134,7 @@ export class DrivesService {
            'Authorization': `Bearer ${this.accessToken}`
           // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
        }); 
-        return this.http.post(environment.apiUrl + '/updateInspections', formdata, { headers: this.header });
+        return this.http.post(environment.apiUrl + '/updateInspections', formdata, { headers: header });
     }
     findInspectionsDataById(id:number){
         return this.http.get<any[]>(environment.apiUrl + '/inspectionsById/'+id, { headers: this.header });
@@ -142,7 +142,9 @@ export class DrivesService {
     deleteInspectionsData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteInspections/'+id, { headers: this.header });
     }
-
+    inspectionsFileInfo(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/inspectionsFileInfoById/'+id, { headers: this.header });
+    }
 
     getStipulationData(){
         return this.http.get<StipulationstModel[]>(environment.apiUrl + '/stipulations', { headers: this.header });
@@ -200,5 +202,11 @@ export class DrivesService {
     deleteStipulationData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteStipulations/'+id, { headers: this.header });
     }
+    stipulationFileInfo(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/stipulationFileInfoById/'+id, { headers: this.header });
+    }
 
+    deleteFile(id:string,fileName:string, type:string){
+        return this.http.get<any[]>(environment.apiUrl + '/deleteFile/'+id+'/'+fileName+'/'+type, { headers: this.header });
+    }
 }

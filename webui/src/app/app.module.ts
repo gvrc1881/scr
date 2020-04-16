@@ -33,6 +33,7 @@ import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { ContentManagementDialogComponent } from './components/content-management-edit-dialog/content-management-edit-dialog.component';
+import { FilesInformationDialogComponent } from './components/file-information-dialog/file-information-dialog.component';
 
 
 
@@ -52,6 +53,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DivisionHistoryDialogComponent,    
     ContentManagementDialogComponent,
     DocumentDialogComponent,
+    FilesInformationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +84,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         RemarkDialogComponent,
         ContentManagementDialogComponent,
         DocumentDialogComponent,
+        FilesInformationDialogComponent,
   ],
   providers: [
     AuthenticationService,

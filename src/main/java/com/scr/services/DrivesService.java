@@ -259,4 +259,12 @@ public class DrivesService {
 		return driveInspectionRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
 
+	public void saveInspectionWithDoc(CrsEigInspections update) {
+		driveInspectionRepository.save(update);
+	}
+
+	public void saveStipulationWithDoc(Stipulations stipulationsUpdate) {
+		driveStipulationRepository.save(stipulationsUpdate);
+	}
+
 }

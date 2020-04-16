@@ -98,8 +98,16 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="attachment">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Attachment</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.attachment}}</mat-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Documents</mat-header-cell>
+                                        
+                                        <mat-cell *matCellDef="let row">
+                                           <button mat-icon-button matTooltip="View Documents"
+                                               (click)="viewFilesDetails(row.id)">
+                                               <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                                           </button>
+
+                                       </mat-cell>
+                                            <!-- <mat-cell *matCellDef="let row"> {{row.attachment}}</mat-cell> -->
                                         </ng-container>
 
                                         <ng-container matColumnDef="station">

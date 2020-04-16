@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
 import { InspectionstModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
 
 @Component({
   selector: 'app-drive-inspection',
@@ -23,7 +24,7 @@ export class DriveInspectionComponent implements OnInit {
     'station', 'stipulationsId', 'actions'];
   dataSource: MatTableDataSource<InspectionstModel>;
 
-
+  fileInformationDialogRef:MatDialogRef<FilesInformationDialogComponent>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
@@ -36,6 +37,7 @@ export class DriveInspectionComponent implements OnInit {
     private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -88,4 +90,27 @@ export class DriveInspectionComponent implements OnInit {
       this.commonService.showAlertMessage("Inspection Deletion Failed.");
     })
   }
+
+  filesInfor:any;
+  viewFilesDetails(id){
+    this.spinnerService.show();    
+    this.drivesService.findInspectionsDataById(id).subscribe((response) => { 
+      this.filesInfor = response;
+      localStorage.setItem('driveFileType','Inspection');
+      localStorage.setItem('driveFileTypeId',id);
+      console.log(JSON.stringify(response));
+      var data = this.filesInfor.attachment.split(',');
+      console.log('data= '+JSON.stringify(data))
+      this.spinnerService.hide(); 
+       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
+        disableClose: false,
+        height: '600px',
+        width: '80%',       
+        data:data,       
+      });            
+    }, error => this.commonService.showAlertMessage(error));
+   
+    
+  }
+
 }

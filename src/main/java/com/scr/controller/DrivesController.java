@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveTarget;
@@ -526,9 +529,9 @@ public class DrivesController {
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
 			inspectionsRequest.setStipulationsId(stipulationsId);inspectionsRequest.setCreatedBy(createdBy);
-			inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			//inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
 			inspectionsRequest.setUpdatedBy(updatedBy);
-			inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			//inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
 			
 			service.saveInspectionsData(inspectionsRequest, file);
 			return Helper.findResponseStatus("Inspections Data Added Successfully", Constants.SUCCESS_CODE);
@@ -588,10 +591,11 @@ public class DrivesController {
 			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
-			inspectionsRequest.setStipulationsId(stipulationsId);inspectionsRequest.setCreatedBy(createdBy);
-			inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
+			inspectionsRequest.setStipulationsId(stipulationsId);
+			inspectionsRequest.setCreatedBy(createdBy);
+			//inspectionsRequest.setCreatedOn(Helper.convertStringToTimestamp(createdOn));
 			inspectionsRequest.setUpdatedBy(updatedBy);
-			inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			//inspectionsRequest.setUpdatedOn(Helper.convertStringToTimestamp(updatedOn));
 			
 			String status = service.updateInspectionsData(inspectionsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
@@ -652,5 +656,79 @@ public class DrivesController {
 			return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@RequestMapping(value = "/inspectionsFileInfoById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<CrsEigInspections> findInspectionsFileInfoById(@PathVariable("id") Long id){
+		Optional<CrsEigInspections> depOptional= null;
+		try {
+			depOptional = service.findInspectionsById(id);
+			if(depOptional.isPresent())
+				return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.OK);
+			else
+				return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Inspections Details by id");
+			return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteFile", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus deleteFile(@Valid @RequestBody DriveFileDeleteRequest request) throws JSONException {
+		ResponseStatus response = new ResponseStatus();
+		Optional<CrsEigInspections> depOptional= null;
+		Optional<Stipulations> depOptionalStipulations= null;
+		try {
+			logger.info("Request Data = "+request.toString());
+			Long id = request.getId();
+			String fileName = request.getFileName();
+			String type = request.getType();
+			logger.info("ID = "+id + " File Name = "+fileName+ " Type = "+type);
+			if(type.equalsIgnoreCase("Stipulation")) {
+				depOptionalStipulations = service.findStipulationsById(id);
+				if(depOptionalStipulations.isPresent()) {
+					Stipulations stipulationsUpdate = depOptionalStipulations.get();
+					logger.info("Sipulattions Data = "+stipulationsUpdate.toString());
+					String[] files = stipulationsUpdate.getAttachment().split(",");
+					StringBuffer sb = new StringBuffer();
+					for(String file : files) {
+						logger.info("File = "+file);
+						if(!file.trim().equalsIgnoreCase(fileName.trim())) {
+							sb.append(file);
+						}
+					}
+					logger.info("After Removing = "+sb.toString());
+					stipulationsUpdate.setAttachment(sb.toString());
+					service.saveStipulationWithDoc(stipulationsUpdate);
+				}
+				
+			}else if(type.equalsIgnoreCase("Inspection")) {
+				depOptional = service.findInspectionsById(id);
+				if(depOptional.isPresent()) {
+					CrsEigInspections update = depOptional.get();
+					logger.info("Inspection Data = "+update.toString());
+					String[] files = update.getAttachment().split(",");
+					StringBuffer sb = new StringBuffer();
+					for(String file : files) {
+						logger.info("File = "+file);
+						if(!file.trim().equalsIgnoreCase(fileName.trim())) {
+							sb.append(file);
+						}
+					}
+					logger.info("After Removing = "+sb.toString());
+					update.setAttachment(sb.toString());
+					service.saveInspectionWithDoc(update);
+				}
+			}
+			return response;
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return response;
+		} catch (Exception e) {
+			logger.error(e);
+			return response;
+		}
+	}
+	
 	
 }

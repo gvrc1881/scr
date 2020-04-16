@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { StipulationstModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -28,13 +29,14 @@ export class DriveStipulationComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   gridData =[];
   stipulationsList:any;
-
+  fileInformationDialogRef:MatDialogRef<FilesInformationDialogComponent>;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -70,6 +72,7 @@ export class DriveStipulationComponent implements OnInit {
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
+        this.stipulationsList[i].assetType = this.stipulationsList[i].assetType != null ? this.stipulationsList[i].assetType['productName'] : '';
         stipulations.push(this.stipulationsList[i]);
       }
       this.filterData.gridData = stipulations;
@@ -107,4 +110,28 @@ export class DriveStipulationComponent implements OnInit {
       this.commonService.showAlertMessage("Inspection Stipulation Failed.");
     })
   }
+
+  filesInfor:any;
+  viewFilesDetails(id){
+    this.spinnerService.show();    
+    localStorage.setItem('driveFileType','Stipulation');
+    localStorage.setItem('driveFileTypeId',id);
+    this.drivesService.findStipulationDataById(id).subscribe((response) => { 
+      this.filesInfor = response;
+      console.log(JSON.stringify(response));
+      var data = this.filesInfor.attachment.split(',');
+      console.log('data= '+JSON.stringify(data))
+      this.spinnerService.hide(); 
+       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
+        disableClose: false,
+        height: '600px',
+        width: '80%',       
+        data:data,       
+      });            
+    }, error => this.commonService.showAlertMessage(error));
+   
+    
+  }
+
+
 }

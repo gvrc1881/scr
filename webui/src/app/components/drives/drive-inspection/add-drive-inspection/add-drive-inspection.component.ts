@@ -87,6 +87,7 @@ export class AddDriveInspectionComponent implements OnInit {
     .subscribe((resp) => {
       console.log('depoTypes = ' + JSON.stringify(resp));
       this.resp = resp;
+      console.log(this.resp.station)
       this.addDriveInspectionFormGroup.patchValue({
         id: this.resp.id,
         inspectionType: this.resp.inspectionType,
@@ -99,7 +100,7 @@ export class AddDriveInspectionComponent implements OnInit {
         remarks: this.resp.remarks,
         authorisationDate: new Date(this.resp.authorisationDate),
         chargingDate: new Date(this.resp.chargingDate),
-        attachment: this.resp.attachment,
+       // attachment: this.resp.attachment,
         station: this.resp.station,
         stipulationsId: !!this.resp.stipulationsId && this.resp.stipulationsId['id']
       });
@@ -135,9 +136,9 @@ export class AddDriveInspectionComponent implements OnInit {
         'remarks': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
         'authorisationDate': [null, Validators.required],
         'chargingDate': [null, Validators.required],
-        'attachment': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
+        'attachment': [null, Validators.compose([Validators.required])],
         'station': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'stipulationsId': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])]
+        'stipulationsId': [null, Validators.compose([Validators.required])]
       });
   }
   onAddInspectionsFormSubmit() {

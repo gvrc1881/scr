@@ -91,10 +91,19 @@
 
                                         <ng-container matColumnDef="attachment">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                             <span> Attachment </span>
-                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
+                                             <span> Documents </span>
+                                             </mat-header-cell>
+                                             <mat-cell *matCellDef="let row">
+                                                <button mat-icon-button matTooltip="View Documents"
+                                                    (click)="viewFilesDetails(row.id)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                                                </button>
+
+                                            </mat-cell>
+                                             <!-- <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.attachment}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.attachment}}</mat-cell> -->
+
                                         </ng-container>
 
                                         <ng-container matColumnDef="compliedBy">
