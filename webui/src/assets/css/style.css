@@ -5038,6 +5038,25 @@ input.m-wrap[class*="span"]:focus, select.m-wrap[class*="span"]:focus, textarea.
 }
 
 
+.mat-sort-header-button {
+  border: none;
+  background: 0 0;
+  display: initial !important;
+  align-items: center;
+  padding: 0;
+  cursor: inherit;
+  outline: 0;
+  font: inherit;
+  color: currentColor;
+}
+.mat-sort-header-container button {
+  font-size: 12px !important;
+}
+.breadcrumb {
+  padding: 0px 15px !important;
+
+}
+
 
 
 

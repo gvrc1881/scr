@@ -20,16 +20,16 @@ export class DriveInspectionComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
 
   displayedColumns = ['sno', 'inspectionType', 'section', 'sectionStartLocation', 'sectionEndLocation',
-   'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
+    'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
     'station', 'stipulationsId', 'actions'];
   dataSource: MatTableDataSource<InspectionstModel>;
 
-  fileInformationDialogRef:MatDialogRef<FilesInformationDialogComponent>;
+  fileInformationDialogRef: MatDialogRef<FilesInformationDialogComponent>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
-  inspectionsList:any;
+  inspectionsList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -68,16 +68,16 @@ export class DriveInspectionComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(inspections);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;            
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
-  processEditAction(id){
-    this.router.navigate([id],{relativeTo: this.route});
+  processEditAction(id) {
+    this.router.navigate([id], { relativeTo: this.route });
   }
-  delete(id){
+  delete(id) {
     this.spinnerService.show();
     this.drivesService.deleteInspectionsData(id).subscribe(data => {
       console.log(JSON.stringify(data));
@@ -91,26 +91,29 @@ export class DriveInspectionComponent implements OnInit {
     })
   }
 
-  filesInfor:any;
-  viewFilesDetails(id){
-    this.spinnerService.show();    
-    this.drivesService.findInspectionsDataById(id).subscribe((response) => { 
+  filesInfor: any;
+  viewFilesDetails(id) {
+    this.spinnerService.show();
+    this.drivesService.findInspectionsDataById(id).subscribe((response) => {
       this.filesInfor = response;
-      localStorage.setItem('driveFileType','Inspection');
-      localStorage.setItem('driveFileTypeId',id);
-      console.log(JSON.stringify(response));
-      var data = this.filesInfor.attachment.split(',');
-      console.log('data= '+JSON.stringify(data))
-      this.spinnerService.hide(); 
-       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
+      localStorage.setItem('driveFileType', 'Inspection');
+      localStorage.setItem('driveFileTypeId', id);
+      var data = [];
+      if (this.filesInfor.attachment != '') {
+        console.log(JSON.stringify(response));
+        data = this.filesInfor.attachment.split(',');
+        console.log('data= ' + JSON.stringify(data))
+      }
+      this.spinnerService.hide();
+      this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,
         height: '600px',
-        width: '80%',       
-        data:data,       
-      });            
+        width: '80%',
+        data: data,
+      });
     }, error => this.commonService.showAlertMessage(error));
-   
-    
+
+
   }
 
 }

@@ -347,7 +347,7 @@
             font-size: 15px;
             font-weight: 500;
             text-decoration: none;
-            padding: 15px 20px 15px 20px;
+            padding: 10px 20px;
             font-family: Roboto,Helvetica Neue,sans-serif !important;
         }
 
@@ -559,7 +559,12 @@
     .submenu-active a {
         color: #0270a9 !important;
     }
-
+    .navbar {
+        position: relative;
+        min-height: auto !important;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+    }
 
 
 
@@ -866,9 +871,9 @@
 
 @media (max-width:1366px) {
 .page-header .navbar-collapse .navbar-nav > li > a{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    padding: 10px 30px;
+    padding: 0px 30px;
     }
 }
 

@@ -20,16 +20,16 @@ export class DriveStipulationComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
   displayedColumns = ['sno', 'stipulation', 'stipulationTo', 'dateOfStipulation', 'dateComplied',
-   'compliance', 'attachment', 'compliedBy', 'assetType','actions'];
+    'compliance', 'attachment', 'compliedBy', 'assetType', 'actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-  gridData =[];
-  stipulationsList:any;
-  fileInformationDialogRef:MatDialogRef<FilesInformationDialogComponent>;
+  gridData = [];
+  stipulationsList: any;
+  fileInformationDialogRef: MatDialogRef<FilesInformationDialogComponent>;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -46,22 +46,22 @@ export class DriveStipulationComponent implements OnInit {
 
     this.spinnerService.show();
     this.getStipulationData();
-    this.filterData={
-      filterColumnNames:[
-          {"Key":'sno',"Value":" "},
-          {"Key":'stipulation',"Value":" "},
-          {"Key":'stipulationTo',"Value":" "},
-          {"Key":'dateOfStipulation',"Value":" "},
-          {"Key":'dateComplied',"Value":" "},
-          {"Key":'compliance',"Value":""},
-          {"Key":'attachment',"Value":" "},
-          {"Key":'compliedBy',"Value":" "},
-          {"Key":'assetType',"Value":" "},
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'stipulation', "Value": " " },
+        { "Key": 'stipulationTo', "Value": " " },
+        { "Key": 'dateOfStipulation', "Value": " " },
+        { "Key": 'dateComplied', "Value": " " },
+        { "Key": 'compliance', "Value": "" },
+        { "Key": 'attachment', "Value": " " },
+        { "Key": 'compliedBy', "Value": " " },
+        { "Key": 'assetType', "Value": " " },
       ],
-      gridData:  this.gridData,
+      gridData: this.gridData,
       dataSource: this.dataSource,
-      paginator:  this.paginator,
-      sort:  this.sort
+      paginator: this.paginator,
+      sort: this.sort
     };
   }
 
@@ -77,27 +77,27 @@ export class DriveStipulationComponent implements OnInit {
       }
       this.filterData.gridData = stipulations;
       this.dataSource = new MatTableDataSource(stipulations);
-      this.filterData.dataSource=this.dataSource;
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;            
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
-  updatePagination(){
-   this.filterData.dataSource=this.filterData.dataSource;
-   this.filterData.dataSource.paginator = this.paginator;
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
   }
-  processEditAction(id){
-    this.router.navigate([id],{relativeTo: this.route});
+  processEditAction(id) {
+    this.router.navigate([id], { relativeTo: this.route });
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.filterData.dataSource.filter = filterValue;
   }
-  delete(id){
+  delete(id) {
     this.spinnerService.show();
     this.drivesService.deleteStipulationData(id).subscribe(data => {
       console.log(JSON.stringify(data));
@@ -111,26 +111,29 @@ export class DriveStipulationComponent implements OnInit {
     })
   }
 
-  filesInfor:any;
-  viewFilesDetails(id){
-    this.spinnerService.show();    
-    localStorage.setItem('driveFileType','Stipulation');
-    localStorage.setItem('driveFileTypeId',id);
-    this.drivesService.findStipulationDataById(id).subscribe((response) => { 
+  filesInfor: any;
+  viewFilesDetails(id) {
+    this.spinnerService.show();
+    localStorage.setItem('driveFileType', 'Stipulation');
+    localStorage.setItem('driveFileTypeId', id);
+    this.drivesService.findStipulationDataById(id).subscribe((response) => {
       this.filesInfor = response;
-      console.log(JSON.stringify(response));
-      var data = this.filesInfor.attachment.split(',');
-      console.log('data= '+JSON.stringify(data))
-      this.spinnerService.hide(); 
-       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
+      var data = [];
+      if (this.filesInfor.attachment != '') {
+        console.log(JSON.stringify(response));
+        data = this.filesInfor.attachment.split(',');
+        console.log('data= ' + JSON.stringify(data))
+      }
+      this.spinnerService.hide();
+      this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,
         height: '600px',
-        width: '80%',       
-        data:data,       
-      });            
+        width: '80%',
+        data: data,
+      });
     }, error => this.commonService.showAlertMessage(error));
-   
-    
+
+
   }
 
 

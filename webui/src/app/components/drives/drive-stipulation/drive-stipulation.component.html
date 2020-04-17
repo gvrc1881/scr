@@ -37,13 +37,13 @@
                                     <div class="clear"> </div>
                                 </div>
 
-                                <div class="example-container mat-elevation-z8">
+                                <div class="table-sort-input example-container mat-elevation-z8">
 
                                     <mat-table [dataSource]="filterData.dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <label> Sno</label><div class="clear"> </div> <br/>
+                                                <span> Sno</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                                             </mat-header-cell>                                            
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -92,13 +92,13 @@
                                         <ng-container matColumnDef="attachment">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                              <span> Documents </span>
+                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" disabled  [filter]="filterData"/>
                                              </mat-header-cell>
                                              <mat-cell *matCellDef="let row">
                                                 <button mat-icon-button matTooltip="View Documents"
                                                     (click)="viewFilesDetails(row.id)">
                                                     <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
                                                 </button>
-
                                             </mat-cell>
                                              <!-- <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                             </mat-header-cell>
@@ -123,7 +123,10 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="actions">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Actions</span>
+                                                <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row">
                                                 <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
                                                     <button mat-icon-button matTooltip="Edit"

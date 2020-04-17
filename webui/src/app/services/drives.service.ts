@@ -207,6 +207,11 @@ export class DrivesService {
     }
 
     deleteFile(id:string,fileName:string, type:string){
-        return this.http.get<any[]>(environment.apiUrl + '/deleteFile/'+id+'/'+fileName+'/'+type, { headers: this.header });
+        var data ={
+            "id":id,
+            "fileName":fileName,
+            "type":type
+        }
+        return this.http.post<any[]>(environment.apiUrl + '/deleteFile', data, { headers: this.header });
     }
 }
