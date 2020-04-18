@@ -10,15 +10,19 @@ import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
+import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
+import com.scr.model.ElectrificationTargets;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
+import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
@@ -38,15 +42,19 @@ import com.scr.repository.UomRepository;
 import com.scr.repository.ZoneRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
+import com.scr.repository.CrsEigInspectionRepository;
 import com.scr.repository.DivisionRepository;
+import com.scr.repository.ElectrificationTargetsRepository;
 import com.scr.repository.ElementarySectionsRepository;
 import com.scr.repository.FacilityRepository;
+import com.scr.repository.FailureAnalysisRepository;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.FunctionLocationTypesRepository;
 import com.scr.repository.ObservationCategoryRepository;
 import com.scr.repository.ObservationCheckListRepository;
 import com.scr.repository.PBSwitchControlRepository;
 import com.scr.repository.PowerBlockRepository;
+import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.ProductCategoryMemberRepository;
 
 
@@ -97,7 +105,14 @@ public class ReportService {
    private SectionRepository sectionRepository;
    @Autowired
    private StatusItemRepository statusItemRepository;
-
+   @Autowired
+   private CrsEigInspectionRepository crsEigInspectionRepository;
+   @Autowired
+   private FailureAnalysisRepository failureAnalysisRepository;
+   @Autowired
+   private ElectrificationTargetsRepository electrificationTargetsRepository;
+	@Autowired
+	private PrecautionaryMeasureMasterRepository precautionaryMeasureMasterRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -186,5 +201,17 @@ public class ReportService {
 	public List<Facility> getFacilitysBasedOnDepotType(String depotType) {
 			// TODO Auto-generated method stub
 			return facilityRepository.findByDepotType(depotType);
+		}
+	public List<CrsEigInspections>findcrsEigInspection() {	
+		   return crsEigInspectionRepository.findAll();
+		}
+	public List<FailureAnalysis>findFailureAnalysis() {	
+		   return failureAnalysisRepository.findAll();
+		}
+	public List<ElectrificationTargets>findElectrificationTargets() {	
+		   return electrificationTargetsRepository.findAll();
+		}
+	public List<PrecautionaryMeasuresMaster>findPrecautionaryMeasures() {	
+		   return precautionaryMeasureMasterRepository.findAll();
 		}
 }

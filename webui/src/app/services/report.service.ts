@@ -119,7 +119,18 @@ getAllContentTopics(){
 getAllTssFeederMaster(){
 	return this.http.get(this.url + '/findAllTssFeederMaster',{ headers: this.header });
 }
-
+crsEigInspectionDetails(){
+    return this.http.get(this.url + '/crsEigInspectionDetails',{ headers: this.header });
+}
+failureAnalysisDetails(){
+    return this.http.get(this.url + '/failureAnalysisDetails',{ headers: this.header });
+}
+electrificationTargets(){
+    return this.http.get(this.url + '/electrificationTargets',{ headers: this.header });
+}
+precautionaryMeasureDetails(){
+    return this.http.get(this.url + '/precautionaryMeasureDetails',{ headers: this.header });
+}
 }
     
     

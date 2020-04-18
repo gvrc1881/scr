@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
+import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
+import com.scr.model.ElectrificationTargets;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
+import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
@@ -204,6 +208,30 @@ public class ReportController {
 	public ResponseEntity<List<Facility>> getFacilitysBasedOnDepotType(@PathVariable("depotType") String depotType){
 		List<Facility> facilityList= reportService.getFacilitysBasedOnDepotType(depotType);
 			return new ResponseEntity<List<Facility>>(facilityList, HttpStatus.OK);		
+	}
+  	@RequestMapping(value = "/crsEigInspectionDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<CrsEigInspections>> findcrsEigInspection(){
+		List<CrsEigInspections> crsEigInspection= reportService.findcrsEigInspection();
+		return new ResponseEntity<List<CrsEigInspections>>(crsEigInspection,HttpStatus.OK);	
+		
+	}
+  	@RequestMapping(value = "/failureAnalysisDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<FailureAnalysis>> findFailureAnalysis(){
+		List<FailureAnalysis> failureAnalysis= reportService.findFailureAnalysis();
+		return new ResponseEntity<List<FailureAnalysis>>(failureAnalysis,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/electrificationTargetDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ElectrificationTargets>> findElectrificationTargets(){
+		List<ElectrificationTargets> electrificationTargets= reportService.findElectrificationTargets();
+		return new ResponseEntity<List<ElectrificationTargets>>(electrificationTargets,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/precautionaryMeasureDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<PrecautionaryMeasuresMaster>> findPrecautionaryMeasures(){
+		List<PrecautionaryMeasuresMaster> precautionaryMeasures= reportService.findPrecautionaryMeasures();
+		return new ResponseEntity<List<PrecautionaryMeasuresMaster>>(precautionaryMeasures,HttpStatus.OK);	
+		
 	}
   	
 }
