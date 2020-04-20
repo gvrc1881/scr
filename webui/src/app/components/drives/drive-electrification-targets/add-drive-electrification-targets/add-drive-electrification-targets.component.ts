@@ -236,4 +236,5 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
+  
 }

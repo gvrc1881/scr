@@ -1,1 +1,173 @@
-<p>add-drive-progress-record works!</p>
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Drive Target</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Drive Target Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Drive Target Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addDriveDailyProgressFormGroup" (ngSubmit)="onAddDriveDailyProgressFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <!-- activityId -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Activity Id"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['activityId']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['activityId'].hasError('required') && addDriveDailyProgressFormGroup.controls['activityId'].touched"
+                                                                class="alert alert-danger">Enter Unit Type</mat-error>                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- performedDate -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                placeholder="Choose Performe dDate"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']"
+                                                                >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- division -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Division"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['division']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['division'].hasError('required') && addDriveDailyProgressFormGroup.controls['division'].touched"
+                                                                class="alert alert-danger">Enter Division</mat-error>
+                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- depot -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Depot"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['depot']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['depot'].hasError('required') && addDriveDailyProgressFormGroup.controls['depot'].touched"
+                                                                class="alert alert-danger">Enter Depot</mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- section -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Section"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['section']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['section'].hasError('required') && addDriveDailyProgressFormGroup.controls['section'].touched"
+                                                                class="alert alert-danger">Enter Section
+                                                            </mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- performedCount -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Performed Count"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['performedCount']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['performedCount'].hasError('required') && addDriveDailyProgressFormGroup.controls['performedCount'].touched"
+                                                                class="alert alert-danger">Enter Performed Count
+                                                            </mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- supervisor -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Supervisor"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['supervisor']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['supervisor'].hasError('required') && addDriveDailyProgressFormGroup.controls['supervisor'].touched"
+                                                                class="alert alert-danger">Enter Supervisor
+                                                            </mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+
+                                                    <!-- DRIVE -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Drive"
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['drive']">
+                                                                <mat-option *ngFor="let drive of driveList"
+                                                                    [value]="drive.id">
+                                                                    {{ drive.name }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['drive'].hasError('required') && addDriveDailyProgressFormGroup.controls['drive'].touched"
+                                                                class="alert alert-danger">Select Drive</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addDriveDailyProgressFormGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            [disabled]="addDriveDailyProgressFormGroup.invalid" color="accent"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

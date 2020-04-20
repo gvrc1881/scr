@@ -22,9 +22,12 @@ import com.scr.controller.DrivesController;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.DriveCheckList;
+import com.scr.model.DriveDailyProgress;
+import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -187,8 +190,172 @@ public class DriveMapper {
 		}
 		return driveCheckList;
 	}
+	
+	
+	public DriveTarget prepareDriveTargetModel(@Valid DriveRequest request) {
+		DriveTarget driveTarget = null;
+		if(request != null) {
+			driveTarget = new DriveTarget();
+			
+			driveTarget.setUnitType(request.getUnitType());
+			driveTarget.setUnitName(request.getUnitName());
+			driveTarget.setTarget(request.getTarget());
+			driveTarget.setPoulation(request.getPoulation());
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveTarget.setDriveId(drive.get());
+			}
+			
+			driveTarget.setCreatedBy(request.getCreatedBy());
+			driveTarget.setUpdatedBy(request.getUpdatedBy());
+			driveTarget.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveTarget.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveTarget.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveTarget;
+	}
 
+	public DriveTarget prepareDriveUpdataData(DriveTarget driveTarget, @Valid DriveRequest request) {
+		if(request != null) {
+			
+			driveTarget.setUnitType(request.getUnitType());
+			driveTarget.setUnitName(request.getUnitName());
+			driveTarget.setTarget(request.getTarget());
+			driveTarget.setPoulation(request.getPoulation());
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveTarget.setDriveId(drive.get());
+			}
+			
+			driveTarget.setCreatedBy(request.getCreatedBy());
+			driveTarget.setUpdatedBy(request.getUpdatedBy());
+			driveTarget.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveTarget.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveTarget.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveTarget;
+	}
+	
+	public DriveDailyProgress prepareDriveDailyProgressModel(@Valid DriveRequest request) {
+		DriveDailyProgress driveDailyProgress = null;
+		if(request != null) {
+			driveDailyProgress = new DriveDailyProgress();
+			
+			driveDailyProgress.setActivityId(Long.parseLong(request.getActivityId()));
+			driveDailyProgress.setPerformedDate(request.getPerformedDate());
+			driveDailyProgress.setDivision(request.getDivision());
+			driveDailyProgress.setDepot(request.getDepot());
+			driveDailyProgress.setSection(request.getSection());
+			driveDailyProgress.setPerformedCount(request.getPerformedCount());
+			driveDailyProgress.setSupervisor(request.getSupervisor());
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveDailyProgress.setDriveId(drive.get());
+			}
+			
+			driveDailyProgress.setCreatedBy(request.getCreatedBy());
+			driveDailyProgress.setUpdatedBy(request.getUpdatedBy());
+			driveDailyProgress.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveDailyProgress.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveDailyProgress.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveDailyProgress;
+	}
 
+	public DriveDailyProgress prepareDriveUpdataData(DriveDailyProgress driveDailyProgress,
+			@Valid DriveRequest request) {
+		if(request != null) {
+			driveDailyProgress.setActivityId(Long.parseLong(request.getActivityId()));
+			driveDailyProgress.setPerformedDate(request.getPerformedDate());
+			driveDailyProgress.setDivision(request.getDivision());
+			driveDailyProgress.setDepot(request.getDepot());
+			driveDailyProgress.setSection(request.getSection());
+			driveDailyProgress.setPerformedCount(request.getPerformedCount());
+			driveDailyProgress.setSupervisor(request.getSupervisor());
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(request.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveDailyProgress.setDriveId(drive.get());
+			}
+			
+			driveDailyProgress.setCreatedBy(request.getCreatedBy());
+			driveDailyProgress.setUpdatedBy(request.getUpdatedBy());
+			driveDailyProgress.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveDailyProgress.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveDailyProgress.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveDailyProgress;
+	}
+	
+	public FailureAnalysis prepareFailureAnalysissModel(@Valid DriveRequest request) {
+		FailureAnalysis failureAnalysis = null;
+		if(request != null) {
+			failureAnalysis = new FailureAnalysis();
+			
+			failureAnalysis.setFailure_id(request.getFailure_id());
+			failureAnalysis.setReported(request.getReported());
+			failureAnalysis.setRepurcussion(request.getRepurcussion());
+			failureAnalysis.setDate(request.getDate());
+			failureAnalysis.setDiv(request.getDiv());
+			failureAnalysis.setSection(request.getFailureSection());
+			failureAnalysis.setAssetId(request.getAssetId());
+			failureAnalysis.setSubAssetId(request.getSubAssetId());
+			failureAnalysis.setSubAssetType(request.getSubAssetType());
+			failureAnalysis.setMake(request.getMake());
+			failureAnalysis.setModel(request.getModel());
+			failureAnalysis.setRootCause(request.getRootCause());
+			failureAnalysis.setActionPlan(request.getActionPlan());
+			failureAnalysis.setActionStatus(request.getActionStatus());
+			failureAnalysis.setApprovedBy(request.getApprovedBy());
+			failureAnalysis.setActionTargetDate(request.getActionTargetDate());
+			failureAnalysis.setActionCompletedDate(request.getActionCompletedDate());
+			failureAnalysis.setActionDescription(request.getActionDescription());
+			
+			failureAnalysis.setCreatedBy(request.getCreatedBy());
+			failureAnalysis.setUpdatedBy(request.getUpdatedBy());
+			failureAnalysis.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			failureAnalysis.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return failureAnalysis;
+	}
+
+	public FailureAnalysis prepareFailureAnalysisUpdataData(FailureAnalysis failureAnalysis,
+			@Valid DriveRequest request) {
+		if(request != null) {
+			failureAnalysis.setFailure_id(request.getFailure_id());
+			failureAnalysis.setReported(request.getReported());
+			failureAnalysis.setRepurcussion(request.getRepurcussion());
+			failureAnalysis.setDate(request.getDate());
+			failureAnalysis.setDiv(request.getDiv());
+			failureAnalysis.setSection(request.getFailureSection());
+			failureAnalysis.setAssetId(request.getAssetId());
+			failureAnalysis.setSubAssetId(request.getSubAssetId());
+			failureAnalysis.setSubAssetType(request.getSubAssetType());
+			failureAnalysis.setMake(request.getMake());
+			failureAnalysis.setModel(request.getModel());
+			failureAnalysis.setRootCause(request.getRootCause());
+			failureAnalysis.setActionPlan(request.getActionPlan());
+			failureAnalysis.setActionStatus(request.getActionStatus());
+			failureAnalysis.setApprovedBy(request.getApprovedBy());
+			failureAnalysis.setActionTargetDate(request.getActionTargetDate());
+			failureAnalysis.setActionCompletedDate(request.getActionCompletedDate());
+			failureAnalysis.setActionDescription(request.getActionDescription());
+			
+			failureAnalysis.setCreatedBy(request.getCreatedBy());
+			failureAnalysis.setUpdatedBy(request.getUpdatedBy());
+			failureAnalysis.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			failureAnalysis.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);	
+		}
+		return failureAnalysis;
+	}
+	
 	public ElectrificationTargets prepareElectrificationTargetsModel(
 			@Valid DriveRequest request) {
 		ElectrificationTargets electrificationTargets = null;
@@ -411,7 +578,5 @@ public class DriveMapper {
 		    inspections.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return inspections;
-	}
-
-	
+	}	
 }

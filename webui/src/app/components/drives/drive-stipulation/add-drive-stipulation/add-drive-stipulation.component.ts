@@ -76,6 +76,8 @@ export class AddDriveStipulationComponent implements OnInit {
     });
   }
 
+  public get f() { return this.addDriveStipulationFormGroup.controls; }
+
 
   getStipulationDataById(id) {
     this.drivesService.findStipulationDataById(id)

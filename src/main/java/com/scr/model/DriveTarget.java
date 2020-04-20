@@ -53,6 +53,8 @@ public class DriveTarget implements Serializable {
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
 	
+	@Column(name = "status_id")
+	private Integer statusId;
 	
 	@ManyToOne
 	@JoinColumn(name="drive_id",foreignKey=@ForeignKey(name = "fk_drive_target_id"))
@@ -166,6 +168,16 @@ public class DriveTarget implements Serializable {
 
 	public void setPoulation(String poulation) {
 		this.poulation = poulation;
+	}
+
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 

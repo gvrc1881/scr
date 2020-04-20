@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel } from '../models/drive.model';
+import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel, FailureAnalysisModel, DriveTargetModel, DriveDailyProgressModel } from '../models/drive.model';
 
 @Injectable()
 export class DrivesService {
@@ -60,7 +60,59 @@ export class DrivesService {
         return this.http.delete<any[]>(environment.apiUrl + '/deleteCheckList/'+id, { headers: this.header });
     }
 
+    // DRIVE TARGETS
+    getDriveTargetData(){
+        return this.http.get<DriveTargetModel[]>(environment.apiUrl + '/driveTarget', { headers: this.header });            
+    }
+    saveDriveTargetData(save){
+        return this.http.post(environment.apiUrl + '/saveDriveTarget', save, { headers: this.header });
+    }
+    updateDriveTargetData(update){
+        return this.http.put(environment.apiUrl + '/updateDriveTarget', update, { headers: this.header });
+    }
+    findDriveTargetDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/driveTargetById/'+id, { headers: this.header });
+    }
+    deleteDriveTargetData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveTarget/'+id, { headers: this.header });
+    }
+    // DRIVE TARGETS
 
+    // DRIVE DAILY PROGRESS 
+    getDriveDailyProgressData(){
+        return this.http.get<DriveDailyProgressModel[]>(environment.apiUrl + '/driveDailyProgress', { headers: this.header });            
+    }
+    saveDriveDailyProgressData(save){
+        return this.http.post(environment.apiUrl + '/saveDriveDailyProgress', save, { headers: this.header });
+    }
+    updateDriveDailyProgressData(update){
+        return this.http.put(environment.apiUrl + '/updateDriveDailyProgress', update, { headers: this.header });
+    }
+    findDriveDailyProgressDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/driveDailyProgressById/'+id, { headers: this.header });
+    }
+    deleteDriveDailyProgressData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveDailyProgress/'+id, { headers: this.header });
+    }
+    // DRIVE DAILY PROGRESS
+
+    // DRIVE FAILURE ANALYSIS
+    getFailureAnalysisData(){
+        return this.http.get<FailureAnalysisModel[]>(environment.apiUrl + '/failureAnalysis', { headers: this.header });            
+    }
+    saveFailureAnalysisData(save){
+        return this.http.post(environment.apiUrl + '/saveFailureAnalysis', save, { headers: this.header });
+    }
+    updateFailureAnalysisData(update){
+        return this.http.put(environment.apiUrl + '/updateFailureAnalysis', update, { headers: this.header });
+    }
+    findFailureAnalysisDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/failureAnalysisById/'+id, { headers: this.header });
+    }
+    deleteFailureAnalysisData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteFailureAnalysis/'+id, { headers: this.header });
+    }
+    // DRIVE FAILURE ANALYSIS
 
     getElectrificationTargetsData(){
         return this.http.get<ElectrificationTargetstModel[]>(environment.apiUrl + '/electrificationTargets', { headers: this.header });            

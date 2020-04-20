@@ -1,1 +1,146 @@
-<p>add-drive-target works!</p>
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Drive Target</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Drive Target Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Drive Target Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addDriveTargetFormGroup" (ngSubmit)="onAddDriveTargetFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <!-- unitType -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Unit Type"
+                                                                [formControl]="addDriveTargetFormGroup.controls['unitType']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['unitType'].hasError('required') && addDriveTargetFormGroup.controls['unitType'].touched"
+                                                                class="alert alert-danger">Enter Unit Type</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['unitType'].hasError('minlength') && addDriveTargetFormGroup.controls['unitType'].touched"
+                                                                class="alert alert-danger">Unit Type minimum of 3
+                                                                charecters
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['unitType'].hasError('pattern') && addDriveTargetFormGroup.controls['unitType'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- unitName -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Unit Name"
+                                                                [formControl]="addDriveTargetFormGroup.controls['unitName']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('required') && addDriveTargetFormGroup.controls['unitName'].touched"
+                                                                class="alert alert-danger">Enter Unit Name</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('pattern') && addDriveTargetFormGroup.controls['unitName'].touched"
+                                                                class="alert alert-danger">Only alphabets allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- target -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Target"
+                                                                [formControl]="addDriveTargetFormGroup.controls['target']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['target'].hasError('required') && addDriveTargetFormGroup.controls['target'].touched"
+                                                                class="alert alert-danger">Enter Target</mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- poulation -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Poulation"
+                                                                [formControl]="addDriveTargetFormGroup.controls['poulation']"
+                                                                required>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['poulation'].hasError('required') && addDriveTargetFormGroup.controls['poulation'].touched"
+                                                                class="alert alert-danger">Enter Poulation
+                                                            </mat-error>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+
+                                                    <!-- DRIVE -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Drive"
+                                                                [formControl]="addDriveTargetFormGroup.controls['drive']">
+                                                                <mat-option *ngFor="let drive of driveList"
+                                                                    [value]="drive.id">
+                                                                    {{ drive.name }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="addDriveTargetFormGroup.controls['drive'].hasError('required') && addDriveTargetFormGroup.controls['drive'].touched"
+                                                                class="alert alert-danger">Select Drive</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addDriveTargetFormGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            [disabled]="addDriveTargetFormGroup.invalid" color="accent"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

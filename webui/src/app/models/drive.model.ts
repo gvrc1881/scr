@@ -34,7 +34,62 @@ export interface DriveChecklistModel {
 
     createdBy: number;
     createdDate: string;
+    modifiedBy: number;
+    modifiedDate: String;
+}
 
+export interface DriveTargetModel{
+    unitType: string;
+	unitName: string;
+	target:number;
+	poulation: string;
+    driveId: string;
+    
+    createdBy: number;
+    createdDate: string;
+    modifiedBy: number;
+    modifiedDate: String;
+}
+
+export interface DriveDailyProgressModel{
+
+    activityId:number;
+	performedDate:Date;
+	division: string;
+	depot: string;
+	section: string;
+	performedCount:number;
+	supervisor: string;
+
+    createdBy: number;
+    createdDate: string;
+    modifiedBy: number;
+    modifiedDate: String;
+}
+
+export interface FailureAnalysisModel{
+    failure_id: string;
+	reported: string;
+	repurcussion: string;
+	date:Date;
+	div:number;
+	failureSection:number;
+	assetType:number;
+	assetId:number;
+	subAssetType: string;
+	subAssetId: string;
+	make:number;
+	model:number;
+	rootCause: string;
+	actionPlan: string;
+	actionStatus:number;
+	approvedBy: string;
+	actionTargetDate:Date;
+	actionCompletedDate:Date;
+	actionDescription: string;
+
+    createdBy: number;
+    createdDate: string;
     modifiedBy: number;
     modifiedDate: String;
 }

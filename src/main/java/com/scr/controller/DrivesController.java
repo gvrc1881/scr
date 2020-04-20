@@ -1,7 +1,5 @@
 package com.scr.controller;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.DriveCheckList;
+import com.scr.model.DriveDailyProgress;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -225,7 +224,211 @@ public class DrivesController {
 		return ResponseEntity.ok((driveTargetList));
 	}
 	
+	@RequestMapping(value = "/saveDriveTarget", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveDriveTargetData(@Valid @RequestBody DriveRequest driveTargetRequest) throws JSONException {		
+		try {			
+			service.saveDriveTargetData(driveTargetRequest);
+			return Helper.findResponseStatus("Drive Target Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Target data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Target Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 	
+	@RequestMapping(value = "/updateDriveTarget", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateDriveTargetData(@Valid @RequestBody DriveRequest driveTargetRequest) throws JSONException {		
+		try {			
+			String status = service.updateDriveTargetData(driveTargetRequest);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Target Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating Drive Target data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Target Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteDriveTarget/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteDriveTarget(@PathVariable("id") Long id) throws JSONException {
+		try {
+			String status = service.deleteDriveTarget(id);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Target Deleted Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Target Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Target Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/driveTargetById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<DriveTarget> findDriveTargetDataById(@PathVariable("id") Long id){
+		Optional<DriveTarget> depOptional= null;
+		try {
+			depOptional = service.findDriveTargetById(id);
+			if(depOptional.isPresent())
+				return new ResponseEntity<DriveTarget>(depOptional.get(), HttpStatus.OK);
+			else
+				return new ResponseEntity<DriveTarget>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Drive Target Details by id");
+			return new ResponseEntity<DriveTarget>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// DRIVE PROGRESS RECORD
+	@RequestMapping(value = "/driveDailyProgress", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<DriveDailyProgress>> findAllDriveDailyProgress() throws JSONException {
+		List<DriveDailyProgress> driveDailyProgress = null;
+		try {			
+			driveDailyProgress = service.findAllDriveDailyProgress();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((driveDailyProgress));
+	}
+	
+	@RequestMapping(value = "/saveDriveDailyProgress", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveDriveDailyProgressData(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
+		try {			
+			service.saveDriveDailyProgressData(driveDailyProgressRequest);
+			return Helper.findResponseStatus("Drive Daily Progress Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Daily Progress data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Daily Progress Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/updateDriveDailyProgress", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateDriveDailyProgressData(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
+		try {			
+			String status = service.updateDriveDailyProgressData(driveDailyProgressRequest);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Daily Progress Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating Drive Daily Progress data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Daily Progress Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteDriveDailyProgress/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteDriveDailyProgress(@PathVariable("id") Long id) throws JSONException {
+		try {
+			String status = service.deleteDriveDailyProgress(id);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Daily Progress Deleted Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Target Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Target Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/driveTargetById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<DriveDailyProgress> findDriveDailyProgressDataById(@PathVariable("id") Long id){
+		Optional<DriveDailyProgress> depOptional= null;
+		try {
+			depOptional = service.findDriveDailyProgressById(id);
+			if(depOptional.isPresent())
+				return new ResponseEntity<DriveDailyProgress>(depOptional.get(), HttpStatus.OK);
+			else
+				return new ResponseEntity<DriveDailyProgress>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Drive Daily Progress Details by id");
+			return new ResponseEntity<DriveDailyProgress>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//DRIVE PROGRESS RECORD
+	
+	// DRIVE FAILURE ANALYSIS
+
+	@RequestMapping(value = "/failureAnalysis", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<FailureAnalysis>> findAllFailureAnalysis() throws JSONException {
+		List<FailureAnalysis> failureAnalysis = null;
+		try {			
+			failureAnalysis = service.findAllFailureAnalysis();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((failureAnalysis));
+	}
+	
+	@RequestMapping(value = "/saveFailureAnalysis", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveFailureAnalysisData(@Valid @RequestBody DriveRequest failureAnalysisRequest) throws JSONException {		
+		try {			
+			service.saveFailureAnalysisData(failureAnalysisRequest);
+			return Helper.findResponseStatus("Failure Analysis Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Failure Analysis data. "+e.getMessage());
+			return Helper.findResponseStatus("Failure Analysis Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/updateFailureAnalysis", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateFailureAnalysisData(@Valid @RequestBody DriveRequest failureAnalysisRequest) throws JSONException {		
+		try {			
+			String status = service.updateFailureAnalysisData(failureAnalysisRequest);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Failure Analysis Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating Failure Analysis data. "+e.getMessage());
+			return Helper.findResponseStatus("Failure Analysis Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteFailure Analysis/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteFailureAnalysis(@PathVariable("id") Long id) throws JSONException {
+		try {
+			String status = service.deleteFailureAnalysis(id);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Failure Analysis Deleted Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Failure Analysis Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Failure Analysis Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/failureAnalysisById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<FailureAnalysis> findFailureAnalysisById(@PathVariable("id") Long id){
+		Optional<FailureAnalysis> depOptional= null;
+		try {
+			depOptional = service.findFailureAnalysisById(id);
+			if(depOptional.isPresent())
+				return new ResponseEntity<FailureAnalysis>(depOptional.get(), HttpStatus.OK);
+			else
+				return new ResponseEntity<FailureAnalysis>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Failure Analysis Details by id");
+			return new ResponseEntity<FailureAnalysis>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	// DRIVE FAILURE ANALYSIS
 	
 	@RequestMapping(value = "/electrificationTargets", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<ElectrificationTargets>> findAllElectrificationTargets() throws JSONException {

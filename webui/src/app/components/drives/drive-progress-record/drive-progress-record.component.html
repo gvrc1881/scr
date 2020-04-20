@@ -1,1 +1,119 @@
-<p>drive-progress-record works!</p>
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">DriveDailyProgress</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Drive Daily Progress Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+<!-- *ngIf="addPermission" -->
+                            <div class="p-24" style="text-align: right" >
+                                <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                    [routerLink]="['add-drive-progress-record']"> <!-- *ngIf="rolePermission"  -->
+                                    Add Drive Daily Progress
+                                </button></div>
+
+                            <div class="p-24">
+
+                                <div class="example-header">
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="clear"> </div>
+                                </div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="dataSource" matSort>
+
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="activityId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Id</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.activityId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="performedDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Performed Date</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.performedDate}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="division">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.division}}</mat-cell>
+                                        </ng-container>
+                                       
+                                        <ng-container matColumnDef="depot">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.depot}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="section">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="performedCount">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.performedCount}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="supervisor">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.supervisor}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="driveId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.driveId}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actions">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
+                                                    <button mat-icon-button matTooltip="Edit"
+                                                        (click)="processEditAction(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </button>
+                                                </a>
+                                                <button mat-icon-button matTooltip="Delete"
+                                                    (click)="delete(row.id)"
+                                                   ><!-- *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </mat-row>
+                                    </mat-table>
+                                   
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

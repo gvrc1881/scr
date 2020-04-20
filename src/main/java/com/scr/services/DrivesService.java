@@ -13,15 +13,19 @@ import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.DriveCheckList;
+import com.scr.model.DriveDailyProgress;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.DriveElectrificationTargetsRepository;
+import com.scr.repository.DriveFailureAnalysisRepository;
 import com.scr.repository.DriveInspectionRepository;
+import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
@@ -58,6 +62,12 @@ public class DrivesService {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private DriveProgressRecordRepository driveProgressRecordRepository;
+	
+	@Autowired
+	private DriveFailureAnalysisRepository driveFailureAnalysisRepository;
 	
 	public List<Drives> findAllDrives() {
 		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -140,8 +150,122 @@ public class DrivesService {
 	
 	
 	public List<DriveTarget> findAllDriveTargets() {
-		return driveTargetRepository.findAll();
+		return driveTargetRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
+	
+	public void saveDriveTargetData(@Valid DriveRequest driveTargetRequest) {
+		DriveTarget driveTarget = driveMapper.prepareDriveTargetModel(driveTargetRequest);
+		driveTarget = driveTargetRepository.save(driveTarget);
+	}
+
+	public String updateDriveTargetData(@Valid DriveRequest request) {
+		Optional<DriveTarget> driveTarget = driveTargetRepository.findById(request.getId());
+		if(driveTarget.isPresent()) {
+			DriveTarget driveTargetUpdate = driveMapper.prepareDriveUpdataData(driveTarget.get(), request);
+			driveTargetUpdate = driveTargetRepository.save(driveTargetUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Target Id";
+		}
+	}
+
+	public String deleteDriveTarget(Long id) {
+		Optional<DriveTarget> driveTargetOptional = driveTargetRepository.findById(id);
+		if (driveTargetOptional.isPresent()) {
+			DriveTarget driveToUpdate = driveTargetOptional.get();
+			driveToUpdate.setId(id);
+			driveToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			driveTargetRepository.save(driveToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Target Id";
+		}
+	}
+
+	public Optional<DriveTarget> findDriveTargetById(Long id) {
+		return driveTargetRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+
+	// DRIVE DAILY PROGRESS
+	public List<DriveDailyProgress> findAllDriveDailyProgress() {
+		return driveProgressRecordRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+	}
+	
+	public void saveDriveDailyProgressData(@Valid DriveRequest request) {
+		DriveDailyProgress driveDailyProgress = driveMapper.prepareDriveDailyProgressModel(request);
+		driveDailyProgress = driveProgressRecordRepository.save(driveDailyProgress);
+	}
+
+	public String updateDriveDailyProgressData(@Valid DriveRequest request) {
+		Optional<DriveDailyProgress> driveDailyProgress = driveProgressRecordRepository.findById(request.getId());
+		if(driveDailyProgress.isPresent()) {
+			DriveDailyProgress driveDailyProgressUpdate = driveMapper.prepareDriveUpdataData(driveDailyProgress.get(), request);
+			driveDailyProgressUpdate = driveProgressRecordRepository.save(driveDailyProgressUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Daily Progress Id";
+		}
+	}
+
+	public String deleteDriveDailyProgress(Long id) {
+		Optional<DriveDailyProgress> driveDailyProgressOptional = driveProgressRecordRepository.findById(id);
+		if (driveDailyProgressOptional.isPresent()) {
+			DriveDailyProgress driveDailyProgressToUpdate = driveDailyProgressOptional.get();
+			driveDailyProgressToUpdate.setId(id);
+			driveDailyProgressToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			driveProgressRecordRepository.save(driveDailyProgressToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Daily Progress Id";
+		}
+	}
+
+	public Optional<DriveDailyProgress> findDriveDailyProgressById(Long id) {
+		return driveProgressRecordRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+
+	// DRIVE DAILY PROGRESS
+	
+	
+	// DRIVE FAILURE ANALYSIS
+	public List<FailureAnalysis> findAllFailureAnalysis() {
+		return driveFailureAnalysisRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+	}
+
+	public void saveFailureAnalysisData(@Valid DriveRequest failureAnalysisRequest) {
+		FailureAnalysis failureAnalysis = driveMapper.prepareFailureAnalysissModel(failureAnalysisRequest);
+		failureAnalysis = driveFailureAnalysisRepository.save(failureAnalysis);
+	}
+
+	public String updateFailureAnalysisData(@Valid DriveRequest request) {
+		Optional<FailureAnalysis> failureAnalysis = driveFailureAnalysisRepository.findById(request.getId());
+		if(failureAnalysis.isPresent()) {
+			FailureAnalysis failureAnalysisUpdate = driveMapper.prepareFailureAnalysisUpdataData(failureAnalysis.get(), request);
+			failureAnalysisUpdate = driveFailureAnalysisRepository.save(failureAnalysisUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid ElectrificationTargets Id";
+		}
+	}
+
+	public String deleteFailureAnalysis(Long id) {
+		Optional<FailureAnalysis> failureAnalysisOptional = driveFailureAnalysisRepository.findById(id);
+		if (failureAnalysisOptional.isPresent()) {
+			FailureAnalysis failureAnalysisToUpdate = failureAnalysisOptional.get();
+			failureAnalysisToUpdate.setId(id);
+			failureAnalysisToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			driveFailureAnalysisRepository.save(failureAnalysisToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Failure Analysis Id";
+		}
+	}
+
+	public Optional<FailureAnalysis> findFailureAnalysisById(Long id) {
+		return driveFailureAnalysisRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+	// DRIVE FAILURE ANALYSIS
+	
 
 	public List<ElectrificationTargets> findAllElectrificationTargets() {
 		return driveElectrificationTargetsRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -266,5 +390,7 @@ public class DrivesService {
 	public void saveStipulationWithDoc(Stipulations stipulationsUpdate) {
 		driveStipulationRepository.save(stipulationsUpdate);
 	}
+
+	
 
 }

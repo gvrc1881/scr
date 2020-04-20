@@ -57,6 +57,20 @@ public class FailureAnalysis implements Serializable {
 	@Column(name = "action_description")
 	private String actionDescription;
 
+	@Column(name = "created_by")
+	private String createdBy;
+
+	@Column(name = "updated_by")
+	private String updatedBy;
+
+	@Column(name = "created_on")
+	private Timestamp createdOn;
+
+	@Column(name = "updated_on")
+	private Timestamp updatedOn;
+	
+	@Column(name = "status_id")
+	private Integer statusId;
 	
 
 	public long getId() {
@@ -218,6 +232,46 @@ public class FailureAnalysis implements Serializable {
 
 	public void setActionDescription(String actionDescription) {
 		this.actionDescription = actionDescription;
+	}
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Timestamp createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	

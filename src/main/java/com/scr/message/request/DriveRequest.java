@@ -1,6 +1,8 @@
 package com.scr.message.request;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class DriveRequest {
 
@@ -85,6 +87,43 @@ public class DriveRequest {
 	private String reportColumnHeader;
 	private String activityId;
 	private String driveId;
+	
+	// DRIVE TARGETS
+	private String unitType;
+	private String unitName;
+	private double target;
+	private String poulation;
+	
+	// DRIVE DAILY PROGRESS
+	//private Long activityId;
+	private Date performedDate;
+	//private String division;
+	private String depot;
+	//private String section;
+	private double performedCount;
+	private String supervisor;
+	
+	//FAILURE ANALYSIS
+	private String failure_id;
+	private String reported;
+	private String repurcussion;
+	private Timestamp date;
+	private BigInteger div;
+	private BigInteger failureSection;
+	//private BigInteger assetType;
+	private BigInteger assetId;
+	private String subAssetType;
+	private String subAssetId;
+	private BigInteger make;
+	private BigInteger model;
+	private String rootCause;
+	private String actionPlan;
+	private BigInteger actionStatus;
+	private String approvedBy;
+	private Timestamp actionTargetDate;
+	private Timestamp actionCompletedDate;
+	private String actionDescription;
+
 
 	public String getName() {
 		return name;
@@ -574,6 +613,216 @@ public class DriveRequest {
 		this.driveId = driveId;
 	}
 
+	public String getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public double getTarget() {
+		return target;
+	}
+
+	public void setTarget(double target) {
+		this.target = target;
+	}
+
+	public String getPoulation() {
+		return poulation;
+	}
+
+	public void setPoulation(String poulation) {
+		this.poulation = poulation;
+	}
+
+	public Date getPerformedDate() {
+		return performedDate;
+	}
+
+	public void setPerformedDate(Date performedDate) {
+		this.performedDate = performedDate;
+	}
+
+	public String getDepot() {
+		return depot;
+	}
+
+	public void setDepot(String depot) {
+		this.depot = depot;
+	}
+
+	public double getPerformedCount() {
+		return performedCount;
+	}
+
+	public void setPerformedCount(double performedCount) {
+		this.performedCount = performedCount;
+	}
+
+	public String getSupervisor() {
+		return supervisor;
+	}
+
+	public void setSupervisor(String supervisor) {
+		this.supervisor = supervisor;
+	}
+
+	public String getFailure_id() {
+		return failure_id;
+	}
+
+	public void setFailure_id(String failure_id) {
+		this.failure_id = failure_id;
+	}
+
+	public String getReported() {
+		return reported;
+	}
+
+	public void setReported(String reported) {
+		this.reported = reported;
+	}
+
+	public String getRepurcussion() {
+		return repurcussion;
+	}
+
+	public void setRepurcussion(String repurcussion) {
+		this.repurcussion = repurcussion;
+	}
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
+	}
+
+	public BigInteger getDiv() {
+		return div;
+	}
+
+	public void setDiv(BigInteger div) {
+		this.div = div;
+	}
+
+	public BigInteger getAssetId() {
+		return assetId;
+	}
+
+	public void setAssetId(BigInteger assetId) {
+		this.assetId = assetId;
+	}
+
+	public String getSubAssetType() {
+		return subAssetType;
+	}
+
+	public void setSubAssetType(String subAssetType) {
+		this.subAssetType = subAssetType;
+	}
+
+	public String getSubAssetId() {
+		return subAssetId;
+	}
+
+	public void setSubAssetId(String subAssetId) {
+		this.subAssetId = subAssetId;
+	}
+
+	public BigInteger getMake() {
+		return make;
+	}
+
+	public void setMake(BigInteger make) {
+		this.make = make;
+	}
+
+	public BigInteger getModel() {
+		return model;
+	}
+
+	public void setModel(BigInteger model) {
+		this.model = model;
+	}
+
+	public String getRootCause() {
+		return rootCause;
+	}
+
+	public void setRootCause(String rootCause) {
+		this.rootCause = rootCause;
+	}
+
+	public String getActionPlan() {
+		return actionPlan;
+	}
+
+	public void setActionPlan(String actionPlan) {
+		this.actionPlan = actionPlan;
+	}
+
+	public BigInteger getActionStatus() {
+		return actionStatus;
+	}
+
+	public void setActionStatus(BigInteger actionStatus) {
+		this.actionStatus = actionStatus;
+	}
+
+	public String getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+	public Timestamp getActionTargetDate() {
+		return actionTargetDate;
+	}
+
+	public void setActionTargetDate(Timestamp actionTargetDate) {
+		this.actionTargetDate = actionTargetDate;
+	}
+
+	public Timestamp getActionCompletedDate() {
+		return actionCompletedDate;
+	}
+
+	public void setActionCompletedDate(Timestamp actionCompletedDate) {
+		this.actionCompletedDate = actionCompletedDate;
+	}
+
+	public String getActionDescription() {
+		return actionDescription;
+	}
+
+	public void setActionDescription(String actionDescription) {
+		this.actionDescription = actionDescription;
+	}
+
+	
+	
+	public BigInteger getFailureSection() {
+		return failureSection;
+	}
+
+	public void setFailureSection(BigInteger failureSection) {
+		this.failureSection = failureSection;
+	}
+
 	@Override
 	public String toString() {
 		return "DriveRequest [id=" + id + ", name=" + name + ", description=" + description + ", fromDate=" + fromDate
@@ -595,12 +844,17 @@ public class DriveRequest {
 				+ dateOfStipulation + ", dateComplied=" + dateComplied + ", compliance=" + compliance + ", compliedBy="
 				+ compliedBy + ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder
 				+ ", lowerLimit=" + lowerLimit + ", upperLimit=" + upperLimit + ", reportColumnHeader="
-				+ reportColumnHeader + ", activityId=" + activityId + ", driveId=" + driveId + "]";
+				+ reportColumnHeader + ", activityId=" + activityId + ", driveId=" + driveId + ", unitType=" + unitType
+				+ ", unitName=" + unitName + ", target=" + target + ", poulation=" + poulation + ", performedDate="
+				+ performedDate + ", depot=" + depot + ", performedCount=" + performedCount + ", supervisor="
+				+ supervisor + ", failure_id=" + failure_id + ", reported=" + reported + ", repurcussion="
+				+ repurcussion + ", date=" + date + ", div=" + div + ", failureSection=" + failureSection + ", assetId="
+				+ assetId + ", subAssetType=" + subAssetType + ", subAssetId=" + subAssetId + ", make=" + make
+				+ ", model=" + model + ", rootCause=" + rootCause + ", actionPlan=" + actionPlan + ", actionStatus="
+				+ actionStatus + ", approvedBy=" + approvedBy + ", actionTargetDate=" + actionTargetDate
+				+ ", actionCompletedDate=" + actionCompletedDate + ", actionDescription=" + actionDescription + "]";
 	}
 
 	
 	
-	
-	
-
 }

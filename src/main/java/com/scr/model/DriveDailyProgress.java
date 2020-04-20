@@ -67,6 +67,9 @@ public class DriveDailyProgress implements Serializable {
 	@JoinColumn(name = "drive_id", foreignKey = @ForeignKey(name = "fk_drive_daily_progress_drives_id"))
 	private Drives driveId;
 
+	@Column(name = "status_id")
+	private Integer statusId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -169,6 +172,14 @@ public class DriveDailyProgress implements Serializable {
 
 	public void setDriveId(Drives driveId) {
 		this.driveId = driveId;
+	}
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 	

@@ -107,7 +107,7 @@ export class AddDriveInspectionComponent implements OnInit {
       this.spinnerService.hide();
     })
   }
-
+  public get f() { return this.addDriveInspectionFormGroup.controls; }
   onFormValuesChanged() {
     for (const field in this.inspectionFormErrors) {
       if (!this.inspectionFormErrors.hasOwnProperty(field)) {
