@@ -338,7 +338,7 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/driveTargetById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	@RequestMapping(value = "/driveDailyProgressById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<DriveDailyProgress> findDriveDailyProgressDataById(@PathVariable("id") Long id){
 		Optional<DriveDailyProgress> depOptional= null;
 		try {

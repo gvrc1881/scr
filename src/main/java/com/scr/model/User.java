@@ -18,11 +18,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @NamedQuery(name = "User.findAll", query = "SELECT r FROM User r")
+@AllArgsConstructor
+@DynamicUpdate
 public class User implements Serializable{
 	/**
 	 * 
@@ -632,6 +640,8 @@ public class User implements Serializable{
 		this.divisionCode = divisionCode;
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", user_id=" + user_id + ", username=" + username + ", email=" + email + ", password="

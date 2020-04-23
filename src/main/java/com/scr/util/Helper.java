@@ -53,6 +53,7 @@ public class Helper {
 	
 	public static Timestamp convertStringToTimestamp(String dateString) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		@SuppressWarnings("deprecation")
 		Date date = new Date(dateString);
 	    String DateToStoreInDataBase= sdf.format(date); // java.util.Date
 	    System.out.println(DateToStoreInDataBase);

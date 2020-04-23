@@ -109,6 +109,7 @@ public class AuthController {
 	@Autowired
 	private PasswordEncryption passwordEncryption;
 	
+	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/auth/login", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
@@ -128,19 +129,19 @@ public class AuthController {
 				 List<String> details = new ArrayList<>();
 			       // details.add(ex.getLocalizedMessage());
 			        ErrorResponse error = new ErrorResponse("Record Not Found", details);
-			        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+			        return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
 			}
 		}else {
 			 List<String> details = new ArrayList<>();
 		       // details.add(ex.getLocalizedMessage());
 		        ErrorResponse error = new ErrorResponse("Record Not Found", details);
-		        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+		        return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
 		}
 		}catch (Exception e) {
 			List<String> details = new ArrayList<>();
 		        details.add(e.getLocalizedMessage());
 		        ErrorResponse error = new ErrorResponse("Record Not Found", details);
-		        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+		        return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(new JwtResponse(jwt));
 	}
