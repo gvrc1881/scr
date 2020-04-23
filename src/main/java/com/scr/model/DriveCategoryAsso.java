@@ -53,6 +53,9 @@ public class DriveCategoryAsso implements Serializable {
 	@JoinColumn(name = "drive_category_id", foreignKey = @ForeignKey(name = "fk_drive_category_asso_drive_category_id"))
 	private DriveCategory driveCategoryId;
 
+	@Column(name = "status_id")
+	private Integer statusId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -115,6 +118,14 @@ public class DriveCategoryAsso implements Serializable {
 
 	public void setDriveCategoryId(DriveCategory driveCategoryId) {
 		this.driveCategoryId = driveCategoryId;
+	}
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 

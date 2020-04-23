@@ -123,7 +123,12 @@ public class DriveRequest {
 	private Timestamp actionTargetDate;
 	private Timestamp actionCompletedDate;
 	private String actionDescription;
-
+	
+	// DRIVE CATEGORY
+	private String authority;
+	
+	// DRIVE CATEGORY ASS
+	private String driveCategoryId;
 
 	public String getName() {
 		return name;
@@ -822,6 +827,24 @@ public class DriveRequest {
 	public void setFailureSection(BigInteger failureSection) {
 		this.failureSection = failureSection;
 	}
+	
+	
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+
+	public String getDriveCategoryId() {
+		return driveCategoryId;
+	}
+
+	public void setDriveCategoryId(String driveCategoryId) {
+		this.driveCategoryId = driveCategoryId;
+	}
 
 	@Override
 	public String toString() {
@@ -852,9 +875,9 @@ public class DriveRequest {
 				+ assetId + ", subAssetType=" + subAssetType + ", subAssetId=" + subAssetId + ", make=" + make
 				+ ", model=" + model + ", rootCause=" + rootCause + ", actionPlan=" + actionPlan + ", actionStatus="
 				+ actionStatus + ", approvedBy=" + approvedBy + ", actionTargetDate=" + actionTargetDate
-				+ ", actionCompletedDate=" + actionCompletedDate + ", actionDescription=" + actionDescription + "]";
+				+ ", actionCompletedDate=" + actionCompletedDate + ", actionDescription=" + actionDescription
+				+ ", authority=" + authority + ", driveCategoryId=" + driveCategoryId + "]";
 	}
 
-	
 	
 }

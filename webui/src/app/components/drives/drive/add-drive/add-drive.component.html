@@ -34,17 +34,12 @@
                                                     <!-- NAME -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Name" size="12" maxlength="12"
+                                                            <input matInput placeholder="Name"
                                                                 [formControl]="addDriveFormGroup.controls['name']"
                                                                 required>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('required') && addDriveFormGroup.controls['name'].touched"
-                                                                class="alert alert-danger">Enter Name</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['name'].hasError('minlength') && addDriveFormGroup.controls['name'].touched"
-                                                                class="alert alert-danger">Name minimum of 3
-                                                                charecters
-                                                            </mat-error>
+                                                                class="alert alert-danger">Enter Name</mat-error>                                                           
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('pattern') && addDriveFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
@@ -55,8 +50,7 @@
                                                     <!-- DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Description" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Description"
                                                                 [formControl]="addDriveFormGroup.controls['description']"
                                                                 required>
                                                             <mat-error
@@ -68,7 +62,6 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
-
                                                     <!-- FROM DATE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
@@ -103,9 +96,6 @@
                                                                     {{ depoType.code }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['depoType'].hasError('required') && addDriveFormGroup.controls['depoType'].touched"
-                                                                class="alert alert-danger">Select Depo Type</mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -118,63 +108,31 @@
                                                                     [value]="assetType.productId">
                                                                     {{ assetType.productId }}
                                                                 </mat-option>
-                                                            </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['assetType'].hasError('required') && addDriveFormGroup.controls['assetType'].touched"
-                                                                class="alert alert-danger">Select Asset Type</mat-error>
+                                                            </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- ASSET DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Asset Description" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveFormGroup.controls['assetDescription']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['assetDescription'].hasError('required') && addDriveFormGroup.controls['assetDescription'].touched"
-                                                                class="alert alert-danger">Enter Asset Description.
-                                                            </mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['assetDescription'].hasError('pattern') && addDriveFormGroup.controls['assetDescription'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                            <input matInput placeholder="Asset Description"
+                                                                [formControl]="addDriveFormGroup.controls['assetDescription']">                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- CRITERIA -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Criteria" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveFormGroup.controls['criteria']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['criteria'].hasError('required') && addDriveFormGroup.controls['criteria'].touched"
-                                                                class="alert alert-danger">Enter Criteria.</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['criteria'].hasError('pattern') && addDriveFormGroup.controls['criteria'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                            <input matInput placeholder="Criteria"
+                                                                [formControl]="addDriveFormGroup.controls['criteria']">                                                           
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- TARGET QUANTITY -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Quantity" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveFormGroup.controls['targetQuantity']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['targetQuantity'].hasError('required') && addDriveFormGroup.controls['targetQuantity'].touched"
-                                                                class="alert alert-danger">Enter Target Quantity.
-                                                            </mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['targetQuantity'].hasError('pattern') && addDriveFormGroup.controls['targetQuantity'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                            <input matInput placeholder="Target Quantity"
+                                                                [formControl]="addDriveFormGroup.controls['targetQuantity']">                                                            
                                                         </mat-form-field>
                                                     </div>
 
@@ -187,11 +145,7 @@
                                                                     [value]="isIdRequired.value">
                                                                     {{ isIdRequired.value}}
                                                                 </mat-option>
-                                                            </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['isIdRequired'].hasError('required') && addDriveFormGroup.controls['isIdRequired'].touched"
-                                                                class="alert alert-danger">Select Is Id Required
-                                                            </mat-error>
+                                                            </mat-select>                                                         
                                                         </mat-form-field>
                                                     </div>
 
@@ -205,10 +159,6 @@
                                                                     {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['functionalUnit'].hasError('required') && addDriveFormGroup.controls['functionalUnit'].touched"
-                                                                class="alert alert-danger">Select Functional Unit
-                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -222,9 +172,6 @@
                                                                     {{ Checklist.value}}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['checklist'].hasError('required') && addDriveFormGroup.controls['checklist'].touched"
-                                                                class="alert alert-danger">Select Checklist</mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -238,9 +185,6 @@
                                                                     {{ status.value}}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['status'].hasError('required') && addDriveFormGroup.controls['status'].touched"
-                                                                class="alert alert-danger">Select Status</mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                 </div>

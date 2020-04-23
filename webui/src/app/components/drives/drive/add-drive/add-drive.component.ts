@@ -15,7 +15,7 @@ export class AddDriveComponent implements OnInit {
 
   save: boolean = true;
   update: boolean = false;
-  title:string='';
+  title: string = '';
   isSubmit: boolean = false;
   addDriveFormGroup: FormGroup;
   id: number = 0;
@@ -25,8 +25,8 @@ export class AddDriveComponent implements OnInit {
   isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-  functionalUnitList:any;
-  allFunctionalUnitsList:any;
+  functionalUnitList: any;
+  allFunctionalUnitsList: any;
   driveFormErrors: any;
   resp: any;
 
@@ -71,14 +71,14 @@ export class AddDriveComponent implements OnInit {
       this.save = false;
       this.update = true;
       this.title = 'Edit';
-     
+
       //this.findAssetTypeList();
-           
+
       this.getDriveDataById(this.id);
-      
+
     } else {
       this.title = 'Save'
-     // this.findDepoTypeList();
+      // this.findDepoTypeList();
       //this.findAssetTypeList();
       //this.findStatusItemDetails();
       //this.findFunctionalUnits();
@@ -101,18 +101,18 @@ export class AddDriveComponent implements OnInit {
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
       'name': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'description': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
+      'description': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
       'fromDate': [null, Validators.required],
-      'toDate': [null, Validators.required],
-      'depoType': [null, Validators.compose([Validators.required])],
-      'assetType': [null, Validators.compose([Validators.required])],
-      'assetDescription': [null, Validators.required],
-      'criteria': [null, Validators.required],
-      'targetQuantity': [null, Validators.required],
-      'isIdRequired': [null, Validators.required],
-      'functionalUnit': [null, Validators.required],
-      'checklist': [null, Validators.required],
-      'status': [null, Validators.required]
+      'toDate': [null],
+      'depoType': [null],
+      'assetType': [null],
+      'assetDescription': [null],
+      'criteria': [null],
+      'targetQuantity': [null],
+      'isIdRequired': ['No'],
+      'functionalUnit': [null],
+      'checklist': ['No'],
+      'status': ['Yes']
     });
   }
 
@@ -121,17 +121,17 @@ export class AddDriveComponent implements OnInit {
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
-       //console.log('depoTypes = ' + JSON.stringify(depoTypes))
+        //console.log('depoTypes = ' + JSON.stringify(depoTypes))
         this.depoTypeList = depoTypes;
       })
   }
 
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-   // console.log(assertType)
+    // console.log(assertType)
     this.drivesService.findAssetTypeList(assertType)
       .subscribe((assetTypes) => {
-       // console.log('assetTypes = '+JSON.stringify(assetTypes))
+        // console.log('assetTypes = '+JSON.stringify(assetTypes))
         this.assetTypeList = assetTypes;
         // this.depoTypeList = assetTypes;
       })
@@ -146,38 +146,36 @@ export class AddDriveComponent implements OnInit {
   findFunctionalUnits() {
     this.drivesService.findFunctionslUnits()
       .subscribe((units) => {
-       // console.log('findFunctionalUnits = ' + JSON.stringify(units))
+        // console.log('findFunctionalUnits = ' + JSON.stringify(units))
         this.allFunctionalUnitsList = units;
       })
   }
   updateAssertType($event) {
     //console.log($event);
-   // console.log(this.addDriveFormGroup.value.depotType);
-   // console.log(Constants.ASSERT_TYPE[$event.value])
-     if ($event.value) {
+    // console.log(this.addDriveFormGroup.value.depotType);
+    // console.log(Constants.ASSERT_TYPE[$event.value])
+    if ($event.value) {
       this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
       this.functionalUnitList = [];
-      this.functionalUnitList = this.allFunctionalUnitsList.filter(element =>{
-          return element.depotType == $event.value;
+      this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
+        return element.depotType == $event.value;
       });
-    //  console.log('functionalUnitList = '+JSON.stringify(this.functionalUnitList));
-    } 
+      //  console.log('functionalUnitList = '+JSON.stringify(this.functionalUnitList));
+    }
   }
 
   getDriveDataById(id) {
     this.drivesService.findDriveDataById(id)
       .subscribe((resp) => {
-       
-        this.resp = resp;        
-     //   console.log('getDriveDataById = ' + JSON.stringify(resp));
-       
+
+        this.resp = resp;
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
           description: this.resp.description,
           fromDate: new Date(this.resp.fromDate),
-          toDate: new Date(this.resp.toDate),
-          depoType: this.resp.depotType['depotType'],
+          toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
+          depoType: !!this.resp.depotType ? this.resp.depotType['depotType'] : '',
           assetType: this.resp.assetType,
           assetDescription: this.resp.assetDescription,
           criteria: this.resp.criteria,
@@ -185,13 +183,16 @@ export class AddDriveComponent implements OnInit {
           functionalUnit: this.resp.functionalUnit,
           isIdRequired: this.resp.isIdRequired,
           checklist: this.resp.checklist,
-          status:this.resp.active
+          status: this.resp.active
         });
-        this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['depotType']]);
-        this.functionalUnitList = [];
-        this.functionalUnitList = this.allFunctionalUnitsList.filter(element =>{
-          return element.depotType == this.resp.depotType['depotType'];
-      });
+
+        if (this.resp.depotType != null) {
+          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['depotType']]);
+          this.functionalUnitList = [];
+          this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
+            return element.depotType == this.resp.depotType['depotType'];
+          });
+        }
         this.spinnerService.hide();
       })
   }
@@ -206,7 +207,7 @@ export class AddDriveComponent implements OnInit {
     this.spinnerService.show();
     console.log(this.addDriveFormGroup.value);
     console.log(this.addDriveFormGroup.value.assetType);
-    
+
     /* this.typeId = this.depoTypeList.find(element =>{
       console.log(this.addDriveFormGroup.value.depoType+' = '+JSON.stringify(element.code) +"= "+(element.code == this.addDriveFormGroup.value.depoType))
       return element.code == this.addDriveFormGroup.value.depoType;
@@ -239,15 +240,15 @@ export class AddDriveComponent implements OnInit {
         console.log(JSON.stringify(data));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Data Saved Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Data Saving Failed.");
       });
-    }else if(this.update){
+    } else if (this.update) {
       var updateDriveModel = {
-        "id":this.id,
+        "id": this.id,
         "name": this.addDriveFormGroup.value.name,
         "description": this.addDriveFormGroup.value.description,
         "fromDate": this.addDriveFormGroup.value.fromDate,
@@ -266,7 +267,7 @@ export class AddDriveComponent implements OnInit {
         console.log(JSON.stringify(data));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Data Updated Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -277,6 +278,6 @@ export class AddDriveComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.router.navigate(['../../'], { relativeTo: this.route });
   }
 }

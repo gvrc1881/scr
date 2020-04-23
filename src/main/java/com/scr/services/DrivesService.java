@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.DriveCategory;
+import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
 import com.scr.model.DriveTarget;
@@ -22,6 +24,8 @@ import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
+import com.scr.repository.DriveCategoryAssoRepository;
+import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DriveElectrificationTargetsRepository;
 import com.scr.repository.DriveFailureAnalysisRepository;
 import com.scr.repository.DriveInspectionRepository;
@@ -69,6 +73,12 @@ public class DrivesService {
 	@Autowired
 	private DriveFailureAnalysisRepository driveFailureAnalysisRepository;
 	
+	@Autowired
+	private DriveCategoryRepository driveCategoryRepository;
+	
+	@Autowired
+	private DriveCategoryAssoRepository driveCategoryAssoRepository;
+	
 	public List<Drives> findAllDrives() {
 		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}	
@@ -106,7 +116,83 @@ public class DrivesService {
 		return driveRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
 
+	// DRIVE CATEGORY
+	public List<DriveCategory> findAllDriveCategory() {
+		return driveCategoryRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+	}	
+
+	public @Valid boolean saveDriveCategoryData(@Valid DriveRequest driveRequest) {
+		DriveCategory driveCategory = driveMapper.prepareDriveCategoryModel(driveRequest);
+		driveCategory = driveCategoryRepository.save(driveCategory);
+		return true;
+	}	
+
+	public String updateDriveCategoryData(@Valid DriveRequest request) {
+		Optional<DriveCategory> driveCategory = driveCategoryRepository.findById(request.getId());
+		if(driveCategory.isPresent()) {
+			DriveCategory driveCategoryUpdate = driveMapper.prepareDriveCategoryUpdataData(driveCategory.get(), request);
+			driveCategoryUpdate = driveCategoryRepository.save(driveCategoryUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Category Id";
+		}
+	}
+	public String deleteDriveCategory(Long id) {
+		Optional<DriveCategory> driveCategoryOptional = driveCategoryRepository.findById(id);
+		if (driveCategoryOptional.isPresent()) {
+			DriveCategory driveCategoryToUpdate = driveCategoryOptional.get();
+			driveCategoryToUpdate.setId(id);
+			driveCategoryToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			driveCategoryRepository.save(driveCategoryToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Category Id";
+		}
+	}
 	
+	public Optional<DriveCategory> findDriveCategoryById(Long id) {
+		return driveCategoryRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+	// DRIVE CATEGORY
+	
+	// DRIVE CATEGORY ASS
+	public List<DriveCategoryAsso> findAllDriveCategoryAsso() {
+		return driveCategoryAssoRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+	}	
+
+	public @Valid boolean saveDriveCategoryAssoData(@Valid DriveRequest driveRequest) {
+		DriveCategoryAsso driveCategory = driveMapper.prepareDriveCategoryAssoModel(driveRequest);
+		driveCategory = driveCategoryAssoRepository.save(driveCategory);
+		return true;
+	}	
+
+	public String updateDriveCategoryAssoData(@Valid DriveRequest request) {
+		Optional<DriveCategoryAsso> driveCategory = driveCategoryAssoRepository.findById(request.getId());
+		if(driveCategory.isPresent()) {
+			DriveCategoryAsso driveCategoryUpdate = driveMapper.prepareDriveCategoryAssoUpdataData(driveCategory.get(), request);
+			driveCategoryUpdate = driveCategoryAssoRepository.save(driveCategoryUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Category Id";
+		}
+	}
+	public String deleteDriveCategoryAsso(Long id) {
+		Optional<DriveCategoryAsso> driveCategoryOptional = driveCategoryAssoRepository.findById(id);
+		if (driveCategoryOptional.isPresent()) {
+			DriveCategoryAsso driveCategoryToUpdate = driveCategoryOptional.get();
+			driveCategoryToUpdate.setId(id);
+			driveCategoryToUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+			driveCategoryAssoRepository.save(driveCategoryToUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Drive Category Id";
+		}
+	}
+	
+	public Optional<DriveCategoryAsso> findDriveCategoryAssoById(Long id) {
+		return driveCategoryAssoRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+	// DRIVE CATEGORY ASS
 	public List<DriveCheckList> findAllCheckLists() {
 		return checklistRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}

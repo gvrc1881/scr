@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.controller.DrivesController;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.DriveCategory;
+import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
 import com.scr.model.DriveTarget;
@@ -31,6 +33,7 @@ import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
+import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DrivesRepository;
 import com.scr.repository.FacilityRepository;
@@ -65,6 +68,9 @@ public class DriveMapper {
 	@Autowired
 	private DrivesRepository drivesRepository;
 	
+	@Autowired
+	private DriveCategoryRepository driveCategoryRepository;
+	
 	public Drives prepareDriveModel(@Valid DriveRequest driveRequest) {
 		Drives drive = null;
 		if (driveRequest != null) {
@@ -77,9 +83,10 @@ public class DriveMapper {
 			drive.setDescription(driveRequest.getDescription());
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
-
-			Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-			drive.setDepotType(facility.get());
+			if (driveRequest.getFunctionalUnit() != null && !driveRequest.getFunctionalUnit().isEmpty()) {
+				Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
+				drive.setDepotType(facility.get());
+			}
 
 			drive.setAssetType(driveRequest.getAssetType());
 			drive.setAssetDescription(driveRequest.getAssetDescription());
@@ -111,8 +118,10 @@ public class DriveMapper {
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
 
-			Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-			drive.setDepotType(facility.get());
+			if (driveRequest.getFunctionalUnit() != null && !driveRequest.getFunctionalUnit().isEmpty()) {
+				Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
+				drive.setDepotType(facility.get());
+			}
 
 			drive.setAssetType(driveRequest.getAssetType());
 			drive.setAssetDescription(driveRequest.getAssetDescription());
@@ -130,6 +139,103 @@ public class DriveMapper {
 		}
 		return drive;
 	}
+	
+	// DRIVE CATEGORY
+	public DriveCategory prepareDriveCategoryModel(@Valid DriveRequest driveRequest) {
+		DriveCategory driveCategory = null;
+		if(driveRequest != null) {
+			driveCategory = new DriveCategory();
+			
+			driveCategory.setDriveCategoryName(driveRequest.getName());
+			driveCategory.setDescription(driveRequest.getDescription());
+			driveCategory.setFromDate(driveRequest.getFromDate());
+			driveCategory.setToDate(driveRequest.getToDate());
+			driveCategory.setAuthority(driveRequest.getAuthority());
+			
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
+			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
+			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
+			
+		}
+		return driveCategory;
+	}
+
+	public DriveCategory prepareDriveCategoryUpdataData(DriveCategory driveCategory, @Valid DriveRequest driveRequest) {
+		
+		if (driveRequest != null) {
+			driveCategory.setDriveCategoryName(driveRequest.getName());
+			driveCategory.setDescription(driveRequest.getDescription());
+			driveCategory.setFromDate(driveRequest.getFromDate());
+			driveCategory.setToDate(driveRequest.getToDate());
+			driveCategory.setAuthority(driveRequest.getAuthority());
+
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
+			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
+			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+
+			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveCategory;
+	}	
+	// DRIVE CATEGORY
+	
+	//DRIVE CATEGORY ASS
+	public DriveCategoryAsso prepareDriveCategoryAssoModel(@Valid DriveRequest driveRequest) {
+		DriveCategoryAsso driveCategory = null;
+		if(driveRequest != null) {
+			driveCategory = new DriveCategoryAsso();
+			
+			driveCategory.setActive(driveRequest.getActive());
+			Optional<DriveCategory> drOptional = driveCategoryRepository.findByIdAndStatusId(Long.parseLong(driveRequest.getDriveCategoryId()), Constants.ACTIVE_STATUS_ID);
+			if(drOptional.isPresent()) {
+				driveCategory.setDriveCategoryId(drOptional.get());
+			}
+			
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(driveRequest.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveCategory.setDriveId(drive.get());
+			}
+			
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
+			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
+			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
+			
+		}
+		return driveCategory;
+	}
+
+	public DriveCategoryAsso prepareDriveCategoryAssoUpdataData(DriveCategoryAsso driveCategory, @Valid DriveRequest driveRequest) {
+		
+		if (driveRequest != null) {
+			driveCategory.setActive(driveRequest.getActive());
+			Optional<DriveCategory> drOptional = driveCategoryRepository.findByIdAndStatusId(Long.parseLong(driveRequest.getDriveCategoryId()), Constants.ACTIVE_STATUS_ID);
+			if(drOptional.isPresent()) {
+				driveCategory.setDriveCategoryId(drOptional.get());
+			}
+			
+			Optional<Drives> drive = drivesRepository.findByIdAndStatusId(Long.parseLong(driveRequest.getDriveId()), Constants.ACTIVE_STATUS_ID);
+			if(drive.isPresent()) {
+				driveCategory.setDriveId(drive.get());
+			}
+			
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
+			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
+			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				
+			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		return driveCategory;
+	}	
+	// DRIVE CATEGORY ASS
+	
 	public DriveCheckList prepareCheckListModel(@Valid DriveRequest request) {
 		DriveCheckList driveCheckList = null;
 		if(request != null) {
@@ -578,5 +684,7 @@ public class DriveMapper {
 		    inspections.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return inspections;
-	}	
+	}
+
+	
 }

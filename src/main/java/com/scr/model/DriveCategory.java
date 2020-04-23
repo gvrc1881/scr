@@ -44,6 +44,10 @@ public class DriveCategory implements Serializable {
 	private Timestamp createdOn;
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	@Column(name = "status_id")
+	private Integer statusId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -103,6 +107,12 @@ public class DriveCategory implements Serializable {
 	}
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+	public Integer getStatusId() {
+		return statusId;
+	}
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 	

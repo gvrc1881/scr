@@ -27,6 +27,8 @@ import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.DriveCategory;
+import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
 import com.scr.model.DriveTarget;
@@ -122,6 +124,161 @@ public class DrivesController {
 			return new ResponseEntity<Drives>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// DRIVE CATEGORY
+	@RequestMapping(value = "/driveCategory", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<DriveCategory>> findAllDriveCategory() throws JSONException {
+		List<DriveCategory> driveCategoryList = null;
+		try {			
+			driveCategoryList = service.findAllDriveCategory();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((driveCategoryList));
+	}
+	
+	@RequestMapping(value = "/saveDriveCategory", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveDriveCategoryData(@Valid @RequestBody DriveRequest request) throws JSONException {		
+		try {			
+			service.saveDriveCategoryData(request);
+			return Helper.findResponseStatus("Drive Category Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Category data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Category Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/updateDriveCategory", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateDriveCategoryData(@Valid @RequestBody DriveRequest request) throws JSONException {		
+		try {			
+			String status = service.updateDriveCategoryData(request);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Category Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating Drive Category data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Category Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deleteDriveCategory/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteDriveCategory(@PathVariable("id") Long id) throws JSONException {
+		try {
+			String status = service.deleteDriveCategory(id);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Drive Category Deleted Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Category Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Category Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/driveCategoryById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<DriveCategory> findDriveCategoryDataById(@PathVariable("id") Long id){
+		Optional<DriveCategory> depOptional= null;
+		try {
+			logger.info("Selected Drive Category Id = "+id);
+			depOptional = service.findDriveCategoryById(id);
+			if(depOptional.isPresent()) {
+				logger.info("Drive Category Data = "+depOptional.get());
+				return new ResponseEntity<DriveCategory>(depOptional.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<DriveCategory>(depOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Drive Category Details by id, "+e.getMessage());
+			return new ResponseEntity<DriveCategory>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// DRIVE CATEGORY
+	
+	// DRIVE CATEGORY ASS
+		@RequestMapping(value = "/driveCategoryAsso", method = RequestMethod.GET , headers = "Accept=application/json")
+		public ResponseEntity<List<DriveCategoryAsso>> findAllDriveCategoryAsso() throws JSONException {
+			List<DriveCategoryAsso> driveCategoryAssoList = null;
+			try {			
+				driveCategoryAssoList = service.findAllDriveCategoryAsso();			
+			} catch (NullPointerException e) {			
+				logger.error(e);
+			} catch (Exception e) {			
+				logger.error(e);
+			}
+			return ResponseEntity.ok((driveCategoryAssoList));
+		}
+		
+		@RequestMapping(value = "/saveDriveCategoryAsso", method = RequestMethod.POST, headers = "Accept=application/json")
+		public ResponseStatus saveDriveCategoryAssoData(@Valid @RequestBody DriveRequest request) throws JSONException {		
+			try {			
+				service.saveDriveCategoryAssoData(request);
+				return Helper.findResponseStatus("Drive Category Asso Data Added Successfully", Constants.SUCCESS_CODE);
+			}catch (Exception e) {
+				logger.error("ERROR >> While adding Drive Category Asso data. "+e.getMessage());
+				return Helper.findResponseStatus("Drive Category Asso Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			}
+		}
+		
+		@RequestMapping(value = "/updateDriveCategoryAsso", method = RequestMethod.PUT, headers = "Accept=application/json")
+		public ResponseStatus updateDriveCategoryAssoData(@Valid @RequestBody DriveRequest request) throws JSONException {		
+			try {			
+				String status = service.updateDriveCategoryAssoData(request);
+				if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+					return Helper.findResponseStatus("Drive Category Asso Data Updated Successfully", Constants.SUCCESS_CODE);
+				else
+					return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+			}catch (Exception e) {
+				logger.error("ERROR >> While updating Drive Category Asso data. "+e.getMessage());
+				return Helper.findResponseStatus("Drive Category Asso Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			}
+		}
+		
+		@RequestMapping(value = "/deleteDriveCategoryAsso/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+		public ResponseStatus deleteDriveCategoryAsso(@PathVariable("id") Long id) throws JSONException {
+			try {
+				String status = service.deleteDriveCategoryAsso(id);
+				if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+					return Helper.findResponseStatus("Drive Category Asso Deleted Successfully", Constants.SUCCESS_CODE);
+				else
+					return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+			} catch (NullPointerException e) {
+				logger.error(e);
+				return Helper.findResponseStatus("Drive Category Asso Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+			} catch (Exception e) {
+				logger.error(e);
+				return Helper.findResponseStatus("Drive Category Asso Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+			}
+		}
+		
+		@RequestMapping(value = "/driveCategoryAssoById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+		public ResponseEntity<DriveCategoryAsso> findDriveCategoryAssoDataById(@PathVariable("id") Long id){
+			Optional<DriveCategoryAsso> depOptional= null;
+			try {
+				logger.info("Selected Drive Category Asso Id = "+id);
+				depOptional = service.findDriveCategoryAssoById(id);
+				if(depOptional.isPresent()) {
+					logger.info("Drive Category Asso Data = "+depOptional.get());
+					return new ResponseEntity<DriveCategoryAsso>(depOptional.get(), HttpStatus.OK);
+				}
+				else
+					return new ResponseEntity<DriveCategoryAsso>(depOptional.get(), HttpStatus.CONFLICT);
+					
+			} catch (Exception e) {
+				logger.error("Error while find Drive Category Asso Details by id, "+e.getMessage());
+				return new ResponseEntity<DriveCategoryAsso>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		
+		// DRIVE CATEGORY ASS
+		
 	
 	@RequestMapping(value = "/checklist", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveCheckList>> findAllChecklist() throws JSONException {
