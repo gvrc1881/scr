@@ -17,22 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
+import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
+import com.scr.model.ElectrificationTargets;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
+import com.scr.model.MajorSections;
+import com.scr.model.Make;
+import com.scr.model.Model;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
+import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.ProductCategoryMember;
+import com.scr.model.ProductMakeModelAssociation;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
 import com.scr.model.Section;
 import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
+import com.scr.model.TpcBoard;
 import com.scr.model.Uom;
 import com.scr.model.Zone;
 import com.scr.services.ReportService;
@@ -205,11 +214,59 @@ public class ReportController {
 		List<Facility> facilityList= reportService.getFacilitysBasedOnDepotType(depotType);
 			return new ResponseEntity<List<Facility>>(facilityList, HttpStatus.OK);		
 	}
+  	@RequestMapping(value = "/crsEigInspectionDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<CrsEigInspections>> findcrsEigInspection(){
+		List<CrsEigInspections> crsEigInspection= reportService.findcrsEigInspection();
+		return new ResponseEntity<List<CrsEigInspections>>(crsEigInspection,HttpStatus.OK);	
+		
+	}
+  	@RequestMapping(value = "/failureAnalysisDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<FailureAnalysis>> findFailureAnalysis(){
+		List<FailureAnalysis> failureAnalysis= reportService.findFailureAnalysis();
+		return new ResponseEntity<List<FailureAnalysis>>(failureAnalysis,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/electrificationTargetDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ElectrificationTargets>> findElectrificationTargets(){
+		List<ElectrificationTargets> electrificationTargets= reportService.findElectrificationTargets();
+		return new ResponseEntity<List<ElectrificationTargets>>(electrificationTargets,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/precautionaryMeasureDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<PrecautionaryMeasuresMaster>> findPrecautionaryMeasures(){
+		List<PrecautionaryMeasuresMaster> precautionaryMeasures= reportService.findPrecautionaryMeasures();
+		return new ResponseEntity<List<PrecautionaryMeasuresMaster>>(precautionaryMeasures,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/tpcBoardDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<TpcBoard>> findTPCBoard(){
+		List<TpcBoard> tpcBoard= reportService.findTPCBoard();
+		return new ResponseEntity<List<TpcBoard>>(tpcBoard,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/productMakeModelAssoc", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ProductMakeModelAssociation>> findProductMakeModelAssoc(){
+		List<ProductMakeModelAssociation> productMakeModelAssoc= reportService.findProductMakeModelAssoc();
+		return new ResponseEntity<List<ProductMakeModelAssociation>>(productMakeModelAssoc,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/majorSectionDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<MajorSections>> findMajorSection(){
+		List<MajorSections> majorSections= reportService.findMajorSection();
+		return new ResponseEntity<List<MajorSections>>(majorSections,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/makeDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Make>> findMake(){
+		List<Make> makeDetails= reportService.findMakeDetails();
+		return new ResponseEntity<List<Make>>(makeDetails,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/modelDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Model>> findModel(){
+		List<Model> modelDetails= reportService.findModelDetails();
+		return new ResponseEntity<List<Model>>(modelDetails,HttpStatus.OK);	
+		
+	}
   	
 }
-	
-
-	
-	
-	
-	

@@ -62,6 +62,21 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/energy-meter/energy-meter.module#EnergyMeterModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'foot-patrolling-sections',
+    loadChildren: './components/energy-bill-payment/foot-patrolling-sections/foot-patrolling-sections.module#FootPatrollingSectionsModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'stations-sections',
+    loadChildren: './components/energy-bill-payment/stations-sections/stations-sections.module#StationsSectionsModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tpc-board',
+    loadChildren: './components/energy-bill-payment/tpc-board/tpc-board.module#TPCBoardModule',
+    canActivate: [AuthGuard]
+  },
  
  /*  {
     path: 'slidings',
