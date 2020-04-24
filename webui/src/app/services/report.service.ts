@@ -53,7 +53,7 @@ pbSwitchControl(){
     return this.http.get(this.url + '/pbSwitchControl',{ headers: this.header });
 }
 elementarySections(){
-    return this.http.get(this.url + '/elementarySections',{ headers: this.header });
+    return this.http.get(this.url + '/elementarySectionsByFacilityId',{ headers: this.header });
 }
 observationCategories(){
     return this.http.get(this.url+'/observationCategories',{headers:this.header});
@@ -130,6 +130,30 @@ electrificationTargets(){
 }
 precautionaryMeasureDetails(){
     return this.http.get(this.url + '/precautionaryMeasureDetails',{ headers: this.header });
+}
+tpcBoardDetails(){
+    return this.http.get(this.url + '/tpcBoardDetails',{ headers: this.header });
+}
+productMakeModelAssoc(){
+    return this.http.get(this.url + '/productMakeModelAssoc',{ headers: this.header });
+}
+majorSectionDetails(){
+    return this.http.get(this.url + '/majorSectionDetails',{ headers: this.header });
+}
+makeDetails(){
+    return this.http.get(this.url + '/makeDetails',{ headers: this.header });
+}
+modelDetails(){
+    return this.http.get(this.url + '/majorSectionDetails',{ headers: this.header });
+}
+assetTypeBasedonAssetIdAndFacilityId(assetType){
+    return this.http.get(this.url + '/assetTypeBasedonAssetIdAndFacilityId/'+assetType,{ headers: this.header });
+}
+assetIdBasedonAssetTypeAndFacilityId(assetType){
+    return this.http.get(this.url + '/assetIdBasedonAssetTypeAndFacilityId/'+assetType,{ headers: this.header });
+}
+assetMasterData(){
+    return this.http.get(this.url + '/assetMasterData',{ headers: this.header });
 }
 }
     

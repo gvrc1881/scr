@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.ReportRequest;
+import com.scr.model.AssetMasterData;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.CrsEigInspections;
@@ -119,9 +120,9 @@ public class ReportController {
 		return new ResponseEntity<List<PbSwitchControl>>(pbSwitchControl,HttpStatus.OK);	
 		
 	}
-	@RequestMapping(value = "/elementarySections", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<ElementarySection>> findAllElementarySection(){
-		List<ElementarySection> elementarySections= reportService.findAllElementarySection();
+	@RequestMapping(value = "/elementarySectionsByFacilityId", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ElementarySection>> findAllElementarySection(@PathVariable("facilityId") String facilityId){
+		List<ElementarySection> elementarySections= reportService.findAllElementarySection(facilityId);
 		return new ResponseEntity<List<ElementarySection>>(elementarySections,HttpStatus.OK);	
 		
 	}
@@ -268,5 +269,22 @@ public class ReportController {
 		return new ResponseEntity<List<Model>>(modelDetails,HttpStatus.OK);	
 		
 	}
+	@RequestMapping(value = "/assetTypeBasedonAssetIdAndFacilityId/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterData>> findAssetIdAndFacilityId(@PathVariable("assetType") String assetType){
+		List<AssetMasterData> allAssetTypes= reportService.findAssetIdAndFacilityId(assetType, assetType);
+			return new ResponseEntity<List<AssetMasterData>>(allAssetTypes, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/assetIdBasedonAssetTypeAndFacilityId/{assetId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterData>> findAssetTypeAndFacilityId(@PathVariable("assetId") String assetId){
+		List<AssetMasterData> allAssetTypes= reportService.findAssetTypeAndFacilityId(assetId, assetId);
+			return new ResponseEntity<List<AssetMasterData>>(allAssetTypes, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/assetMasterData", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterData>> findAssetMasterDetails(){
+		List<AssetMasterData> assetMasterData= reportService.findAssetMasterDetails();
+		return new ResponseEntity<List<AssetMasterData>>(assetMasterData,HttpStatus.OK);	
+		
+	}
+	
   	
 }

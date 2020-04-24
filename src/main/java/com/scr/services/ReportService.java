@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
+import com.scr.model.AssetMasterData;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.CrsEigInspections;
@@ -46,6 +47,7 @@ import com.scr.repository.SubDivisionRepository;
 import com.scr.repository.TPCBoardRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.ZoneRepository;
+import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
 import com.scr.repository.CrsEigInspectionRepository;
@@ -133,6 +135,8 @@ public class ReportService {
 	private MakeRepository makeRepository;
 	@Autowired
 	private ModelRepository modelRepository;
+	@Autowired
+	private AssetMastersRepository assetMastersRepository;
 	
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
@@ -162,8 +166,8 @@ public class ReportService {
 	public List<PbSwitchControl> findAllPBSwitch() {	
 		   return pbSwitchControlRepository.findAll();
 		}
-	public List<ElementarySection>findAllElementarySection() {	
-		   return elementarySectionsRepository.findAll();
+	public List<ElementarySection>findAllElementarySection(String facilityId) {	
+		   return elementarySectionsRepository.findByFacilityId(facilityId);
 		}
 	public List<ObservationCategory>findDepartments() {	
 		   return observationCategoryRepository.findAll();
@@ -251,5 +255,17 @@ public class ReportService {
 	public List<Model>findModelDetails() {	
 		   return modelRepository.findAll();
 		}
+	public List<AssetMasterData> findAssetIdAndFacilityId(String assetId,String facilityId) {
+		List<AssetMasterData> assetType = assetMastersRepository.findByAssetIdAndFacilityId(assetId,facilityId);
+		return assetType;
+	}
+	public List<AssetMasterData> findAssetTypeAndFacilityId(String assetType,String facilityId) {
+		List<AssetMasterData> assetId = assetMastersRepository.findByAssetTypeAndFacilityId(assetType,facilityId);
+		return assetId;
+	}
+	public List<AssetMasterData>findAssetMasterDetails() {	
+		   return assetMastersRepository.findAll();
+		}
+	
 	
 }
