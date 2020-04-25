@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
-import { DriveModel } from 'src/app/models/drive.model';
+import { DriveModel, DriveCategoryModel, DriveCategoryAssoModel } from 'src/app/models/drive.model';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -20,12 +20,15 @@ export class DrivesComponent implements OnInit {
   displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType',
     'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
     'checkList', 'active', 'actions'];
+  driveCategoryDisplayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'authority', 'actions'];
+  driveCategoryAssoDisplayedColumns = ['sno', 'drive', 'driveCategory','active', 'actions'];
+
   dataSource: MatTableDataSource<DriveModel>;
+  driveCategoryDataSource: MatTableDataSource<DriveCategoryModel>;
+  driveCategoryAssoDataSource: MatTableDataSource<DriveCategoryAssoModel>;
   depoTypeList = [];
   assetTypeList = [];
-  isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-  CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  
   functionalUnitList:any;
   allFunctionalUnitsList:any;
 
@@ -33,6 +36,17 @@ export class DrivesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   drivesList:any;
+
+  @ViewChild(MatPaginator, { static: true }) driveCategoryPaginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) driveCategorySort: MatSort;
+  @ViewChild('filter', { static: true }) driveCategoryFilter: ElementRef;
+  driveCategoryList:any;
+
+  @ViewChild(MatPaginator, { static: true }) driveCategoryAssoPaginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) driveCategoryAssoSort: MatSort;
+  @ViewChild('filter', { static: true }) driveCategoryAssoFilter: ElementRef;
+  driveCategoryAssoList:any;
+
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -53,12 +67,27 @@ export class DrivesComponent implements OnInit {
       this.findFunctionalUnits();
     this.getDrivesData();
 
+    this.getDriveCategoryData();
+    this.getDriveCategoryAssoData();
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+
+  driveCategoryApplyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.driveCategoryDataSource.filter = filterValue;
+  }
+
+  driveCategoryAssoApplyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.driveCategoryAssoDataSource.filter = filterValue;
+  }
+
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
@@ -101,7 +130,7 @@ export class DrivesComponent implements OnInit {
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
-        this.drivesList[i].depoType = this.drivesList[i].depotType['depotType']
+        this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['depotType'] : '';
         drive.push(this.drivesList[i]);
       }
 
@@ -113,8 +142,50 @@ export class DrivesComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
+
+  getDriveCategoryData() {
+    const drive: DriveCategoryModel[] = [];
+    this.drivesService.getDriveCategoryData().subscribe((data) => {
+      console.log(data)
+      this.driveCategoryList = data;
+      for (let i = 0; i < this.driveCategoryList.length; i++) {
+        this.driveCategoryList[i].sno = i + 1;
+        this.driveCategoryList[i].name = this.driveCategoryList[i].driveCategoryName;
+        drive.push(this.driveCategoryList[i]);
+      }
+
+      this.driveCategoryDataSource = new MatTableDataSource(drive);
+      this.driveCategoryDataSource.paginator = this.driveCategoryPaginator;
+      this.driveCategoryDataSource.sort = this.driveCategorySort;            
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
+  getDriveCategoryAssoData() {
+    const drive: DriveCategoryAssoModel[] = [];
+    this.drivesService.getDriveCategoryAssoData().subscribe((data) => {
+      console.log(data)
+      this.driveCategoryAssoList = data;
+      for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
+        this.driveCategoryAssoList[i].sno = i + 1;
+        this.driveCategoryAssoList[i].drive = this.driveCategoryAssoList[i].driveCategoryId['driveCategoryName'];
+        this.driveCategoryAssoList[i].driveCategory = this.driveCategoryAssoList[i].driveId['name'];
+        drive.push(this.driveCategoryAssoList[i]);
+      }
+
+      this.driveCategoryAssoDataSource = new MatTableDataSource(drive);
+      this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
+      this.driveCategoryAssoDataSource.sort = this.driveCategoryAssoSort;            
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
   processEditAction(id){
-    this.router.navigate([id],{relativeTo: this.route});
+    this.router.navigate(['drive/'+id],{relativeTo: this.route});
   }
   delete(id){
     this.spinnerService.show();
@@ -127,6 +198,40 @@ export class DrivesComponent implements OnInit {
       console.log('ERROR >>>');
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Drive Deletion Failed.");
+    })
+  }
+
+  driveCategoryEdit(id){
+    this.router.navigate(['drive-category/'+id],{relativeTo: this.route});
+  }
+  driveCategoryDelete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteDriveCategoryData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Drive Category Successfully");
+      this.getDriveCategoryData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Drive Category Deletion Failed.");
+    })
+  }
+
+  driveCategoryAssoEdit(id){
+    this.router.navigate(['drive-category-association/'+id],{relativeTo: this.route});
+  }
+  driveCategoryAssoDelete(id){
+    this.spinnerService.show();
+    this.drivesService.deleteDriveCategoryAssoData(id).subscribe(data => {
+      console.log(JSON.stringify(data));
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
+      this.getDriveCategoryAssoData();
+    }, error => {
+      console.log('ERROR >>>');
+      this.spinnerService.hide();
+      this.commonService.showAlertMessage("Drive Category Asso Deletion Failed.");
     })
   }
 }

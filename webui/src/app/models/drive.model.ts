@@ -22,6 +22,36 @@ export interface DriveModel {
     modifiedDate: String;
 }
 
+export interface DriveCategoryModel {
+    sno: number;
+    id: number;
+    name: string,
+    description: string;
+    fromDate: string;
+    toDate: string;
+    authority:string
+
+    createdBy: number;
+    createdDate: string;
+
+    modifiedBy: number;
+    modifiedDate: String;
+}
+
+export interface DriveCategoryAssoModel {
+    sno: number;
+    id: number;
+    active: string,
+    driveId: string;
+    driveCategoryId: string;
+    
+    createdBy: number;
+    createdDate: string;
+
+    modifiedBy: number;
+    modifiedDate: String;
+}
+
 export interface DriveChecklistModel {
     sno: number;
     id: number;

@@ -71,34 +71,18 @@
                                                     <!-- sectionStartLocation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Section Start Location" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Section Start Location"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['sectionStartLocation']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['sectionStartLocation'].hasError('required') && addDriveInspectionFormGroup.controls['sectionStartLocation'].touched"
-                                                                class="alert alert-danger">Enter Section Start Location</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['sectionStartLocation'].hasError('pattern') && addDriveInspectionFormGroup.controls['sectionStartLocation'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- sectionEndLocation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Section End Location" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Section End Location"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['sectionEndLocation']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['sectionEndLocation'].hasError('required') && addDriveInspectionFormGroup.controls['sectionEndLocation'].touched"
-                                                                class="alert alert-danger">Enter Section End Location</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['sectionEndLocation'].hasError('pattern') && addDriveInspectionFormGroup.controls['sectionEndLocation'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -119,11 +103,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="TKM" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['TKM']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['TKM'].hasError('required') && addDriveInspectionFormGroup.controls['TKM'].touched"
-                                                                class="alert alert-danger">Enter TKM
-                                                            </mat-error>                                                           
+                                                                >                                                          
                                                         </mat-form-field>
                                                     </div>
 
@@ -132,28 +112,16 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="RKM" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['RKM']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['RKM'].hasError('required') && addDriveInspectionFormGroup.controls['RKM'].touched"
-                                                                class="alert alert-danger">Enter RKM
-                                                            </mat-error>                                                           
+                                                                >                                                          
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- remarks -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Remarks" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Remarks"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['remarks']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['remarks'].hasError('required') && addDriveInspectionFormGroup.controls['remarks'].touched"
-                                                                class="alert alert-danger">Enter Remarks</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['remarks'].hasError('pattern') && addDriveInspectionFormGroup.controls['remarks'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -184,11 +152,9 @@
                                                      <!-- attachment -->
                                                      <div class="col-md-3">
                                                         <input type="file" [formControl]="addDriveInspectionFormGroup.controls['attachment']"
-                                                        required name="uploadFile" 
+                                                        name="uploadFile" 
                                                             style="margin-top: 6%;"
                                                             id="uploadFile" multiple (change)="upload($event)" />
-                                                            <mat-error *ngIf="isSubmit && f.attachment.errors && f.attachment.errors.required"
-                                                                class="alert alert-danger">File required</mat-error>
                                                         <!-- <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="attachment" size="12"
                                                                 maxlength="12"
@@ -209,14 +175,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Station" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['station']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['station'].hasError('required') && addDriveInspectionFormGroup.controls['station'].touched"
-                                                                class="alert alert-danger">Enter Station</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['station'].hasError('pattern') && addDriveInspectionFormGroup.controls['station'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -230,9 +189,6 @@
                                                                     {{ stipulations.stipulation }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['stipulationsId'].hasError('required') && addDriveInspectionFormGroup.controls['stipulationsId'].touched"
-                                                                class="alert alert-danger">Select Stipulations Id</mat-error>
                                                         </mat-form-field>
                                                     </div><!-- 
                                                     <div class="col-md-3">

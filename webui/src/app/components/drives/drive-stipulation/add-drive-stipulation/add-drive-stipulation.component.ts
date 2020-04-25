@@ -120,13 +120,13 @@ export class AddDriveStipulationComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'stipulation': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'stipulationTo': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
-        'dateOfStipulation': [null, Validators.required],
-        'dateComplied': [null, Validators.required],
-        'compliance': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
-        'attachment': [null, Validators.compose([Validators.required])],
-        'compliedBy': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'assetType': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])]
+        'stipulationTo': [null, Validators.compose([Validators.required])],
+        'dateOfStipulation': [null],
+        'dateComplied': [null],
+        'compliance': [null],
+        'attachment': [null],
+        'compliedBy': [null],
+        'assetType': [null]
       });
   }
 

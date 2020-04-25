@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel, FailureAnalysisModel, DriveTargetModel, DriveDailyProgressModel } from '../models/drive.model';
+import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel, FailureAnalysisModel, DriveTargetModel, DriveDailyProgressModel, DriveCategoryAssoModel, DriveCategoryModel } from '../models/drive.model';
 
 @Injectable()
 export class DrivesService {
@@ -39,6 +39,38 @@ export class DrivesService {
     }
     deleteDriveData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteDrive/'+id, { headers: this.header });
+    }
+
+    // DRIVE CATEGORY
+    getDriveCategoryData() {
+        return this.http.get<DriveCategoryModel[]>(environment.apiUrl + '/driveCategory', { headers: this.header });
+    }
+    findDriveCategoryDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/driveCategoryById/'+id, { headers: this.header });
+    }
+    saveDriveCategoryData(saveDriveData){
+        return this.http.post(environment.apiUrl + '/saveDriveCategory', saveDriveData, { headers: this.header });
+    }updateDriveCategoryData(updateDriveData){
+        return this.http.put(environment.apiUrl + '/updateDriveCategory', updateDriveData, { headers: this.header });
+    }
+    deleteDriveCategoryData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveCategory/'+id, { headers: this.header });
+    }
+
+     // DRIVE CATEGORY ASS
+     getDriveCategoryAssoData() {
+        return this.http.get<DriveCategoryAssoModel[]>(environment.apiUrl + '/driveCategoryAsso', { headers: this.header });
+    }
+    findDriveCategoryAssoDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/driveCategoryAssoById/'+id, { headers: this.header });
+    }
+    saveDriveCategoryAssoData(saveDriveData){
+        return this.http.post(environment.apiUrl + '/saveDriveCategoryAsso', saveDriveData, { headers: this.header });
+    }updateDriveCategoryAssoData(updateDriveData){
+        return this.http.put(environment.apiUrl + '/updateDriveCategoryAsso', updateDriveData, { headers: this.header });
+    }
+    deleteDriveCategoryAssoData(id:number){
+        return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveCategoryAsso/'+id, { headers: this.header });
     }
 
     getDrivesCheckListData() {

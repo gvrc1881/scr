@@ -34,7 +34,7 @@
                                                     <!-- section -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Section" size="12" maxlength="12"
+                                                            <input matInput placeholder="Section"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['section']"
                                                                 required>
                                                             <mat-error
@@ -55,8 +55,7 @@
                                                     <!-- guage -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Guage" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Guage"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']"
                                                                 required>
                                                             <mat-error
@@ -84,51 +83,27 @@
                                                      <!-- status -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Status" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Status"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['status']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['status'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['status'].touched"
-                                                                class="alert alert-danger">Enter Status</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['status'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['status'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- division -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Division" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Division"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['division'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['division'].touched"
-                                                                class="alert alert-danger">Enter Division</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['division'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['division'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- executionAgency -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Execution Agency" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Execution Agency" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['executionAgency'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['executionAgency'].touched"
-                                                                class="alert alert-danger">Enter Execution Agency</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['executionAgency'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['executionAgency'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -137,11 +112,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="TKM" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['TKM']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['TKM'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['TKM'].touched"
-                                                                class="alert alert-danger">Enter TKM
-                                                            </mat-error>                                                           
+                                                                >                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -150,79 +121,43 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="RKM" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['RKM']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['RKM'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['RKM'].touched"
-                                                                class="alert alert-danger">Enter RKM
-                                                            </mat-error>                                                           
+                                                                >                                                          
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- crsInspection -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="CRS Inspection" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="CRS Inspection"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['crsInspection']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['crsInspection'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['crsInspection'].touched"
-                                                                class="alert alert-danger">Enter CRS Inspection</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['crsInspection'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['crsInspection'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- crsAuthorisation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="CRS Authorisation" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="CRS Authorisation"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation'].touched"
-                                                                class="alert alert-danger">Enter CRS Authorisation</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- targetSetBy -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Set By" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Target Set By"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetSetBy']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['targetSetBy'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['targetSetBy'].touched"
-                                                                class="alert alert-danger">Enter Target Set By</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['targetSetBy'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['targetSetBy'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- doublingTrippling -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Doubling Trippling" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Doubling Trippling"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['doublingTrippling'].touched"
-                                                                class="alert alert-danger">Enter Doubling Trippling</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['doublingTrippling'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >                                                            
                                                         </mat-form-field>
                                                     </div>
 
@@ -236,77 +171,42 @@
                                                                     {{ state.value}}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['state'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['state'].touched"
-                                                                class="alert alert-danger">Select State</mat-error>
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- phase -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Phase" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Phase"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['phase']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['phase'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['phase'].touched"
-                                                                class="alert alert-danger">Enter Phase</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['phase'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['phase'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- proposalScheme -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Proposal Scheme" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Proposal Scheme"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['proposalScheme']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].touched"
-                                                                class="alert alert-danger">Enter Proposal Scheme</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- sanctionByBoard -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Sanction By Board" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Sanction By Board"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard'].touched"
-                                                                class="alert alert-danger">Enter Sanction By Board</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >                                                            
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- yearOfSanction -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Year Of Sanction" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Year Of Sanction"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['yearOfSanction']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['yearOfSanction'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['yearOfSanction'].touched"
-                                                                class="alert alert-danger">Enter Year Of Sanction</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['yearOfSanction'].hasError('pattern') && addDriveElectrificationTargetsFormGroup.controls['yearOfSanction'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 

@@ -67,9 +67,9 @@ export class AddDriveTargetComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'unitType': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'unitName': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
-        'target': [null, Validators.required],
-        'poulation': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
+        'unitName': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        'target': [null],
+        'poulation': [null],
         'drive': [null, Validators.compose([Validators.required])],
       });
   }

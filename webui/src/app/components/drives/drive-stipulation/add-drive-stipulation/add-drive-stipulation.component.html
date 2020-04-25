@@ -97,17 +97,9 @@
                                                      <!-- compliance -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Compliance" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Compliance"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliance']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('required') && addDriveStipulationFormGroup.controls['compliance'].touched"
-                                                                class="alert alert-danger">Enter Compliance</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('pattern') && addDriveStipulationFormGroup.controls['compliance'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -115,11 +107,9 @@
                                                      <div class="col-md-3">
                                                     
                                                         <input type="file" [formControl]="addDriveStipulationFormGroup.controls['attachment']"
-                                                        required name="uploadFile" 
+                                                             name="uploadFile" 
                                                             style="margin-top: 6%;"
                                                             id="uploadFile" multiple (change)="upload($event)" />
-                                                            <mat-error *ngIf="isSubmit && f.attachment.errors && f.attachment.errors.required"
-                                                                class="alert alert-danger">File required</mat-error>
                                                     </div>
 
                                                      <!-- compliedBy -->
@@ -128,14 +118,7 @@
                                                             <input matInput placeholder="Complied By" size="12"
                                                                 maxlength="12"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliedBy']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['compliedBy'].hasError('required') && addDriveStipulationFormGroup.controls['compliedBy'].touched"
-                                                                class="alert alert-danger">Enter Complied By</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['compliedBy'].hasError('pattern') && addDriveStipulationFormGroup.controls['compliedBy'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                                >
                                                         </mat-form-field>
                                                     </div>
 
@@ -149,9 +132,6 @@
                                                                     {{ assertType.productName }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('required') && addDriveStipulationFormGroup.controls['assetType'].touched"
-                                                                class="alert alert-danger">Select Assert Type</mat-error>
                                                         </mat-form-field>
 
                                                         <!-- <mat-form-field fxFlex="30">
