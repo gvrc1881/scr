@@ -54,11 +54,11 @@ export class DriveTargetComponent implements OnInit {
     this.drivesService.getDriveTargetData().subscribe((data) => {
       console.log(JSON.stringify(data))
       this.driveTargetList = data;
-      for (let i = 0; i < this.driveTargetList.length; i++) {
+       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
-        this.driveTargetList[i].drive = this.driveTargetList[i].driveId['name'];
-        this.driveTargetList.push(this.driveTargetList[i]);
-      }
+        this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
+        driveTarget.push(this.driveTargetList[i]);
+      } 
 
       this.dataSource = new MatTableDataSource(driveTarget);
       this.dataSource.paginator = this.paginator;

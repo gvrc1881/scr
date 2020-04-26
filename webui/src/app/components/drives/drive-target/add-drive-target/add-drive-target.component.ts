@@ -99,7 +99,6 @@ export class AddDriveTargetComponent implements OnInit {
   getDriveTargetDataById(id) {
     this.drivesService.findDriveTargetDataById(id)
       .subscribe((resp) => {
-        console.log('depoTypes = ' + JSON.stringify(resp));
         this.resp = resp;
         this.addDriveTargetFormGroup.patchValue({
           id: this.resp.id,
@@ -107,7 +106,7 @@ export class AddDriveTargetComponent implements OnInit {
           unitName: this.resp.unitName,
           target: this.resp.target,
           poulation: this.resp.poulation,
-          driveId: this.resp.driveId['id']
+          drive: this.resp.driveId['id']
         });
         this.spinnerService.hide();
       })
@@ -119,7 +118,7 @@ export class AddDriveTargetComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveTargetFormGroup.value);
+    //console.log(this.addDriveTargetFormGroup.value);
     var data = {};
     var message = '';
     var failedMessage = '';
@@ -138,7 +137,7 @@ export class AddDriveTargetComponent implements OnInit {
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveDriveTargetData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
+      //  console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Target Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -163,7 +162,7 @@ export class AddDriveTargetComponent implements OnInit {
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateDriveTargetData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Target Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });

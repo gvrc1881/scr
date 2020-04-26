@@ -53,12 +53,12 @@ export class DriveProgressRecordComponent implements OnInit {
   getDriveDailyProgressData() {
     const driveTarget: DriveDailyProgressModel[] = [];
     this.drivesService.getDriveDailyProgressData().subscribe((data) => {
-      console.log(JSON.stringify(data))
+     // console.log(JSON.stringify(data))
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
-        this.driveTargetList[i].drive = this.driveTargetList[i].driveId['name'];
-        this.driveTargetList.push(this.driveTargetList[i]);
+        this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
+        driveTarget.push(this.driveTargetList[i]);
       }
 
       this.dataSource = new MatTableDataSource(driveTarget);
@@ -75,7 +75,7 @@ export class DriveProgressRecordComponent implements OnInit {
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteDriveDailyProgressData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
+      //console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Daily Progress Successfully");
       this.getDriveDailyProgressData();

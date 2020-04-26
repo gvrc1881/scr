@@ -106,18 +106,17 @@ export class AddDriveProgressRecordComponent implements OnInit {
   getDriveDailyProgressDataById(id) {
     this.drivesService.findDriveDailyProgressDataById(id)
       .subscribe((resp) => {
-        console.log('depoTypes = ' + JSON.stringify(resp));
         this.resp = resp;
         this.addDriveDailyProgressFormGroup.patchValue({
           id: this.resp.id,
           activityId: this.resp.activityId,
-          performedDate: this.resp.performedDate,
+          performedDate: new Date(this.resp.performedDate),
           division: this.resp.division,
           depot: this.resp.depot,
           section: this.resp.section,
           performedCount: this.resp.performedCount,
           supervisor: this.resp.supervisor,
-          driveId: this.resp.driveId['id']
+          drive: this.resp.driveId['id']
         });
         this.spinnerService.hide();
       })
