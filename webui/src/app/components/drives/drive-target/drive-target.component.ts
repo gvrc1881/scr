@@ -84,5 +84,4 @@ export class DriveTargetComponent implements OnInit {
       this.commonService.showAlertMessage("Drive Target Deletion Failed.");
     })
   }
-
 }
