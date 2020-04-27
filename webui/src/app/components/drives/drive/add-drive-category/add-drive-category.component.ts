@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
+import { Constants } from 'src/app/common/constants';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-add-drive-category',
@@ -19,7 +21,7 @@ export class AddDriveCategoryComponent implements OnInit {
   addDriveCategoryFormGroup: FormGroup;
   id: number = 0;
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  
+  toMinDate=new Date();
   driveFormErrors: any;
   resp: any;
 
@@ -81,17 +83,48 @@ export class AddDriveCategoryComponent implements OnInit {
       }
     }
   }
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.toMinDate = event.value;
+  }
   createDriveForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'description': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+      'name': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'authority': [null]
     });
   }
+  duplicateName() {
+    const q = new Promise((resolve, reject) => {
+      this.drivesService.existsDriveCategoryName(
+        this.addDriveCategoryFormGroup.controls['name'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateName': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateName': true }); });
+    });
+    return q;
+  }
 
+  duplicateDescription() {
+    const q = new Promise((resolve, reject) => {
+      this.drivesService.existsDriveCategoryDescription(
+        this.addDriveCategoryFormGroup.controls['description'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDescription': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDescription': true }); });
+    });
+    return q;
+  }
   public get f() { return this.addDriveCategoryFormGroup.controls; }
 
 
@@ -163,6 +196,6 @@ export class AddDriveCategoryComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigate(['../../'], { relativeTo: this.route });
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

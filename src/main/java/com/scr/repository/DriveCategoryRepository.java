@@ -15,4 +15,8 @@ public interface DriveCategoryRepository extends JpaRepository<DriveCategory, Lo
 
 	List<DriveCategory> findByStatusId(Integer statusId);
 
+	Boolean existsByDriveCategoryNameAndStatusId(String name, Integer statusId);
+
+	Boolean existsByDescriptionAndStatusId(String description, Integer statusId);
+
 }

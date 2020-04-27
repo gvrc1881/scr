@@ -44,6 +44,11 @@
                                                                 *ngIf="addDriveCategoryFormGroup.controls['name'].hasError('pattern') && addDriveCategoryFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveCategoryFormGroup.controls['name'].hasError('duplicateName')"
+                                                            class="alert alert-danger">
+                                                            Name Already Exists
+                                                          </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -60,12 +65,17 @@
                                                                 *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('pattern') && addDriveCategoryFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('duplicateDescription')"
+                                                            class="alert alert-danger">
+                                                            Description Already Exists
+                                                          </mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                     <!-- FROM DATE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker1"
+                                                            <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
                                                                 placeholder="Choose From Date"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['fromDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -78,7 +88,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker"
-                                                                placeholder="Choose To Date"
+                                                                placeholder="Choose To Date" [min]="toMinDate"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['toDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>

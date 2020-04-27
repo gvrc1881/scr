@@ -40,6 +40,12 @@ export class DrivesService {
     deleteDriveData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteDrive/'+id, { headers: this.header });
     }
+    existsDriveName(driveName: string) {
+        return this.http.get(environment.apiUrl + '/existsDriveName/' + driveName, { headers: this.header });
+    }
+    existsDriveDescription(driveDescription: string) {
+        return this.http.get(environment.apiUrl + '/existsDriveDescription/' + driveDescription, { headers: this.header });
+    }
 
     // DRIVE CATEGORY
     getDriveCategoryData() {
@@ -55,6 +61,12 @@ export class DrivesService {
     }
     deleteDriveCategoryData(id:number){
         return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveCategory/'+id, { headers: this.header });
+    }
+    existsDriveCategoryName(driveCategoryName: string) {
+        return this.http.get(environment.apiUrl + '/existsDriveCategoryName/' + driveCategoryName, { headers: this.header });
+    }
+    existsDriveCategoryDescription(driveCategoryDescription: string) {
+        return this.http.get(environment.apiUrl + '/existsDriveCategoryDescription/' + driveCategoryDescription, { headers: this.header });
     }
 
      // DRIVE CATEGORY ASS

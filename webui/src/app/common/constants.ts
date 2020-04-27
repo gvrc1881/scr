@@ -51,5 +51,9 @@ export const Constants = {
         'ELS':'',
         'DLS':'',
         'RDSO':''
+    },
+    REGULAR_EXPRESSIONS:{
+        'ALPHA_NUMARIC':'^[a-zA-Z0-9_.-]+$'
     }
+
 };

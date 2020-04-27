@@ -17,4 +17,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByStatusId(Integer statusId);
 
+	Boolean existsByNameAndStatusId(String name, Integer statusId);
+
+	Boolean existsByDescriptionAndStatusId(String description, Integer statusId);
+
 }

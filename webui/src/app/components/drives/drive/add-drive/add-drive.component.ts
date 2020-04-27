@@ -6,6 +6,7 @@ import { DriveModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
+import { MatDatepickerInputEvent } from '@angular/material';
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.component.html',
@@ -29,7 +30,7 @@ export class AddDriveComponent implements OnInit {
   allFunctionalUnitsList: any;
   driveFormErrors: any;
   resp: any;
-
+  toMinDate=new Date();
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -100,8 +101,8 @@ export class AddDriveComponent implements OnInit {
   createDriveForm() {
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-      'description': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+      'name': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'depoType': [null],
@@ -115,20 +116,50 @@ export class AddDriveComponent implements OnInit {
       'status': ['Yes']
     });
   }
+  duplicateName() {
+    const q = new Promise((resolve, reject) => {
+      this.drivesService.existsDriveName(
+        this.addDriveFormGroup.controls['name'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateName': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateName': true }); });
+    });
+    return q;
+  }
+
+  duplicateDescription() {
+    const q = new Promise((resolve, reject) => {
+      this.drivesService.existsDriveDescription(
+        this.addDriveFormGroup.controls['description'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDescription': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDescription': true }); });
+    });
+    return q;
+  }
+
 
   public get f() { return this.addDriveFormGroup.controls; }
 
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
-        //console.log('depoTypes = ' + JSON.stringify(depoTypes))
         this.depoTypeList = depoTypes;
       })
   }
-
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.toMinDate = event.value;
+  }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-    // console.log(assertType)
     this.drivesService.findAssetTypeList(assertType)
       .subscribe((assetTypes) => {
         // console.log('assetTypes = '+JSON.stringify(assetTypes))
@@ -240,7 +271,7 @@ export class AddDriveComponent implements OnInit {
         console.log(JSON.stringify(data));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Data Saved Successfully");
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        this.router.navigate(['../'], { relativeTo: this.route });
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -278,6 +309,6 @@ export class AddDriveComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigate(['../../'], { relativeTo: this.route });
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

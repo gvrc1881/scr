@@ -115,6 +115,13 @@ public class DrivesService {
 	public Optional<Drives> findDriveById(Long id) {
 		return driveRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
+	public Boolean existsByDriveNameAndStatusId(String name, Integer statusId) {
+		return driveRepository.existsByNameAndStatusId(name, statusId);
+	}
+	public Boolean existsByDriveDescriptionAndStatusId(String description, Integer statusId) {
+		return driveRepository.existsByDescriptionAndStatusId(description, statusId);
+	}
+	
 
 	// DRIVE CATEGORY
 	public List<DriveCategory> findAllDriveCategory() {
@@ -152,6 +159,12 @@ public class DrivesService {
 	
 	public Optional<DriveCategory> findDriveCategoryById(Long id) {
 		return driveCategoryRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
+	}
+	public Boolean existsByDriveCategoryNameAndStatusId(String name, Integer statusId) {
+		return driveCategoryRepository.existsByDriveCategoryNameAndStatusId(name, statusId);
+	}
+	public Boolean existsByDriveCategoryDescriptionAndStatusId(String description, Integer statusId) {
+		return driveCategoryRepository.existsByDescriptionAndStatusId(description, statusId);
 	}
 	// DRIVE CATEGORY
 	
@@ -476,6 +489,8 @@ public class DrivesService {
 	public void saveStipulationWithDoc(Stipulations stipulationsUpdate) {
 		driveStipulationRepository.save(stipulationsUpdate);
 	}
+
+	
 
 	
 

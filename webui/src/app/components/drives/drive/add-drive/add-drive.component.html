@@ -24,7 +24,6 @@
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-
                                             <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
                                                 fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
                                                 [formGroup]="addDriveFormGroup" (ngSubmit)="onAddDriveFormSubmit();">
@@ -44,6 +43,11 @@
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('pattern') && addDriveFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveFormGroup.controls['name'].hasError('duplicateName')"
+                                                            class="alert alert-danger">
+                                                            Name Already Exists
+                                                          </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -60,12 +64,17 @@
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveFormGroup.controls['description'].hasError('duplicateDescription')"
+                                                            class="alert alert-danger">
+                                                            Description Already Exists
+                                                          </mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                     <!-- FROM DATE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker1"
+                                                            <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
                                                                 placeholder="Choose From Date"
                                                                 [formControl]="addDriveFormGroup.controls['fromDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -78,7 +87,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker"
-                                                                placeholder="Choose To Date"
+                                                                placeholder="Choose To Date" [min]="toMinDate"
                                                                 [formControl]="addDriveFormGroup.controls['toDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
@@ -131,7 +140,7 @@
                                                     <!-- TARGET QUANTITY -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Quantity"
+                                                            <input matInput placeholder="Target Quantity" numbersOnly
                                                                 [formControl]="addDriveFormGroup.controls['targetQuantity']">                                                            
                                                         </mat-form-field>
                                                     </div>

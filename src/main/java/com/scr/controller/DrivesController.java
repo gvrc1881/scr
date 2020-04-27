@@ -124,6 +124,25 @@ public class DrivesController {
 			return new ResponseEntity<Drives>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@RequestMapping(value = "/existsDriveName/{driveName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveName(@PathVariable("driveName") String driveName){		
+		try {
+			return service.existsByDriveNameAndStatusId(driveName, Constants.ACTIVE_STATUS_ID);
+		} catch (Exception e) {
+			logger.error("Error while checking exists drive name.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsDriveDescription/{driveDescription}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveDescription(@PathVariable("driveDescription") String driveDescription){		
+		try {
+			return service.existsByDriveDescriptionAndStatusId(driveDescription, Constants.ACTIVE_STATUS_ID);
+		} catch (Exception e) {
+			logger.error("Error while checking exists drive name.");
+			return false;
+		}
+	}
 	
 	// DRIVE CATEGORY
 	@RequestMapping(value = "/driveCategory", method = RequestMethod.GET , headers = "Accept=application/json")
@@ -199,7 +218,25 @@ public class DrivesController {
 			return new ResponseEntity<DriveCategory>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@RequestMapping(value = "/existsDriveCategoryName/{driveCategoryName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveCategoryName(@PathVariable("driveCategoryName") String driveCategoryName){		
+		try {
+			return service.existsByDriveCategoryNameAndStatusId(driveCategoryName, Constants.ACTIVE_STATUS_ID);
+		} catch (Exception e) {
+			logger.error("Error while checking exists driveCategoryName.");
+			return false;
+		}
+	}
 	
+	@RequestMapping(value = "/existsDriveCategoryDescription/{driveDescription}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveCategoryDescription(@PathVariable("driveCategoryDescription") String driveCategoryDescription){		
+		try {
+			return service.existsByDriveCategoryDescriptionAndStatusId(driveCategoryDescription, Constants.ACTIVE_STATUS_ID);
+		} catch (Exception e) {
+			logger.error("Error while checking exists drive Category description.");
+			return false;
+		}
+	}
 	// DRIVE CATEGORY
 	
 	// DRIVE CATEGORY ASS

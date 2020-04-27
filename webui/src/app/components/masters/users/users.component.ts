@@ -149,8 +149,7 @@ this.resp = resp;
         this.repositoryService.getAllRepositories().subscribe((repository) => {
           
             this.repositoryList = repository;
-        })
-        
+        })      
         
     }
 

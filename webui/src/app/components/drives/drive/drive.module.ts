@@ -9,6 +9,7 @@ import { AddDriveComponent } from './add-drive/add-drive.component';
 import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveCategoryComponent } from './add-drive-category/add-drive-category.component';
 import { AddDriveCategoryAssociationComponent } from './add-drive-category-association/add-drive-category-association.component';
+import { NumberDirective } from 'src/app/common/validations';
 
 const routes: Routes = [
     {
@@ -46,7 +47,8 @@ const routes: Routes = [
         DrivesComponent,
         AddDriveComponent,
         AddDriveCategoryComponent,
-        AddDriveCategoryAssociationComponent
+        AddDriveCategoryAssociationComponent,
+        NumberDirective
     ],
     imports: [
         RouterModule.forChild(routes),
