@@ -66,23 +66,23 @@
                                                     <!-- DISPLAY ORDER -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Display Order"                                                               
+                                                            <input matInput placeholder="Display Order" numbersOnly                                                              
                                                                 [formControl]="addDriveChecklistFormGroup.controls['displayOrder']"
                                                                 required>
                                                             <mat-error
                                                                 *ngIf="addDriveChecklistFormGroup.controls['displayOrder'].hasError('required') && addDriveChecklistFormGroup.controls['displayOrder'].touched"
                                                                 class="alert alert-danger">Enter Display Order</mat-error>
-                                                            <mat-error
+                                                            <!-- <mat-error
                                                                 *ngIf="addDriveChecklistFormGroup.controls['displayOrder'].hasError('pattern') && addDriveChecklistFormGroup.controls['displayOrder'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
+                                                            </mat-error> -->
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- UPPER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Upper Limit"
+                                                            <input matInput placeholder="Upper Limit" numbersOnly
                                                                 [formControl]="addDriveChecklistFormGroup.controls['upperLimit']"
                                                                 >                                                            
                                                         </mat-form-field>
@@ -91,7 +91,7 @@
                                                     <!-- LOWER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Lower Limit"
+                                                            <input matInput placeholder="Lower Limit" numbersOnly
                                                                 [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
                                                                 >                                                           
                                                         </mat-form-field>
