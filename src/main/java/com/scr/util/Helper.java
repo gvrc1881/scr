@@ -52,15 +52,17 @@ public class Helper {
 	}
 	
 	public static Timestamp convertStringToTimestamp(String dateString) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-		@SuppressWarnings("deprecation")
-		Date date = new Date(dateString);
-	    String DateToStoreInDataBase= sdf.format(date); // java.util.Date
-	    System.out.println(DateToStoreInDataBase);
-
-	    Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase); // java.sql.Timestamp
-	    System.out.println(ts);
-	    return ts;
+		logger.info("Input : " + dateString.toString());
+		if (dateString != null && !dateString.trim().equalsIgnoreCase("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			@SuppressWarnings("deprecation")
+			Date date = new Date(dateString);
+			String DateToStoreInDataBase = sdf.format(date);
+			Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase);
+			return ts;
+		} else {
+			return null;
+		}
 	}
 
 	public static Timestamp currentTimeStamp() {
@@ -251,5 +253,12 @@ public class Helper {
 		 * " Thanks, " + Constants.NEW_LINE + " SCR Team";
 		 */
 		 return model;
+	}
+
+	public static double parseDouble(String value) {
+		if(value != null && !value.isEmpty() && !value.trim().equalsIgnoreCase("null")) {
+			return Double.parseDouble(value);
+		}
+		return 0;
 	}
 }

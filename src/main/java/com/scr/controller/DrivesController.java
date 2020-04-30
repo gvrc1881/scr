@@ -732,7 +732,7 @@ public class DrivesController {
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
 			@RequestParam("compliedBy") String compliedBy,
-			@RequestParam("assetType") String assetType,
+			//@RequestParam("assetType") String assetType,
 			@RequestParam("createdBy") String createdBy,
 			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
@@ -748,7 +748,7 @@ public class DrivesController {
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
 			stipulationsRequest.setCompliedBy(compliedBy);
-			stipulationsRequest.setAssetType(assetType);
+			//stipulationsRequest.setAssetType(assetType);
 			stipulationsRequest.setCreatedBy(createdBy);
 			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
 			stipulationsRequest.setUpdatedBy(updatedBy);
@@ -787,7 +787,7 @@ public class DrivesController {
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
 			@RequestParam("compliedBy") String compliedBy,
-			@RequestParam("assetType") String assetType,
+			//@RequestParam("assetType") String assetType,
 			@RequestParam("createdBy") String createdBy,
 			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
@@ -798,11 +798,11 @@ public class DrivesController {
 			stipulationsRequest.setId(Long.parseLong(id));
 			stipulationsRequest.setStipulation(stipulation);
 			stipulationsRequest.setStipulationTo(stipulationTo);
-			stipulationsRequest.setDateOfStipulation(Helper.convertStringToTimestamp(dateOfStipulation));
+			stipulationsRequest.setDateOfStipulation( Helper.convertStringToTimestamp(dateOfStipulation));
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
 			stipulationsRequest.setCompliedBy(compliedBy);
-			stipulationsRequest.setAssetType(assetType);
+			//stipulationsRequest.setAssetType(assetType);
 			stipulationsRequest.setCreatedBy(createdBy);
 			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
 			stipulationsRequest.setUpdatedBy(updatedBy);
@@ -906,7 +906,7 @@ public class DrivesController {
 			@RequestParam("authorisationDate") String authorisationDate,
 			@RequestParam("chargingDate") String chargingDate,
 			@RequestParam("station") String station,
-			@RequestParam("stipulationsId") String stipulationsId,
+			//@RequestParam("stipulationsId") String stipulationsId,
 			@RequestParam("createdBy") String createdBy,
 			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
@@ -919,13 +919,14 @@ public class DrivesController {
 			inspectionsRequest.setSectionStartLocation(sectionStartLocation);
 			inspectionsRequest.setSectionEndLocation(sectionEndLocation);
 			inspectionsRequest.setDateOfInspection(Helper.convertStringToTimestamp(dateOfInspection));
-			inspectionsRequest.setTKM(Double.parseDouble(tkm));
-			inspectionsRequest.setRKM(Double.parseDouble(rkm));
+			inspectionsRequest.setTKM(Helper.parseDouble(tkm));
+			inspectionsRequest.setRKM(Helper.parseDouble(rkm));
 			inspectionsRequest.setRemarks(remarks);
 			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
-			inspectionsRequest.setStipulationsId(stipulationsId);inspectionsRequest.setCreatedBy(createdBy);
+			//inspectionsRequest.setStipulationsId(stipulationsId);
+			inspectionsRequest.setCreatedBy(createdBy);
 			//inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
 			inspectionsRequest.setUpdatedBy(updatedBy);
 			//inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
@@ -933,6 +934,7 @@ public class DrivesController {
 			service.saveInspectionsData(inspectionsRequest, file);
 			return Helper.findResponseStatus("Inspections Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch (Exception e) {
+			e.printStackTrace();
 			logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
 			return Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
@@ -968,7 +970,7 @@ public class DrivesController {
 			@RequestParam("authorisationDate") String authorisationDate,
 			@RequestParam("chargingDate") String chargingDate,
 			@RequestParam("station") String station,
-			@RequestParam("stipulationsId") String stipulationsId,
+			//@RequestParam("stipulationsId") String stipulationsId,
 			@RequestParam("createdBy") String createdBy,
 			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
@@ -982,13 +984,13 @@ public class DrivesController {
 			inspectionsRequest.setSectionStartLocation(sectionStartLocation);
 			inspectionsRequest.setSectionEndLocation(sectionEndLocation);
 			inspectionsRequest.setDateOfInspection(Helper.convertStringToTimestamp(dateOfInspection));
-			inspectionsRequest.setTKM(Double.parseDouble(tkm));
-			inspectionsRequest.setRKM(Double.parseDouble(rkm));
+			inspectionsRequest.setTKM(Helper.parseDouble(tkm));
+			inspectionsRequest.setRKM(Helper.parseDouble(rkm));
 			inspectionsRequest.setRemarks(remarks);
 			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
-			inspectionsRequest.setStipulationsId(stipulationsId);
+			//inspectionsRequest.setStipulationsId(stipulationsId);
 			inspectionsRequest.setCreatedBy(createdBy);
 			//inspectionsRequest.setCreatedOn(Helper.convertStringToTimestamp(createdOn));
 			inspectionsRequest.setUpdatedBy(updatedBy);

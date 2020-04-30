@@ -566,12 +566,12 @@ public class DriveMapper {
 		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
-			if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
-				Optional<Product> product = productRepository.findById(Long.parseLong(request.getAssetType()));
-				if (product.isPresent()) {
-					stipulations.setAssetType(product.get());
-				}
-			}
+			/*
+			 * if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
+			 * Optional<Product> product =
+			 * productRepository.findById(Long.parseLong(request.getAssetType())); if
+			 * (product.isPresent()) { stipulations.setAssetType(product.get()); } }
+			 */
 		    
 		    stipulations.setCredatedBy(request.getCreatedBy());
 		    stipulations.setUpdatedBy(request.getUpdatedBy());
@@ -594,12 +594,12 @@ public class DriveMapper {
 		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
-			if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
-				Optional<Product> product = productRepository.findById(Long.parseLong(request.getAssetType()));
-				if (product.isPresent()) {
-					stipulations.setAssetType(product.get());
-				}
-			}
+			/*
+			 * if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
+			 * Optional<Product> product =
+			 * productRepository.findById(Long.parseLong(request.getAssetType())); if
+			 * (product.isPresent()) { stipulations.setAssetType(product.get()); } }
+			 */
 		    
 		    stipulations.setCredatedBy(request.getCreatedBy());
 		    stipulations.setUpdatedBy(request.getUpdatedBy());
@@ -632,13 +632,14 @@ public class DriveMapper {
 		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 		    
-			if (request.getStipulationsId() != null && !request.getStipulationsId().isEmpty()) {
-				Optional<Stipulations> stipulations = stipulationRepository
-						.findById(Long.parseLong(request.getStipulationsId()));
-				if (stipulations.isPresent()) {
-					inspections.setStipulationsId(stipulations.get());
-				}
-			}
+			/*
+			 * if (request.getStipulationsId() != null &&
+			 * !request.getStipulationsId().isEmpty()) { Optional<Stipulations> stipulations
+			 * = stipulationRepository
+			 * .findById(Long.parseLong(request.getStipulationsId())); if
+			 * (stipulations.isPresent()) {
+			 * inspections.setStipulationsId(stipulations.get()); } }
+			 */
 		    
 		    inspections.setCredatedBy(request.getCreatedBy());
 		    inspections.setUpdatedBy(request.getUpdatedBy());
@@ -653,33 +654,34 @@ public class DriveMapper {
 	private String storeDriveFiles(List<MultipartFile> file, String path, String folder) {
 		File saveFiles = new File(path + folder);
 		StringBuffer sb = new StringBuffer();
-		boolean flag = true;
-		if(saveFiles.exists()) {
-			flag = true;
-			logger.info("Folder structure already created.");
-		}else {
-			flag = true;
-			saveFiles.mkdirs();
-			logger.info("Folder created successfully.");
-		}
-		if(flag) {
-		for(MultipartFile mf: file)
-		{
-			logger.info("original filename: "+mf.getOriginalFilename());
-			String fileName = mf.getOriginalFilename().split(Constants.SPLIT_DOT)[0]
-					+ Constants.UNDER_SCORE 
-					+ Helper.currentTimeStampWithString().split(" ")[0] + Constants.UNDER_SCORE
-					+ Helper.currentTimeStampWithString().split(" ")[1].replace(":", "-") + Constants.DOT
-					+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1];
-			logger.info("changed filename = "+fileName);
-			try {
-				Path rootLocation = Paths.get(saveFiles.getAbsolutePath());
-				Files.copy(mf.getInputStream(), rootLocation.resolve(fileName));
-			} catch (Exception e) {
-				logger.error("ERROR >>> while storing "+ folder +" file > "+fileName +" in "+saveFiles.getAbsolutePath());
+		if (file != null) {
+			boolean flag = true;
+			if (saveFiles.exists()) {
+				flag = true;
+				logger.info("Folder structure already created.");
+			} else {
+				flag = true;
+				saveFiles.mkdirs();
+				logger.info("Folder created successfully.");
 			}
-			sb.append(fileName);
-		}
+			if (flag) {
+				for (MultipartFile mf : file) {
+					logger.info("original filename: " + mf.getOriginalFilename());
+					String fileName = mf.getOriginalFilename().split(Constants.SPLIT_DOT)[0] + Constants.UNDER_SCORE
+							+ Helper.currentTimeStampWithString().split(" ")[0] + Constants.UNDER_SCORE
+							+ Helper.currentTimeStampWithString().split(" ")[1].replace(":", "-") + Constants.DOT
+							+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1];
+					logger.info("changed filename = " + fileName);
+					try {
+						Path rootLocation = Paths.get(saveFiles.getAbsolutePath());
+						Files.copy(mf.getInputStream(), rootLocation.resolve(fileName));
+					} catch (Exception e) {
+						logger.error("ERROR >>> while storing " + folder + " file > " + fileName + " in "
+								+ saveFiles.getAbsolutePath());
+					}
+					sb.append(fileName);
+				}
+			}
 		}
 		return sb.toString();
 	}
@@ -701,13 +703,14 @@ public class DriveMapper {
 		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 
-			if (request.getStipulationsId() != null && !request.getStipulationsId().isEmpty()) {
-				Optional<Stipulations> stipulations = stipulationRepository
-						.findById(Long.parseLong(request.getStipulationsId()));
-				if (stipulations.isPresent()) {
-					inspections.setStipulationsId(stipulations.get());
-				}
-			}
+			/*
+			 * if (request.getStipulationsId() != null &&
+			 * !request.getStipulationsId().isEmpty()) { Optional<Stipulations> stipulations
+			 * = stipulationRepository
+			 * .findById(Long.parseLong(request.getStipulationsId())); if
+			 * (stipulations.isPresent()) {
+			 * inspections.setStipulationsId(stipulations.get()); } }
+			 */
 		    inspections.setCredatedBy(request.getCreatedBy());
 		    inspections.setUpdatedBy(request.getUpdatedBy());
 		    inspections.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
