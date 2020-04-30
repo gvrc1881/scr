@@ -73,7 +73,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose Date Of Stipulation"
+                                                                placeholder="Choose Date Of Stipulation" (dateInput)="addEvent('input', $event)"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateOfStipulation']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
@@ -85,7 +85,7 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Date Complied"
+                                                                placeholder="Choose Date Complied" [min]="minDateComplied"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateComplied']"
                                                                 >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -123,7 +123,7 @@
                                                     </div>
 
                                                      <!-- assetType -->
-                                                     <div class="col-md-3">
+                                                     <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Measure Activity List"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['assetType']">
@@ -132,7 +132,7 @@
                                                                     {{ assertType.productName }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                        </mat-form-field>
+                                                        </mat-form-field> -->
 
                                                         <!-- <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Asset Type" size="12"
@@ -146,8 +146,8 @@
                                                                 *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('pattern') && addDriveStipulationFormGroup.controls['assetType'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
-                                                        </mat-form-field> -->
-                                                    </div>
+                                                        </mat-form-field> 
+                                                    </div>-->
                                                     <div class="clear"> </div>
                                                 <div class="col-md-12">
                                                     <table class="table" *ngIf="filesExists">

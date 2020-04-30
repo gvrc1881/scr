@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StipulationstModel } from 'src/app/models/drive.model';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-inspection',
@@ -49,7 +50,7 @@ export class AddDriveInspectionComponent implements OnInit {
       attachment: {},
       station: {},
       phase: {},
-      stipulationsId: {}
+      //stipulationsId: {}
     };
   }
 
@@ -102,7 +103,7 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: new Date(this.resp.chargingDate),
        // attachment: this.resp.attachment,
         station: this.resp.station,
-        stipulationsId: !!this.resp.stipulationsId && this.resp.stipulationsId['id']
+        //stipulationsId: !!this.resp.stipulationsId && this.resp.stipulationsId['id']
       });
       this.spinnerService.hide();
     })
@@ -172,8 +173,13 @@ export class AddDriveInspectionComponent implements OnInit {
       this.drivesService.saveInspectionsData(save, this.selectedFiles).subscribe(response => {
         console.log(JSON.stringify(response));
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Inspection Data saved Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.resp = response;
+        if(this.resp.code == Constants.CODES.SUCCESS){
+          this.commonService.showAlertMessage("Inspection Data saved Successfully");
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Inspection Data saving Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -201,10 +207,14 @@ export class AddDriveInspectionComponent implements OnInit {
         "updatedOn": "2020-04-01"
       }
       this.drivesService.updateInspectionsData(update, this.selectedFiles).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Inspection Data Updated Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.resp = response;
+        if(this.resp.code == Constants.CODES.SUCCESS){
+          this.commonService.showAlertMessage("Inspection Data Updated Successfully");
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Inspection Data Updating Failed."); 
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

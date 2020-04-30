@@ -20,7 +20,7 @@ export class DriveStipulationComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
   displayedColumns = ['sno', 'stipulation', 'stipulationTo', 'dateOfStipulation', 'dateComplied',
-    'compliance', 'attachment', 'compliedBy', 'assetType', 'actions'];
+    'compliance', 'attachment', 'compliedBy',  'actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
 
 
@@ -56,7 +56,7 @@ export class DriveStipulationComponent implements OnInit {
         { "Key": 'compliance', "Value": "" },
         { "Key": 'attachment', "Value": " " },
         { "Key": 'compliedBy', "Value": " " },
-        { "Key": 'assetType', "Value": " " },
+       // { "Key": 'assetType', "Value": " " },
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -72,7 +72,7 @@ export class DriveStipulationComponent implements OnInit {
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
-        this.stipulationsList[i].assetType = this.stipulationsList[i].assetType != null ? this.stipulationsList[i].assetType['productName'] : '';
+      //  this.stipulationsList[i].assetType = this.stipulationsList[i].assetType != null ? this.stipulationsList[i].assetType['productName'] : '';
         stipulations.push(this.stipulationsList[i]);
       }
       this.filterData.gridData = stipulations;

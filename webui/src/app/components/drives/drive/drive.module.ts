@@ -10,6 +10,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveCategoryComponent } from './add-drive-category/add-drive-category.component';
 import { AddDriveCategoryAssociationComponent } from './add-drive-category-association/add-drive-category-association.component';
 import { NumberDirective } from 'src/app/common/validations';
+import { ValidationsModule } from 'src/app/modules/validations.module';
 
 const routes: Routes = [
     {
@@ -48,7 +49,7 @@ const routes: Routes = [
         AddDriveComponent,
         AddDriveCategoryComponent,
         AddDriveCategoryAssociationComponent,
-        NumberDirective
+        
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -56,6 +57,7 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
+        ValidationsModule,
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [

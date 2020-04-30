@@ -1,4 +1,7 @@
 export const Constants = {
+    CODES:{
+        'SUCCESS':200
+    },
     app_urls:{
         LOGIN:"/login",
         REGISTRATION:"/registration",

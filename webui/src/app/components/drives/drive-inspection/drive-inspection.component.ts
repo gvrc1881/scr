@@ -21,7 +21,7 @@ export class DriveInspectionComponent implements OnInit {
 
   displayedColumns = ['sno', 'inspectionType', 'section', 'sectionStartLocation', 'sectionEndLocation',
     'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
-    'station', 'stipulationsId', 'actions'];
+    'station', 'actions'];
   dataSource: MatTableDataSource<InspectionstModel>;
 
   fileInformationDialogRef: MatDialogRef<FilesInformationDialogComponent>;
@@ -62,7 +62,7 @@ export class DriveInspectionComponent implements OnInit {
         this.inspectionsList[i].sno = i + 1;
         this.inspectionsList[i].TKM = this.inspectionsList[i].tkm;
         this.inspectionsList[i].RKM = this.inspectionsList[i].rkm;
-        this.inspectionsList[i].stipulationsId = !!this.inspectionsList[i].stipulationsId && this.inspectionsList[i].stipulationsId['stipulation'];
+        //this.inspectionsList[i].stipulationsId = !!this.inspectionsList[i].stipulationsId && this.inspectionsList[i].stipulationsId['stipulation'];
         inspections.push(this.inspectionsList[i]);
       }
 

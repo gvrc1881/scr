@@ -163,6 +163,10 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    if(this.save){
+      this.router.navigate(['../'], { relativeTo: this.route });
+    }else if(this.update){
+      this.router.navigate(['../../'], { relativeTo: this.route });
+    }
   }
 }

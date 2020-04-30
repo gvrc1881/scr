@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-add-drive-stipulation',
@@ -24,6 +25,7 @@ export class AddDriveStipulationComponent implements OnInit {
   stipulationFormErrors: any;
   stateList: any;
   assertTypeList: any;
+  minDateComplied = new Date();
   constructor(
     private formBuilder: FormBuilder,
     private drivesService: DrivesService,
@@ -41,7 +43,7 @@ export class AddDriveStipulationComponent implements OnInit {
       compliance: {},
       attachment: {},
       compliedBy: {},
-      assetType: {}
+     // assetType: {}
     };
 
   }
@@ -94,7 +96,7 @@ export class AddDriveStipulationComponent implements OnInit {
           compliance: this.resp.compliance,
           //attachment: this.resp.attachment,
           compliedBy: this.resp.compliedBy,
-          assetType: this.resp.assetType['id']
+         // assetType: this.resp.assetType['id']
         });
         this.spinnerService.hide();
       })
@@ -126,8 +128,11 @@ export class AddDriveStipulationComponent implements OnInit {
         'compliance': [null],
         'attachment': [null],
         'compliedBy': [null],
-        'assetType': [null]
+        //'assetType': [null]
       });
+  }
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.minDateComplied = event.value;
   }
 
   onAddStipulationFormSubmit() {
@@ -147,7 +152,7 @@ export class AddDriveStipulationComponent implements OnInit {
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         //  attachment: this.addDriveStipulationFormGroup.value.attachment,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-        assetType: this.addDriveStipulationFormGroup.value.assetType,
+      //  assetType: this.addDriveStipulationFormGroup.value.assetType,
         "createdBy": "1",
         "createdOn": "2020-04-01",
         "updatedBy": "1",
@@ -174,7 +179,7 @@ export class AddDriveStipulationComponent implements OnInit {
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         // attachment: this.addDriveStipulationFormGroup.value.attachment,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-        assetType: this.addDriveStipulationFormGroup.value.assetType,
+       // assetType: this.addDriveStipulationFormGroup.value.assetType,
         "createdBy": "1",
         "createdOn": "2020-04-01",
         "updatedBy": "1",

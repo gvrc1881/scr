@@ -7,6 +7,8 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveTargetComponent } from './add-drive-target/add-drive-target.component';
 import { DrivesService } from 'src/app/services/drives.service';
+import { ValidationsModule } from 'src/app/modules/validations.module';
+
 
 const routes: Routes = [
     {
@@ -34,7 +36,8 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule,      
+        MaterialModule,   
+        ValidationsModule,
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [
