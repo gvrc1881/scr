@@ -77,6 +77,21 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/tpc-board/tpc-board.module#TPCBoardModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'daily-summary',
+    loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'observation-categories',
+    loadChildren: './components/energy-bill-payment/observation-categories/observation-categories.module#ObservationCategoriesModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'observation-check-list',
+    loadChildren: './components/energy-bill-payment/observation-check-list/observation-check-list.module#ObservationCheckListModule',
+    canActivate: [AuthGuard]
+  },
  
  /*  {
     path: 'slidings',
@@ -256,7 +271,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    Ng4LoadingSpinnerModule.forRoot(),
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   exports: [RouterModule]
 })
