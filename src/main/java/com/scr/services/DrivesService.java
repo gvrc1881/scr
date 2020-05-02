@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.Division;
 import com.scr.model.DriveCategory;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
@@ -20,10 +21,12 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
+import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
+import com.scr.repository.DivisionRepository;
 import com.scr.repository.DriveCategoryAssoRepository;
 import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DriveElectrificationTargetsRepository;
@@ -33,6 +36,7 @@ import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
+import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
@@ -78,6 +82,12 @@ public class DrivesService {
 	
 	@Autowired
 	private DriveCategoryAssoRepository driveCategoryAssoRepository;
+	
+	@Autowired
+	private DivisionRepository divisionRepository;
+	
+	@Autowired
+	private InspectionTypeRepository inspectionTypeRepository;
 	
 	public List<Drives> findAllDrives() {
 		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -488,6 +498,14 @@ public class DrivesService {
 
 	public void saveStipulationWithDoc(Stipulations stipulationsUpdate) {
 		driveStipulationRepository.save(stipulationsUpdate);
+	}
+
+	public List<Division> findAllDivisions() {
+		return divisionRepository.findAll();
+	}
+
+	public List<InspectionType> findAllInspectionType() {
+		return inspectionTypeRepository.findAll();
 	}
 
 	

@@ -27,6 +27,7 @@ import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.CrsEigInspections;
+import com.scr.model.Division;
 import com.scr.model.DriveCategory;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
@@ -35,6 +36,7 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
+import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -228,7 +230,7 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/existsDriveCategoryDescription/{driveDescription}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	@RequestMapping(value = "/existsDriveCategoryDescription/{driveCategoryDescription}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDriveCategoryDescription(@PathVariable("driveCategoryDescription") String driveCategoryDescription){		
 		try {
 			return service.existsByDriveCategoryDescriptionAndStatusId(driveCategoryDescription, Constants.ACTIVE_STATUS_ID);
@@ -695,6 +697,20 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/divisions", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Division>> findAllDivisions() throws JSONException {
+		List<Division> divisionList = null;
+		try {			
+			divisionList = service.findAllDivisions();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((divisionList));
+	}
+	
+	
 	
 	@RequestMapping(value = "/stipulations", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Stipulations>> findAllStipulations() throws JSONException {
@@ -891,6 +907,19 @@ public class DrivesController {
 		return ResponseEntity.ok((inspectionsList));
 	}
 	
+	@RequestMapping(value = "/inspectionType", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<InspectionType>> findAllInspectionType() throws JSONException {
+		List<InspectionType> inspectionsList = null;
+		try {			
+			inspectionsList = service.findAllInspectionType();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((inspectionsList));
+	}
+	
 	@PostMapping(value="/saveInspections",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseBody
 	public ResponseStatus saveInspectionsData(
@@ -1071,6 +1100,8 @@ public class DrivesController {
 			return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
 	
 	@RequestMapping(value = "/deleteFile", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus deleteFile(@Valid @RequestBody DriveFileDeleteRequest request) throws JSONException {
