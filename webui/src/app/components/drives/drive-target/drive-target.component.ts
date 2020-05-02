@@ -57,6 +57,7 @@ export class DriveTargetComponent implements OnInit {
        for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
         this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
+        this.driveTargetList[i].depoType = !!this.driveTargetList[i].depotType ? this.driveTargetList[i].depotType['unitType'] : '';
         driveTarget.push(this.driveTargetList[i]);
       } 
 

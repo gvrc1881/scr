@@ -56,7 +56,8 @@ export const Constants = {
         'RDSO':''
     },
     REGULAR_EXPRESSIONS:{
-        'ALPHA_NUMARIC':'^[a-zA-Z0-9_.-]+$'
+        'ALPHA_NUMARIC':'[a-zA-Z0-9\s]+',
+        'ONLY_ALPHA_WITH_SPACE':'^[a-zA-Z]+(\s[a-zA-Z]+)?$'
     }
 
 };

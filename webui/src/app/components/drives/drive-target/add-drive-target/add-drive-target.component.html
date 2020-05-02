@@ -32,7 +32,7 @@
                                                 <div class="col-md-12">
 
                                                     <!-- unitType -->
-                                                    <div class="col-md-3">
+<!--                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Unit Type"
                                                                 [formControl]="addDriveTargetFormGroup.controls['unitType']"
@@ -51,9 +51,24 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
+ -->
+                                                     <!-- Unit Type -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Unit Type" required
+                                                                (selectionChange)="updateAssertType($event)"
+                                                                [formControl]="addDriveTargetFormGroup.controls['unitType']">
+                                                                <mat-option *ngFor="let depoType of depoTypeList"
+                                                                    [value]="depoType.code">
+                                                                    {{ depoType.code }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                           
+                                                        </mat-form-field>
+                                                    </div>
 
                                                     <!-- unitName -->
-                                                    <div class="col-md-3">
+<!--                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Unit Name"
                                                                 [formControl]="addDriveTargetFormGroup.controls['unitName']"
@@ -67,6 +82,26 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
+ -->
+                                                    <!-- FUNCTIONAL UNIT -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Unit Name " required
+                                                                [formControl]="addDriveTargetFormGroup.controls['unitName']">
+                                                                <mat-option
+                                                                    *ngFor="let functionalUnit of functionalUnitList"
+                                                                    [value]="functionalUnit.facilityName"
+                                                                    id="functionalUnit.id">
+                                                                    {{ functionalUnit.facilityName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                            *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('required') && addDriveTargetFormGroup.controls['unitName'].touched"
+                                                            class="alert alert-danger">Select Unit Name</mat-error>
+                                                        
+                                                        </mat-form-field>
+                                                    </div>
+
 
                                                     <!-- target -->
                                                     <div class="col-md-3">

@@ -34,20 +34,16 @@
                                                     <!-- stipulation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Stipulation" size="12" maxlength="12"
+                                                            <input matInput placeholder="Stipulation" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['stipulation']"
-                                                                required>
+                                                                required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$">
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('required') && addDriveStipulationFormGroup.controls['stipulation'].touched"
                                                                 class="alert alert-danger">Enter Stipulation</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('minlength') && addDriveStipulationFormGroup.controls['stipulation'].touched"
-                                                                class="alert alert-danger">section minimum of 3
-                                                                charecters
-                                                            </mat-error>
+                                                            
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
+                                                                class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -99,7 +95,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Compliance"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliance']"
-                                                                >
+                                                                pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$" >
+                                                                <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 

@@ -32,7 +32,7 @@
                                                 <div class="col-md-12">
 
                                                     <!-- inspectionType -->
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Inspection Type" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['inspectionType']"
@@ -40,15 +40,26 @@
                                                             <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('required') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
                                                                 class="alert alert-danger">Enter Inspection Type</mat-error>
-                                                           <!--  <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('minlength') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
-                                                                class="alert alert-danger">section minimum of 3
-                                                                charecters
-                                                            </mat-error> -->
+                                                          
                                                             <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('pattern') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
+                                                        </mat-form-field>
+                                                    </div> -->
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Inspection Type"
+                                                                [formControl]="addDriveInspectionFormGroup.controls['inspectionType']">
+                                                                <mat-option *ngFor="let status of inspectionTypeList"
+                                                                    [value]="status.inspectionType">
+                                                                    {{ status.inspectionType}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('required') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
+                                                                class="alert alert-danger">Select Inspection Type</mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -169,7 +180,7 @@
                                                             </mat-error>
                                                         </mat-form-field> -->
                                                     </div>
-
+                                                    <div class="clearfix"></div>
                                                      <!-- station -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

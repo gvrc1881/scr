@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-target',
@@ -22,7 +23,9 @@ export class AddDriveTargetComponent implements OnInit {
   driveList = [];
   driveTargetFormErrors: any;
   resp: any;
-
+  depoTypeList = [];
+  functionalUnitList: any;
+  allFunctionalUnitsList: any;
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -44,6 +47,8 @@ export class AddDriveTargetComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+    this.findFunctionalUnits();
+    this.findDepoTypeList();
     this.getDrivesData();
     this.createForm();
     if (!isNaN(this.id)) {
@@ -66,12 +71,33 @@ export class AddDriveTargetComponent implements OnInit {
     this.addDriveTargetFormGroup
       = this.formBuilder.group({
         id: 0,
-        'unitType': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'unitName': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        'unitType': [null, Validators.compose([Validators.required])],
+        'unitName': [null, Validators.compose([Validators.required])],
         'target': [null],
         'poulation': [null],
         'drive': [null, Validators.compose([Validators.required])],
       });
+  }
+  findDepoTypeList() {
+    this.drivesService.findDepoTypeList()
+      .subscribe((depoTypes) => {
+        this.depoTypeList = depoTypes;
+      })
+  }
+  findFunctionalUnits() {
+    this.drivesService.findFunctionslUnits()
+      .subscribe((units) => {
+        this.allFunctionalUnitsList = units;
+      })
+  }
+  updateAssertType($event) {
+    if ($event.value) {
+      //this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
+      this.functionalUnitList = [];
+      this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
+        return element.depotType == $event.value;
+      });
+    }
   }
 
   onFormValuesChanged() {

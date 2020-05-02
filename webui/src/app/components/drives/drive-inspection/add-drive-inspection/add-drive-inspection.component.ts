@@ -26,7 +26,7 @@ export class AddDriveInspectionComponent implements OnInit {
   pattern = "[a-zA-Z][a-zA-Z ]*";
   inspectionFormErrors:any;
   stateList: any;
-  
+  inspectionTypeList:any;
   constructor(
     private formBuilder: FormBuilder,
     private drivesService: DrivesService,
@@ -58,6 +58,7 @@ export class AddDriveInspectionComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.getStipulationData();
     this.createInspectionForm();
+    this.findInspectionType();
     if (!isNaN(this.id)) {
       this.addDriveInspectionFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -76,19 +77,24 @@ export class AddDriveInspectionComponent implements OnInit {
   getStipulationData() {    
     this.drivesService.getStipulationData().subscribe((data) => {
       this.stipulationsList = data;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+  findInspectionType(){
+    this.drivesService.getStipulationType().subscribe((data) => {
+      this.inspectionTypeList = data;
       console.log(JSON.stringify(data))
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
-
   getInspectionDataById(id){
     this.drivesService.findInspectionsDataById(id)
     .subscribe((resp) => {
-      console.log('depoTypes = ' + JSON.stringify(resp));
       this.resp = resp;
-      console.log(this.resp.station)
       this.addDriveInspectionFormGroup.patchValue({
         id: this.resp.id,
         inspectionType: this.resp.inspectionType,
@@ -103,7 +109,6 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: new Date(this.resp.chargingDate),
        // attachment: this.resp.attachment,
         station: this.resp.station,
-        //stipulationsId: !!this.resp.stipulationsId && this.resp.stipulationsId['id']
       });
       this.spinnerService.hide();
     })
@@ -127,8 +132,8 @@ export class AddDriveInspectionComponent implements OnInit {
     this.addDriveInspectionFormGroup
       = this.formBuilder.group({
         id: 0,
-        'inspectionType': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'section': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
+        'inspectionType': [null, Validators.compose([Validators.required])],
+        'section': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
         'sectionStartLocation': [null],
         'sectionEndLocation': [null],
         'dateOfInspection': [null],

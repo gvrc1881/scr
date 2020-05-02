@@ -97,7 +97,7 @@ export class CommonService {
     getPermissionNameByLoggedData(menu, submenu){
     	let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
   		let pageRolePermissions = loggerUser.menuPermissionResponses;
-	   var p= pageRolePermissions.filter(element => {
+	   var p= !!pageRolePermissions && pageRolePermissions.filter(element => {
 	  // console.log(element)
           return element.menuName.toLowerCase() == menu.toLowerCase() && element.subMenuName.toLowerCase() == submenu.toLowerCase() ;//&& element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
         });

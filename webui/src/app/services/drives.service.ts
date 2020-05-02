@@ -245,6 +245,9 @@ export class DrivesService {
     getStipulationData(){
         return this.http.get<StipulationstModel[]>(environment.apiUrl + '/stipulations', { headers: this.header });
     }
+    getStipulationType(){
+        return this.http.get<any[]>(environment.apiUrl + '/inspectionType', { headers: this.header });
+    }
     findAssertTypeListFromProduct() {
         return this.http.get<any[]>(environment.apiUrl + '/assertType', { headers: this.header });            
     }
@@ -309,5 +312,9 @@ export class DrivesService {
             "type":type
         }
         return this.http.post<any[]>(environment.apiUrl + '/deleteFile', data, { headers: this.header });
+    }
+
+    findYesNoStatus(){
+        return this.http.get<any[]>(environment.apiUrl + '/yesNoStatus/YESNO_STATUS', { headers: this.header });
     }
 }

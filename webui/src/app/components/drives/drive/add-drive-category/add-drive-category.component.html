@@ -55,15 +55,15 @@
                                                     <!-- DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Description"
+                                                            <textarea matInput placeholder="Description"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['description']"
-                                                                required>
+                                                                required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"></textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('required') && addDriveCategoryFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Enter Description</mat-error>
                                                             <mat-error
                                                                 *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('pattern') && addDriveCategoryFormGroup.controls['description'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
+                                                                class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                             <mat-error
                                                             *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('duplicateDescription')"
@@ -95,7 +95,7 @@
                                                             <mat-datepicker #picker></mat-datepicker>
                                                         </mat-form-field>
                                                     </div>
-
+                                                    <div class="clearfix"></div>
                                                     <!-- Authority -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

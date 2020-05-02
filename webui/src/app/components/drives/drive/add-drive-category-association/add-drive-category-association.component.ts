@@ -23,7 +23,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   driveCategoryList = [];
   driveFormErrors: any;
   resp: any;
-
+  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,

@@ -19,12 +19,12 @@ export class AddDriveComponent implements OnInit {
   isSubmit: boolean = false;
   addDriveFormGroup: FormGroup;
   id: number = 0;
-  pattern = "[a-zA-Z][a-zA-Z]*";
+  pattern = "/^[a-zA-Z ]*$/";
   depoTypeList = [];
-  assetTypeList = [];
   isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  assetTypeList = [];
   functionalUnitList: any;
   allFunctionalUnitsList: any;
   driveFormErrors: any;
@@ -96,8 +96,8 @@ export class AddDriveComponent implements OnInit {
   createDriveForm() {
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateName.bind(this)],
-      'description': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateDescription.bind(this)],
+      'name': [null, Validators.compose([Validators.required]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'depoType': [null],
