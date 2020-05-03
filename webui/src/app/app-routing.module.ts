@@ -77,11 +77,11 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/tpc-board/tpc-board.module#TPCBoardModule',
     canActivate: [AuthGuard]
   },
-  /* {
+   {
     path: 'daily-summary', 
     loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
     canActivate: [AuthGuard]
-  }, */
+  }, 
   {
     path: 'observation-categories',
     loadChildren: './components/energy-bill-payment/observation-categories/observation-categories.module#ObservationCategoriesModule',
