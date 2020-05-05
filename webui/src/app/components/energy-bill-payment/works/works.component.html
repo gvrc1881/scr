@@ -23,6 +23,7 @@
                                               color="accent" mat-raised-button="">
                                               Add Work
                                             </span>
+                                        </div>
                                             <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addWork" fxLayout="column"
                                                 fxLayoutAlign="start" [formGroup]="workFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onTractionEneTariffSubmit();">
@@ -72,7 +73,8 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="statusRemarks" [formControl]="workFormGroup.controls['statusRemarks']" />
+	                                                            	<textarea matInput placeholder="Status Remarks" [formControl]="workFormGroup.controls['statusRemarks']" ></textarea>
+	                                                                <!-- <input matInput placeholder="statusRemarks" [formControl]="workFormGroup.controls['statusRemarks']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -119,7 +121,7 @@
 	                                                                <div class="p-12 d-inline">
 	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
 	                                                                      mat-raised-button="">
-	                                                                      Close
+	                                                                      Back
 	                                                                    </span>
 	                                                                  </div>
 	                                                        </div>
@@ -199,7 +201,6 @@
                                     		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                                     	</div>
 										
-									</div>
 								</div>
 							</div>
 						</div>				

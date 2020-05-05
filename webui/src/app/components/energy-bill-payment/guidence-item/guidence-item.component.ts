@@ -6,6 +6,7 @@ import { Constants } from 'src/app/common/constants';
 import { GuidenceItemModel } from 'src/app/models/guidence-item.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
     selector: 'guidence-item',
@@ -22,24 +23,25 @@ export class GuidenceItemComponent implements OnInit{
     guidenceItemFormGroup: FormGroup;
     guidenceItemList : any;
     guidenceItemDataSource: MatTableDataSource<GuidenceItemModel>;
-    guidenceItemDisplayColumns = ['sno' , 'agencyRbRdso' , 'date' , 'detailsOfIssue' , 'heading' , 'closedRemark' , 'letterNo' , 'id' ] ;
+    guidenceItemDisplayColumns = ['sno' , 'agencyRbRdso' , 'date' , 'detailsOfIssue' , 'heading' , 'closedRemark' , 'status' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editguidenceItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    statusItems: any;
 
 
     constructor(
         private _guidenceItemService: GuidenceItemService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private reportService: ReportService
     ){
 
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllGuidenceItemData();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","GUIDENCE ITEM") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
@@ -59,6 +61,9 @@ export class GuidenceItemComponent implements OnInit{
             'status' : [null],
             'closedRemark' : [null]
         });
+        this.reportService.statusItemDetails('GUIDENCE_ITEM').subscribe((data) => {
+                 this.statusItems = data;
+      		});
     }
 
     getAllGuidenceItemData() {

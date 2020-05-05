@@ -250,7 +250,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) || path.includes("energyMeter") ?  "open" : "",  
         subMenus: [
           {
-            subMenuName: "Guidence Item",
+            subMenuName: "Guidance Item",
             subMenuURL: "guidenceItem",
             subMenuIcon: "",
             rolePermission:true,
