@@ -422,7 +422,7 @@ public class DriveMapper {
 		if(request != null) {
 			failureAnalysis = new FailureAnalysis();
 			
-			failureAnalysis.setFailure_id(request.getFailure_id());
+			//failureAnalysis.setFailure_id(request.getFailure_id());
 			failureAnalysis.setReported(request.getReported());
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
@@ -454,7 +454,7 @@ public class DriveMapper {
 	public FailureAnalysis prepareFailureAnalysisUpdataData(FailureAnalysis failureAnalysis,
 			@Valid DriveRequest request) {
 		if(request != null) {
-			failureAnalysis.setFailure_id(request.getFailure_id());
+			//failureAnalysis.setFailure_id(request.getFailure_id());
 			failureAnalysis.setReported(request.getReported());
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
