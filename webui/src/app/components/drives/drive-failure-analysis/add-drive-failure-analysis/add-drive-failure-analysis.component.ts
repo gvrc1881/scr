@@ -20,6 +20,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   driveList = [];
+  reportedList=[];
   failureAnalysisFormErrors: any;
   resp: any;
 
@@ -34,7 +35,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   ) {
     // Reactive form errors
     this.failureAnalysisFormErrors = {
-      failure_id: {},
+      //failure_id: {},
       reported: {},
       repurcussion: {},
       date: {},
@@ -59,6 +60,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
+    this.findYesNoStatus();
     this.createForm();
     if (!isNaN(this.id)) {
       this.addFailureAnalysisFormGroup.valueChanges.subscribe(() => {
@@ -80,7 +82,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     this.addFailureAnalysisFormGroup
       = this.formBuilder.group({
         id: 0,
-        'failure_id': [null],
+       // 'failure_id': [null],
         'reported': [null],
         'repurcussion': [null],
         'date': [null],
@@ -124,13 +126,22 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
+  findYesNoStatus() {
+    this.drivesService.findYesNoStatus().subscribe((data) => {
+      this.reportedList = data;
+      console.log(data)
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
   getFailureAnalysisDataById(id) {
     this.drivesService.findFailureAnalysisDataById(id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addFailureAnalysisFormGroup.patchValue({
           id: this.resp.id,
-          failure_id: this.resp.failure_id,
+         // failure_id: this.resp.failure_id,
           reported: this.resp.reported,
           repurcussion: this.resp.repurcussion,
           date: !!this.resp.poulation ? new Date(this.resp.poulation) : '',
@@ -164,7 +175,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     var failedMessage = '';
     if (this.save) {
       data = {
-        "failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
+       // "failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
         "date": this.addFailureAnalysisFormGroup.value.date,
@@ -202,7 +213,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     }else if(this.update){
       data = {
         "id":this.id,
-        "failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
+        //"failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
         "date": this.addFailureAnalysisFormGroup.value.date,

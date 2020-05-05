@@ -122,32 +122,7 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                     <!-- assetType -->
-                                                     <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Measure Activity List"
-                                                                [formControl]="addDriveStipulationFormGroup.controls['assetType']">
-                                                                <mat-option *ngFor="let assertType of assertTypeList"
-                                                                    [value]="assertType.id">
-                                                                    {{ assertType.productName }}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field> -->
-
-                                                        <!-- <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Asset Type" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveStipulationFormGroup.controls['assetType']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('required') && addDriveStipulationFormGroup.controls['assetType'].touched"
-                                                                class="alert alert-danger">Enter Asset Type</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['assetType'].hasError('pattern') && addDriveStipulationFormGroup.controls['assetType'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
-                                                        </mat-form-field> 
-                                                    </div>-->
+                                                    
                                                     <div class="clear"> </div>
                                                 <div class="col-md-12">
                                                     <table class="table" *ngIf="filesExists">
@@ -160,7 +135,7 @@
                                                         <tbody id="uploadedFilesTBodyId">
                                                             <tr *ngFor="let file of selectedFiles;let i=index">
                                                                 <td>{{i+1}}</td>
-                                                                <td>{{file.name}}</td>
+                                                                <td><a target="_blank" href="URL.createObjectURL(file.name)">{{file.name}}</a></td>
                                                                 <td>{{(file.size/1024) | number : '1.2-2'}} MB</td>
                                                                 <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
                                                                   <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>

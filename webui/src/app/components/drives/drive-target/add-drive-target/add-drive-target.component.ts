@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { DriveTargetModel } from 'src/app/models/drive.model';
 
 @Component({
   selector: 'app-add-drive-target',
@@ -26,6 +27,7 @@ export class AddDriveTargetComponent implements OnInit {
   depoTypeList = [];
   functionalUnitList: any;
   allFunctionalUnitsList: any;
+  driveTargetList:any;
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -51,6 +53,7 @@ export class AddDriveTargetComponent implements OnInit {
     this.findDepoTypeList();
     this.getDrivesData();
     this.createForm();
+    this.getDriveTargetData();
     if (!isNaN(this.id)) {
       this.addDriveTargetFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -66,17 +69,42 @@ export class AddDriveTargetComponent implements OnInit {
       this.title = 'Save';
     }
   }
-
+  getDriveTargetData() {
+    const driveTarget: DriveTargetModel[] = [];
+    this.drivesService.getDriveTargetData().subscribe((data) => {
+      console.log(JSON.stringify(data))
+      this.driveTargetList = data;                  
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
   createForm() {
     this.addDriveTargetFormGroup
       = this.formBuilder.group({
         id: 0,
-        'unitType': [null, Validators.compose([Validators.required])],
-        'unitName': [null, Validators.compose([Validators.required])],
+        'unitType': [null, Validators.compose([Validators.required]), this.duplicateCombination.bind(this)],
+        'unitName': [null, Validators.compose([Validators.required]), this.duplicateCombination.bind(this)],
         'target': [null],
         'poulation': [null],
         'drive': [null, Validators.compose([Validators.required])],
       });
+  }
+  duplicateCombination() {
+    const q = new Promise((resolve, reject) => {
+    let unitName = this.addDriveTargetFormGroup.controls['unitName'].value;
+    let unitType = this.addDriveTargetFormGroup.controls['unitType'].value;
+        var filteredArray = !!this.driveTargetList && 
+        this.driveTargetList.filter(function(interval){          
+          return interval.unitName == unitName && interval.unitType == unitType;
+        });        
+        if(filteredArray.length !== 0){
+          resolve({ 'duplicateCombination': true });
+        } else {
+          resolve(null);
+        }
+    });
+    return q;
   }
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()

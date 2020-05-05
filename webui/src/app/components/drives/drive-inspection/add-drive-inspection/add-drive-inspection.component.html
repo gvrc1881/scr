@@ -130,9 +130,9 @@
                                                      <!-- remarks -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Remarks"
+                                                            <textarea matInput placeholder="Remarks"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['remarks']"
-                                                                >
+                                                                ></textarea>
                                                         </mat-form-field>
                                                     </div>
 
@@ -217,6 +217,27 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div> -->
+                                                    <div class="clear"> </div>
+                                                    <div class="col-md-12">
+                                                        <table class="table" *ngIf="filesExists">
+                                                            <thead>
+                                                              <th>Sno</th>
+                                                              <th>File Name</th>
+                                                              <th>Size</th>
+                                                              <th>Action</th>
+                                                            </thead>
+                                                            <tbody id="uploadedFilesTBodyId">
+                                                                <tr *ngFor="let file of selectedFiles;let i=index">
+                                                                    <td>{{i+1}}</td>
+                                                                    <td>{{file.name}}</td>
+                                                                    <td>{{(file.size/1024) | number : '1.2-2'}} MB</td>
+                                                                    <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
+                                                                      <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                                  </button>  </td>
+                                                                </tr>
+                                                            </tbody>
+                                                          </table>
+                                                    </div>
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
                                                     <div class="float-right" style="float: right;">

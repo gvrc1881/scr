@@ -63,7 +63,11 @@
                                                                     {{ depoType.code }}
                                                                 </mat-option>
                                                             </mat-select>
-                                                           
+                                                            <mat-error
+                                                            *ngIf="addDriveTargetFormGroup.controls['unitType'].hasError('duplicateCombination')"
+                                                            class="alert alert-danger">
+                                                            Unit Type and Unit Name Combination Already Exists
+                                                        </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -98,7 +102,11 @@
                                                             <mat-error
                                                             *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('required') && addDriveTargetFormGroup.controls['unitName'].touched"
                                                             class="alert alert-danger">Select Unit Name</mat-error>
-                                                        
+                                                            <mat-error
+                                                            *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('duplicateCombination')"
+                                                            class="alert alert-danger">
+                                                            Unit Type and Unit Name Combination Already Exists
+                                                        </mat-error>
                                                         </mat-form-field>
                                                     </div>
 

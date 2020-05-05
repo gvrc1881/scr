@@ -35,7 +35,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Name"
                                                                 [formControl]="addDriveFormGroup.controls['name']"
-                                                                required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$">
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('required') && addDriveFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Enter Name</mat-error>
@@ -57,7 +57,7 @@
                                                             <textarea matInput placeholder="Description"
                                                                 [formControl]="addDriveFormGroup.controls['description']"
                                                                 required
-                                                                pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"> </textarea>
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('required') && addDriveFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Enter Description</mat-error>
@@ -77,7 +77,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Asset Description"
-                                                                pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveFormGroup.controls['assetDescription']"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['assetDescription'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
@@ -90,7 +90,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Criteria"
-                                                                pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveFormGroup.controls['criteria']"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['criteria'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
@@ -201,7 +201,6 @@
                                                             </mat-select>
                                                         </mat-form-field>
                                                     </div>
-
                                                     <!-- STATUS -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

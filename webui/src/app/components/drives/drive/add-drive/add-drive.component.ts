@@ -71,11 +71,7 @@ export class AddDriveComponent implements OnInit {
       this.save = false;
       this.update = true;
       this.title = 'Edit';
-
-      //this.findAssetTypeList();
-
       this.getDriveDataById(this.id);
-
     } else {
       this.title = 'Save'
     }
@@ -186,7 +182,6 @@ export class AddDriveComponent implements OnInit {
   getDriveDataById(id) {
     this.drivesService.findDriveDataById(id)
       .subscribe((resp) => {
-
         this.resp = resp;
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
