@@ -27,8 +27,8 @@ public class TPCBoardController {
 	
 	@RequestMapping(value = "/findAllTPCBoard" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<TpcBoard> findAllTPCBoard(){
-		List<TpcBoard> stationsSectionItem = tpcBoardService.findAll();
-		return stationsSectionItem;
+		List<TpcBoard> tpcBoard = tpcBoardService.findAll();
+		return tpcBoard;
 	}
 	
 	@RequestMapping(value = "/addTPCBoard" , method = RequestMethod.POST , headers = "Accept=application/json")
@@ -40,7 +40,7 @@ public class TPCBoardController {
 	
 	
 	@RequestMapping(value = "/findTPCBoardById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<TpcBoard> findStationSectionsById(@PathVariable Long id){
+	public ResponseEntity<TpcBoard> findTPCBoardById(@PathVariable Long id){
 		Optional<TpcBoard> tpcBoard = tpcBoardService.findTPCBoardById(id);
 		return new ResponseEntity<TpcBoard>(tpcBoard.get(), HttpStatus.OK);
 
@@ -54,7 +54,7 @@ public class TPCBoardController {
 	}
 	
 	@RequestMapping(value = "/deleteTPCBoard/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
-	public ResponseStatus deleteStationsSectionById(@PathVariable Long id) {
+	public ResponseStatus deleteTPCBoardById(@PathVariable Long id) {
 		tpcBoardService.deleteTPCBoardById(id);
 		return Helper.findResponseStatus("TPCBoard Deleted successfully", Constants.SUCCESS_CODE);
 	}

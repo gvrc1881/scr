@@ -320,7 +320,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("foot-patrolling-sections") ? "active-item" : "",
           },
           {
-            subMenuName: "STATIONS & SECTIONS",
+            subMenuName: "Stations-sections",
             subMenuURL: "stations-sections",
             subMenuIcon: "fa fa-train",
             color: "#12E1EE",
@@ -356,7 +356,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("daily-summary") ? "active-item" : "",
           },
           {
-            subMenuName: "OBSERVATION CATEGORIES",
+            subMenuName: "Observation Categories",
             subMenuURL: "observation-categories",
             subMenuIcon: "",
             color: "#12E1EE",
@@ -365,7 +365,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("observation-categories") ? "active-item" : "",
           },
           {
-            subMenuName: "OBSERVATION CHECK LIST ",
+            subMenuName: "Observation Check List ",
             subMenuURL: "observation-check-list",
             subMenuIcon: "",
             color: "#12E1EE",

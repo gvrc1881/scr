@@ -20,12 +20,14 @@ import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
+import com.scr.model.ElectricEnergySuppliers;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
+import com.scr.model.GeographicState;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
 import com.scr.model.Model;
@@ -133,8 +135,8 @@ public class ReportController {
 		
 	}
 	@RequestMapping(value = "/observationCheckList", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<ObservationsCheckList>> findObservationCategory(){
-		List<ObservationsCheckList> observationCategory= reportService.findObservationCategory();
+	public ResponseEntity<List<ObservationsCheckList>> findObservationCheckList(){
+		List<ObservationsCheckList> observationCategory= reportService.findObservationCheckList();
 		return new ResponseEntity<List<ObservationsCheckList>>(observationCategory,HttpStatus.OK);	
 		
 	}
@@ -285,6 +287,17 @@ public class ReportController {
 		return new ResponseEntity<List<AssetMasterData>>(assetMasterData,HttpStatus.OK);	
 		
 	}
-	
+	@RequestMapping(value = "/geographicState", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<GeographicState>> findGeographicState(){
+		List<GeographicState> geographicState= reportService.findGeographicState();
+		return new ResponseEntity<List<GeographicState>>(geographicState,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/electricEnergySuppliers", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ElectricEnergySuppliers>> findElectricEnergySuppliers(){
+		List<ElectricEnergySuppliers> ees= reportService.findElectricEnergySuppliers();
+		return new ResponseEntity<List<ElectricEnergySuppliers>>(ees,HttpStatus.OK);	
+		
+	}
   	
 }

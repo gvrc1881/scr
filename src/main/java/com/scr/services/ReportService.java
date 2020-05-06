@@ -13,12 +13,14 @@ import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
+import com.scr.model.ElectricEnergySuppliers;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
+import com.scr.model.GeographicState;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
 import com.scr.model.Model;
@@ -52,12 +54,14 @@ import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
 import com.scr.repository.CrsEigInspectionRepository;
 import com.scr.repository.DivisionRepository;
+import com.scr.repository.ElectricEnergySuppliersRepository;
 import com.scr.repository.ElectrificationTargetsRepository;
 import com.scr.repository.ElementarySectionsRepository;
 import com.scr.repository.FacilityRepository;
 import com.scr.repository.FailureAnalysisRepository;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.FunctionLocationTypesRepository;
+import com.scr.repository.GeographicStateRepository;
 import com.scr.repository.MajorSectionRepository;
 import com.scr.repository.MakeRepository;
 import com.scr.repository.ModelRepository;
@@ -137,7 +141,10 @@ public class ReportService {
 	private ModelRepository modelRepository;
 	@Autowired
 	private AssetMastersRepository assetMastersRepository;
-	
+	@Autowired
+	private GeographicStateRepository geographicStateRepository;
+	@Autowired
+	private ElectricEnergySuppliersRepository electricEnergySuppliersRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -172,7 +179,7 @@ public class ReportService {
 	public List<ObservationCategory>findDepartments() {	
 		   return observationCategoryRepository.findAll();
 		}
-	public List<ObservationsCheckList>findObservationCategory() {	
+	public List<ObservationsCheckList>findObservationCheckList() {	
 		   return observationCheckListRepository.findAll();
 		}
 	
@@ -265,6 +272,12 @@ public class ReportService {
 	}
 	public List<AssetMasterData>findAssetMasterDetails() {	
 		   return assetMastersRepository.findAll();
+		}
+	public List<GeographicState>findGeographicState() {	
+		   return geographicStateRepository.findAll();
+		}
+	public List<ElectricEnergySuppliers>findElectricEnergySuppliers() {	
+		   return electricEnergySuppliersRepository.findAll();
 		}
 	
 	

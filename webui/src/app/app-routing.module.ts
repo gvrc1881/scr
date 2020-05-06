@@ -78,7 +78,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
    {
-    path: ' ', 
+    path: 'daily-summary', 
     loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
     canActivate: [AuthGuard]
   }, 
@@ -93,11 +93,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
  
-   {
-    path: 'slidings',
-    loadChildren: './components/energy-bill-payment/slidings/slidings.module#SlidingsModule',
-    canActivate: [AuthGuard]
-  },
+   
   
   
   {
