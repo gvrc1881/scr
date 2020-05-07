@@ -23,6 +23,7 @@
                                               color="accent" mat-raised-button="">
                                               Add Energy Meter
                                             </span>
+                                       </div>     
                                             <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addEnergyMeter" fxLayout="column"
                                                 fxLayoutAlign="start" [formGroup]="energyMeterFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="energyMeterSubmit();">
@@ -47,26 +48,41 @@
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Multiplication Factor" [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['multiplicationFac'].hasError('pattern') && energyMeterFormGroup.controls['multiplicationFac'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Start Kvah" [formControl]="energyMeterFormGroup.controls['startKvah']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['startKvah'].hasError('pattern') && energyMeterFormGroup.controls['startKvah'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Start Kwh" [formControl]="energyMeterFormGroup.controls['startKwh']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['startKwh'].hasError('pattern') && energyMeterFormGroup.controls['startKwh'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Start Rkvah Lag" [formControl]="energyMeterFormGroup.controls['startRkvahLag']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['startRkvahLag'].hasError('pattern') && energyMeterFormGroup.controls['startRkvahLag'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Start Rkvah Lead" [formControl]="energyMeterFormGroup.controls['startRkvahLead']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['startRkvahLead'].hasError('pattern') && energyMeterFormGroup.controls['startRkvahLead'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
@@ -102,6 +118,9 @@
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Cmd" [formControl]="energyMeterFormGroup.controls['cmd']" />
+	                                                                <mat-error
+										                                *ngIf="energyMeterFormGroup.controls['cmd'].hasError('pattern') && energyMeterFormGroup.controls['cmd'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
@@ -129,7 +148,7 @@
 	                                                                <div class="p-12 d-inline">
 	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
 	                                                                      mat-raised-button="">
-	                                                                      Close
+	                                                                      Back
 	                                                                    </span>
 	                                                                  </div>
 	                                                        </div>
@@ -155,22 +174,22 @@
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="cmd">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>cmd</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cmd</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.cmd}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="feederId">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>feederId</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Feeder Name</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.feederId}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="startKvah">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>startKvah</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Start Kvah</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.startKvah}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="startKwh">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>startKwh</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Start Kwh</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.startKwh}}</mat-cell>
 	                                            </ng-container>
@@ -193,8 +212,6 @@
                                     		</mat-table>
                                     		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                                     	</div>
-										
-									</div>
 								</div>
 							</div>
 						</div>				

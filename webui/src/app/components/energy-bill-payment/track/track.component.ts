@@ -34,6 +34,7 @@ export class TrackComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     trackDisplayedColumns = ['sno' ,  'depot'  , 'TKM' , 'RKM' , 'remarks' , 'id' ];
     funLocTypeData: any;
+    numberPattern = "[0-9]+$";
     
     constructor(
         private commonService: CommonService,
@@ -57,8 +58,8 @@ export class TrackComponent implements OnInit{
              id: 0,
              "depotType":[null],
             "facilityId": [null, Validators.compose([Validators.required])],
-            "tkm": [null],
-            "rkm":[null],
+            "tkm": [null,Validators.compose([Validators.required, Validators.pattern(this.numberPattern)])],
+            "rkm":[null,Validators.compose([Validators.required, Validators.pattern(this.numberPattern)])],
             "remark": [null],
         });
         this.reportService.functionalLocationTypes().subscribe((data) => {

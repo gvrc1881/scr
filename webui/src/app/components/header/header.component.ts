@@ -284,7 +284,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("slidings") ? "active-item" : "",
           },
           {
-            subMenuName: "Traction Energy Tariff",
+            subMenuName: "Energy Tariff",
             subMenuURL: "tractionEneTariff",
             subMenuIcon: "",
             color: "#12E1EE",

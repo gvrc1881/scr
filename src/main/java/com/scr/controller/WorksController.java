@@ -1,5 +1,7 @@
 package com.scr.controller;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +55,10 @@ public class WorksController {
 	
 	@RequestMapping(value = "/addWork", method = RequestMethod.POST , headers = "Accept=application/json")
 	@ResponseBody
-	public ResponseStatus save(@RequestBody Works Work){
-		Works saveWork = worksServices.save(Work);
+	public ResponseStatus save(@RequestBody Works work){
+		work.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+		work.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+		Works saveWork = worksServices.save(work);
 		if (saveWork != null) {
 			return Helper.findResponseStatus("Work added successfully", Constants.SUCCESS_CODE);
 		}
@@ -71,6 +75,7 @@ public class WorksController {
 	
 	@RequestMapping(value = "/updateWork" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus update (@RequestBody Works work) {
+		work.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		worksServices.save(work);
 		return Helper.findResponseStatus("Work updated successfully", Constants.SUCCESS_CODE);
 	}

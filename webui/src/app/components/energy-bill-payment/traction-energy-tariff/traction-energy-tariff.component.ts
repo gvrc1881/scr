@@ -40,6 +40,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     filesExists: boolean = false;
     tractionEnergyTariffId: any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
+    numberPattern = "[0-9]+(\.[0-9][0-9]?)$";
 
     isSubmit: boolean = false;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
@@ -65,7 +66,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.tractionEnergyTariffFormGroup = this.formBuilder.group({
              id: 0,
             "supplier": [null],
-            "rate": [null],
+            "rate": [null,Validators.compose([Validators.required, Validators.pattern(this.numberPattern)])],
             "specification":[null],
             "condition": [null],
             "fromDate":[null],

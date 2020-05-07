@@ -21,18 +21,19 @@
 										<div class="p-12" style="text-align: right;" *ngIf="addPermission">
 											<span class="mat-raised-button mat-accent" (click)="addNewTractionEnergyTariff()" *ngIf="!addTractionEnergyTariff"
                                               color="accent" mat-raised-button="">
-                                              Add TractionEnergyTariff
+                                              Add Traction Energy Tariff
                                             </span>
+                                        </div>    
                                             <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addTractionEnergyTariff" fxLayout="column"
                                                 fxLayoutAlign="start" [formGroup]="tractionEnergyTariffFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onTractionEneTariffSubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} TractionEnergyTariff</div>
+                                            		<div class="panel-heading">{{title}} Traction Energy Tariff</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="supplier" [formControl]="tractionEnergyTariffFormGroup.controls['supplier']" />
+	                                                                <input matInput placeholder="Supplier" [formControl]="tractionEnergyTariffFormGroup.controls['supplier']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -42,31 +43,36 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="rate" [formControl]="tractionEnergyTariffFormGroup.controls['rate']" />
+	                                                                <input matInput placeholder="Rate" [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
+	                                                                <mat-error
+										                                *ngIf="tractionEnergyTariffFormGroup.controls['rate'].hasError('pattern') && tractionEnergyTariffFormGroup.controls['rate'].touched"
+										                                class="alert alert-danger">Only numbers and  decimal values with two places allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field>
-	                                                                <input matInput [matDatepicker]="fromDate" placeholder="Choose from date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
+	                                                                <input matInput [matDatepicker]="fromDate" placeholder="Choose From Date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
 	                                                                    <mat-datepicker #fromDate  ></mat-datepicker><!--  (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field>
-	                                                                <input matInput [matDatepicker]="thruDate" placeholder="Choose thru date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
+	                                                                <input matInput [matDatepicker]="thruDate" placeholder="Choose Thru Date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
 	                                                                    <mat-datepicker #thruDate  ></mat-datepicker> <!-- (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" />
+	                                                                <textarea matInput placeholder="Specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" ></textarea>
+	                                                                <!-- <input matInput placeholder="Specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" />
+	                                                            	<textarea matInput placeholder="Condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" ></textarea>
+	                                                                <!-- <input matInput placeholder="Condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3 mt-15">
@@ -79,7 +85,7 @@
 	                                                                <div class="p-12 d-inline">
 	                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
 	                                                                      mat-raised-button="">
-	                                                                      Close
+	                                                                      Back
 	                                                                    </span>
 	                                                                  </div>
 	                                                        </div>
@@ -182,7 +188,7 @@
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="supplier">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>supplier</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.supplier}}</mat-cell>
 	                                            </ng-container>
@@ -192,27 +198,27 @@
 	                                                      {{row.year}}</mat-cell>
 	                                            </ng-container> -->
 	                                            <ng-container matColumnDef="rate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>rate</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Rate</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.rate}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="fromDate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>fromDate</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.fromDate | date}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="thruDate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>thruDate</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Thru Date</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.thruDate | date}}</mat-cell>
 	                                            </ng-container>
 	                                           <ng-container matColumnDef="specification">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>specification</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Specification</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.specification}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="condition">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>condition</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Condition</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.condition}}</mat-cell>
 	                                            </ng-container>
@@ -244,8 +250,6 @@
                                     		</mat-table>
                                     		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                                     	</div>
-										
-									</div>
 								</div>
 							</div>
 						</div>				

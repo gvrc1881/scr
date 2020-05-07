@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { EnergyMeterService } from 'src/app/services/energy-meter.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { EnergyMeterModel } from 'src/app/models/energy-meter.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
@@ -29,6 +29,7 @@ export class EnergyMeterComponent implements OnInit{
     addEnergyMeter: boolean ;
     energyMeterDisplayColumns = ['sno' , 'cmd' , 'feederId' , 'startKvah' , 'startKwh' , 'id' ] ;
     tssFeederMaterList: any;
+    pattern = "[0-9.]+$";
 
 
     constructor(
@@ -50,18 +51,18 @@ export class EnergyMeterComponent implements OnInit{
     	this.energyMeterFormGroup = this.formBuilder.group({
             id: 0,
             'meterNo' : [null],
-            'multiplicationFac' : [null],
-            'startKvah': [null],
-            'startKwh': [null],
-            'startRkvahLag': [null],
-            'startRkvahLead': [null],
+            'multiplicationFac' : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'startKvah': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'startKwh': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'startRkvahLag': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'startRkvahLead': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
             'endKvah' : [null],
             'endKwh' : [null],
             'endRkvahLag' : [null],
             'endRkvahLead' : [null],
             'meterMake' : [null],
             'meterModel' : [null],
-            'cmd':[null],
+            'cmd':[null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
             'remarks' : [null],
             'startDate': [null],
             'endDate': [null],

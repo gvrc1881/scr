@@ -4,10 +4,11 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorksModel } from 'src/app/models/works.model';
 import { CommonService } from 'src/app/common/common.service';
 import { WorksPayload } from 'src/app/payloads/works.payload';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
     selector: 'works',
@@ -30,13 +31,17 @@ export class WorksComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     workDisplayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'id' ];
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    pattern = "^[0-9.]+$";
+    integerPattern = "^[0-9]+$";
+    statusItems: any;
 
     constructor(
         private workService: WorksService,
         private commonService: CommonService,
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private reportService: ReportService
     ){
 
     }
@@ -52,25 +57,28 @@ export class WorksComponent implements OnInit {
              id: 0,
             "allocation" : [null],
   			"division" : [null],
-			"estdLatestAnticCost" : [null],
+			"estdLatestAnticCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
 			"executedBy" : [null],
 			"executingAgency" : [null],
-			"financialProgressPercentage" : [null],
-			"latestRevisedCost" : [null],
+			"financialProgressPercentage" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"latestRevisedCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
 			"pbLawLswp" : [null],
 			"pbLawLswpCode" : [null],
-			"physicalProgressPercentage" : [null],
+			"physicalProgressPercentage" : [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
 			"presentStatus" : [null],
 			"reWorks" : [null],
-			"rkm" : [null],
-			"sanctionCost" : [null],
+			"rkm" : [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"sanctionCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
 			"section" : [null],
 			"statusRemarks" : [null],
 			"targetDateOfCompletion" : [null],
-			"tkm" : [null],
+			"tkm" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
 			"workName" : [null],
-			"yearOfSanction" : [null],
+			"yearOfSanction" : [null,Validators.compose([Validators.required, Validators.pattern(this.integerPattern)])],
         });
+        this.reportService.statusItemDetails('WORK_PROGRESS_STATUS').subscribe((data) => {
+                 this.statusItems = data;
+      		});
     }
     
     addNewWork() {

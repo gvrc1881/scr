@@ -33,48 +33,59 @@
 	                                                    <div class="col-md-12">
 	                                                    	<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="allocation" [formControl]="workFormGroup.controls['allocation']" />
+	                                                                <input matInput placeholder="Allocation" [formControl]="workFormGroup.controls['allocation']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="division" [formControl]="workFormGroup.controls['division']" />
+	                                                                <input matInput placeholder="Division" [formControl]="workFormGroup.controls['division']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="estdLatestAnticCost" [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
+	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost" [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['estdLatestAnticCost'].hasError('pattern') && workFormGroup.controls['estdLatestAnticCost'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="executedBy" [formControl]="workFormGroup.controls['executedBy']" />
+	                                                                <input matInput placeholder="Executed By" [formControl]="workFormGroup.controls['executedBy']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="executingAgency" [formControl]="workFormGroup.controls['executingAgency']" />
+	                                                                <input matInput placeholder="Executing Agency" [formControl]="workFormGroup.controls['executingAgency']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="financialProgressPercentage" [formControl]="workFormGroup.controls['financialProgressPercentage']" />
+	                                                                <input matInput placeholder="Financial Progress Percentage" [formControl]="workFormGroup.controls['financialProgressPercentage']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['financialProgressPercentage'].hasError('pattern') && workFormGroup.controls['financialProgressPercentage'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="section" [formControl]="workFormGroup.controls['section']" />
+	                                                                <input matInput placeholder="Section" [formControl]="workFormGroup.controls['section']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="rkm" [formControl]="workFormGroup.controls['rkm']" />
+	                                                                <input matInput placeholder="RKM" [formControl]="workFormGroup.controls['rkm']" />
+										                              <mat-error
+										                                *ngIf="workFormGroup.controls['rkm'].hasError('pattern') && workFormGroup.controls['rkm'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="Status Remarks" [formControl]="workFormGroup.controls['statusRemarks']" ></textarea>
-	                                                                <!-- <input matInput placeholder="statusRemarks" [formControl]="workFormGroup.controls['statusRemarks']" /> -->
+	                                                                <input matInput placeholder="TKM" [formControl]="workFormGroup.controls['tkm']" />
+										                              <mat-error
+										                                *ngIf="workFormGroup.controls['tkm'].hasError('pattern') && workFormGroup.controls['tkm'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -84,7 +95,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="workName" [formControl]="workFormGroup.controls['workName']" />
+	                                                                <input matInput placeholder="Work Name" [formControl]="workFormGroup.controls['workName']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -103,12 +114,51 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="physicalProgressPercentage" [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
+	                                                                <input matInput placeholder="Physical Progress Percentage" [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['physicalProgressPercentage'].hasError('pattern') && workFormGroup.controls['physicalProgressPercentage'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="latestRevisedCost" [formControl]="workFormGroup.controls['latestRevisedCost']" />
+	                                                                <input matInput placeholder="Latest Revised Cost" [formControl]="workFormGroup.controls['latestRevisedCost']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['latestRevisedCost'].hasError('pattern') && workFormGroup.controls['latestRevisedCost'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Sanction Cost" [formControl]="workFormGroup.controls['sanctionCost']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['sanctionCost'].hasError('pattern') && workFormGroup.controls['sanctionCost'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+			                                                        <mat-form-field fxFlex="30">
+			                                                            <mat-select placeholder="Select Status"
+			                                                                [formControl]="workFormGroup.controls['presentStatus']" >
+			                                                                <mat-option *ngFor="let statusItem of statusItems"
+			                                                                    [value]="statusItem.statusCode">
+			                                                                    {{ statusItem.statusCode}}
+			                                                                </mat-option>
+			                                                            </mat-select>
+			                                                        </mat-form-field>
+			                                                 </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Year Of Sanction" [formControl]="workFormGroup.controls['yearOfSanction']" />
+	                                                                <mat-error
+										                                *ngIf="workFormGroup.controls['yearOfSanction'].hasError('pattern') && workFormGroup.controls['yearOfSanction'].touched"
+										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                            	<textarea matInput placeholder="Status Remarks" [formControl]="workFormGroup.controls['statusRemarks']" required></textarea>
+	                                                                <!-- <input matInput placeholder="statusRemarks" [formControl]="workFormGroup.controls['statusRemarks']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3 mt-15">
@@ -147,7 +197,7 @@
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="division">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>division</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.division}}</mat-cell>
 	                                            </ng-container>
@@ -157,27 +207,27 @@
 	                                                      {{row.year}}</mat-cell>
 	                                            </ng-container> -->
 	                                            <ng-container matColumnDef="workName">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>workName</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Work Name</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.workName}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="section">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>section</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.section}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="executedBy">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>executedBy</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Executed By</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.executedBy}}</mat-cell>
 	                                            </ng-container>
 	                                           <ng-container matColumnDef="physicalProgressPercentage">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>physicalProgressPercentage</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Physical Progress Percentage</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.physicalProgressPercentage}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="latestRevisedCost">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>latestRevisedCost</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Latest Revised Cost</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.latestRevisedCost}}</mat-cell>
 	                                            </ng-container>
