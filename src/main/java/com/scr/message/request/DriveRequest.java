@@ -74,7 +74,7 @@ public class DriveRequest {
 	private String stipulationsId;
 
 	private String stipulation;
-	private String stipulationTo;
+	private String inspectionId;
 	private Timestamp dateOfStipulation;
 	private Timestamp dateComplied;
 	private String compliance;
@@ -106,6 +106,7 @@ public class DriveRequest {
 	//FAILURE ANALYSIS
 	private String failure_id;
 	private String reported;
+	private String reportDescription;
 	private String repurcussion;
 	private Timestamp date;
 	private BigInteger div;
@@ -446,15 +447,17 @@ public class DriveRequest {
 		this.stipulation = stipulation;
 	}
 
-	public String getStipulationTo() {
-		return stipulationTo;
-	}
-
-	public void setStipulationTo(String stipulationTo) {
-		this.stipulationTo = stipulationTo;
-	}
+	
 
 	
+
+	public String getInspectionId() {
+		return inspectionId;
+	}
+
+	public void setInspectionId(String inspectionId) {
+		this.inspectionId = inspectionId;
+	}
 
 	public String getCompliance() {
 		return compliance;
@@ -846,38 +849,15 @@ public class DriveRequest {
 		this.driveCategoryId = driveCategoryId;
 	}
 
-	@Override
-	public String toString() {
-		return "DriveRequest [id=" + id + ", name=" + name + ", description=" + description + ", fromDate=" + fromDate
-				+ ", toDate=" + toDate + ", assetType=" + assetType + ", assetDescription=" + assetDescription
-				+ ", criteria=" + criteria + ", target_qty=" + target_qty + ", functionalUnit=" + functionalUnit
-				+ ", isIdRequired=" + isIdRequired + ", checklist=" + checklist + ", active=" + active + ", createdBy="
-				+ createdBy + ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn
-				+ ", depotType=" + depotType + ", section=" + section + ", guage=" + guage + ", targetDate="
-				+ targetDate + ", status=" + status + ", division=" + division + ", executionAgency=" + executionAgency
-				+ ", TKM=" + TKM + ", RKM=" + RKM + ", crsInspection=" + crsInspection + ", crsAuthorisation="
-				+ crsAuthorisation + ", targetSetBy=" + targetSetBy + ", doublingTrippling=" + doublingTrippling
-				+ ", state=" + state + ", phase=" + phase + ", proposalScheme=" + proposalScheme + ", sanctionByBoard="
-				+ sanctionByBoard + ", yearOfSanction=" + yearOfSanction + ", dateOfCompletion=" + dateOfCompletion
-				+ ", inspectionType=" + inspectionType + ", sectionStartLocation=" + sectionStartLocation
-				+ ", sectionEndLocation=" + sectionEndLocation + ", dateOfInspection=" + dateOfInspection + ", remarks="
-				+ remarks + ", authorisationDate=" + authorisationDate + ", chargingDate=" + chargingDate
-				+ ", attachment=" + attachment + ", station=" + station + ", stipulationsId=" + stipulationsId
-				+ ", stipulation=" + stipulation + ", stipulationTo=" + stipulationTo + ", dateOfStipulation="
-				+ dateOfStipulation + ", dateComplied=" + dateComplied + ", compliance=" + compliance + ", compliedBy="
-				+ compliedBy + ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder
-				+ ", lowerLimit=" + lowerLimit + ", upperLimit=" + upperLimit + ", reportColumnHeader="
-				+ reportColumnHeader + ", activityId=" + activityId + ", driveId=" + driveId + ", unitType=" + unitType
-				+ ", unitName=" + unitName + ", target=" + target + ", poulation=" + poulation + ", performedDate="
-				+ performedDate + ", depot=" + depot + ", performedCount=" + performedCount + ", supervisor="
-				+ supervisor + ", failure_id=" + failure_id + ", reported=" + reported + ", repurcussion="
-				+ repurcussion + ", date=" + date + ", div=" + div + ", failureSection=" + failureSection + ", assetId="
-				+ assetId + ", subAssetType=" + subAssetType + ", subAssetId=" + subAssetId + ", make=" + make
-				+ ", model=" + model + ", rootCause=" + rootCause + ", actionPlan=" + actionPlan + ", actionStatus="
-				+ actionStatus + ", approvedBy=" + approvedBy + ", actionTargetDate=" + actionTargetDate
-				+ ", actionCompletedDate=" + actionCompletedDate + ", actionDescription=" + actionDescription
-				+ ", authority=" + authority + ", driveCategoryId=" + driveCategoryId + "]";
+	public String getReportDescription() {
+		return reportDescription;
 	}
+
+	public void setReportDescription(String reportDescription) {
+		this.reportDescription = reportDescription;
+	}
+
+	
 
 	
 }

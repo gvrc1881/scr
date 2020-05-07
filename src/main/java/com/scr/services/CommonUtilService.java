@@ -13,7 +13,7 @@ public class CommonUtilService {
 
 	@Autowired
 	private StatusItemRepository statusItemRepository;
-	public List<StatusItem> findYesNoStatus(String statusTypeId) {
+	public List<StatusItem> findStatusItem(String statusTypeId) {
 		return statusItemRepository.findByStatusTypeId(statusTypeId);
 	}
 	

@@ -126,6 +126,7 @@ public class DrivesController {
 			return new ResponseEntity<Drives>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 	@RequestMapping(value = "/existsDriveName/{driveName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDriveName(@PathVariable("driveName") String driveName){		
 		try {
@@ -220,6 +221,7 @@ public class DrivesController {
 			return new ResponseEntity<DriveCategory>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 	@RequestMapping(value = "/existsDriveCategoryName/{driveCategoryName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDriveCategoryName(@PathVariable("driveCategoryName") String driveCategoryName){		
 		try {
@@ -317,8 +319,7 @@ public class DrivesController {
 		}
 		
 		// DRIVE CATEGORY ASS
-		
-	
+			
 	@RequestMapping(value = "/checklist", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveCheckList>> findAllChecklist() throws JSONException {
 		List<DriveCheckList> checkList = null;
@@ -759,7 +760,7 @@ public class DrivesController {
 			logger.info("dateComplied= "+dateComplied);
 			DriveRequest stipulationsRequest = new DriveRequest();
 			stipulationsRequest.setStipulation(stipulation);
-			stipulationsRequest.setStipulationTo(stipulationTo);
+			stipulationsRequest.setInspectionId(stipulationTo);
 			stipulationsRequest.setDateOfStipulation(Helper.convertStringToTimestamp(dateOfStipulation));
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
@@ -777,20 +778,6 @@ public class DrivesController {
 			return Helper.findResponseStatus("Stipulations Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
-	/*
-	 * @RequestMapping(value = "/saveInspections", method = RequestMethod.POST,
-	 * headers = "Accept=application/json") public ResponseStatus
-	 * saveInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
-	 * throws JSONException { try { service.saveInspectionsData(inspectionsRequest);
-	 * return Helper.findResponseStatus("Inspections Data Added Successfully",
-	 * Constants.SUCCESS_CODE); }catch (Exception e) {
-	 * logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
-	 * return
-	 * Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage
-	 * (), Constants.FAILURE_CODE); } }
-	 */
-	
 	
 	@PostMapping("/updateStipulations")
 	@ResponseBody
@@ -813,7 +800,7 @@ public class DrivesController {
 			DriveRequest stipulationsRequest = new DriveRequest();
 			stipulationsRequest.setId(Long.parseLong(id));
 			stipulationsRequest.setStipulation(stipulation);
-			stipulationsRequest.setStipulationTo(stipulationTo);
+			stipulationsRequest.setInspectionId(stipulationTo);
 			stipulationsRequest.setDateOfStipulation( Helper.convertStringToTimestamp(dateOfStipulation));
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
@@ -835,32 +822,7 @@ public class DrivesController {
 		}
 	}
 	
-	/*
-	 * @RequestMapping(value = "/saveStipulations", method = RequestMethod.POST,
-	 * headers = "Accept=application/json") public ResponseStatus
-	 * saveStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest)
-	 * throws JSONException { try {
-	 * service.saveStipulationsData(stipulationsRequest); return
-	 * Helper.findResponseStatus("Stipulations Data Added Successfully",
-	 * Constants.SUCCESS_CODE); }catch (Exception e) {
-	 * logger.error("ERROR >> While adding Stipulations data. "+e.getMessage());
-	 * return Helper.findResponseStatus("Stipulations Addition is Failed with "+e.
-	 * getMessage(), Constants.FAILURE_CODE); } }
-	 */
-	/*
-	 * @RequestMapping(value = "/updateStipulations", method = RequestMethod.PUT,
-	 * headers = "Accept=application/json") public ResponseStatus
-	 * updateStipulationsData(@Valid @RequestBody DriveRequest stipulationsRequest)
-	 * throws JSONException { try { String status =
-	 * service.updateStipulationsData(stipulationsRequest);
-	 * if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE)) return
-	 * Helper.findResponseStatus("Stipulations Data Updated Successfully",
-	 * Constants.SUCCESS_CODE); else return Helper.findResponseStatus(status,
-	 * Constants.FAILURE_CODE); }catch (Exception e) {
-	 * logger.error("ERROR >> While updating Stipulations data. "+e.getMessage());
-	 * return Helper.findResponseStatus("Stipulations Updation is Failed with "+e.
-	 * getMessage(), Constants.FAILURE_CODE); } }
-	 */
+	
 	@RequestMapping(value = "/deleteStipulations/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteStipulations(@PathVariable("id") Long id) throws JSONException {
 		try {
@@ -968,21 +930,7 @@ public class DrivesController {
 			return Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
-	/*
-	 * @RequestMapping(value = "/saveInspections", method = RequestMethod.POST,
-	 * headers = "Accept=application/json") public ResponseStatus
-	 * saveInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
-	 * throws JSONException { try { service.saveInspectionsData(inspectionsRequest);
-	 * return Helper.findResponseStatus("Inspections Data Added Successfully",
-	 * Constants.SUCCESS_CODE); }catch (Exception e) {
-	 * logger.error("ERROR >> While adding Inspections data. "+e.getMessage());
-	 * return
-	 * Helper.findResponseStatus("Inspections Addition is Failed with "+e.getMessage
-	 * (), Constants.FAILURE_CODE); } }
-	 */
-	
-	
+		
 	@PostMapping("/updateInspections")
 	@ResponseBody
 	public ResponseStatus updateInspectionsData(
@@ -1035,23 +983,7 @@ public class DrivesController {
 			return Helper.findResponseStatus("Inspections Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
-	/*
-	 * @RequestMapping(value = "/updateInspections", method = RequestMethod.PUT,
-	 * headers = "Accept=application/json") public ResponseStatus
-	 * updateInspectionsData(@Valid @RequestBody DriveRequest inspectionsRequest)
-	 * throws JSONException { try { String status =
-	 * service.updateInspectionsData(inspectionsRequest);
-	 * if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE)) return
-	 * Helper.findResponseStatus("Inspections Data Updated Successfully",
-	 * Constants.SUCCESS_CODE); else return Helper.findResponseStatus(status,
-	 * Constants.FAILURE_CODE); }catch (Exception e) {
-	 * logger.error("ERROR >> While updating Inspections data. "+e.getMessage());
-	 * return
-	 * Helper.findResponseStatus("Inspections Updation is Failed with "+e.getMessage
-	 * (), Constants.FAILURE_CODE); } }
-	 */
-	
+		
 	@RequestMapping(value = "/deleteInspections/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteInspections(@PathVariable("id") Long id) throws JSONException {
 		try {
@@ -1100,9 +1032,7 @@ public class DrivesController {
 			return new ResponseEntity<CrsEigInspections>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
-	
+		
 	@RequestMapping(value = "/deleteFile", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus deleteFile(@Valid @RequestBody DriveFileDeleteRequest request) throws JSONException {
 		ResponseStatus response = new ResponseStatus();

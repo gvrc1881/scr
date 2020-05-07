@@ -424,6 +424,7 @@ public class DriveMapper {
 			
 			//failureAnalysis.setFailure_id(request.getFailure_id());
 			failureAnalysis.setReported(request.getReported());
+			
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
 			failureAnalysis.setDiv(request.getDiv());
@@ -559,7 +560,7 @@ public class DriveMapper {
 			stipulations = new Stipulations();
 			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
-			stipulations.setStipulationTo(request.getStipulationTo());
+			stipulations.setInspectionId(request.getInspectionId());
 		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
@@ -587,7 +588,7 @@ public class DriveMapper {
 		if(request != null) {
 			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
-			stipulations.setStipulationTo(request.getStipulationTo());
+			stipulations.setInspectionId(request.getInspectionId());
 		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
@@ -670,7 +671,7 @@ public class DriveMapper {
 					String fileName = mf.getOriginalFilename().split(Constants.SPLIT_DOT)[0] + Constants.UNDER_SCORE
 							+ Helper.currentTimeStampWithString().split(" ")[0] + Constants.UNDER_SCORE
 							+ Helper.currentTimeStampWithString().split(" ")[1].replace(":", "-") + Constants.DOT
-							+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1];
+							+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1]+",";
 					logger.info("changed filename = " + fileName);
 					try {
 						Path rootLocation = Paths.get(saveFiles.getAbsolutePath());

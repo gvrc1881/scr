@@ -22,6 +22,8 @@ public class FailureAnalysis implements Serializable {
 	private String failure_id;
 	@Column(name = "reported")
 	private String reported;
+	@Column(name="reportDescription")
+	private String reportDescription;
 	@Column(name = "repurcussion")
 	private String repurcussion;
 	@Column(name = "date")
@@ -272,6 +274,14 @@ public class FailureAnalysis implements Serializable {
 
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getReportDescription() {
+		return reportDescription;
+	}
+
+	public void setReportDescription(String reportDescription) {
+		this.reportDescription = reportDescription;
 	}
 
 	

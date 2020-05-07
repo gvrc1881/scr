@@ -18,8 +18,8 @@ public class Stipulations implements Serializable {
 	@Column(name = "stipulation", columnDefinition = "TEXT")
 	private String stipulation;
 
-	@Column(name = "stipulation_to")
-	private String stipulationTo;
+	@Column(name = "inspection_id")
+	private String inspectionId;
 
 	@Column(name = "date_of_stipulation")
 	private Timestamp dateOfStipulation;
@@ -71,12 +71,14 @@ public class Stipulations implements Serializable {
 		this.stipulation = stipulation;
 	}
 
-	public String getStipulationTo() {
-		return stipulationTo;
+	
+
+	public String getInspectionId() {
+		return inspectionId;
 	}
 
-	public void setStipulationTo(String stipulationTo) {
-		this.stipulationTo = stipulationTo;
+	public void setInspectionId(String inspectionId) {
+		this.inspectionId = inspectionId;
 	}
 
 	public Timestamp getDateOfStipulation() {

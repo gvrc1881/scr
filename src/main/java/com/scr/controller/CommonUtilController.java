@@ -25,11 +25,11 @@ static Logger logger = LogManager.getLogger(CommonUtilController.class);
 	@Autowired
 	private CommonUtilService service;
 	
-	@RequestMapping(value = "/yesNoStatus/{statusTypeId}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<StatusItem>> findAllDrives(@PathVariable("statusTypeId") String statusTypeId) throws JSONException {
+	@RequestMapping(value = "/statusItem/{statusTypeId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<StatusItem>> findStatusItem(@PathVariable("statusTypeId") String statusTypeId) throws JSONException {
 		List<StatusItem> usersList = null;
 		try {			
-			usersList = service.findYesNoStatus(statusTypeId);			
+			usersList = service.findStatusItem(statusTypeId);			
 		} catch (NullPointerException e) {			
 			logger.error(e);
 		} catch (Exception e) {			
