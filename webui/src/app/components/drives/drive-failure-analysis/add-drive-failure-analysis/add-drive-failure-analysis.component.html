@@ -31,23 +31,6 @@
 
                                                 <div class="col-md-12">
 
-                                                    <!-- failure_id -->
-                                                    <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Failure Id"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['failure_id']"
-                                                                disabled>                                                            
-                                                        </mat-form-field>
-                                                    </div> -->
-
-                                                    <!-- reported -->
-                                                    <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Reported"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['reported']"
-                                                                disabled>
-                                                        </mat-form-field>
-                                                    </div> -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Reported"
@@ -60,6 +43,15 @@
                                                         </mat-form-field>
                                                     </div>
 
+                                                    <!-- description -->
+                                                    <div class="col-md-3" *ngIf="reportDescriptionFlag">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Description"
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['reportDescription']"
+                                                                ></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+
                                                     <!-- repurcussion -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -69,27 +61,17 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                     <!-- date -->
-                                                    <!--  <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Date"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['date']"
-                                                                >                                                           
-                                                        </mat-form-field>
-                                                    </div> -->
 
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker3"
-                                                                placeholder="Choose Date"
+                                                                placeholder="Choose Date" (dateInput)="addEvent('input', $event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['date']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker3">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker3></mat-datepicker>
                                                         </mat-form-field>
-                                                    </div>
-
-                                                    
+                                                    </div>                                                    
 
                                                      <!-- div -->
                                                      <div class="col-md-3">
@@ -198,20 +180,12 @@
                                                                 >                                                           
                                                         </mat-form-field>
                                                     </div>
-                                                    
 
-                                                     <!-- actionTargetDate -->
-                                         <!--             <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Action Target Date"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']"
-                                                                >                                                           
-                                                        </mat-form-field>
-                                                    </div> -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose Action Target Date"
+                                                                placeholder="Choose Action Target Date" [min]="toMinDate"
+                                                                (dateInput)="addEventTargetDate('input', $event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
@@ -219,18 +193,11 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="clearfix"></div>
-                                                     <!-- actionCompletedDate -->
-                                                     <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Action Completed Date"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']"
-                                                                >                                                           
-                                                        </mat-form-field>
-                                                    </div> -->
+                                                    
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Action Completed  Date"
+                                                            <input matInput [matDatepicker]="picker2" [min]="completeMinDate"
+                                                                placeholder="Choose Action Completed  Date" 
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
@@ -247,20 +214,6 @@
                                                         </mat-form-field>
                                                     </div>
 
-
-                                                    <!-- DRIVE -->
-                                                    <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Drive"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['drive']">
-                                                                <mat-option *ngFor="let drive of driveList"
-                                                                    [value]="drive.id">
-                                                                    {{ drive.name }}
-                                                                </mat-option>
-                                                            </mat-select>                                                            
-                                                        </mat-form-field>
-                                                    </div>
-                                                     -->
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
                                                     <div class="float-right" style="float: right;">

@@ -99,7 +99,8 @@ export interface DriveDailyProgressModel{
 
 export interface FailureAnalysisModel{
     failure_id: string;
-	reported: string;
+    reported: string;
+    reportDescription:string;
 	repurcussion: string;
 	date:Date;
 	div:number;
@@ -127,7 +128,7 @@ export interface FailureAnalysisModel{
 export interface StipulationstModel {
     id: number;
     stipulation: String;
-    stipulationTo: String;
+    inspectionId: String;
     dateOfStipulation: Date;
     dateComplied: Date;
     compliance: String;

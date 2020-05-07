@@ -18,7 +18,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
 
-  displayedColumns = ['sno', 'reported', 'repurcussion', 'date', 'div',
+  displayedColumns = ['sno', 'reported','reportDescription', 'repurcussion', 'date', 'div',
   'failureSection','assetType','assetId','subAssetType','subAssetId','make','model',
   'rootCause','actionPlan','actionStatus','approvedBy','actionTargetDate','actionCompletedDate',
   'actionDescription','actions'];

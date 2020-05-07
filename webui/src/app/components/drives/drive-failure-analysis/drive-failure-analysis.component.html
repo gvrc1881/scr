@@ -46,14 +46,14 @@
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
-                                       <!--  <ng-container matColumnDef="failure_id">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Failure Id</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.failure_id}}</mat-cell>
-                                        </ng-container> -->
-
                                         <ng-container matColumnDef="reported">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Reported</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.reported}}</mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="reportDescription">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.reportDescription}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="repurcussion">

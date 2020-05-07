@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-electrification-targets',
@@ -23,7 +24,10 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
 
   electrificationTargetsFormErrors: any;
   resp: any;
-
+  guageList:any;
+  executionAgencyLis:any;
+  doublingTripplingList:any;
+  divisionList:any;
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -59,6 +63,10 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.createForm();
+    this.findGuage();
+    this.findExecutionAgency();
+    this.findDoublingTrippling();
+    this.findDivisions();
     if (!isNaN(this.id)) {
       this.addDriveElectrificationTargetsFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -117,7 +125,6 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   getElectrificationTargetsDataById(id) {
     this.drivesService.findElectrificationTargetsDataById(id)
       .subscribe((resp) => {
-        console.log('depoTypes = ' + JSON.stringify(resp));
         this.resp = resp;
         this.addDriveElectrificationTargetsFormGroup.patchValue({
           id: this.resp.id,
@@ -142,6 +149,34 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         });
         this.spinnerService.hide();
       })
+  }
+
+  findGuage(){
+    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.GAUGE_TYPE)
+    .subscribe((resp) => {
+      this.guageList = resp;
+    });
+  }
+
+  findExecutionAgency(){
+    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.ELECTRIFICATION_EXEC_AGENCY_TYPE)
+    .subscribe((resp) => {
+      this.executionAgencyLis = resp;
+    });
+  }
+
+  findDoublingTrippling(){
+    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.DOUBLE_TRIPLE_TYPE)
+    .subscribe((resp) => {
+      this.doublingTripplingList = resp;
+    });
+  }
+
+  findDivisions(){
+    this.drivesService.findDivisions()
+    .subscribe((resp) => {
+      this.divisionList = resp;
+    });
   }
 
   onAddElectrificationTargetsFormSubmit() {

@@ -19,7 +19,7 @@ export class DriveStipulationComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
-  displayedColumns = ['sno', 'stipulation', 'stipulationTo', 'dateOfStipulation', 'dateComplied',
+  displayedColumns = ['sno', 'stipulation', 'inspectionId', 'dateOfStipulation', 'dateComplied',
     'compliance', 'attachment', 'compliedBy',  'actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
 
@@ -50,7 +50,7 @@ export class DriveStipulationComponent implements OnInit {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
         { "Key": 'stipulation', "Value": " " },
-        { "Key": 'stipulationTo', "Value": " " },
+        { "Key": 'inspectionId', "Value": " " },
         { "Key": 'dateOfStipulation', "Value": " " },
         { "Key": 'dateComplied', "Value": " " },
         { "Key": 'compliance', "Value": "" },

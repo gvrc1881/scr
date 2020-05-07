@@ -55,9 +55,16 @@
                                                     <!-- guage -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Guage"
+                                                          <!--   <input matInput placeholder="Guage"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']"
-                                                                required>
+                                                                required> -->
+                                                                <mat-select placeholder="Guage"
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']" required>
+                                                                <mat-option *ngFor="let guage of guageList"
+                                                                    [value]="guage.statusCode">
+                                                                    {{ guage.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>  
                                                             <mat-error
                                                                 *ngIf="addDriveElectrificationTargetsFormGroup.controls['guage'].hasError('required') && addDriveElectrificationTargetsFormGroup.controls['guage'].touched"
                                                                 class="alert alert-danger">Enter guage</mat-error>
@@ -92,19 +99,34 @@
                                                      <!-- division -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Division"
+                                                           <!--  <input matInput placeholder="Division"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']"
-                                                                >
+                                                                > -->
+                                                                <mat-select placeholder="Division"
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']" required>
+                                                                <mat-option *ngFor="let division of divisionList"
+                                                                    [value]="division.description">
+                                                                    {{ division.description }}
+                                                                </mat-option>
+                                                            </mat-select>
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- executionAgency -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Execution Agency" 
+                                                           <!--  <input matInput placeholder="Execution Agency" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']"
-                                                                >
+                                                                > -->
+                                                                <mat-select placeholder="Execution Agency"
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']">
+                                                                <mat-option *ngFor="let executionAgency of executionAgencyList"
+                                                                    [value]="executionAgency.statusCode">
+                                                                    {{ executionAgency.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select> 
                                                         </mat-form-field>
+                                                        
                                                     </div>
 
                                                     <!-- TKM -->
@@ -124,7 +146,7 @@
                                                                 >                                                          
                                                         </mat-form-field>
                                                     </div>
-
+                                                    <div class="clearfix"></div>
                                                     <!-- crsInspection -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -155,9 +177,16 @@
                                                     <!-- doublingTrippling -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Doubling Trippling"
+                                                            <!-- <input matInput placeholder="Doubling Trippling"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']"
-                                                                >                                                            
+                                                                >   -->                                       
+                                                                <mat-select placeholder="Doubling Trippling"
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']">
+                                                                <mat-option *ngFor="let doublingTrippling of doublingTripplingList"
+                                                                    [value]="doublingTrippling.statusCode">
+                                                                    {{ doublingTrippling.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>                    
                                                         </mat-form-field>
                                                     </div>
 

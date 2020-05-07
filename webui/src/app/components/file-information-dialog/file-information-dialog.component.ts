@@ -1,10 +1,8 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { DivisionHistoryModel } from 'src/app/models/division-history.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'file-information-dialog',
@@ -37,16 +35,15 @@ export class FilesInformationDialogComponent implements OnInit {
     }
     prepareTable() {
         const divisionHistoryData = [];
-        console.log(this.response)
-        var data
+        console.log(window.location.pathname)
         for (let i = 0; i < this.response.length; i++) {
-            /*  this.response[i].sno = i + 1;
-             this.response[i].fileName = this.response[i]; */
-            // divisionHistoryData.push(this.response[i]);                
+            if(!!this.response[i]){    
             divisionHistoryData.push({
                 "sno": i + 1,
-                "fileName": this.response[i]
+                "fileName": this.response[i],
+                "path":'.'+window.location.pathname+window.location.pathname+'/'+this.response[i]
             });
+        }
         }
         this.schedulerDataSource = new MatTableDataSource(divisionHistoryData);
         this.schedulerDataSource.paginator = this.schedulerPaginator;

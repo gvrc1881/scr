@@ -4,6 +4,8 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-add-drive-failure-analysis',
@@ -23,8 +25,9 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   reportedList=[];
   failureAnalysisFormErrors: any;
   resp: any;
-
-  //stateList: any;
+  reportDescriptionFlag=false;
+  toMinDate=new Date();
+  completeMinDate=new Date();
   constructor(
     private formBuilder: FormBuilder,    
     private drivesService: DrivesService,
@@ -37,6 +40,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     this.failureAnalysisFormErrors = {
       //failure_id: {},
       reported: {},
+      reportDescription:{},
       repurcussion: {},
       date: {},
       div: {},
@@ -84,6 +88,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         id: 0,
        // 'failure_id': [null],
         'reported': [null],
+        "reportDescription":[null],
         'repurcussion': [null],
         'date': [null],
         'div': [null],
@@ -127,9 +132,8 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     });
   }
   findYesNoStatus() {
-    this.drivesService.findYesNoStatus().subscribe((data) => {
+    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.YES_NO_TYPE).subscribe((data) => {
       this.reportedList = data;
-      console.log(data)
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -143,6 +147,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
           id: this.resp.id,
          // failure_id: this.resp.failure_id,
           reported: this.resp.reported,
+          reportDescription:this.resp.reportDescription,
           repurcussion: this.resp.repurcussion,
           date: !!this.resp.poulation ? new Date(this.resp.poulation) : '',
           failureSection: this.resp.section,
@@ -163,7 +168,12 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         this.spinnerService.hide();
       })
   }
-
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.toMinDate = event.value;
+  }
+  addEventTargetDate(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.completeMinDate = event.value;
+  }
   onAddFailureAnalysisFormSubmit() {
     if (this.addFailureAnalysisFormGroup.invalid) {
       this.isSubmit = false;
@@ -177,6 +187,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
       data = {
        // "failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
+        "reportDescription":this.addFailureAnalysisFormGroup.value.reportDescription,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
         "date": this.addFailureAnalysisFormGroup.value.date,
         "failureSection": this.addFailureAnalysisFormGroup.value.failureSection,
@@ -215,6 +226,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         "id":this.id,
         //"failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
+        "reportDescription":this.addFailureAnalysisFormGroup.value.reportDescription,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
         "date": this.addFailureAnalysisFormGroup.value.date,
         "failureSection": this.addFailureAnalysisFormGroup.value.failureSection,

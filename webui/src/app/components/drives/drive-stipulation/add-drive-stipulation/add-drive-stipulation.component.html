@@ -48,18 +48,18 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                    <!-- stipulationTo -->
+                                                    <!-- inspectionId -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Stipulation To" size="12"
                                                                 maxlength="12"
-                                                                [formControl]="addDriveStipulationFormGroup.controls['stipulationTo']"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['inspectionId']"
                                                                 required>
                                                             <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulationTo'].hasError('required') && addDriveStipulationFormGroup.controls['stipulationTo'].touched"
+                                                                *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('required') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
                                                                 class="alert alert-danger">Enter Stipulation To</mat-error>
                                                             <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulationTo'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulationTo'].touched"
+                                                                *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('pattern') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
                                                             </mat-error>
                                                         </mat-form-field>

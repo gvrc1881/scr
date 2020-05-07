@@ -34,14 +34,8 @@
                                     <ng-container matColumnDef="fileName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>File Name
                                         </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.fileName}}</mat-cell>
+                                        <mat-cell *matCellDef="let row"> <a target="_blank" href="{{row.path}}">  {{row.fileName}}</a></mat-cell>
                                     </ng-container>
-
-                                    <!-- <ng-container matColumnDef="size">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Size
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.size}}</mat-cell>
-                                    </ng-container> -->
 
                                     <ng-container matColumnDef="actions">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>

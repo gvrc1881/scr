@@ -37,7 +37,7 @@ export class AddDriveStipulationComponent implements OnInit {
     // Reactive form errors
     this.stipulationFormErrors = {
       stipulation: {},
-      stipulationTo: {},
+      inspectionId: {},
       dateOfStipulation: {},
       dateComplied: {},
       compliance: {},
@@ -90,7 +90,7 @@ export class AddDriveStipulationComponent implements OnInit {
         this.addDriveStipulationFormGroup.patchValue({
           id: this.resp.id,
           stipulation: this.resp.stipulation,
-          stipulationTo: this.resp.stipulationTo,
+          inspectionId: this.resp.inspectionId,
           dateOfStipulation: new Date(this.resp.dateOfStipulation),
           dateComplied: new Date(this.resp.dateComplied),
           compliance: this.resp.compliance,
@@ -122,7 +122,7 @@ export class AddDriveStipulationComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'stipulation': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'stipulationTo': [null, Validators.compose([Validators.required])],
+        'inspectionId': [null, Validators.compose([Validators.required])],
         'dateOfStipulation': [null],
         'dateComplied': [null],
         'compliance': [null],
@@ -146,7 +146,7 @@ export class AddDriveStipulationComponent implements OnInit {
     if (this.save) {
       let save = {
         stipulation: this.addDriveStipulationFormGroup.value.stipulation,
-        stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
+        inspectionId: this.addDriveStipulationFormGroup.value.inspectionId,
         dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
         dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
         compliance: this.addDriveStipulationFormGroup.value.compliance,
@@ -173,7 +173,7 @@ export class AddDriveStipulationComponent implements OnInit {
       let update = {
         id: this.id,
         stipulation: this.addDriveStipulationFormGroup.value.stipulation,
-        stipulationTo: this.addDriveStipulationFormGroup.value.stipulationTo,
+        inspectionId: this.addDriveStipulationFormGroup.value.inspectionId,
         dateOfStipulation: this.addDriveStipulationFormGroup.value.dateOfStipulation,
         dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
         compliance: this.addDriveStipulationFormGroup.value.compliance,

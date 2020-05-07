@@ -58,6 +58,11 @@ export const Constants = {
     REGULAR_EXPRESSIONS:{
         'ALPHA_NUMARIC':'[a-zA-Z0-9\s]+',
         'ONLY_ALPHA_WITH_SPACE':'^[a-zA-Z]+(\s[a-zA-Z]+)?$'
+    },
+    STATUS_ITEMS:{
+        "GAUGE_TYPE":"GAUGE_TYPE LIST",
+        "ELECTRIFICATION_EXEC_AGENCY_TYPE":"ELECTRIFICATION_EXEC_AGENCY",
+        "DOUBLE_TRIPLE_TYPE":"DOUBLE_TRIPLE_ETC_ELEC",
+        "YES_NO_TYPE":"YESNO_STATUS"
     }
-
 };

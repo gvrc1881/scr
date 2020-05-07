@@ -245,7 +245,7 @@ export class DrivesService {
     getStipulationData(){
         return this.http.get<StipulationstModel[]>(environment.apiUrl + '/stipulations', { headers: this.header });
     }
-    getStipulationType(){
+    getInspectionsType(){
         return this.http.get<any[]>(environment.apiUrl + '/inspectionType', { headers: this.header });
     }
     findAssertTypeListFromProduct() {
@@ -257,7 +257,7 @@ export class DrivesService {
             formdata.append('file', file[i]);
         }
         formdata.append('stipulation', saveDetails.stipulation);
-        formdata.append('stipulationTo', saveDetails.stipulationTo);
+        formdata.append('inspectionId', saveDetails.inspectionId);
         formdata.append('dateOfStipulation', saveDetails.dateOfStipulation);
         formdata.append('dateComplied', saveDetails.dateComplied);
         formdata.append('compliance', saveDetails.compliance);
@@ -280,7 +280,7 @@ export class DrivesService {
        }
        formdata.append('id', update.id);
        formdata.append('stipulation', update.stipulation);
-       formdata.append('stipulationTo', update.stipulationTo);
+       formdata.append('inspectionId', update.inspectionId);
        formdata.append('dateOfStipulation', update.dateOfStipulation);
        formdata.append('dateComplied', update.dateComplied);
        formdata.append('compliance', update.compliance);
@@ -314,7 +314,13 @@ export class DrivesService {
         return this.http.post<any[]>(environment.apiUrl + '/deleteFile', data, { headers: this.header });
     }
 
-    findYesNoStatus(){
-        return this.http.get<any[]>(environment.apiUrl + '/yesNoStatus/YESNO_STATUS', { headers: this.header });
+    findStatusItem(statusType){
+        return this.http.get<any[]>(environment.apiUrl + '/statusItem/'+statusType, { headers: this.header });
     }
+
+    findDivisions(){
+        return this.http.get<any[]>(environment.apiUrl + '/divisions', { headers: this.header });
+    }
+
+
 }

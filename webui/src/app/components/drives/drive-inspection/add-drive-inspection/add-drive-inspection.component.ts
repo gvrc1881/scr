@@ -6,7 +6,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StipulationstModel } from 'src/app/models/drive.model';
 import { Constants } from 'src/app/common/constants';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
@@ -35,7 +35,6 @@ export class AddDriveInspectionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ) { 
-     // Reactive form errors
      this.inspectionFormErrors = {
       inspectionType:{},
       section: {},
@@ -56,7 +55,7 @@ export class AddDriveInspectionComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-    this.getStipulationData();
+    this.getInspectionData();
     this.createInspectionForm();
     this.findInspectionType();
     if (!isNaN(this.id)) {
@@ -74,8 +73,8 @@ export class AddDriveInspectionComponent implements OnInit {
       this.title = 'Save'
     }    
   }
-  getStipulationData() {    
-    this.drivesService.getStipulationData().subscribe((data) => {
+  getInspectionData() {    
+    this.drivesService.getInspectionData().subscribe((data) => {
       this.stipulationsList = data;
       this.spinnerService.hide();
     }, error => {
@@ -83,7 +82,7 @@ export class AddDriveInspectionComponent implements OnInit {
     });
   }
   findInspectionType(){
-    this.drivesService.getStipulationType().subscribe((data) => {
+    this.drivesService.getInspectionsType().subscribe((data) => {
       this.inspectionTypeList = data;
       console.log(JSON.stringify(data))
       this.spinnerService.hide();
@@ -101,12 +100,12 @@ export class AddDriveInspectionComponent implements OnInit {
         section: this.resp.section,
         sectionStartLocation: this.resp.sectionStartLocation,
         sectionEndLocation: this.resp.sectionEndLocation,
-        dateOfInspection: new Date(this.resp.dateOfInspection),        
+        dateOfInspection: !!this.resp.dateOfInspection ? new Date(this.resp.dateOfInspection) : '',        
         TKM: this.resp.tkm,
         RKM: this.resp.rkm,
         remarks: this.resp.remarks,
-        authorisationDate: new Date(this.resp.authorisationDate),
-        chargingDate: new Date(this.resp.chargingDate),
+        authorisationDate: !!this.resp.authorisationDate ? new Date(this.resp.authorisationDate) : '',
+        chargingDate: !!this.resp.chargingDate ? new Date(this.resp.chargingDate) : '',
        // attachment: this.resp.attachment,
         station: this.resp.station,
       });
@@ -241,4 +240,6 @@ export class AddDriveInspectionComponent implements OnInit {
   removeFile(id) {
     this.selectedFiles.splice(id, 1);
   }
+  
 }
+

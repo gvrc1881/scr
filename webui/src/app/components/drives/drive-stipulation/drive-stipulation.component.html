@@ -57,12 +57,12 @@
                                             <mat-cell *matCellDef="let row"> {{row.stipulation}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="stipulationTo">
+                                        <ng-container matColumnDef="inspectionId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Stipulation To </span>
+                                                <span>Inspection Id </span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.stipulationTo}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.inspectionId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="dateOfStipulation">
