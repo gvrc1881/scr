@@ -25,7 +25,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   electrificationTargetsFormErrors: any;
   resp: any;
   guageList:any;
-  executionAgencyLis:any;
+  executionAgencyList:any;
   doublingTripplingList:any;
   divisionList:any;
   //stateList: any;
@@ -161,7 +161,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   findExecutionAgency(){
     this.drivesService.findStatusItem(Constants.STATUS_ITEMS.ELECTRIFICATION_EXEC_AGENCY_TYPE)
     .subscribe((resp) => {
-      this.executionAgencyLis = resp;
+      this.executionAgencyList = resp;
     });
   }
 
