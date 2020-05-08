@@ -90,6 +90,11 @@ public class Facility implements Serializable {
 
 	@Column(name="sub_division")
 	private String subDivision;
+	
+	@Column(name="zone")
+	private String zone;
+	
+	
 
 	public Facility() {
 	}
@@ -292,6 +297,14 @@ public class Facility implements Serializable {
 
 	public void setSubDivision(String subDivision) {
 		this.subDivision = subDivision;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
 	}
 
 }

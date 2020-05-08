@@ -36,6 +36,7 @@ import com.scr.message.request.LoginForm;
 import com.scr.message.response.JwtResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ConfirmationToken;
+import com.scr.model.Facility;
 import com.scr.model.RolePermissions;
 import com.scr.model.RoleType;
 import com.scr.model.SchedulerOperationTypesTracking;
@@ -309,8 +310,11 @@ public class AuthController {
 	}
 	
 	@RequestMapping(value = "/userHierarchy/{user}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public String findUserHierarchy(@PathVariable("user") String user) {
-		return JSONObject.quote(CommonUtility.findUserHierarchy(user));
+	public List<Facility> findUserHierarchy(@PathVariable("user") String user) {
+		logger.info("**** user name****"+user);
+		List<Facility> facilityList = CommonUtility.findUserHierarchy(user);
+		//return JSONObject.quote(CommonUtility.findUserHierarchy(user));
+		return facilityList;
 	}
 	
 }

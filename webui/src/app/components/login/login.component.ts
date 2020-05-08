@@ -103,7 +103,8 @@ export class LoginComponent implements OnInit {
                   if(this.user){
                     this.authenticationService.userHierarchy(this.user.userName)
                       .subscribe(response => {
-                        localStorage.setItem("userHierarchy",response);
+                     // console.log("**user hierarchy***"+JSON.stringify(response));
+                        localStorage.setItem("userHierarchy",JSON.stringify(response));
                       },error => {
                         console.log("Trigger Function Not Available >>> "+error);
                       }

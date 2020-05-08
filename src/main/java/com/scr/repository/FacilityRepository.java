@@ -18,6 +18,14 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByDepotType(String depotType);
 
 	Optional<Facility> findByFacilityName(String facilityName);
+
+	Optional<Facility> findByFacilityId(String facilityId);
+
+	List<Facility> findByParentDepot(String facilityName);
+
+	List<Facility> findByDivision(String facilityName);
+
+	List<Facility> findByZone(String facilityName);
 	
 
 }

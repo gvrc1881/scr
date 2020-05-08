@@ -3,8 +3,6 @@
  */
 package com.scr.jobs;
 
-import java.sql.CallableStatement;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -13,9 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,8 +27,12 @@ import org.springframework.stereotype.Component;
 import com.scr.jobs.response.ExecuteInsertReaponse;
 import com.scr.jobs.response.InsertQueriesResponse;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Facility;
 import com.scr.model.SchedulerJob;
 import com.scr.model.User;
+import com.scr.model.UserDefualtFacConsIndEtc;
+import com.scr.services.FacilityService;
+import com.scr.services.UserDefualtFacConsIndEtcService;
 import com.scr.services.UserServices;
 import com.scr.util.CloseJDBCObjects;
 import com.scr.util.Constants;
@@ -49,6 +52,12 @@ public class CommonUtility {
 	
 	@Autowired
 	UserServices userServices;
+	
+	@Autowired
+	private UserDefualtFacConsIndEtcService  userDefualtFacConsIndEtcService;
+
+	@Autowired
+	private FacilityService facilityService;
 
 	private CloseJDBCObjects closeJDBCObjects = new CloseJDBCObjects();
 	
@@ -651,9 +660,44 @@ public class CommonUtility {
 
 
 
-	public String findUserHierarchy(String user) {
+	public List<Facility> findUserHierarchy(String user) {
 		// TODO Auto-generated method stub
-		Connection conn = null;
+		logger.info(" user name"+user);
+		List<Facility> facilityList = new ArrayList();
+		Optional<UserDefualtFacConsIndEtc> userDefaultFacility =  userDefualtFacConsIndEtcService.findByUserLoginId(user);
+		
+		if (userDefaultFacility.isPresent()) {
+			UserDefualtFacConsIndEtc userDefault = userDefaultFacility.get();
+			logger.info("facility Id:::"+userDefault.getFacilityId());
+			
+			Optional<Facility> facility = facilityService.findByFacilityId(userDefault.getFacilityId());
+			
+			if (facility.isPresent()) {
+				Facility currentFacility = facility.get();
+				if(currentFacility.getDepotType() != null ){
+					if("ZONE".equals(currentFacility.getDepotType())){
+						List<Facility> zoneFacilityList = facilityService.findByZone(currentFacility.getFacilityName());
+						facilityList.addAll(zoneFacilityList);
+					}else if("DIV".equals(currentFacility.getDepotType())) {
+						List<Facility> divFacilityList = facilityService.findByDivision(currentFacility.getFacilityName());
+							facilityList.addAll(divFacilityList);
+					}else if("SUB_DIV".equals(currentFacility.getDepotType()) ) {
+						List<Facility> subDivFacilityList = facilityService.findBySubDivision(currentFacility.getFacilityName());
+							facilityList.addAll(subDivFacilityList);
+					}else if("OHE".equals(currentFacility.getDepotType())) {
+						facilityList.add(currentFacility);
+					}else if("PSI".equals(currentFacility.getDepotType())) {
+						List<Facility> psiFacilityList = facilityService.findByParentDepot(currentFacility.getFacilityName());
+							facilityList.addAll(psiFacilityList);
+					}
+				}
+			}
+			
+		}else {
+			logger.info("*** default facility not assigned***");
+		}
+		return facilityList;
+		/*Connection conn = null;
 		CallableStatement cs = null;
 		String result = null;
 		try {
@@ -677,9 +721,8 @@ public class CommonUtility {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
-		return result;
 	}
 
 
