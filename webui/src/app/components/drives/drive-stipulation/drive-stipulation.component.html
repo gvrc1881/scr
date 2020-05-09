@@ -70,7 +70,7 @@
                                                 <span>Date Of Stipulation </span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateOfStipulation | date :  "yyyy-MM-dd" }}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfStipulation | date :  "yyyy-MM-dd hh:mm:ss" }}</mat-cell>
                                         </ng-container>
                                        
                                         <ng-container matColumnDef="dateComplied">
@@ -78,7 +78,7 @@
                                                 <span>Date Complied</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateComplied | date :  "yyyy-MM-dd" }}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateComplied | date :  "yyyy-MM-dd hh:mm:ss" }}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="compliance">

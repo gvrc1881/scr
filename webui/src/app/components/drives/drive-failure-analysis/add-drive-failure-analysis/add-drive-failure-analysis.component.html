@@ -64,12 +64,19 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker3"
+                                                           <!--  <input matInput [matDatepicker]="picker3"
                                                                 placeholder="Choose Date" (dateInput)="addEvent('input', $event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['date']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker3">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker3></mat-datepicker>
+                                                            <mat-datepicker #picker3></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt3" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Choose Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['date']" >                                                                
+                                                                <owl-date-time #dt3 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>                                                    
 
@@ -183,25 +190,39 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker1"
+                                                           <!--  <input matInput [matDatepicker]="picker1"
                                                                 placeholder="Choose Action Target Date" [min]="toMinDate"
                                                                 (dateInput)="addEventTargetDate('input', $event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                            <mat-datepicker #picker1></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose Action Target Date"
+                                                                (dateTimeChange)="addEventTargetDate($event)" [min]="toMinDate"
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']" >                                                                
+                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                     
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker2" [min]="completeMinDate"
+                                                            <!-- <input matInput [matDatepicker]="picker2" [min]="completeMinDate"
                                                                 placeholder="Choose Action Completed  Date" 
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                            <mat-datepicker #picker2></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose Action Completed  Date"
+                                                               [min]="completeMinDate"
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']" >                                                                
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
 

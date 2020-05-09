@@ -9,6 +9,7 @@ import { AddDriveInspectionComponent } from './add-drive-inspection/add-drive-in
 import { DrivesService } from 'src/app/services/drives.service';
 import { NumberDirective } from 'src/app/common/validations';
 import { ValidationsModule } from 'src/app/modules/validations.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -38,7 +39,9 @@ const routes: Routes = [
         ReactiveFormsModule,
         MaterialModule,  
         ValidationsModule,    
-        Ng4LoadingSpinnerModule.forRoot()
+        Ng4LoadingSpinnerModule.forRoot(),
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
     ],
     providers: [
         DrivesService

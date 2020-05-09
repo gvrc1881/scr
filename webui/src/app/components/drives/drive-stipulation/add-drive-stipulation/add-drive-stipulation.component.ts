@@ -131,8 +131,8 @@ export class AddDriveStipulationComponent implements OnInit {
         //'assetType': [null]
       });
   }
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.minDateComplied = event.value;
+  addEvent($event) {
+    this.minDateComplied = new Date($event.value);
   }
 
   onAddStipulationFormSubmit() {

@@ -168,11 +168,11 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         this.spinnerService.hide();
       })
   }
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.toMinDate = event.value;
+  addEvent($event) {
+    this.toMinDate = new Date($event.value);
   }
-  addEventTargetDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.completeMinDate = event.value;
+  addEventTargetDate($event) {
+    this.completeMinDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addFailureAnalysisFormGroup.invalid) {

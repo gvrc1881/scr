@@ -53,7 +53,7 @@
 
                                         <ng-container matColumnDef="performedDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Performed Date</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.performedDate | date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.performedDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="division">

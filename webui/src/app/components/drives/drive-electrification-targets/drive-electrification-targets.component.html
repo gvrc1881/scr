@@ -59,7 +59,7 @@
                                         <ng-container matColumnDef="targetDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Target Date
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.targetDate| date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.targetDate| date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
                                        
                                         <ng-container matColumnDef="status">
@@ -134,7 +134,7 @@
 
                                         <ng-container matColumnDef="dateOfCompletion">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Completion</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateOfCompletion | date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfCompletion | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="actions">

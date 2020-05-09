@@ -139,24 +139,36 @@
                                                     <!-- authorisationDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker2"
+                                                            <!-- <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose authorisation Date"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                            <mat-datepicker #picker2></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose Authorisation Date"
+                                                                [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']" >                                                                
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
 
                                                     <!-- chargingDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker3"
+                                                            <!-- <input matInput [matDatepicker]="picker3"
                                                                 placeholder="Choose charging Date"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['chargingDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker3">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker3></mat-datepicker>
+                                                            <mat-datepicker #picker3></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose Charging Date"
+                                                                [formControl]="addDriveInspectionFormGroup.controls['chargingDate']" >                                                                
+                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
 

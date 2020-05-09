@@ -83,8 +83,8 @@ export class AddDriveCategoryComponent implements OnInit {
       }
     }
   }
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.toMinDate = event.value;
+  addEvent($event) {
+    this.toMinDate = new Date($event.value);
   }
   createDriveForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({

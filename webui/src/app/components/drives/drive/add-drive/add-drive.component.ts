@@ -30,6 +30,8 @@ export class AddDriveComponent implements OnInit {
   driveFormErrors: any;
   resp: any;
   toMinDate=new Date();
+  currentDate = new Date();
+  dateFormat = 'MM-dd-yyyy hh:mm:ss';
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -146,8 +148,9 @@ export class AddDriveComponent implements OnInit {
         this.depoTypeList = depoTypes;
       })
   }
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.toMinDate = event.value;
+  addEvent($event) {
+    console.log($event.value)
+    this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];

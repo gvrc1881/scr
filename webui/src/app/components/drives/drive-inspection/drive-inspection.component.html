@@ -69,7 +69,7 @@
 
                                         <ng-container matColumnDef="dateOfInspection">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Inspection</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection | date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="RKM">
@@ -89,12 +89,12 @@
 
                                         <ng-container matColumnDef="authorisationDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Authorisation Date</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate | date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="chargingDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Charging Date</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.chargingDate | date :  "yyyy-MM-dd"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.chargingDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="attachment">

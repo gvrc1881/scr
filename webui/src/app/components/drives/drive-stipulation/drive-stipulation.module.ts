@@ -9,6 +9,7 @@ import { AddDriveStipulationComponent } from './add-drive-stipulation/add-drive-
 import { DrivesService } from 'src/app/services/drives.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { filterDirective } from 'src/app/common/filter.directive';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -37,7 +38,9 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,      
-        Ng4LoadingSpinnerModule.forRoot()
+        Ng4LoadingSpinnerModule.forRoot(),
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
     ],
     providers: [
         DrivesService

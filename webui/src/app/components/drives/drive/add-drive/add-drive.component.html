@@ -102,13 +102,20 @@
                                                     <!-- FROM DATE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker1"
+                                                            <!-- <input matInput [matDatepicker]="picker1"
                                                                 (dateInput)="addEvent('input', $event)"
                                                                 placeholder="Choose From Date"
                                                                 [formControl]="addDriveFormGroup.controls['fromDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                            <mat-datepicker #picker1></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addDriveFormGroup.controls['fromDate']" >                                                                
+                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
 
@@ -116,12 +123,19 @@
                                                     <!-- TO DATE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker"
+                                                           <!--  <input matInput [matDatepicker]="picker"
                                                                 placeholder="Choose To Date" [min]="toMinDate"
                                                                 [formControl]="addDriveFormGroup.controls['toDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker></mat-datepicker>
+                                                            <mat-datepicker #picker></mat-datepicker> -->
+                                                            <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose To Date"
+                                                               [min]="toMinDate"
+                                                                [formControl]="addDriveFormGroup.controls['toDate']" >                                                                
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
 

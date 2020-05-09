@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AuthenticationService } from './services/authentication.service';
 import { AlertService } from './services/alert.service';
 import { AuthGuard } from './core/guards';
@@ -39,11 +39,7 @@ import { DriveModule } from './components/drives/drive/drive.module';
 import { DriveElectrificationTargetsModule } from './components/drives/drive-electrification-targets/drive-electrification-targets.module';
 import { DriveStipulationModule } from './components/drives/drive-stipulation/drive-stipulation.module';
 import { ValidationsModule } from './modules/validations.module';
-
-
-
-
- 
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
@@ -86,7 +82,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DriveModule,
     DriveElectrificationTargetsModule,
     DriveStipulationModule,
-    ValidationsModule
+    ValidationsModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
     ],
   entryComponents: [
         FuseConfirmDialogComponent,
@@ -107,7 +105,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     ReactiveFormsModule,
     PreviousRouteService,
     ReportService,
-    
+    DatePipe
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
