@@ -9,9 +9,9 @@ import { AddDriveComponent } from './add-drive/add-drive.component';
 import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveCategoryComponent } from './add-drive-category/add-drive-category.component';
 import { AddDriveCategoryAssociationComponent } from './add-drive-category-association/add-drive-category-association.component';
-import { NumberDirective } from 'src/app/common/validations';
-import { ValidationsModule } from 'src/app/modules/validations.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
+import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+
 const routes: Routes = [
     {
         path: '',
@@ -57,7 +57,7 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        ValidationsModule,
+        NumberValidationsModule,
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,

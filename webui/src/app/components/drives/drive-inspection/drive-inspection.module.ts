@@ -7,9 +7,9 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveInspectionComponent } from './add-drive-inspection/add-drive-inspection.component';
 import { DrivesService } from 'src/app/services/drives.service';
-import { NumberDirective } from 'src/app/common/validations';
-import { ValidationsModule } from 'src/app/modules/validations.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 
 const routes: Routes = [
     {
@@ -38,7 +38,8 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,  
-        ValidationsModule,    
+        NumberValidationsModule,   
+        DecimalValidationsModule, 
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,

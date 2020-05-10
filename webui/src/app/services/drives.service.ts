@@ -322,5 +322,8 @@ export class DrivesService {
         return this.http.get<any[]>(environment.apiUrl + '/divisions', { headers: this.header });
     }
 
+    downloadDriveFile(type, fileName){
+        return this.http.get<any[]>(environment.apiUrl + '/driveFiles/'+type+'/'+fileName, { headers: this.header });
+    }
 
 }

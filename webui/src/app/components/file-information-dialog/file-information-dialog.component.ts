@@ -33,6 +33,19 @@ export class FilesInformationDialogComponent implements OnInit {
         this.type = localStorage.getItem("driveFileType");
         this.prepareTable();
     }
+    downloadFile(path, fileName){
+        console.log(path + " = "+fileName)
+       /*  const link = document.createElement('a');
+        link.setAttribute('target', '_blank');
+        link.setAttribute('href', path);
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click(); */
+        //link.remove();
+        this.drivesService.downloadDriveFile(this.type, fileName).subscribe((response) => {
+               console.log(JSON.stringify(response));                
+            }, error => this.commonService.showAlertMessage(error));
+      }
     prepareTable() {
         const divisionHistoryData = [];
         console.log(window.location.pathname)
@@ -41,6 +54,7 @@ export class FilesInformationDialogComponent implements OnInit {
             divisionHistoryData.push({
                 "sno": i + 1,
                 "fileName": this.response[i],
+                "type":this.type,
                 "path":'.'+window.location.pathname+window.location.pathname+'/'+this.response[i]
             });
         }
@@ -59,11 +73,9 @@ export class FilesInformationDialogComponent implements OnInit {
         this.spinnerService.show();
         var id = localStorage.getItem('driveFileTypeId');
         this.drivesService.deleteFile(id, fileName, this.type).subscribe(data => {
-            console.log(JSON.stringify(data));
             this.spinnerService.hide();
             this.commonService.showAlertMessage("Deleted File Successfully");
             this.updateData(id);
-            // this.getStipulationData();
         }, error => {
             console.log('ERROR >>>');
             this.spinnerService.hide();

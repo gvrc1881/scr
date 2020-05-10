@@ -7,8 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveChecklistComponent } from './add-drive-checklist/add-drive-checklist.component';
-import { NumberDirective } from 'src/app/common/validations';
-import { ValidationsModule } from 'src/app/modules/validations.module';
+import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 
 const routes: Routes = [
     {
@@ -37,7 +36,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         MaterialModule,      
         Ng4LoadingSpinnerModule.forRoot(),
-        ValidationsModule,
+        NumberValidationsModule,
     ],
     providers: [
         DrivesService
