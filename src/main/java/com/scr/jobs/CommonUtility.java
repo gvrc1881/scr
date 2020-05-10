@@ -663,7 +663,7 @@ public class CommonUtility {
 	public List<Facility> findUserHierarchy(String user) {
 		// TODO Auto-generated method stub
 		logger.info(" user name"+user);
-		List<Facility> facilityList = new ArrayList();
+		List<Facility> facilityList = new ArrayList<Facility>();
 		Optional<UserDefualtFacConsIndEtc> userDefaultFacility =  userDefualtFacConsIndEtcService.findByUserLoginId(user);
 		
 		if (userDefaultFacility.isPresent()) {

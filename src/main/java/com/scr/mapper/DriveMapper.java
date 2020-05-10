@@ -45,7 +45,7 @@ import com.scr.util.Helper;
 
 @Component
 public class DriveMapper {
-	static Logger logger = LogManager.getLogger(DrivesController.class);
+	static Logger logger = LogManager.getLogger(DriveMapper.class);
 	
 	@Value("${stipulation.path}")
 	private String stipulationPath;
@@ -671,7 +671,7 @@ public class DriveMapper {
 					String fileName = mf.getOriginalFilename().split(Constants.SPLIT_DOT)[0] + Constants.UNDER_SCORE
 							+ Helper.currentTimeStampWithString().split(" ")[0] + Constants.UNDER_SCORE
 							+ Helper.currentTimeStampWithString().split(" ")[1].replace(":", "-") + Constants.DOT
-							+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1]+",";
+							+ mf.getOriginalFilename().split(Constants.SPLIT_DOT)[1];
 					logger.info("changed filename = " + fileName);
 					try {
 						Path rootLocation = Paths.get(saveFiles.getAbsolutePath());
@@ -680,7 +680,7 @@ public class DriveMapper {
 						logger.error("ERROR >>> while storing " + folder + " file > " + fileName + " in "
 								+ saveFiles.getAbsolutePath());
 					}
-					sb.append(fileName);
+					sb.append(fileName + ",");
 				}
 			}
 		}
