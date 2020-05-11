@@ -744,7 +744,7 @@ public class DrivesController {
 	public ResponseStatus saveStipulationsData(
 			@RequestParam("file") List<MultipartFile> file, 
 			@RequestParam("stipulation") String stipulation,
-			@RequestParam("stipulationTo") String stipulationTo,
+			@RequestParam("inspectionId") String inspectionId,
 			@RequestParam("dateOfStipulation") String dateOfStipulation,
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
@@ -760,7 +760,7 @@ public class DrivesController {
 			logger.info("dateComplied= "+dateComplied);
 			DriveRequest stipulationsRequest = new DriveRequest();
 			stipulationsRequest.setStipulation(stipulation);
-			stipulationsRequest.setInspectionId(stipulationTo);
+			stipulationsRequest.setInspectionId(inspectionId);
 			stipulationsRequest.setDateOfStipulation(Helper.convertStringToTimestamp(dateOfStipulation));
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
@@ -785,7 +785,7 @@ public class DrivesController {
 			@RequestParam("file") List<MultipartFile> file, 
 			@RequestParam("id") String id,
 			@RequestParam("stipulation") String stipulation,
-			@RequestParam("stipulationTo") String stipulationTo,
+			@RequestParam("inspectionId") String inspectionId,
 			@RequestParam("dateOfStipulation") String dateOfStipulation,
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
@@ -800,7 +800,7 @@ public class DrivesController {
 			DriveRequest stipulationsRequest = new DriveRequest();
 			stipulationsRequest.setId(Long.parseLong(id));
 			stipulationsRequest.setStipulation(stipulation);
-			stipulationsRequest.setInspectionId(stipulationTo);
+			stipulationsRequest.setInspectionId(inspectionId);
 			stipulationsRequest.setDateOfStipulation( Helper.convertStringToTimestamp(dateOfStipulation));
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
