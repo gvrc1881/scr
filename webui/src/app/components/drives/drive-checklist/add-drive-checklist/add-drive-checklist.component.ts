@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-checklist',
@@ -21,7 +22,7 @@ export class AddDriveChecklistComponent implements OnInit {
   pattern = "[a-zA-Z][a-zA-Z ]*";
   measureActivityList = [];
   driveList = [];
-  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  statusList = [];
 
   checkListFormErrors: any;
   constructor(
@@ -48,6 +49,7 @@ export class AddDriveChecklistComponent implements OnInit {
     this.getDrivesData();
     this.findMeasureActivityList();
     this.createCheckListForm();
+    this.findYesNoStatus();
     if (!isNaN(this.id)) {
       this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -64,13 +66,16 @@ export class AddDriveChecklistComponent implements OnInit {
     }
     
   }
-
+  findYesNoStatus(){
+    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.YES_NO_TYPE)
+    .subscribe((resp) => {
+      this.statusList = resp;
+    });
+  }
   getCheckListData(id) {
     this.drivesService.findCheckListDataById(id)
       .subscribe((resp) => {
-        console.log('depoTypes = ' + JSON.stringify(resp));
         this.resp = resp;
-        console.log('date : ' + this.resp.dateOfStipulation)
         this.addDriveChecklistFormGroup.patchValue({
           id: this.resp.id,
           drive: this.resp.driveId['id'],
@@ -135,7 +140,6 @@ export class AddDriveChecklistComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveChecklistFormGroup.value);
     if (this.save) {
       let save = {
         driveId: this.addDriveChecklistFormGroup.value.drive,
@@ -150,7 +154,6 @@ export class AddDriveChecklistComponent implements OnInit {
         "updatedOn": "2020-04-01"
       }
       this.drivesService.saveCheckListData(save).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("CheckList Data saved Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -174,7 +177,6 @@ export class AddDriveChecklistComponent implements OnInit {
         "updatedOn": "2020-04-01"
       }
       this.drivesService.updateCheckListData(update).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("CheckList Data Updated Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });

@@ -131,11 +131,19 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Remarks"
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['remarks']"
                                                                 ></textarea>
+                                                                <mat-error
+                                                                *ngIf="addDriveInspectionFormGroup.controls['remarks'].hasError('pattern') && addDriveInspectionFormGroup.controls['remarks'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveInspectionFormGroup.controls['remarks'].hasError('maxlength') && addDriveInspectionFormGroup.controls['remarks'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
                                                         </mat-form-field>
                                                     </div>
-
                                                     <!-- authorisationDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
@@ -207,7 +215,7 @@
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Stipulations Id" 
                                                                 [formControl]="addDriveInspectionFormGroup.controls['stipulationsId']">
-                                                                <mat-option *ngFor="let stipulations of stipulationsList"
+                                                                <mat-option *ngFor="let stipulations of inspectionsList"
                                                                     [value]="stipulations.id">
                                                                     {{ stipulations.stipulation }}
                                                                 </mat-option>

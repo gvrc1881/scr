@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveChecklistComponent } from './add-drive-checklist/add-drive-checklist.component';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 
 const routes: Routes = [
     {
@@ -37,6 +38,7 @@ const routes: Routes = [
         MaterialModule,      
         Ng4LoadingSpinnerModule.forRoot(),
         NumberValidationsModule,
+        DecimalValidationsModule
     ],
     providers: [
         DrivesService

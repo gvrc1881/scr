@@ -82,7 +82,7 @@
                                                     <!-- UPPER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Upper Limit" numbersOnly
+                                                            <input matInput placeholder="Upper Limit" decimalNumber
                                                                 [formControl]="addDriveChecklistFormGroup.controls['upperLimit']"
                                                                 >                                                            
                                                         </mat-form-field>
@@ -91,7 +91,7 @@
                                                     <!-- LOWER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Lower Limit" numbersOnly
+                                                            <input matInput placeholder="Lower Limit" decimalNumber
                                                                 [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -103,8 +103,8 @@
                                                             <mat-select placeholder="Status"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['status']">
                                                                 <mat-option *ngFor="let status of statusList"
-                                                                    [value]="status.value">
-                                                                    {{ status.value}}
+                                                                    [value]="status.statusCode">
+                                                                    {{ status.statusCode}}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

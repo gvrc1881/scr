@@ -22,7 +22,7 @@ export class AddDriveInspectionComponent implements OnInit {
   selectedFiles: File[] = [];
   filesExists: boolean = false;
   addDriveInspectionFormGroup: FormGroup;
-  stipulationsList:any;
+  inspectionsList:any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   inspectionFormErrors:any;
   stateList: any;
@@ -75,7 +75,7 @@ export class AddDriveInspectionComponent implements OnInit {
   }
   getInspectionData() {    
     this.drivesService.getInspectionData().subscribe((data) => {
-      this.stipulationsList = data;
+      this.inspectionsList = data;     
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -84,7 +84,6 @@ export class AddDriveInspectionComponent implements OnInit {
   findInspectionType(){
     this.drivesService.getInspectionsType().subscribe((data) => {
       this.inspectionTypeList = data;
-      console.log(JSON.stringify(data))
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -109,6 +108,9 @@ export class AddDriveInspectionComponent implements OnInit {
        // attachment: this.resp.attachment,
         station: this.resp.station,
       });
+      console.log(this.resp.attachment);
+      var images = !!this.resp.attachment && this.resp.attachment.split(',');
+      console.log(images)
       this.spinnerService.hide();
     })
   }
@@ -138,7 +140,7 @@ export class AddDriveInspectionComponent implements OnInit {
         'dateOfInspection': [null],
         'TKM': [null],
         'RKM': [null],
-        'remarks': [null],
+        'remarks': [null, Validators.maxLength(250)],
         'authorisationDate': [null],
         'chargingDate': [null],
         'attachment': [null],
@@ -153,7 +155,6 @@ export class AddDriveInspectionComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveInspectionFormGroup.value);
     if(this.save){
       let save = {
         inspectionType: this.addDriveInspectionFormGroup.value.inspectionType,

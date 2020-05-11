@@ -28,6 +28,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   reportDescriptionFlag=false;
   toMinDate=new Date();
   completeMinDate=new Date();
+  divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private drivesService: DrivesService,
@@ -65,6 +66,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
     this.findYesNoStatus();
+    this.findDivisions();
     this.createForm();
     if (!isNaN(this.id)) {
       this.addFailureAnalysisFormGroup.valueChanges.subscribe(() => {
@@ -82,14 +84,21 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     }
   }
 
+  findDivisions(){
+    this.drivesService.findDivisions()
+    .subscribe((resp) => {
+      this.divisionList = resp;
+    });
+  }
+
   createForm() {
     this.addFailureAnalysisFormGroup
       = this.formBuilder.group({
         id: 0,
        // 'failure_id': [null],
         'reported': [null],
-        "reportDescription":[null],
-        'repurcussion': [null],
+        "reportDescription":[null, Validators.maxLength(250)],
+        'repurcussion': [null, Validators.maxLength(250)],
         'date': [null],
         'div': [null],
         'failureSection': [null],
@@ -99,13 +108,13 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         'subAssetId': [null],
         'make': [null],
         'model': [null],
-        'rootCause': [null],
-        'actionPlan': [null],
+        'rootCause': [null, Validators.maxLength(250)],
+        'actionPlan': [null, Validators.maxLength(250)],
         'actionStatus': [null],
         'approvedBy': [null],
         'actionTargetDate': [null],
         'actionCompletedDate': [null],
-        'actionDescription': [null]
+        'actionDescription': [null, Validators.maxLength(250)]
       });
   }
 
@@ -138,6 +147,12 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     }, error => {
       this.spinnerService.hide();
     });
+  }
+  
+  updateDescription($event){
+    if ($event.value) {
+      this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
+    }
   }
   getFailureAnalysisDataById(id) {
     this.drivesService.findFailureAnalysisDataById(id)

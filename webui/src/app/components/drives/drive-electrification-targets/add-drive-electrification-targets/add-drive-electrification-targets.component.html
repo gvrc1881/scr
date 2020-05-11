@@ -111,8 +111,8 @@
                                                                 <mat-select placeholder="Division"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']" required>
                                                                 <mat-option *ngFor="let division of divisionList"
-                                                                    [value]="division.description">
-                                                                    {{ division.description }}
+                                                                    [value]="division.code">
+                                                                    {{ division.code }}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>

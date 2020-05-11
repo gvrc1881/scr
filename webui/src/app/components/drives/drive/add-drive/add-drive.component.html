@@ -50,7 +50,6 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
-
                                                     <!-- DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -64,6 +63,10 @@
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveFormGroup.controls['description'].hasError('maxlength') && addDriveFormGroup.controls['description'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('duplicateDescription')"
@@ -83,6 +86,10 @@
                                                                 *ngIf="addDriveFormGroup.controls['assetDescription'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addDriveFormGroup.controls['assetDescription'].hasError('maxlength') && addDriveFormGroup.controls['assetDescription'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -93,9 +100,13 @@
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveFormGroup.controls['criteria']"> </textarea>
                                                             <mat-error
-                                                                *ngIf="addDriveFormGroup.controls['criteria'].hasError('pattern') && addDriveFormGroup.controls['description'].touched"
+                                                                *ngIf="addDriveFormGroup.controls['criteria'].hasError('pattern') && addDriveFormGroup.controls['criteria'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addDriveFormGroup.controls['criteria'].hasError('maxlength') && addDriveFormGroup.controls['criteria'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
                                                         </mat-form-field>
                                                     </div>
 

@@ -1,4 +1,6 @@
 export const Constants = {
+    YES:"YES",
+    NO:'NO',
     CODES:{
         'SUCCESS':200
     },

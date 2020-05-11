@@ -66,6 +66,10 @@
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                             <mat-error
+                                                                *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('maxlength') && addDriveCategoryFormGroup.controls['description'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                            <mat-error
                                                             *ngIf="addDriveCategoryFormGroup.controls['description'].hasError('duplicateDescription')"
                                                             class="alert alert-danger">
                                                             Description Already Exists

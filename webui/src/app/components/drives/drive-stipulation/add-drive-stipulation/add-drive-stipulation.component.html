@@ -51,13 +51,12 @@
                                                     <!-- inspectionId -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Stipulation To" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Inspection Id"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['inspectionId']"
                                                                 required>
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('required') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
-                                                                class="alert alert-danger">Enter Stipulation To</mat-error>
+                                                                class="alert alert-danger">Enter Inspection Id</mat-error>
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('pattern') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed

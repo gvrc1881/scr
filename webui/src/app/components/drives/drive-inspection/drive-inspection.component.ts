@@ -96,13 +96,11 @@ export class DriveInspectionComponent implements OnInit {
     this.spinnerService.show();
     this.drivesService.findInspectionsDataById(id).subscribe((response) => {
       this.filesInfor = response;
-      localStorage.setItem('driveFileType', 'Inspection');
+      localStorage.setItem('driveFileType', 'inspection');
       localStorage.setItem('driveFileTypeId', id);
       var data = [];
       if (this.filesInfor.attachment != '') {
-        console.log(JSON.stringify(response));
         data = this.filesInfor.attachment.split(',');
-        console.log('data= ' + JSON.stringify(data))
       }
       this.spinnerService.hide();
       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {

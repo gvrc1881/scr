@@ -114,7 +114,7 @@ export class DriveStipulationComponent implements OnInit {
   filesInfor: any;
   viewFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('driveFileType', 'Stipulation');
+    localStorage.setItem('driveFileType', 'stipulation');
     localStorage.setItem('driveFileTypeId', id);
     this.drivesService.findStipulationDataById(id).subscribe((response) => {
       this.filesInfor = response;

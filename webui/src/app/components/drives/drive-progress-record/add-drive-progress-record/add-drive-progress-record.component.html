@@ -65,12 +65,19 @@
                                                     <!-- division -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Division"
+                                                            <mat-select placeholder="Division" required
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['division']" >
+                                                                <mat-option *ngFor="let division of divisionList"
+                                                                    [value]="division.code">
+                                                                    {{ division.code }}
+                                                                </mat-option>
+                                                            </mat-select>   
+                                                           <!--  <input matInput placeholder="Division"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['division']"
-                                                                required>
+                                                                required> -->
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['division'].hasError('required') && addDriveDailyProgressFormGroup.controls['division'].touched"
-                                                                class="alert alert-danger">Enter Division</mat-error>
+                                                                class="alert alert-danger">Please select Division</mat-error>
                                                             
                                                         </mat-form-field>
                                                     </div>

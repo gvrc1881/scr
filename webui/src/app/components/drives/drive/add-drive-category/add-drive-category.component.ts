@@ -89,8 +89,8 @@ export class AddDriveCategoryComponent implements OnInit {
   createDriveForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateName.bind(this)],
-      'description': [null, Validators.compose([Validators.required, Validators.pattern(Constants.REGULAR_EXPRESSIONS.ALPHA_NUMARIC)]), this.duplicateDescription.bind(this)],
+      'name': [null, Validators.compose([Validators.required]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'authority': [null]

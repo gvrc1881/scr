@@ -23,7 +23,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
   driveList = [];
   driveDailyProgressFormErrors: any;
   resp: any;
-
+  divisionList:any;
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -49,6 +49,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
+    this.findDivisions();
     this.createForm();
     if (!isNaN(this.id)) {
       this.addDriveDailyProgressFormGroup.valueChanges.subscribe(() => {
@@ -65,7 +66,12 @@ export class AddDriveProgressRecordComponent implements OnInit {
       this.title = 'Save';
     }
   }
-
+  findDivisions(){
+    this.drivesService.findDivisions()
+    .subscribe((resp) => {
+      this.divisionList = resp;
+    });
+  }
   createForm() {
     this.addDriveDailyProgressFormGroup
       = this.formBuilder.group({

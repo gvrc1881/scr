@@ -150,7 +150,6 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         this.spinnerService.hide();
       })
   }
-
   findGuage(){
     this.drivesService.findStatusItem(Constants.STATUS_ITEMS.GAUGE_TYPE)
     .subscribe((resp) => {
@@ -186,7 +185,6 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveElectrificationTargetsFormGroup.value);
     var data = {};
     var message = '';
     var failedMessage = '';
@@ -218,7 +216,6 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveElectrificationTargetsData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Electrification Targets Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -256,7 +253,6 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateElectrificationTargetsData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Electrification Targets Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });

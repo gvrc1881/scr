@@ -33,7 +33,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Reported"
+                                                            <mat-select placeholder="Reported" (selectionChange)="updateDescription($event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['reported']">
                                                                 <mat-option *ngFor="let report of reportedList"
                                                                     [value]="report.statusCode">
@@ -46,18 +46,34 @@
                                                     <!-- description -->
                                                     <div class="col-md-3" *ngIf="reportDescriptionFlag">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Description"
+                                                            <textarea matInput placeholder="Description" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['reportDescription']"
                                                                 ></textarea>
-                                                        </mat-form-field>
+                                                               <!--  <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['reportDescription'].hasError('pattern') && addFailureAnalysisFormGroup.controls['reportDescription'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>            
+                                                            <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['reportDescription].hasError('maxlength') && addFailureAnalysisFormGroup.controls['reportDescription'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                          -->                               </mat-form-field>
                                                     </div>
 
                                                     <!-- repurcussion -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Repurcussion"
+                                                            <textarea matInput placeholder="Repurcussion" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['repurcussion']"
                                                                 ></textarea>
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['repurcussion'].hasError('pattern') && addFailureAnalysisFormGroup.controls['repurcussion'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['repurcussion'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['repurcussion'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -83,9 +99,16 @@
                                                      <!-- div -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Division"
+                                                            <!-- <input matInput placeholder="Division"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['div']"
-                                                                >                                                           
+                                                                >  -->   
+                                                                <mat-select placeholder="Division"
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['div']" >
+                                                                <mat-option *ngFor="let division of divisionList"
+                                                                    [value]="division.code">
+                                                                    {{ division.code }}
+                                                                </mat-option>
+                                                            </mat-select>                                                       
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -155,18 +178,34 @@
                                                      <!-- rootCause -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Root Cause"
+                                                            <textarea matInput placeholder="Root Cause"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['rootCause']"
-                                                                >                                                           
+                                                                > </textarea>
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['rootCause'].hasError('pattern') && addFailureAnalysisFormGroup.controls['rootCause'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>            
+                                                            <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['rootCause'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['rootCause'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- actionPlan -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Action Plan"
+                                                            <textarea matInput placeholder="Action Plan" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionPlan']"
-                                                                > </textarea>                                                          
+                                                                > </textarea>                       
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['actionPlan'].hasError('pattern') && addFailureAnalysisFormGroup.controls['actionPlan'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>                                   
+                                                            <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['actionPlan'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['actionPlan'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -229,9 +268,17 @@
                                                      <!-- actionDescription -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Action Description"
+                                                            <textarea matInput placeholder="Action Description" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionDescription']"
-                                                                > </textarea>                                                          
+                                                                > </textarea>                                              
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['actionDescription'].hasError('pattern') && addFailureAnalysisFormGroup.controls['actionDescription'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>            
+                                                            <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['actionDescription'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['actionDescription'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
