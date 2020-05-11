@@ -55,7 +55,7 @@ public class Works implements Serializable {
 	@Column(name = "re_works")
 	private String reWorks;
 
-	private BigDecimal rkm;
+	private Double rkm;
 
 	@Column(name = "sanction_cost")
 	private BigDecimal sanctionCost;
@@ -69,7 +69,7 @@ public class Works implements Serializable {
 	@Column(name = "target_date_of_completion")
 	private Date targetDateOfCompletion;
 
-	private BigDecimal tkm;
+	private Double tkm;
 
 	@Column(name = "work_name")
 	private String workName;
@@ -196,14 +196,6 @@ public class Works implements Serializable {
 		this.reWorks = reWorks;
 	}
 
-	public BigDecimal getRkm() {
-		return this.rkm;
-	}
-
-	public void setRkm(BigDecimal rkm) {
-		this.rkm = rkm;
-	}
-
 	public BigDecimal getSanctionCost() {
 		return this.sanctionCost;
 	}
@@ -234,14 +226,6 @@ public class Works implements Serializable {
 
 	public void setTargetDateOfCompletion(Date targetDateOfCompletion) {
 		this.targetDateOfCompletion = targetDateOfCompletion;
-	}
-
-	public BigDecimal getTkm() {
-		return this.tkm;
-	}
-
-	public void setTkm(BigDecimal tkm) {
-		this.tkm = tkm;
 	}
 
 	public String getWorkName() {
@@ -290,6 +274,22 @@ public class Works implements Serializable {
 
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public Double getRkm() {
+		return rkm;
+	}
+
+	public void setRkm(Double rkm) {
+		this.rkm = rkm;
+	}
+
+	public Double getTkm() {
+		return tkm;
+	}
+
+	public void setTkm(Double tkm) {
+		this.tkm = tkm;
 	}
 
 }

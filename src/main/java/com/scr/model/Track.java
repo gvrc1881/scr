@@ -27,8 +27,8 @@ public class Track implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "facility_id")
 	private Facility facilityId;
-	private Integer tkm;
-	private Integer rkm;
+	private Double tkm;
+	private Double rkm;
 	private String remark;
 
 	public Integer getId() {
@@ -79,28 +79,28 @@ public class Track implements Serializable {
 		this.facilityId = facilityId;
 	}
 
-	public Integer getTkm() {
-		return tkm;
-	}
-
-	public void setTkm(Integer tkm) {
-		this.tkm = tkm;
-	}
-
-	public Integer getRkm() {
-		return rkm;
-	}
-
-	public void setRkm(Integer rkm) {
-		this.rkm = rkm;
-	}
-
 	public String getRemark() {
 		return remark;
 	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Double getTkm() {
+		return tkm;
+	}
+
+	public void setTkm(Double tkm) {
+		this.tkm = tkm;
+	}
+
+	public Double getRkm() {
+		return rkm;
+	}
+
+	public void setRkm(Double rkm) {
+		this.rkm = rkm;
 	}
 
 	@Override
