@@ -10,46 +10,45 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="failure_analysis")
-public class FailureAnalysis implements Serializable {	
+@Table(name = "failure_analysis")
+public class FailureAnalysis implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
 
-	@Id 
+	@Id
 	private long id;
 
 	@Column(name = "failure_id")
 	private String failure_id;
 	@Column(name = "reported")
 	private String reported;
-	@Column(name="reportDescription")
+	@Column(name = "reportDescription")
 	private String reportDescription;
 	@Column(name = "repurcussion")
 	private String repurcussion;
 	@Column(name = "date")
 	private Timestamp date;
 	@Column(name = "div")
-	private BigInteger div;
+	private String div;
 	@Column(name = "section")
-	private BigInteger section;
+	private String section;
 	@Column(name = "asset_type")
-	private BigInteger assetType;
+	private String assetType;
 	@Column(name = "asset_id")
-	private BigInteger assetId;
+	private String assetId;
 	@Column(name = "sub_asset_type")
 	private String subAssetType;
 	@Column(name = "sub_asset_id")
 	private String subAssetId;
 	@Column(name = "make")
-	private BigInteger make;
+	private String make;
 	@Column(name = "model")
-	private BigInteger model;
+	private String model;
 	@Column(name = "root_cause")
 	private String rootCause;
 	@Column(name = "action_plan")
 	private String actionPlan;
 	@Column(name = "action_status")
-	private BigInteger actionStatus;
+	private String actionStatus;
 	@Column(name = "approved_by")
 	private String approvedBy;
 	@Column(name = "action_target_date")
@@ -70,10 +69,12 @@ public class FailureAnalysis implements Serializable {
 
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
-	
+
 	@Column(name = "status_id")
 	private Integer statusId;
-	
+
+	@Column(name = "description")
+	private String description;
 
 	public long getId() {
 		return id;
@@ -83,7 +84,6 @@ public class FailureAnalysis implements Serializable {
 		this.id = id;
 	}
 
-	
 	public String getFailure_id() {
 		return failure_id;
 	}
@@ -98,6 +98,14 @@ public class FailureAnalysis implements Serializable {
 
 	public void setReported(String reported) {
 		this.reported = reported;
+	}
+
+	public String getReportDescription() {
+		return reportDescription;
+	}
+
+	public void setReportDescription(String reportDescription) {
+		this.reportDescription = reportDescription;
 	}
 
 	public String getRepurcussion() {
@@ -116,35 +124,35 @@ public class FailureAnalysis implements Serializable {
 		this.date = date;
 	}
 
-	public BigInteger getDiv() {
+	public String getDiv() {
 		return div;
 	}
 
-	public void setDiv(BigInteger div) {
+	public void setDiv(String div) {
 		this.div = div;
 	}
 
-	public BigInteger getSection() {
+	public String getSection() {
 		return section;
 	}
 
-	public void setSection(BigInteger section) {
+	public void setSection(String section) {
 		this.section = section;
 	}
 
-	public BigInteger getAssetType() {
+	public String getAssetType() {
 		return assetType;
 	}
 
-	public void setAssetType(BigInteger assetType) {
+	public void setAssetType(String assetType) {
 		this.assetType = assetType;
 	}
 
-	public BigInteger getAssetId() {
+	public String getAssetId() {
 		return assetId;
 	}
 
-	public void setAssetId(BigInteger assetId) {
+	public void setAssetId(String assetId) {
 		this.assetId = assetId;
 	}
 
@@ -164,19 +172,19 @@ public class FailureAnalysis implements Serializable {
 		this.subAssetId = subAssetId;
 	}
 
-	public BigInteger getMake() {
+	public String getMake() {
 		return make;
 	}
 
-	public void setMake(BigInteger make) {
+	public void setMake(String make) {
 		this.make = make;
 	}
 
-	public BigInteger getModel() {
+	public String getModel() {
 		return model;
 	}
 
-	public void setModel(BigInteger model) {
+	public void setModel(String model) {
 		this.model = model;
 	}
 
@@ -196,11 +204,11 @@ public class FailureAnalysis implements Serializable {
 		this.actionPlan = actionPlan;
 	}
 
-	public BigInteger getActionStatus() {
+	public String getActionStatus() {
 		return actionStatus;
 	}
 
-	public void setActionStatus(BigInteger actionStatus) {
+	public void setActionStatus(String actionStatus) {
 		this.actionStatus = actionStatus;
 	}
 
@@ -236,14 +244,6 @@ public class FailureAnalysis implements Serializable {
 		this.actionDescription = actionDescription;
 	}
 
-	public Integer getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(Integer statusId) {
-		this.statusId = statusId;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -276,14 +276,20 @@ public class FailureAnalysis implements Serializable {
 		this.updatedOn = updatedOn;
 	}
 
-	public String getReportDescription() {
-		return reportDescription;
+	public Integer getStatusId() {
+		return statusId;
 	}
 
-	public void setReportDescription(String reportDescription) {
-		this.reportDescription = reportDescription;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
-	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

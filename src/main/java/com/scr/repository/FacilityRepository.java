@@ -26,6 +26,8 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByDivision(String facilityName);
 
 	List<Facility> findByZone(String facilityName);
+
+	List<Facility> findByParentFacilityId(String facilityName);
 	
 
 }

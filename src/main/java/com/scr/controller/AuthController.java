@@ -105,7 +105,7 @@ public class AuthController {
 	private SchedulerOperationTypesTrackingService schedulerOperationTypesTrackingService;
 	
 	@Autowired
-	private CommonUtility CommonUtility;
+	private CommonUtility commonUtility;
 	
 	@Autowired
 	private PasswordEncryption passwordEncryption;
@@ -312,7 +312,7 @@ public class AuthController {
 	@RequestMapping(value = "/userHierarchy/{user}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<Facility> findUserHierarchy(@PathVariable("user") String user) {
 		logger.info("**** user name****"+user);
-		List<Facility> facilityList = CommonUtility.findUserHierarchy(user);
+		List<Facility> facilityList = commonUtility.findUserHierarchy(user);
 		//return JSONObject.quote(CommonUtility.findUserHierarchy(user));
 		return facilityList;
 	}

@@ -681,7 +681,7 @@ public class CommonUtility {
 					}else if("DIV".equals(currentFacility.getDepotType())) {
 						List<Facility> divFacilityList = facilityService.findByDivision(currentFacility.getFacilityName());
 							facilityList.addAll(divFacilityList);
-					}else if("SUB_DIV".equals(currentFacility.getDepotType()) ) {
+					}else if("SUBDIV".equals(currentFacility.getDepotType()) ) {
 						List<Facility> subDivFacilityList = facilityService.findBySubDivision(currentFacility.getFacilityName());
 							facilityList.addAll(subDivFacilityList);
 					}else if("OHE".equals(currentFacility.getDepotType())) {
@@ -689,6 +689,11 @@ public class CommonUtility {
 					}else if("PSI".equals(currentFacility.getDepotType())) {
 						List<Facility> psiFacilityList = facilityService.findByParentDepot(currentFacility.getFacilityName());
 							facilityList.addAll(psiFacilityList);
+					}else if("TRD".equals(currentFacility.getDepotType())) {
+						List<Facility> trdFacilityList = facilityService.findByParentFacilityId(currentFacility.getFacilityName());
+						facilityList.addAll(trdFacilityList);
+					}else {
+						facilityList.add(currentFacility);
 					}
 				}
 			}

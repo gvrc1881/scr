@@ -40,4 +40,9 @@ public class FacilityService {
 		return facilityRepository.findByZone(facilityName);
 	}
 
+	public List<Facility> findByParentFacilityId(String facilityName) {
+		// TODO Auto-generated method stub
+		return facilityRepository.findByParentFacilityId(facilityName);
+	}
+
 }
