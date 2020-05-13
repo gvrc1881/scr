@@ -428,7 +428,7 @@ public class DriveMapper {
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
 			failureAnalysis.setDiv(request.getDiv());
-			failureAnalysis.setSection(request.getFailureSection());
+			//failureAnalysis.setSection(request.getFailureSection());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());
@@ -460,7 +460,7 @@ public class DriveMapper {
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
 			failureAnalysis.setDiv(request.getDiv());
-			failureAnalysis.setSection(request.getFailureSection());
+			//failureAnalysis.setSection(request.getFailureSection());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());

@@ -109,17 +109,17 @@ public class DriveRequest {
 	private String reportDescription;
 	private String repurcussion;
 	private Timestamp date;
-	private BigInteger div;
-	private BigInteger failureSection;
+	private String div;
+	//private BigInteger failureSection;
 	//private BigInteger assetType;
-	private BigInteger assetId;
+	private String assetId;
 	private String subAssetType;
 	private String subAssetId;
-	private BigInteger make;
-	private BigInteger model;
+	private String make;
+	private String model;
 	private String rootCause;
 	private String actionPlan;
-	private BigInteger actionStatus;
+	private String actionStatus;
 	private String approvedBy;
 	private Timestamp actionTargetDate;
 	private Timestamp actionCompletedDate;
@@ -717,21 +717,7 @@ public class DriveRequest {
 		this.date = date;
 	}
 
-	public BigInteger getDiv() {
-		return div;
-	}
-
-	public void setDiv(BigInteger div) {
-		this.div = div;
-	}
-
-	public BigInteger getAssetId() {
-		return assetId;
-	}
-
-	public void setAssetId(BigInteger assetId) {
-		this.assetId = assetId;
-	}
+	
 
 	public String getSubAssetType() {
 		return subAssetType;
@@ -749,22 +735,7 @@ public class DriveRequest {
 		this.subAssetId = subAssetId;
 	}
 
-	public BigInteger getMake() {
-		return make;
-	}
-
-	public void setMake(BigInteger make) {
-		this.make = make;
-	}
-
-	public BigInteger getModel() {
-		return model;
-	}
-
-	public void setModel(BigInteger model) {
-		this.model = model;
-	}
-
+	
 	public String getRootCause() {
 		return rootCause;
 	}
@@ -781,13 +752,7 @@ public class DriveRequest {
 		this.actionPlan = actionPlan;
 	}
 
-	public BigInteger getActionStatus() {
-		return actionStatus;
-	}
-
-	public void setActionStatus(BigInteger actionStatus) {
-		this.actionStatus = actionStatus;
-	}
+	
 
 	public String getApprovedBy() {
 		return approvedBy;
@@ -823,15 +788,47 @@ public class DriveRequest {
 
 	
 	
-	public BigInteger getFailureSection() {
-		return failureSection;
+	
+
+	public String getDiv() {
+		return div;
 	}
 
-	public void setFailureSection(BigInteger failureSection) {
-		this.failureSection = failureSection;
+	public void setDiv(String div) {
+		this.div = div;
 	}
-	
-	
+
+	public String getAssetId() {
+		return assetId;
+	}
+
+	public void setAssetId(String assetId) {
+		this.assetId = assetId;
+	}
+
+	public String getMake() {
+		return make;
+	}
+
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getActionStatus() {
+		return actionStatus;
+	}
+
+	public void setActionStatus(String actionStatus) {
+		this.actionStatus = actionStatus;
+	}
 
 	public String getAuthority() {
 		return authority;
