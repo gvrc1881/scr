@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
+import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -22,7 +24,10 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        DecimalValidationsModule,
+        MaterialModule,
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
         
     ],
     providers: [

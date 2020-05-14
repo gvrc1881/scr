@@ -29,8 +29,6 @@ export class EnergyMeterComponent implements OnInit{
     addEnergyMeter: boolean ;
     energyMeterDisplayColumns = ['sno' , 'cmd' , 'feederId' , 'startKvah' , 'startKwh' , 'id' ] ;
     tssFeederMaterList: any;
-    pattern = "[0-9.]+$";
-
 
     constructor(
         private energyMeterService: EnergyMeterService,
@@ -51,18 +49,18 @@ export class EnergyMeterComponent implements OnInit{
     	this.energyMeterFormGroup = this.formBuilder.group({
             id: 0,
             'meterNo' : [null],
-            'multiplicationFac' : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-            'startKvah': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-            'startKwh': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-            'startRkvahLag': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-            'startRkvahLead': [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'multiplicationFac' : [null],
+            'startKvah': [null],
+            'startKwh': [null],
+            'startRkvahLag': [null],
+            'startRkvahLead': [null],
             'endKvah' : [null],
             'endKwh' : [null],
             'endRkvahLag' : [null],
             'endRkvahLead' : [null],
             'meterMake' : [null],
             'meterModel' : [null],
-            'cmd':[null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            'cmd':[null],
             'remarks' : [null],
             'startDate': [null],
             'endDate': [null],

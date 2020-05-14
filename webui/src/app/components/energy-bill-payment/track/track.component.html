@@ -67,18 +67,12 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" [formControl]="trackFormGroup.controls['tkm']" />
-	                                                                <mat-error
-										                                *ngIf="trackFormGroup.controls['tkm'].hasError('pattern') && trackFormGroup.controls['tkm'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="trackFormGroup.controls['tkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM" [formControl]="trackFormGroup.controls['rkm']" />
-	                                                                <mat-error
-										                                *ngIf="trackFormGroup.controls['rkm'].hasError('pattern') && trackFormGroup.controls['rkm'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="RKM" decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">

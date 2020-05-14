@@ -40,8 +40,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     filesExists: boolean = false;
     tractionEnergyTariffId: any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
-    numberPattern = "[0-9]+(\.[0-9][0-9]?)$";
-
+    toMinDate=new Date();
     isSubmit: boolean = false;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     
@@ -66,7 +65,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.tractionEnergyTariffFormGroup = this.formBuilder.group({
              id: 0,
             "supplier": [null],
-            "rate": [null,Validators.compose([Validators.required, Validators.pattern(this.numberPattern)])],
+            "rate": [null],
             "specification":[null],
             "condition": [null],
             "fromDate":[null],
@@ -88,7 +87,12 @@ export class TractionEnergyTariffComponent implements OnInit{
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
     }
-   // public get f() { return this.contentManagementFormGroup.controls; }
+    
+    addEvent($event) {
+    	this.toMinDate = new Date($event.value);
+  	}
+  	
+    // public get f() { return this.contentManagementFormGroup.controls; }
     fileUpload(id) {
     	this.uploadFile = true;
     	this.addPermission = false;

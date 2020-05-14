@@ -43,24 +43,35 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Rate" [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
-	                                                                <mat-error
-										                                *ngIf="tractionEnergyTariffFormGroup.controls['rate'].hasError('pattern') && tractionEnergyTariffFormGroup.controls['rate'].touched"
-										                                class="alert alert-danger">Only numbers and  decimal values with two places allowed</mat-error>
+	                                                                <input matInput placeholder="Rate" decimalNumber [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field>
-	                                                                <input matInput [matDatepicker]="fromDate" placeholder="Choose From Date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
+	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']" >                                                                
+                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+	                                                                <!-- <input matInput [matDatepicker]="fromDate" placeholder="Choose From Date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
-	                                                                    <mat-datepicker #fromDate  ></mat-datepicker><!--  (yearSeleceted)="close($event)" -->
+	                                                                    <mat-datepicker #fromDate  ></mat-datepicker> (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field>
-	                                                                <input matInput [matDatepicker]="thruDate" placeholder="Choose Thru Date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
+	                                                            	<input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose Thru Date"
+                                                                [min]="toMinDate"
+                                                                [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" >                                                                
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+	                                                                <!-- <input matInput [matDatepicker]="thruDate" placeholder="Choose Thru Date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
-	                                                                    <mat-datepicker #thruDate  ></mat-datepicker> <!-- (yearSeleceted)="close($event)" -->
+	                                                                    <mat-datepicker #thruDate  ></mat-datepicker> (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">

@@ -47,90 +47,84 @@
 									                          </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Multiplication Factor" [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['multiplicationFac'].hasError('pattern') && energyMeterFormGroup.controls['multiplicationFac'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Multiplication Factor" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kvah" [formControl]="energyMeterFormGroup.controls['startKvah']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['startKvah'].hasError('pattern') && energyMeterFormGroup.controls['startKvah'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Start Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kwh" [formControl]="energyMeterFormGroup.controls['startKwh']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['startKwh'].hasError('pattern') && energyMeterFormGroup.controls['startKwh'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Start Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lag" [formControl]="energyMeterFormGroup.controls['startRkvahLag']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['startRkvahLag'].hasError('pattern') && energyMeterFormGroup.controls['startRkvahLag'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Start Rkvah Lag" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lead" [formControl]="energyMeterFormGroup.controls['startRkvahLead']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['startRkvahLead'].hasError('pattern') && energyMeterFormGroup.controls['startRkvahLead'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Start Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Kvah" [formControl]="energyMeterFormGroup.controls['endKvah']" />
+	                                                                <input matInput placeholder="End Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Kwh" [formControl]="energyMeterFormGroup.controls['endKwh']" />
+	                                                                <input matInput placeholder="End Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['endKwh']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                       <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Rkvah Lag" [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
+	                                                                <input matInput placeholder="End Rkvah Lag"  decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Rkvah Lead" [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
+	                                                                <input matInput placeholder="End Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Make" [formControl]="energyMeterFormGroup.controls['meterMake']" />
+	                                                                <input matInput placeholder="Meter Make"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Model" [formControl]="energyMeterFormGroup.controls['meterModel']" />
+	                                                                <input matInput placeholder="Meter Model"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Cmd" [formControl]="energyMeterFormGroup.controls['cmd']" />
-	                                                                <mat-error
-										                                *ngIf="energyMeterFormGroup.controls['cmd'].hasError('pattern') && energyMeterFormGroup.controls['cmd'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Cmd" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 		                                                        <mat-form-field fxFlex="30">
-	    															<input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']">
-	  															</mat-form-field>
-  															</div>
+	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
+		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+		                                                                [owlDateTimeTrigger]="dt1" placeholder="Start Date"
+		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" >                                                                
+		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+		                                                                    ></owl-date-time>
+		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+		                                                        </mat-form-field>
+		                                                    </div>
   															<div class="col-md-2">
 		                                                        <mat-form-field fxFlex="30">
-	    															<input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']">
+	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
+	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
+		                                                                [owlDateTimeTrigger]="dt2" placeholder="End Date"
+		                                                                [formControl]="energyMeterFormGroup.controls['endDate']" >                                                                
+		                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+		                                                                    ></owl-date-time>
+		                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
 	  															</mat-form-field>
   															</div>
   															<div class="col-md-2">
