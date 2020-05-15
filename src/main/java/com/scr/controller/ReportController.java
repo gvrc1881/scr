@@ -92,13 +92,13 @@ public class ReportController {
 	
     @RequestMapping(value = "/facilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Facility>> findAll(){
-		List<Facility> facilityNames= reportService.findAll();
+		List<Facility> facilityNames= reportService.findAllOrderByFacilityNameAsc();
 		return new ResponseEntity<List<Facility>>(facilityNames, HttpStatus.OK);	
 		
 	}
     @RequestMapping(value = "/zoneList", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Zone>> findAllZoneCodes(){
-		List<Zone> zone= reportService.findAllZoneCodes();
+		List<Zone> zone= reportService.findAllOrderByCodeAsc1();
 		return new ResponseEntity<List<Zone>>(zone, HttpStatus.OK);	
 		
 	}
@@ -185,7 +185,7 @@ public class ReportController {
 	}
    @RequestMapping(value = "/functionalLocationsTypes", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<FunctionalLocationTypes>> functionalLocationTypes(){
-		List<FunctionalLocationTypes> functionalLocationTypes= reportService.findAllFunLocTypes();
+		List<FunctionalLocationTypes> functionalLocationTypes= reportService.findAllOrderByCodeAsc();
 		return new ResponseEntity<List<FunctionalLocationTypes>>(functionalLocationTypes,HttpStatus.OK);	
 		
 	}
@@ -297,6 +297,12 @@ public class ReportController {
 	public ResponseEntity<List<ElectricEnergySuppliers>> findElectricEnergySuppliers(){
 		List<ElectricEnergySuppliers> ees= reportService.findElectricEnergySuppliers();
 		return new ResponseEntity<List<ElectricEnergySuppliers>>(ees,HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/divisionDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Division>> findDivisionDetails(){
+		List<Division> division= reportService.findByOrderByCodeAsc();
+		return new ResponseEntity<List<Division>>(division,HttpStatus.OK);	
 		
 	}
   	

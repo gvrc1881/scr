@@ -8,7 +8,9 @@ import com.scr.model.Division;
 import com.scr.model.SubDivision;
 
 public interface SubDivisionRepository extends JpaRepository<SubDivision, Long>{
-	List<SubDivision> findByDivisionId(Division divisionId);
+	
+	//code is in asscending order
+	List<SubDivision> findByDivisionIdOrderByCodeAsc(Division divisionId);
 	List<SubDivision> findByCode(String code);
 
 }

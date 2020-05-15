@@ -1,7 +1,6 @@
 package com.scr.services;
 
 import java.util.List;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,11 +154,11 @@ public class ReportService {
 	public List<ReportParameter> findall() {	
 		return reportParametersRepository.findAll();
 	}
-	public List<Facility> findAll() {	
-	   return facilityRepository.findAll();
+	public List<Facility> findAllOrderByFacilityNameAsc() {	
+	   return facilityRepository.findAllOrderByFacilityNameAsc();
 	}
-	public List<Zone> findAllZoneCodes() {	
-		   List<Zone> zoneList= zoneRepository.findAll();
+	public List<Zone> findAllOrderByCodeAsc1() {	
+		   List<Zone> zoneList= zoneRepository.findAllOrderByCodeAsc();
 		   return zoneList;
 		}
 	public List<Failure> findAllFailures(){
@@ -194,16 +193,16 @@ public class ReportService {
 	}
 	
 	public List<AssetsScheduleHistory> findAssetIdScheduleCodes(String assetType,String scheduleCode) {
-		List<AssetsScheduleHistory> assetId = assetsScheduleHistoryRepository.findByAssetTypeAndScheduleCode(assetType,scheduleCode);
+		List<AssetsScheduleHistory> assetId = assetsScheduleHistoryRepository.findByAssetTypeAndScheduleCodeOrderByScheduleCodeAsc(assetType,scheduleCode);
 		return assetId;
 	}
 	public List<Division> findDivision(Zone zoneId) {
-		List<Division> divisionCode = divisionRepository.findByZoneId(zoneId);
+		List<Division> divisionCode = divisionRepository.findByZoneIdOrderByCodeAsc(zoneId);
 		log.info("divisionCodeFinal"+divisionCode);
 		return divisionCode;
 	}
 	public List<SubDivision> findSubDivision(Division divisionId) {
-		List<SubDivision> subDivisionCode = subDivisionRepository.findByDivisionId(divisionId);
+		List<SubDivision> subDivisionCode = subDivisionRepository.findByDivisionIdOrderByCodeAsc(divisionId);
 		log.info("subDivisionCode"+subDivisionCode);
 		return subDivisionCode;
 	}
@@ -211,11 +210,13 @@ public class ReportService {
 		List<Facility> facilityNames = facilityRepository.findBySubDivision(subDivision);
 		return facilityNames;
 	}
-	public List<FunctionalLocationTypes>findAllFunLocTypes() {
-		List<FunctionalLocationTypes> funLocTypes =functionLocationTypesRepository.findAll();
-		return funLocTypes;	
-		   
-		}
+	
+	    public List<FunctionalLocationTypes> findAllOrderByCodeAsc() {
+	        return functionLocationTypesRepository.findAllOrderByCodeAsc();
+	    }
+	    
+	 
+	    
 	public List<Stipulations>findAllStipulationDetails() {	
 		   return stipulationRepository.findAll();
 		}
@@ -232,7 +233,7 @@ public class ReportService {
 
 	public List<Facility> getFacilitysBasedOnDepotType(String depotType) {
 			// TODO Auto-generated method stub
-			return facilityRepository.findByDepotType(depotType);
+			return facilityRepository.findByDepotTypeOrderByFacilityNameAsc(depotType);
 		}
 	public List<CrsEigInspections>findcrsEigInspection() {	
 		   return crsEigInspectionRepository.findAll();
@@ -278,6 +279,9 @@ public class ReportService {
 		}
 	public List<ElectricEnergySuppliers>findElectricEnergySuppliers() {	
 		   return electricEnergySuppliersRepository.findAll();
+		}
+	public List<Division> findByOrderByCodeAsc() {	
+		   return divisionRepository.findAllOrderByCodeAsc();
 		}
 	
 	
