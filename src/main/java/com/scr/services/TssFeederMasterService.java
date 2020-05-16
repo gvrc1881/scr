@@ -14,9 +14,9 @@ public class TssFeederMasterService {
 	@Autowired
 	private TssFeederMasterRepository  tssFeederMasterRepository;
 
-	public List<TssFeederMaster> findAll() {
+	public List<TssFeederMaster> findAllOrderByFeederNameAsc() {
 		// TODO Auto-generated method stub
-		return tssFeederMasterRepository.findAll();
+		return tssFeederMasterRepository.findAllOrderByFeederNameAsc();
 	}
 
 }

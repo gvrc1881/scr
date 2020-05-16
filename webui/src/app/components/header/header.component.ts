@@ -266,7 +266,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("work") ? "active-item" : "",
           },
           {
-            subMenuName: "Asset MasterData",
+            subMenuName: "Asset Master",
             subMenuURL: "asset-master-data",
             subMenuIcon: "fa fas fa-cloud",
             rolePermission:true,
@@ -275,7 +275,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           },
           
           {
-            subMenuName: "Slidings",
+            subMenuName: "Sidings",
             subMenuURL: "slidings",
             subMenuIcon: "",
             color: "#12E1EE",
@@ -329,7 +329,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
           },
           {
-            subMenuName: "TPC Board Depot Assoc",
+            subMenuName: "TPC Board Assoc",
             subMenuURL: "tpc-board-depot-assoc",
             subMenuIcon: "",
             color: "#12E1EE",
@@ -347,7 +347,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("tpc-board") ? "active-item" : "",
           },
           {
-            subMenuName: "DAILY SUMMARY ",
+            subMenuName: "Daily Summary ",
             subMenuURL: "daily-summary",
             subMenuIcon: "",
             color: "#12E1EE",
@@ -356,7 +356,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("daily-summary") ? "active-item" : "",
           },
           {
-            subMenuName: "Observation Categories",
+            subMenuName: "Obs Categories",
             subMenuURL: "observation-categories",
             subMenuIcon: "",
             color: "#12E1EE",
@@ -365,7 +365,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("observation-categories") ? "active-item" : "",
           },
           {
-            subMenuName: "Observation Check List ",
+            subMenuName: "Obs Check List ",
             subMenuURL: "observation-check-list",
             subMenuIcon: "",
             color: "#12E1EE",

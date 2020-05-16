@@ -28,7 +28,7 @@ public class TssFeederMasterController {
 	public List<TssFeederMaster> tssFeederMasterList() throws JSONException {
 		List<TssFeederMaster> tssFeederMasterList = null;
 		try {
-			tssFeederMasterList = tssFeederMasterService.findAll();
+			tssFeederMasterList = tssFeederMasterService.findAllOrderByFeederNameAsc();
 		return tssFeederMasterList;
 		} catch (NullPointerException e) {
 			log.error(e);
