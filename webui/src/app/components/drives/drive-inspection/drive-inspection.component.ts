@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
+import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drive-inspection',
@@ -18,7 +19,7 @@ export class DriveInspectionComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
-
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'inspectionType', 'section', 'sectionStartLocation', 'sectionEndLocation',
     'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
     'station', 'actions'];
@@ -76,16 +77,25 @@ export class DriveInspectionComponent implements OnInit {
     this.router.navigate([id], { relativeTo: this.route });
   }
   delete(id) {
-    this.spinnerService.show();
-    this.drivesService.deleteInspectionsData(id).subscribe(data => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Inspection Successfully");
-      this.getInspectionData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Inspection Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.drivesService.deleteInspectionsData(id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Inspection Successfully");
+          this.getInspectionData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Inspection Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   filesInfor: any;

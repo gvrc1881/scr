@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FailureAnalysisModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drive-failure-analysis',
@@ -17,11 +18,11 @@ export class DriveFailureAnalysisComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
-
-  displayedColumns = ['sno', 'reported','reportDescription', 'repurcussion', 'date', 'div',
-  'failureSection','assetType','assetId','subAssetType','subAssetId','make','model',
-  'rootCause','actionPlan','actionStatus','approvedBy','actionTargetDate','actionCompletedDate',
-  'actionDescription','actions'];
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  displayedColumns = ['sno', 'reported', 'reportDescription', 'repurcussion', 'date', 'div',
+    'failureSection', 'assetType', 'assetId', 'subAssetType', 'subAssetId', 'make', 'model',
+    'rootCause', 'actionPlan', 'actionStatus', 'approvedBy', 'actionTargetDate', 'actionCompletedDate',
+    'actionDescription', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
 
 
@@ -29,7 +30,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
-  driveTargetList:any;
+  driveTargetList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -37,6 +38,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
     private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -57,33 +59,42 @@ export class DriveFailureAnalysisComponent implements OnInit {
     const driveTarget: FailureAnalysisModel[] = [];
     this.drivesService.getFailureAnalysisData().subscribe((data) => {
       this.driveTargetList = data;
-       for (let i = 0; i < this.driveTargetList.length; i++) {
+      for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
         driveTarget.push(this.driveTargetList[i]);
-      } 
+      }
 
       this.dataSource = new MatTableDataSource(driveTarget);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;            
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
-  processEditAction(id){
-    this.router.navigate([id],{relativeTo: this.route});
+  processEditAction(id) {
+    this.router.navigate([id], { relativeTo: this.route });
   }
-  delete(id){
-    this.spinnerService.show();
-    this.drivesService.deleteFailureAnalysisData(id).subscribe(data => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Failure Analysis Successfully");
-      this.getFailureAnalysisData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Failure Analysis Deletion Failed.");
-    })
+  delete(id) {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.drivesService.deleteFailureAnalysisData(id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Failure Analysis Successfully");
+          this.getFailureAnalysisData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Failure Analysis Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
 }

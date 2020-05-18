@@ -20,7 +20,7 @@
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
-                                    [routerLink]="['add-electrification-targets']" *ngIf="rolePermission">
+                                    [routerLink]="['add-electrification-targets']">
                                     Add Electrification Targets
                                 </button></div>
 
@@ -147,7 +147,7 @@
                                                 </a>
                                                 <button mat-icon-button matTooltip="Delete"
                                                     (click)="delete(row.id)"
-                                                   *ngIf="rolePermission && deletePermission">
+                                                   *ngIf="deletePermission">
                                                     <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                 </button>
                                             </mat-cell>
