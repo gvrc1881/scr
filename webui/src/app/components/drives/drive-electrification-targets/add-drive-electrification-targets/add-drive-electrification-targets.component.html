@@ -55,10 +55,7 @@
                                                     <!-- guage -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <!--   <input matInput placeholder="Guage"
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']"
-                                                                required> -->
-                                                                <mat-select placeholder="Guage"
+                                                          <mat-select placeholder="Guage"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']" required>
                                                                 <mat-option *ngFor="let guage of guageList"
                                                                     [value]="guage.statusCode">
@@ -78,13 +75,7 @@
                                                     <!-- targetDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <!-- <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose Target Date"
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetDate']">
-                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
-                                                            </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker1></mat-datepicker> -->
-                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                           <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose Target Date"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetDate']" >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
@@ -105,9 +96,6 @@
                                                      <!-- division -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                           <!--  <input matInput placeholder="Division"
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']"
-                                                                > -->
                                                                 <mat-select placeholder="Division"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']" required>
                                                                 <mat-option *ngFor="let division of divisionList"
@@ -121,9 +109,6 @@
                                                      <!-- executionAgency -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                           <!--  <input matInput placeholder="Execution Agency" 
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']"
-                                                                > -->
                                                                 <mat-select placeholder="Execution Agency"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']">
                                                                 <mat-option *ngFor="let executionAgency of executionAgencyList"
@@ -183,9 +168,6 @@
                                                     <!-- doublingTrippling -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <!-- <input matInput placeholder="Doubling Trippling"
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']"
-                                                                >   -->                                       
                                                                 <mat-select placeholder="Doubling Trippling"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']">
                                                                 <mat-option *ngFor="let doublingTrippling of doublingTripplingList"
@@ -248,13 +230,7 @@
                                                     <!-- dateOfCompletion -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <!-- <input matInput [matDatepicker]="picker"
-                                                                placeholder="Choose Date Of Completion"
-                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['dateOfCompletion']">
-                                                            <mat-datepicker-toggle matSuffix [for]="picker">
-                                                            </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker></mat-datepicker> -->
-                                                            <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                           <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Choose Date Of Completion"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['dateOfCompletion']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true

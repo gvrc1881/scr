@@ -4,6 +4,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-progress-record',
@@ -11,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./add-drive-progress-record.component.css']
 })
 export class AddDriveProgressRecordComponent implements OnInit {
-
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -148,18 +149,20 @@ export class AddDriveProgressRecordComponent implements OnInit {
         "performedCount": this.addDriveDailyProgressFormGroup.value.performedCount,
         "supervisor": this.addDriveDailyProgressFormGroup.value.supervisor,
         "driveId": this.addDriveDailyProgressFormGroup.value.drive,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveDriveDailyProgressData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Daily Progress Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Daily Progress Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -176,18 +179,20 @@ export class AddDriveProgressRecordComponent implements OnInit {
         "performedCount": this.addDriveDailyProgressFormGroup.value.performedCount,
         "supervisor": this.addDriveDailyProgressFormGroup.value.supervisor,
         "driveId": this.addDriveDailyProgressFormGroup.value.drive,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateDriveDailyProgressData(data).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Daily Progress Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Daily Progress Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-add-drive-category-association',
@@ -11,7 +12,7 @@ import { CommonService } from 'src/app/common/common.service';
   styleUrls: ['./add-drive-category-association.component.css']
 })
 export class AddDriveCategoryAssociationComponent implements OnInit {
-
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title: string = '';
@@ -130,12 +131,18 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "driveId": this.addDriveCategoryAssoFormGroup.value.drive,
         "driveCategoryId": this.addDriveCategoryAssoFormGroup.value.driveCategory,
         "active": this.addDriveCategoryAssoFormGroup.value.active,
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }
-      this.drivesService.saveDriveCategoryAssoData(saveDriveModel).subscribe(data => {
-        console.log(JSON.stringify(data));
+      this.drivesService.saveDriveCategoryAssoData(saveDriveModel).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Category Association Data Saved Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Category Association Data Saving Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -147,12 +154,18 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "driveId": this.addDriveCategoryAssoFormGroup.value.drive,
         "driveCategoryId": this.addDriveCategoryAssoFormGroup.value.driveCategory,
         "active": this.addDriveCategoryAssoFormGroup.value.active,
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }
-      this.drivesService.updateDriveCategoryAssoData(updateDriveModel).subscribe(data => {
-        console.log(JSON.stringify(data));
+      this.drivesService.updateDriveCategoryAssoData(updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Category Association Data Updated Successfully");
         this.router.navigate(['../../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Category Association Data Updating Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

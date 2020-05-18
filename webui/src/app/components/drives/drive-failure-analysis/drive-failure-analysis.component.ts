@@ -56,11 +56,9 @@ export class DriveFailureAnalysisComponent implements OnInit {
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
     this.drivesService.getFailureAnalysisData().subscribe((data) => {
-      console.log(JSON.stringify(data))
       this.driveTargetList = data;
        for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
-        //this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
         driveTarget.push(this.driveTargetList[i]);
       } 
 
@@ -78,7 +76,6 @@ export class DriveFailureAnalysisComponent implements OnInit {
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteFailureAnalysisData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Failure Analysis Successfully");
       this.getFailureAnalysisData();

@@ -478,24 +478,7 @@ export class HeaderComponent implements OnInit, DoCheck {
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);
   }
-  
-  
-  
-/* 
-    
-
-    this.MenusList.forEach((element, index )=> {
-    //  console.log(JSON.stringify(element));
-        if(element.menuName == 'Dashboard'){
-         let permission = this.commonService.findPermission('Dashboard', 'menu', 'view');
-         console.log('permission = '+permission);
-          let dash = element;
-          dash['permission'] = permission;
-          console.log('dash='+dash);
-        }
-    }); */
-
-    this.loginValidate = this.commonService.loginValidate(window.location.pathname);
+   this.loginValidate = this.commonService.loginValidate(window.location.pathname);
   }
   logout() {
     // remove user from local storage to log user out

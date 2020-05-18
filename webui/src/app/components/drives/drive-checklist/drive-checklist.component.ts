@@ -53,7 +53,6 @@ export class DriveChecklistComponent implements OnInit {
   getDrivesData() {
     const drive: DriveChecklistModel[] = [];
     this.drivesService.getDrivesCheckListData().subscribe((data) => {
-      console.log(data)
       this.drivesCheckList = data;
       for (let i = 0; i < this.drivesCheckList.length; i++) {
         this.drivesCheckList[i].sno = i + 1;
@@ -76,7 +75,6 @@ export class DriveChecklistComponent implements OnInit {
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteDriveData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Successfully");
       this.getDrivesData();

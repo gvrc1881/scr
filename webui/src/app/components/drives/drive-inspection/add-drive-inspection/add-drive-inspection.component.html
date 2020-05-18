@@ -30,24 +30,6 @@
                                                 [formGroup]="addDriveInspectionFormGroup" (ngSubmit)="onAddInspectionsFormSubmit();">
 
                                                 <div class="col-md-12">
-
-                                                    <!-- inspectionType -->
-                                                    <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Inspection Type" 
-                                                                [formControl]="addDriveInspectionFormGroup.controls['inspectionType']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('required') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
-                                                                class="alert alert-danger">Enter Inspection Type</mat-error>
-                                                          
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['inspectionType'].hasError('pattern') && addDriveInspectionFormGroup.controls['inspectionType'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
-                                                        </mat-form-field>
-                                                    </div> -->
-
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="Inspection Type"
@@ -147,12 +129,6 @@
                                                     <!-- authorisationDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <!-- <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose authorisation Date"
-                                                                [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']">
-                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
-                                                            </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker2></mat-datepicker> -->
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Choose Authorisation Date"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']" >                                                                
@@ -165,12 +141,6 @@
                                                     <!-- chargingDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <!-- <input matInput [matDatepicker]="picker3"
-                                                                placeholder="Choose charging Date"
-                                                                [formControl]="addDriveInspectionFormGroup.controls['chargingDate']">
-                                                            <mat-datepicker-toggle matSuffix [for]="picker3">
-                                                            </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker3></mat-datepicker> -->
                                                             <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose Charging Date"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['chargingDate']" >                                                                
@@ -186,19 +156,7 @@
                                                         name="uploadFile" 
                                                             style="margin-top: 6%;"
                                                             id="uploadFile" multiple (change)="upload($event)" />
-                                                        <!-- <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="attachment" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveInspectionFormGroup.controls['attachment']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['attachment'].hasError('required') && addDriveInspectionFormGroup.controls['attachment'].touched"
-                                                                class="alert alert-danger">Enter Division</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['attachment'].hasError('pattern') && addDriveInspectionFormGroup.controls['attachment'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
-                                                        </mat-form-field> -->
+                                                       
                                                     </div>
                                                     <div class="clearfix"></div>
                                                      <!-- station -->
@@ -211,32 +169,7 @@
                                                     </div>
 
                                                     <!-- stipulationsId -->
-                                                    <!-- <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Stipulations Id" 
-                                                                [formControl]="addDriveInspectionFormGroup.controls['stipulationsId']">
-                                                                <mat-option *ngFor="let stipulations of inspectionsList"
-                                                                    [value]="stipulations.id">
-                                                                    {{ stipulations.stipulation }}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
-                                                    </div> --><!-- 
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Stipulations Id" size="12"
-                                                                maxlength="12"
-                                                                [formControl]="addDriveInspectionFormGroup.controls['stipulationsId']"
-                                                                required>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['stipulationsId'].hasError('required') && addDriveInspectionFormGroup.controls['stipulationsId'].touched"
-                                                                class="alert alert-danger">Enter Stipulations Id</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addDriveInspectionFormGroup.controls['stipulationsId'].hasError('pattern') && addDriveInspectionFormGroup.controls['stipulationsId'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
-                                                            </mat-error>
-                                                        </mat-form-field>
-                                                    </div> -->
+                                                    
                                                     <div class="clear"> </div>
                                                     <div class="col-md-12">
                                                         <table class="table" *ngIf="filesExists">

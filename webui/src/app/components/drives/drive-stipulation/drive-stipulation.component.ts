@@ -120,7 +120,6 @@ export class DriveStipulationComponent implements OnInit {
       this.filesInfor = response;
       var data = [];
       if (this.filesInfor.attachment != '') {
-        console.log(JSON.stringify(response));
         data = this.filesInfor.attachment.split(',');
         console.log('data= ' + JSON.stringify(data))
       }

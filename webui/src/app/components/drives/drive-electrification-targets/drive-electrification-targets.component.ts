@@ -55,7 +55,6 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   getElectrificationTargetsData() {
     const electrificationTargets: ElectrificationTargetstModel[] = [];
     this.drivesService.getElectrificationTargetsData().subscribe((data) => {
-      console.log(JSON.stringify(data))
       this.electrificationTargetsList = data;
       for (let i = 0; i < this.electrificationTargetsList.length; i++) {
         this.electrificationTargetsList[i].sno = i + 1;
@@ -78,7 +77,6 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteElectrificationTargetsData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Electrification Targets Successfully");
       this.getElectrificationTargetsData();

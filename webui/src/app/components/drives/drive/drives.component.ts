@@ -91,7 +91,6 @@ export class DrivesComponent implements OnInit {
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
-       // console.log('depoTypes = ' + JSON.stringify(depoTypes))
         this.depoTypeList = depoTypes;
       })
   }
@@ -99,9 +98,7 @@ export class DrivesComponent implements OnInit {
   findAssetTypeList(assertType) {
     this.drivesService.findAssetTypeList(assertType)
       .subscribe((assetTypes) => {
-        //console.log('assetTypes = '+JSON.stringify(assetTypes))
         this.assetTypeList = assetTypes;
-        // this.depoTypeList = assetTypes;
       })
   }
   findStatusItemDetails() {
@@ -114,19 +111,15 @@ export class DrivesComponent implements OnInit {
   findFunctionalUnits() {
     this.drivesService.findFunctionslUnits()
       .subscribe((units) => {
-       // console.log('findFunctionalUnits = ' + JSON.stringify(units))
         this.allFunctionalUnitsList = units;
       })
   }
   getDrivesData() {
     const drive: DriveModel[] = [];
     this.drivesService.getDrivesData().subscribe((data) => {
-      console.log(data)
       this.drivesList = data;
       for (let i = 0; i < this.drivesList.length; i++) {
-      //  console.log(this.depoTypeList)
         this.drivesList[i].sno = i + 1;
-        console.log(this.drivesList[i])
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
@@ -146,7 +139,6 @@ export class DrivesComponent implements OnInit {
   getDriveCategoryData() {
     const drive: DriveCategoryModel[] = [];
     this.drivesService.getDriveCategoryData().subscribe((data) => {
-      console.log(data)
       this.driveCategoryList = data;
       for (let i = 0; i < this.driveCategoryList.length; i++) {
         this.driveCategoryList[i].sno = i + 1;
@@ -166,7 +158,6 @@ export class DrivesComponent implements OnInit {
   getDriveCategoryAssoData() {
     const drive: DriveCategoryAssoModel[] = [];
     this.drivesService.getDriveCategoryAssoData().subscribe((data) => {
-      console.log(data)
       this.driveCategoryAssoList = data;
       for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
         this.driveCategoryAssoList[i].sno = i + 1;
@@ -190,7 +181,6 @@ export class DrivesComponent implements OnInit {
   delete(id){
     this.spinnerService.show();
     this.drivesService.deleteDriveData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Successfully");
       this.getDrivesData();
@@ -207,7 +197,6 @@ export class DrivesComponent implements OnInit {
   driveCategoryDelete(id){
     this.spinnerService.show();
     this.drivesService.deleteDriveCategoryData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Successfully");
       this.getDriveCategoryData();
@@ -224,7 +213,6 @@ export class DrivesComponent implements OnInit {
   driveCategoryAssoDelete(id){
     this.spinnerService.show();
     this.drivesService.deleteDriveCategoryAssoData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
       this.getDriveCategoryAssoData();
