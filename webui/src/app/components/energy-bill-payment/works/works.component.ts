@@ -9,6 +9,7 @@ import { WorksModel } from 'src/app/models/works.model';
 import { CommonService } from 'src/app/common/common.service';
 import { WorksPayload } from 'src/app/payloads/works.payload';
 import { ReportService } from 'src/app/services/report.service';
+import { FacilityModel } from 'src/app/models/facility.model';
 
 @Component({
     selector: 'works',
@@ -31,9 +32,10 @@ export class WorksComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     workDisplayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'id' ];
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-    pattern = "^[0-9.]+$";
-    integerPattern = "^[0-9]+$";
     statusItems: any;
+    execAgencyList: any;
+    userHierarchy:any = localStorage.getItem('userHierarchy');
+    divisionList:  FacilityModel [] = [];
 
     constructor(
         private workService: WorksService,
@@ -47,6 +49,11 @@ export class WorksComponent implements OnInit {
     }
 
     ngOnInit() {
+    		/*
+            for (let i = 0; i < this.userHierarchy.length; i++) {
+            	console.log('facility****'+JSON.stringify(this.userHierarchy));
+               this.divisionList.push(this.userHierarchy[i]);
+            }*/
 		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","WORK") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
@@ -57,28 +64,33 @@ export class WorksComponent implements OnInit {
              id: 0,
             "allocation" : [null],
   			"division" : [null],
-			"estdLatestAnticCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"estdLatestAnticCost" : [null],
 			"executedBy" : [null],
 			"executingAgency" : [null],
-			"financialProgressPercentage" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-			"latestRevisedCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"financialProgressPercentage" : [null],
+			"latestRevisedCost" : [null],
 			"pbLawLswp" : [null],
 			"pbLawLswpCode" : [null],
-			"physicalProgressPercentage" : [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"physicalProgressPercentage" : [null],
 			"presentStatus" : [null],
 			"reWorks" : [null],
-			"rkm" : [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-			"sanctionCost" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"rkm" : [null],
+			"sanctionCost" : [null],
 			"section" : [null],
-			"statusRemarks" : [null],
+			"statusRemarks" : [null , Validators.maxLength(250)],
 			"targetDateOfCompletion" : [null],
-			"tkm" : [null,Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+			"tkm" : [null],
 			"workName" : [null],
-			"yearOfSanction" : [null,Validators.compose([Validators.required, Validators.pattern(this.integerPattern)])],
+			"yearOfSanction" : [null],
         });
         this.reportService.statusItemDetails('WORK_PROGRESS_STATUS').subscribe((data) => {
                  this.statusItems = data;
       		});
+      	this.reportService.statusItemDetails('ELECTRIFICATION_EXEC_AGENCY').subscribe((data) => {
+        	 this.execAgencyList = data;
+        	},  error => {
+                this.commonService.showAlertMessage("Error in Get")
+        });	
     }
     
     addNewWork() {

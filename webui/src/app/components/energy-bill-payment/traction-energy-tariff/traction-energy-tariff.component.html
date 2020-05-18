@@ -31,11 +31,22 @@
                                             		<div class="panel-heading">{{title}} Traction Energy Tariff</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
-	                                                        <div class="col-md-3">
+	                                                        <!-- <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Supplier" [formControl]="tractionEnergyTariffFormGroup.controls['supplier']" />
 	                                                            </mat-form-field>
-	                                                        </div>
+	                                                        </div> -->
+	                                                        <div class="col-md-3">
+									                            <mat-form-field fxFlex="30">
+									                              <mat-select placeholder="Select Suppliers" formControlName="supplier" >
+									                                <mat-option *ngFor="let eleEngSupplier of eleEnergySuppliersList" [value]="eleEngSupplier.code">
+									                                  {{ eleEngSupplier.code}}
+									                                </mat-option>
+									                              </mat-select>
+									                              <mat-error *ngIf="isSubmit && f.contentTopic.errors && f.contentTopic.errors.required"
+									                                class="alert alert-danger">Select Content Topic</mat-error>
+									                            </mat-form-field>
+									                          </div> 
 	                                                        <!-- <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="year" [formControl]="tractionEnergyTariffFormGroup.controls['year']" />
@@ -76,14 +87,26 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <textarea matInput placeholder="Specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" ></textarea>
+	                                                                <textarea matInput placeholder="Specification" 
+	                                                                [formControl]="tractionEnergyTariffFormGroup.controls['specification']"
+	                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
 	                                                                <!-- <input matInput placeholder="Specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" /> -->
+	                                                                <mat-error
+		                                                                *ngIf="tractionEnergyTariffFormGroup.controls['specification'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="Condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" ></textarea>
+	                                                            	<textarea matInput placeholder="Condition" 
+	                                                            	[formControl]="tractionEnergyTariffFormGroup.controls['condition']" 
+	                                                            	pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
 	                                                                <!-- <input matInput placeholder="Condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" /> -->
+	                                                                <mat-error
+		                                                                *ngIf="tractionEnergyTariffFormGroup.controls['condition']"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3 mt-15">

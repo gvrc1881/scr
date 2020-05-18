@@ -36,17 +36,25 @@
 	                                                                <input matInput placeholder="Allocation" [formControl]="workFormGroup.controls['allocation']" />
 	                                                            </mat-form-field>
 	                                                        </div>
-	                                                        <div class="col-md-3">
+	                                                        <!-- <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Division" [formControl]="workFormGroup.controls['division']" />
 	                                                            </mat-form-field>
-	                                                        </div>
+	                                                        </div> -->
+	                                                        <div class="col-md-3">
+			                                                        <mat-form-field fxFlex="30">
+			                                                            <mat-select placeholder="Select Division"
+			                                                                [formControl]="workFormGroup.controls['division']" >
+			                                                                <mat-option *ngFor="let divisions of divisionList"
+			                                                                    [value]="divisions.facilityName">
+			                                                                    {{ divisions.facilityName}}
+			                                                                </mat-option>
+			                                                            </mat-select>
+			                                                        </mat-form-field>
+			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost" [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['estdLatestAnticCost'].hasError('pattern') && workFormGroup.controls['estdLatestAnticCost'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost" decimalNumber [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -54,17 +62,25 @@
 	                                                                <input matInput placeholder="Executed By" [formControl]="workFormGroup.controls['executedBy']" />
 	                                                            </mat-form-field>
 	                                                        </div>
-	                                                        <div class="col-md-3">
+	                                                        <!-- <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Executing Agency" [formControl]="workFormGroup.controls['executingAgency']" />
 	                                                            </mat-form-field>
-	                                                        </div>
+	                                                        </div> -->
+	                                                        <div class="col-md-3">
+			                                                        <mat-form-field fxFlex="30">
+			                                                            <mat-select placeholder="Select Execution Agency"
+			                                                                [formControl]="workFormGroup.controls['executingAgency']" >
+			                                                                <mat-option *ngFor="let execAgency of execAgencyList"
+			                                                                    [value]="execAgency.statusCode">
+			                                                                    {{ execAgency.statusCode}}
+			                                                                </mat-option>
+			                                                            </mat-select>
+			                                                        </mat-form-field>
+			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Financial Progress Percentage" [formControl]="workFormGroup.controls['financialProgressPercentage']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['financialProgressPercentage'].hasError('pattern') && workFormGroup.controls['financialProgressPercentage'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Financial Progress Percentage" decimalNumber [formControl]="workFormGroup.controls['financialProgressPercentage']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -74,18 +90,12 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM" [formControl]="workFormGroup.controls['rkm']" />
-										                              <mat-error
-										                                *ngIf="workFormGroup.controls['rkm'].hasError('pattern') && workFormGroup.controls['rkm'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="RKM"  decimalNumber [formControl]="workFormGroup.controls['rkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" [formControl]="workFormGroup.controls['tkm']" />
-										                              <mat-error
-										                                *ngIf="workFormGroup.controls['tkm'].hasError('pattern') && workFormGroup.controls['tkm'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="workFormGroup.controls['tkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -114,26 +124,17 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Physical Progress Percentage" [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['physicalProgressPercentage'].hasError('pattern') && workFormGroup.controls['physicalProgressPercentage'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Physical Progress Percentage" decimalNumber [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Latest Revised Cost" [formControl]="workFormGroup.controls['latestRevisedCost']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['latestRevisedCost'].hasError('pattern') && workFormGroup.controls['latestRevisedCost'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Latest Revised Cost" decimalNumber [formControl]="workFormGroup.controls['latestRevisedCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Sanction Cost" [formControl]="workFormGroup.controls['sanctionCost']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['sanctionCost'].hasError('pattern') && workFormGroup.controls['sanctionCost'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Sanction Cost" decimalNumber [formControl]="workFormGroup.controls['sanctionCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -149,16 +150,19 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Year Of Sanction" [formControl]="workFormGroup.controls['yearOfSanction']" />
-	                                                                <mat-error
-										                                *ngIf="workFormGroup.controls['yearOfSanction'].hasError('pattern') && workFormGroup.controls['yearOfSanction'].touched"
-										                                class="alert alert-danger">Only numbers allowed</mat-error>
+	                                                                <input matInput placeholder="Year Of Sanction" decimalNumber [formControl]="workFormGroup.controls['yearOfSanction']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="Status Remarks" [formControl]="workFormGroup.controls['statusRemarks']" required></textarea>
+	                                                            	<textarea matInput placeholder="Status Remarks" 
+	                                                            	[formControl]="workFormGroup.controls['statusRemarks']" required
+	                                                            	pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
 	                                                                <!-- <input matInput placeholder="statusRemarks" [formControl]="workFormGroup.controls['statusRemarks']" /> -->
+	                                                                <mat-error
+		                                                                *ngIf="workFormGroup.controls['statusRemarks'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3 mt-15">

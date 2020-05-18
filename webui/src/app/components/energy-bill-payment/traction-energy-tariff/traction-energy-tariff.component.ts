@@ -43,6 +43,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     toMinDate=new Date();
     isSubmit: boolean = false;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
+    eleEnergySuppliersList: any;
     
     constructor(
         private commonService: CommonService,
@@ -66,11 +67,16 @@ export class TractionEnergyTariffComponent implements OnInit{
              id: 0,
             "supplier": [null],
             "rate": [null],
-            "specification":[null],
-            "condition": [null],
+            "specification":[null, Validators.maxLength(250)],
+            "condition": [null, Validators.maxLength(250)],
             "fromDate":[null],
             "thruDate":[null]
         });
+        this.reportService.getAllEleEnergySuppliers().subscribe((data) => {
+        	 this.eleEnergySuppliersList = data;
+        	},  error => {
+                this.commonService.showAlertMessage("Error in Get")
+            });
         /*
         this.reportService.getAllContentCategories().subscribe((data) => {
         	 this.contentCategoryList = data;
