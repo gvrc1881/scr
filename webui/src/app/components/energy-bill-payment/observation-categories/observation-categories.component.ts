@@ -1,12 +1,13 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { ObservationCategoriesService } from 'src/app/services/observation-categories.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationCategoriesModel } from 'src/app/models/observation-categories.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
     selector: 'observation-categories',
@@ -22,6 +23,7 @@ export class ObservationCategoriesComponent implements OnInit{
     title: string = "Save";
     observationCategoriesFormGroup: FormGroup;
     observationCategoriesList : any;
+    toMinDate=new Date();
     inspectionTypeData:any;
     observationCategoriesItemDataSource: MatTableDataSource<ObservationCategoriesModel>;
     observationCategoriesDisplayColumns = ['sno' ,'inspectionType','department' , 'observationCategory' , 'description' , 'remark' , 'fromDate' , 'thruDate' , 'id' ] ;
@@ -54,14 +56,16 @@ export class ObservationCategoriesComponent implements OnInit{
             id: 0,
             'inspectionType':[null],
             'department':[null],
-            'observationCategory': [null],
-            'description': [null],
-            'remark': [null],
+            'observationCategory': [null,Validators.maxLength(250)],
+            'description': [null,Validators.maxLength(250)],
+            'remark': [null,Validators.maxLength(250)],
             'fromDate' : [null],
             'thruDate' : [null]
         });
     }
-
+    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = event.value;
+      }
     getAllObservationCategoriesData() {
         const observationCategories : ObservationCategoriesModel[] = [];
         this.observationCategoriesService.getAllObservationCategoriesDetails().subscribe((data) => {

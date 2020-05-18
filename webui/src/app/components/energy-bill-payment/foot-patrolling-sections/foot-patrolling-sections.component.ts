@@ -1,13 +1,14 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { FootPatrollingSectionsService } from 'src/app/services/foot-patrolling-sections.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { FootPatrollingSectionsModel } from 'src/app/models/foot-patrolling-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
     selector: 'foot-patrolling-sections',
@@ -23,6 +24,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     title: string = "Save";
     fpSectionsItemFormGroup: FormGroup;
     fpSectionsList : any;
+    toMinDate=new Date();
     facilityData:any;
     fpSectionsItemDataSource: MatTableDataSource<FootPatrollingSectionsModel>;
     fpSectionsItemDisplayColumns = ['sno' ,'facilityDepot','fpSection' , 'fromLocation' , 'toLocation' , 'fromDate' , 'toDate' , 'remarks' , 'id' ] ;
@@ -46,7 +48,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllFootPatrollingSectionsData();
         this.facilityNames();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FOOT PATROLLING SECTIONS") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -59,10 +61,13 @@ export class FootPatrollingSectionsComponent implements OnInit{
             'toLocation': [null],
             'fromDate': [null],
             'toDate' : [null],
-            'remarks' : [null]
+            'remarks' : [null,Validators.maxLength(250)]
         });
+        
     }
-
+    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = event.value;
+      }
     getAllFootPatrollingSectionsData() {
         const footPatrollingSections : FootPatrollingSectionsModel[] = [];
         this.footPatrollingSectionsService.getAllFPSectionsItems().subscribe((data) => {

@@ -1,5 +1,6 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { StationsSectionsService } from 'src/app/services/stations-sections.service';
+import { ReportService } from 'src/app/services/report.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
@@ -27,10 +28,16 @@ export class StationsSectionsComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editstationsSectionsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    divisionCode:any;
 
+
+
+
+    
 
     constructor(
         private stationsSectionsService: StationsSectionsService,
+        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog
@@ -41,6 +48,7 @@ export class StationsSectionsComponent implements OnInit{
     ngOnInit () {
         console.log('in ngOnintit method:::');
         this.getAllStationsSectionsData();
+        this.divisionDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","STATIONS & SECTIONS") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
@@ -182,5 +190,14 @@ export class StationsSectionsComponent implements OnInit{
     NewStationsSections () {
         this.addStationsSections = true;
     }
+    divisionDetails()
+        {
+              
+               this.reportService. divisionDetails().subscribe((data) => {
+                 this.divisionCode = data;
+        }
+               );
+
+       }
 
 }

@@ -77,6 +77,11 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/tpc-board/tpc-board.module#TPCBoardModule',
     canActivate: [AuthGuard]
   },
+  {
+    path:'tpc-board-depot-assoc',
+    loadChildren:'./components/energy-bill-payment/tpc-board-depot-assoc/tpc-board-depot-assoc.module#TPCBoardDepotAssocModule',
+    canActivate: [AuthGuard]
+  },
    {
     path: 'daily-summary', 
     loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
@@ -92,10 +97,6 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/observation-check-list/observation-check-list.module#ObservationCheckListModule',
     canActivate: [AuthGuard]
   },
- 
-   
-  
-  
   {
     path: 'menuMaster',
     loadChildren: './components/masters/menu/main-menu.module#MainMenuModule',

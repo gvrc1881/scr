@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { TPCBoardService } from 'src/app/services/tpc-board.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { TPCBoardModel } from 'src/app/models/tpc-board.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
@@ -49,7 +49,7 @@ export class TPCBoardComponent implements OnInit{
         this.tpcBoardFormGroup = this.formBuilder.group({
             id: 0,
             'tpcBoard':[null],
-            'description':[null]
+            'description':[null,Validators.maxLength(250)]
             
         });
     }

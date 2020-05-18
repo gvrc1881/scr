@@ -155,6 +155,9 @@ assetIdBasedonAssetTypeAndFacilityId(assetType){
 assetMasterData(){
     return this.http.get(this.url + '/assetMasterData',{ headers: this.header });
 }
+divisionDetails(){
+    return this.http.get(this.url + '/divisionDetails',{ headers: this.header });
+}
 getAllEleEnergySuppliers(){
 	return this.http.get(this.url + '/electricEnergySuppliers',{ headers: this.header });
 }

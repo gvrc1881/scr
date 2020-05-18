@@ -34,7 +34,7 @@
 														
                               <div class="col-md-3">
                                 <mat-form-field>
-                                    <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="dailySummaryFormGroup.controls['createdDate']">
+                                    <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
                                 </mat-form-field>
@@ -42,7 +42,7 @@
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
 																<mat-select placeholder="Select Depo Type" 
-																	[formControl]="dailySummaryFormGroup.controls['facilityId']">
+																	[formControl]="dailySummaryFormGroup.controls['facilityId']" required>
 																	<mat-option *ngFor="let facilityData of facilityData"
 																		[value]="facilityData.facilityName">
 																		{{ facilityData.facilityName }}
@@ -55,27 +55,27 @@
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" />
+																<input matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" required/>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" />
+																<input matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" required/>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" />
+																<input matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" required/>
 															</mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" />
+																<input matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" required/>
 															</mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" />
+																<input matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" required/>
 															</mat-form-field>
                             </div>
 													

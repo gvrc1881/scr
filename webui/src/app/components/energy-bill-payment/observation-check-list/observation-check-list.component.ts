@@ -1,13 +1,15 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { ObservationsCheckListService } from 'src/app/services/observations-check-list.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationsCheckListModel } from 'src/app/models/observations-check-list.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
+import { MatDatepickerInputEvent } from '@angular/material';
+
 
 @Component({
     selector: 'observation-check-list',
@@ -24,6 +26,7 @@ export class ObservationCheckListComponent implements OnInit{
     ObservationCheckListItemFormGroup: FormGroup;
     observationCheckList : any;
     inspectionTypeData:any;
+    toMinDate=new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
     observationCheckListDisplayColumns = ['sno' ,'inspectionType','observationCategory' , 'observationItem' , 'severity' ,'description','priority', 'fromDate' , 'thruDate' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -57,13 +60,15 @@ export class ObservationCheckListComponent implements OnInit{
             'observationCategory':[null],
             'observationItem': [null],
             'severity': [null],
-            'description': [null],
+            'description': [null,Validators.maxLength(250)],
             'priority': [null],
             'fromDate': [null],
             'thruDate' : [null]
         });
     }
-
+    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = event.value;
+      }
     getAllObservationsCheckListData() {
         const observationsCheckList : ObservationsCheckListModel[] = [];
         this.observationsCheckListService.getAllObservationCheckListDetails().subscribe((data) => {

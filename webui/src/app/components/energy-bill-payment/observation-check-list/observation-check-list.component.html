@@ -34,7 +34,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Select Inspection Type" 
-                                                            [formControl]="ObservationCheckListItemFormGroup.controls['inspectionType']">
+                                                            [formControl]="ObservationCheckListItemFormGroup.controls['inspectionType']" required>
                                                             <mat-option *ngFor="let inspectionTypeData of inspectionTypeData"
                                                               [value]="inspectionTypeData.inspectionType">
                                                               {{ inspectionTypeData.inspectionType }}
@@ -49,7 +49,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Select observation Category" 
-                                                            [formControl]="ObservationCheckListItemFormGroup.controls['observationCategory']">
+                                                            [formControl]="ObservationCheckListItemFormGroup.controls['observationCategory']" required>
                                                             <mat-option *ngFor="let inspectionTypeData of inspectionTypeData"
                                                               [value]="inspectionTypeData.observationCategory">
                                                               {{ inspectionTypeData.observationCategory }}
@@ -59,18 +59,22 @@
                                                       </div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Observation Item" [formControl]="ObservationCheckListItemFormGroup.controls['observationItem']" />
+																<input matInput placeholder="Observation Item" [formControl]="ObservationCheckListItemFormGroup.controls['observationItem']" required/>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="severity" [formControl]="ObservationCheckListItemFormGroup.controls['severity']" />
+																<input matInput placeholder="severity" [formControl]="ObservationCheckListItemFormGroup.controls['severity']" required/>
 															</mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
                                 <textarea matInput placeholder="Description" [formControl]="ObservationCheckListItemFormGroup.controls['description']" ></textarea>
-															</mat-form-field>
+                                <mat-error
+                                *ngIf="ObservationCheckListItemFormGroup.controls['description'].hasError('maxlength') && ObservationCheckListItemFormGroup.controls['description'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+                              </mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
@@ -83,29 +87,29 @@
 																</mat-select>
 															</mat-form-field>
 														</div>
-														<!-- FROM DATE -->
-														<div class="col-md-3">
-															<mat-form-field>
-																<input matInput [matDatepicker]="picker1"
-																	placeholder="Choose From Date"
-																	[formControl]="ObservationCheckListItemFormGroup.controls['fromDate']">
-																<mat-datepicker-toggle matSuffix [for]="picker1">
-																</mat-datepicker-toggle>
-																<mat-datepicker #picker1></mat-datepicker>
-															</mat-form-field>
-														</div>
-	
-														<!-- TO DATE -->
-														<div class="col-md-3">
-															<mat-form-field>
-																<input matInput [matDatepicker]="picker"
-																	placeholder="Choose To Date"
-																	[formControl]="ObservationCheckListItemFormGroup.controls['thruDate']">
-																<mat-datepicker-toggle matSuffix [for]="picker">
-																</mat-datepicker-toggle>
-																<mat-datepicker #picker></mat-datepicker>
-															</mat-form-field>
-														</div>
+													<!-- FROM DATE -->
+                          <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
+                                    placeholder="Choose From Date"
+                                    [formControl]="ObservationCheckListItemFormGroup.controls['fromDate']" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- TO DATE -->
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker"
+                                    placeholder="Choose To Date" [min]="toMinDate"
+                                    [formControl]="ObservationCheckListItemFormGroup.controls['thruDate']" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
 														
 														<div class="col-md-3 mt-15">
 															<div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">

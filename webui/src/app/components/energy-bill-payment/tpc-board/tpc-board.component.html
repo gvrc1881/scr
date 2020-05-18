@@ -34,12 +34,23 @@
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="TPC Board" [formControl]="tpcBoardFormGroup.controls['tpcBoard']" />
+                                                                    <input matInput placeholder="TPC Board" [formControl]="tpcBoardFormGroup.controls['tpcBoard']" required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"/>
+                                                                    <mat-error
+                                                                *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('required') && tpcBoardFormGroup.controls['tpcBoard'].touched"
+                                                                class="alert alert-danger">Enter Tpc Board</mat-error>
+                                                                    <mat-error
+                                                                *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('pattern') && tpcBoardFormGroup.controls['tpcBoard'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="Description" [formControl]="tpcBoardFormGroup.controls['description']" />
+                                                                    <textarea matInput placeholder="Description" [formControl]="tpcBoardFormGroup.controls['description']" required></textarea>
+                                                                    <mat-error
+                                                                        *ngIf="tpcBoardFormGroup.controls['description'].hasError('maxlength') && tpcBoardFormGroup.controls['description'].touched"
+                                                                        class="alert alert-danger">Max 250 characters only
+                                                                    </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             
