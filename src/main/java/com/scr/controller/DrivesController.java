@@ -55,23 +55,35 @@ public class DrivesController {
 	
 	@RequestMapping(value = "/drives", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Drives>> findAllDrives() throws JSONException {
+		logger.info("Enter into findAllDrives function");
 		List<Drives> usersList = null;
 		try {			
-			usersList = service.findAllDrives();			
+			logger.info("Calling service for dirves data");
+			usersList = service.findAllDrives();	
+			logger.info("Fetched drives data = "+usersList);
 		} catch (NullPointerException e) {			
-			logger.error(e);
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
 		} catch (Exception e) {			
-			logger.error(e);
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
 		}
+		logger.info("Exit from findAllDrives function");
 		return ResponseEntity.ok((usersList));
 	}
 	
 	@RequestMapping(value = "/saveDrive", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveDriveData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {		
+	public ResponseStatus saveDriveData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {	
+		logger.info("Enter into saveDriveData function with below request parameters ");
+		logger.info("Request Parameters = "+driveRequest.toString());
 		try {			
+			logger.info("Calling service with request parameters.");
 			service.saveDriveData(driveRequest);
+			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Drive Data Added Successfully", Constants.SUCCESS_CODE);
-		}catch (Exception e) {
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding drive data. "+npe.getMessage());
+			return Helper.findResponseStatus("Drive Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
 			logger.error("ERROR >> While adding drive data. "+e.getMessage());
 			return Helper.findResponseStatus("Drive Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}

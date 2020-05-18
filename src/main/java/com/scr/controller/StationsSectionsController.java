@@ -47,9 +47,13 @@ public class StationsSectionsController {
 	@RequestMapping(value = "/addStationSections" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addStationSections(@Valid @RequestBody StationsSection stationsSection)throws JSONException {
 		try {
+			logger.info("Enter into addStationSections");
+			logger.info("Request parameters = "+stationsSection.toString());
+			
 			stationsSectionsService.save(stationsSection);
 			return Helper.findResponseStatus("sucessfully createsd" ,Constants.SUCCESS_CODE);
 		} catch (Exception ex) {
+			logger.error("ERROR >>> while saving station sections data, "+ex.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,ex.getMessage());
 		}
 	}
