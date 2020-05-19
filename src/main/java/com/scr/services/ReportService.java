@@ -235,6 +235,12 @@ public class ReportService {
 			// TODO Auto-generated method stub
 			return facilityRepository.findByDepotTypeOrderByFacilityNameAsc(depotType);
 		}
+	public List<Facility> findByDepotTypeOrderByFacilityNameAsc() {
+		List<Facility> facilityNames = facilityRepository.findByDepotTypeOrderByFacilityNameAsc("OHE");
+		log.info("facilityNamesOHE"+facilityNames.size());
+		log.info("faciliNameOheDepot"+facilityNames);
+		return facilityNames;		
+	}
 	public List<CrsEigInspections>findcrsEigInspection() {	
 		   return crsEigInspectionRepository.findAll();
 		}

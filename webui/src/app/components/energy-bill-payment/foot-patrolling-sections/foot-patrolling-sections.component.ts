@@ -47,7 +47,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     ngOnInit () {
         console.log('in ngOnintit method:::');
         this.getAllFootPatrollingSectionsData();
-        this.facilityNames();
+        this.depotTypeOhe();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
@@ -180,11 +180,11 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.addFPSectionsItem = false;
         this.title = 'Save';
     }
-    facilityNames()
-        {
-               const facilityData : FacilityModel[] = [];
-               this.reportService. facilityNames().subscribe((data) => {
+       depotTypeOhe()
+        {  
+               this.reportService. depotTypeOhe().subscribe((data) => {
                  this.facilityData = data;
+                 console.log('facilityData '+JSON.stringify(data))
         }
                );
 

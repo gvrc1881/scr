@@ -247,7 +247,8 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
-        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) || path.includes("energyMeter") ?  "open" : "",  
+        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) 
+        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
         subMenus: [
           {
             subMenuName: "Guidance Item",
@@ -316,7 +317,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuIcon: "fa fa-train",
             color: "#12E1EE",
             rolePermission:true,
-            permission:this.commonService.findPermission('Foot Patrolling Sections', 'submenu', 'view'),
+            permission:this.commonService.findPermission('FP Sections', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("foot-patrolling-sections") ? "active-item" : "",
           },
           {
@@ -326,7 +327,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("Stations-sections") ? "active-item" : "",
           },
           {
             subMenuName: "TPC Board Assoc",
@@ -335,16 +336,16 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("tpc-board-depot-assoc") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("TPC Board Assoc") ? "active-item" : "",
           },
           {
-            subMenuName: "TPC Board ",
+            subMenuName: "TPC Board",
             subMenuURL: "tpc-board",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("tpc-board") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
           },
           {
             subMenuName: "Daily Summary ",
@@ -353,7 +354,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("daily-summary") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("Daily Summary") ? "active-item" : "",
           },
           {
             subMenuName: "Obs Categories",
@@ -362,16 +363,16 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("observation-categories") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("Obs Categories") ? "active-item" : "",
           },
           {
-            subMenuName: "Obs Check List ",
+            subMenuName: "Obs Check List",
             subMenuURL: "observation-check-list",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("observation-check-list") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
           },
         ]
       },
