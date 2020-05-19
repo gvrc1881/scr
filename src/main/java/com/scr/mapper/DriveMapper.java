@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.scr.controller.DrivesController;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.DriveCategory;
@@ -31,14 +30,11 @@ import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
-import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.DriveCategoryRepository;
-import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DrivesRepository;
 import com.scr.repository.FacilityRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
-import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
@@ -57,12 +53,6 @@ public class DriveMapper {
 	private FacilityRepository facilityRepository;
 	
 	@Autowired
-	private ProductRepository productRepository;
-	
-	@Autowired
-	private DriveStipulationRepository stipulationRepository;
-
-	@Autowired
 	private MeasureOrActivityListRepository measureOrActivityListRepository;
 	
 	@Autowired
@@ -71,12 +61,11 @@ public class DriveMapper {
 	@Autowired
 	private DriveCategoryRepository driveCategoryRepository;
 	
-	public Drives prepareDriveModel(@Valid DriveRequest driveRequest) {
+	public Drives prepareDriveModel(@Valid DriveRequest driveRequest) throws Exception {
 		Drives drive = null;
+		logger.info("Preparing the drive model object");
+		try {
 		if (driveRequest != null) {
-
-			logger.info(driveRequest);
-
 			drive = new Drives();
 
 			drive.setName(driveRequest.getName());
@@ -98,11 +87,13 @@ public class DriveMapper {
 			drive.setActive(driveRequest.getActive());
 
 			drive.setCreatedBy(driveRequest.getCreatedBy());
-			drive.setUpdatedBy(driveRequest.getUpdatedBy());
 			drive.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			drive.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			
 			drive.setStatusId(Constants.ACTIVE_STATUS_ID);
+		}
+		logger.info("Prepared model object = "+drive);
+		}catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
 		return drive;
 	}
@@ -132,9 +123,7 @@ public class DriveMapper {
 			drive.setChecklist(driveRequest.getChecklist());
 			drive.setActive(driveRequest.getActive());
 
-			drive.setCreatedBy(driveRequest.getCreatedBy());
 			drive.setUpdatedBy(driveRequest.getUpdatedBy());
-			drive.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			drive.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		}
 		return drive;
@@ -153,9 +142,7 @@ public class DriveMapper {
 			driveCategory.setAuthority(driveRequest.getAuthority());
 			
 			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
-			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
 			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
 			
@@ -172,11 +159,9 @@ public class DriveMapper {
 			driveCategory.setToDate(driveRequest.getToDate());
 			driveCategory.setAuthority(driveRequest.getAuthority());
 
-			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
 			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
-			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-
+			
 			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return driveCategory;
@@ -201,9 +186,7 @@ public class DriveMapper {
 			}
 			
 			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
-			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
 			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
 			
@@ -225,9 +208,7 @@ public class DriveMapper {
 				driveCategory.setDriveId(drive.get());
 			}
 			
-			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
 			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
-			driveCategory.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveCategory.setStatusId(Constants.ACTIVE_STATUS_ID);
@@ -241,12 +222,10 @@ public class DriveMapper {
 		if(request != null) {
 			driveCheckList = new DriveCheckList();
 			
-			//driveCheckList.setActivityPositionId(request.getActivityPositionId());
 			driveCheckList.setDisplayOrder(request.getDisplayOrder());
 			driveCheckList.setActive(request.getActive());
 			driveCheckList.setLowerLimit(request.getLowerLimit());
 			driveCheckList.setUpperLimit(request.getUpperLimit());
-			//driveCheckList.setReportColumnHeader(request.getReportColumnHeader());
 			if (request.getActivityId() != null && !request.getActivityId().isEmpty()) {
 				Optional<MeasureOrActivityList> measure = measureOrActivityListRepository
 						.findByActivityId(request.getActivityId());
@@ -263,9 +242,7 @@ public class DriveMapper {
 				}
 			}
 			driveCheckList.setCreatedBy(request.getCreatedBy());
-			 driveCheckList.setUpdatedBy(request.getUpdatedBy());
 			 driveCheckList.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			 driveCheckList.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			 driveCheckList.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
@@ -297,9 +274,7 @@ public class DriveMapper {
 				}
 			}
 			
-			driveCheckList.setCreatedBy(request.getCreatedBy());
 			 driveCheckList.setUpdatedBy(request.getUpdatedBy());
-			 driveCheckList.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			 driveCheckList.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			 driveCheckList.setStatusId(Constants.ACTIVE_STATUS_ID);
@@ -325,9 +300,7 @@ public class DriveMapper {
 				}
 			}
 			driveTarget.setCreatedBy(request.getCreatedBy());
-			driveTarget.setUpdatedBy(request.getUpdatedBy());
 			driveTarget.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			driveTarget.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveTarget.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
@@ -349,9 +322,7 @@ public class DriveMapper {
 				}
 			}
 			
-			driveTarget.setCreatedBy(request.getCreatedBy());
 			driveTarget.setUpdatedBy(request.getUpdatedBy());
-			driveTarget.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			driveTarget.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveTarget.setStatusId(Constants.ACTIVE_STATUS_ID);
@@ -380,9 +351,7 @@ public class DriveMapper {
 			}
 			
 			driveDailyProgress.setCreatedBy(request.getCreatedBy());
-			driveDailyProgress.setUpdatedBy(request.getUpdatedBy());
 			driveDailyProgress.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			driveDailyProgress.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveDailyProgress.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
@@ -407,9 +376,7 @@ public class DriveMapper {
 				}
 			}
 			
-			driveDailyProgress.setCreatedBy(request.getCreatedBy());
 			driveDailyProgress.setUpdatedBy(request.getUpdatedBy());
-			driveDailyProgress.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			driveDailyProgress.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			driveDailyProgress.setStatusId(Constants.ACTIVE_STATUS_ID);
@@ -422,13 +389,11 @@ public class DriveMapper {
 		if(request != null) {
 			failureAnalysis = new FailureAnalysis();
 			
-			//failureAnalysis.setFailure_id(request.getFailure_id());
 			failureAnalysis.setReported(request.getReported());
 			
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
 			failureAnalysis.setDiv(request.getDiv());
-			//failureAnalysis.setSection(request.getFailureSection());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());
@@ -443,9 +408,7 @@ public class DriveMapper {
 			failureAnalysis.setActionDescription(request.getActionDescription());
 			
 			failureAnalysis.setCreatedBy(request.getCreatedBy());
-			failureAnalysis.setUpdatedBy(request.getUpdatedBy());
 			failureAnalysis.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			failureAnalysis.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
@@ -455,12 +418,10 @@ public class DriveMapper {
 	public FailureAnalysis prepareFailureAnalysisUpdataData(FailureAnalysis failureAnalysis,
 			@Valid DriveRequest request) {
 		if(request != null) {
-			//failureAnalysis.setFailure_id(request.getFailure_id());
 			failureAnalysis.setReported(request.getReported());
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
 			failureAnalysis.setDiv(request.getDiv());
-			//failureAnalysis.setSection(request.getFailureSection());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());
@@ -474,9 +435,7 @@ public class DriveMapper {
 			failureAnalysis.setActionCompletedDate(request.getActionCompletedDate());
 			failureAnalysis.setActionDescription(request.getActionDescription());
 			
-			failureAnalysis.setCreatedBy(request.getCreatedBy());
 			failureAnalysis.setUpdatedBy(request.getUpdatedBy());
-			failureAnalysis.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			failureAnalysis.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				
 			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);	
@@ -512,10 +471,8 @@ public class DriveMapper {
 		    electrificationTargets.setDateOfCompletion(request.getDateOfCompletion());
 		    
 		    electrificationTargets.setCreatedBy(request.getCreatedBy());
-		    electrificationTargets.setUpdatedBy(request.getUpdatedBy());
 		    electrificationTargets.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		    electrificationTargets.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			
+		    
 		    electrificationTargets.setStatusId(Constants.ACTIVE_STATUS_ID);
 		    
 		}
@@ -544,9 +501,7 @@ public class DriveMapper {
 		    electrificationTargets.setYearOfSanction(request.getYearOfSanction());
 		    electrificationTargets.setDateOfCompletion(request.getDateOfCompletion());
 		    
-		    electrificationTargets.setCreatedBy(request.getCreatedBy());
 		    electrificationTargets.setUpdatedBy(request.getUpdatedBy());
-		    electrificationTargets.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		    electrificationTargets.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			
 		    electrificationTargets.setStatusId(Constants.ACTIVE_STATUS_ID);
@@ -567,18 +522,9 @@ public class DriveMapper {
 		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
-			/*
-			 * if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
-			 * Optional<Product> product =
-			 * productRepository.findById(Long.parseLong(request.getAssetType())); if
-			 * (product.isPresent()) { stipulations.setAssetType(product.get()); } }
-			 */
-		    
 		    stipulations.setCredatedBy(request.getCreatedBy());
-		    stipulations.setUpdatedBy(request.getUpdatedBy());
 		    stipulations.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		    stipulations.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			
+		    
 		    stipulations.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return stipulations;
@@ -595,16 +541,7 @@ public class DriveMapper {
 		    stipulations.setAttachment(fileList);
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
-			/*
-			 * if (request.getAssetType() != null && !request.getAssetType().isEmpty()) {
-			 * Optional<Product> product =
-			 * productRepository.findById(Long.parseLong(request.getAssetType())); if
-			 * (product.isPresent()) { stipulations.setAssetType(product.get()); } }
-			 */
-		    
-		    stipulations.setCredatedBy(request.getCreatedBy());
 		    stipulations.setUpdatedBy(request.getUpdatedBy());
-		    stipulations.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		    stipulations.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			
 		    stipulations.setStatusId(Constants.ACTIVE_STATUS_ID);	
@@ -633,20 +570,9 @@ public class DriveMapper {
 		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 		    
-			/*
-			 * if (request.getStipulationsId() != null &&
-			 * !request.getStipulationsId().isEmpty()) { Optional<Stipulations> stipulations
-			 * = stipulationRepository
-			 * .findById(Long.parseLong(request.getStipulationsId())); if
-			 * (stipulations.isPresent()) {
-			 * inspections.setStipulationsId(stipulations.get()); } }
-			 */
-		    
 		    inspections.setCredatedBy(request.getCreatedBy());
-		    inspections.setUpdatedBy(request.getUpdatedBy());
 		    inspections.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		    inspections.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			
+		    
 		    inspections.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return inspections;
@@ -704,17 +630,7 @@ public class DriveMapper {
 		    inspections.setAttachment(fileList);
 		    inspections.setStation(request.getStation());
 
-			/*
-			 * if (request.getStipulationsId() != null &&
-			 * !request.getStipulationsId().isEmpty()) { Optional<Stipulations> stipulations
-			 * = stipulationRepository
-			 * .findById(Long.parseLong(request.getStipulationsId())); if
-			 * (stipulations.isPresent()) {
-			 * inspections.setStipulationsId(stipulations.get()); } }
-			 */
-		    inspections.setCredatedBy(request.getCreatedBy());
 		    inspections.setUpdatedBy(request.getUpdatedBy());
-		    inspections.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		    inspections.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			
 		    inspections.setStatusId(Constants.ACTIVE_STATUS_ID);

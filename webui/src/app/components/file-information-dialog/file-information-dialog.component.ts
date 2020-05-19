@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
+import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'file-information-dialog',
@@ -10,6 +11,7 @@ import { DrivesService } from 'src/app/services/drives.service';
     styleUrls: ['./file-information-dialog.component.scss']
 })
 export class FilesInformationDialogComponent implements OnInit {
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     public response: any = [];
     type: string;
     schedulerDisplayedColumns = ['sno', 'fileName', 'actions'];
@@ -22,7 +24,8 @@ export class FilesInformationDialogComponent implements OnInit {
         public dialogRef: MatDialogRef<FilesInformationDialogComponent>,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private drivesService: DrivesService, ) {
+        private drivesService: DrivesService, 
+        public dialog: MatDialog,) {
         if (data) {
             this.response = data;
         }
@@ -33,54 +36,63 @@ export class FilesInformationDialogComponent implements OnInit {
         this.type = localStorage.getItem("driveFileType");
         this.prepareTable();
     }
-    downloadFile(path, fileName){
-        console.log(path + " = "+fileName)
-       /*  const link = document.createElement('a');
-        link.setAttribute('target', '_blank');
-        link.setAttribute('href', path);
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click(); */
+    downloadFile(path, fileName) {
+        console.log(path + " = " + fileName)
+        /*  const link = document.createElement('a');
+         link.setAttribute('target', '_blank');
+         link.setAttribute('href', path);
+         link.setAttribute('download', fileName);
+         document.body.appendChild(link);
+         link.click(); */
         //link.remove();
         this.drivesService.downloadDriveFile(this.type, fileName).subscribe((response) => {
-               console.log(JSON.stringify(response));                
-            }, error => this.commonService.showAlertMessage(error));
-      }
+            console.log(JSON.stringify(response));
+        }, error => this.commonService.showAlertMessage(error));
+    }
     prepareTable() {
         const divisionHistoryData = [];
         console.log(window.location.pathname)
         for (let i = 0; i < this.response.length; i++) {
-            if(!!this.response[i]){    
-            divisionHistoryData.push({
-                "sno": i + 1,
-                "fileName": this.response[i],
-                "type":this.type,
-                "path":'.'+window.location.pathname+window.location.pathname+'/'+this.response[i]
-            });
-        }
+            if (!!this.response[i]) {
+                divisionHistoryData.push({
+                    "sno": i + 1,
+                    "fileName": this.response[i],
+                    "type": this.type,
+                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i]
+                });
+            }
         }
         this.schedulerDataSource = new MatTableDataSource(divisionHistoryData);
         this.schedulerDataSource.paginator = this.schedulerPaginator;
         this.schedulerDataSource.sort = this.sort;
     }
     applyFilter(filterValue: string) {
-        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.schedulerDataSource.filter = filterValue;
     }
 
     delete(fileName) {
-        this.spinnerService.show();
-        var id = localStorage.getItem('driveFileTypeId');
-        this.drivesService.deleteFile(id, fileName, this.type).subscribe(data => {
-            this.spinnerService.hide();
-            this.commonService.showAlertMessage("Deleted File Successfully");
-            this.updateData(id);
-        }, error => {
-            console.log('ERROR >>>');
-            this.spinnerService.hide();
-            this.commonService.showAlertMessage("File Deletion Failed.");
-        })
+        this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+        });
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.spinnerService.show();
+                var id = localStorage.getItem('driveFileTypeId');
+                this.drivesService.deleteFile(id, fileName, this.type).subscribe(data => {
+                    this.spinnerService.hide();
+                    this.commonService.showAlertMessage("Deleted File Successfully");
+                    this.updateData(id);
+                }, error => {
+                    console.log('ERROR >>>');
+                    this.spinnerService.hide();
+                    this.commonService.showAlertMessage("File Deletion Failed.");
+                })
+            }
+            this.confirmDialogRef = null;
+        });
     }
     filesInfor: any;
     updateData(id) {
@@ -94,7 +106,7 @@ export class FilesInformationDialogComponent implements OnInit {
                     console.log('data= ' + JSON.stringify(data))
                     this.spinnerService.hide();
                     this.response = data;
-                   
+
                 }
                 this.prepareTable();
 
@@ -109,7 +121,7 @@ export class FilesInformationDialogComponent implements OnInit {
                     console.log('data= ' + JSON.stringify(data))
                     this.spinnerService.hide();
                     this.response = data;
-                }                
+                }
                 this.prepareTable();
             }, error => this.commonService.showAlertMessage(error));
         }

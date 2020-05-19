@@ -5,7 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
-import { MatDatepickerInputEvent } from '@angular/material';
+
 
 @Component({
   selector: 'app-add-drive-failure-analysis',
@@ -13,6 +13,7 @@ import { MatDatepickerInputEvent } from '@angular/material';
   styleUrls: ['./add-drive-failure-analysis.component.css']
 })
 export class AddDriveFailureAnalysisComponent implements OnInit {
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -95,7 +96,6 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     this.addFailureAnalysisFormGroup
       = this.formBuilder.group({
         id: 0,
-       // 'failure_id': [null],
         'reported': [null],
         "reportDescription":[null, Validators.maxLength(250)],
         'repurcussion': [null, Validators.maxLength(250)],
@@ -200,7 +200,6 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     var failedMessage = '';
     if (this.save) {
       data = {
-       // "failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
         "reportDescription":this.addFailureAnalysisFormGroup.value.reportDescription,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
@@ -220,17 +219,20 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveFailureAnalysisData(data).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Failure Analysis Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Failure Analysis Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -239,7 +241,6 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     }else if(this.update){
       data = {
         "id":this.id,
-        //"failure_id": this.addFailureAnalysisFormGroup.value.failure_id,
         "reported": this.addFailureAnalysisFormGroup.value.reported,
         "reportDescription":this.addFailureAnalysisFormGroup.value.reportDescription,
         "repurcussion": this.addFailureAnalysisFormGroup.value.repurcussion,
@@ -259,17 +260,20 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateFailureAnalysisData(data).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Failure Analysis Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Failure Analysis Data "+failedMessage+" Failed."); 
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

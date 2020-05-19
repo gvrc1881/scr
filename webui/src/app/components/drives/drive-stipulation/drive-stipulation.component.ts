@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
+import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -20,9 +21,9 @@ export class DriveStipulationComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
   displayedColumns = ['sno', 'stipulation', 'inspectionId', 'dateOfStipulation', 'dateComplied',
-    'compliance', 'attachment', 'compliedBy',  'actions'];
+    'compliance', 'attachment', 'compliedBy', 'actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
-
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -56,7 +57,6 @@ export class DriveStipulationComponent implements OnInit {
         { "Key": 'compliance', "Value": "" },
         { "Key": 'attachment', "Value": " " },
         { "Key": 'compliedBy', "Value": " " },
-       // { "Key": 'assetType', "Value": " " },
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -72,7 +72,6 @@ export class DriveStipulationComponent implements OnInit {
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
-      //  this.stipulationsList[i].assetType = this.stipulationsList[i].assetType != null ? this.stipulationsList[i].assetType['productName'] : '';
         stipulations.push(this.stipulationsList[i]);
       }
       this.filterData.gridData = stipulations;
@@ -98,17 +97,26 @@ export class DriveStipulationComponent implements OnInit {
     this.filterData.dataSource.filter = filterValue;
   }
   delete(id) {
-    this.spinnerService.show();
-    this.drivesService.deleteStipulationData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Stipulation Successfully");
-      this.getStipulationData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Inspection Stipulation Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.drivesService.deleteStipulationData(id).subscribe(data => {
+          console.log(JSON.stringify(data));
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Stipulation Successfully");
+          this.getStipulationData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Inspection Stipulation Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   filesInfor: any;
@@ -120,7 +128,6 @@ export class DriveStipulationComponent implements OnInit {
       this.filesInfor = response;
       var data = [];
       if (this.filesInfor.attachment != '') {
-        console.log(JSON.stringify(response));
         data = this.filesInfor.attachment.split(',');
         console.log('data= ' + JSON.stringify(data))
       }

@@ -5,14 +5,14 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
-import { MatDatepickerInputEvent } from '@angular/material';
+
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.component.html',
   styleUrls: ['./add-drive.component.css']
 })
 export class AddDriveComponent implements OnInit {
-
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title: string = '';
@@ -29,7 +29,7 @@ export class AddDriveComponent implements OnInit {
   allFunctionalUnitsList: any;
   driveFormErrors: any;
   resp: any;
-  toMinDate=new Date();
+  toMinDate = new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy hh:mm:ss';
   constructor(
@@ -149,7 +149,6 @@ export class AddDriveComponent implements OnInit {
       })
   }
   addEvent($event) {
-    console.log($event.value)
     this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
@@ -236,12 +235,19 @@ export class AddDriveComponent implements OnInit {
         "isIdRequired": this.addDriveFormGroup.value.isIdRequired,
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
-        "active": this.addDriveFormGroup.value.status
+        "active": this.addDriveFormGroup.value.status,
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }
-      this.drivesService.saveDriveData(saveDriveModel).subscribe(data => {
+      this.drivesService.saveDriveData(saveDriveModel).subscribe(response => {
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Drive Data Saved Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
+          this.commonService.showAlertMessage("Drive Data Saved Successfully");
+          this.router.navigate(['../'], { relativeTo: this.route });
+        } else {
+          this.commonService.showAlertMessage("Drive Data Saving Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -262,12 +268,19 @@ export class AddDriveComponent implements OnInit {
         "isIdRequired": this.addDriveFormGroup.value.isIdRequired,
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
-        "active": this.addDriveFormGroup.value.status
+        "active": this.addDriveFormGroup.value.status,
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }
-      this.drivesService.updateDriveData(updateDriveModel).subscribe(data => {
+      this.drivesService.updateDriveData(updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Data Updated Successfully");
         this.router.navigate(['../../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Data Updating Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -278,9 +291,9 @@ export class AddDriveComponent implements OnInit {
   }
 
   onGoBack() {
-    if(this.save){
+    if (this.save) {
       this.router.navigate(['../'], { relativeTo: this.route });
-    }else if(this.update){
+    } else if (this.update) {
       this.router.navigate(['../../'], { relativeTo: this.route });
     }
   }

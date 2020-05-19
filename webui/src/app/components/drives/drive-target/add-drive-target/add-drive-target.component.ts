@@ -13,6 +13,7 @@ import { DriveTargetModel } from 'src/app/models/drive.model';
   styleUrls: ['./add-drive-target.component.css']
 })
 export class AddDriveTargetComponent implements OnInit {
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -72,7 +73,6 @@ export class AddDriveTargetComponent implements OnInit {
   getDriveTargetData() {
     const driveTarget: DriveTargetModel[] = [];
     this.drivesService.getDriveTargetData().subscribe((data) => {
-      console.log(JSON.stringify(data))
       this.driveTargetList = data;                  
       this.spinnerService.hide();
     }, error => {
@@ -120,7 +120,6 @@ export class AddDriveTargetComponent implements OnInit {
   }
   updateAssertType($event) {
     if ($event.value) {
-      //this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
       this.functionalUnitList = [];
       this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
         return element.depotType == $event.value;
@@ -172,7 +171,6 @@ export class AddDriveTargetComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    //console.log(this.addDriveTargetFormGroup.value);
     var data = {};
     var message = '';
     var failedMessage = '';
@@ -183,18 +181,20 @@ export class AddDriveTargetComponent implements OnInit {
         "target": this.addDriveTargetFormGroup.value.target,
         "poulation": this.addDriveTargetFormGroup.value.poulation,
         "driveId": this.addDriveTargetFormGroup.value.drive,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveDriveTargetData(data).subscribe(response => {
-      //  console.log(JSON.stringify(response));
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Target Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Target Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -208,18 +208,20 @@ export class AddDriveTargetComponent implements OnInit {
         "target": this.addDriveTargetFormGroup.value.target,
         "poulation": this.addDriveTargetFormGroup.value.poulation,
         "driveId": this.addDriveTargetFormGroup.value.drive,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateDriveTargetData(data).subscribe(response => {
-        //console.log(JSON.stringify(response));
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Target Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Target Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

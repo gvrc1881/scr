@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialogRef, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DriveModel, DriveCategoryModel, DriveCategoryAssoModel } from 'src/app/models/drive.model';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drives',
@@ -16,36 +17,36 @@ export class DrivesComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
-
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType',
     'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
     'checkList', 'active', 'actions'];
   driveCategoryDisplayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'authority', 'actions'];
-  driveCategoryAssoDisplayedColumns = ['sno', 'drive', 'driveCategory','active', 'actions'];
+  driveCategoryAssoDisplayedColumns = ['sno', 'drive', 'driveCategory', 'active', 'actions'];
 
   dataSource: MatTableDataSource<DriveModel>;
   driveCategoryDataSource: MatTableDataSource<DriveCategoryModel>;
   driveCategoryAssoDataSource: MatTableDataSource<DriveCategoryAssoModel>;
   depoTypeList = [];
   assetTypeList = [];
-  
-  functionalUnitList:any;
-  allFunctionalUnitsList:any;
+
+  functionalUnitList: any;
+  allFunctionalUnitsList: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-  drivesList:any;
+  drivesList: any;
 
   @ViewChild(MatPaginator, { static: true }) driveCategoryPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) driveCategorySort: MatSort;
   @ViewChild('filter', { static: true }) driveCategoryFilter: ElementRef;
-  driveCategoryList:any;
+  driveCategoryList: any;
 
   @ViewChild(MatPaginator, { static: true }) driveCategoryAssoPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) driveCategoryAssoSort: MatSort;
   @ViewChild('filter', { static: true }) driveCategoryAssoFilter: ElementRef;
-  driveCategoryAssoList:any;
+  driveCategoryAssoList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -53,6 +54,7 @@ export class DrivesComponent implements OnInit {
     private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -62,9 +64,9 @@ export class DrivesComponent implements OnInit {
 
     this.spinnerService.show();
     this.findDepoTypeList();
-      //this.findAssetTypeList();
-      this.findStatusItemDetails();
-      this.findFunctionalUnits();
+    //this.findAssetTypeList();
+    this.findStatusItemDetails();
+    this.findFunctionalUnits();
     this.getDrivesData();
 
     this.getDriveCategoryData();
@@ -91,7 +93,6 @@ export class DrivesComponent implements OnInit {
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
       .subscribe((depoTypes) => {
-       // console.log('depoTypes = ' + JSON.stringify(depoTypes))
         this.depoTypeList = depoTypes;
       })
   }
@@ -99,9 +100,7 @@ export class DrivesComponent implements OnInit {
   findAssetTypeList(assertType) {
     this.drivesService.findAssetTypeList(assertType)
       .subscribe((assetTypes) => {
-        //console.log('assetTypes = '+JSON.stringify(assetTypes))
         this.assetTypeList = assetTypes;
-        // this.depoTypeList = assetTypes;
       })
   }
   findStatusItemDetails() {
@@ -114,19 +113,15 @@ export class DrivesComponent implements OnInit {
   findFunctionalUnits() {
     this.drivesService.findFunctionslUnits()
       .subscribe((units) => {
-       // console.log('findFunctionalUnits = ' + JSON.stringify(units))
         this.allFunctionalUnitsList = units;
       })
   }
   getDrivesData() {
     const drive: DriveModel[] = [];
     this.drivesService.getDrivesData().subscribe((data) => {
-      console.log(data)
       this.drivesList = data;
       for (let i = 0; i < this.drivesList.length; i++) {
-      //  console.log(this.depoTypeList)
         this.drivesList[i].sno = i + 1;
-        console.log(this.drivesList[i])
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
@@ -136,7 +131,7 @@ export class DrivesComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(drive);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;            
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -146,7 +141,6 @@ export class DrivesComponent implements OnInit {
   getDriveCategoryData() {
     const drive: DriveCategoryModel[] = [];
     this.drivesService.getDriveCategoryData().subscribe((data) => {
-      console.log(data)
       this.driveCategoryList = data;
       for (let i = 0; i < this.driveCategoryList.length; i++) {
         this.driveCategoryList[i].sno = i + 1;
@@ -156,7 +150,7 @@ export class DrivesComponent implements OnInit {
 
       this.driveCategoryDataSource = new MatTableDataSource(drive);
       this.driveCategoryDataSource.paginator = this.driveCategoryPaginator;
-      this.driveCategoryDataSource.sort = this.driveCategorySort;            
+      this.driveCategoryDataSource.sort = this.driveCategorySort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -166,7 +160,6 @@ export class DrivesComponent implements OnInit {
   getDriveCategoryAssoData() {
     const drive: DriveCategoryAssoModel[] = [];
     this.drivesService.getDriveCategoryAssoData().subscribe((data) => {
-      console.log(data)
       this.driveCategoryAssoList = data;
       for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
         this.driveCategoryAssoList[i].sno = i + 1;
@@ -177,37 +170,44 @@ export class DrivesComponent implements OnInit {
 
       this.driveCategoryAssoDataSource = new MatTableDataSource(drive);
       this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
-      this.driveCategoryAssoDataSource.sort = this.driveCategoryAssoSort;            
+      this.driveCategoryAssoDataSource.sort = this.driveCategoryAssoSort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
 
-  processEditAction(id){
-    this.router.navigate(['drive/'+id],{relativeTo: this.route});
+  processEditAction(id) {
+    this.router.navigate(['drive/' + id], { relativeTo: this.route });
   }
-  delete(id){
-    this.spinnerService.show();
-    this.drivesService.deleteDriveData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Drive Successfully");
-      this.getDrivesData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Drive Deletion Failed.");
-    })
+  delete(id) {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.drivesService.deleteDriveData(id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Drive Successfully");
+          this.getDrivesData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Drive Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
-  driveCategoryEdit(id){
-    this.router.navigate(['drive-category/'+id],{relativeTo: this.route});
+  driveCategoryEdit(id) {
+    this.router.navigate(['drive-category/' + id], { relativeTo: this.route });
   }
-  driveCategoryDelete(id){
+  driveCategoryDelete(id) {
     this.spinnerService.show();
     this.drivesService.deleteDriveCategoryData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Successfully");
       this.getDriveCategoryData();
@@ -218,13 +218,12 @@ export class DrivesComponent implements OnInit {
     })
   }
 
-  driveCategoryAssoEdit(id){
-    this.router.navigate(['drive-category-association/'+id],{relativeTo: this.route});
+  driveCategoryAssoEdit(id) {
+    this.router.navigate(['drive-category-association/' + id], { relativeTo: this.route });
   }
-  driveCategoryAssoDelete(id){
+  driveCategoryAssoDelete(id) {
     this.spinnerService.show();
     this.drivesService.deleteDriveCategoryAssoData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
       this.getDriveCategoryAssoData();

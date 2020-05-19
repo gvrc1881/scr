@@ -5,7 +5,6 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
-import { MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-add-drive-category',
@@ -13,7 +12,7 @@ import { MatDatepickerInputEvent } from '@angular/material';
   styleUrls: ['./add-drive-category.component.css']
 })
 export class AddDriveCategoryComponent implements OnInit {
-
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title: string = '';
@@ -153,7 +152,6 @@ export class AddDriveCategoryComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveCategoryFormGroup.value);
     if (this.save) {
       var saveDriveModel = {
         "name": this.addDriveCategoryFormGroup.value.name,
@@ -161,12 +159,18 @@ export class AddDriveCategoryComponent implements OnInit {
         "fromDate": this.addDriveCategoryFormGroup.value.fromDate,
         "toDate": this.addDriveCategoryFormGroup.value.toDate,
         "authority": this.addDriveCategoryFormGroup.value.authority,
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }
-      this.drivesService.saveDriveCategoryData(saveDriveModel).subscribe(data => {
-        console.log(JSON.stringify(data));
+      this.drivesService.saveDriveCategoryData(saveDriveModel).subscribe(response => {
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Drive Category Data Saved Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Category Data Saving Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -180,12 +184,18 @@ export class AddDriveCategoryComponent implements OnInit {
         "fromDate": this.addDriveCategoryFormGroup.value.fromDate,
         "toDate": this.addDriveCategoryFormGroup.value.toDate,
         "authority": this.addDriveCategoryFormGroup.value.authority,
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }
-      this.drivesService.updateDriveCategoryData(updateDriveModel).subscribe(data => {
-        console.log(JSON.stringify(data));
+      this.drivesService.updateDriveCategoryData(updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Category Data Updated Successfully");
         this.router.navigate(['../../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Drive Category Data Updating Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

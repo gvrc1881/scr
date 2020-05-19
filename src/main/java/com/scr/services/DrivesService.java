@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +45,8 @@ import com.scr.util.Constants;
 
 @Service
 public class DrivesService {
-
+	
+	static Logger logger = LogManager.getLogger(DrivesService.class);
 	@Autowired
 	private DriveMapper driveMapper;
 	
@@ -90,14 +93,23 @@ public class DrivesService {
 	private InspectionTypeRepository inspectionTypeRepository;
 	
 	public List<Drives> findAllDrives() {
+		logger.info("Fetcing drives data where active is 1.");
 		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}	
 
-	public @Valid boolean saveDriveData(@Valid DriveRequest driveRequest) {
+	public @Valid boolean saveDriveData(@Valid DriveRequest driveRequest) throws Exception {
+		logger.info("Calling mapper for preparing the drive model object");
 		Drives drive = driveMapper.prepareDriveModel(driveRequest);
-		drive = driveRepository.save(drive);
-		return true;
-	}	
+		if (drive != null) {
+			logger.info("After prepared model object, saving to drive table");
+			drive = driveRepository.save(drive);
+			logger.info("Drive data saved successfully.");
+			return true;
+		} else {
+			logger.info("Preparing drive model object failed");
+			return false;
+		}
+	}
 
 	public String updateDriveData(@Valid DriveRequest request) {
 		Optional<Drives> drives = driveRepository.findById(request.getId());

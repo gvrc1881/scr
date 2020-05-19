@@ -16,6 +16,7 @@ export class AddDriveChecklistComponent implements OnInit {
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   resp: any;
   title:string;
   addDriveChecklistFormGroup: FormGroup;
@@ -48,12 +49,12 @@ export class AddDriveChecklistComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
     this.findMeasureActivityList();
-    this.createCheckListForm();
     this.findYesNoStatus();
-    if (!isNaN(this.id)) {
-      this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
-        this.onFormValuesChanged();
-      });
+    this.createCheckListForm();
+    this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
+      this.onFormValuesChanged();
+  });
+    if (!isNaN(this.id)) {     
       this.spinnerService.show();
       this.save = false;
       this.update = true;
@@ -148,15 +149,18 @@ export class AddDriveChecklistComponent implements OnInit {
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
         active: this.addDriveChecklistFormGroup.value.status,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }
       this.drivesService.saveCheckListData(save).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("CheckList Data saved Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("CheckList Data saving Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -171,15 +175,18 @@ export class AddDriveChecklistComponent implements OnInit {
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
         active: this.addDriveChecklistFormGroup.value.status,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }
       this.drivesService.updateCheckListData(update).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("CheckList Data Updated Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("CheckList Data Updation Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

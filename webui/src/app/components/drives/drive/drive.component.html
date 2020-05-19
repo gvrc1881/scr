@@ -24,11 +24,10 @@
                             <div class="panel-body">
                                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column"
                                     fusePerfectScrollbar>
-                                    <!-- *ngIf="addPermission" -->
-                                    <div class="p-24" style="text-align: right">
+                                    
+                                    <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                         <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-drive']">
-                                            <!-- *ngIf="rolePermission"  -->
                                             Add Drive
                                         </button>
                                     </div>
@@ -141,8 +140,8 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <a mat-icon-button matTooltip="Edit">
-                                                            <!--*ngIf="editPermission"-->
+                                                        <a mat-icon-button matTooltip="Edit"
+                                                            *ngIf="editPermission">
                                                             <button mat-icon-button matTooltip="Edit"
                                                                 (click)="processEditAction(row.id)">
                                                                 <mat-icon style="color: rgb(0, 145, 234);">edit
@@ -150,8 +149,8 @@
                                                             </button>
                                                         </a>
                                                         <button mat-icon-button matTooltip="Delete"
-                                                            (click)="delete(row.id)">
-                                                            <!-- *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                            (click)="delete(row.id)"
+                                                             *ngIf="deletePermission">
                                                             <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                         </button>
                                                     </mat-cell>
@@ -174,11 +173,9 @@
                             <div class="panel-body">
                                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column"
                                     fusePerfectScrollbar>
-                                    <!-- *ngIf="addPermission" -->
-                                    <div class="p-24" style="text-align: right">
+                                    <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                         <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-drive-category']">
-                                            <!-- *ngIf="rolePermission"  -->
                                             Add Drive Category
                                         </button>
                                     </div>
@@ -242,8 +239,8 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <a mat-icon-button matTooltip="Edit">
-                                                            <!--*ngIf="editPermission"-->
+                                                        <a mat-icon-button matTooltip="Edit"
+                                                            *ngIf="editPermission">
                                                             <button mat-icon-button matTooltip="Edit"
                                                                 (click)="driveCategoryEdit(row.id)">
                                                                 <mat-icon style="color: rgb(0, 145, 234);">edit
@@ -251,8 +248,8 @@
                                                             </button>
                                                         </a>
                                                         <button mat-icon-button matTooltip="Delete"
-                                                            (click)="driveCategoryDelete(row.id)">
-                                                            <!-- *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                            (click)="driveCategoryDelete(row.id)"
+                                                            *ngIf="deletePermission">
                                                             <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                         </button>
                                                     </mat-cell>
@@ -275,11 +272,9 @@
                             <div class="panel-body">
                                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column"
                                     fusePerfectScrollbar>
-                                    <!-- *ngIf="addPermission" -->
-                                    <div class="p-24" style="text-align: right">
+                                    <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                         <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-drive-category-association']">
-                                            <!-- *ngIf="rolePermission"  -->
                                             Add Drive Category Asso
                                         </button>
                                     </div>
@@ -329,8 +324,7 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <a mat-icon-button matTooltip="Edit">
-                                                            <!--*ngIf="editPermission"-->
+                                                        <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
                                                             <button mat-icon-button matTooltip="Edit"
                                                                 (click)="driveCategoryAssoEdit(row.id)">
                                                                 <mat-icon style="color: hsl(203, 100%, 46%);">edit
@@ -338,8 +332,8 @@
                                                             </button>
                                                         </a>
                                                         <button mat-icon-button matTooltip="Delete"
-                                                            (click)="driveCategoryAssoDelete(row.id)">
-                                                            <!-- *ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                            (click)="driveCategoryAssoDelete(row.id)"
+                                                             *ngIf="deletePermission">
                                                             <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                         </button>
                                                     </mat-cell>

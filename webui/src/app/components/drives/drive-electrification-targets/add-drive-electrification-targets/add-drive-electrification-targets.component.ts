@@ -12,7 +12,7 @@ import { Constants } from 'src/app/common/constants';
   styleUrls: ['./add-drive-electrification-targets.component.css']
 })
 export class AddDriveElectrificationTargetsComponent implements OnInit {
-
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -208,17 +208,20 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         "sanctionByBoard": this.addDriveElectrificationTargetsFormGroup.value.sanctionByBoard,
         "yearOfSanction": this.addDriveElectrificationTargetsFormGroup.value.yearOfSanction,
         "dateOfCompletion": this.addDriveElectrificationTargetsFormGroup.value.dateOfCompletion,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
       this.drivesService.saveElectrificationTargetsData(data).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Electrification Targets Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Electrification Targets Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
@@ -245,17 +248,20 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         "sanctionByBoard": this.addDriveElectrificationTargetsFormGroup.value.sanctionByBoard,
         "yearOfSanction": this.addDriveElectrificationTargetsFormGroup.value.yearOfSanction,
         "dateOfCompletion": this.addDriveElectrificationTargetsFormGroup.value.dateOfCompletion,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
       this.drivesService.updateElectrificationTargetsData(data).subscribe(response => {
         this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Electrification Targets Data "+message+" Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Electrification Targets Data "+failedMessage+" Failed.");
+        }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();

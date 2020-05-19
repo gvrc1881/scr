@@ -4,15 +4,14 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StipulationstModel } from 'src/app/models/drive.model';
 import { Constants } from 'src/app/common/constants';
-import * as $ from 'jquery';
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
   styleUrls: ['./add-drive-inspection.component.css']
 })
 export class AddDriveInspectionComponent implements OnInit {
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title:string;
@@ -105,7 +104,6 @@ export class AddDriveInspectionComponent implements OnInit {
         remarks: this.resp.remarks,
         authorisationDate: !!this.resp.authorisationDate ? new Date(this.resp.authorisationDate) : '',
         chargingDate: !!this.resp.chargingDate ? new Date(this.resp.chargingDate) : '',
-       // attachment: this.resp.attachment,
         station: this.resp.station,
       });
       console.log(this.resp.attachment);
@@ -144,8 +142,7 @@ export class AddDriveInspectionComponent implements OnInit {
         'authorisationDate': [null],
         'chargingDate': [null],
         'attachment': [null],
-        'station': [null]/* ,
-        'stipulationsId': [null] */
+        'station': [null]
       });
   }
   onAddInspectionsFormSubmit() {
@@ -167,16 +164,11 @@ export class AddDriveInspectionComponent implements OnInit {
         remarks: this.addDriveInspectionFormGroup.value.remarks,
         authorisationDate: this.addDriveInspectionFormGroup.value.authorisationDate,
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
-      //  attachment: this.addDriveInspectionFormGroup.value.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
-        //stipulationsId: this.addDriveInspectionFormGroup.value.stipulationsId,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "createdBy": this.loggedUserData.id,
+        "createdOn": new Date()
       }
       this.drivesService.saveInspectionsData(save, this.selectedFiles).subscribe(response => {
-        console.log(JSON.stringify(response));
         this.spinnerService.hide();
         this.resp = response;
         if(this.resp.code == Constants.CODES.SUCCESS){
@@ -205,11 +197,8 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
         attachment: this.addDriveInspectionFormGroup.value.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
-        //stipulationsId: this.addDriveInspectionFormGroup.value.stipulationsId,
-        "createdBy": "1",
-        "createdOn": "2020-04-01",
-        "updatedBy": "1",
-        "updatedOn": "2020-04-01"
+        "updatedBy": this.loggedUserData.id,
+        "updatedOn": new Date()
       }
       this.drivesService.updateInspectionsData(update, this.selectedFiles).subscribe(response => {
         this.spinnerService.hide();
@@ -236,7 +225,6 @@ export class AddDriveInspectionComponent implements OnInit {
     for (var i = 0; i < event.target.files.length; i++) {
       this.selectedFiles.push(event.target.files[i]);
     }
-    console.log(this.selectedFiles)
   }
   removeFile(id) {
     this.selectedFiles.splice(id, 1);

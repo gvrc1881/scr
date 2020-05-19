@@ -18,10 +18,9 @@
                     <div class="panel-heading">Inspection Information</div>
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-<!-- *ngIf="addPermission" -->
-                            <div class="p-24" style="text-align: right" >
+                            <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
-                                    [routerLink]="['add-inspection']"> <!-- *ngIf="rolePermission"  -->
+                                    [routerLink]="['add-inspection']"> 
                                     Add Inspection
                                 </button></div>
 
@@ -107,24 +106,17 @@
                                            </button>
 
                                        </mat-cell>
-                                            <!-- <mat-cell *matCellDef="let row"> {{row.attachment}}</mat-cell> -->
+                                            
                                         </ng-container>
 
                                         <ng-container matColumnDef="station">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Station</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.station}}</mat-cell>
                                         </ng-container>
-
-                                      <!--   <ng-container matColumnDef="stipulationsId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Stipulations Id</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.stipulationsId}}</mat-cell>
-                                        </ng-container> -->
-
-
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
-                                                <a mat-icon-button matTooltip="Edit" ><!--*ngIf="editPermission"-->
+                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">
                                                         <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
@@ -132,7 +124,7 @@
                                                 </a>
                                                 <button mat-icon-button matTooltip="Delete"
                                                     (click)="delete(row.id)"
-                                                    > <!--*ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
+                                                    *ngIf="deletePermission">
                                                     <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                 </button>
                                             </mat-cell>

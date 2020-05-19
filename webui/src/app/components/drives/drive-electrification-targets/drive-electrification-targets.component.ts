@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ElectrificationTargetstModel } from 'src/app/models/drive.model';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drive-electrification-targets',
@@ -17,10 +18,10 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
-
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'section', 'guage', 'targetDate', 'status', 'division', 'executionAgency',
-    'TKM', 'RKM', 'crsInspection', 'crsAuthorisation', 'targetSetBy','doublingTrippling','state','phase',
-    'proposalScheme', 'sanctionByBoard', 'yearOfSanction','dateOfCompletion','actions'];
+    'TKM', 'RKM', 'crsInspection', 'crsAuthorisation', 'targetSetBy', 'doublingTrippling', 'state', 'phase',
+    'proposalScheme', 'sanctionByBoard', 'yearOfSanction', 'dateOfCompletion', 'actions'];
   dataSource: MatTableDataSource<ElectrificationTargetstModel>;
 
 
@@ -28,7 +29,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
-  electrificationTargetsList:any;
+  electrificationTargetsList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -36,6 +37,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
     private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -55,7 +57,6 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   getElectrificationTargetsData() {
     const electrificationTargets: ElectrificationTargetstModel[] = [];
     this.drivesService.getElectrificationTargetsData().subscribe((data) => {
-      console.log(JSON.stringify(data))
       this.electrificationTargetsList = data;
       for (let i = 0; i < this.electrificationTargetsList.length; i++) {
         this.electrificationTargetsList[i].sno = i + 1;
@@ -66,26 +67,34 @@ export class DriveElectrificationTargetsComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(electrificationTargets);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;            
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
-  processEditAction(id){
-    this.router.navigate([id],{relativeTo: this.route});
+  processEditAction(id) {
+    this.router.navigate([id], { relativeTo: this.route });
   }
-  delete(id){
-    this.spinnerService.show();
-    this.drivesService.deleteElectrificationTargetsData(id).subscribe(data => {
-      console.log(JSON.stringify(data));
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Electrification Targets Successfully");
-      this.getElectrificationTargetsData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Electrification Targets Deletion Failed.");
-    })
+  delete(id) {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.drivesService.deleteElectrificationTargetsData(id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Electrification Targets Successfully");
+          this.getElectrificationTargetsData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Electrification Targets Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 }
