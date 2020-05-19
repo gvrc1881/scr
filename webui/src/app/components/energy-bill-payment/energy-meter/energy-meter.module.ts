@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 const routes: Routes = [
     {
@@ -28,6 +29,7 @@ const routes: Routes = [
         MaterialModule,
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
+        Ng4LoadingSpinnerModule.forRoot()
         
     ],
     providers: [

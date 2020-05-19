@@ -306,4 +306,17 @@ public class EnergyMeter implements Serializable {
 		this.startRkvahLead = startRkvahLead;
 	}
 
+	@Override
+	public String toString() {
+		return "EnergyMeter [id=" + id + ", cmd=" + cmd + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", endDate=" + endDate + ", endKvah=" + endKvah
+				+ ", endKwh=" + endKwh + ", endRkvahLag=" + endRkvahLag + ", endRkvahLead=" + endRkvahLead
+				+ ", feederId=" + feederId + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", mEndReading=" + mEndReading + ", mStartReading=" + mStartReading
+				+ ", meterMake=" + meterMake + ", meterModel=" + meterModel + ", meterNo=" + meterNo
+				+ ", multiplicationFac=" + multiplicationFac + ", remarks=" + remarks + ", seqId=" + seqId
+				+ ", startDate=" + startDate + ", startKvah=" + startKvah + ", startKwh=" + startKwh
+				+ ", startRkvahLag=" + startRkvahLag + ", startRkvahLead=" + startRkvahLead + "]";
+	}
+
 }

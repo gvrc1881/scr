@@ -7,6 +7,7 @@ import { EnergyMeterModel } from 'src/app/models/energy-meter.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService } from 'src/app/services/report.service';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'energy-meter',
@@ -29,13 +30,15 @@ export class EnergyMeterComponent implements OnInit{
     addEnergyMeter: boolean ;
     energyMeterDisplayColumns = ['sno' , 'cmd' , 'feederId' , 'startKvah' , 'startKwh' , 'id' ] ;
     tssFeederMaterList: any;
+    energyMeterResponse: any;
 
     constructor(
         private energyMeterService: EnergyMeterService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
-        private reportService: ReportService
+        private reportService: ReportService,
+        private spinnerService: Ng4LoadingSpinnerService
     ){
 
     }
@@ -112,10 +115,20 @@ export class EnergyMeterComponent implements OnInit{
             	'startDate' : startDate,
             	'endDate' : endDate
             }).subscribe((data) => {
-                this.commonService.showAlertMessage('Successfully saved');
-                this.getAllEnergyMeterData();
-                this.energyMeterFormGroup.reset();
-            } , error => {});
+            	this.energyMeterResponse = data;
+            	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
+	                this.commonService.showAlertMessage(this.energyMeterResponse.message);
+	                this.getAllEnergyMeterData();
+	                this.energyMeterFormGroup.reset();
+                }else {
+                	this.commonService.showAlertMessage("Energy Meter Data Saving Failed.");
+                }
+                this.spinnerService.hide();
+            } , error => {
+            	console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Energy Meter Data Saving Failed.");
+            });
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editEnergyMeterResponse.id;
             this.energyMeterService.update({
@@ -137,12 +150,21 @@ export class EnergyMeterComponent implements OnInit{
             	'remarks' : remarks,
             	'startDate' : startDate,
             	'endDate' : endDate
-            }).subscribe((data) =>{
-                this.commonService.showAlertMessage('Successfully updated');
-                this.getAllEnergyMeterData();
-                this.energyMeterFormGroup.reset();
-                this.addEnergyMeter =  false;
-            } , error => {})
+            }).subscribe((data) => {
+            	this.energyMeterResponse = data;
+            	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
+	                this.commonService.showAlertMessage(this.energyMeterResponse.message);
+	                this.getAllEnergyMeterData();
+	                this.energyMeterFormGroup.reset();
+	                this.addEnergyMeter =  false;
+                }else {
+                	this.commonService.showAlertMessage("Energy Meter Data Updating Failed.");
+                }
+            } , error => {
+            	console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Energy Meter Data Updating Failed.");
+            })
             
         }
     }
@@ -156,7 +178,7 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterEditAction(id: number) {
         this.energyMeterService.findById(id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
-            console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
+             // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
       		this.energyMeterFormGroup.patchValue({
                 id: this.editEnergyMeterResponse.id,
                 cmd:this.editEnergyMeterResponse.cmd,
@@ -192,8 +214,10 @@ export class EnergyMeterComponent implements OnInit{
             this.energyMeterDataSource = new MatTableDataSource(energyMeter);
             this.energyMeterDataSource.paginator = this.paginator;
             this.energyMeterDataSource.sort = this.sort;
-
-        } , error => {});
+			this.spinnerService.hide();
+        } , error => {
+        	this.spinnerService.hide();
+        });
 
     }
     
@@ -206,9 +230,18 @@ export class EnergyMeterComponent implements OnInit{
             if(result){
                 this.energyMeterService.delete(id)
                     .subscribe((data) => {
-                        this.commonService.showAlertMessage('Energy Meter Deleted Successfully');
-                         this.getAllEnergyMeterData();
-                    },error => {});
+                    	this.energyMeterResponse = data;
+            			if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
+                        	this.commonService.showAlertMessage(this.energyMeterResponse.message);
+                         	this.getAllEnergyMeterData();
+                         } else {
+                         	this.commonService.showAlertMessage("Energy Meter Deletion Failed.");
+                         }	
+                    },error => {
+                    	console.log('ERROR >>>');
+          				this.spinnerService.hide();
+          				this.commonService.showAlertMessage("Energy Meter Deletion Failed.");
+                    });
             }
         });
     }
