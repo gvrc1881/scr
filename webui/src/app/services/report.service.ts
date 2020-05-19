@@ -158,8 +158,8 @@ assetMasterData(){
 divisionDetails(){
     return this.http.get(this.url + '/divisionDetails',{ headers: this.header });
 }
-depotTypeOhe(){
-    return this.http.get(this.url + '/depotTypeOhe',{ headers: this.header });
+depotTypeForOhe(){
+    return this.http.get(this.url + '/depotTypeForOhe',{ headers: this.header });
 }
 getAllEleEnergySuppliers(){
 	return this.http.get(this.url + '/electricEnergySuppliers',{ headers: this.header });

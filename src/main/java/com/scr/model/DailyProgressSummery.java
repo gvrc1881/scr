@@ -5,10 +5,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 
-/**
- * The persistent class for the daily_progress_summery database table.
- * 
- */
+
 @Entity
 @Table(name = "daily_progress_summery" , uniqueConstraints={@UniqueConstraint(name = "old_pk_daily_progress_summery_uniq", columnNames ={"seq_id", "data_div"})})
 @NamedQuery(name="DailyProgressSummery.findAll", query="SELECT d FROM DailyProgressSummery d")

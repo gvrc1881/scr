@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit, DoCheck {
       this.rolePermission = this.commonService.rolePermission();   
    
     
-    //console.log("**** ===== "+this.commonService.findPermission('DAILY PROGRESS REPORTS', 'submenu', 'view'))
+    
     
     this.MenusList = [
       { 

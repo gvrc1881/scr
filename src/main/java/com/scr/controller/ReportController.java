@@ -305,7 +305,7 @@ public class ReportController {
 		return new ResponseEntity<List<Division>>(division,HttpStatus.OK);	
 		
 	}
-	@RequestMapping(value = "/depotTypeOhe", method = RequestMethod.GET ,headers = "accept=application/json")	
+	@RequestMapping(value = "/depotTypeForOhe", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Facility>> findByDepotTypeOrderByFacilityNameAsc(){
 		List<Facility> oheDepotType= reportService.findByDepotTypeOrderByFacilityNameAsc();
 		return new ResponseEntity<List<Facility>>(oheDepotType,HttpStatus.OK);	
