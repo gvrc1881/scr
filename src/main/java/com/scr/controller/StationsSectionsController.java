@@ -39,16 +39,16 @@ public class StationsSectionsController {
 	
 	@RequestMapping(value = "/findAllStationSections" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<StationsSection>> findAllStationSections(){
-		logger.info("Enter into findAllStationSections ");
+		logger.info("Enter into findAllStationSections");
 		List<StationsSection> List = null;
 		try {			
 			logger.info("Calling service for Stations Sections");
 			List = stationsSectionsService.findAll();	
 			logger.info("Fetched Stations Sections = "+List);
 		} catch (NullPointerException e) {			
-			logger.error("ERROR >>> while fetching the Stations Sections = "+e.getMessage());
+			logger.error("ERROR >>> while fetching  Stations Sections = "+e.getMessage());
 		} catch (Exception e) {			
-			logger.error("ERROR >>> while fetching the Stations Sections = "+e.getMessage());
+			logger.error("ERROR >>> while fetching  Stations Sections = "+e.getMessage());
 		}
 		logger.info("Exit from findAllStationSections");
 		return ResponseEntity.ok((List));
