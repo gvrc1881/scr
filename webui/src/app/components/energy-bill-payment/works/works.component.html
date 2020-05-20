@@ -54,7 +54,7 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost" decimalNumber [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
+	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost" required decimalNumber [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -80,7 +80,11 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Financial Progress Percentage" decimalNumber [formControl]="workFormGroup.controls['financialProgressPercentage']" />
+	                                                                <input matInput placeholder="Financial Progress Percentage"   max ="100" decimalNumber [formControl]="workFormGroup.controls['financialProgressPercentage']" />
+	                                                            	<mat-error
+		                                                                *ngIf="workFormGroup.controls['financialProgressPercentage'].hasError('max') "
+		                                                                class="alert alert-danger">Please enter a value between 0 to 100
+		                                                            </mat-error>    
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -90,12 +94,12 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM"  decimalNumber [formControl]="workFormGroup.controls['rkm']" />
+	                                                                <input matInput placeholder="RKM"  required decimalNumber [formControl]="workFormGroup.controls['rkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="workFormGroup.controls['tkm']" />
+	                                                                <input matInput placeholder="TKM" required decimalNumber [formControl]="workFormGroup.controls['tkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -124,17 +128,21 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Physical Progress Percentage" decimalNumber [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
+	                                                                <input matInput placeholder="Physical Progress Percentage" max="100"  decimalNumber [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
+	                                                                <mat-error
+		                                                                *ngIf="workFormGroup.controls['physicalProgressPercentage'].hasError('max') "
+		                                                                class="alert alert-danger">Please enter a value between 0 to 100
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Latest Revised Cost" decimalNumber [formControl]="workFormGroup.controls['latestRevisedCost']" />
+	                                                                <input matInput placeholder="Latest Revised Cost" required decimalNumber [formControl]="workFormGroup.controls['latestRevisedCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Sanction Cost" decimalNumber [formControl]="workFormGroup.controls['sanctionCost']" />
+	                                                                <input matInput placeholder="Sanction Cost" required decimalNumber [formControl]="workFormGroup.controls['sanctionCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -150,7 +158,7 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Year Of Sanction" decimalNumber [formControl]="workFormGroup.controls['yearOfSanction']" />
+	                                                                <input matInput placeholder="Year Of Sanction" required decimalNumber [formControl]="workFormGroup.controls['yearOfSanction']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
