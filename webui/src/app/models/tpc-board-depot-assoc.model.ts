@@ -1,6 +1,6 @@
 export interface TPCBoardDepotAssocModel {
     tpcBoard:any;
-    unitType:string;
+    unitType:any;
     unitName:string;
 	description:string
 }

@@ -1,7 +1,6 @@
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
-import { StationsSectionsModule } from '../components/energy-bill-payment/stations-sections/stations-sections.module';
 import { StationsSectionsModel } from '../models/stations-sections.model';
 
 @Injectable()
@@ -31,7 +30,7 @@ export class StationsSectionsService {
         return this.http.get<StationsSectionsModel>(this.url+"/findStationSectionsById/"+id, {headers:this.header});
     }
 
-    update(model){
+    updateStationSections(model){
         return this.http.put(this.url + "/updateStationSections" , model , { headers: this.header });
     }
 

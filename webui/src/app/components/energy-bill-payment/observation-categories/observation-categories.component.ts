@@ -47,7 +47,7 @@ export class ObservationCategoriesComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllObservationCategoriesData();
         this.observationCategories();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","OBSERVATION CATEGORIES") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Categories") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -63,6 +63,7 @@ export class ObservationCategoriesComponent implements OnInit{
             'thruDate' : [null]
         });
     }
+
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }

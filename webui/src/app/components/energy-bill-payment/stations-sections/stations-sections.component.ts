@@ -1,8 +1,8 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { StationsSectionsService } from 'src/app/services/stations-sections.service';
-import { ReportService } from 'src/app/services/report.service';
+import { ReportService  } from "src/app/services/report.service";
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { StationsSectionsModel } from 'src/app/models/stations-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
@@ -22,18 +22,14 @@ export class StationsSectionsComponent implements OnInit{
     title: string = "Save";
     stationsSectionsFormGroup: FormGroup;
     stationsSectionsList : any;
+    divisionsList:any;
     stationsSectionsDataSource: MatTableDataSource<StationsSectionsModel>;
     stationsSectionsDisplayColumns = ['sno' , 'stationCode' , 'stationName' , 'majorSectionRoute' , 'upSection' , 'upSectionName' , 'dnSection','dnSectionName','division' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editstationsSectionsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    divisionCode:any;
 
-
-
-
-    
 
     constructor(
         private stationsSectionsService: StationsSectionsService,
@@ -49,21 +45,21 @@ export class StationsSectionsComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllStationsSectionsData();
         this.divisionDetails();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","STATIONS & SECTIONS") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Stations-sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.stationsSectionsFormGroup = this.formBuilder.group({
             id: 0,
-            'stationCode':[null],
-            'stationName': [null],
-            'majorSectionRoute': [null],
-            'upSection': [null],
-            'upSectionName' : [null],
-            'dnSection' : [null],
-            'dnSectionName': [null],
-            'division' : [null]
+            'stationCode':[null,Validators.maxLength(250)],
+            'stationName': [null,Validators.maxLength(250)],
+            'majorSectionRoute': [null,Validators.maxLength(250)],
+            'upSection': [null,Validators.maxLength(250)],
+            'upSectionName' : [null,Validators.maxLength(250)],
+            'dnSection' : [null,Validators.maxLength(250)],
+            'dnSectionName': [null,Validators.maxLength(250)],
+            'division' : [null,Validators.maxLength(250)]
         });
     }
 
@@ -114,7 +110,7 @@ export class StationsSectionsComponent implements OnInit{
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editstationsSectionsResponse.id;
-            this.stationsSectionsService.update({
+            this.stationsSectionsService.updateStationSections({
                 'id':id,
                 'stationCode':stationCode,
                 'stationName': stationName,
@@ -173,7 +169,15 @@ export class StationsSectionsComponent implements OnInit{
             }
         });
     }
+    divisionDetails()
+    {
+          
+           this.reportService. divisionDetails().subscribe((data) => {
+             this.divisionsList = data;
+    }
+           );
 
+   }
 
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim();
@@ -187,17 +191,9 @@ export class StationsSectionsComponent implements OnInit{
         this.title = 'Save';
     }
 
+
     NewStationsSections () {
         this.addStationsSections = true;
     }
-    divisionDetails()
-        {
-              
-               this.reportService. divisionDetails().subscribe((data) => {
-                 this.divisionCode = data;
-        }
-               );
-
-       }
 
 }

@@ -247,7 +247,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
-        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("slidings") || path.includes("tractionEneTariff") || path.includes("track")) 
+        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("sidings") || path.includes("asset-master-data") || path.includes("tractionEneTariff") || path.includes("track")) 
         || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
         subMenus: [
           {
@@ -277,12 +277,12 @@ export class HeaderComponent implements OnInit, DoCheck {
           
           {
             subMenuName: "Sidings",
-            subMenuURL: "slidings",
+            subMenuURL: "sidings",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission:true,
-            permission:this.commonService.findPermission('Slidings', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("slidings") ? "active-item" : "",
+            permission:this.commonService.findPermission('Sidings', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("sidings") ? "active-item" : "",
           },
           {
             subMenuName: "Tariff",
@@ -321,13 +321,13 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("foot-patrolling-sections") ? "active-item" : "",
           },
           {
-            subMenuName: "Stations-sections",
+            subMenuName: "Sections-stations",
             subMenuURL: "stations-sections",
             subMenuIcon: "fa fa-train",
             color: "#12E1EE",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("Stations-sections") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
           },
           {
             subMenuName: "TPC Board Assoc",

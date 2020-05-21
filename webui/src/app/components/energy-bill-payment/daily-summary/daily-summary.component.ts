@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { DailySummaryService } from 'src/app/services/daily-summary.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { DailySummaryModel } from 'src/app/models/daily-summary.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
@@ -28,7 +28,7 @@ export class DailySummaryComponent implements OnInit{
     dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast','remarks','id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
-    editdailySummaryResponse: any;
+    editDailySummaryResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
 
@@ -45,7 +45,8 @@ export class DailySummaryComponent implements OnInit{
 
     ngOnInit () {
         console.log('in ngOnintit method:::');
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","DAILY SUMMARY") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        this.getAllDailySummaryData();
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Daily Summary") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -55,12 +56,12 @@ export class DailySummaryComponent implements OnInit{
             id: 0,
             'createdDate':[null],
             'facilityId':[null],
-            'nameOfStaff':[null],
-            'dayProgress': [null],
-            'npbProgress': [null],
-            'psiProgress': [null],
-            'tomorrowForecast' : [null],
-            'remarks' : [null]
+            'nameOfStaff':[null,Validators.maxLength(250)],
+            'dayProgress': [null,Validators.maxLength(250)],
+            'npbProgress': [null,Validators.maxLength(250)],
+            'psiProgress': [null,Validators.maxLength(250)],
+            'tomorrowForecast' : [null,Validators.maxLength(250)],
+            'remarks' : [null,Validators.maxLength(250)]
         });
     }
 
@@ -80,44 +81,44 @@ export class DailySummaryComponent implements OnInit{
 
     }
 
-    dailySummarySubmit() {
+    dailySummarySubmit () {
         let createdDate: Date = this.dailySummaryFormGroup.value.createdDate;
         let facilityId: string = this.dailySummaryFormGroup.value.facilityId;
         let nameOfStaff: string = this.dailySummaryFormGroup.value.nameOfStaff;
         let dayProgress: string = this.dailySummaryFormGroup.value.dayProgress;
         let npbProgress: string = this.dailySummaryFormGroup.value.npbProgress;
-        let psiProgress: Date = this.dailySummaryFormGroup.value.psiProgress;
+        let psiProgress: string = this.dailySummaryFormGroup.value.psiProgress;
         let tomorrowForecast: string = this.dailySummaryFormGroup.value.tomorrowForecast;
         let remarks: string = this.dailySummaryFormGroup.value.remarks;
         this.addDailySummary = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.dailySummaryService.save({
+            this.dailySummaryService.saveDailySummary({
                 'createdDate':createdDate,
                 'facilityId':facilityId,
-                'nameOfStaff': nameOfStaff,
-                'dayProgress': dayProgress,
+                'nameOfStaff':nameOfStaff,
+                'dayProgress':dayProgress,
                 'npbProgress':npbProgress,
                 'psiProgress':psiProgress,
                 'tomorrowForecast':tomorrowForecast,
-                'remarks' : remarks
+                'remarks':remarks,
             }).subscribe((data) => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
-            let id: number = this.editdailySummaryResponse.id;
-            this.dailySummaryService.update({
+            let id: number = this.editDailySummaryResponse.id;
+            this.dailySummaryService.updateDailySummary({
                 'id':id,
                 'createdDate':createdDate,
                 'facilityId':facilityId,
-                'nameOfStaff': nameOfStaff,
+                'nameOfStaff':nameOfStaff,
                 'dayProgress':dayProgress,
-                'npbProgress': npbProgress,
-                'psiProgress' : psiProgress,
-                'tomorrowForecast' : tomorrowForecast,
-                'remarks': remarks
+                'npbProgress':npbProgress,
+                'psiProgress':psiProgress,
+                'tomorrowForecast':tomorrowForecast,
+                'remarks':remarks,
             }).subscribe((data) =>{
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllDailySummaryData();
@@ -127,26 +128,26 @@ export class DailySummaryComponent implements OnInit{
             
         }
     }
-
+    
     editDailySummaryItem (id) {
         this.addDailySummary = true;
-        this.dailysummaryEditAction(id);
+        this.dailySummaryEditAction(id);
         this.title = 'Update';
     }
 
-    dailysummaryEditAction(id: number) {
+    dailySummaryEditAction(id: number) {
         this.dailySummaryService.findDailySummaryById(id).subscribe((responseData) => {
-            this.editdailySummaryResponse = responseData;
+            this.editDailySummaryResponse = responseData;
             this.dailySummaryFormGroup.patchValue({
-                id: this.editdailySummaryResponse.id,
-                createdDate:this.editdailySummaryResponse.createdDate,
-                facilityId:this.editdailySummaryResponse.facilityId,
-                nameOfStaff: this.editdailySummaryResponse.nameOfStaff,
-                dayProgress: this.editdailySummaryResponse.dayProgress,
-                npbProgress: this.editdailySummaryResponse.npbProgress,
-                psiProgress: this.editdailySummaryResponse.psiProgress,
-                tomorrowForecast: this.editdailySummaryResponse.tomorrowForecast,
-                remarks: this.editdailySummaryResponse.remarks
+                id: this.editDailySummaryResponse.id,
+                createdDate:this.editDailySummaryResponse.createdDate,
+                facilityId: this.editDailySummaryResponse.facilityId,
+                nameOfStaff: this.editDailySummaryResponse.nameOfStaff,
+                dayProgress: this.editDailySummaryResponse.dayProgress,
+                npbProgress: this.editDailySummaryResponse.npbProgress,
+                psiProgress: this.editDailySummaryResponse.psiProgress,
+                tomorrowForecast: this.editDailySummaryResponse.tomorrowForecast,
+                remarks: this.editDailySummaryResponse.remarks
             })
         } ,error => {})
     }

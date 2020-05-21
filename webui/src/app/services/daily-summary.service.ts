@@ -6,36 +6,35 @@ import {DailySummaryModel} from '../models/daily-summary.model';
 
 @Injectable()
 export class DailySummaryService {
-    url:string =environment.apiUrl;
+    myAppUrl: string = environment.apiUrl;
     header: any;
-    accessToken: any = JSON.parse(localStorage.getItem("accessToken"));
-    constructor(private http: HttpClient){
+    accessToken: any = JSON.parse(localStorage.getItem('accessToken'));
+    constructor(private http: HttpClient) {
         this.header = new HttpHeaders({
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'Authorization' : `Bearer ${this.accessToken}`
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${this.accessToken}`
         });
-
     }
 
     getAllDailySummary(){
-        return this.http.get<DailySummaryModel[]>( this.url+"/findAllDailySummary" , {headers: this.header});
+        return this.http.get<DailySummaryModel[]>( this.myAppUrl+"/findAllDailySummary" , {headers: this.header});
     }
 
-    save(model) {
-        return this.http.post(this.url + "/addDailySummary" , model , {headers: this.header});
+    saveDailySummary(model) {
+        return this.http.post(this.myAppUrl + "/addDailySummary" , model , {headers: this.header});
     }
 
     findDailySummaryById(id : number){
-        return this.http.get<DailySummaryModel>(this.url+"/findDailySummaryById/"+id, {headers:this.header});
+        return this.http.get<DailySummaryModel>(this.myAppUrl+"/findDailySummaryById/"+id, {headers:this.header});
     }
 
-    update(model){
-        return this.http.put(this.url + "/updateDailySummary" , model , { headers: this.header });
+    updateDailySummary(model){
+        return this.http.put(this.myAppUrl + "/updateDailySummary",model,{ headers: this.header});
     }
-
+    
     deleteDailySummary(id: number) {
-        return this.http.delete(this.url + "/deleteDailySummary/" + id, { headers: this.header});
+        return this.http.delete(this.myAppUrl + "/deleteDailySummary/" + id, { headers: this.header});
     }
 
 }

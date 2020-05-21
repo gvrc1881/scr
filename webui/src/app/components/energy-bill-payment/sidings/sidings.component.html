@@ -1,0 +1,281 @@
+<div class="content">
+    <div class="">
+      <div class="col-12">
+  
+      </div>
+        <div class="clear"></div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Sidings Information</div>
+                    <div class="panel-body">
+                            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                <div class="p-24">
+                                    <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+  
+                                        <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                                            <span class="mat-raised-button mat-accent" (click)="NewSlidingsItem()" *ngIf="!addSidingsItem"
+                                              color="accent" mat-raised-button="">
+                                               Add Sidings Item
+                                            </span>
+                                        </div>
+  
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addSidingsItem" fxLayout="column"
+                                                  fxLayoutAlign="start" [formGroup]="sidingsItemFormGroup" fxFlex="1 0 auto"
+                                                  (ngSubmit)="sidingsItemSubmit();">
+  
+                                                  <div class="panel panel-primary">
+                                                      <div class="panel-heading">{{title}} Sidings Item</div>
+                                                      <div class="panel-body">
+                                                          <div class="col-md-12">
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <mat-select placeholder="station" [formControl]="sidingsItemFormGroup.controls['station']" >
+                                                                          <mat-option *ngFor="let status of status" [value]="status">
+                                                                            {{ status}}
+                                                                          </mat-option>
+                                                                        </mat-select>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <mat-select placeholder="SectionEletrifiedStatus" [formControl]="sidingsItemFormGroup.controls['sectionEletrifiedStatus']" >
+                                                                          <mat-option *ngFor="let status of status" [value]="status">
+                                                                            {{ status}}
+                                                                          </mat-option>
+                                                                        </mat-select>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <mat-select placeholder="SidingEletrifiedStatus" [formControl]="sidingsItemFormGroup.controls['sidingEletrifiedStatus']" >
+                                                                          <mat-option *ngFor="let status of status" [value]="status">
+                                                                            {{ status}}
+                                                                          </mat-option>
+                                                                        </mat-select>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="PrivateRailway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="Status" [formControl]="sidingsItemFormGroup.controls['status']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="sidingsItemFormGroup.controls['tkm']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+                                                            <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                            	<textarea matInput placeholder="Remarks" 
+	                                                            	[formControl]="sidingsItemFormGroup.controls['remarks']" required
+	                                                            	pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
+	                                                                <mat-error
+		                                                                *ngIf="sidingsItemFormGroup.controls['remarks'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <mat-select placeholder="sidingProposed" [formControl]="sidingsItemFormGroup.controls['sidingProposed']" >
+                                                                          <mat-option *ngFor="let status of status" [value]="status">
+                                                                            {{ status}}
+                                                                          </mat-option>
+                                                                        </mat-select>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field>
+                                                                      <input matInput [matDatepicker]="picker" placeholder="proposed Date" [formControl]="sidingsItemFormGroup.controls['proposedDate']">
+                                                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                                          <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field>
+                                                                      <input matInput [matDatepicker]="picker1" placeholder="Approved Date" [formControl]="sidingsItemFormGroup.controls['approvedDate']">
+                                                                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                                          <mat-datepicker #picker1  ></mat-datepicker>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field>
+                                                                      <input matInput [matDatepicker]="picker2" placeholder="workOrder Date" [formControl]="sidingsItemFormGroup.controls['workOrderDate']">
+                                                                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                                          <mat-datepicker #picker2  ></mat-datepicker>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="work Progress percentage" decimalNumber [formControl]="sidingsItemFormGroup.controls['workProgresspercentage']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field fxFlex="30">
+                                                                      <input matInput placeholder="work Progress Remark" [formControl]="sidingsItemFormGroup.controls['workProgressRemark']" />
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3">
+                                                                  <mat-form-field>
+                                                                      <input matInput [matDatepicker]="picker3" placeholder="completion Date" [formControl]="sidingsItemFormGroup.controls['completionDate']">
+                                                                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                                          <mat-datepicker #picker3  ></mat-datepicker>
+                                                                  </mat-form-field>
+                                                              </div>
+                                                              <div class="col-md-3 mt-15">
+                                                                  <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                                                                      <button mat-raised-button color="accent" [disabled]="sidingsItemFormGroup.invalid"
+                                                                          class="submit-button" aria-label="Submit">
+                                                                          {{title}}
+                                                                      </button>
+                                                                  </div>
+                                                                  <div class="p-12 d-inline">
+                                                                      <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                                                        mat-raised-button="">
+                                                                        Back
+                                                                      </span>
+                                                                    </div>
+                                                              </div>
+                                                              
+                                                          </div>
+                                                      </div>
+                                                  </div>
+  
+                                        </form>
+  
+                                    </div>
+                                    <div class="example-header">
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                              <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="mat-elevation-z8">
+                                        <mat-table [dataSource]="sidingsItemDataSource" matSort>
+                                            <ng-container matColumnDef="sno">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="station">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>station</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.station}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="sidingCode">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>sidingCode</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.sidingCode}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="section">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>section</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.section}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="sectionEletrifiedStatus">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>sectionEleStatus</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.sectionEletrifiedStatus}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="sidingEletrifiedStatus">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>sidingEleStatus</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.sidingEletrifiedStatus}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="privateRailway">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>privateRailway</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.privateRailway}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="status">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>status</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.status}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="tkm">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>tkm</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.tkm}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="remarks">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>remarks</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.remarks}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="sidingProposed">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>sidingProposed</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.sidingProposed}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="proposedDate">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>proposed</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.proposedDate | date}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="approvedDate">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>approved</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.approvedDate | date}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="workOrderDate">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>workOrder</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.workOrderDate | date}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="workProgresspercentage">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>workProgressPercentage</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.workProgressPercentage}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="workProgressRemark">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>workProgressRemark</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.workProgressRemark}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="completionDate">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>completion</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.completionDate | date}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="id">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                  <mat-cell *matCellDef="let row">
+                                                    <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                                                      (click)="editSidingsItem(row.id)">
+                                                      <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </a>
+                                                    <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                                                      (click)="deleteSidingsItem(row.id)">
+                                                      <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                    </button>
+                                                  </mat-cell>
+                                          </ng-container>
+                                          <mat-header-row *matHeaderRowDef="sidingsItemDisplayColumns"></mat-header-row>
+                                          <mat-row *matRowDef="let row; columns: sidingsItemDisplayColumns;">
+                                          </mat-row>
+                                        </mat-table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>

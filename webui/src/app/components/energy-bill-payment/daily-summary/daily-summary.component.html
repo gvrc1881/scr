@@ -32,16 +32,16 @@
                                                     <div class="panel-heading">{{title}} Daily Summary Item</div>
                                                     <div class="panel-body">
 														
-                              <div class="col-md-3">
-                                <mat-form-field>
-                                    <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
-                                </mat-form-field>
-                            </div>
+                                                      <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="dailySummaryFormGroup.controls['createdDate']">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
+                                                        </mat-form-field>
+                                                    </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
-																<mat-select placeholder="Select Depo Type" 
+																<mat-select placeholder="Select Depot" 
 																	[formControl]="dailySummaryFormGroup.controls['facilityId']" required>
 																	<mat-option *ngFor="let facilityData of facilityData"
 																		[value]="facilityData.facilityName">
@@ -55,49 +55,73 @@
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" required/>
+                                <textarea matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" required></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['nameOfStaff'].hasError('maxlength') && dailySummaryFormGroup.controls['nameOfStaff'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" required/>
+                                <textarea matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" required></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['dayProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['dayProgress'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" required/>
+                                <textarea matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" required></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['npbProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['npbProgress'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" required/>
+                                <textarea matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" required></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['psiProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['psiProgress'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<input matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" required/>
+                                <textarea matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" required></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['tomorrowForecast'].hasError('maxlength') && dailySummaryFormGroup.controls['tomorrowForecast'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
                             </div>
 													
 	
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-																<textarea matInput placeholder="Remarks" [formControl]="dailySummaryFormGroup.controls['remarks']"></textarea>
+                                <textarea matInput placeholder="Remarks" [formControl]="dailySummaryFormGroup.controls['remarks']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['remarks'].hasError('maxlength') && dailySummaryFormGroup.controls['remarks'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
 															</mat-form-field>
 														</div>
-														<div class="col-md-3 mt-15">
-															<div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
-																<button mat-raised-button color="accent" [disabled]="dailySummaryFormGroup.invalid"
-																	class="submit-button" aria-label="Submit">
-																	{{title}}
-																</button>
-															</div>
-															<div class="p-12 d-inline">
-																<span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
-																  mat-raised-button="">
-																  Close
-																</span>
-															  </div>
+                            <div class="col-md-3 mt-15">
+                              <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                                  <button mat-raised-button color="accent" [disabled]="dailySummaryFormGroup.invalid"
+                                      class="submit-button" aria-label="Submit">
+                                      {{title}}
+                                  </button>
+                              </div>
+                              <div class="p-12 d-inline">
+                                  <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                    mat-raised-button="">
+                                    Back
+                                  </span>
+                                </div>
 														</div>
 														
 														</div>
@@ -119,10 +143,10 @@
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="createdDate">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.createdDate | date}}</mat-cell>
-                                          </ng-container>
+                                              </ng-container>
                                             <ng-container matColumnDef="facilityId">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">

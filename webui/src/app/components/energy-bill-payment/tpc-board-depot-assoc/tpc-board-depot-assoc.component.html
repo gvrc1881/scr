@@ -42,35 +42,31 @@
                                                                     </mat-select>
                                                                 </mat-form-field>
                                                          </div>
-                                                            <div class="col-md-3">
-                                                                <mat-form-field fxFlex="30">
-                                                                    <mat-select placeholder="Select Depot Type" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" required>
-                                                                        <mat-option *ngFor="let unitType of funLocTypeData"
-                                                                        [value]="unitType.code">
-                                                                            {{ unitType.code}}
-                                                                        </mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>
-                                                         </div>
-                                                        <div class="col-md-3">
-                                                                <mat-form-field fxFlex="30">
-                                                                    <mat-select placeholder="Select Depot"
-                                                                        [formControl]="tpcBoardDepotAssocFormGroup.controls['unitName']" >
-                                                                        <mat-option *ngFor="let facilityData of facilityData"
-                                                                            [value]="facilityData.facilityName">
-                                                                            {{ facilityData.facilityName}}
-                                                                        </mat-option>
-                                                                    </mat-select>
-                                                                    <!-- <mat-error
-                                                                        *ngIf="scheduleJobFormGroup.controls['repository'].hasError('required') && scheduleJobFormGroup.controls['repository'].touched"
-                                                                        class="alert alert-danger">Select Repository Name
-                                                                    </mat-error> -->
-                                                                   <!--  <mat-error *ngIf="scheduleJobFormGroup.controls['repository'].hasError('duplicateDivisionName')"
-                                                                    class="alert alert-danger">
-                                                                    Repository Name Already Exists
-                                                                  </mat-error> -->
-                                                                </mat-form-field>
-                                                         </div>
+                                                            
+                                                         <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30">
+                                                                <mat-select placeholder="Select Depot Type" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" >
+                                                                    <mat-option *ngFor="let depotType of funLocTypeData"
+                                                                        [value]="depotType">
+                                                                        {{ depotType.code}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                     </div>
+
+                                                         <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30">
+                                                                <mat-select placeholder="Select Depot"
+                                                                    [formControl]="tpcBoardDepotAssocFormGroup.controls['unitName']" required>
+                                                                    <mat-option *ngFor="let facilityId of facilityData"
+                                                                        [value]="facilityId.facilityName">
+                                                                        {{ facilityId.facilityName}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                     </div>
+
+
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <textarea matInput placeholder="Description" [formControl]="tpcBoardDepotAssocFormGroup.controls['description']" required></textarea>

@@ -50,7 +50,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllTPCBoardDepotAssocData();
         this.tpcBoardDetails();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TPC BOARD DEPOT ASSOC") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -66,7 +66,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
         this.reportService.functionalLocationTypes().subscribe((data) => {
             this.funLocTypeData = data;
          });
-    }
+}
    
     getAllTPCBoardDepotAssocData() {
        

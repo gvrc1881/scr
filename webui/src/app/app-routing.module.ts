@@ -68,6 +68,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'sidings',
+    loadChildren: './components/energy-bill-payment/sidings/sidings.module#SidingsModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'stations-sections',
     loadChildren: './components/energy-bill-payment/stations-sections/stations-sections.module#StationsSectionsModule',
     canActivate: [AuthGuard]

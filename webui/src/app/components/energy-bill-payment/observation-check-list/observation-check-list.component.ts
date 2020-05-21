@@ -49,7 +49,7 @@ export class ObservationCheckListComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllObservationsCheckListData();
         this.observationCategories();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","OBSERVATION CHECK LIST") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Check List") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
