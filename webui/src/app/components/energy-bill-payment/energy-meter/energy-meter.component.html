@@ -110,7 +110,7 @@
 	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
 		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
 		                                                                [owlDateTimeTrigger]="dt1" placeholder="Start Date"
-		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" >                                                                
+		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
 		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
 		                                                                    ></owl-date-time>
 		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>

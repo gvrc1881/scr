@@ -251,7 +251,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
         subMenus: [
           {
-            subMenuName: "Guidance Item",
+            subMenuName: "Guidance",
             subMenuURL: "guidenceItem",
             subMenuIcon: "",
             rolePermission:true,

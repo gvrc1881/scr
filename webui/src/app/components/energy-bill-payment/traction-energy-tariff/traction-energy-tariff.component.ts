@@ -267,8 +267,8 @@ export class TractionEnergyTariffComponent implements OnInit{
                     id: this.editTractionEnergyTariffResponse.id,
                     supplier: this.editTractionEnergyTariffResponse.supplier,
                     rate: this.editTractionEnergyTariffResponse.rate,
-                    fromDate: this.editTractionEnergyTariffResponse.fromDate,
-                    thruDate: this.editTractionEnergyTariffResponse.thruDate,
+                    fromDate: !! this.editTractionEnergyTariffResponse.fromDate ? new Date(this.editTractionEnergyTariffResponse.fromDate) : '',
+                    thruDate: !! this.editTractionEnergyTariffResponse.thruDate ? new Date(this.editTractionEnergyTariffResponse.thruDate) : '',
                     specification: this.editTractionEnergyTariffResponse.specification,
                     condition: this.editTractionEnergyTariffResponse.condition
                 });

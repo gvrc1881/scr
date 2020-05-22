@@ -178,7 +178,7 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterEditAction(id: number) {
         this.energyMeterService.findById(id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
-             // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
+              console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
       		this.energyMeterFormGroup.patchValue({
                 id: this.editEnergyMeterResponse.id,
                 cmd:this.editEnergyMeterResponse.cmd,
@@ -196,8 +196,8 @@ export class EnergyMeterComponent implements OnInit{
                 meterMake: this.editEnergyMeterResponse.meterMake,
                 meterModel: this.editEnergyMeterResponse.meterModel,
                 remarks: this.editEnergyMeterResponse.remarks,
-                startDate: this.editEnergyMeterResponse.strtDate,
-                endDate: this.editEnergyMeterResponse.endDate
+                startDate: !!this.editEnergyMeterResponse.startDate ? new Date(this.editEnergyMeterResponse.startDate) : '',
+                endDate: !!this.editEnergyMeterResponse.endDate ? new Date(this.editEnergyMeterResponse.endDate) : ''
             })
             
         } ,error => {})
