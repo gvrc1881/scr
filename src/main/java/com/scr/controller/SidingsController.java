@@ -40,7 +40,7 @@ public class SidingsController {
 		List<SidingDetails> sidingsItem = sidingsService.findAll();
 		return sidingsItem;
 	}
-	
+	//save sidings data
 	@RequestMapping(value = "/addSlidingsItem" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addSlidingsItem(@RequestBody SidingDetails sidingDetails) {
 		sidingsService.save(sidingDetails);

@@ -30,7 +30,7 @@ export class TPCBoardDepotAssocService {
     }
 
     updateTPCBoardDepotAssoc (model) {
-        console.log('update service:::'+model);
+        
         return this.http.put(this.myAppUrl + "/updateTPCBoardDepotAssoc",model,{ headers: this.header});
     }
 

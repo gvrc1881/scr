@@ -18,7 +18,6 @@ public class StationsSectionsService {
 	private StationsSectionsRepository stationsSectionsRepository;
 	
 	public List<StationsSection> findAll() {
-		logger.info("Fetcing Station Sections Data");
 		return stationsSectionsRepository.findAll();
 	}
 	public void save(StationsSection stationsSection) {

@@ -48,7 +48,7 @@ export class DailySummaryComponent implements OnInit{
         this.getAllDailySummaryData();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Daily Summary") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
-  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
+  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.facilityNames();

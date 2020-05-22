@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { SidingsComponent } from './sidings.component';
 import { SidingsService } from 'src/app/services/sidings.service';
+
+//sidings module
 const routes: Routes = [
     {
         path:'',

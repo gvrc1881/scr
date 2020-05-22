@@ -198,7 +198,6 @@ public class ReportService {
 	}
 	public List<Division> findDivision(Zone zoneId) {
 		List<Division> divisionCode = divisionRepository.findByZoneIdOrderByCodeAsc(zoneId);
-		log.info("divisionCodeFinal"+divisionCode);
 		return divisionCode;
 	}
 	public List<SubDivision> findSubDivision(Division divisionId) {

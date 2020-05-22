@@ -78,7 +78,6 @@ public class ReportController {
 		log.info("assetType"+assetType);
 
 		List<ProductCategoryMember> allAssetTypes= reportService.findAllAssetTypes(assetType);
-		log.info("allAssetSize"+allAssetTypes.size());
 		log.info("allAssetTypes"+allAssetTypes);
 			return new ResponseEntity<List<ProductCategoryMember>>(allAssetTypes, HttpStatus.OK);		
 	}

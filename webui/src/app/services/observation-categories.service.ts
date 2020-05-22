@@ -21,7 +21,6 @@ export class ObservationCategoriesService {
     }
 
     saveObservationCategories (model) {
-    console.log('json object::'+JSON.stringify(model));
         return this.http.post(this.myAppUrl + "/addObservationCategories",model,{ headers: this.header});
     }
 

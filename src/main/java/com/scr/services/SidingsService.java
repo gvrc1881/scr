@@ -28,12 +28,10 @@ public class SidingsService {
 		}
 	
 	public List<SidingDetails> findAll() {
-		// TODO Auto-generated method stub
 		return sidingsRepository.findAll();
 	}
 	
 	public void save(SidingDetails sidingDetails) {
-		// TODO Auto-generated method stub
 		sidingsRepository.save(sidingDetails);
 	}
 	public Optional<SidingDetails> findSidingsItemById(Long id) {

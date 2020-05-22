@@ -30,7 +30,6 @@ export class ObservationsCheckListService {
     }
 
     updateObservationCheckList (model) {
-        console.log('update service:::'+model);
         return this.http.put(this.myAppUrl + "/updateObservationCheckList",model,{ headers: this.header});
     }
 
