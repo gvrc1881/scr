@@ -38,12 +38,12 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" />
+                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']"required/>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" />
+                                                                      <input matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" required/>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
@@ -67,7 +67,7 @@
                                                               
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="PrivateRailway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" />
+                                                                      <input matInput placeholder="PrivateRailway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" required/>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
@@ -75,9 +75,10 @@
                                                                       <input matInput placeholder="Status" [formControl]="sidingsItemFormGroup.controls['status']" />
                                                                   </mat-form-field>
                                                               </div>
-                                                              <div class="col-md-3">
+                                                              <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="sidingsItemFormGroup.controls['tkm']" />
+                                                                    <input matInput placeholder="tkm
+                                                                    " decimalNumber [formControl]="sidingsItemFormGroup.controls['tkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
                                                             <div class="col-md-3">
@@ -102,21 +103,21 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker" placeholder="proposed Date" [formControl]="sidingsItemFormGroup.controls['proposedDate']">
+                                                                      <input matInput [matDatepicker]="picker" placeholder="proposed Date" [formControl]="sidingsItemFormGroup.controls['proposedDate']" required>
                                                                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker  ></mat-datepicker>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker1" placeholder="Approved Date" [formControl]="sidingsItemFormGroup.controls['approvedDate']">
+                                                                      <input matInput [matDatepicker]="picker1" placeholder="Approved Date" [formControl]="sidingsItemFormGroup.controls['approvedDate']" required>
                                                                           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker1  ></mat-datepicker>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker2" placeholder="workOrder Date" [formControl]="sidingsItemFormGroup.controls['workOrderDate']">
+                                                                      <input matInput [matDatepicker]="picker2" placeholder="workOrder Date" [formControl]="sidingsItemFormGroup.controls['workOrderDate']" required>
                                                                           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker2  ></mat-datepicker>
                                                                   </mat-form-field>
@@ -128,12 +129,18 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="work Progress Remark" [formControl]="sidingsItemFormGroup.controls['workProgressRemark']" />
+                                                                    <textarea matInput placeholder="work Progress Remark" 
+	                                                            	[formControl]="sidingsItemFormGroup.controls['workProgressRemark']" required
+	                                                            	pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
+	                                                                <mat-error
+		                                                                *ngIf="sidingsItemFormGroup.controls['workProgressRemark'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker3" placeholder="completion Date" [formControl]="sidingsItemFormGroup.controls['completionDate']">
+                                                                      <input matInput [matDatepicker]="picker3" placeholder="completion Date" [formControl]="sidingsItemFormGroup.controls['completionDate']" required>
                                                                           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker3  ></mat-datepicker>
                                                                   </mat-form-field>
@@ -184,21 +191,25 @@
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.sidingCode}}</mat-cell>
                                           </ng-container>
+
                                           <ng-container matColumnDef="section">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>section</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.section}}</mat-cell>
                                           </ng-container>
+
                                           <ng-container matColumnDef="sectionEletrifiedStatus">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>sectionEleStatus</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.sectionEletrifiedStatus}}</mat-cell>
                                           </ng-container>
+
                                           <ng-container matColumnDef="sidingEletrifiedStatus">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>sidingEleStatus</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.sidingEletrifiedStatus}}</mat-cell>
                                           </ng-container>
+                                          
                                           <ng-container matColumnDef="privateRailway">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>privateRailway</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">

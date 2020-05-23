@@ -36,7 +36,7 @@ public class StationsSectionsController {
 		List<StationsSection> ssList = stationsSectionsService.findAll();
 		return ssList;
 	}
-	//save data
+	
 	@RequestMapping(value = "/addStationSections" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addStationSections(@RequestBody StationsSection stationsSection) {
 		stationsSectionsService.save(stationsSection);

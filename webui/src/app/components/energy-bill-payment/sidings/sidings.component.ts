@@ -60,7 +60,7 @@ export class SidingsComponent implements OnInit {
             'approvedDate' : [null],
             'workOrderDate' : [null],
             'workProgresspercentage' : [null],
-            'workProgressRemark' : [null],
+            'workProgressRemark' : [null,Validators.maxLength(250)],
             'completionDate' : [null]
         });
 

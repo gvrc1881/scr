@@ -21,7 +21,6 @@ public class StationsSectionsService {
 		return stationsSectionsRepository.findAll();
 	}
 	public void save(StationsSection stationsSection) {
-		// TODO Auto-generated method stub
 		stationsSectionsRepository.save(stationsSection);
 	}
 

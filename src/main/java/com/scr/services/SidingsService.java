@@ -35,7 +35,6 @@ public class SidingsService {
 		sidingsRepository.save(sidingDetails);
 	}
 	public Optional<SidingDetails> findSidingsItemById(Long id) {
-		// TODO Auto-generated method stub
 		return sidingsRepository.findById(id);
 	}
 	public void deleteSidingsItemById(Long id) {

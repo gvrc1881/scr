@@ -7,6 +7,5 @@ import com.scr.model.StationsSection;
 
 @Repository
 public interface StationsSectionsRepository extends JpaRepository<StationsSection, Long> {
-
 	List<StationsSection> findAll();
 }

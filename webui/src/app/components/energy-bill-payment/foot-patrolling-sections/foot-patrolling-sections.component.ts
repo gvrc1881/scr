@@ -49,7 +49,6 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.getAllFootPatrollingSectionsData();
         this.depotTypeForOhe();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

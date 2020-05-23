@@ -226,7 +226,6 @@ const routes: Routes = [
   {
     path: 'resetPassword',
     loadChildren: './components/forgot-password/forgot-password.module#ForgotPasswordModule',
-    //canActivate: 'full'
   },
   {
     path: 'drives',

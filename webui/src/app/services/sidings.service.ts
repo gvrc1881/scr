@@ -23,7 +23,6 @@ export class SidingsService {
         return this.http.get<SidingsModel[]>( this.url+"/findAllSidingsItems" , {headers: this.header});
     }
     save(model) {
-        console.log('save sidings:::'+model);
         return this.http.post(this.url + "/addSlidingsItem" , model , {headers: this.header});
     }
     findSidingsItemById(id : number){

@@ -75,8 +75,6 @@ public class ReportController {
 	}
 	@RequestMapping(value = "/allAssetTypeReports/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<ProductCategoryMember>> findAllAssetTypes(@PathVariable("assetType") String assetType){
-		log.info("assetType"+assetType);
-
 		List<ProductCategoryMember> allAssetTypes= reportService.findAllAssetTypes(assetType);
 		log.info("allAssetTypes"+allAssetTypes);
 			return new ResponseEntity<List<ProductCategoryMember>>(allAssetTypes, HttpStatus.OK);		

@@ -22,6 +22,7 @@ export class StationsSectionsService {
     }
 
     saveStationsSections(model) {
+        console.log('jsonFPSections'+JSON.stringify(model));
         return this.http.post(this.url + "/addStationSections" , model , {headers: this.header});
     }
 

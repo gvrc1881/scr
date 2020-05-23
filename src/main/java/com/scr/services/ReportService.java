@@ -236,7 +236,6 @@ public class ReportService {
 		}
 	public List<Facility> findByDepotTypeOrderByFacilityNameAsc() {
 		List<Facility> facilityNames = facilityRepository.findByDepotTypeOrderByFacilityNameAsc("OHE");
-		log.info("facilityNamesSize"+facilityNames.size());
 		log.info("faciliNameOheDepot"+facilityNames);
 		return facilityNames;		
 	}
