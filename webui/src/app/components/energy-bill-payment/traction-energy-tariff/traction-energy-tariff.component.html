@@ -62,7 +62,7 @@
 	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
                                                                 (dateTimeChange)="addEvent($event)" 
-                                                                [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']" >                                                                
+                                                                [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']" required>                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
@@ -76,7 +76,7 @@
 	                                                            	<input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Choose Thru Date"
                                                                 [min]="toMinDate"
-                                                                [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" >                                                                
+                                                                [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" required>                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
