@@ -40,9 +40,6 @@
 																		{{ facilityData.facilityName }}
 																	</mat-option>
 																</mat-select>
-																<mat-error
-																	*ngIf="fpSectionsItemFormGroup.controls['facilityDepot'].hasError('required') && fpSectionsItemFormGroup.controls['facilityDepot'].touched"
-																	class="alert alert-danger">Select Depo Type</mat-error>
 															</mat-form-field>
 														</div>
 														<div class="col-md-3">
@@ -70,29 +67,29 @@
                                </mat-error>
 															</mat-form-field>
 														</div>
-														<!-- FROM DATE -->
-                            <div class="col-md-3">
-                              <mat-form-field>
-                                  <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
-                                      placeholder="Choose From Date"
-                                      [formControl]="fpSectionsItemFormGroup.controls['fromDate']" required>
-                                  <mat-datepicker-toggle matSuffix [for]="picker1">
-                                  </mat-datepicker-toggle>
-                                  <mat-datepicker #picker1></mat-datepicker>
-                              </mat-form-field>
-                          </div>
-
-                          <!-- TO DATE -->
+													<!-- From Date -->
                           <div class="col-md-3">
-                              <mat-form-field>
-                                  <input matInput [matDatepicker]="picker"
-                                      placeholder="Choose To Date" [min]="toMinDate"
-                                      [formControl]="fpSectionsItemFormGroup.controls['toDate']" required>
-                                  <mat-datepicker-toggle matSuffix [for]="picker">
-                                  </mat-datepicker-toggle>
-                                  <mat-datepicker #picker></mat-datepicker>
-                              </mat-form-field>
-                          </div>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
+                                    placeholder="Choose From Date"
+                                    [formControl]="fpSectionsItemFormGroup.controls['fromDate']" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- To Date -->
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker"
+                                    placeholder="Choose To Date" [min]="toMinDate"
+                                    [formControl]="fpSectionsItemFormGroup.controls['toDate']" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
                                 <textarea matInput placeholder="Remarks" [formControl]="fpSectionsItemFormGroup.controls['remarks']" ></textarea>

@@ -159,7 +159,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
         });
     }
 
-
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
@@ -167,7 +166,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     }
     getFacilitys(){
     	var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-    	this.reportService.getFacilitysBasedOnDepotType(unitType.code).subscribe((data) => {
+    	this.reportService.getFacilitysBasedOnDepotType(unitType).subscribe((data) => {
                  this.facilityData = data;
         		});
     }

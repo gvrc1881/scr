@@ -348,7 +348,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
           },
           {
-            subMenuName: "Daily Summary ",
+            subMenuName: "Daily Summary",
             subMenuURL: "daily-summary",
             subMenuIcon: "",
             color: "#12E1EE",

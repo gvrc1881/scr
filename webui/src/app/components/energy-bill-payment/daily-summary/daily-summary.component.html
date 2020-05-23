@@ -42,7 +42,7 @@
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
 																<mat-select placeholder="Select Depot" 
-																	[formControl]="dailySummaryFormGroup.controls['facilityId']" required>
+																	[formControl]="dailySummaryFormGroup.controls['facilityId']" >
 																	<mat-option *ngFor="let facilityData of facilityData"
 																		[value]="facilityData.facilityName">
 																		{{ facilityData.facilityName }}
@@ -55,7 +55,7 @@
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-                                <textarea matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" required></textarea>
+                                <textarea matInput placeholder="Name Of Staff" [formControl]="dailySummaryFormGroup.controls['nameOfStaff']" ></textarea>
                                 <mat-error
                                 *ngIf="dailySummaryFormGroup.controls['nameOfStaff'].hasError('maxlength') && dailySummaryFormGroup.controls['nameOfStaff'].touched"
                                 class="alert alert-danger">Max 250 characters only
@@ -64,7 +64,7 @@
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-                                <textarea matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" required></textarea>
+                                <textarea matInput placeholder="Day Progress" [formControl]="dailySummaryFormGroup.controls['dayProgress']" ></textarea>
                                 <mat-error
                                 *ngIf="dailySummaryFormGroup.controls['dayProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['dayProgress'].touched"
                                 class="alert alert-danger">Max 250 characters only
@@ -73,7 +73,7 @@
 														</div>
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
-                                <textarea matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" required></textarea>
+                                <textarea matInput placeholder="NPB Progress" [formControl]="dailySummaryFormGroup.controls['npbProgress']" ></textarea>
                                 <mat-error
                                 *ngIf="dailySummaryFormGroup.controls['npbProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['npbProgress'].touched"
                                 class="alert alert-danger">Max 250 characters only
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-                                <textarea matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" required></textarea>
+                                <textarea matInput placeholder="PSI Progress" [formControl]="dailySummaryFormGroup.controls['psiProgress']" ></textarea>
                                 <mat-error
                                 *ngIf="dailySummaryFormGroup.controls['psiProgress'].hasError('maxlength') && dailySummaryFormGroup.controls['psiProgress'].touched"
                                 class="alert alert-danger">Max 250 characters only
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30">
-                                <textarea matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" required></textarea>
+                                <textarea matInput placeholder="Tomorrow Forecast" [formControl]="dailySummaryFormGroup.controls['tomorrowForecast']" ></textarea>
                                 <mat-error
                                 *ngIf="dailySummaryFormGroup.controls['tomorrowForecast'].hasError('maxlength') && dailySummaryFormGroup.controls['tomorrowForecast'].touched"
                                 class="alert alert-danger">Max 250 characters only
@@ -157,17 +157,20 @@
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Name Of Staff</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.nameOfStaff}}</mat-cell>
-											</ng-container>
-											<ng-container matColumnDef="dayProgress">
+                                            </ng-container>
+                                            
+											                      <ng-container matColumnDef="dayProgress">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Day Progress</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.dayProgress}}</mat-cell>
                                             </ng-container>
+
                                             <ng-container matColumnDef="npbProgress">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>NPB Progress</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.npbProgress}}</mat-cell>
                                             </ng-container>
+                                            
                                             <ng-container matColumnDef="psiProgress">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>PSI Progress</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
