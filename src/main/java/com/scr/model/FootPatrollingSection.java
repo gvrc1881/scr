@@ -3,6 +3,7 @@ package com.scr.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -37,8 +38,9 @@ public class FootPatrollingSection implements Serializable {
 	@Column(name="fp_section")
 	private String fpSection;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="from_date")
-	private Timestamp fromDate;
+	private Date fromDate;
 
 	@Column(name="from_location")
 	private String fromLocation;
@@ -54,8 +56,9 @@ public class FootPatrollingSection implements Serializable {
 	@Column(name="seq_id")
 	private String seqId;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="to_date")
-	private Timestamp toDate;
+	private Date toDate;
 
 	@Column(name="to_location")
 	private String toLocation;
@@ -64,7 +67,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -72,7 +75,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public Timestamp getCreatedStamp() {
-		return this.createdStamp;
+		return createdStamp;
 	}
 
 	public void setCreatedStamp(Timestamp createdStamp) {
@@ -80,7 +83,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public Timestamp getCreatedTxStamp() {
-		return this.createdTxStamp;
+		return createdTxStamp;
 	}
 
 	public void setCreatedTxStamp(Timestamp createdTxStamp) {
@@ -88,7 +91,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public String getDataDiv() {
-		return this.dataDiv;
+		return dataDiv;
 	}
 
 	public void setDataDiv(String dataDiv) {
@@ -96,7 +99,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public String getFacilityDepot() {
-		return this.facilityDepot;
+		return facilityDepot;
 	}
 
 	public void setFacilityDepot(String facilityDepot) {
@@ -104,23 +107,23 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public String getFpSection() {
-		return this.fpSection;
+		return fpSection;
 	}
 
 	public void setFpSection(String fpSection) {
 		this.fpSection = fpSection;
 	}
 
-	public Timestamp getFromDate() {
-		return this.fromDate;
+	public Date getFromDate() {
+		return fromDate;
 	}
 
-	public void setFromDate(Timestamp fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 
 	public String getFromLocation() {
-		return this.fromLocation;
+		return fromLocation;
 	}
 
 	public void setFromLocation(String fromLocation) {
@@ -128,7 +131,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public Timestamp getLastUpdatedStamp() {
-		return this.lastUpdatedStamp;
+		return lastUpdatedStamp;
 	}
 
 	public void setLastUpdatedStamp(Timestamp lastUpdatedStamp) {
@@ -136,7 +139,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public Timestamp getLastUpdatedTxStamp() {
-		return this.lastUpdatedTxStamp;
+		return lastUpdatedTxStamp;
 	}
 
 	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
@@ -144,7 +147,7 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public String getRemarks() {
-		return this.remarks;
+		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
@@ -152,27 +155,30 @@ public class FootPatrollingSection implements Serializable {
 	}
 
 	public String getSeqId() {
-		return this.seqId;
+		return seqId;
 	}
 
 	public void setSeqId(String seqId) {
 		this.seqId = seqId;
 	}
 
-	public Timestamp getToDate() {
-		return this.toDate;
+	public Date getToDate() {
+		return toDate;
 	}
 
-	public void setToDate(Timestamp toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 
 	public String getToLocation() {
-		return this.toLocation;
+		return toLocation;
 	}
 
 	public void setToLocation(String toLocation) {
 		this.toLocation = toLocation;
 	}
+
+	
+	
 
 }

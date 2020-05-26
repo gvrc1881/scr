@@ -6,5 +6,12 @@ export interface DailySummaryModel {
     npbProgress: string;
     psiProgress: string;
     tomorrowForecast: string;
+    footPatrolling:string;
+    footInspection:string;
+    footPlateInspection:string;
+    supervisor:string;
+    staffStrength:string;
+    powerBlock:string;
+    nonPowerBlock:string;
     remarks: string;
 }

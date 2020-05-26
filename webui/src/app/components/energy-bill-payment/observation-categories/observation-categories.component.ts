@@ -46,7 +46,7 @@ export class ObservationCategoriesComponent implements OnInit{
     ngOnInit () {
         console.log('in ngOnintit method:::');
         this.getAllObservationCategoriesData();
-        this.observationCategories();
+        this.inspectionType();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Categories") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -177,10 +177,10 @@ export class ObservationCategoriesComponent implements OnInit{
         this.addObservationCategories = false;
         this.title = 'Save';
     }
-    observationCategories()
+    inspectionType()
         {
                
-               this.reportService. observationCategories().subscribe((data) => {
+               this.reportService. inspectionType().subscribe((data) => {
                  this.inspectionTypeData = data;
         }
                );

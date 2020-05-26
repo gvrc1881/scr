@@ -52,7 +52,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Major SectionRoute" [formControl]="stationsSectionsFormGroup.controls['majorSectionRoute']" required></textarea>
+                                                                    <textarea matInput placeholder="Major SectionRoute" [formControl]="stationsSectionsFormGroup.controls['majorSectionRoute']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['majorSectionRoute'].hasError('maxlength') && stationsSectionsFormGroup.controls['majorSectionRoute'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -61,7 +61,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="UP Section" [formControl]="stationsSectionsFormGroup.controls['upSection']" required></textarea>
+                                                                    <textarea matInput placeholder="UP Section" [formControl]="stationsSectionsFormGroup.controls['upSection']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['upSection'].hasError('maxlength') && stationsSectionsFormGroup.controls['upSection'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -70,7 +70,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="UP Section Name" [formControl]="stationsSectionsFormGroup.controls['upSectionName']" required></textarea>
+                                                                    <textarea matInput placeholder="UP Section Name" [formControl]="stationsSectionsFormGroup.controls['upSectionName']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['upSectionName'].hasError('maxlength') && stationsSectionsFormGroup.controls['upSectionName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -79,7 +79,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Down Section" [formControl]="stationsSectionsFormGroup.controls['dnSection']" required></textarea>
+                                                                    <textarea matInput placeholder="Down Section" [formControl]="stationsSectionsFormGroup.controls['dnSection']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['dnSection'].hasError('maxlength') && stationsSectionsFormGroup.controls['dnSection'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -88,7 +88,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Down Section Name" [formControl]="stationsSectionsFormGroup.controls['dnSectionName']" required></textarea>
+                                                                    <textarea matInput placeholder="Down Section Name" [formControl]="stationsSectionsFormGroup.controls['dnSectionName']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['dnSectionName'].hasError('maxlength') && stationsSectionsFormGroup.controls['dnSectionName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -98,7 +98,7 @@
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30" class="example-full-width">
                                                                     <mat-select placeholder="Select Division"
-                                                                        [formControl]="stationsSectionsFormGroup.controls['division']">
+                                                                        [formControl]="stationsSectionsFormGroup.controls['division']" required>
                                                                         <mat-option *ngFor="let divisionsList of divisionsList"
                                                                             [value]="divisionsList.code">
                                                                             {{ divisionsList.code }}

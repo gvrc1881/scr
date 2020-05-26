@@ -35,9 +35,9 @@
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Select Inspection Type" 
                                                             [formControl]="ObservationCheckListItemFormGroup.controls['inspectionType']" required>
-                                                            <mat-option *ngFor="let inspectionTypeData of inspectionTypeData"
-                                                              [value]="inspectionTypeData.inspectionType">
-                                                              {{ inspectionTypeData.inspectionType }}
+                                                            <mat-option *ngFor="let inspectionTypeList of inspectionTypeList"
+                                                              [value]="inspectionTypeList.inspectionType">
+                                                              {{ inspectionTypeList.inspectionType }}
                                                             </mat-option>
                                                           </mat-select>
                                                         </mat-form-field>

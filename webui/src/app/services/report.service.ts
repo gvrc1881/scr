@@ -161,6 +161,9 @@ divisionDetails(){
 depotTypeForOhe(){
     return this.http.get(this.url + '/depotTypeForOhe',{ headers: this.header });
 }
+inspectionType(){
+    return this.http.get(this.url + '/inspectionTypeData',{ headers: this.header });
+}
 getAllEleEnergySuppliers(){
 	return this.http.get(this.url + '/electricEnergySuppliers',{ headers: this.header });
 }

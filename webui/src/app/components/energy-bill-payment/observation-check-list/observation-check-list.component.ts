@@ -26,6 +26,7 @@ export class ObservationCheckListComponent implements OnInit{
     ObservationCheckListItemFormGroup: FormGroup;
     observationCheckList : any;
     inspectionTypeData:any;
+    inspectionTypeList:any;
     toMinDate=new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
     observationCheckListDisplayColumns = ['sno' ,'inspectionType','observationCategory' , 'observationItem' , 'severity' ,'description','priority', 'fromDate' , 'thruDate' , 'id' ] ;
@@ -49,6 +50,7 @@ export class ObservationCheckListComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllObservationsCheckListData();
         this.observationCategories();
+        this.inspectionType();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Check List") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -193,6 +195,16 @@ export class ObservationCheckListComponent implements OnInit{
                );
 
        }
+       inspectionType()
+        {
+               
+               this.reportService. inspectionType().subscribe((data) => {
+                 this.inspectionTypeList = data;
+        }
+               );
+
+       }
+
 
        public priority=['Low','Medium','High'];
 

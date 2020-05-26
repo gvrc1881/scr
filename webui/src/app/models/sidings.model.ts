@@ -10,7 +10,7 @@ export interface SidingsModel{
     remarks : String,
     sidingProposed : String,
     proposedDate : String,
-    approvedDate : String,
+    approvalDate : String,
     workOrderDate :String,
     workProgresspercentage :String,
     workProgressRemark : String,

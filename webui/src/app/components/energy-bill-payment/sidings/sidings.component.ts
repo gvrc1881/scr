@@ -6,6 +6,8 @@ import{SidingsModel} from 'src/app/models/sidings.model';
 import{SidingsService} from   "src/app/services/sidings.service";
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { MatDatepickerInputEvent } from '@angular/material';
+
 @Component({
     selector: 'app-sidings',
     templateUrl: './sidings.component.html',
@@ -19,16 +21,22 @@ export class SidingsComponent implements OnInit {
     stationCodeData:any;
     title: string = "Save";
     sidingsItemList : any;
+    toMinDate=new Date();
     sidingsItemDataSource: MatTableDataSource<SidingsModel>;
     sidingsItemDisplayColumns = ['sno' , 'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
-    'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvedDate',
-    'workOrderDate','workProgresspercentage','workProgressRemark','completionDate','id' ] ;
+    'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvalDate',
+    'workOrderDate','workProgressPercentage','workProgressRemark','completionDate','id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     sidingsItemFormGroup: FormGroup;
     editsidingsItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     public status=['yes','No'];
+    sidingEletrifiedStatus: any;
+    onlyYes:boolean = true;
+    selected: any;
+    yes: any;
+    onlyNo: boolean;
    
     constructor(
         
@@ -57,15 +65,18 @@ export class SidingsComponent implements OnInit {
             'remarks' : [null, Validators.maxLength(250)],
             'sidingProposed' : [null],
             'proposedDate' : [null],
-            'approvedDate' : [null],
+            'approvalDate' : [null],
             'workOrderDate' : [null],
-            'workProgresspercentage' : [null],
+            'workProgressPercentage' : [null],
             'workProgressRemark' : [null,Validators.maxLength(250)],
             'completionDate' : [null]
         });
 
         
      }
+     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = event.value;
+      }
      getAllSidingsData() {
         console.log("get all sidings items");
         const sidingsDetails : SidingsModel[] = [];
@@ -96,9 +107,9 @@ export class SidingsComponent implements OnInit {
         let remarks: string = this.sidingsItemFormGroup.value.remarks;
         let sidingProposed: string = this.sidingsItemFormGroup.value.sidingProposed;
         let proposedDate: Date = this.sidingsItemFormGroup.value.proposedDate;
-        let approvedDate: Date = this.sidingsItemFormGroup.value.approvedDate;
+        let approvalDate: Date = this.sidingsItemFormGroup.value.approvalDate;
         let workOrderDate: Date = this.sidingsItemFormGroup.value.workOrderDate;
-        let workProgresspercentage: string = this.sidingsItemFormGroup.value.workProgresspercentage;
+        let workProgressPercentage: string = this.sidingsItemFormGroup.value.workProgressPercentage;
         let workProgressRemark: string = this.sidingsItemFormGroup.value.workProgressRemark;
         let completionDate: Date = this.sidingsItemFormGroup.value.completionDate;
         this.addSidingsItem = false;
@@ -115,9 +126,9 @@ export class SidingsComponent implements OnInit {
                 'remarks' : remarks,
                 'sidingProposed' : sidingProposed,
                 'proposedDate' : proposedDate,
-                'approvedDate' : approvedDate,
+                'approvalDate' : approvalDate,
                 'workOrderDate' : workOrderDate,
-                'workProgresspercentage' : workProgresspercentage,
+                'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
             }).subscribe((data) => {
@@ -141,9 +152,9 @@ export class SidingsComponent implements OnInit {
                 'remarks' : remarks,
                 'sidingProposed' : sidingProposed,
                 'proposedDate' : proposedDate,
-                'approvedDate' : approvedDate,
+                'approvalDate' : approvalDate,
                 'workOrderDate' : workOrderDate,
-                'workProgresspercentage' : workProgresspercentage,
+                'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
             }).subscribe((data) =>{
@@ -178,9 +189,9 @@ export class SidingsComponent implements OnInit {
                 remarks: this.editsidingsItemResponse.remarks,
                 sidingProposed: this.editsidingsItemResponse.sidingProposed,
                 proposedDate: this.editsidingsItemResponse.proposedDate,
-                approvedDate: this.editsidingsItemResponse.approvedDate,
+                approvalDate: this.editsidingsItemResponse.approvalDate,
                 workOrderDate: this.editsidingsItemResponse.workOrderDate,
-                workProgresspercentage: this.editsidingsItemResponse.workProgresspercentage,
+                workProgressPercentage: this.editsidingsItemResponse.workProgressPercentage,
                 workProgressRemark: this.editsidingsItemResponse.workProgressRemark,
                 completionDate: this.editsidingsItemResponse.completionDate
             })
@@ -222,6 +233,13 @@ export class SidingsComponent implements OnInit {
      NewSlidingsItem () {
         this.addSidingsItem = true;
     }
-    
-
-}
+    statusChange() {
+        console.log("sidingEletrifiedStatus"+this.sidingsItemFormGroup.value.sidingEletrifiedStatus )
+        if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'yes') {     
+            this.onlyYes = false;
+        } else {
+            this.onlyYes = true;
+        }
+            }
+            
+    }

@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -53,15 +55,18 @@ public class SidingDetails implements Serializable {
 	@Column(name = "siding_proposed")
 	private String sidingProposed;
 
-	@Column(name = "proposed_date")
+	@Temporal(TemporalType.DATE)
+	@Column(name="proposed_date")
 	private Date proposedDate;
 
-	@Column(name = "approval_date")
+	@Temporal(TemporalType.DATE)
+	@Column(name="approval_date")
 	private Date approvalDate;
-
-	@Column(name = "work_order_date")
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="work_order_date")
 	private Date workOrderDate;
-
+	
 	@Column(name = "work_progress_percentage")
 	private double workProgressPercentage;
 
@@ -74,9 +79,10 @@ public class SidingDetails implements Serializable {
 	@Column(name = "estd_latest_antic_cost")
 	private double estdLatestAnticCost;
 
-	@Column(name = "completion_date")
+	@Temporal(TemporalType.DATE)
+	@Column(name="completion_date")
 	private Date completionDate;
-
+	
 	@Column(name = "created_by")
 	private String createdBy;
 
@@ -272,6 +278,8 @@ public class SidingDetails implements Serializable {
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
 	}
+
+	
 
 	
 }

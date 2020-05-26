@@ -25,7 +25,8 @@ export class DailySummaryComponent implements OnInit{
     dailySummaryList : any;
     facilityData:any;
     dailySummaryDataSource: MatTableDataSource<DailySummaryModel>;
-    dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast','remarks','id' ] ;
+    dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast',
+    'footPatrolling', 'footInspection', 'footPlateInspection', 'supervisor', 'staffStrength', 'powerBlock','nonPowerBlock','remarks','id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editDailySummaryResponse: any;
@@ -61,6 +62,13 @@ export class DailySummaryComponent implements OnInit{
             'npbProgress': [null,Validators.maxLength(250)],
             'psiProgress': [null,Validators.maxLength(250)],
             'tomorrowForecast' : [null,Validators.maxLength(250)],
+            'footPatrolling' : [null,Validators.maxLength(250)],
+            'footInspection' : [null,Validators.maxLength(250)],
+            'footPlateInspection' : [null,Validators.maxLength(250)],
+            'supervisor' : [null,Validators.maxLength(250)],
+            'staffStrength' : [null,Validators.maxLength(250)],
+            'powerBlock' : [null,Validators.maxLength(250)],
+            'nonPowerBlock' : [null,Validators.maxLength(250)],
             'remarks' : [null,Validators.maxLength(250)]
         });
     }
@@ -89,6 +97,13 @@ export class DailySummaryComponent implements OnInit{
         let npbProgress: string = this.dailySummaryFormGroup.value.npbProgress;
         let psiProgress: string = this.dailySummaryFormGroup.value.psiProgress;
         let tomorrowForecast: string = this.dailySummaryFormGroup.value.tomorrowForecast;
+        let footPatrolling: string = this.dailySummaryFormGroup.value.footPatrolling;
+        let footInspection: string = this.dailySummaryFormGroup.value.footInspection;
+        let footPlateInspection: string = this.dailySummaryFormGroup.value.footPlateInspection;
+        let supervisor: string = this.dailySummaryFormGroup.value.supervisor;
+        let staffStrength: string = this.dailySummaryFormGroup.value.staffStrength;
+        let powerBlock: string = this.dailySummaryFormGroup.value.powerBlock;
+        let nonPowerBlock: string = this.dailySummaryFormGroup.value.nonPowerBlock;
         let remarks: string = this.dailySummaryFormGroup.value.remarks;
         this.addDailySummary = false;
         
@@ -101,6 +116,13 @@ export class DailySummaryComponent implements OnInit{
                 'npbProgress':npbProgress,
                 'psiProgress':psiProgress,
                 'tomorrowForecast':tomorrowForecast,
+                'footPatrolling':footPatrolling,
+                'footInspection':footInspection,
+                'footPlateInspection':footPlateInspection,
+                'supervisor':supervisor,
+                'staffStrength':staffStrength,
+                'powerBlock':powerBlock,
+                'nonPowerBlock':nonPowerBlock,
                 'remarks':remarks,
             }).subscribe((data) => {
                 this.commonService.showAlertMessage('Successfully saved');
@@ -118,6 +140,13 @@ export class DailySummaryComponent implements OnInit{
                 'npbProgress':npbProgress,
                 'psiProgress':psiProgress,
                 'tomorrowForecast':tomorrowForecast,
+                'footPatrolling':footPatrolling,
+                'footInspection':footInspection,
+                'footPlateInspection':footPlateInspection,
+                'supervisor':supervisor,
+                'staffStrength':staffStrength,
+                'powerBlock':powerBlock,
+                'nonPowerBlock':nonPowerBlock,
                 'remarks':remarks,
             }).subscribe((data) =>{
                 this.commonService.showAlertMessage('Successfully updated');
@@ -147,6 +176,13 @@ export class DailySummaryComponent implements OnInit{
                 npbProgress: this.editDailySummaryResponse.npbProgress,
                 psiProgress: this.editDailySummaryResponse.psiProgress,
                 tomorrowForecast: this.editDailySummaryResponse.tomorrowForecast,
+                footPatrolling: this.editDailySummaryResponse.footPatrolling,
+                footInspection: this.editDailySummaryResponse.footInspection,
+                footPlateInspection: this.editDailySummaryResponse.footPlateInspection,
+                supervisor: this.editDailySummaryResponse.supervisor,
+                staffStrength: this.editDailySummaryResponse.staffStrength,
+                powerBlock: this.editDailySummaryResponse.powerBlock,
+                nonPowerBlock: this.editDailySummaryResponse.nonPowerBlock,
                 remarks: this.editDailySummaryResponse.remarks
             })
         } ,error => {})

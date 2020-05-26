@@ -28,6 +28,7 @@ import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.GeographicState;
+import com.scr.model.InspectionType;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
 import com.scr.model.Model;
@@ -137,7 +138,12 @@ public class ReportController {
 		return new ResponseEntity<List<ObservationsCheckList>>(observationCategory,HttpStatus.OK);	
 		
 	}
-	
+	@RequestMapping(value = "/inspectionTypeData", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<InspectionType>> findInspectionDetails(){
+		List<InspectionType> inspectionType= reportService.findAllOrderByInspectionTypeAsc();
+		return new ResponseEntity<List<InspectionType>>(inspectionType,HttpStatus.OK);	
+		
+	}
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/generateReport", method = RequestMethod.POST , headers = "Accept=application/json")

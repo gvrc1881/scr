@@ -34,7 +34,7 @@
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
 																<mat-select placeholder="Select Depo Type" 
-																	[formControl]="fpSectionsItemFormGroup.controls['facilityDepot']">
+																	[formControl]="fpSectionsItemFormGroup.controls['facilityDepot']" required>
 																	<mat-option *ngFor="let facilityData of facilityData"
 																		[value]="facilityData.facilityName">
 																		{{ facilityData.facilityName }}
@@ -50,7 +50,7 @@
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
 																<input matInput placeholder="From Location" [formControl]="fpSectionsItemFormGroup.controls['fromLocation']" required
-                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" />
+                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?" />
                                 <mat-error
                                   *ngIf="fpSectionsItemFormGroup.controls['fromLocation'].hasError('pattern') && fpSectionsItemFormGroup.controls['fromLocation'].touched"
                                  class="alert alert-danger">Special characters are not allowed
@@ -60,14 +60,14 @@
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
 																<input matInput placeholder="To Location" [formControl]="fpSectionsItemFormGroup.controls['toLocation']" required
-                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" />
+                                pattern="^[a-zA-Z0-9/,\s._-]+(\s[a-zA-Z0-9/,._-]+)?"/>
                                 <mat-error
                                   *ngIf="fpSectionsItemFormGroup.controls['toLocation'].hasError('pattern') && fpSectionsItemFormGroup.controls['toLocation'].touched"
                                  class="alert alert-danger">Special characters are not allowed
                                </mat-error>
 															</mat-form-field>
 														</div>
-													<!-- From Date -->
+													<!-- From DATE -->
                           <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
@@ -84,7 +84,7 @@
                             <mat-form-field>
                                 <input matInput [matDatepicker]="picker"
                                     placeholder="Choose To Date" [min]="toMinDate"
-                                    [formControl]="fpSectionsItemFormGroup.controls['toDate']" required>
+                                    [formControl]="fpSectionsItemFormGroup.controls['toDate']" >
                                 <mat-datepicker-toggle matSuffix [for]="picker">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>

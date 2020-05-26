@@ -20,6 +20,7 @@ import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.GeographicState;
+import com.scr.model.InspectionType;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
 import com.scr.model.Model;
@@ -61,6 +62,7 @@ import com.scr.repository.FailureAnalysisRepository;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.FunctionLocationTypesRepository;
 import com.scr.repository.GeographicStateRepository;
+import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MajorSectionRepository;
 import com.scr.repository.MakeRepository;
 import com.scr.repository.ModelRepository;
@@ -144,6 +146,8 @@ public class ReportService {
 	private GeographicStateRepository geographicStateRepository;
 	@Autowired
 	private ElectricEnergySuppliersRepository electricEnergySuppliersRepository;
+	@Autowired
+	private InspectionTypeRepository inspectionTypeRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -180,6 +184,10 @@ public class ReportService {
 		}
 	public List<ObservationsCheckList>findObservationCheckList() {	
 		   return observationCheckListRepository.findAll();
+		}
+	
+	public List<InspectionType>findAllOrderByInspectionTypeAsc() {	
+		   return inspectionTypeRepository.findAllOrderByInspectionTypeAsc();
 		}
 	
 	public ReportRequest generateReport(ReportRequest report) {

@@ -34,7 +34,7 @@
 														
                                                       <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="dailySummaryFormGroup.controls['createdDate']">
+                                                            <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
                                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                 <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
                                                         </mat-form-field>
@@ -42,7 +42,7 @@
                             <div class="col-md-3">
 															<mat-form-field fxFlex="30" class="example-full-width">
 																<mat-select placeholder="Select Depot" 
-																	[formControl]="dailySummaryFormGroup.controls['facilityId']" >
+																	[formControl]="dailySummaryFormGroup.controls['facilityId']" required>
 																	<mat-option *ngFor="let facilityData of facilityData"
 																		[value]="facilityData.facilityName">
 																		{{ facilityData.facilityName }}
@@ -98,7 +98,69 @@
                             </mat-error>
 															</mat-form-field>
                             </div>
-													
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Foot Patrolling" [formControl]="dailySummaryFormGroup.controls['footPatrolling']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['footPatrolling'].hasError('maxlength') && dailySummaryFormGroup.controls['footPatrolling'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Foot Inspection" [formControl]="dailySummaryFormGroup.controls['footInspection']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['footInspection'].hasError('maxlength') && dailySummaryFormGroup.controls['footInspection'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Foot Plate Inspection" [formControl]="dailySummaryFormGroup.controls['footPlateInspection']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['footPlateInspection'].hasError('maxlength') && dailySummaryFormGroup.controls['footPlateInspection'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Supervisor" [formControl]="dailySummaryFormGroup.controls['supervisor']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['supervisor'].hasError('maxlength') && dailySummaryFormGroup.controls['supervisor'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Staff Strength" [formControl]="dailySummaryFormGroup.controls['staffStrength']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['staffStrength'].hasError('maxlength') && dailySummaryFormGroup.controls['staffStrength'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Power Block" [formControl]="dailySummaryFormGroup.controls['powerBlock']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['powerBlock'].hasError('maxlength') && dailySummaryFormGroup.controls['powerBlock'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+															<mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="Non Power Block" [formControl]="dailySummaryFormGroup.controls['nonPowerBlock']"></textarea>
+                                <mat-error
+                                *ngIf="dailySummaryFormGroup.controls['nonPowerBlock'].hasError('maxlength') && dailySummaryFormGroup.controls['nonPowerBlock'].touched"
+                                class="alert alert-danger">Max 250 characters only
+                            </mat-error>
+															</mat-form-field>
+														</div>
 	
 														<div class="col-md-3">
 															<mat-form-field fxFlex="30">
@@ -181,6 +243,48 @@
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                               {{row.tomorrowForecast}}</mat-cell>
                                         </ng-container>
+
+                                        <ng-container matColumnDef="footPatrolling">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>Foot Patrolling</mat-header-cell>
+                                          <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                            {{row.footPatrolling}}</mat-cell>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="footInspection">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Foot Inspection</mat-header-cell>
+                                        <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                          {{row.footInspection}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="footPlateInspection">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Foot Plate Inspection</mat-header-cell>
+                                      <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                        {{row.footPlateInspection}}</mat-cell>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="supervisor">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</mat-header-cell>
+                                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                      {{row.supervisor}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="staffStrength">
+                                  <mat-header-cell *matHeaderCellDef mat-sort-header>Staff Strength</mat-header-cell>
+                                  <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                    {{row.staffStrength}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="powerBlock">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Power Block</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                  {{row.powerBlock}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="nonPowerBlock">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header>Non Power Block</mat-header-cell>
+                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                {{row.nonPowerBlock}}</mat-cell>
+                          </ng-container>
                                            
                                             <ng-container matColumnDef="remarks">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>

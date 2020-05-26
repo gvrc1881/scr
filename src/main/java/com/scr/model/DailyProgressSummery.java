@@ -3,6 +3,7 @@ package com.scr.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 
@@ -19,9 +20,10 @@ public class DailyProgressSummery implements Serializable {
 	@Column(name="created_by")
 	private String createdBy;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="created_date")
-	private Timestamp createdDate;
-
+	private Date createdDate;
+	
 	@Column(name="created_on")
 	private Timestamp createdOn;
 
@@ -111,11 +113,13 @@ public class DailyProgressSummery implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Timestamp getCreatedDate() {
-		return this.createdDate;
+	
+
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreatedDate(Timestamp createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
