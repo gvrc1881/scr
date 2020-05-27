@@ -67,17 +67,27 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" decimalNumber [formControl]="trackFormGroup.controls['tkm']" />
+	                                                                <input matInput placeholder="TKM" required decimalNumber [formControl]="trackFormGroup.controls['tkm']" />
+	                                                                <mat-error *ngIf="trackFormGroup.controls['tkm'].hasError('required')">
+										                                Enter TKM
+										                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM" decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
+	                                                                <input matInput placeholder="RKM" required decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
+	                                                                <mat-error *ngIf="trackFormGroup.controls['rkm'].hasError('required')">
+										                                Enter TKM
+										                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <textarea matInput placeholder="Remark" [formControl]="trackFormGroup.controls['remark']" ></textarea>
+	                                                                <mat-error
+		                                                                *ngIf="trackFormGroup.controls['remark']"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                                <!-- <input matInput placeholder="remark" [formControl]="trackFormGroup.controls['remark']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>

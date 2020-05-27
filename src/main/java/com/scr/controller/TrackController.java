@@ -28,7 +28,7 @@ import com.scr.util.Helper;
 @RequestMapping("/scr/api")
 public class TrackController {
 	
-	private Logger logger = Logger.getLogger(TrackController.class);
+	private Logger log = Logger.getLogger(TrackController.class);
 	
 	@Autowired
 	private TrackService trackService;
@@ -36,52 +36,98 @@ public class TrackController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/findAllTrack", method = RequestMethod.GET, headers = "Accept=application/json")
 	public List<Track> trackList() throws JSONException {
+		log.info("Enter into trackList function");
 		List<Track> trackList = null;
 		try {
-			logger.info("Fetch track List Started");	
+			log.info("Calling service for track data");	
 			trackList = trackService.findAll();
-			logger.info("Fetch track List Ended"+trackList);
-		return trackList;
-		} catch (NullPointerException e) {
-			logger.error(e);
+			log.info("Fetch track List Ended***"+trackList.size());
+			return trackList;
+		} catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the track data = "+npe.getMessage());
+		}catch (Exception e) {
+			log.error("ERROR >>> while fetching the track data = "+e.getMessage());
 		}
-		catch (Exception e) {
-			logger.error(e);
-		}
+		log.info("Exit from trackList function");
 		return trackList;	
 	}
 	
 	@RequestMapping(value = "/addTrack", method = RequestMethod.POST , headers = "Accept=application/json")
 	@ResponseBody
-	public ResponseStatus saveTrack(@RequestBody Track track){
-		track.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		Track saveTrack = trackService.saveTrack(track);
-		if (saveTrack != null) {
+	public ResponseStatus saveTrack(@RequestBody Track track) {
+		log.info("Enter into saveTrack function with below request parameters ");
+		log.info("Request Parameters = "+track.toString());
+		try {
+			log.info("Calling service with request parameters.");
+			track.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			trackService.saveTrack(track);
+			log.info("Preparing the return response");
 			return Helper.findResponseStatus("Track added successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While adding track data. "+npe.getMessage());
+			return Helper.findResponseStatus("track save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
 		}
-		return null;
+		catch (Exception e) {
+			log.error("ERROR >> While adding track data. "+e.getMessage());
+			return Helper.findResponseStatus("track save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	
 	@RequestMapping(value = "/findTrack/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<Track> findById(@PathVariable("id") Integer id){
-		Optional<Track> ele = trackService.findById(id);
-		return new ResponseEntity<>(ele.get(),HttpStatus.OK);
+		Optional<Track> track =  null;
+		try {
+			log.info("Selected Track Id = "+id);
+			track = trackService.findById(id);
+			if(track.isPresent()) {
+				log.info("Track Data = "+track.get());
+				return new ResponseEntity<Track>(track.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<Track>(track.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			log.error("Error >>  while find Track Details by id, "+e.getMessage());
+			return new ResponseEntity<Track>(track.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	
 	@RequestMapping(value = "/updateTrack" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateTrack (@RequestBody Track track) {
-		track.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		trackService.saveTrack(track);
-		return Helper.findResponseStatus("Track updated successfully", Constants.SUCCESS_CODE);
+		log.info("Enter into updateTrack function with below request parameters ");
+		log.info("Request Parameters = "+track.toString());
+		try {
+			log.info("Calling service with request parameters.");
+			track.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			trackService.saveTrack(track);
+			log.info("Preparing the return response");
+			return Helper.findResponseStatus("Track updated successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While updating track data. "+npe.getMessage());
+			return Helper.findResponseStatus("Track update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While updating track data. "+e.getMessage());
+			return Helper.findResponseStatus("Track update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	@RequestMapping(value = "/deleteTrack/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
 	public ResponseStatus deleteTrack(@PathVariable Integer id) {
-		logger.info("*** id****"+id);
-		trackService.deleteTrackById(id);
-		return Helper.findResponseStatus("Track Deleted successfully", Constants.SUCCESS_CODE);
+		log.info("Enter into deleteTrack function");
+		log.info("Selected Track Id = "+id);
+		try {
+			trackService.deleteTrackById(id);
+			return Helper.findResponseStatus("Track Deleted successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While deleting track data"+npe.getMessage());
+			return Helper.findResponseStatus("Track Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error("ERROR >> While deleting track data"+e.getMessage());
+			return Helper.findResponseStatus("Track Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
 	}
 
 }

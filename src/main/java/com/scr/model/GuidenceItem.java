@@ -148,4 +148,12 @@ public class GuidenceItem implements Serializable {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "GuidenceItem [id=" + id + ", agencyRbRdso=" + agencyRbRdso + ", closed=" + closed + ", closedRemark="
+				+ closedRemark + ", date=" + date + ", detailsOfIssue=" + detailsOfIssue + ", heading=" + heading
+				+ ", letterNo=" + letterNo + ", reportContinue=" + reportContinue + ", response=" + response
+				+ ", shortDescription=" + shortDescription + ", status=" + status + "]";
+	}
+	
 }

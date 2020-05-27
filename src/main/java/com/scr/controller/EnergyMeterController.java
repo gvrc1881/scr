@@ -42,12 +42,11 @@ public class EnergyMeterController {
 		try {
 			log.info("Calling service for energy meters data");
 			energyMeterList = energyMeterService.findAll();
-			log.info("Fetched energy meters data = "+energyMeterList);
-		return energyMeterList;
+			log.info("Fetched energy meters data = "+energyMeterList.size());
+			return energyMeterList;
 		} catch (NullPointerException npe) {
 			log.error("ERROR >>> while fetching the energy meters data = "+npe.getMessage());
-		}
-		catch (Exception e) {
+		}catch (Exception e) {
 			log.error("ERROR >>> while fetching the energy meters data = "+e.getMessage());
 		}
 		log.info("Exit from findAllEnergyMeter function");

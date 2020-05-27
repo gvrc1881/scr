@@ -29,7 +29,8 @@ const routes: Routes = [
         MaterialModule,
         Ng4LoadingSpinnerModule.forRoot(),
         DecimalValidationsModule,
-        NumberValidationsModule
+        NumberValidationsModule,
+        Ng4LoadingSpinnerModule.forRoot()
     ],
     providers:[
     	WorksService

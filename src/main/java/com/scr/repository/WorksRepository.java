@@ -8,4 +8,6 @@ import com.scr.model.Works;
 @Repository
 public interface WorksRepository extends JpaRepository<Works, Integer> {
 
+	Boolean existsByWorkName(String workName);
+
 }

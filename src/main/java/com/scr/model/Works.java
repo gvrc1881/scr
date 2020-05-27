@@ -292,4 +292,19 @@ public class Works implements Serializable {
 		this.tkm = tkm;
 	}
 
+	@Override
+	public String toString() {
+		return "Works [id=" + id + ", allocation=" + allocation + ", division=" + division + ", estdLatestAnticCost="
+				+ estdLatestAnticCost + ", executedBy=" + executedBy + ", executingAgency=" + executingAgency
+				+ ", financialProgressPercentage=" + financialProgressPercentage + ", latestRevisedCost="
+				+ latestRevisedCost + ", pbLawLswp=" + pbLawLswp + ", pbLawLswpCode=" + pbLawLswpCode
+				+ ", physicalProgressPercentage=" + physicalProgressPercentage + ", presentStatus=" + presentStatus
+				+ ", reWorks=" + reWorks + ", rkm=" + rkm + ", sanctionCost=" + sanctionCost + ", section=" + section
+				+ ", statusRemarks=" + statusRemarks + ", targetDateOfCompletion=" + targetDateOfCompletion + ", tkm="
+				+ tkm + ", workName=" + workName + ", yearOfSanction=" + yearOfSanction + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+	}
+	
+	
+
 }

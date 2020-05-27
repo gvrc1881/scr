@@ -37,26 +37,49 @@
                                                                     <input matInput placeholder="Authority" [formControl]="guidenceItemFormGroup.controls['agencyRbRdso']" />
                                                                 </mat-form-field>
                                                             </div>
+                                                            <!-- <div class="col-md-3">
+	                                                            <mat-form-field>
+	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose Date"
+                                                                [max]="maxDate"
+                                                                [formControl]="guidenceItemFormGroup.controls['date']" >                                                                
+                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+	                                                              </mat-form-field>
+	                                                        </div> -->
                                                             <div class="col-md-3">
                                                                 <mat-form-field>
-                                                                    <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="guidenceItemFormGroup.controls['date']">
+                                                                    <input matInput [matDatepicker]="picker" placeholder="Choose Date"  [max]="maxDate" [formControl]="guidenceItemFormGroup.controls['date']">
                                                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                                        <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
-                                                                </mat-form-field>
+                                                                        <mat-datepicker #picker  ></mat-datepicker><!-- (yearSeleceted)="close($event)"
+ -->                                                                </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <input matInput placeholder="Heading" [formControl]="guidenceItemFormGroup.controls['heading']" />
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['heading'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <input matInput placeholder="Letter No" [formControl]="guidenceItemFormGroup.controls['letterNo']" />
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['letterNo'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <input matInput placeholder="Report Continue" [formControl]="guidenceItemFormGroup.controls['reportContinue']" />
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['reportContinue'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
@@ -83,19 +106,34 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                	<textarea matInput placeholder="Response" [formControl]="guidenceItemFormGroup.controls['response']" ></textarea>
+                                                                	<textarea matInput placeholder="Response"
+                                                                	 [formControl]="guidenceItemFormGroup.controls['response']" ></textarea>
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['response'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                     <!-- <input matInput placeholder="Response" [formControl]="guidenceItemFormGroup.controls['response']" /> -->
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                	<textarea matInput placeholder="Short Description" [formControl]="guidenceItemFormGroup.controls['shortDescription']" ></textarea>
+                                                                	<textarea matInput placeholder="Short Description"
+                                                                	 [formControl]="guidenceItemFormGroup.controls['shortDescription']" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['shortDescription'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                     <!-- <input matInput placeholder="Short Description" [formControl]="guidenceItemFormGroup.controls['shortDescription']" /> -->
                                                                 </mat-form-field>
                                                             </div> 
                                                             <div class="col-md-3">
                                                                     <mat-form-field fxFlex="30">
-                                                                    	<textarea matInput placeholder="Closed Remark" [formControl]="guidenceItemFormGroup.controls['closedRemark']" ></textarea>
+                                                                    	<textarea matInput placeholder="Closed Remark" 
+                                                                    	[formControl]="guidenceItemFormGroup.controls['closedRemark']" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"  ></textarea>
+                                                                        <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['closedRemark'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                         <!-- <input matInput placeholder="Closed Remark" [formControl]="guidenceItemFormGroup.controls['closedRemark']" /> -->
                                                                     </mat-form-field>
                                                             </div>    

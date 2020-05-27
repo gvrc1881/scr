@@ -34,6 +34,7 @@ export class TrackComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     trackDisplayedColumns = ['sno' ,  'depot'  , 'TKM' , 'RKM' , 'remarks' , 'id' ];
     funLocTypeData: any;
+    trackResponse: any;
     
     constructor(
         private commonService: CommonService,
@@ -57,9 +58,9 @@ export class TrackComponent implements OnInit{
              id: 0,
              "depotType":[null],
             "facilityId": [null, Validators.compose([Validators.required])],
-            "tkm": [null],
-            "rkm":[null],
-            "remark": [null],
+            "tkm": [null, Validators.compose([Validators.required])],
+            "rkm":[null, Validators.compose([Validators.required])],
+            "remark": [null, Validators.maxLength(250)],
         });
         this.reportService.functionalLocationTypes().subscribe((data) => {
                  this.funLocTypeData = data;
@@ -79,13 +80,19 @@ export class TrackComponent implements OnInit{
         //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.trackService.saveTrack(TrackPayload.ADD_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully saved");
-                this.getTrackData();
-                this.trackFormGroup.reset();
-                this.addTrack = false;
+                this.trackResponse = data;
+                if(this.trackResponse.code == 200 && !!this.trackResponse) {
+                	this.commonService.showAlertMessage(this.trackResponse.message);
+                	this.getTrackData();
+                	this.trackFormGroup.reset();
+                	this.addTrack = false;
+                }else {
+                	this.commonService.showAlertMessage("Track Data Saving Failed.");
+                }	
             }, error => {
-                this.commonService.showAlertMessage("Error in Add")
+                console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Track Data Saving Failed.");
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
             console.log('in else if block::');
@@ -96,13 +103,19 @@ export class TrackComponent implements OnInit{
 	        TrackPayload.UPDATE_PAYLOAD.remarks = this.trackFormGroup.value.remarks;
 	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
             this.trackService.updateTrack(TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully updated");
-                this.getTrackData();
-                this.trackFormGroup.reset();
-                this.addTrack = false;
+                this.trackResponse = data;
+                if(this.trackResponse.code == 200 && !!this.trackResponse) {
+                	this.commonService.showAlertMessage(this.trackResponse.message);
+                	this.getTrackData();
+                	this.trackFormGroup.reset();
+                	this.addTrack = false;
+                }else {
+                	this.commonService.showAlertMessage("Track Data Updating Failed.");
+                }	
             } , error => {
-                this.commonService.showAlertMessage("Error in update")
+                console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Track Data Updating Failed.");
             });
 
         }
@@ -138,6 +151,9 @@ export class TrackComponent implements OnInit{
         this.addTrack = true;
         this.trackEditAction(id);
         this.title = "Update";
+        this.reportService.facilityNames().subscribe((data) => {
+                 this.facilityData = data;
+        		});
         this.spinnerService.hide();
     }   
      
@@ -166,9 +182,18 @@ export class TrackComponent implements OnInit{
             if(result){
                 this.trackService.deleteTrackById(id)
                     .subscribe((data) => {
-                        this.commonService.showAlertMessage('Track Deleted Successfully');
-                        this.getTrackData();
-                    },error => {});
+                    	this.trackResponse = data;
+                		if(this.trackResponse.code == 200 && !!this.trackResponse) {
+                        	this.commonService.showAlertMessage('Track Deleted Successfully');
+                        	this.getTrackData();
+                         } else {
+                         	this.commonService.showAlertMessage("Track Deletion Failed.");
+                    	}	
+                    },error => {
+                    	console.log('ERROR >>>');
+          				this.spinnerService.hide();
+          				this.commonService.showAlertMessage("Track Deletion Failed.");	
+                    });
             }
         });
     }

@@ -36,5 +36,9 @@ export class WorksService {
     deleteWorkById(id: number) {
         return this.http.delete(this.url + "/deleteWork/" +id ,{headers: this.header});
     }
+    
+    existsWorkName(workName: string) {
+        return this.http.get(this.url + '/existsWorkName/' + workName, { headers: this.header });
+    }
 
 }

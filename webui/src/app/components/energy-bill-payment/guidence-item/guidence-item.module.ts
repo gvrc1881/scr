@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 const routes: Routes = [
     {
@@ -22,7 +23,8 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        Ng4LoadingSpinnerModule.forRoot()
         
     ],
     providers: [

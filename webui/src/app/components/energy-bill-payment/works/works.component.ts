@@ -36,6 +36,7 @@ export class WorksComponent implements OnInit {
     execAgencyList: any;
     userHierarchy:any = localStorage.getItem('userHierarchy');
     divisionList:  FacilityModel [] = [];
+    workResponse: any;
 
     constructor(
         private workService: WorksService,
@@ -80,7 +81,7 @@ export class WorksComponent implements OnInit {
 			"statusRemarks" : [null , Validators.maxLength(250)],
 			"targetDateOfCompletion" : [null],
 			"tkm" : [null],
-			"workName" : [null],
+			"workName" : [null,  Validators.required, this.duplicateWorkName.bind(this)],
 			"yearOfSanction" : [null],
         });
         this.reportService.statusItemDetails('WORK_PROGRESS_STATUS').subscribe((data) => {
@@ -92,6 +93,29 @@ export class WorksComponent implements OnInit {
                 this.commonService.showAlertMessage("Error in Get")
         });	
     }
+    
+    duplicateWorkName() {
+    const q = new Promise((resolve, reject) => {
+      let repartment: string = this.workFormGroup.controls['workName'].value;
+      var filter = !!this.workList && this.workList.filter(repartment => {
+        return repartment.workName.toLowerCase() == repartment.trim().toLowerCase();
+      });
+      if (filter.length > 0) {
+        resolve({ 'duplicateDepartment': true });
+      }
+      this.workService.existsWorkName(
+        this.workFormGroup.controls['workName'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+       // console.log('duplicate***'+duplicate);
+          resolve({ 'duplicateDepartment': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDepartment': true }); });
+    });
+    return q;
+  }
     
     addNewWork() {
         this.addWork = true;
@@ -120,13 +144,19 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
         if (this.title == Constants.EVENTS.SAVE) {
             this.workService.saveWork(WorksPayload.ADD_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully saved");
-                this.getAllWorksData();
-                this.workFormGroup.reset();
-                this.addWork = false;
+                this.workResponse = data;
+                if(this.workResponse.code == 200 && !!this.workResponse) {
+                	this.commonService.showAlertMessage(this.workResponse.message);
+                	this.getAllWorksData();
+                	this.workFormGroup.reset();
+                	this.addWork = false;
+                }else {
+                	this.commonService.showAlertMessage("Work Data Saving Failed.");
+                }	
             }, error => {
-                this.commonService.showAlertMessage("Error in Add")
+                console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Work Data Saving Failed.");
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
         	WorksPayload.UPDATE_PAYLOAD.id = this.editWorkResponse.id;
@@ -151,13 +181,19 @@ export class WorksComponent implements OnInit {
 	        WorksPayload.UPDATE_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
 	        WorksPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
             this.workService.updateWork(WorksPayload.UPDATE_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully updated");
-                this.getAllWorksData();
-                this.workFormGroup.reset();
-                this.addWork = false;
+                this.workResponse = data;
+                if(this.workResponse.code == 200 && !!this.workResponse) {
+                	this.commonService.showAlertMessage(this.workResponse.message);
+                	this.getAllWorksData();
+                	this.workFormGroup.reset();
+                	this.addWork = false;
+                }else {
+                	this.commonService.showAlertMessage("Work Data Updating Failed.");
+                }	
             } , error => {
-                this.commonService.showAlertMessage("Error in update")
+                console.log('ERROR >>>');
+        		this.spinnerService.hide();
+        		this.commonService.showAlertMessage("Work Data Updating Failed.");
             });
 
         }
@@ -235,10 +271,19 @@ export class WorksComponent implements OnInit {
             if(result){
                 this.workService.deleteWorkById(id)
                     .subscribe((data) => {
+                    this.workResponse = data;
+                	if(this.workResponse.code == 200 && !!this.workResponse) {
                         this.commonService.showAlertMessage('Work Deleted Successfully');
                         this.getAllWorksData();
                         this.addWork = false;
-                    },error => {});
+                    } else {
+                         this.commonService.showAlertMessage("Work Deletion Failed.");
+                    }    
+                    },error => {
+                    	console.log('ERROR >>>');
+          				this.spinnerService.hide();
+          				this.commonService.showAlertMessage("Work Deletion Failed.");
+                    });
             }
         });
     }

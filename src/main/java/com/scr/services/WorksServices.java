@@ -40,4 +40,9 @@ public class WorksServices {
 		
 	}
 
+	public Boolean existsByWorkName(String workName) {
+		// TODO Auto-generated method stub
+		return worksRepository.existsByWorkName(workName);
+	}
+
 }
