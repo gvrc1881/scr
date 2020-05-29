@@ -38,7 +38,9 @@ export class SidingsService {
         return this.http.delete(this.url + "/deleteSidingsItem/" + id, { headers: this.header});
     }
    
-
+    existsSidingCode(sidingCode: string) {
+        return this.http.get(environment.apiUrl + '/existsSidingCode/' + sidingCode, { headers: this.header });
+    }
 
 
 }

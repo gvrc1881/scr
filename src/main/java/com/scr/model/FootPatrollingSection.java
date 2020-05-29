@@ -178,6 +178,15 @@ public class FootPatrollingSection implements Serializable {
 		this.toLocation = toLocation;
 	}
 
+	@Override
+	public String toString() {
+		return "FootPatrollingSection [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", facilityDepot=" + facilityDepot + ", fpSection="
+				+ fpSection + ", fromDate=" + fromDate + ", fromLocation=" + fromLocation + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", remarks=" + remarks + ", seqId="
+				+ seqId + ", toDate=" + toDate + ", toLocation=" + toLocation + "]";
+	}
+
 	
 	
 

@@ -100,8 +100,8 @@ uomDetails(){
 sectionDetails(){
     return this.http.get(this.url + '/sectionDetails',{ headers: this.header });
 }
-statusItemDetails(statusId){
-    return this.http.get(this.url + '/statusItemDetails/'+statusId,{ headers: this.header });
+statusItemDetails(statusTypeId){
+    return this.http.get(this.url + '/statusItemDetails/'+statusTypeId,{ headers: this.header });
 }
 
 getFacilitysBasedOnDepotType(depotType){

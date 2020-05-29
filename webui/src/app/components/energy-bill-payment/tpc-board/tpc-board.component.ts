@@ -6,6 +6,7 @@ import { Constants } from 'src/app/common/constants';
 import { TPCBoardModel } from 'src/app/models/tpc-board.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { ReportService  } from "src/app/services/report.service";
 
 @Component({
     selector: 'tpc-board',
@@ -21,8 +22,9 @@ export class TPCBoardComponent implements OnInit{
     title: string = "Save";
     tpcBoardFormGroup: FormGroup;
     tpcBoardList : any;
+    divisionsList:any;
     tpcBoardDataSource: MatTableDataSource<TPCBoardModel>;
-    tpcBoardDisplayColumns = ['sno' , 'tpcBoard' ,'description', 'id' ] ;
+    tpcBoardDisplayColumns = ['sno' , 'tpcBoard' ,'dataDiv','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editTpcBoardResponse: any;
@@ -31,6 +33,7 @@ export class TPCBoardComponent implements OnInit{
 
     constructor(
         private tpcBoardService: TPCBoardService,
+        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog
@@ -41,6 +44,7 @@ export class TPCBoardComponent implements OnInit{
     ngOnInit () {
         console.log('in ngOnintit method:::');
         this.getAllTPCBoardData();
+        this.divisionDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TPC BOARD") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
@@ -48,11 +52,27 @@ export class TPCBoardComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.tpcBoardFormGroup = this.formBuilder.group({
             id: 0,
-            'tpcBoard':[null],
+            'tpcBoard':[null,  Validators.required, this.duplicateTpcBoard.bind(this)],
+            'dataDiv':[null],
             'description':[null,Validators.maxLength(250)]
             
         });
     }
+    duplicateTpcBoard() {
+        const q = new Promise((resolve, reject) => {
+          this.tpcBoardService.existsTpcBoard(
+            this.tpcBoardFormGroup.controls['tpcBoard'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+                console.log('duplicateTpcBoard'+duplicate);
+              resolve({ 'duplicateTpcBoard': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateTpcBoard': true }); });
+        });
+        return q;
+      }
 
     getAllTPCBoardData() {
         console.log("get all guidence items");
@@ -73,6 +93,7 @@ export class TPCBoardComponent implements OnInit{
 
     tpcBoardSubmit () {
         let tpcBoard: string = this.tpcBoardFormGroup.value.tpcBoard;
+        let dataDiv: string = this.tpcBoardFormGroup.value.dataDiv;
         let description: string = this.tpcBoardFormGroup.value.description
 
         this.addTPCBoard = false;
@@ -80,6 +101,7 @@ export class TPCBoardComponent implements OnInit{
         if (this.title ==  Constants.EVENTS.SAVE) {
             this.tpcBoardService.saveTPCBoard({
                 'tpcBoard':tpcBoard,
+                'dataDiv':dataDiv,
                 'description':description
             }).subscribe((data) => {
                 this.commonService.showAlertMessage('Successfully saved');
@@ -91,6 +113,7 @@ export class TPCBoardComponent implements OnInit{
             this.tpcBoardService.updateTPCBoard({
                 'id':id,
                 'tpcBoard':tpcBoard,
+                'dataDiv':dataDiv,
                 'description':description,
             }).subscribe((data) =>{
                 this.commonService.showAlertMessage('Successfully updated');
@@ -114,6 +137,7 @@ export class TPCBoardComponent implements OnInit{
             this.tpcBoardFormGroup.patchValue({
                 id: this.editTpcBoardResponse.id,
                 tpcBoard:this.editTpcBoardResponse.tpcBoard,
+                dataDiv:this.editTpcBoardResponse.dataDiv,
                 description:this.editTpcBoardResponse.description
 
             })
@@ -136,7 +160,15 @@ export class TPCBoardComponent implements OnInit{
             }
         });
     }
+    divisionDetails()
+    {
+          
+           this.reportService. divisionDetails().subscribe((data) => {
+             this.divisionsList = data;
+    }
+           );
 
+   }
 
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim();

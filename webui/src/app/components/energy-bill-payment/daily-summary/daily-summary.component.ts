@@ -55,8 +55,8 @@ export class DailySummaryComponent implements OnInit{
         this.facilityNames();
         this.dailySummaryFormGroup = this.formBuilder.group({
             id: 0,
-            'createdDate':[null],
-            'facilityId':[null],
+            'createdDate':[null, Validators.compose([Validators.required]), this.duplicateCreatedDate.bind(this)],
+            'facilityId':[null, Validators.compose([Validators.required]), this.duplicateFacilityId.bind(this)],
             'nameOfStaff':[null,Validators.maxLength(250)],
             'dayProgress': [null,Validators.maxLength(250)],
             'npbProgress': [null,Validators.maxLength(250)],
@@ -72,7 +72,37 @@ export class DailySummaryComponent implements OnInit{
             'remarks' : [null,Validators.maxLength(250)]
         });
     }
+    duplicateCreatedDate() {
+        const q = new Promise((resolve, reject) => {
+          this.dailySummaryService.existsCreatedDate(
+            this.dailySummaryFormGroup.controls['createdDate'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+                        console.log('duplicateCreatedDate***'+duplicate);
 
+              resolve({ 'duplicateCreatedDate': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateCreatedDate': true }); });
+        });
+        return q;
+      }
+    
+      duplicateFacilityId() {
+        const q = new Promise((resolve, reject) => {
+          this.dailySummaryService.existsFacilityId(
+            this.dailySummaryFormGroup.controls['facilityId'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateFacilityId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateFacilityId': true }); });
+        });
+        return q;
+      }
     getAllDailySummaryData() {
         const dailyProgressSummery : DailySummaryModel[] = [];
         this.dailySummaryService.getAllDailySummary().subscribe((data) => {

@@ -34,14 +34,31 @@
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="TPC Board" [formControl]="tpcBoardFormGroup.controls['tpcBoard']" required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"/>
+                                                                    <input matInput placeholder="TPC Board"  [formControl]="tpcBoardFormGroup.controls['tpcBoard']" required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"/>
                                                                     <mat-error
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('required') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Enter Tpc Board</mat-error>
+                                                                <mat-error
+                                                                *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('duplicateTpcBoard')"
+                                                                class="alert alert-danger">
+                                                                TpcBoard Already Exists
+                                                            </mat-error>
                                                                     <mat-error
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('pattern') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
+                                                            
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30" class="example-full-width">
+                                                                    <mat-select placeholder="Select Division"
+                                                                        [formControl]="tpcBoardFormGroup.controls['dataDiv']" required>
+                                                                        <mat-option *ngFor="let divisionsList of divisionsList"
+                                                                            [value]="divisionsList.code">
+                                                                            {{ divisionsList.code }}
+                                                                        </mat-option>
+                                                                    </mat-select>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
@@ -91,6 +108,11 @@
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>TPC Board</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.tpcBoard}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="dataDiv">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.dataDiv}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="description">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>

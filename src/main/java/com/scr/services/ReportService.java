@@ -233,8 +233,8 @@ public class ReportService {
 	public List<Section>findAllSectionDetails() {	
 		   return sectionRepository.findAll();
 		}
-	public List<StatusItem> findAllStatusItem(String statusType){	
-		return statusItemRepository.findByStatusTypeId(statusType);
+	public List<StatusItem> findAllStatusItem(String statusTypeId){	
+		return statusItemRepository.findByStatusTypeId(statusTypeId);
 	}
 	
 
@@ -247,6 +247,7 @@ public class ReportService {
 		log.info("faciliNameOheDepot"+facilityNames);
 		return facilityNames;		
 	}
+	
 	public List<CrsEigInspections>findcrsEigInspection() {	
 		   return crsEigInspectionRepository.findAll();
 		}

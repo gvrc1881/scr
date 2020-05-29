@@ -37,5 +37,10 @@ export class StationsSectionsService {
     deleteStationSections(id: number) {
         return this.http.delete(this.url + "/deleteStationSections/" + id, { headers: this.header});
     }
-
+    existsStationCode(stationCode: string) {
+        return this.http.get(environment.apiUrl + '/existsStationCode/' + stationCode, { headers: this.header });
+    }
+    existsStationName(stationName: string) {
+        return this.http.get(environment.apiUrl + '/existsStationName/' + stationName, { headers: this.header });
+    }
 }

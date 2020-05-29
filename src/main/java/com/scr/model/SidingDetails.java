@@ -279,6 +279,19 @@ public class SidingDetails implements Serializable {
 		this.updatedOn = updatedOn;
 	}
 
+	@Override
+	public String toString() {
+		return "SidingDetails [id=" + id + ", station=" + station + ", sidingCode=" + sidingCode + ", section="
+				+ section + ", sectionEletrifiedStatus=" + sectionEletrifiedStatus + ", sidingEletrifiedStatus="
+				+ sidingEletrifiedStatus + ", privateRailway=" + privateRailway + ", status=" + status + ", TKM=" + TKM
+				+ ", remarks=" + remarks + ", sidingProposed=" + sidingProposed + ", proposedDate=" + proposedDate
+				+ ", approvalDate=" + approvalDate + ", workOrderDate=" + workOrderDate + ", workProgressPercentage="
+				+ workProgressPercentage + ", workProgressRemark=" + workProgressRemark + ", executingAgency="
+				+ executingAgency + ", estdLatestAnticCost=" + estdLatestAnticCost + ", completionDate="
+				+ completionDate + ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", updatedBy=" + updatedBy
+				+ ", updatedOn=" + updatedOn + "]";
+	}
+
 	
 
 	

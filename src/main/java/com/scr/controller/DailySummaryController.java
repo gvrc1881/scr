@@ -1,9 +1,14 @@
 package com.scr.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +26,7 @@ import com.scr.util.Helper;
 @RestController
 @RequestMapping("/scr/api")
 public class DailySummaryController {
+	static Logger log = LogManager.getLogger(DailySummaryController.class);
 	
 	@Autowired
 	private DailySummaryService dailySummaryService;
@@ -28,36 +34,111 @@ public class DailySummaryController {
 	
 	@RequestMapping(value = "/findAllDailySummary" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<DailyProgressSummery> findAllDailySummary(){
-		List<DailyProgressSummery> dailySummary = dailySummaryService.findAll();
+		log.info("Enter into findAllDailySummary function");
+		List<DailyProgressSummery> dailySummary = null;
+		try {
+			log.info("Calling service for daily Summary data");
+			dailySummary = dailySummaryService.findAll();
+			log.info("Fetched daily Summary data"+dailySummary.size());
+		}catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the daily Summary data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			log.error("ERROR >>> while fetching the daily Summary data = "+e.getMessage());
+		}
+		log.info("Exit from findAllDailySummary function");
 		return dailySummary;
 	}
 	
 	@RequestMapping(value = "/addDailySummary" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addDailySummary(@RequestBody DailyProgressSummery dailyProgressSummery) {
-		dailySummaryService.save(dailyProgressSummery);
-		return Helper.findResponseStatus("Daily Summary added successfully", Constants.SUCCESS_CODE);
-
+		log.info("Enter into addDailySummary function with below request parameters ");
+		log.info("Request Parameters = "+dailyProgressSummery.toString());
+		try {
+			log.info("Calling service with request parameters.");
+			dailySummaryService.save(dailyProgressSummery);
+			log.info("Preparing the return response");
+			return Helper.findResponseStatus("Daily Summary added successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While adding Daily Summary data. "+npe.getMessage());
+			return Helper.findResponseStatus("Daily Summary save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While adding Daily Summary data. "+e.getMessage());
+			return Helper.findResponseStatus("Daily Summary save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	
 	@RequestMapping(value = "/findDailySummaryById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<DailyProgressSummery> findDailySummaryById(@PathVariable Long id){
-		Optional<DailyProgressSummery> dailySummary = dailySummaryService.findDailySummaryById(id);
-		return new ResponseEntity<DailyProgressSummery>(dailySummary.get(), HttpStatus.OK);
-
+		Optional<DailyProgressSummery> dailySummary = null;
+		try {
+			log.info("Selected daily Summary Id = "+id);
+			dailySummary = dailySummaryService.findDailySummaryById(id);
+			if(dailySummary.isPresent()) {
+				log.info("daily Summary Data = "+dailySummary.get());
+				return new ResponseEntity<DailyProgressSummery>(dailySummary.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<DailyProgressSummery>(dailySummary.get(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			log.error("Error >>  while find daily Summary Details by id, "+e.getMessage());
+			return new ResponseEntity<DailyProgressSummery>(dailySummary.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@RequestMapping(value = "/updateDailySummary" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateDailySummary(@RequestBody DailyProgressSummery dailyProgressSummery) {
-		dailySummaryService.save(dailyProgressSummery);
-		return Helper.findResponseStatus("Daily Summary updated successfully", Constants.SUCCESS_CODE);
+		log.info("Enter into updateDailySummary function with below request parameters ");
+		log.info("Request Parameters = "+dailyProgressSummery.toString());
+		try {
+			log.info("Calling service with request parameters.");
+			dailySummaryService.save(dailyProgressSummery);
+			log.info("Preparing the return response");
+			return Helper.findResponseStatus("daily Summary updated successfully", Constants.SUCCESS_CODE);	
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While updating daily Summary data. "+npe.getMessage());
+			return Helper.findResponseStatus("daily Summary update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While updating daily Summary data. "+e.getMessage());
+			return Helper.findResponseStatus("daily Summary update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	@RequestMapping(value = "/deleteDailySummary/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
 	public ResponseStatus deleteDailySummaryById(@PathVariable Long id) {
-		dailySummaryService.deleteDailySummaryById(id);
-		return Helper.findResponseStatus("Daily Summary Deleted successfully", Constants.SUCCESS_CODE);
-
+		log.info("Enter into deleteDailySummaryById function");
+		log.info("Selected Daily Summary Id = "+id);
+		try {
+			dailySummaryService.deleteDailySummaryById(id);
+			return Helper.findResponseStatus("Daily Summary Deleted successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While deleting Daily Summary data"+npe.getMessage());
+			return Helper.findResponseStatus("Daily Summary Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error("ERROR >> While deleting Daily Summary data"+e.getMessage());
+			return Helper.findResponseStatus("Daily Summary Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
 	}
-
+	@RequestMapping(value = "/existsCreatedDate/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveName(@PathVariable("createdDate") Date createdDate){		
+		try {
+			return dailySummaryService.existsByCreatedDate(createdDate);
+		} catch (Exception e) {
+			log.error("Error while checking exists createdDate.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsFacilityId/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveDescription(@PathVariable("facilityId") String facilityId){		
+		try {
+			return dailySummaryService.existsByFacilityId(facilityId );
+		} catch (Exception e) {
+			log.error("Error while checking exists facilityName.");
+			return false;
+		}
+	}
 }

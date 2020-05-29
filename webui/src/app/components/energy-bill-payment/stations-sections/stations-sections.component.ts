@@ -51,8 +51,8 @@ export class StationsSectionsComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.stationsSectionsFormGroup = this.formBuilder.group({
             id: 0,
-            'stationCode':[null,Validators.maxLength(250)],
-            'stationName': [null,Validators.maxLength(250)],
+            'stationCode':[null,Validators.maxLength(250),this.duplicateStationCode.bind(this)],
+            'stationName': [null,Validators.maxLength(250),this.duplicateStationName.bind(this)],
             'majorSectionRoute': [null,Validators.maxLength(250)],
             'upSection': [null,Validators.maxLength(250)],
             'upSectionName' : [null,Validators.maxLength(250)],
@@ -61,7 +61,34 @@ export class StationsSectionsComponent implements OnInit{
             'division' : [null,Validators.maxLength(250)]
         });
     }
-
+    duplicateStationCode() {
+        const q = new Promise((resolve, reject) => {
+          this.stationsSectionsService.existsStationCode(
+            this.stationsSectionsFormGroup.controls['stationCode'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateStationCode': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateStationCode': true }); });
+        });
+        return q;
+      }
+      duplicateStationName() {
+        const q = new Promise((resolve, reject) => {
+          this.stationsSectionsService.existsStationName(
+            this.stationsSectionsFormGroup.controls['stationName'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateStationName': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateStationName': true }); });
+        });
+        return q;
+      }
     getAllStationsSectionsData() {
         const stationsSections : StationsSectionsModel[] = [];
         this.stationsSectionsService.getAllStationsSections().subscribe((data) => {

@@ -39,6 +39,11 @@
                                                                     *ngIf="stationsSectionsFormGroup.controls['stationCode'].hasError('maxlength') && stationsSectionsFormGroup.controls['stationCode'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
                                                                      </mat-error>
+                                                                     <mat-error
+                                                                     *ngIf="stationsSectionsFormGroup.controls['stationCode'].hasError('duplicateStationCode')"
+                                                                     class="alert alert-danger">
+                                                                     station Code Already Exists
+                                                                 </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
@@ -48,6 +53,11 @@
                                                                     *ngIf="stationsSectionsFormGroup.controls['stationName'].hasError('maxlength') && stationsSectionsFormGroup.controls['stationName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
                                                                      </mat-error>
+                                                                     <mat-error
+                                                                     *ngIf="stationsSectionsFormGroup.controls['stationName'].hasError('duplicateStationName')"
+                                                                     class="alert alert-danger">
+                                                                     station Name Already Exists
+                                                                 </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">

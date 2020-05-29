@@ -55,7 +55,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.fpSectionsItemFormGroup = this.formBuilder.group({
             id: 0,
             'facilityDepot':[null],
-            'fpSection':[null],
+            'fpSection':[null,Validators.required, this.duplicatefpSection.bind(this)],
             'fromLocation': [null],
             'toLocation': [null],
             'fromDate': [null],
@@ -64,6 +64,21 @@ export class FootPatrollingSectionsComponent implements OnInit{
         });
         
     }
+    duplicatefpSection() {
+        const q = new Promise((resolve, reject) => {
+          this.footPatrollingSectionsService.existsFpSection(
+            this.fpSectionsItemFormGroup.controls['fpSection'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+                console.log('duplicatefpSection'+duplicate);
+              resolve({ 'duplicatefpSection': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicatefpSection': true }); });
+        });
+        return q;
+      }
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }

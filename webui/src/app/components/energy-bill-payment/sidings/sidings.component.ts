@@ -22,6 +22,7 @@ export class SidingsComponent implements OnInit {
     title: string = "Save";
     sidingsItemList : any;
     toMinDate=new Date();
+    today=new Date();
     sidingsItemDataSource: MatTableDataSource<SidingsModel>;
     sidingsItemDisplayColumns = ['sno' , 'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
     'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvalDate',
@@ -55,7 +56,7 @@ export class SidingsComponent implements OnInit {
         this.sidingsItemFormGroup = this.formBuilder.group({
             id: 0,
             'station':[null],
-            'sidingCode': [null],
+            'sidingCode': [null,Validators.required, this.duplicateSidingCode.bind(this)],
             'section': [null],
             'sectionEletrifiedStatus': [null],
             'sidingEletrifiedStatus' : [null],
@@ -74,6 +75,20 @@ export class SidingsComponent implements OnInit {
 
         
      }
+     duplicateSidingCode() {
+        const q = new Promise((resolve, reject) => {
+          this.sidingsService.existsSidingCode(
+            this.sidingsItemFormGroup.controls['sidingCode'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateSidingCode': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateSidingCode': true }); });
+        });
+        return q;
+      }
      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }

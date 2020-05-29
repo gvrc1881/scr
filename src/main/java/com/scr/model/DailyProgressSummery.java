@@ -315,4 +315,18 @@ public class DailyProgressSummery implements Serializable {
 		this.tomorrowForecast = tomorrowForecast;
 	}
 
+	@Override
+	public String toString() {
+		return "DailyProgressSummery [id=" + id + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", createdOn=" + createdOn + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", currentStatus=" + currentStatus + ", dataDiv=" + dataDiv + ", dayProgress=" + dayProgress
+				+ ", facilityId=" + facilityId + ", footInspection=" + footInspection + ", footPatrolling="
+				+ footPatrolling + ", footPlateInspection=" + footPlateInspection + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", location=" + location
+				+ ", nameOfStaff=" + nameOfStaff + ", nonPowerBlock=" + nonPowerBlock + ", npbProgress=" + npbProgress
+				+ ", powerBlock=" + powerBlock + ", psiProgress=" + psiProgress + ", remarks=" + remarks + ", seqId="
+				+ seqId + ", serialNo=" + serialNo + ", staffStrength=" + staffStrength + ", supervisor=" + supervisor
+				+ ", tomorrowForecast=" + tomorrowForecast + "]";
+	}
+
 }

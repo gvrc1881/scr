@@ -117,4 +117,11 @@ public class TpcBoard implements Serializable {
 		this.tpcBoard = tpcBoard;
 	}
 
+	@Override
+	public String toString() {
+		return "TpcBoard [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", seqId=" + seqId + ", tpcBoard=" + tpcBoard + "]";
+	}
+
 }

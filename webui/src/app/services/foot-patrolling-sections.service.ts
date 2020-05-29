@@ -38,5 +38,8 @@ export class FootPatrollingSectionsService {
         return this.http.delete(this.myAppUrl + "/deleteFPSectionsItem/" +id ,{headers: this.header});
     }
 
-
+    existsFpSection(fpSection: string) {
+        console.log('existsFpSection'+fpSection);
+        return this.http.get(environment.apiUrl + '/existsFpSection/' + fpSection, { headers: this.header });
+    }
 }

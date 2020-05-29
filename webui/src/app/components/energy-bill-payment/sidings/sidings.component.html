@@ -36,7 +36,15 @@
 
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']"required/>
+                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required/>
+                                                                      <mat-error *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('required')">
+                                                                        Enter FP Secion
+                                                                      </mat-error>
+                                                                      <mat-error
+                                                                *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('duplicateSidingCode')"
+                                                                class="alert alert-danger">
+                                                                siding Code Already Exists
+                                                            </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
@@ -103,7 +111,7 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker" (dateInput)="addEvent('input', $event)"
+                                                                      <input matInput [matDatepicker]="picker" (dateInput)="addEvent('input', $event)"  [max]="today"
                                                                       placeholder="proposed Date" [formControl]="sidingsItemFormGroup.controls['proposedDate']" >
                                                                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker  ></mat-datepicker>
@@ -111,7 +119,7 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker1" [min]="toMinDate"
+                                                                      <input matInput [matDatepicker]="picker1" [min]="toMinDate" [max]="today"
                                                                        placeholder="Approved Date" [formControl]="sidingsItemFormGroup.controls['approvalDate']" >
                                                                           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker1  ></mat-datepicker>
@@ -119,7 +127,7 @@
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker2" [min]="toMinDate"
+                                                                      <input matInput [matDatepicker]="picker2" [min]="toMinDate" [max]="today"
                                                                       placeholder="workOrder Date" [formControl]="sidingsItemFormGroup.controls['workOrderDate']" >
                                                                           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker2  ></mat-datepicker>
@@ -144,7 +152,7 @@
                                                             </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker3" placeholder="Energised Date" [min]="toMinDate"
+                                                                      <input matInput [matDatepicker]="picker3" placeholder="Energised Date" [min]="today" [max]="today"
                                                                       [formControl]="sidingsItemFormGroup.controls['completionDate']" >
                                                                           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker3  ></mat-datepicker>

@@ -33,5 +33,8 @@ public class TPCBoardService {
 		// TODO Auto-generated method stub
 		tpcBoardRepository.deleteById(id);
 	}
+	public Boolean existsByTpcBoard(String tpcBoard) {
+		return tpcBoardRepository.existsByTpcBoard(tpcBoard);
+	}
 
 }

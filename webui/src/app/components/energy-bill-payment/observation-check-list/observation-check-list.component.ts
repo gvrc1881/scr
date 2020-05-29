@@ -9,6 +9,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ObservationCheckListComponent implements OnInit{
     observationCheckList : any;
     inspectionTypeData:any;
     inspectionTypeList:any;
+    statusTypeData:any;
     toMinDate=new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
     observationCheckListDisplayColumns = ['sno' ,'inspectionType','observationCategory' , 'observationItem' , 'severity' ,'description','priority', 'fromDate' , 'thruDate' , 'id' ] ;
@@ -41,12 +43,25 @@ export class ObservationCheckListComponent implements OnInit{
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
+        private router: Router, 
         private dialog: MatDialog
     ){
 
     }
 
     ngOnInit () {
+        console.log("routerUrl"+this.router.url);
+        let statusTypeId = '';
+   
+        if(this.router.url == '/observation-check-list'){
+            statusTypeId = 'FP_SEVERITY_TYPE';  
+          console.log("statusTypeId"+statusTypeId)    
+        }
+        this.reportService.statusItemDetails(statusTypeId).subscribe((data)=>{
+          this.statusTypeData =data;
+          console.log('statusTypeData '+JSON.stringify(data));
+              })
+
         console.log('in ngOnintit method:::');
         this.getAllObservationsCheckListData();
         this.observationCategories();

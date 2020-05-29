@@ -34,5 +34,10 @@ public class StationsSectionsService {
 		// TODO Auto-generated method stub
 		stationsSectionsRepository.deleteById(id);
 	}
-
+	public Boolean existsByStationCode(String stationCode) {
+		return stationsSectionsRepository.existsByStationCode(stationCode);
+	}
+	public Boolean existsByStationName(String stationName) {
+		return stationsSectionsRepository.existsByStationName(stationName);
+	}
 }

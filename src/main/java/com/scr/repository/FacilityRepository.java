@@ -17,6 +17,8 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findBySubDivision(String subDivision);
 //facility names In asscending order
 	List<Facility> findByDepotTypeOrderByFacilityNameAsc(String depotType);
+	
+
 	@Query("FROM Facility ORDER BY facilityName ASC")
     List<Facility> findAllOrderByFacilityNameAsc();
 	Optional<Facility> findByFacilityName(String facilityName);

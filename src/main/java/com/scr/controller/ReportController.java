@@ -209,9 +209,9 @@ public class ReportController {
   		return new ResponseEntity<List<Section>>(sectionDetails,HttpStatus.OK);	
   		
   	}
-  	@RequestMapping(value = "/statusItemDetails/{statusType}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<StatusItem>> findAllStatusItem(@PathVariable("statusType") String statusType){
-		List<StatusItem> allStatusItem= reportService.findAllStatusItem(statusType);
+  	@RequestMapping(value = "/statusItemDetails/{statusTypeId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<StatusItem>> findAllStatusItem(@PathVariable("statusTypeId") String statusTypeId){
+		List<StatusItem> allStatusItem= reportService.findAllStatusItem(statusTypeId);
 		return new ResponseEntity<List<StatusItem>>(allStatusItem, HttpStatus.OK);		
 	}
   	
@@ -314,5 +314,6 @@ public class ReportController {
 		return new ResponseEntity<List<Facility>>(oheDepotType,HttpStatus.OK);	
 		
 	}
+	
   	
 }

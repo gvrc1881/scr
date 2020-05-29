@@ -37,6 +37,9 @@ export class TPCBoardService {
     deleteTPCBoardById(id: number) {
         return this.http.delete(this.myAppUrl + "/deleteTPCBoard/" +id ,{headers: this.header});
     }
-
+    existsTpcBoard(tpcBoard: string) {
+        console.log('existsTpcBoard'+tpcBoard);
+        return this.http.get(environment.apiUrl + '/existsTpcBoard/' + tpcBoard, { headers: this.header });
+    }
 
 }

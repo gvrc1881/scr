@@ -195,4 +195,15 @@ public class ObservationsCheckList implements Serializable {
 		this.thruDate = thruDate;
 	}
 
+	@Override
+	public String toString() {
+		return "ObservationsCheckList [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", displaySequence="
+				+ displaySequence + ", fromDate=" + fromDate + ", inspectionType=" + inspectionType
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", observationCategory=" + observationCategory + ", observationItem=" + observationItem
+				+ ", priority=" + priority + ", seqId=" + seqId + ", severity=" + severity + ", thruDate=" + thruDate
+				+ "]";
+	}
+
 }

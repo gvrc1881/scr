@@ -8,5 +8,6 @@ import com.scr.model.TpcBoard;
 
 public interface TPCBoardRepository extends JpaRepository<TpcBoard, Long>{
 	List<TpcBoard> findAll();
+	Boolean existsByTpcBoard(String tpcBoard);
 
 }

@@ -260,4 +260,16 @@ public class TpcBoardReportingFacility implements Serializable {
 		this.unitType = unitType;
 	}
 
+	@Override
+	public String toString() {
+		return "TpcBoardReportingFacility [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", groupId=" + groupId
+				+ ", headDesignation=" + headDesignation + ", headLoginId=" + headLoginId + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", ordLevel=" + ordLevel
+				+ ", partyId=" + partyId + ", reportManager=" + reportManager + ", rmLoginId=" + rmLoginId
+				+ ", rmSeqId=" + rmSeqId + ", seqId=" + seqId + ", tpcBoard=" + tpcBoard + ", unitCode=" + unitCode
+				+ ", unitId=" + unitId + ", unitName=" + unitName + ", unitStation=" + unitStation + ", unitType="
+				+ unitType + "]";
+	}
+
 }

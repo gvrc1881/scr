@@ -173,4 +173,13 @@ public class ObservationCategory implements Serializable {
 		this.thruDate = thruDate;
 	}
 
+	@Override
+	public String toString() {
+		return "ObservationCategory [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", department=" + department + ", description=" + description + ", fromDate="
+				+ fromDate + ", inspectionType=" + inspectionType + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", observationCategory=" + observationCategory
+				+ ", remark=" + remark + ", seqId=" + seqId + ", thruDate=" + thruDate + "]";
+	}
+
 }

@@ -9,5 +9,6 @@ import com.scr.model.FootPatrollingSection;
 public interface FootPatrollingSectionRepository extends JpaRepository<FootPatrollingSection, Long> {
 
 	List<FootPatrollingSection> findAll();
+	Boolean existsByFpSection(String fpSection);
 
 }

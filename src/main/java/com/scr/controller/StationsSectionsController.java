@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,5 +58,25 @@ public class StationsSectionsController {
 		stationsSectionsService.deleteStationSectionsById(new Long(id));
 		return Helper.findResponseStatus("Stations Section deleted successfully", Constants.SUCCESS_CODE);
 	}
-
+	@RequestMapping(value = "/existsStationCode/{stationCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsStationCode(@PathVariable("stationCode") String stationCode){
+		logger.info("Enter station Code"+stationCode);
+		try {
+			return stationsSectionsService.existsByStationCode(stationCode);
+		} catch (Exception e) {
+			logger.error("Error while checking exists Station Code.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsStationName/{stationName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveDescription(@PathVariable("stationName") String stationName){	
+		logger.info("Enter station Name"+stationName);
+		try {
+			return stationsSectionsService.existsByStationName(stationName);
+		} catch (Exception e) {
+			logger.error("Error while checking exists stationName.");
+			return false;
+		}
+	}
 }
