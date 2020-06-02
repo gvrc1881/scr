@@ -1,0 +1,73 @@
+select a.table_name as tab_name,
+'INSERT INTO  zonal.'||a.table_name|| ' ( '||list_col || '  '  
+--|| ',  zonal.' || table_name 
+||  ',data_div  ) '|| 
+' select ' || list_col || ' , ' || '''gtl'''|| ' FROM gnt.'|| a.table_name || '_cre ; '
+as query from( 
+select string_agg(''''||column_name||'''', ', ') || ' , ' || '''gtl''' list_col1 , 
+	string_agg(column_name, ', ') 
+	  list_col , 
+table_name 
+from information_schema.columns 
+	where table_schema= 'zonal' and column_name != 'data_div'
+group by table_name
+) a;
+
+
+
+------ table_scope = 'MIXED' -----
+
+select 	a.table_name as tab_name,  
+'INSERT INTO zonal.'||a.table_name|| ' ( '||list_col ||' ,data_div) '|| 	
+' select ' || dlist_col ||', '|| '''gtl'''  || ' FROM mas.'|| a.table_name||'_cre  d where '
+|| d_concat_uniq || ' not in ' || ' ( select '|| z_concat_uniq || 'from zonal.'||a.table_name||' z ) ' 
+--|| CONDITION ||' ; '	
+from 	
+( 	
+select string_agg(''''||column_name||'''', ', ') list_col1 , string_agg(column_name, ', ') list_col , 	
+string_agg(''''||'d.'||column_name||'''', ', ') dlist_col1 , string_agg('d.'||column_name, ', ') dlist_col ,
+-- string_agg('d.'||column_name||' AS '||'"'||'d.'||column_name||'"', ', ') dlist_col_as ,
+table_name     	
+from information_schema.columns inf	, job_sch_activity_details jbs	
+where table_schema= 'zonal' 	
+and table_scope ='MIXED'	
+and tab_name = table_name	
+and create_update_delete = 'CREATE' 	
+and column_name !='data_div' 	
+group by table_name 	) a 	
+LEFT OUTER JOIN 	
+( 	
+select d_concat_uniq, z_concat_uniq ,tab_name
+--string_agg(where_clause , '  ')  condition, tab_name 	
+from 	
+(
+select string_agg('case when d.'||unique_column||' is not null then '|| 
+case when col_date_type ='coldatetime' then unique_column||'::date'  else  unique_column  end||
+' else ' || case when col_date_type ='coldatetime' then '''19000101''' else '''-NULL-''' end || ' end ','|| ') d_concat_uniq ,
+
+string_agg('case when z.'||unique_column||' is not null then '|| 
+case when col_date_type ='coldatetime' then unique_column||'::date'  else  unique_column  end||
+' else ' || case when col_date_type ='coldatetime' then '''19000101''' else '''-NULL-''' end || ' end ','|| ') z_concat_uniq 
+, tab_name
+FROM
+(
+select tab_name, col_date_type, unique_column ,row_number() over(partition by tab_name    ) sno --order by tab_name
+from 				
+( 				
+SELECT  tab_name ,trim(regexp_split_to_table(mixed_entity_unique_cols, E';') ) unique_column
+FROM job_sch_activity_details jsa 				
+where table_scope ='MIXED' 				
+and create_update_delete = 'CREATE' 				
+and upper(active) = 'YES' 				
+)a,
+(select case when data_type = 'date'or data_type = 'timestamp with time zone' or 
+data_type = 'timestamp without time zone'  then 'coldatetime' else 'col_not_datetime' end as col_date_type, 
+table_name, column_name
+ from information_schema.columns 
+ )u 
+ where u.table_name = a.tab_name and u.column_name = a.unique_column
+
+) b  
+GROUP BY TAB_NAME 
+ ) con_unq	
+) CON ON (CON.TAB_NAME = A.TABLE_NAME) ;

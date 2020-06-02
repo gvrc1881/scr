@@ -1,0 +1,10 @@
+
+CREATE TABLE public.job_sch_activity_details
+(
+  id character varying(20) NOT NULL,
+  create_update_delete character varying(200),
+  sequence numeric(20,0),
+  pre_requisite character varying(200),  
+  periodicity character varying(200),
+  tab_name character varying(200)
+);

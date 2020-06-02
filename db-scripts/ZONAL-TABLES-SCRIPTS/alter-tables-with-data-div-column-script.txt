@@ -1,0 +1,14 @@
+
+// select 'alter zonal.table '|| table_name ||' add column ' || 'data_div character varying (255) ;' from information_schema.tables
+
+--
+latest query
+-------
+
+select 'alter table zonal.'|| table_name ||' add column ' || 'data_div character varying (255) ;' 
+from information_schema.tables ist , job_sch_activity_details jsad
+where table_schema = 'zonal' 
+and ist.table_name = jsad.tab_name
+and jsad.create_update_delete = 'CREATE'
+and table_scope not in ('APPLICATION','ZONAL')
+order by table_name;
