@@ -314,6 +314,11 @@ public class ReportController {
 		return new ResponseEntity<List<Facility>>(oheDepotType,HttpStatus.OK);	
 		
 	}
-	
+	@RequestMapping(value = "/depotTypeOheAndPsi", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Facility>> findByDepotType(String depotType){
+		List<Facility> oheAndPsiDepotType= reportService.findByDepotType(depotType);
+		return new ResponseEntity<List<Facility>>(oheAndPsiDepotType,HttpStatus.OK);	
+		
+	}
   	
 }

@@ -247,7 +247,13 @@ public class ReportService {
 		log.info("faciliNameOheDepot"+facilityNames);
 		return facilityNames;		
 	}
-	
+	public List<Facility> findByDepotType(String depotType) {
+		List<Facility> facilityNames = facilityRepository.findByDepotType(depotType);
+		log.info("OheAndPsiDepot"+facilityNames);
+		log.info("OheAndPsiDepotSize"+facilityNames.size());
+		
+		return facilityNames;		
+	}
 	public List<CrsEigInspections>findcrsEigInspection() {	
 		   return crsEigInspectionRepository.findAll();
 		}

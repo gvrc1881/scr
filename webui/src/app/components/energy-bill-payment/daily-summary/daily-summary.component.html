@@ -34,7 +34,8 @@
 														
                                                       <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
+                                                            <input matInput [matDatepicker]="picker" placeholder="Choose Date" [max]="today"
+                                                            [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
                                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                 <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
                                                                 <mat-error

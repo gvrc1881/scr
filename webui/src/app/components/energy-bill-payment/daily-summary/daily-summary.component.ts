@@ -24,6 +24,7 @@ export class DailySummaryComponent implements OnInit{
     dailySummaryFormGroup: FormGroup;
     dailySummaryList : any;
     facilityData:any;
+    today=new Date();
     dailySummaryDataSource: MatTableDataSource<DailySummaryModel>;
     dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast',
     'footPatrolling', 'footInspection', 'footPlateInspection', 'supervisor', 'staffStrength', 'powerBlock','nonPowerBlock','remarks','id' ] ;
@@ -52,7 +53,7 @@ export class DailySummaryComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.facilityNames();
+        this.depotTypeOheAndPsi();
         this.dailySummaryFormGroup = this.formBuilder.group({
             id: 0,
             'createdDate':[null, Validators.compose([Validators.required]), this.duplicateCreatedDate.bind(this)],
@@ -247,10 +248,9 @@ export class DailySummaryComponent implements OnInit{
         this.addDailySummary = false;
         this.title = 'Save';
     }
-    facilityNames()
+    depotTypeOheAndPsi()
         {
-               const facilityData : FacilityModel[] = [];
-               this.reportService. facilityNames().subscribe((data) => {
+               this.reportService. depotTypeOheAndPsi().subscribe((data) => {
                  this.facilityData = data;
         }
                );

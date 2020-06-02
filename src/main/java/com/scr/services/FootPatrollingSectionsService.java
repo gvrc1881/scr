@@ -32,8 +32,8 @@ public class FootPatrollingSectionsService {
 		// TODO Auto-generated method stub
 		footPatrollingSectionRepository.deleteById(id);
 	}
-	public Boolean existsByFpSection(String fpSection) {
+	public Boolean existsByFpSectionAndId(String fpSection,Long id) {
 		// TODO Auto-generated method stub
-		return footPatrollingSectionRepository.existsByFpSection(fpSection);
+		return footPatrollingSectionRepository.existsByFpSectionAndId(fpSection,id);
 	}
 }

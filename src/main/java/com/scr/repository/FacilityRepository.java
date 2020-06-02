@@ -18,6 +18,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 //facility names In asscending order
 	List<Facility> findByDepotTypeOrderByFacilityNameAsc(String depotType);
 	
+	
 
 	@Query("FROM Facility ORDER BY facilityName ASC")
     List<Facility> findAllOrderByFacilityNameAsc();
@@ -32,6 +33,10 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByZone(String facilityName);
 
 	List<Facility> findByParentFacilityId(String facilityName);
+	@Query(value = "select * from facility where depot_type in('OHE','PSI') order by facility_name ASC",
+            nativeQuery=true
+    )
+    public List<Facility> findByDepotType(String depotType);
 	
 
 }

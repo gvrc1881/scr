@@ -26,6 +26,8 @@ import com.scr.util.Helper;
 @RestController
 @RequestMapping("/scr/api")
 public class SidingsController {
+	private static final Long id = null;
+
 	static Logger log = LogManager.getLogger(SidingsController.class);
 
 	@Autowired
@@ -127,7 +129,7 @@ public class SidingsController {
 	@RequestMapping(value = "/existsSidingCode/{sidingCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsSidingCode(@PathVariable("sidingCode") String sidingCode){		
 		try {
-			return sidingsService.existsBySidingCode(sidingCode);
+			return sidingsService.existsBySidingCodeAndId(sidingCode, Constants.ACTIVE_ID);
 		} catch (Exception e) {
 			log.error("Error while checking SidingCode.");
 			return false;

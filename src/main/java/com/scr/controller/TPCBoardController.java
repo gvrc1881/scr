@@ -120,7 +120,6 @@ public class TPCBoardController {
 	}
 	@RequestMapping(value = "/existsTpcBoard/{tpcBoard}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsTpcBoard(@PathVariable("tpcBoard") String tpcBoard){
-			log.info("Enter tpcBoard"+tpcBoard);
 		try {
 			return tpcBoardService.existsByTpcBoard(tpcBoard);
 		} catch (Exception e) {

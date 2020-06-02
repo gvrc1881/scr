@@ -40,8 +40,8 @@ public class SidingsService {
 	public void deleteSidingsItemById(Long id) {
 		sidingsRepository.deleteById(id);
 	}
-	public Boolean existsBySidingCode(String sidingCode) {
-		return sidingsRepository.existsBySidingCode(sidingCode);
+	public Boolean existsBySidingCodeAndId(String sidingCode,Long id) {
+		return sidingsRepository.existsBySidingCodeAndId(sidingCode, id);
 	}
 
 }

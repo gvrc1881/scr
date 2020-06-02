@@ -167,7 +167,9 @@ inspectionType(){
 getAllEleEnergySuppliers(){
 	return this.http.get(this.url + '/electricEnergySuppliers',{ headers: this.header });
 }
-
+depotTypeOheAndPsi(){
+    return this.http.get(this.url + '/depotTypeOheAndPsi',{ headers: this.header });
+}
 }
     
     

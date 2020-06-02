@@ -22,6 +22,8 @@ public class Constants {
 	public static final Integer SUCCESS_CODE = 200;
 	public static final Integer FAILURE_CODE = 500;
 	
+	public static final long ACTIVE_ID =  2;
+	
 	public static final String JOB_SUCCESS_MESSAGE = "SUCCESS";
 	public static final String JOB_FAILED_MESSAGE = "FAILED";
 	

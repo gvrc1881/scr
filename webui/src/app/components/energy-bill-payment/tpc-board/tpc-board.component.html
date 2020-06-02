@@ -47,7 +47,10 @@
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('pattern') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
-                                                            
+                                                            <mat-error
+                                                            *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('maxlength') && tpcBoardFormGroup.controls['tpcBoard'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">

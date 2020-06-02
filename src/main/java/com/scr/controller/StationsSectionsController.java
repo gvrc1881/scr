@@ -71,7 +71,6 @@ public class StationsSectionsController {
 	
 	@RequestMapping(value = "/existsStationName/{stationName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDriveDescription(@PathVariable("stationName") String stationName){	
-		logger.info("Enter station Name"+stationName);
 		try {
 			return stationsSectionsService.existsByStationName(stationName);
 		} catch (Exception e) {

@@ -52,7 +52,7 @@ export class TPCBoardComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.tpcBoardFormGroup = this.formBuilder.group({
             id: 0,
-            'tpcBoard':[null,  Validators.required, this.duplicateTpcBoard.bind(this)],
+            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateTpcBoard.bind(this)],
             'dataDiv':[null],
             'description':[null,Validators.maxLength(250)]
             
