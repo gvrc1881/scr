@@ -31,6 +31,7 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterDisplayColumns = ['sno' , 'cmd' , 'feederId' , 'startKvah' , 'startKwh' , 'id' ] ;
     tssFeederMaterList: any;
     energyMeterResponse: any;
+    toMinDate=new Date();
 
     constructor(
         private energyMeterService: EnergyMeterService,
@@ -64,7 +65,7 @@ export class EnergyMeterComponent implements OnInit{
             'meterMake' : [null],
             'meterModel' : [null],
             'cmd':[null],
-            'remarks' : [null],
+            'remarks' : [null,Validators.maxLength(250)],
             'startDate': [null],
             'endDate': [null],
             'feederId': [null]
@@ -178,7 +179,8 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterEditAction(id: number) {
         this.energyMeterService.findById(id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
-              console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
+             // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
+              this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
       		this.energyMeterFormGroup.patchValue({
                 id: this.editEnergyMeterResponse.id,
                 cmd:this.editEnergyMeterResponse.cmd,

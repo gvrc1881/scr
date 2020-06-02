@@ -121,6 +121,7 @@
 	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
 	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
 		                                                                [owlDateTimeTrigger]="dt2" placeholder="End Date"
+		                                                                [min]="toMinDate"
 		                                                                [formControl]="energyMeterFormGroup.controls['endDate']" >                                                                
 		                                                                <owl-date-time #dt2 [showSecondsTimer]=true
 		                                                                    ></owl-date-time>
@@ -130,6 +131,10 @@
   															<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<textarea matInput placeholder="Remark" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
+	                                                                <mat-error
+		                                                                *ngIf="energyMeterFormGroup.controls['remarks'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                                <!-- <input matInput placeholder="Remark" [formControl]="energyMeterFormGroup.controls['remarks']" /> -->
 	                                                            </mat-form-field>
 	                                                        </div>
