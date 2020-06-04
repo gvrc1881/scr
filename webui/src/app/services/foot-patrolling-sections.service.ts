@@ -39,7 +39,6 @@ export class FootPatrollingSectionsService {
     }
 
     existsFpSection(fpSection: string) {
-        console.log('existsFpSection'+fpSection);
         return this.http.get(environment.apiUrl + '/existsFpSection/' + fpSection, { headers: this.header });
     }
 }

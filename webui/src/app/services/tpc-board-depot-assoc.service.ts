@@ -37,6 +37,12 @@ export class TPCBoardDepotAssocService {
     deleteTPCBoarDepotAssocdById(id: number) {
         return this.http.delete(this.myAppUrl + "/deleteTPCBoardDepotAssoc/" +id ,{headers: this.header});
     }
-
-
+    existsByTpcBoard(tpcBoard: string) {
+        console.log('existsTpcBoard'+tpcBoard);
+        return this.http.get(environment.apiUrl + '/existsByTpcBoard/' + tpcBoard, { headers: this.header });
+    }
+    existsUnitName(unitName: string) {
+        return this.http.get(environment.apiUrl + '/existsUnitName/' + unitName, { headers: this.header });
+    }
+    
 }

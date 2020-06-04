@@ -28,6 +28,7 @@ export class TPCBoardComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editTpcBoardResponse: any;
+    userHierarchy:any = localStorage.getItem('userHierarchy');
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
 

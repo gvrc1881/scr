@@ -33,5 +33,10 @@ public class TPCBoardDepotAssocService {
 		// TODO Auto-generated method stub
 		tpcBoardDepotAssocRepository.deleteById(id);
 	}
-
+	public boolean existsByTpcBoard(String tpcBoard) {
+		return tpcBoardDepotAssocRepository.existsByTpcBoard(tpcBoard);
+	}
+	public boolean existsByUnitName(String unitName) {
+		return tpcBoardDepotAssocRepository.existsByUnitName(unitName);
+	}
 }

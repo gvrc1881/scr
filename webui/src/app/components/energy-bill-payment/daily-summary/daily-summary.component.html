@@ -42,7 +42,7 @@
                                                                 *ngIf="dailySummaryFormGroup.controls['createdDate'].hasError('required') && dailySummaryFormGroup.controls['createdDate'].touched"
                                                                 class="alert alert-danger">Select Date</mat-error>
                                                             <mat-error
-                                                                *ngIf="dailySummaryFormGroup.controls['createdDate'].hasError('duplicateCreatedDate')"
+                                                                *ngIf="dailySummaryFormGroup.controls['createdDate'].hasError('duplicateFromDate')"
                                                                 class="alert alert-danger">
                                                                 Date Already Exists
                                                             </mat-error>
@@ -61,7 +61,7 @@
 																	*ngIf="dailySummaryFormGroup.controls['facilityId'].hasError('required') && dailySummaryFormGroup.controls['facilityId'].touched"
                                   class="alert alert-danger">Select Depot</mat-error>
                                   <mat-error
-                                                                *ngIf="dailySummaryFormGroup.controls['facilityId'].hasError('duplicateFacilityId')"
+                                                                *ngIf="dailySummaryFormGroup.controls['facilityId'].hasError('duplicateFromDate')"
                                                                 class="alert alert-danger">
                                                                 Depot Already Exists
                                                             </mat-error>

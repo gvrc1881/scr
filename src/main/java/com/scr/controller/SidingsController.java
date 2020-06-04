@@ -127,9 +127,9 @@ public class SidingsController {
 		}
 	}
 	@RequestMapping(value = "/existsSidingCode/{sidingCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsSidingCode(@PathVariable("sidingCode") String sidingCode){		
+	public boolean existsSidingCode(@PathVariable("sidingCode") String sidingCode){		
 		try {
-			return sidingsService.existsBySidingCodeAndId(sidingCode, Constants.ACTIVE_ID);
+			return sidingsService.existsBySidingCode(sidingCode);
 		} catch (Exception e) {
 			log.error("Error while checking SidingCode.");
 			return false;

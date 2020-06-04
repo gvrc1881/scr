@@ -57,9 +57,9 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
             id: 0,
-            'tpcBoard':[null],
+            'tpcBoard':[null, Validators.compose([Validators.required]), this.duplicateTpcBoard.bind(this)],
             'unitType':[null],
-            'unitName':[null],
+            'unitName':[null, Validators.compose([Validators.required]), this.duplicateDepot.bind(this)],
             'description':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
             
         });
@@ -67,7 +67,36 @@ export class TPCBoardDepotAssocComponent implements OnInit{
             this.funLocTypeData = data;
          });
 }
-   
+duplicateTpcBoard() {
+    const q = new Promise((resolve, reject) => {
+      this.tpcBoardDepotAssocService.existsByTpcBoard(
+        this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateTpcBoard': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateTpcBoard': true }); });
+    });
+    return q;
+  }
+
+  duplicateDepot() {
+    const q = new Promise((resolve, reject) => {
+      this.tpcBoardDepotAssocService.existsUnitName(
+        this.tpcBoardDepotAssocFormGroup.controls['unitName'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDepot': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDepot': true }); });
+    });
+    return q;
+  }
+
     getAllTPCBoardDepotAssocData() {
        
         const tpcBoardDepotAssoc : TPCBoardDepotAssocModel[] = [];

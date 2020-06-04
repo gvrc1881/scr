@@ -123,8 +123,9 @@ public class FootPatrollingSectionsController {
 	}
 	@RequestMapping(value = "/existsFpSection/{fpSection}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDepartmentName(@PathVariable("fpSection") String fpSection){
+
 		try {
-			return footPatrollingSectionsService.existsByFpSectionAndId(fpSection, Constants.ACTIVE_ID);
+			return footPatrollingSectionsService.existsByFpSection(fpSection);
 		} catch (Exception e) {
 			log.error("Error while checking exists fpSections.");
 			return false;

@@ -36,10 +36,7 @@ export class DailySummaryService {
     deleteDailySummary(id: number) {
         return this.http.delete(this.myAppUrl + "/deleteDailySummary/" + id, { headers: this.header});
     }
-    existsCreatedDate(createdDate: Date) {
-        return this.http.get(environment.apiUrl + '/existsCreatedDate/' + createdDate, { headers: this.header });
-    }
-    existsFacilityId(facilityId: string) {
-        return this.http.get(environment.apiUrl + '/existsFacilityId/' + facilityId, { headers: this.header });
+    existsFacilityIdAndCreatedDate(facilityId: string, createdDate: string) {
+        return this.http.get(this.myAppUrl + '/existsFacilityIdAndCreatedDate/' + facilityId+"/"+createdDate , { headers: this.header });
     }
 }

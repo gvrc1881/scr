@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,10 +36,8 @@ public class DailySummaryService {
 		// TODO Auto-generated method stub
 		dailySummaryRepository.deleteById(id);
 	}
-	public Boolean existsByCreatedDate(Date createdDate) {
-		return dailySummaryRepository.existsByCreatedDate(createdDate);
-	}
-	public Boolean existsByFacilityId(String facilityId) {
-		return dailySummaryRepository.existsByFacilityId(facilityId);
+	public Boolean existsByFacilityIdAndCreatedDate(String facilityId, Timestamp createdDate) {
+		// TODO Auto-generated method stub
+		return dailySummaryRepository.existsByFacilityIdAndCreatedDate(facilityId,createdDate);
 	}
 }

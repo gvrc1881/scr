@@ -122,22 +122,16 @@ public class DailySummaryController {
 			return Helper.findResponseStatus("Daily Summary Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@RequestMapping(value = "/existsCreatedDate/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsDriveName(@PathVariable("createdDate") Date createdDate){		
-		try {
-			return dailySummaryService.existsByCreatedDate(createdDate);
-		} catch (Exception e) {
-			log.error("Error while checking exists createdDate.");
-			return false;
-		}
-	}
 	
-	@RequestMapping(value = "/existsFacilityId/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsDriveDescription(@PathVariable("facilityId") String facilityId){		
+	
+	@RequestMapping(value = "/existsFacilityIdAndCreatedDate/{facilityId}/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsTariff(@PathVariable("facilityId") String facilityId ,@PathVariable("createdDate") String createdDate){
+			
 		try {
-			return dailySummaryService.existsByFacilityId(facilityId );
+			log.info("Request for checking existsFacilityIdAndCreatedDate...");
+			return dailySummaryService.existsByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));
 		} catch (Exception e) {
-			log.error("Error while checking exists facilityName.");
+			log.error("Error while checking exists facilityId and createdDate..."+e.getMessage());
 			return false;
 		}
 	}
