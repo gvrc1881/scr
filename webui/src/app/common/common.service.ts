@@ -41,7 +41,6 @@ export class CommonService {
     }
     findPermission(value, type, permissionType) {
         let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
-        // console.log("log user:::***"+ JSON.stringify(loggerUser));
         if (type == 'menu') {
             if (loggerUser) {
                 let pageRolePermissions = loggerUser.menuPermissionResponses;
