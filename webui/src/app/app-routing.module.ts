@@ -266,6 +266,16 @@ const routes: Routes = [
     path: 'stipulation',
     loadChildren: './components/drives/drive-stipulation/drive-stipulation.module#DriveStipulationModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'ins',
+    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'ins-stipulation',
+    loadChildren: './components/drives/drive-stipulation/drive-stipulation.module#DriveStipulationModule',
+    canActivate: [AuthGuard]
   }
 ];
 

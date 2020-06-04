@@ -456,22 +456,132 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('Electrification Targets', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("electrification-targets") ? "active-item" : "",
+          }
+        ]
+      },
+      { 
+        ID: 9,
+        menuName: 'Inspections', 
+        menuUrl: 'ins', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('Inspections', 'menu', 'view'),
+        currentTab: !!path && path.includes("ins") || path.includes("ins-stipulation")  ? "open" : "",
+        subMenus: [
+        	{
+            subMenuName: "CRS EIG Inspections",
+            subMenuURL: "ins",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('CRS EIG Inspections', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("ins") ? "active-item" : "",
           },
           {
-            subMenuName: "Inspection",
-            subMenuURL: "inspection",
+            subMenuName: "Stipulations",
+            subMenuURL: "ins-stipulation",
             subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Inspection', 'submenu', 'view'),
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("inspection") ? "active-item" : "",
+            permission:this.commonService.findPermission('Stipulations', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("ins-stipulation") ? "active-item" : "",
+          }
+        ] 
+      },
+      { 
+        ID: 10,
+        menuName: 'Daily Summ', 
+        menuUrl: 'daily-summary', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('Inspections', 'menu', 'view'),
+        currentTab: !!path && path.includes("daily-summary") || path.includes("daily-summary-forecast") || path.includes("officers-movement") ? "open" : "",
+        subMenus: [
+        	{
+            subMenuName: "Daily Summary",
+            subMenuURL: "daily-summary",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('daily-summary', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("Daily Summary") ? "active-item" : "",
           },
           {
-            subMenuName: "Stipulation",
-            subMenuURL: "stipulation",
+            subMenuName: "Daily Summary Forecast",
+            subMenuURL: "daily-summary-forecast",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission:this.commonService.findPermission('Stipulation', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("stipulation") ? "active-item" : "",
+            permission:this.commonService.findPermission('Daily Summary Forecast', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("daily-summary-forecast") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Officers Movement",
+            subMenuURL: "officers-movement",
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Officers Movement', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("officers-movement") ? "active-item" : "",
+          }
+        ] 
+      },
+      { 
+        ID: 11,
+        menuName: 'Failures', 
+        menuUrl: 'failures', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('Failures', 'menu', 'view'),
+        currentTab: !!path && path.includes("cb-tripping") || path.includes("grid-failures") ||
+        path.includes("rc-faiures") || path.includes("unusual-occurrence") || 
+        path.includes("failure-occurrence") || path.includes("actions")  ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "CB Tripping",
+            subMenuURL: "cb-tripping",
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission:this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("cb-tripping") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Grid Failures",
+            subMenuURL: "grid-failures",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("grid-failures") ? "active-item" : "",
+          },
+          {
+            subMenuName: "RC Failures",
+            subMenuURL: "rc-faiures",
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission:this.commonService.findPermission('RC Failures', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("rc-faiures") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Unusual Occurrence",
+            subMenuURL: "unusual-occurrence",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Failure Occurrence",
+            subMenuURL: "failure-occurrence",
+            permission:this.commonService.findPermission('Failure Occurrence', 'submenu', 'view'),
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("failure-occurrence") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Actions",
+            subMenuURL: "actions",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Actions', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("actions") ? "active-item" : "",
           }
         ]
       }

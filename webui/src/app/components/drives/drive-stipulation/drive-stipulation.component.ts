@@ -41,7 +41,7 @@ export class DriveStipulationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-     var permissionName = this.commonService.getPermissionNameByLoggedData("DRIVES","STIPULATION") ;
+     var permissionName = this.commonService.getPermissionNameByLoggedData("INSPECTIONS","STIPULATIONS") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
