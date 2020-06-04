@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -126,6 +127,18 @@ public class EnergyMeterController {
 		} catch (Exception e) {
 			log.error("ERROR >> While deleting energy meter data"+e.getMessage());
 			return Helper.findResponseStatus("Energy Meter Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/existsFeederAndStartDate/{feederId}/{startDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFeederAndStartDate(@PathVariable("feederId") String feeder ,@PathVariable("startDate") String startDate){
+			
+		try {
+            log.info("Request for checking exists feeder and start date...");
+			return energyMeterService.existsByFeederAndStartDate(feeder,Helper.convertStringToTimestamp(startDate));
+		} catch (Exception e) {
+			log.error("Error while checking exists feeder and start date..."+e.getMessage());
+			return false;
 		}
 	}
 

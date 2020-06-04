@@ -114,6 +114,11 @@
 		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
 		                                                                    ></owl-date-time>
 		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+		                                                                <mat-error
+										                            		*ngIf="energyMeterFormGroup.controls['startDate'].hasError('duplicateFeederAndStartDate')" 
+										                            		class="alert alert-danger" >
+										                                		Already Exists
+										                        		</mat-error>
 		                                                        </mat-form-field>
 		                                                    </div>
   															<div class="col-md-2">

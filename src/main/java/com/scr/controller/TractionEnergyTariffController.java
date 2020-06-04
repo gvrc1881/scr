@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
+import com.scr.model.EnergyMeter;
 import com.scr.model.TractionEnergyTariff;
 import com.scr.services.ContentManagementService;
 import com.scr.services.TractionEnergyTariffService;
@@ -49,48 +52,93 @@ public class TractionEnergyTariffController {
 		try {
 			logger.info("Fetch tractionEnergyTariffList Started");	
 		tractionEnergyTariffList = tractionEnergyTariffService.findAll();
-			logger.info("Fetch tractionEnergyTariffList Ended"+tractionEnergyTariffList);
+			logger.info("Fetch tractionEnergyTariffList data count ::"+tractionEnergyTariffList.size());
 		return tractionEnergyTariffList;
-		} catch (NullPointerException e) {
-			logger.error(e);
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the tariff data = "+npe.getMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching the tariff data = "+e.getMessage());
 		}
-		catch (Exception e) {
-			logger.error(e);
-		}
+		logger.info("Exit from tractionEneTariffList function");
 		return tractionEnergyTariffList;	
 	}
 	
 	@RequestMapping(value = "/addTractionEnergyTariff", method = RequestMethod.POST , headers = "Accept=application/json")
 	@ResponseBody
 	public ResponseStatus saveTractionEneTariff(@RequestBody TractionEnergyTariff tractionEnergyTariff){
+		logger.info("Enter into saveTractionEneTariff function with below request parameters ");
+		logger.info("Request Parameters = "+tractionEnergyTariff.toString());
 		tractionEnergyTariff.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		TractionEnergyTariff saveTractionEneTariff = tractionEnergyTariffService.saveTractionEneTariff(tractionEnergyTariff);
-		if (saveTractionEneTariff != null) {
-			return Helper.findResponseStatus("Traction Energy Tariff added successfully", Constants.SUCCESS_CODE);
+		try {
+			logger.info("Calling service with request parameters.");
+			tractionEnergyTariffService.saveTractionEneTariff(tractionEnergyTariff);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("Traction energy tariff added successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding tariff data. "+npe.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
 		}
-		return null;
+		catch (Exception e) {
+			logger.error("ERROR >> While adding tariff data. "+e.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	
 	@RequestMapping(value = "/findTractionEnergyTariff/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<TractionEnergyTariff> findById(@PathVariable("id") Integer id){
-		Optional<TractionEnergyTariff> ele = tractionEnergyTariffService.findById(id);
-		return new ResponseEntity<>(ele.get(),HttpStatus.OK);
+		Optional<TractionEnergyTariff> tariff = null;
+		try {
+			logger.info("Selected Tariff Id = "+id);
+			tariff = tractionEnergyTariffService.findById(id);
+			if(tariff.isPresent()) {
+				logger.info("Tariff Data = "+tariff.get());
+				return new ResponseEntity<TractionEnergyTariff>(tariff.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<TractionEnergyTariff>(tariff.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error >>  while find Tariff Details by id, "+e.getMessage());
+			return new ResponseEntity<TractionEnergyTariff>(tariff.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	
 	@RequestMapping(value = "/updateTractionEnergyTariff" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateTractionEneTariff (@RequestBody TractionEnergyTariff tractionEnergyTariff) {
-		tractionEnergyTariff.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
-		tractionEnergyTariffService.saveTractionEneTariff(tractionEnergyTariff);
-		return Helper.findResponseStatus("Traction Energy Tariff updated successfully", Constants.SUCCESS_CODE);
+		logger.info("Enter into updateTractionEneTariff function with below request parameters ");
+		logger.info("Request Parameters = "+tractionEnergyTariff.toString());
+		try {
+			logger.info("Calling service with request parameters.");
+			tractionEnergyTariff.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			tractionEnergyTariffService.saveTractionEneTariff(tractionEnergyTariff);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("Traction energy tariff updated successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While updating tariff data. "+npe.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While updating tariff data. "+e.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	@RequestMapping(value = "/deleteTractionEnergyTariff/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
 	public ResponseStatus deleteTractionEneTariff(@PathVariable Integer id) {
-		logger.info("*** id****"+id);
-		tractionEnergyTariffService.deleteTractionEneTariffById(id);
-		return Helper.findResponseStatus("Traction Energy Tariff Deleted successfully", Constants.SUCCESS_CODE);
+		logger.info("Enter into deleteTractionEneTariff function");
+		logger.info("Selected Tariff Id = "+id);
+		try {
+			tractionEnergyTariffService.deleteTractionEneTariffById(id);
+			return Helper.findResponseStatus("Traction energy tariff Deleted successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >> While deleting tariff data"+npe.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error("ERROR >> While deleting tariff data"+e.getMessage());
+			return Helper.findResponseStatus("Traction energy tariff Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
 	}
 	
 	@PostMapping("/tariffUploadFiles")
@@ -154,5 +202,18 @@ public class TractionEnergyTariffController {
 			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
 		}	
 	}
+	
+	@RequestMapping(value = "/existsFromDate/{supplier}/{fromDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsTariff(@PathVariable("supplier") String supplier ,@PathVariable("fromDate") String fromDate){
+			
+		try {
+            logger.info("Request for checking exists supplier and from date...");
+			return tractionEnergyTariffService.existsBySupplierAndFromDate(supplier,Helper.convertStringToTimestamp(fromDate));
+		} catch (Exception e) {
+			logger.error("Error while checking exists supplier and from date..."+e.getMessage());
+			return false;
+		}
+	}
+	
 	
 }

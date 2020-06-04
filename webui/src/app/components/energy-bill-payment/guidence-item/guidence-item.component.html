@@ -35,6 +35,10 @@
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <input matInput placeholder="Authority" [formControl]="guidenceItemFormGroup.controls['agencyRbRdso']" />
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['agencyRbRdso'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <!-- <div class="col-md-3">

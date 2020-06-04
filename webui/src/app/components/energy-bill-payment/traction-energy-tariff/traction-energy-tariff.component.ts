@@ -44,6 +44,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     isSubmit: boolean = false;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     eleEnergySuppliersList: any;
+    tariffResponse: any;
     
     constructor(
         private commonService: CommonService,
@@ -69,7 +70,7 @@ export class TractionEnergyTariffComponent implements OnInit{
             "rate": [null],
             "specification":[null, Validators.maxLength(250)],
             "condition": [null, Validators.maxLength(250)],
-            "fromDate":[null],
+            "fromDate":[null,  Validators.required, this.duplicateFromDate.bind(this)],
             "thruDate":[null]
         });
         this.reportService.getAllEleEnergySuppliers().subscribe((data) => {
@@ -88,7 +89,24 @@ export class TractionEnergyTariffComponent implements OnInit{
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
             });     */
-    }    
+    }
+    
+    duplicateFromDate() {
+    	const q = new Promise((resolve, reject) => {
+	      //console.log(JSON.stringify(this.scheduleJobData))
+	       this.tractionEnergyTariffService.existsSupplierAndFromDate(
+	        this.tractionEnergyTariffFormGroup.controls['supplier'].value,
+	        this.tractionEnergyTariffFormGroup.controls['fromDate'].value
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'duplicate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}    
         
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
@@ -137,7 +155,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     }
     
     onContentManagementSubmit () {
-    	console.log("hello:::"+this.contentManagementFormGroup.value.contentCategory);
+    //	console.log("hello:::"+this.contentManagementFormGroup.value.contentCategory);
     	let category = this.contentManagementFormGroup.value.contentCategory;
     	let saveDetails = {
     		'tractionEnergyTariffId': this.tractionEnergyTariffId,
@@ -184,19 +202,23 @@ export class TractionEnergyTariffComponent implements OnInit{
         TractionEnergyTariffPayload.ADD_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
-        console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
+        // console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.tractionEnergyTariffService.saveTrationEneTariff(TractionEnergyTariffPayload.ADD_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully saved");
-                this.getTractionEnergyTariffData();
-                this.tractionEnergyTariffFormGroup.reset();
-                this.addTractionEnergyTariff = false;
+                this.tariffResponse = data;
+              	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
+	                this.commonService.showAlertMessage(this.tariffResponse.message);
+	                this.getTractionEnergyTariffData();
+	                this.tractionEnergyTariffFormGroup.reset();
+	                this.addTractionEnergyTariff = false;
+                }else {
+                	this.commonService.showAlertMessage(" Tariff Data Saving Failed.");
+                }
             }, error => {
-                this.commonService.showAlertMessage("Error in Add")
+                this.commonService.showAlertMessage(" Tariff Data Saving Failed.")
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
-            console.log('in else if block::');
+            //console.log('in else if block::');
             TractionEnergyTariffPayload.UPDATE_PAYLOAD.id = this.editTractionEnergyTariffResponse.id;
             TractionEnergyTariffPayload.UPDATE_PAYLOAD.supplier = this.tractionEnergyTariffFormGroup.value.supplier;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.rate = this.tractionEnergyTariffFormGroup.value.rate;
@@ -207,13 +229,18 @@ export class TractionEnergyTariffComponent implements OnInit{
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
             this.tractionEnergyTariffService.updateTrationEneTariff(TractionEnergyTariffPayload.UPDATE_PAYLOAD).subscribe((data) => {
-                //this.data = data;
-                this.commonService.showAlertMessage("Successfully updated");
-                this.getTractionEnergyTariffData();
-                this.tractionEnergyTariffFormGroup.reset();
-                this.addTractionEnergyTariff = false;
+                this.tariffResponse = data;
+              	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
+	                this.commonService.showAlertMessage(this.tariffResponse.message);
+	                this.getTractionEnergyTariffData();
+	                this.tractionEnergyTariffFormGroup.reset();
+	                this.addTractionEnergyTariff = false;
+	                this.title = "Save";
+	            }else {
+                	this.commonService.showAlertMessage("Tariff Data Updating Failed.");
+                }    
             } , error => {
-                this.commonService.showAlertMessage("Error in update")
+                this.commonService.showAlertMessage("Tariff Data Updating Failed.")
             });
 
         }
@@ -285,8 +312,13 @@ export class TractionEnergyTariffComponent implements OnInit{
             if(result){
                 this.tractionEnergyTariffService.deleteTractionEneTariffById(id)
                     .subscribe((data) => {
-                        this.commonService.showAlertMessage('Traction Energy tariff Deleted Successfully');
-                        this.getTractionEnergyTariffData();
+                    	this.tariffResponse = data;
+              				if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
+	                			this.commonService.showAlertMessage(this.tariffResponse.message);
+                        		this.getTractionEnergyTariffData();
+                        	} else {
+                         		this.commonService.showAlertMessage("Tariff Deletion Failed.");
+                         		}	
                     },error => {});
             }
         });

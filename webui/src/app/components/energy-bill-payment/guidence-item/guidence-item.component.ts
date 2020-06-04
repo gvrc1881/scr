@@ -54,7 +54,7 @@ export class GuidenceItemComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.guidenceItemFormGroup = this.formBuilder.group({
             id: 0,
-            'agencyRbRdso':[null],
+            'agencyRbRdso':[null, Validators.maxLength(250) ],
             'date': [null],
             'detailsOfIssue': [null],
             'heading': [null , Validators.maxLength(250) ],
@@ -118,6 +118,7 @@ export class GuidenceItemComponent implements OnInit{
 	                this.commonService.showAlertMessage(this.guidenceItemResponse.message);
     	            this.getAllGuidenceItemData();
 	                this.guidenceItemFormGroup.reset();
+	                this.addGuidenceItem =  false;
 	            }else {
                 	this.commonService.showAlertMessage("Guidance Item Data Saving Failed.");
                 }    
@@ -147,6 +148,7 @@ export class GuidenceItemComponent implements OnInit{
                 	this.getAllGuidenceItemData();
                 	this.guidenceItemFormGroup.reset();
                 	this.addGuidenceItem =  false;
+                	this.title = "Save";
                 }else {
                 	this.commonService.showAlertMessage("Guidance Item Data Updating Failed.");
                 }

@@ -36,5 +36,9 @@ export class EnergyMeterService {
     delete(id: number) {
         return this.http.delete(this.url + "/deleteEnergyMeter/" + id, { headers: this.header});
     }
+    
+    existsFeederAndStartDate(feederId: string, startDate: string) {
+        return this.http.get(this.url + '/existsFeederAndStartDate/' + feederId+"/"+startDate , { headers: this.header });
+    }
 
 }

@@ -135,7 +135,7 @@ public class WorksController {
 	
 	
 	@RequestMapping(value = "/existsWorkName/{workName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsDepartmentName(@PathVariable("workName") String workName){
+	public Boolean existsWorkName(@PathVariable("workName") String workName){
 			log.info("Enter work name"+workName);
 		try {
 			return worksServices.existsByWorkName(workName);

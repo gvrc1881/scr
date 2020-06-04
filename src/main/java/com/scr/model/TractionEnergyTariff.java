@@ -145,4 +145,12 @@ public class TractionEnergyTariff implements Serializable {
 		this.contentLink = contentLink;
 	}
 
+	@Override
+	public String toString() {
+		return "TractionEnergyTariff [id=" + id + ", supplier=" + supplier + ", year=" + year + ", rate=" + rate
+				+ ", specification=" + specification + ", condition=" + condition + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", fromDate="
+				+ fromDate + ", thruDate=" + thruDate + ", contentLink=" + contentLink + "]";
+	}
+
 }

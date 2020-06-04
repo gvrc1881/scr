@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,11 @@ public class EnergyMeterService {
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
 		energyMeterRepository.deleteById(id);
+	}
+
+	public Boolean existsByFeederAndStartDate(String feeder, Timestamp startDate) {
+		// TODO Auto-generated method stub
+		return energyMeterRepository.existsByFeederAndStartDate(feeder,startDate);
 	}
 
 }

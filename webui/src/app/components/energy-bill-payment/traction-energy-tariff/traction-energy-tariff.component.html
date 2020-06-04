@@ -43,8 +43,8 @@
 									                                  {{ eleEngSupplier.code}}
 									                                </mat-option>
 									                              </mat-select>
-									                              <mat-error *ngIf="isSubmit && f.contentTopic.errors && f.contentTopic.errors.required"
-									                                class="alert alert-danger">Select Content Topic</mat-error>
+									                              <!-- <mat-error *ngIf="isSubmit && f.contentTopic.errors && f.contentTopic.errors.required"
+									                                class="alert alert-danger">Select Content Topic</mat-error> -->
 									                            </mat-form-field>
 									                          </div> 
 	                                                        <!-- <div class="col-md-3">
@@ -54,11 +54,6 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Rate" decimalNumber [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
-	                                                            </mat-form-field>
-	                                                        </div>
-	                                                        <div class="col-md-3">
-	                                                            <mat-form-field>
 	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
                                                                 (dateTimeChange)="addEvent($event)" 
@@ -66,10 +61,20 @@
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+                                                                <mat-error
+										                            *ngIf="tractionEnergyTariffFormGroup.controls['fromDate'].hasError('duplicateFromDate')" 
+										                            class="alert alert-danger" >
+										                                Already Exists
+										                        </mat-error>
 	                                                                <!-- <input matInput [matDatepicker]="fromDate" placeholder="Choose From Date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
 	                                                                    <mat-datepicker #fromDate  ></mat-datepicker> (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Rate" decimalNumber [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
+	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field>

@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,6 +99,11 @@ public class TractionEnergyTariffService {
 			responseStatus.setMessage("ERROR >>> "+e.getMessage());
 		}
 		return responseStatus;
+	}
+
+	public Boolean existsBySupplierAndFromDate(String supplier, Timestamp fromDate) {
+		// TODO Auto-generated method stub
+		return tractionEnergyTariffRepository.existsBySupplierAndFromDate(supplier,fromDate);
 	}
 
 }

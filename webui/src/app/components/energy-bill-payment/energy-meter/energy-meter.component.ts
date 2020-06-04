@@ -66,7 +66,7 @@ export class EnergyMeterComponent implements OnInit{
             'meterModel' : [null],
             'cmd':[null],
             'remarks' : [null,Validators.maxLength(250)],
-            'startDate': [null],
+            'startDate': [null,Validators.required, this.duplicateFeederAndStartDate.bind(this)],
             'endDate': [null],
             'feederId': [null]
         });
@@ -75,6 +75,23 @@ export class EnergyMeterComponent implements OnInit{
             this.tssFeederMaterList = data;
             } , error => {});
     }
+    
+    duplicateFeederAndStartDate() {
+    	const q = new Promise((resolve, reject) => {
+      //console.log(JSON.stringify(this.scheduleJobData))
+	       this.energyMeterService.existsFeederAndStartDate(
+	        this.energyMeterFormGroup.controls['feederId'].value,
+	        this.energyMeterFormGroup.controls['startDate'].value
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'duplicate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}
     
     energyMeterSubmit () {
         let cmd: string = this.energyMeterFormGroup.value.cmd;
@@ -158,6 +175,7 @@ export class EnergyMeterComponent implements OnInit{
 	                this.getAllEnergyMeterData();
 	                this.energyMeterFormGroup.reset();
 	                this.addEnergyMeter =  false;
+	                this.title = "Save";
                 }else {
                 	this.commonService.showAlertMessage("Energy Meter Data Updating Failed.");
                 }

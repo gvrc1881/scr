@@ -29,7 +29,6 @@ export class TractionEnergyTariffService {
     }
 
     updateTrationEneTariff(trationEneTariff) {
-        console.log('update service:::'+trationEneTariff);
         return this.http.put(this.myAppUrl + "/updateTractionEnergyTariff",trationEneTariff,{ headers: this.header});
     }
 
@@ -58,6 +57,10 @@ export class TractionEnergyTariffService {
     
     attachedDocumentList(tractionEneTariffId:number) {
         return this.http.get(environment.apiUrl + '/attachedDocumentList' +"/"+tractionEneTariffId, { headers: this.header });
+    }
+    
+    existsSupplierAndFromDate(supplier: string, fromDate: string) {
+        return this.http.get(this.myAppUrl + '/existsFromDate/' + supplier+"/"+fromDate , { headers: this.header });
     }
 
 }
