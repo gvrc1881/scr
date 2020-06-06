@@ -761,11 +761,8 @@ public class DrivesController {
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
 			@RequestParam("compliedBy") String compliedBy,
-			//@RequestParam("assetType") String assetType,
 			@RequestParam("createdBy") String createdBy,
-			@RequestParam("createdOn") String createdOn,
-			@RequestParam("updatedBy") String updatedBy,
-			@RequestParam("updatedOn") String updatedOn) {
+			@RequestParam("createdOn") String createdOn) {
 		try {
 			logger.info("Save Stipulations");
 			logger.info("dateOfStipulation= "+dateOfStipulation);
@@ -777,11 +774,8 @@ public class DrivesController {
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
 			stipulationsRequest.setCompliedBy(compliedBy);
-			//stipulationsRequest.setAssetType(assetType);
 			stipulationsRequest.setCreatedBy(createdBy);
-			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
-			stipulationsRequest.setUpdatedBy(updatedBy);
-			//stipulationsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
+			
 			
 			service.saveStipulationsData(stipulationsRequest, file);
 			return Helper.findResponseStatus("Stipulations Data Added Successfully", Constants.SUCCESS_CODE);
@@ -802,9 +796,6 @@ public class DrivesController {
 			@RequestParam("dateComplied") String dateComplied,
 			@RequestParam("compliance") String compliance,
 			@RequestParam("compliedBy") String compliedBy,
-			//@RequestParam("assetType") String assetType,
-			@RequestParam("createdBy") String createdBy,
-			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
 			@RequestParam("updatedOn") String updatedOn) {
 		try {
@@ -817,11 +808,7 @@ public class DrivesController {
 			stipulationsRequest.setDateComplied(Helper.convertStringToTimestamp(dateComplied));
 			stipulationsRequest.setCompliance(compliance);
 			stipulationsRequest.setCompliedBy(compliedBy);
-			//stipulationsRequest.setAssetType(assetType);
-			stipulationsRequest.setCreatedBy(createdBy);
-			//stipulationsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
 			stipulationsRequest.setUpdatedBy(updatedBy);
-			//stipulationsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
 			
 			String status = service.updateStipulationsData(stipulationsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
@@ -909,11 +896,9 @@ public class DrivesController {
 			@RequestParam("authorisationDate") String authorisationDate,
 			@RequestParam("chargingDate") String chargingDate,
 			@RequestParam("station") String station,
-			//@RequestParam("stipulationsId") String stipulationsId,
 			@RequestParam("createdBy") String createdBy,
-			@RequestParam("createdOn") String createdOn,
-			@RequestParam("updatedBy") String updatedBy,
-			@RequestParam("updatedOn") String updatedOn) {
+			@RequestParam("createdOn") String createdOn
+			) {
 		try {
 			logger.info("Save Inspection");
 			DriveRequest inspectionsRequest = new DriveRequest();
@@ -928,11 +913,7 @@ public class DrivesController {
 			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
-			//inspectionsRequest.setStipulationsId(stipulationsId);
 			inspectionsRequest.setCreatedBy(createdBy);
-			//inspectionsRequest.setCreatedOn(Timestamp.valueOf(createdOn));
-			inspectionsRequest.setUpdatedBy(updatedBy);
-			//inspectionsRequest.setUpdatedOn(Timestamp.valueOf(updatedOn));
 			
 			service.saveInspectionsData(inspectionsRequest, file);
 			return Helper.findResponseStatus("Inspections Data Added Successfully", Constants.SUCCESS_CODE);
@@ -959,9 +940,6 @@ public class DrivesController {
 			@RequestParam("authorisationDate") String authorisationDate,
 			@RequestParam("chargingDate") String chargingDate,
 			@RequestParam("station") String station,
-			//@RequestParam("stipulationsId") String stipulationsId,
-			@RequestParam("createdBy") String createdBy,
-			@RequestParam("createdOn") String createdOn,
 			@RequestParam("updatedBy") String updatedBy,
 			@RequestParam("updatedOn") String updatedOn) {
 		try {
@@ -979,11 +957,7 @@ public class DrivesController {
 			inspectionsRequest.setAuthorisationDate(Helper.convertStringToTimestamp(authorisationDate));
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
-			//inspectionsRequest.setStipulationsId(stipulationsId);
-			inspectionsRequest.setCreatedBy(createdBy);
-			//inspectionsRequest.setCreatedOn(Helper.convertStringToTimestamp(createdOn));
 			inspectionsRequest.setUpdatedBy(updatedBy);
-			//inspectionsRequest.setUpdatedOn(Helper.convertStringToTimestamp(updatedOn));
 			
 			String status = service.updateInspectionsData(inspectionsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))

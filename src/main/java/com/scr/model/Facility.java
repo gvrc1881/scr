@@ -307,4 +307,19 @@ public class Facility implements Serializable {
 		this.zone = zone;
 	}
 
+	@Override
+	public String toString() {
+		return "Facility [id=" + id + ", closedDate=" + closedDate + ", createdStamp=" + createdStamp
+				+ ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv + ", defaultInventoryItemTypeId="
+				+ defaultInventoryItemTypeId + ", defaultWeightUomId=" + defaultWeightUomId + ", depotType=" + depotType
+				+ ", description=" + description + ", division=" + division + ", facilityId=" + facilityId
+				+ ", facilityName=" + facilityName + ", facilityTypeId=" + facilityTypeId + ", fpTrackEnable="
+				+ fpTrackEnable + ", fpTrackRecordFrequency=" + fpTrackRecordFrequency + ", isDisable=" + isDisable
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", openedDate=" + openedDate + ", parentDepot=" + parentDepot + ", parentFacilityId="
+				+ parentFacilityId + ", primaryFacilityGroupId=" + primaryFacilityGroupId + ", remarks=" + remarks
+				+ ", reserveOrderEnumId=" + reserveOrderEnumId + ", subDivision=" + subDivision + ", zone=" + zone
+				+ "]";
+	}
+
 }

@@ -661,7 +661,6 @@ public class CommonUtility {
 
 
 	public List<Facility> findUserHierarchy(String user) {
-		// TODO Auto-generated method stub
 		logger.info(" user name"+user);
 		List<Facility> facilityList = new ArrayList<Facility>();
 		Optional<UserDefualtFacConsIndEtc> userDefaultFacility =  userDefualtFacConsIndEtcService.findByUserLoginId(user);
@@ -697,7 +696,7 @@ public class CommonUtility {
 					}
 				}
 			}
-			
+			logger.info("facilityList => "+facilityList.toString());
 		}else {
 			logger.info("*** default facility not assigned***");
 		}

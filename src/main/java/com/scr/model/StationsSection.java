@@ -193,4 +193,15 @@ public class StationsSection implements Serializable {
 		this.upSectionName = upSectionName;
 	}
 
+	@Override
+	public String toString() {
+		return "StationsSection [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", division=" + division + ", dnSection=" + dnSection + ", dnSectionName="
+				+ dnSectionName + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", majorSectionRoute=" + majorSectionRoute + ", remark=" + remark + ", seqId="
+				+ seqId + ", stationCode=" + stationCode + ", stationName=" + stationName + ", upSection=" + upSection
+				+ ", upSectionName=" + upSectionName + "]";
+	}
+	
+	
 }
