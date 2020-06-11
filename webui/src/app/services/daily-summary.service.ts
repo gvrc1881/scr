@@ -37,6 +37,9 @@ export class DailySummaryService {
         return this.http.delete(this.myAppUrl + "/deleteDailySummary/" + id, { headers: this.header});
     }
     existsFacilityIdAndCreatedDate(facilityId: string, createdDate: string) {
+        console.log("existsFacilityId"+facilityId);
+        console.log("existscreatedDate"+createdDate);
         return this.http.get(this.myAppUrl + '/existsFacilityIdAndCreatedDate/' + facilityId+"/"+createdDate , { headers: this.header });
     }
+    
 }

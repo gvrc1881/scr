@@ -66,7 +66,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Description" [formControl]="tpcBoardFormGroup.controls['description']" required></textarea>
+                                                                    <textarea matInput placeholder="Description" [formControl]="tpcBoardFormGroup.controls['description']" ></textarea>
                                                                     <mat-error
                                                                         *ngIf="tpcBoardFormGroup.controls['description'].hasError('maxlength') && tpcBoardFormGroup.controls['description'].touched"
                                                                         class="alert alert-danger">Max 250 characters only

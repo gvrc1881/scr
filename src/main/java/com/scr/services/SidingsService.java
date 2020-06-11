@@ -20,12 +20,7 @@ public class SidingsService {
 	
 	@Autowired
 	private SidingsRepository sidingsRepository;
-	@Autowired
-	private StationsSectionsRepository stationsSectionsRepository;
 	
-	public List<StationsSection>findStationCode() {	
-		   return stationsSectionsRepository.findAll();
-		}
 	
 	public List<SidingDetails> findAll() {
 		return sidingsRepository.findAll();
@@ -43,7 +38,7 @@ public class SidingsService {
 	public boolean existsBySidingCode(String sidingCode) {
 		return sidingsRepository.existsBySidingCode(sidingCode);
 	}
-
+	
 }
 
 

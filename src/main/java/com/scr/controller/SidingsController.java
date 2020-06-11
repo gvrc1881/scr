@@ -33,13 +33,7 @@ public class SidingsController {
 	@Autowired
 	private SidingsService sidingsService;
 	
-	
-	@RequestMapping(value = "/stationCode", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<StationsSection>> findStationCode(){
-		List<StationsSection> stationCode= sidingsService.findStationCode();
-		return new ResponseEntity<List<StationsSection>>(stationCode,HttpStatus.OK);	
-		
-	}
+
 	
 	@RequestMapping(value = "/findAllSidingsItems" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<SidingDetails> findAllSidingsItems(){
@@ -126,14 +120,14 @@ public class SidingsController {
 			return Helper.findResponseStatus("Sidings Item Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
+	
 	@RequestMapping(value = "/existsSidingCode/{sidingCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public boolean existsSidingCode(@PathVariable("sidingCode") String sidingCode){		
+	public Boolean existsSidingCode(@PathVariable("sidingCode") String sidingCode){		
 		try {
 			return sidingsService.existsBySidingCode(sidingCode);
 		} catch (Exception e) {
-			log.error("Error while checking SidingCode.");
+			log.error("Error while checking exists sidingCode.");
 			return false;
 		}
 	}
-
 }

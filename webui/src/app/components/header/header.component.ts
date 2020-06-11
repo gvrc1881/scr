@@ -56,12 +56,12 @@ export class HeaderComponent implements OnInit, DoCheck {
         menuUrl: 'report-names', 
         icon: "fa fa-area-chart",
         color: "#6212EE", 
-        permission:true,
+        permission:this.commonService.findPermission('Reports', 'menu', 'view'),
         isSelected: true,         
         //currentTab: !!path && path.includes("reports") ? "open" : "", 
         currentTab: !!path && (path.includes("reports") || path.includes("daily-progress-reports") || path.includes("asset-reports") || path.includes("asset-master-reports")) ? "open" : "", 
         subMenus: [          
-          { 
+                    { 
             subMenuName: "Daily Progress Reports", 
             subMenuURL: "daily-progress-reports",
             color: "#1285EE", 
@@ -107,6 +107,16 @@ export class HeaderComponent implements OnInit, DoCheck {
           {
             subMenuName:"Zonal Reports",
             subMenuURL:"zonal-reports",
+            color:"#1285EE",
+            subMenuIcon:"fa fa-file",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu:!!path && path.includes("zonal-reports") ? "active-item":"",
+
+          },
+          {
+            subMenuName:"Zonal ",
+            subMenuURL:"zonal",
             color:"#1285EE",
             subMenuIcon:"fa fa-file",
             rolePermission:true,

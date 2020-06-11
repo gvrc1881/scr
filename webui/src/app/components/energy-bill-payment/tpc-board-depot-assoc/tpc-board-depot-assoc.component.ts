@@ -60,7 +60,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
             'tpcBoard':[null, Validators.compose([Validators.required]), this.duplicateTpcBoard.bind(this)],
             'unitType':[null],
             'unitName':[null, Validators.compose([Validators.required]), this.duplicateDepot.bind(this)],
-            'description':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'description':[null, Validators.maxLength(250)],
             
         });
         this.reportService.functionalLocationTypes().subscribe((data) => {

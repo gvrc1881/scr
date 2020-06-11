@@ -89,6 +89,7 @@ export class SidingsComponent implements OnInit {
         });
         return q;
       }
+     
      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }

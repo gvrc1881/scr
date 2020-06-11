@@ -62,7 +62,7 @@ public class StationsSectionsController {
 	public Boolean existsStationCode(@PathVariable("stationCode") String stationCode){
 		logger.info("Enter station Code"+stationCode);
 		try {
-			return stationsSectionsService.existsByStationCode(stationCode);
+			return stationsSectionsService.existsByStationCodeIgnoreCase(stationCode);
 		} catch (Exception e) {
 			logger.error("Error while checking exists Station Code.");
 			return false;
@@ -72,7 +72,7 @@ public class StationsSectionsController {
 	@RequestMapping(value = "/existsStationName/{stationName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsDriveDescription(@PathVariable("stationName") String stationName){	
 		try {
-			return stationsSectionsService.existsByStationName(stationName);
+			return stationsSectionsService.existsByStationNameIgnoreCase(stationName);
 		} catch (Exception e) {
 			logger.error("Error while checking exists stationName.");
 			return false;

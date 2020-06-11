@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { FootPatrollingSectionsService } from 'src/app/services/foot-patrolling-sections.service';
 import { ReportService } from 'src/app/services/report.service';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -23,8 +24,9 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
-        
+        MaterialModule,
+        OwlNativeDateTimeModule,
+        OwlDateTimeModule
     ],
     providers: [
         FootPatrollingSectionsService,

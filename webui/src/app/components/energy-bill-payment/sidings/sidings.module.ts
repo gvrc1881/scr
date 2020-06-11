@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { SidingsComponent } from './sidings.component';
 import { SidingsService } from 'src/app/services/sidings.service';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -24,7 +25,9 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        DecimalValidationsModule
+        DecimalValidationsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule
         
     ],
     providers: [SidingsService],

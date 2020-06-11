@@ -34,10 +34,10 @@ public class StationsSectionsService {
 		// TODO Auto-generated method stub
 		stationsSectionsRepository.deleteById(id);
 	}
-	public Boolean existsByStationCode(String stationCode) {
-		return stationsSectionsRepository.existsByStationCode(stationCode);
+	public Boolean existsByStationCodeIgnoreCase(String stationCode) {
+		return stationsSectionsRepository.existsByStationCodeIgnoreCase(stationCode);
 	}
-	public Boolean existsByStationName(String stationName) {
-		return stationsSectionsRepository.existsByStationName(stationName);
+	public Boolean existsByStationNameIgnoreCase(String stationName) {
+		return stationsSectionsRepository.existsByStationNameIgnoreCase(stationName);
 	}
 }

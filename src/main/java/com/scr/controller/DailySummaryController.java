@@ -1,11 +1,10 @@
 package com.scr.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -123,16 +122,19 @@ public class DailySummaryController {
 		}
 	}
 	
-	
 	@RequestMapping(value = "/existsFacilityIdAndCreatedDate/{facilityId}/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsTariff(@PathVariable("facilityId") String facilityId ,@PathVariable("createdDate") String createdDate){
-			
+	public Boolean existsFacilityIdAndCreatedDate(@PathVariable("facilityId") String facilityId ,@PathVariable("createdDate") String createdDate){
+		log.info("existsByFacilityIdAndCreatedDate"+createdDate);
+		log.info("existsByFacilityIdAndCreatedDate"+facilityId);
 		try {
-			log.info("Request for checking existsFacilityIdAndCreatedDate...");
+			log.info("Request for checking exists facilityId and createdDate...");
 			return dailySummaryService.existsByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));
 		} catch (Exception e) {
-			log.error("Error while checking exists facilityId and createdDate..."+e.getMessage());
+			log.error("Error while checking exists facilityId "+e.getMessage());
+			log.info("existsByFacilityIdAndCreatedDate"+createdDate);
+			log.info("existsByFacilityIdAndCreatedDate"+facilityId);
 			return false;
 		}
 	}
+	
 }

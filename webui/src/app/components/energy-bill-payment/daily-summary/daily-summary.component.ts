@@ -56,8 +56,8 @@ export class DailySummaryComponent implements OnInit{
         this.depotTypeOheAndPsi();
         this.dailySummaryFormGroup = this.formBuilder.group({
             id: 0,
-            'createdDate':[null,Validators.required, this.duplicateFromDate.bind(this)],
-            'facilityId':[null, Validators.required, this.duplicateFromDate.bind(this)],
+            'createdDate':[null, Validators.required, this.duplicateFromDate.bind(this)],
+            'facilityId':[null, Validators.required],
             'nameOfStaff':[null,Validators.maxLength(250)],
             'dayProgress': [null,Validators.maxLength(250)],
             'npbProgress': [null,Validators.maxLength(250)],
@@ -75,12 +75,12 @@ export class DailySummaryComponent implements OnInit{
     }
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
-	      //console.log(JSON.stringify(this.scheduleJobData))
 	       this.dailySummaryService.existsFacilityIdAndCreatedDate(
 	        this.dailySummaryFormGroup.controls['createdDate'].value,
 	        this.dailySummaryFormGroup.controls['facilityId'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
+                console.log('dailySummaryFormGroup'+duplicate);
 	          resolve({ 'duplicate': true });
 	        } else {
 	          resolve(null);
