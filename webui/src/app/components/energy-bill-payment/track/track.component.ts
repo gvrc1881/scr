@@ -95,12 +95,12 @@ export class TrackComponent implements OnInit{
         		this.commonService.showAlertMessage("Track Data Saving Failed.");
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
-            console.log('in else if block::');
+            // console.log('in else if block::');
             TrackPayload.UPDATE_PAYLOAD.id = this.editTrackResponse.id;
             TrackPayload.UPDATE_PAYLOAD.facilityId = this.trackFormGroup.value.facilityId;
 	        TrackPayload.UPDATE_PAYLOAD.tkm = this.trackFormGroup.value.tkm;
 	        TrackPayload.UPDATE_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
-	        TrackPayload.UPDATE_PAYLOAD.remarks = this.trackFormGroup.value.remarks;
+	        TrackPayload.UPDATE_PAYLOAD.remark = this.trackFormGroup.value.remark;
 	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
             this.trackService.updateTrack(TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.trackResponse = data;
@@ -109,6 +109,7 @@ export class TrackComponent implements OnInit{
                 	this.getTrackData();
                 	this.trackFormGroup.reset();
                 	this.addTrack = false;
+                	this.title = 'Save';
                 }else {
                 	this.commonService.showAlertMessage("Track Data Updating Failed.");
                 }	
@@ -161,7 +162,7 @@ export class TrackComponent implements OnInit{
     	 this.trackService.findTrackById(id)
             .subscribe((responseData) => {
                 this.editTrackResponse = responseData;
-                 console.log('responseData'+JSON.stringify(responseData));
+                // console.log('responseData'+JSON.stringify(responseData));
                 this.trackFormGroup.patchValue({
                     id: this.editTrackResponse.id,
                     facilityId: this.editTrackResponse.facilityId,

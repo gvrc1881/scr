@@ -34,9 +34,9 @@
 	                                                    	<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Work Name" [formControl]="workFormGroup.controls['workName']" required/>
-	                                                                <mat-error *ngIf="workFormGroup.controls['workName'].hasError('required')">
+	                                                                <!-- <mat-error *ngIf="workFormGroup.controls['workName'].hasError('required')">
 										                                Enter Work Name
-										                              </mat-error>
+										                              </mat-error> -->
 										                              <mat-error
 										                                *ngIf="workFormGroup.controls['workName'].hasError('duplicateWorkName')" 
 										                                class="alert alert-danger" >
@@ -47,6 +47,10 @@
 	                                                    	<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Allocation" [formControl]="workFormGroup.controls['allocation']" />
+	                                                                <mat-error
+		                                                                *ngIf="workFormGroup.controls['allocation'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -73,6 +77,10 @@
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Executed By" [formControl]="workFormGroup.controls['executedBy']" />
+	                                                                <mat-error
+		                                                                *ngIf="workFormGroup.controls['executedBy'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -103,6 +111,10 @@
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Section" [formControl]="workFormGroup.controls['section']" />
+	                                                                <mat-error
+		                                                                *ngIf="workFormGroup.controls['section'].hasError('maxlength')"
+		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">

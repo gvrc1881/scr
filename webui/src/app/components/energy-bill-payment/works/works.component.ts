@@ -34,9 +34,10 @@ export class WorksComponent implements OnInit {
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     statusItems: any;
     execAgencyList: any;
-    userHierarchy:any = localStorage.getItem('userHierarchy');
+    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
     divisionList:  FacilityModel [] = [];
     workResponse: any;
+    currentYear: any;
 
     constructor(
         private workService: WorksService,
@@ -50,11 +51,13 @@ export class WorksComponent implements OnInit {
     }
 
     ngOnInit() {
-    		/*
-            for (let i = 0; i < this.userHierarchy.length; i++) {
-            	console.log('facility****'+JSON.stringify(this.userHierarchy));
-               this.divisionList.push(this.userHierarchy[i]);
-            }*/
+          for (let i = 0; i < this.userHierarchy.length; i++) {
+               if(this.userHierarchy[i].depotType == 'DIV'){
+	               console.log('IN SIDE LOOP ****'+JSON.stringify(this.userHierarchy[i]));
+               	this.divisionList.push(this.userHierarchy[i]);
+               }
+            }
+        this.currentYear = (new Date()).getFullYear() ;
 		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","WORK") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
@@ -63,10 +66,10 @@ export class WorksComponent implements OnInit {
         this.getAllWorksData();
         this.workFormGroup = this.formBuilder.group({
              id: 0,
-            "allocation" : [null],
+            "allocation" : [null, Validators.maxLength(250)],
   			"division" : [null],
 			"estdLatestAnticCost" : [null],
-			"executedBy" : [null],
+			"executedBy" : [null, Validators.maxLength(250) ],
 			"executingAgency" : [null],
 			"financialProgressPercentage" : [null,Validators.max(100)],
 			"latestRevisedCost" : [null],
@@ -77,12 +80,12 @@ export class WorksComponent implements OnInit {
 			"reWorks" : [null],
 			"rkm" : [null],
 			"sanctionCost" : [null],
-			"section" : [null],
+			"section" : [ null, Validators.maxLength(250)],
 			"statusRemarks" : [null , Validators.maxLength(250)],
 			"targetDateOfCompletion" : [null],
 			"tkm" : [null],
-			"workName" : [null,  Validators.required, this.duplicateWorkName.bind(this)],
-			"yearOfSanction" : [null],
+			"workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicateWorkName.bind(this)],
+			"yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
         });
         this.reportService.statusItemDetails('WORK_PROGRESS_STATUS').subscribe((data) => {
                  this.statusItems = data;
@@ -91,28 +94,28 @@ export class WorksComponent implements OnInit {
         	 this.execAgencyList = data;
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
-        });	
+        });
+        this.spinnerService.show();	
     }
     
     duplicateWorkName() {
     const q = new Promise((resolve, reject) => {
-      let repartment: string = this.workFormGroup.controls['workName'].value;
-      var filter = !!this.workList && this.workList.filter(repartment => {
-        return repartment.workName.toLowerCase() == repartment.trim().toLowerCase();
+      let work: string = this.workFormGroup.controls['workName'].value;
+      var filter = !!this.workList && this.workList.filter(works => {
+        return works.workName.toLowerCase() == work.trim().toLowerCase();
       });
       if (filter.length > 0) {
-        resolve({ 'duplicateDepartment': true });
+        resolve({ 'duplicateWork': true });
       }
       this.workService.existsWorkName(
         this.workFormGroup.controls['workName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {
-       // console.log('duplicate***'+duplicate);
-          resolve({ 'duplicateDepartment': true });
+          resolve({ 'duplicateWork': true });
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicateDepartment': true }); });
+      }, () => { resolve({ 'duplicateWork': true }); });
     });
     return q;
   }
