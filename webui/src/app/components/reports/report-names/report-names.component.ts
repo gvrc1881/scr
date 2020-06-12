@@ -19,8 +19,7 @@ export class ReportNamesComponent implements OnInit {
 
   ngOnInit() {   
     console.log(this.router.url);
-    let reportType = '';
-   
+    let reportType = '';   
     if(this.router.url == '/report-names'){
       reportType = 'DailyProgress';  
       console.log("reportType"+reportType)    

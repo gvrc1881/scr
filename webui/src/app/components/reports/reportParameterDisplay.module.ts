@@ -7,6 +7,7 @@ import { ReportService } from 'src/app/services/report.service';
 import { MatDatepickerModule, MatInputModule, MatNativeDateModule } from '@angular/material';
 import { ReportParameterDisplayComponent } from './reportParameterDisplay.component';
 import{FormsModule}   from '@angular/forms';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 
 const routes: Routes = [
@@ -17,7 +18,7 @@ const routes: Routes = [
     },]
 @NgModule({
     imports: [RouterModule.forChild(routes),
-        //Ng4LoadingSpinnerModule.forRoot(),
+        Ng4LoadingSpinnerModule.forRoot(),
         MatMenuModule,
         MatGridListModule,
         CommonModule,
