@@ -53,28 +53,30 @@ export class TPCBoardComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.tpcBoardFormGroup = this.formBuilder.group({
             id: 0,
-            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateTpcBoard.bind(this)],
-            'dataDiv':[null],
+            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'dataDiv':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
             'description':[null,Validators.maxLength(250)]
             
         });
     }
     duplicateTpcBoard() {
-        const q = new Promise((resolve, reject) => {
-          this.tpcBoardService.existsTpcBoard(
-            this.tpcBoardFormGroup.controls['tpcBoard'].value
-          ).subscribe((duplicate) => {
-            if (duplicate) {
-                console.log('duplicateTpcBoard'+duplicate);
-              resolve({ 'duplicateTpcBoard': true });
-            } else {
-              resolve(null);
-            }
-          }, () => { resolve({ 'duplicateTpcBoard': true }); });
-        });
-        return q;
-      }
-
+    	const q = new Promise((resolve, reject) => {
+	      //console.log(JSON.stringify(this.scheduleJobData))
+	       this.tpcBoardService.existsTpcBoardAndDataDiv(
+	        this.tpcBoardFormGroup.controls['tpcBoard'].value,
+	        this.tpcBoardFormGroup.controls['dataDiv'].value
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+              resolve({ 'duplicate': true });
+              console.log('tpcBoardFormGroup'+duplicate);
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}    
+      public get f() { return this.tpcBoardFormGroup.controls; }
     getAllTPCBoardData() {
         console.log("get all guidence items");
         const tpcBoard : TPCBoardModel[] = [];

@@ -76,8 +76,8 @@ export class DailySummaryComponent implements OnInit{
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
 	       this.dailySummaryService.existsFacilityIdAndCreatedDate(
-	        this.dailySummaryFormGroup.controls['createdDate'].value,
-	        this.dailySummaryFormGroup.controls['facilityId'].value
+	        this.dailySummaryFormGroup.controls['facilityId'].value,
+	        this.dailySummaryFormGroup.controls['createdDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
                 console.log('dailySummaryFormGroup'+duplicate);
@@ -89,7 +89,8 @@ export class DailySummaryComponent implements OnInit{
 	    });
     	return q;
   	}    
-      
+      public get f() { return this.dailySummaryFormGroup.controls; }
+
     getAllDailySummaryData() {
         const dailyProgressSummery : DailySummaryModel[] = [];
         this.dailySummaryService.getAllDailySummary().subscribe((data) => {

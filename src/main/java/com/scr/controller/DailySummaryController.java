@@ -124,8 +124,8 @@ public class DailySummaryController {
 	
 	@RequestMapping(value = "/existsFacilityIdAndCreatedDate/{facilityId}/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsFacilityIdAndCreatedDate(@PathVariable("facilityId") String facilityId ,@PathVariable("createdDate") String createdDate){
-		log.info("existsByFacilityIdAndCreatedDate"+createdDate);
-		log.info("existsByFacilityIdAndCreatedDate"+facilityId);
+		log.info("existsByFacilityId"+facilityId);
+		log.info("existsByCreatedDate"+createdDate);
 		try {
 			log.info("Request for checking exists facilityId and createdDate...");
 			return dailySummaryService.existsByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));

@@ -57,9 +57,9 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
             id: 0,
-            'tpcBoard':[null, Validators.compose([Validators.required]), this.duplicateTpcBoard.bind(this)],
+            'tpcBoard':[null, Validators.compose([Validators.required])],
             'unitType':[null],
-            'unitName':[null, Validators.compose([Validators.required]), this.duplicateDepot.bind(this)],
+            'unitName':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
             'description':[null, Validators.maxLength(250)],
             
         });
@@ -69,33 +69,22 @@ export class TPCBoardDepotAssocComponent implements OnInit{
 }
 duplicateTpcBoard() {
     const q = new Promise((resolve, reject) => {
-      this.tpcBoardDepotAssocService.existsByTpcBoard(
-        this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value
-      ).subscribe((duplicate) => {
-        if (duplicate) {
-          resolve({ 'duplicateTpcBoard': true });
-        } else {
-          resolve(null);
-        }
-      }, () => { resolve({ 'duplicateTpcBoard': true }); });
-    });
-    return q;
-  }
-
-  duplicateDepot() {
-    const q = new Promise((resolve, reject) => {
-      this.tpcBoardDepotAssocService.existsUnitName(
+      //console.log(JSON.stringify(this.scheduleJobData))
+       this.tpcBoardDepotAssocService.existsTpcBoardAndUnitName(
+        this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value,
         this.tpcBoardDepotAssocFormGroup.controls['unitName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {
-          resolve({ 'duplicateDepot': true });
+          resolve({ 'duplicate': true });
+          console.log('tpcBoardDepotAssocFormGroup'+duplicate);
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicateDepot': true }); });
+      }, () => { resolve({ 'duplicate': true }); });
     });
     return q;
-  }
+  }    
+  public get f() { return this.tpcBoardDepotAssocFormGroup.controls; }
 
     getAllTPCBoardDepotAssocData() {
        

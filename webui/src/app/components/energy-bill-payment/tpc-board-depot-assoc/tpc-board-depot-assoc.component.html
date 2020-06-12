@@ -43,11 +43,7 @@
                                                                     <mat-error
                                                                 *ngIf="tpcBoardDepotAssocFormGroup.controls['tpcBoard'].hasError('required') && tpcBoardDepotAssocFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Select Tpc Board</mat-error>
-                                                                <mat-error
-                                                                *ngIf="tpcBoardDepotAssocFormGroup.controls['tpcBoard'].hasError('duplicateTpcBoard')"
-                                                                class="alert alert-danger">
-                                                                TpcBoard Already Exists
-                                                            </mat-error>
+                                                               
                                                                 </mat-form-field>
                                                          </div>
                                                             
@@ -73,10 +69,10 @@
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 <mat-error
-                                                                *ngIf="tpcBoardDepotAssocFormGroup.controls['unitName'].hasError('duplicateDepot')"
-                                                                class="alert alert-danger">
-                                                                UnitName Already Exists
-                                                            </mat-error>
+                                                                    *ngIf="tpcBoardDepotAssocFormGroup.controls['unitName'].hasError('duplicateTpcBoard')"
+                                                                    class="alert alert-danger">
+                                                                    Depot Already Exists
+                                                                </mat-error>
                                                             </mat-form-field>
                                                      </div>
 

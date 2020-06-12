@@ -24,7 +24,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     title: string = "Save";
     fpSectionsItemFormGroup: FormGroup;
     fpSectionsList : any;
-    toMinDate=new Date();    
+    toMinDate=new Date();
     facilityData:any;
     fpSectionsItemDataSource: MatTableDataSource<FootPatrollingSectionsModel>;
     fpSectionsItemDisplayColumns = ['sno' ,'facilityDepot','fpSection' , 'fromLocation' , 'toLocation' , 'fromDate' , 'toDate' , 'remarks' , 'id' ] ;
@@ -79,10 +79,11 @@ export class FootPatrollingSectionsComponent implements OnInit{
         });
         return q;
       }
-      addEvent($event) {
-    	this.toMinDate = new Date($event.value);
-  	}
-      
+      public get f() { return this.fpSectionsItemFormGroup.controls; }
+
+    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = event.value;
+      }
     getAllFootPatrollingSectionsData() {
         const footPatrollingSections : FootPatrollingSectionsModel[] = [];
         this.footPatrollingSectionsService.getAllFPSectionsItems().subscribe((data) => {

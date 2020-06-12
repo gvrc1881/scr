@@ -54,7 +54,7 @@ export class ObservationCategoriesComponent implements OnInit{
         this.observationCategoriesFormGroup = this.formBuilder.group({
             id: 0,
             'inspectionType':[null],
-            'department':[null],
+            'department':[null,Validators.maxLength(250)],
             'observationCategory': [null,Validators.maxLength(250)],
             'description': [null,Validators.maxLength(250)],
             'remark': [null,Validators.maxLength(250)],

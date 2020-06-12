@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,9 @@ public class TPCBoardService {
 		// TODO Auto-generated method stub
 		tpcBoardRepository.deleteById(id);
 	}
-	public Boolean existsByTpcBoard(String tpcBoard) {
-		return tpcBoardRepository.existsByTpcBoard(tpcBoard);
+	public Boolean existsByTpcBoardAndDataDiv(String tpcBoard, String dataDiv) {
+		// TODO Auto-generated method stub
+		return tpcBoardRepository.existsByTpcBoardAndDataDiv(tpcBoard,dataDiv);
 	}
 
 }

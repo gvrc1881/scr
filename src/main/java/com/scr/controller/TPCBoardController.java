@@ -118,13 +118,16 @@ public class TPCBoardController {
 			return Helper.findResponseStatus("Tpc Board Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@RequestMapping(value = "/existsTpcBoard/{tpcBoard}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsTpcBoard(@PathVariable("tpcBoard") String tpcBoard){
+	@RequestMapping(value = "/existsTpcBoardAndDataDiv/{tpcBoard}/{dataDiv}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsTpcBoardAndDataDiv(@PathVariable("tpcBoard") String tpcBoard ,@PathVariable("dataDiv") String dataDiv){
+			
 		try {
-			return tpcBoardService.existsByTpcBoard(tpcBoard);
+			log.info("Request for checking exists tpcBoard and dataDiv.");
+			return tpcBoardService.existsByTpcBoardAndDataDiv(tpcBoard,dataDiv);
 		} catch (Exception e) {
-			log.error("Error while checking exists tpcBoard.");
+			log.error("Error while checking exists tpcBoard and dataDiv..."+e.getMessage());
 			return false;
 		}
 	}
+	
 }

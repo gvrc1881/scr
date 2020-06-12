@@ -118,21 +118,15 @@ public class TPCBoardDepotAssocController {
 			return Helper.findResponseStatus("Tpc Board DepotAssoc Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@RequestMapping(value = "/existsByTpcBoard/{tpcBoard}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public boolean existsTpcBoard(@PathVariable("tpcBoard") String tpcBoard){		
+	
+	@RequestMapping(value = "/existsTpcBoardAndUnitName/{tpcBoard}/{unitName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsTpcBoardAndDataDiv(@PathVariable("tpcBoard") String tpcBoard ,@PathVariable("unitName") String unitName){
+			
 		try {
-			return tpcBoardDepotAssocService.existsByTpcBoard(tpcBoard);
+			log.info("Request for checking exists tpcBoard and unitName.");
+			return tpcBoardDepotAssocService.existsByTpcBoardAndUnitName(tpcBoard,unitName);
 		} catch (Exception e) {
-			log.error("Error while checking exists drive name.");
-			return false;
-		}
-}
-	@RequestMapping(value = "/existsUnitName/{unitName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public boolean existsUnitName(@PathVariable("unitName") String unitName){		
-		try {
-			return tpcBoardDepotAssocService.existsByUnitName(unitName);
-		} catch (Exception e) {
-			log.error("Error while checking exists unit name.");
+			log.error("Error while checking exists tpcBoard and unitName..."+e.getMessage());
 			return false;
 		}
 	}

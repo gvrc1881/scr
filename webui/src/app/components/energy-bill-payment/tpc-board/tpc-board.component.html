@@ -38,11 +38,7 @@
                                                                     <mat-error
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('required') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Enter Tpc Board</mat-error>
-                                                                <mat-error
-                                                                *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('duplicateTpcBoard')"
-                                                                class="alert alert-danger">
-                                                                TpcBoard Already Exists
-                                                            </mat-error>
+                                                                
                                                                     <mat-error
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('pattern') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
@@ -62,6 +58,11 @@
                                                                             {{ divisionsList.code }}
                                                                         </mat-option>
                                                                     </mat-select>
+                                                                    <mat-error
+                                                                    *ngIf="tpcBoardFormGroup.controls['dataDiv'].hasError('duplicateTpcBoard')"
+                                                                    class="alert alert-danger">
+                                                                    TpcBoard Already Exists
+                                                                </mat-error>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
