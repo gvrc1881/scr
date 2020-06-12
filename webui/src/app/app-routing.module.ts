@@ -276,6 +276,11 @@ const routes: Routes = [
     path: 'ins-stipulation',
     loadChildren: './components/drives/drive-stipulation/drive-stipulation.module#DriveStipulationModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'make',
+    loadChildren: './components/energy-bill-payment/make/make.module#MakeModule',
+    canActivate: [AuthGuard]
   }
 ];
 
