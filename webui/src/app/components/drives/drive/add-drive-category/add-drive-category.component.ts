@@ -53,9 +53,10 @@ export class AddDriveCategoryComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
    
-    this.createDriveForm();
+    
 
     if (!isNaN(this.id)) {
+      this.updateDriveCategoryForm();
       this.addDriveCategoryFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -67,6 +68,7 @@ export class AddDriveCategoryComponent implements OnInit {
 
     } else {
       this.title = 'Save';
+      this.createDriveCategoryForm();
     }
   }
   onFormValuesChanged() {
@@ -85,7 +87,17 @@ export class AddDriveCategoryComponent implements OnInit {
   addEvent($event) {
     this.toMinDate = new Date($event.value);
   }
-  createDriveForm() {
+  updateDriveCategoryForm(){
+    this.addDriveCategoryFormGroup = this.formBuilder.group({
+      id: 0,
+      'name': [null, Validators.compose([Validators.required])],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'fromDate': [null, Validators.required],
+      'toDate': [null],
+      'authority': [null]
+    });
+  }
+  createDriveCategoryForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
       'name': [null, Validators.compose([Validators.required]), this.duplicateName.bind(this)],

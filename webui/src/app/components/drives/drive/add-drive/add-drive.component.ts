@@ -63,9 +63,8 @@ export class AddDriveComponent implements OnInit {
     this.findFunctionalUnits();
     this.findDepoTypeList();
     this.findStatusItemDetails();
-    this.createDriveForm();
-
     if (!isNaN(this.id)) {
+      this.updateDriveForm();
       this.addDriveFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -75,7 +74,8 @@ export class AddDriveComponent implements OnInit {
       this.title = 'Edit';
       this.getDriveDataById(this.id);
     } else {
-      this.title = 'Save'
+      this.title = 'Save';
+      this.createDriveForm();
     }
   }
   onFormValuesChanged() {
@@ -90,6 +90,25 @@ export class AddDriveComponent implements OnInit {
         this.driveFormErrors[field] = control.errors;
       }
     }
+  }
+
+  updateDriveForm(){
+    this.addDriveFormGroup = this.formBuilder.group({
+      id: 0,
+      'name': [null, Validators.compose([Validators.required])],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'fromDate': [null, Validators.required],
+      'toDate': [null],
+      'depoType': [null],
+      'assetType': [null],
+      'assetDescription': [null, Validators.maxLength(250)],
+      'criteria': [null, Validators.maxLength(250)],
+      'targetQuantity': [null],
+      'isIdRequired': ['No'],
+      'functionalUnit': [null],
+      'checklist': ['No'],
+      'status': ['Yes']
+    });
   }
   createDriveForm() {
     this.addDriveFormGroup = this.formBuilder.group({
@@ -123,7 +142,6 @@ export class AddDriveComponent implements OnInit {
     });
     return q;
   }
-
   duplicateDescription() {
     const q = new Promise((resolve, reject) => {
       this.drivesService.existsDriveDescription(

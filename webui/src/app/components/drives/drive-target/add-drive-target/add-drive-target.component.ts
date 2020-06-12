@@ -52,10 +52,10 @@ export class AddDriveTargetComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.findFunctionalUnits();
     this.findDepoTypeList();
-    this.getDrivesData();
-    this.createForm();
+    this.getDrivesData();    
     this.getDriveTargetData();
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addDriveTargetFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -68,6 +68,7 @@ export class AddDriveTargetComponent implements OnInit {
       this.save = true;
       this.update = false;
       this.title = 'Save';
+      this.createForm();
     }
   }
   getDriveTargetData() {
@@ -78,6 +79,17 @@ export class AddDriveTargetComponent implements OnInit {
     }, error => {
       this.spinnerService.hide();
     });
+  }
+  updateForm() {
+    this.addDriveTargetFormGroup
+      = this.formBuilder.group({
+        id: 0,
+        'unitType': [null, Validators.compose([Validators.required])],
+        'unitName': [null, Validators.compose([Validators.required])],
+        'target': [null],
+        'poulation': [null],
+        'drive': [null, Validators.compose([Validators.required])],
+      });
   }
   createForm() {
     this.addDriveTargetFormGroup
