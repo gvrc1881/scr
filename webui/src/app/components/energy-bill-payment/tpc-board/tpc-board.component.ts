@@ -77,7 +77,6 @@ export class TPCBoardComponent implements OnInit{
   	}    
       public get f() { return this.tpcBoardFormGroup.controls; }
     getAllTPCBoardData() {
-        console.log("get all guidence items");
         const tpcBoard : TPCBoardModel[] = [];
         this.tpcBoardService.getAllTPCBoardDetails().subscribe((data) => {
             this.tpcBoardList = data;

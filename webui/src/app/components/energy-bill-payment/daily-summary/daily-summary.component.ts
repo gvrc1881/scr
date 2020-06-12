@@ -46,7 +46,6 @@ export class DailySummaryComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllDailySummaryData();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Daily Summary") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);

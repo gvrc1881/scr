@@ -30,6 +30,7 @@ export class DailySummaryService {
     }
 
     updateDailySummary(model){
+        console.log('update service:::'+model);
         return this.http.put(this.myAppUrl + "/updateDailySummary",model,{ headers: this.header});
     }
     

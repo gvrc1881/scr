@@ -51,7 +51,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
         this.getAllTPCBoardDepotAssocData();
         this.tpcBoardDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

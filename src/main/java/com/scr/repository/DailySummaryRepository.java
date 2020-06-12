@@ -10,8 +10,8 @@ import com.scr.model.DailyProgressSummery;
 public interface DailySummaryRepository extends JpaRepository<DailyProgressSummery,Long>{
 	
     List<DailyProgressSummery> findAll();
+  //Query Annotation for exist record
 	@Query(value = "SELECT case when count(dps)> 0 then true else false  end  FROM DailyProgressSummery dps WHERE dps.facilityId = :facilityId and CAST(dps.createdDate AS date ) = :createdDate")
-
 	Boolean existsByFacilityIdAndCreatedDate(@Param("facilityId") String facilityId,@Param("createdDate") Timestamp createdDate);
 
 }

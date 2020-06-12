@@ -3,6 +3,9 @@ package com.scr.services;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.DailyProgressSummery;
@@ -10,7 +13,8 @@ import com.scr.repository.DailySummaryRepository;
 
 @Service
 public class DailySummaryService {
-	
+	static Logger log = LogManager.getLogger(DailySummaryService.class);
+
 	@Autowired
 	private DailySummaryRepository dailySummaryRepository;
 	

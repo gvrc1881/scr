@@ -21,7 +21,6 @@ export class TPCBoardService {
     }
 
     saveTPCBoard (model) {
-    console.log('json object::'+JSON.stringify(model));
         return this.http.post(this.myAppUrl + "/addTPCBoard",model,{ headers: this.header});
     }
 

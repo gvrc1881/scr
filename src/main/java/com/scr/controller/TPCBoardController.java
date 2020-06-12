@@ -24,7 +24,7 @@ import com.scr.util.Helper;
 @RestController
 @RequestMapping("/scr/api")
 public class TPCBoardController {
-	static Logger log = LogManager.getLogger(DrivesController.class);
+	static Logger log = LogManager.getLogger(TPCBoardController.class);
 
 	@Autowired
 	private TPCBoardService tpcBoardService;
@@ -123,6 +123,7 @@ public class TPCBoardController {
 			
 		try {
 			log.info("Request for checking exists tpcBoard and dataDiv.");
+			
 			return tpcBoardService.existsByTpcBoardAndDataDiv(tpcBoard,dataDiv);	
 		} catch (Exception e) {
 			log.error("Error while checking exists tpcBoard and unitName..."+e.getMessage());

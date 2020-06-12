@@ -21,7 +21,6 @@ export class TPCBoardDepotAssocService {
     }
 
     saveTPCBoardDepotAssoc (model) {
-    console.log('json object::'+JSON.stringify(model));
         return this.http.post(this.myAppUrl + "/addTPCBoardDeotAssoc",model,{ headers: this.header});
     }
 
