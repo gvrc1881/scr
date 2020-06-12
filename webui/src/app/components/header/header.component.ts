@@ -384,6 +384,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:true,
             currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
           },
+          {
+            subMenuName: "Make",
+            subMenuURL: "make",
+            subMenuIcon: "",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Make', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("make") ? "active-item" : "",
+          },
         ]
       },
       { 

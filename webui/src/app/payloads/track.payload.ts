@@ -11,7 +11,7 @@ export const TrackPayload = {
     	"id":"0",
     	"tkm":"",
     	"rkm":"",
-    	"remarks":"",
+    	"remark":"",
     	"facilityId":"",
     	"updatedBy":""
     },
