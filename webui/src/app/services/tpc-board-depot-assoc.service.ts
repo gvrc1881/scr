@@ -38,8 +38,6 @@ export class TPCBoardDepotAssocService {
         return this.http.delete(this.myAppUrl + "/deleteTPCBoardDepotAssoc/" +id ,{headers: this.header});
     }
     existsTpcBoardAndUnitName(tpcBoard: string, unitName: string) {
-        console.log("existsTpcBoard"+tpcBoard);
-        console.log("existsdataDiv"+unitName);
         return this.http.get(this.myAppUrl + '/existsTpcBoardAndUnitName/' + tpcBoard+"/"+unitName , { headers: this.header });
     }
     

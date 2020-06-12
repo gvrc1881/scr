@@ -61,7 +61,6 @@ export class TPCBoardComponent implements OnInit{
     }
     duplicateTpcBoard() {
     	const q = new Promise((resolve, reject) => {
-	      //console.log(JSON.stringify(this.scheduleJobData))
 	       this.tpcBoardService.existsTpcBoardAndDataDiv(
 	        this.tpcBoardFormGroup.controls['tpcBoard'].value,
 	        this.tpcBoardFormGroup.controls['dataDiv'].value

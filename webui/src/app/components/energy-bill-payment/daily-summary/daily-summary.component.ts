@@ -80,7 +80,6 @@ export class DailySummaryComponent implements OnInit{
 	        this.dailySummaryFormGroup.controls['createdDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
-                console.log('dailySummaryFormGroup'+duplicate);
 	          resolve({ 'duplicate': true });
 	        } else {
 	          resolve(null);

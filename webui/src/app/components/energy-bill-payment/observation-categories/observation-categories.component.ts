@@ -44,7 +44,6 @@ export class ObservationCategoriesComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllObservationCategoriesData();
         this.inspectionType();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Categories") ;//p == 0 ? 'No Permission' : p[0].permissionName;

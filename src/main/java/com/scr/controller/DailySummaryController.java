@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -131,8 +130,6 @@ public class DailySummaryController {
 			return dailySummaryService.existsByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));
 		} catch (Exception e) {
 			log.error("Error while checking exists facilityId "+e.getMessage());
-			log.info("existsByFacilityIdAndCreatedDate"+createdDate);
-			log.info("existsByFacilityIdAndCreatedDate"+facilityId);
 			return false;
 		}
 	}

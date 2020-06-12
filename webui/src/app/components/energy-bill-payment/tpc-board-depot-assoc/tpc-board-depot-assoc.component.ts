@@ -69,7 +69,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
 }
 duplicateTpcBoard() {
     const q = new Promise((resolve, reject) => {
-      //console.log(JSON.stringify(this.scheduleJobData))
        this.tpcBoardDepotAssocService.existsTpcBoardAndUnitName(
         this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value,
         this.tpcBoardDepotAssocFormGroup.controls['unitName'].value

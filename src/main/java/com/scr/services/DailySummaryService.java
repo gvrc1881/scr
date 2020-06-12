@@ -3,8 +3,6 @@ package com.scr.services;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
-
-import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.DailyProgressSummery;

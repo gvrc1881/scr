@@ -50,7 +50,7 @@
                                                             <input matInput [matDatepicker]="picker" placeholder="Choose Date" [max]="today"
                                                             [formControl]="dailySummaryFormGroup.controls['createdDate']" required>
                                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                                <mat-datepicker #picker  ></mat-datepicker><!--(yearSeleceted)="close($event)"-->
+                                                                <mat-datepicker #picker  ></mat-datepicker>
                                                                 <mat-error
                                                                 *ngIf="dailySummaryFormGroup.controls['createdDate'].hasError('required') && dailySummaryFormGroup.controls['createdDate'].touched"
                                                                 class="alert alert-danger">Select Date</mat-error>

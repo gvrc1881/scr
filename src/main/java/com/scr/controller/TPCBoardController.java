@@ -123,11 +123,10 @@ public class TPCBoardController {
 			
 		try {
 			log.info("Request for checking exists tpcBoard and dataDiv.");
-			return tpcBoardService.existsByTpcBoardAndDataDiv(tpcBoard,dataDiv);
+			return tpcBoardService.existsByTpcBoardAndDataDiv(tpcBoard,dataDiv);	
 		} catch (Exception e) {
-			log.error("Error while checking exists tpcBoard and dataDiv..."+e.getMessage());
+			log.error("Error while checking exists tpcBoard and unitName..."+e.getMessage());
 			return false;
 		}
 	}
-	
 }

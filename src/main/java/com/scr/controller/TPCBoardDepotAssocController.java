@@ -124,7 +124,8 @@ public class TPCBoardDepotAssocController {
 			
 		try {
 			log.info("Request for checking exists tpcBoard and unitName.");
-			return tpcBoardDepotAssocService.existsByTpcBoardAndUnitName(tpcBoard,unitName);
+			log.info("tpcBoard"+tpcBoard);
+			return tpcBoardDepotAssocService.existsByTpcBoardAndUnitName(tpcBoard,unitName);	
 		} catch (Exception e) {
 			log.error("Error while checking exists tpcBoard and unitName..."+e.getMessage());
 			return false;
