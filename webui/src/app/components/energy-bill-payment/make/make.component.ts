@@ -31,6 +31,7 @@ export class MakeComponent implements OnInit{
     responseStatus: any;
     makeErrors : any;
     saveMake:boolean;
+    value:string;
     pattern = "^[A-Z0-9]+$";
     makeDataSource: MatTableDataSource<MakeModel>;
     makeDisplayColumns = ['sno','makeCode','description','brandName','makeType','id'] ;
@@ -73,7 +74,9 @@ export class MakeComponent implements OnInit{
         });
         
     }
-
+    changeMakeCode($event){
+      $event.taget.value.toUpperCase();
+    }
     makeSubmit(){ 
 
         //let makeName: string=this.makeFormGroup.value.makeName; 
