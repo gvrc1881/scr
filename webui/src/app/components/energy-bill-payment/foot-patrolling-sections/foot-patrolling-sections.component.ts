@@ -81,7 +81,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
       }
       public get f() { return this.fpSectionsItemFormGroup.controls; }
 
-    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    addEvent(event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }
     getAllFootPatrollingSectionsData() {

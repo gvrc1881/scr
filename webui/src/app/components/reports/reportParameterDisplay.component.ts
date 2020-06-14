@@ -50,8 +50,7 @@ export class ReportParameterDisplayComponent implements OnInit {
         private formBuilder: FormBuilder ,
         private previousRouterUrl: PreviousRouteService) { }
      
-    ngOnInit() {    
-      
+    ngOnInit() {        
        let previousUrl = this.previousRouterUrl.getPreviousUrl();
        console.log('previousUrl::::'+previousUrl);
        
@@ -242,6 +241,8 @@ export class ReportParameterDisplayComponent implements OnInit {
              )
        }
         
+       onGoBack(){
+              
+       }
        }
         
-      
