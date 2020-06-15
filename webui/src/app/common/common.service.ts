@@ -69,16 +69,11 @@ export class CommonService {
         } else if (type == 'submenu') {
             if (loggerUser) {
                 let pageRolePermissions = loggerUser.menuPermissionResponses;
-             //   console.log('pageRolePermissions=**** ' + JSON.stringify(pageRolePermissions));
-              /*   console.log('pageRolePermissions= ' + JSON.stringify(pageRolePermissions)); */
                if(pageRolePermissions != null){
                var p= pageRolePermissions.filter(element => {
-                  /*  console.log("sdmgsdgl;;;;") */
                     return element.subMenuName != null && element.subMenuName.toLowerCase() == value.toLowerCase() && element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
                 });
                 }
-              //  console.log("submenu ="+JSON.stringify(p));
-               // return p.length == 0 ? false : true;
                 return p == 0 ? false : true;
             }
         }

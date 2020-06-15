@@ -33,11 +33,11 @@ export class HeaderComponent implements OnInit, DoCheck {
     const path = window.location.pathname;
     this.dashboard = path == '/dashboard' ? false : true;   
     if (!!localStorage.getItem("loggedUser")) {
-      //this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
       this.rolePermission = this.commonService.rolePermission();   
    
     
-    
+    //console.log(JSON.stringify(this.loggedUser.menuPermissionResponses))
     
     this.MenusList = [
       { 
@@ -57,9 +57,11 @@ export class HeaderComponent implements OnInit, DoCheck {
         icon: "fa fa-area-chart",
         color: "#6212EE", 
         permission:this.commonService.findPermission('Reports', 'menu', 'view'),
-        isSelected: true,         
-        //currentTab: !!path && path.includes("reports") ? "open" : "", 
-        currentTab: !!path && (path.includes("reports") || path.includes("daily-progress-reports") || path.includes("asset-reports") || path.includes("asset-master-reports")) ? "open" : "", 
+        isSelected: true,          
+        currentTab: !!path && (path.includes("report-names") || path.includes("daily-progress-reports") || 
+        path.includes("asset-reports") || path.includes("asset-master-reports")) ||
+        path.includes("inventory-reports") || path.includes("psi-reports") ||
+        path.includes("zonal-reports") || path.includes("zonal") ? "open" : "", 
         subMenus: [          
                     { 
             subMenuName: "Daily Progress Reports", 
@@ -67,7 +69,8 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("daily-progress-reports") ? "active-item" : "",
+            permission:this.commonService.findPermission('Daily Progress Reports', 'submenu', 'view'),
+            currentSubMenu: !!path && (path.includes("report-names") || path.includes("daily-progress-reports")) ? "active-item" : "",
           },
           { 
             subMenuName: "Asset Reports", 
@@ -75,6 +78,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
+            permission:this.commonService.findPermission('Asset Reports', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-reports") ? "active-item" : "",
           },
           { 
@@ -83,7 +87,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission:true,
+            permission:this.commonService.findPermission('Asset Master Reports', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-master-reports") ? "active-item" : "",
           },
           { 
@@ -110,7 +114,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color:"#1285EE",
             subMenuIcon:"fa fa-file",
             rolePermission:true,
-            permission:true,
+            permission:this.commonService.findPermission('Zonal Reports', 'submenu', 'view'),
             currentSubMenu:!!path && path.includes("zonal-reports") ? "active-item":"",
 
           },
@@ -120,8 +124,8 @@ export class HeaderComponent implements OnInit, DoCheck {
             color:"#1285EE",
             subMenuIcon:"fa fa-file",
             rolePermission:true,
-            permission:true,
-            currentSubMenu:!!path && path.includes("zonal-reports") ? "active-item":"",
+            permission:this.commonService.findPermission('Zonal', 'submenu', 'view'),
+            currentSubMenu:!!path && path.includes("zonal") ? "active-item":"",
 
           },
         ] 

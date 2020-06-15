@@ -6,7 +6,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Reports</li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/report-names']">Reports</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{breadcrumb}}</li>
                     </ol>
                 </nav>
             </div>

@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class ReportNamesComponent implements OnInit {
 
   reportNamesData: any;
-  
+  reportType:string;
+  breadcrumb:string;
   constructor(
     private reportService: ReportService,   
     private router: Router, 
@@ -19,27 +20,33 @@ export class ReportNamesComponent implements OnInit {
 
   ngOnInit() {   
     console.log(this.router.url);
-    let reportType = '';   
+    this.reportType = '';   
     if(this.router.url == '/report-names'){
-      reportType = 'DailyProgress';  
-      console.log("reportType"+reportType)    
+      this.reportType = 'DailyProgress';   
+      this.breadcrumb = 'Daily Progress Reports';       
     }
     else if(this.router.url == '/asset-reports') {
-      reportType = 'AssetReports';      
+      this.reportType = 'AssetReports';      
+      this.breadcrumb = 'Asset Reports';
     }
     else if(this.router.url == '/inventory-reports') {
-      reportType = 'WHRS_WAREHOUSE';
+      this.reportType = 'WHRS_WAREHOUSE';
+      this.breadcrumb = 'Inventory Reports';
     }
     else if(this.router.url == '/psi-reports'){
-     reportType = 'PSIReports'
+      this.reportType = 'PSIReports';
+      this.breadcrumb = 'PSI Reports';
     }
     else if(this.router.url == '/zonal-reports'){
-      reportType = 'zonal';
+      this.reportType = 'zonal';
+      this.breadcrumb = 'Zonal Reports';
     }
     else if(this.router.url == '/asset-master-reports'){
-      reportType = 'Asset_Master_Reports';
+      this.reportType = 'Asset_Master_Reports';
+      this.breadcrumb = 'Asset Master Reports';
     }
-    this.reportService.reportNames(reportType).subscribe((data)=>{
+    console.log("reportType"+this.reportType)  
+    this.reportService.reportNames(this.reportType).subscribe((data)=>{
       this.reportNamesData =data;
      // console.log(reportType+' = '+JSON.stringify(data))
   })
