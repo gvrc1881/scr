@@ -38,6 +38,7 @@ export class MakeComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    makeResponse:any;
 
     constructor( 
         private formBuilder: FormBuilder,
@@ -97,16 +98,22 @@ export class MakeComponent implements OnInit{
             MakePayload.ADD_PAYLOAD.makeType =makeType;
             console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
             this.makeService.save(MakePayload.ADD_PAYLOAD).subscribe((data)=>{
-              this.spinnerService.hide();
-           this.commonService.showAlertMessage('Successfully saved');
-           
-           this.getAllMakeData();
+              this.makeResponse=data;
+              if(this.makeResponse.code==200 && !!this.makeResponse){
+                this.commonService.showAlertMessage(this.makeResponse.message);
+                this.getAllMakeData();
            this.makeFormGroup.reset();
            this.addMake = false;
-        this.updatedata=true;}
-               
-           )
-       }
+              }
+              else{
+                this.commonService.showAlertMessage("Make data Saving Failed.");
+              }
+            },error => {
+        console.log('ERROR >>>');
+    this.spinnerService.hide();
+    this.commonService.showAlertMessage("Make Data Saving Failed.");
+    })
+  }
        else if (this.title == "Update") {
         
         this.saveMake = false;
@@ -120,20 +127,30 @@ export class MakeComponent implements OnInit{
         console.log("Update Payload =" + JSON.stringify(MakePayload.UPDATE_PAYLOAD))
         this.makeService.update(MakePayload.UPDATE_PAYLOAD)
           .subscribe((data) => {
-            this.commonService.showAlertMessage("Make Updated Successfully");
-            this.title = "Save";
+            this.makeResponse = data;
+            if(this.makeResponse.code==200 && !!this.makeResponse){
+
+              this.commonService.showAlertMessage(this.makeResponse.message);
+           
             this.getAllMakeData();
+            this.makeFormGroup.reset();
+           
+            this.addMake = false;
+            this.title = "Save";
             this.saveMake = false;
             this.updatedata = true;
-            this.addMake = false;
-            this.makeFormGroup.reset();
+            }else {
+              this.commonService.showAlertMessage("Make Data Saving Failed.");
+            }
+           
           }, error => {
-            this.makeErrors = error;
-            this.commonService.showAlertMessage(error.statusText);
+            console.log('ERROR >>>');
             this.spinnerService.hide();
+            this.commonService.showAlertMessage("Make Data Saving Failed.");
           });
       }
     }
+
     getAllMakeData() {
         console.log("get all guidence items");
         const make : MakeModel[] = [];

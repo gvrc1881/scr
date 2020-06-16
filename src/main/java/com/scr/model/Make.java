@@ -172,4 +172,13 @@ public class Make implements Serializable {
 		this.seqId = seqId;
 	}
 
+	@Override
+	public String toString() {
+		return "Make [id=" + id + ", brandName=" + brandName + ", createdBy=" + createdBy + ", createdOn=" + createdOn
+				+ ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv
+				+ ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", makeCode=" + makeCode + ", makeName=" + makeName + ", makeType=" + makeType
+				+ ", seqId=" + seqId + "]";
+	}
+
 }
