@@ -5,7 +5,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
-
+import { getMatFormFieldDuplicatedHintError } from '@angular/material';
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.component.html',
@@ -63,8 +63,9 @@ export class AddDriveComponent implements OnInit {
     this.findFunctionalUnits();
     this.findDepoTypeList();
     this.findStatusItemDetails();
+    this.createDriveForm();
     if (!isNaN(this.id)) {
-      this.updateDriveForm();
+      //this.updateDriveForm();
       this.addDriveFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -74,8 +75,7 @@ export class AddDriveComponent implements OnInit {
       this.title = 'Edit';
       this.getDriveDataById(this.id);
     } else {
-      this.title = 'Save';
-      this.createDriveForm();
+      this.title = 'Save';      
     }
   }
   onFormValuesChanged() {
@@ -129,9 +129,13 @@ export class AddDriveComponent implements OnInit {
     });
   }
   duplicateName() {
+    //this.resp
+    var name =  this.addDriveFormGroup.controls['name'].value
     const q = new Promise((resolve, reject) => {
-      this.drivesService.existsDriveName(
-        this.addDriveFormGroup.controls['name'].value
+      if(name  == this.resp.name){
+        resolve(null);
+      }else{
+      this.drivesService.existsDriveName(name
       ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateName': true });
@@ -139,13 +143,17 @@ export class AddDriveComponent implements OnInit {
           resolve(null);
         }
       }, () => { resolve({ 'duplicateName': true }); });
+    }
     });
     return q;
   }
   duplicateDescription() {
+    var desc = this.addDriveFormGroup.controls['description'].value;
     const q = new Promise((resolve, reject) => {
-      this.drivesService.existsDriveDescription(
-        this.addDriveFormGroup.controls['description'].value
+      if(desc == this.resp.description){
+        resolve(null);
+      }else{
+      this.drivesService.existsDriveDescription(desc
       ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });
@@ -153,12 +161,13 @@ export class AddDriveComponent implements OnInit {
           resolve(null);
         }
       }, () => { resolve({ 'duplicateDescription': true }); });
+    }
     });
     return q;
   }
 
 
-  public get f() { return this.addDriveFormGroup.controls; }
+   public get f() { return this.addDriveFormGroup.controls; } 
 
   findDepoTypeList() {
     this.drivesService.findDepoTypeList()
@@ -198,7 +207,6 @@ export class AddDriveComponent implements OnInit {
       });
     }
   }
-
   getDriveDataById(id) {
     this.drivesService.findDriveDataById(id)
       .subscribe((resp) => {
@@ -219,7 +227,7 @@ export class AddDriveComponent implements OnInit {
           checklist: this.resp.checklist,
           status: this.resp.active
         });
-
+      this.toMinDate = new Date(this.resp.fromDate);
         if (this.resp.depotType != null) {
           this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['depotType']]);
           this.functionalUnitList = [];
