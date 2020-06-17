@@ -67,7 +67,7 @@ export class SchedulerSettingsComponent implements OnInit {
         });
   	
   	console.log(p);*/
-  	var permissionName = this.commonService.getPermissionNameByLoggedData("SCHEDULE SETTINGS","SCHEDULE") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+  	var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","SCHEDULE") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   	console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

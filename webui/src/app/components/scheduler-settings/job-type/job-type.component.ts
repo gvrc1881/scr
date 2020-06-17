@@ -54,7 +54,7 @@ export class JobTypeComponent implements OnInit {
 
   ngOnInit() {
     this.rolePermission = this.commonService.rolePermission();
-    var permissionName = this.commonService.getPermissionNameByLoggedData("SCHEDULE SETTINGS","JOB TYPE") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","JOB TYPE") ;
   		console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

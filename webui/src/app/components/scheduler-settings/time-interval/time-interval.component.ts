@@ -88,7 +88,7 @@ export class TimeIntervalComponent implements OnInit {
 
   ngOnInit() {
     this.rolePermission = this.commonService.rolePermission();
-    var permissionName = this.commonService.getPermissionNameByLoggedData("SCHEDULE SETTINGS","TIME INTERVAL") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","TIME INTERVAL") ;
   		console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
