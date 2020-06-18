@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
 import com.scr.model.DriveCategory;
@@ -987,6 +988,22 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/inspectionsContentById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<List<ContentManagement>> findInspectionsContentDataById(@PathVariable("id") Long id){
+		List<ContentManagement> depOptional= null;
+		try {
+			depOptional = service.findInspectionsContentById(id);
+			if(depOptional != null)
+				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.OK);
+			else
+				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find Inspections Details by id");
+			return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@RequestMapping(value = "/inspectionsById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<CrsEigInspections> findInspectionsDataById(@PathVariable("id") Long id){
 		Optional<CrsEigInspections> depOptional= null;
@@ -1023,33 +1040,32 @@ public class DrivesController {
 	public ResponseStatus deleteFile(@Valid @RequestBody DriveFileDeleteRequest request) throws JSONException {
 		ResponseStatus response = new ResponseStatus();
 		Optional<CrsEigInspections> depOptional= null;
-		Optional<Stipulations> depOptionalStipulations= null;
+		Optional<ContentManagement> depOptionalStipulations= null;
 		try {
 			logger.info("Request Data = "+request.toString());
 			Long id = request.getId();
 			String fileName = request.getFileName();
 			String type = request.getType();
-			logger.info("ID = "+id + " File Name = "+fileName+ " Type = "+type);
-			if(type.equalsIgnoreCase("Stipulation")) {
-				depOptionalStipulations = service.findStipulationsById(id);
-				if(depOptionalStipulations.isPresent()) {
-					Stipulations stipulationsUpdate = depOptionalStipulations.get();
-					logger.info("Sipulattions Data = "+stipulationsUpdate.toString());
-					String[] files = stipulationsUpdate.getAttachment().split(",");
-					StringBuffer sb = new StringBuffer();
-					for(String file : files) {
-						logger.info("File = "+file);
-						if(!file.trim().equalsIgnoreCase(fileName.trim())) {
-							sb.append(file);
-						}
-					}
-					logger.info("After Removing = "+sb.toString());
-					stipulationsUpdate.setAttachment(sb.toString());
-					service.saveStipulationWithDoc(stipulationsUpdate);
+			logger.info("CommonId = "+id + " Row id = "+fileName+ " Type = "+type);
+			//if(type.equalsIgnoreCase("Stipulation")) {
+				depOptionalStipulations = service.findInspectionsContentByIdAndCommon(id, Long.parseLong(fileName));
+				if(depOptionalStipulations != null && depOptionalStipulations.isPresent()) {
+					ContentManagement stipulationsUpdate = depOptionalStipulations.get();
+					stipulationsUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+					service.updatefileStatus(stipulationsUpdate);
+				/*
+				 * logger.info("Sipulattions Data = "+stipulationsUpdate.toString()); String[]
+				 * files = stipulationsUpdate.getAttachment().split(","); StringBuffer sb = new
+				 * StringBuffer(); for(String file : files) { logger.info("File = "+file);
+				 * if(!file.trim().equalsIgnoreCase(fileName.trim())) { sb.append(file); } }
+				 * logger.info("After Removing = "+sb.toString());
+				 * stipulationsUpdate.setAttachment(sb.toString());
+				 * service.saveStipulationWithDoc(stipulationsUpdate);
+				 */
 				}
 				
-			}else if(type.equalsIgnoreCase("Inspection")) {
-				depOptional = service.findInspectionsById(id);
+			/*}else if(type.equalsIgnoreCase("Inspection")) {
+				depOptional = service.fin
 				if(depOptional.isPresent()) {
 					CrsEigInspections update = depOptional.get();
 					logger.info("Inspection Data = "+update.toString());
@@ -1065,7 +1081,7 @@ public class DrivesController {
 					update.setAttachment(sb.toString());
 					service.saveInspectionWithDoc(update);
 				}
-			}
+			}*/
 			return response;
 		} catch (NullPointerException e) {
 			logger.error(e);

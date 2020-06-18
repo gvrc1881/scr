@@ -80,6 +80,9 @@ public class ContentManagement implements Serializable{
 	@Column(name = "docCategory")
 	private String docCategory;
 	
+	@Column(name = "status_id")
+	private Integer statusId;
+	
 	public ContentManagement() {
 		super();		
 	}
@@ -228,6 +231,14 @@ public class ContentManagement implements Serializable{
 
 	public void setDocCategory(String docCategory) {
 		this.docCategory = docCategory;
+	}
+
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 	
 	

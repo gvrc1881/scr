@@ -509,17 +509,17 @@ public class DriveMapper {
 		return electrificationTargets;
 	}
 
-	public Stipulations prepareStipulationsModel(@Valid DriveRequest request, List<MultipartFile> file) {
+	public Stipulations prepareStipulationsModel(@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		Stipulations stipulations = null;
 		if(request != null) {
 			stipulations = new Stipulations();
-			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
+		//	String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
 			stipulations.setInspectionId(request.getInspectionId());
 		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
-		    stipulations.setAttachment(fileList);
+		    stipulations.setAttachment(String.valueOf(commonFileId));
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
 		    stipulations.setCredatedBy(request.getCreatedBy());
@@ -530,15 +530,15 @@ public class DriveMapper {
 		return stipulations;
 	}
 
-	public Stipulations prepareStipulationsUpdataData(Stipulations stipulations, @Valid DriveRequest request, List<MultipartFile> file) {
+	public Stipulations prepareStipulationsUpdataData(Stipulations stipulations, @Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		if(request != null) {
-			String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
+			//String fileList = storeDriveFiles(file, stipulationPath, Constants.STIPULATION);
 			stipulations.setStipulation(request.getStipulation());
 			stipulations.setInspectionId(request.getInspectionId());
 		    stipulations.setDateOfStipulation(request.getDateOfStipulation());
 		    stipulations.setDateComplied(request.getDateComplied());
 		    stipulations.setCompliance(request.getCompliance());
-		    stipulations.setAttachment(fileList);
+		    stipulations.setAttachment(String.valueOf(commonFileId));
 		    stipulations.setCompliedBy(request.getCompliedBy());
 		    
 		    stipulations.setUpdatedBy(request.getUpdatedBy());
@@ -549,11 +549,11 @@ public class DriveMapper {
 		return stipulations;
 	}
 
-	public CrsEigInspections prepareInspectionsModel(@Valid DriveRequest request, List<MultipartFile> file) {
+	public CrsEigInspections prepareInspectionsModel(@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		CrsEigInspections inspections = null;
 		if(request != null) {
 			
-			String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
+			//String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
 			
 			inspections = new CrsEigInspections();
 			
@@ -567,7 +567,7 @@ public class DriveMapper {
 		    inspections.setRemarks(request.getRemarks());
 		    inspections.setAuthorisationDate(request.getAuthorisationDate());
 		    inspections.setChargingDate(request.getChargingDate());
-		    inspections.setAttachment(fileList);
+		    inspections.setAttachment(String.valueOf(commonFileId));
 		    inspections.setStation(request.getStation());
 		    
 		    inspections.setCredatedBy(request.getCreatedBy());
@@ -614,9 +614,9 @@ public class DriveMapper {
 	}
 
 	public CrsEigInspections prepareInspectionsUpdataData(CrsEigInspections inspections,
-			@Valid DriveRequest request, List<MultipartFile> file) {
+			@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		if(request != null) {
-			String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
+			//String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
 			inspections.setInspectionType(request.getInspectionType());
 			inspections.setSection(request.getSection());
 		    inspections.setSectionStartLocation(request.getSectionStartLocation());
@@ -627,7 +627,7 @@ public class DriveMapper {
 		    inspections.setRemarks(request.getRemarks());
 		    inspections.setAuthorisationDate(request.getAuthorisationDate());
 		    inspections.setChargingDate(request.getChargingDate());
-		    inspections.setAttachment(fileList);
+		    inspections.setAttachment(String.valueOf(commonFileId));
 		    inspections.setStation(request.getStation());
 
 		    inspections.setUpdatedBy(request.getUpdatedBy());

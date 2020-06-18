@@ -1,5 +1,6 @@
 package com.scr.repository;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,7 @@ public interface ContentManagementRepository extends JpaRepository<ContentManage
 	List<ContentManagement> findByCommonFileId(Long commonFileId);
 
 	List<ContentManagement> findByCreatedByAndGenOps(Integer createdBy, String GenOps);
+
+	Optional<ContentManagement> findByCommonFileIdAndId(Long commonFileId, Long id);
 
 }

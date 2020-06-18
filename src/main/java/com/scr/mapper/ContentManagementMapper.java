@@ -76,6 +76,7 @@ public class ContentManagementMapper {
 		contentManagement.setMake(make);
 		contentManagement.setModel(model);
 		contentManagement.setDocCategory(docCategory);
+		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
 		try {
 			Path rootLocation = Paths.get(folderPath);
 			Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
@@ -103,6 +104,7 @@ public class ContentManagementMapper {
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setCreatedBy(Integer.parseInt(createdBy));
+		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
 		try {
 			Path rootLocation = Paths.get(folderPath);
 			Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));

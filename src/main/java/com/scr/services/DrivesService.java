@@ -1,5 +1,11 @@
 package com.scr.services;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,11 +14,14 @@ import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
+import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
 import com.scr.model.DriveCategory;
@@ -28,6 +37,7 @@ import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
+import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.DivisionRepository;
 import com.scr.repository.DriveCategoryAssoRepository;
 import com.scr.repository.DriveCategoryRepository;
@@ -42,11 +52,19 @@ import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
+import com.scr.util.Helper;
 
 @Service
 public class DrivesService {
 	
 	static Logger logger = LogManager.getLogger(DrivesService.class);
+	
+	@Value("${stipulation.path}")
+	private String stipulationPath;
+	
+	@Value("${inspection.path}")
+	private String inspectionPath;
+	
 	@Autowired
 	private DriveMapper driveMapper;
 	
@@ -91,6 +109,12 @@ public class DrivesService {
 	
 	@Autowired
 	private InspectionTypeRepository inspectionTypeRepository;
+	
+	@Autowired
+	private ContentManagementRepository repository;
+	
+	@Autowired
+	private ContentManagementMapper mapper;
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -435,15 +459,101 @@ public class DrivesService {
 	}
 	
 	public @Valid boolean saveStipulationsData(@Valid DriveRequest stipulationsRequest, List<MultipartFile> file) {
-		Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest, file);
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+		Long commonFileId = (long) 0.0; 
+		if(fileId == null || fileId.getCommonFileId() == null) {
+			commonFileId = (long) 1;
+		}else {
+			commonFileId = fileId.getCommonFileId()+1;
+		}
+		for(MultipartFile mf: file)
+		{	
+			ContentManagement contentManagement = new ContentManagement();
+			logger.info("filename: "+mf.getOriginalFilename());
+			String changedFileName = Helper.prepareChangeFileName(mf, stipulationsRequest.getStipulation(), stipulationsRequest.getCreatedBy());
+			logger.info("File Saved Successfully with name "+changedFileName);
+			contentManagement = new ContentManagement();
+			contentManagement.setCommonFileId(commonFileId);
+			contentManagement.setDivision("");
+			contentManagement.setFunUnit("");
+			contentManagement.setGenOps("");
+			contentManagement.setTopic("Stipulations");
+			contentManagement.setDescription("");
+			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setCreatedBy(Integer.parseInt(stipulationsRequest.getCreatedBy()));
+			contentManagement.setAssetTypeRlyId("");
+			contentManagement.setMake("");
+			contentManagement.setModel("");
+			contentManagement.setDocCategory("");
+			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
+			try {
+				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			liContentManagements.add(contentManagement);
+		}
+		if(!liContentManagements.isEmpty()) {
+			repository.saveAll(liContentManagements);
+			logger.info("Files Details saved in to Database Successfully.");
+		}
+		Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest, file, commonFileId);
 		stipulations = driveStipulationRepository.save(stipulations);
 		return true;
 	}	
 
 	public String updateStipulationsData(@Valid DriveRequest request, List<MultipartFile> file) {
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+		Long commonFileId = (long) 0.0; 
+		if(fileId == null || fileId.getCommonFileId() == null) {
+			commonFileId = (long) 1;
+		}else {
+			commonFileId = fileId.getCommonFileId()+1;
+		}
+		for(MultipartFile mf: file)
+		{	
+			ContentManagement contentManagement = new ContentManagement();
+			logger.info("filename: "+mf.getOriginalFilename());
+			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			logger.info("File Saved Successfully with name "+changedFileName);
+			contentManagement = new ContentManagement();
+			contentManagement.setCommonFileId(commonFileId);
+			contentManagement.setDivision("");
+			contentManagement.setFunUnit("");
+			contentManagement.setGenOps("");
+			contentManagement.setTopic("Stipulations");
+			contentManagement.setDescription("");
+			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
+			contentManagement.setAssetTypeRlyId("");
+			contentManagement.setMake("");
+			contentManagement.setModel("");
+			contentManagement.setDocCategory("");
+			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
+			try {
+				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			liContentManagements.add(contentManagement);
+		}
+		if(!liContentManagements.isEmpty()) {
+			repository.saveAll(liContentManagements);
+			logger.info("Files Details saved in to Database Successfully.");
+		}
 		Optional<Stipulations> stipulations = driveStipulationRepository.findById(request.getId());
 		if(stipulations.isPresent()) {
-			Stipulations stipulationsUpdate = driveMapper.prepareStipulationsUpdataData(stipulations.get(), request, file);
+			Stipulations stipulationsUpdate = driveMapper.prepareStipulationsUpdataData(stipulations.get(), request, file, commonFileId);
 			stipulationsUpdate = driveStipulationRepository.save(stipulationsUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
@@ -472,15 +582,101 @@ public class DrivesService {
 	}
 
 	public @Valid boolean saveInspectionsData(@Valid DriveRequest request, List<MultipartFile> file) {
-		CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request, file);
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+		Long commonFileId = (long) 0.0; 
+		if(fileId == null || fileId.getCommonFileId() == null) {
+			commonFileId = (long) 1;
+		}else {
+			commonFileId = fileId.getCommonFileId()+1;
+		}
+		for(MultipartFile mf: file)
+		{	
+			ContentManagement contentManagement = new ContentManagement();
+			logger.info("filename: "+mf.getOriginalFilename());
+			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			logger.info("File Saved Successfully with name "+changedFileName);
+			contentManagement = new ContentManagement();
+			contentManagement.setCommonFileId(commonFileId);
+			contentManagement.setDivision("");
+			contentManagement.setFunUnit("");
+			contentManagement.setGenOps("");
+			contentManagement.setTopic("Inspections");
+			contentManagement.setDescription("");
+			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
+			contentManagement.setAssetTypeRlyId("");
+			contentManagement.setMake("");
+			contentManagement.setModel("");
+			contentManagement.setDocCategory("");
+			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
+			try {
+				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			liContentManagements.add(contentManagement);
+		}
+		if(!liContentManagements.isEmpty()) {
+			repository.saveAll(liContentManagements);
+			logger.info("Files Details saved in to Database Successfully.");
+		}
+		CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request, file, commonFileId);
 		inspections = driveInspectionRepository.save(inspections);
 		return true;
 	}	
 
 	public String updateInspectionsData(@Valid DriveRequest request, List<MultipartFile> file) {
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+		Long commonFileId = (long) 0.0; 
+		if(fileId == null || fileId.getCommonFileId() == null) {
+			commonFileId = (long) 1;
+		}else {
+			commonFileId = fileId.getCommonFileId()+1;
+		}
+		for(MultipartFile mf: file)
+		{	
+			ContentManagement contentManagement = new ContentManagement();
+			logger.info("filename: "+mf.getOriginalFilename());
+			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			logger.info("File Saved Successfully with name "+changedFileName);
+			contentManagement = new ContentManagement();
+			contentManagement.setCommonFileId(commonFileId);
+			contentManagement.setDivision("");
+			contentManagement.setFunUnit("");
+			contentManagement.setGenOps("");
+			contentManagement.setTopic("Stipulations");
+			contentManagement.setDescription("");
+			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
+			contentManagement.setAssetTypeRlyId("");
+			contentManagement.setMake("");
+			contentManagement.setModel("");
+			contentManagement.setDocCategory("");
+			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
+			try {
+				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			liContentManagements.add(contentManagement);
+		}
+		if(!liContentManagements.isEmpty()) {
+			repository.saveAll(liContentManagements);
+			logger.info("Files Details saved in to Database Successfully.");
+		}
 		Optional<CrsEigInspections> inspections = driveInspectionRepository.findById(request.getId());
 		if(inspections.isPresent()) {
-			CrsEigInspections inspectionsUpdate = driveMapper.prepareInspectionsUpdataData(inspections.get(), request, file);
+			CrsEigInspections inspectionsUpdate = driveMapper.prepareInspectionsUpdataData(inspections.get(), request, file, commonFileId);
 			inspectionsUpdate = driveInspectionRepository.save(inspectionsUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
@@ -518,6 +714,18 @@ public class DrivesService {
 
 	public List<InspectionType> findAllInspectionType() {
 		return inspectionTypeRepository.findAll();
+	}
+
+	public List<ContentManagement> findInspectionsContentById(Long id) {
+		return repository.findByCommonFileId(id);
+	}
+
+	public Optional<ContentManagement> findInspectionsContentByIdAndCommon(Long commonFileId, Long id) {
+		return repository.findByCommonFileIdAndId(commonFileId, id);
+	}
+
+	public void updatefileStatus(ContentManagement contentUpdate) {
+		repository.save(contentUpdate);
 	}
 
 	
