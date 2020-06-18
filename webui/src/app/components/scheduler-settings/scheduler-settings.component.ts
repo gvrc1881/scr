@@ -43,6 +43,7 @@ export class SchedulerSettingsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) scheduleJobPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+  
   constructor(
     private formBuilder: FormBuilder,
     private scheduleJobService: ScheduleJobService,

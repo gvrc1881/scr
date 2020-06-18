@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   userdata: any;
   loggedUser: any;
   rolePermission: boolean = true;
+  
   constructor(
     private route: Router,
     private commonService: CommonService) {

@@ -50,6 +50,7 @@ export class JobTypeComponent implements OnInit {
     this.jobTypeErrors = {
       jobTypeName: {},
     };
+    
   }
 
   ngOnInit() {

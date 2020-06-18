@@ -59,6 +59,7 @@ export class RepositoryComponent implements OnInit {
       userName: {},
       password: {}
     };
+    
   }
 
   ngOnInit() {

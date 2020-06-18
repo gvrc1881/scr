@@ -82,6 +82,7 @@ export class TimeIntervalComponent implements OnInit {
   ) {
     this.timeIntervalErrors = {      
       startDate: {},
+      
       timeInterval: {},
     };
   }
