@@ -132,7 +132,7 @@ export class AddDriveComponent implements OnInit {
     //this.resp
     var name =  this.addDriveFormGroup.controls['name'].value
     const q = new Promise((resolve, reject) => {
-      if(name  == this.resp.name){
+      if(this.update && name.toUpperCase()  == this.resp.name.toUpperCase()){
         resolve(null);
       }else{
       this.drivesService.existsDriveName(name
@@ -150,7 +150,7 @@ export class AddDriveComponent implements OnInit {
   duplicateDescription() {
     var desc = this.addDriveFormGroup.controls['description'].value;
     const q = new Promise((resolve, reject) => {
-      if(desc == this.resp.description){
+      if(this.update && desc.toUpperCase() == this.resp.description.toUpperCase()){
         resolve(null);
       }else{
       this.drivesService.existsDriveDescription(desc

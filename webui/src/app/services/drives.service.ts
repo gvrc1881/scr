@@ -305,10 +305,10 @@ export class DrivesService {
         return this.http.get<any[]>(environment.apiUrl + '/stipulationFileInfoById/'+id, { headers: this.header });
     }
 
-    deleteFile(id:string,fileName:string, type:string){
+    deleteFile(id:string,rowid:string, type:string){
         var data ={
             "id":id,
-            "fileName":fileName,
+            "fileName":rowid,
             "type":type
         }
         return this.http.post<any[]>(environment.apiUrl + '/deleteFile', data, { headers: this.header });

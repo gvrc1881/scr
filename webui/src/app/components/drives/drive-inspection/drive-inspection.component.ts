@@ -106,16 +106,16 @@ export class DriveInspectionComponent implements OnInit {
       this.filesInfor = response;
       localStorage.setItem('driveFileType', 'inspection');
       localStorage.setItem('driveFileTypeId', id);
-      var data = [];
+     /*  var data = [];
       if (this.filesInfor.attachment != '') {
         data = this.filesInfor.attachment.split(',');
-      }
+      } */
       this.spinnerService.hide();
       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,
         height: '600px',
         width: '80%',
-        data: data,
+        data: this.filesInfor,
       });
     }, error => this.commonService.showAlertMessage(error));
 

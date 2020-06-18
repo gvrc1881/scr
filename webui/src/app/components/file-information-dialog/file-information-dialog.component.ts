@@ -56,9 +56,9 @@ export class FilesInformationDialogComponent implements OnInit {
             if (!!this.response[i]) {
                 divisionHistoryData.push({
                     "sno": i + 1,
-                    "fileName": this.response[i],
+                    "fileName": this.response[i].changedFileName,
                     "type": this.type,
-                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i]
+                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changedFileName
                 });
             }
         }
@@ -72,7 +72,7 @@ export class FilesInformationDialogComponent implements OnInit {
         this.schedulerDataSource.filter = filterValue;
     }
 
-    delete(fileName) {
+    delete(rowid) {
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
         });
@@ -81,7 +81,7 @@ export class FilesInformationDialogComponent implements OnInit {
             if (result) {
                 this.spinnerService.show();
                 var id = localStorage.getItem('driveFileTypeId');
-                this.drivesService.deleteFile(id, fileName, this.type).subscribe(data => {
+                this.drivesService.deleteFile(id, rowid, this.type).subscribe(data => {
                     this.spinnerService.hide();
                     this.commonService.showAlertMessage("Deleted File Successfully");
                     this.updateData(id);

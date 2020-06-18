@@ -54,9 +54,9 @@ export class AddDriveCategoryComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
    
     
-
+    this.createDriveCategoryForm();
     if (!isNaN(this.id)) {
-      this.updateDriveCategoryForm();
+     // this.updateDriveCategoryForm();
       this.addDriveCategoryFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -68,7 +68,6 @@ export class AddDriveCategoryComponent implements OnInit {
 
     } else {
       this.title = 'Save';
-      this.createDriveCategoryForm();
     }
   }
   onFormValuesChanged() {
@@ -108,31 +107,37 @@ export class AddDriveCategoryComponent implements OnInit {
     });
   }
   duplicateName() {
+    var name = this.addDriveCategoryFormGroup.controls['name'].value;
     const q = new Promise((resolve, reject) => {
-      this.drivesService.existsDriveCategoryName(
-        this.addDriveCategoryFormGroup.controls['name'].value
-      ).subscribe((duplicate) => {
+      if(this.update && name.toUppercase() == this.resp.name.toUppercase){
+        resolve(null);        
+      }else{
+      this.drivesService.existsDriveCategoryName(name).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateName': true });
         } else {
           resolve(null);
         }
       }, () => { resolve({ 'duplicateName': true }); });
+    }
     });
     return q;
   }
 
   duplicateDescription() {
+    var desc = this.addDriveCategoryFormGroup.controls['description'].value;
     const q = new Promise((resolve, reject) => {
-      this.drivesService.existsDriveCategoryDescription(
-        this.addDriveCategoryFormGroup.controls['description'].value
-      ).subscribe((duplicate) => {
+      if(this.update && desc.toUppercase() == this.resp.description.toUppercase()){
+        resolve(null);
+      }else{
+      this.drivesService.existsDriveCategoryDescription(desc).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });
         } else {
           resolve(null);
         }
       }, () => { resolve({ 'duplicateDescription': true }); });
+    }
     });
     return q;
   }

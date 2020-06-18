@@ -35,7 +35,8 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Name"
                                                                 [formControl]="addDriveFormGroup.controls['name']"
-                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
+                                                                oninput="this.value = this.value.toUpperCase()">
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('required') && addDriveFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Enter Name</mat-error>
@@ -55,7 +56,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Description"
                                                                 [formControl]="addDriveFormGroup.controls['description']"
-                                                                required
+                                                                required oninput="this.value = this.value.toUpperCase()"
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('required') && addDriveFormGroup.controls['description'].touched"
@@ -236,7 +237,7 @@
                                                             Submit
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
-                                                            color="accent" type="submit"
+                                                            color="accent" type="submit" [disabled]="addDriveFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
                                                             Update
                                                         </button>&nbsp;&nbsp;

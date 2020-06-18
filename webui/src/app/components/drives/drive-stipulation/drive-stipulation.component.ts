@@ -127,17 +127,17 @@ export class DriveStipulationComponent implements OnInit {
     localStorage.setItem('driveFileTypeId', id);
     this.drivesService.findStipulationDataById(id).subscribe((response) => {
       this.filesInfor = response;
-      var data = [];
+      /* var data = [];
       if (this.filesInfor.attachment != '') {
         data = this.filesInfor.attachment.split(',');
         console.log('data= ' + JSON.stringify(data))
-      }
+      } */
       this.spinnerService.hide();
       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,
         height: '600px',
         width: '80%',
-        data: data,
+        data: this.filesInfor,
       });
     }, error => this.commonService.showAlertMessage(error));
 
