@@ -1,0 +1,183 @@
+<div class="content">
+    <div class="">
+      <div class="col-12">
+    <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">FP Inspection</li>
+                </ol>
+            </nav>
+          </div>
+      </div>
+        <div class="clear"></div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Foot Patrolling Inspection  Information</div>
+                    <div class="panel-body">
+                            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                <div class="p-24">
+                                    <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                        <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                                            <span class="mat-raised-button mat-accent" (click)="NewFPInspectionItem()" *ngIf="!addFPInspectionItem"
+                                              color="accent" mat-raised-button="">
+                                               Add Fp Inspection Item
+                                            </span>
+                                        </div>
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addFPInspectionItem" fxLayout="column"
+                                                fxLayoutAlign="start" [formGroup]="fpInspectionItemFormGroup" fxFlex="1 0 auto"
+                                                (ngSubmit)="fpInspectionItemSubmit();">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">{{title}} Foot Patrolling Inspection Item</div>
+                                                    <div class="panel-body">
+                            <div class="col-md-3">
+                              <mat-form-field fxFlex="30" class="example-full-width">
+                                <mat-select placeholder="Select Depot" 
+                                  [formControl]="fpInspectionItemFormGroup.controls['facilityId']" required>
+                                  <mat-option *ngFor="let facilityData of facilityData"
+                                    [value]="facilityData.facilityId">
+                                    {{ facilityData.facilityName }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field fxFlex="30">
+                                <textarea matInput placeholder="inspectionType" [formControl]="fpInspectionItemFormGroup.controls['inspectionType']"></textarea>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field fxFlex="30">
+                                <input matInput placeholder="section" [formControl]="fpInspectionItemFormGroup.controls['section']" />
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                              <mat-form-field fxFlex="30">
+                                <input matInput placeholder="Name" [formControl]="fpInspectionItemFormGroup.controls['inspectionBy']" required/>
+                              </mat-form-field>
+                            </div>
+                           <!-- FROM DATE -->
+                           <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                    [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
+                                    (dateTimeChange)="addEvent($event)" 
+                                    [formControl]="fpInspectionItemFormGroup.controls['startTime']" >                                                                
+                                    <owl-date-time #dt1 [showSecondsTimer]=true
+                                        ></owl-date-time>
+                                    <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+                            </mat-form-field>
+                        </div>
+  
+  
+                        <!-- TO DATE -->
+                        <div class="col-md-3">
+                            <mat-form-field>
+                                <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                    [owlDateTimeTrigger]="dt2" placeholder="Choose TO Date"
+                                   [min]="toMinDate"
+                                    [formControl]="fpInspectionItemFormGroup.controls['stopTime']" >                                                                
+                                    <owl-date-time #dt2 [showSecondsTimer]=true
+                                        ></owl-date-time>
+                                    <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+                            </mat-form-field>
+                        </div>
+                    
+                            <div class="col-md-3 mt-15">
+                              <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                                <button mat-raised-button color="accent" [disabled]="fpInspectionItemFormGroup.invalid"
+                                  class="submit-button" aria-label="Submit">
+                                  {{title}}
+                                </button>
+                              </div>
+                              <div class="p-12 d-inline">
+                                <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                  mat-raised-button="">
+                                  Close
+                                </span>
+                                </div>
+                            </div>
+                            
+                            </div>
+                          </div>
+                    </form>
+                  </div>
+                  <div class="example-header">
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                              <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="mat-elevation-z8">
+                                        <mat-table [dataSource]="fpInspectionItemDataSource" matSort>
+                                            <ng-container matColumnDef="sno">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="facilityId">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.facilityId}}</mat-cell>
+                                            </ng-container>
+                                            
+                                            <ng-container matColumnDef="inspectionType">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Inspection Type</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.inspectionType}}</mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="section">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.section}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="inspectionBy">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.inspectionBy}}</mat-cell>
+                                            </ng-container>
+                      <ng-container matColumnDef="startTime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                        <mat-cell *matCellDef="let row" style="cursor: pointer">
+                          {{row.startTime | date}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="stopTime">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
+                      <mat-cell *matCellDef="let row" style="cursor: pointer">
+                        {{row.stopTime | date}}</mat-cell>
+                  </ng-container>
+                                           
+                                            <ng-container matColumnDef="id">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                                                        (click)="editFPInspectionItem(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                      </a>
+                                                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                                                        (click)="deleteFPInspectionItem(row.id)">
+                                                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                      </button>
+                                                    </mat-cell>
+                                            </ng-container>
+                                            <mat-header-row *matHeaderRowDef="fpInspectionItemDisplayColumns"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: fpInspectionItemDisplayColumns;">
+                                            </mat-row>
+                                        </mat-table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>      
+  
+                
+              
+      
+                  
+                
