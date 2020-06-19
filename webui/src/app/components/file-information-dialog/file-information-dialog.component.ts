@@ -56,9 +56,9 @@ export class FilesInformationDialogComponent implements OnInit {
             if (!!this.response[i]) {
                 divisionHistoryData.push({
                     "sno": i + 1,
-                    "fileName": this.response[i].changedFileName,
+                    "fileName": this.response[i].changeFileName,
                     "type": this.type,
-                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changedFileName
+                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changeFileName
                 });
             }
         }
@@ -97,7 +97,7 @@ export class FilesInformationDialogComponent implements OnInit {
     filesInfor: any;
     updateData(id) {
         if (this.type == 'Stipulation') {
-            this.drivesService.findStipulationDataById(id).subscribe((response) => {
+            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
                 this.filesInfor = response;
                 console.log(JSON.stringify(response));
                 this.response = [];
@@ -112,7 +112,7 @@ export class FilesInformationDialogComponent implements OnInit {
 
             }, error => this.commonService.showAlertMessage(error));
         } else if (this.type == 'Inspection') {
-            this.drivesService.findInspectionsDataById(id).subscribe((response) => {
+            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
                 this.filesInfor = response;
                 console.log(JSON.stringify(response));
                 this.response = [];

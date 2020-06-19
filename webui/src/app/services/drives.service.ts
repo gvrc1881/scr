@@ -295,6 +295,10 @@ export class DrivesService {
     }); 
         return this.http.post(environment.apiUrl + '/updateStipulations', formdata, { headers: header });
     }
+    //
+    findStipulationAndInspectionDataById(id:number){
+        return this.http.get<any[]>(environment.apiUrl + '/inspectionsContentById/'+id, { headers: this.header });
+    }
     findStipulationDataById(id:number){
         return this.http.get<any[]>(environment.apiUrl + '/stipulationsById/'+id, { headers: this.header });
     }
