@@ -720,8 +720,8 @@ public class DrivesService {
 		return repository.findByCommonFileId(id);
 	}
 
-	public Optional<ContentManagement> findInspectionsContentByIdAndCommon(Long commonFileId, Long id) {
-		return repository.findByCommonFileIdAndId(commonFileId, id);
+	public Optional<ContentManagement> findInspectionsContentByIdAndCommon(Long commonFileId, Long Id) {
+		return repository.findByIdAndCommonFileId(Id, commonFileId);
 	}
 
 	public void updatefileStatus(ContentManagement contentUpdate) {

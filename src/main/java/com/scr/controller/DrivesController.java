@@ -1043,12 +1043,12 @@ public class DrivesController {
 		Optional<ContentManagement> depOptionalStipulations= null;
 		try {
 			logger.info("Request Data = "+request.toString());
-			Long id = request.getId();
+			Long Id = request.getId();
 			String fileName = request.getFileName();
 			String type = request.getType();
-			logger.info("CommonId = "+id + " Row id = "+fileName+ " Type = "+type);
+			logger.info("CommonId = "+Id + " Row id = "+fileName+ " Type = "+type);
 			//if(type.equalsIgnoreCase("Stipulation")) {
-				depOptionalStipulations = service.findInspectionsContentByIdAndCommon(id, Long.parseLong(fileName));
+				depOptionalStipulations = service.findInspectionsContentByIdAndCommon(Id, Long.valueOf(fileName));
 				if(depOptionalStipulations != null && depOptionalStipulations.isPresent()) {
 					ContentManagement stipulationsUpdate = depOptionalStipulations.get();
 					stipulationsUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);

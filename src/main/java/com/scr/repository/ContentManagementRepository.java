@@ -26,6 +26,8 @@ public interface ContentManagementRepository extends JpaRepository<ContentManage
 
 	List<ContentManagement> findByCreatedByAndGenOps(Integer createdBy, String GenOps);
 
-	Optional<ContentManagement> findByCommonFileIdAndId(Long commonFileId, Long id);
+	Optional<ContentManagement> findByIdAndCommonFileId(Long Id, Long commonFileId);
+
+	//Optional<ContentManagement> findByIdAndCommonFileId(Long Id, Long commonFileId);
 
 }
