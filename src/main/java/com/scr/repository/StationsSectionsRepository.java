@@ -8,7 +8,8 @@ import com.scr.model.StationsSection;
 @Repository
 public interface StationsSectionsRepository extends JpaRepository<StationsSection, Long> {
 	List<StationsSection> findAll();
-	Boolean existsByStationCodeIgnoreCase(String stationCode);
+	//exist coondition
+	Boolean existsByStationCode(String stationCode);
 
-	Boolean existsByStationNameIgnoreCase(String stationName);
+	Boolean existsByStationName(String stationName);
 }

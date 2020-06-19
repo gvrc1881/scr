@@ -54,13 +54,29 @@ export class ObservationCategoriesComponent implements OnInit{
             id: 0,
             'inspectionType':[null],
             'department':[null,Validators.maxLength(250)],
-            'observationCategory': [null,Validators.maxLength(250)],
+            'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateObservationCategory.bind(this)],
             'description': [null,Validators.maxLength(250)],
             'remark': [null,Validators.maxLength(250)],
             'fromDate' : [null],
             'thruDate' : [null]
         });
     }
+    duplicateObservationCategory() {
+    	const q = new Promise((resolve, reject) => {
+	       this.observationCategoriesService.existsInspectionTypeAndObservationCategory(
+	        this.observationCategoriesFormGroup.controls['inspectionType'].value,
+	        this.observationCategoriesFormGroup.controls['observationCategory'].value
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+              resolve({ 'duplicate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}    
+      public get f() { return this.observationCategoriesFormGroup.controls; }
 
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
@@ -152,12 +168,12 @@ export class ObservationCategoriesComponent implements OnInit{
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });
-        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Observation Categories?";
+        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected observation Categories?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
                 this.observationCategoriesService.deleteObservationCategories(id)
                     .subscribe((data) => {
-                        this.commonService.showAlertMessage('Observation Categories Deleted Successfully');
+                        this.commonService.showAlertMessage('observation Categories Deleted Successfully');
                         this.getAllObservationCategoriesData();
                     },error => {});
             }

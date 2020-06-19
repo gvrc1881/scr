@@ -42,7 +42,6 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllStationsSectionsData();
         this.divisionDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Stations-sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
@@ -51,8 +50,8 @@ export class StationsSectionsComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.stationsSectionsFormGroup = this.formBuilder.group({
             id: 0,
-            'stationCode':[null,Validators.maxLength(250),this.duplicateStationCode.bind(this)],
-            'stationName': [null,Validators.maxLength(250),this.duplicateStationName.bind(this)],
+            'stationCode':[null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationCode.bind(this)],
+            'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationName.bind(this)],
             'majorSectionRoute': [null,Validators.maxLength(250)],
             'upSection': [null,Validators.maxLength(250)],
             'upSectionName' : [null,Validators.maxLength(250)],
@@ -184,12 +183,12 @@ export class StationsSectionsComponent implements OnInit{
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });
-        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected stations Sections?";
+        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the Selected stations Sections?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
                 this.stationsSectionsService.deleteStationSections(id)
                     .subscribe((data) => {
-                        this.commonService.showAlertMessage('Stations Sections Deleted Successfully');
+                        this.commonService.showAlertMessage('Stations sections Deleted Successfully');
                         this.getAllStationsSectionsData();
                     },error => {});
             }

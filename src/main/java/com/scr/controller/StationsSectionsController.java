@@ -58,21 +58,22 @@ public class StationsSectionsController {
 		stationsSectionsService.deleteStationSectionsById(new Long(id));
 		return Helper.findResponseStatus("Stations Section deleted successfully", Constants.SUCCESS_CODE);
 	}
+	
+	
 	@RequestMapping(value = "/existsStationCode/{stationCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsStationCode(@PathVariable("stationCode") String stationCode){
-		logger.info("Enter station Code"+stationCode);
+	public Boolean existsStationCode(@PathVariable("stationCode") String stationCode){		
 		try {
-			return stationsSectionsService.existsByStationCodeIgnoreCase(stationCode);
+			return stationsSectionsService.existsByStationCode(stationCode);
 		} catch (Exception e) {
-			logger.error("Error while checking exists Station Code.");
+			logger.error("Error while checking existsByStationCode.");
 			return false;
 		}
 	}
 	
 	@RequestMapping(value = "/existsStationName/{stationName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsDriveDescription(@PathVariable("stationName") String stationName){	
+	public Boolean existsStationName(@PathVariable("stationName") String stationName){		
 		try {
-			return stationsSectionsService.existsByStationNameIgnoreCase(stationName);
+			return stationsSectionsService.existsByStationName(stationName);
 		} catch (Exception e) {
 			logger.error("Error while checking exists stationName.");
 			return false;

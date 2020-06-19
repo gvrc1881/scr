@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ReportService  } from "src/app/services/report.service";
 import { Router } from '@angular/router';
-//import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-report-names.component',
@@ -19,9 +18,8 @@ export class ReportNamesComponent implements OnInit {
   ) { }
 
   ngOnInit() {   
-    console.log(this.router.url);
     this.reportType = '';   
-    if(this.router.url == '/report-names'){
+    if(this.router.url == '/daily-progress-reports'){
       this.reportType = 'DailyProgress';   
       this.breadcrumb = 'Daily Progress Reports';       
     }

@@ -102,6 +102,11 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/observation-check-list/observation-check-list.module#ObservationCheckListModule',
     canActivate: [AuthGuard]
   },
+ {
+    path: 'foot-patrolling-inspection',
+    loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
+    canActivate: [AuthGuard]
+  },
   {
     path: 'menuMaster',
     loadChildren: './components/masters/menu/main-menu.module#MainMenuModule',
@@ -154,7 +159,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   }, 
   {
-    path: 'report-names',
+    path: 'daily-progress-reports',
     loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
     canActivate: [AuthGuard]
   },

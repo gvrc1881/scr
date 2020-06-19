@@ -3,6 +3,7 @@ package com.scr.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -10,15 +11,15 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-// @Table(name="foot_patrolling_inspection")
 
 @Table(name = "foot_patrolling_inspection" , uniqueConstraints={@UniqueConstraint(name = "old_pk_foot_patrolling_inspection_uniq", columnNames ={"data_div", "seq_id"})})
-//
+
 @NamedQuery(name="FootPatrollingInspection.findAll", query="SELECT f FROM FootPatrollingInspection f")
 public class FootPatrollingInspection implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="created_stamp")
@@ -60,11 +61,13 @@ public class FootPatrollingInspection implements Serializable {
 	@Column(name="seq_id")
 	private String seqId;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="start_time")
-	private Timestamp startTime;
-
+	private Date startTime;
+	
+	@Temporal(TemporalType.DATE)
 	@Column(name="stop_time")
-	private Timestamp stopTime;
+	private Date stopTime;
 
 	public FootPatrollingInspection() {
 	}
@@ -189,20 +192,32 @@ public class FootPatrollingInspection implements Serializable {
 		this.seqId = seqId;
 	}
 
-	public Timestamp getStartTime() {
-		return this.startTime;
+	
+
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setStartTime(Timestamp startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
-	public Timestamp getStopTime() {
-		return this.stopTime;
+	public Date getStopTime() {
+		return stopTime;
 	}
 
-	public void setStopTime(Timestamp stopTime) {
+	public void setStopTime(Date stopTime) {
 		this.stopTime = stopTime;
+	}
+
+	@Override
+	public String toString() {
+		return "FootPatrollingInspection [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", deviceId=" + deviceId + ", deviceSeqId=" + deviceSeqId
+				+ ", facilityId=" + facilityId + ", inspectionBy=" + inspectionBy + ", inspectionType=" + inspectionType
+				+ ", km=" + km + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", location=" + location + ", section=" + section + ", seqId=" + seqId + ", startTime=" + startTime
+				+ ", stopTime=" + stopTime + "]";
 	}
 
 }

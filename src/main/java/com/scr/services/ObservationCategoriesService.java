@@ -33,5 +33,7 @@ public class ObservationCategoriesService {
 		// TODO Auto-generated method stub
 		observationCategoryRepository.deleteById(id);
 	}
-
+	public Boolean existsByInspectionTypeAndObservationCategory(String inspectionType, String observationCategory) {
+		return observationCategoryRepository.existsByInspectionTypeAndObservationCategory(inspectionType,observationCategory);
+	}
 }

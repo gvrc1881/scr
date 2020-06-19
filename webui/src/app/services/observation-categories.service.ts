@@ -27,15 +27,16 @@ export class ObservationCategoriesService {
     findObservationCategoriesById(id: number){
         return this.http.get(this.myAppUrl + "/findObservationCategoriesById/" +id , { headers : this.header });
     }
-
+//update
     updateObservationCategories (model) {
-        console.log('update service:::'+model);
         return this.http.put(this.myAppUrl + "/updateObservationCategories",model,{ headers: this.header});
     }
 
     deleteObservationCategories(id: number) {
         return this.http.delete(this.myAppUrl + "/deleteObservationCategories/" +id ,{headers: this.header});
     }
-
+    existsInspectionTypeAndObservationCategory(inspectionType: string, observationCategory: string) {
+        return this.http.get(this.myAppUrl + '/existsInspectionTypeAndObservationCategory/' + inspectionType+"/"+observationCategory , { headers: this.header });
+    }
 
 }

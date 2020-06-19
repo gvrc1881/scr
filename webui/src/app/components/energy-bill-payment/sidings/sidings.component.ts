@@ -49,19 +49,19 @@ export class SidingsComponent implements OnInit {
  
     ngOnInit()  {
         this.getAllSidingsData();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Sidings") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Sidings") ;
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.sidingsItemFormGroup = this.formBuilder.group({
             id: 0,
-            'station':[null],
+            'station':[null,Validators.maxLength(250)],
             'sidingCode': [null,Validators.required, this.duplicateSidingCode.bind(this)],
-            'section': [null],
+            'section': [null,Validators.maxLength(250)],
             'sectionEletrifiedStatus': [null],
             'sidingEletrifiedStatus' : [null],
-            'privateRailway' : [null],
-            'status': [null],
+            'privateRailway' : [null,Validators.maxLength(250)],
+            'status': [null,Validators.maxLength(250)],
             'tkm' : [null],
             'remarks' : [null, Validators.maxLength(250)],
             'sidingProposed' : [null],

@@ -30,7 +30,11 @@
                                                               
                                                               <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="Station" [formControl]="sidingsItemFormGroup.controls['station']" />
+                                                                    <textarea matInput placeholder="Station" [formControl]="sidingsItemFormGroup.controls['station']"></textarea>
+                                                                    <mat-error 
+                                                                    *ngIf="sidingsItemFormGroup.controls['station'].hasError('maxlength') && sidingsItemFormGroup.controls['station'].touched"
+                                                                     class="alert alert-danger">Max 250 characters only
+                                                                     </mat-error>
                                                                 </mat-form-field>
                                                             </div>
 
@@ -38,18 +42,22 @@
                                                                   <mat-form-field fxFlex="30">
                                                                       <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required/>
                                                                       <mat-error *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('required')">
-                                                                        Enter FP Secion
+                                                                        Enter Fp Secion
                                                                       </mat-error>
                                                                       <mat-error
                                                                 *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('duplicateSidingCode')"
                                                                 class="alert alert-danger">
-                                                                Siding Code Already Exists
+                                                                siding Code Already Exist
                                                             </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" />
+                                                                      <textarea matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" ></textarea>
+                                                                      <mat-error 
+                                                                    *ngIf="sidingsItemFormGroup.controls['section'].hasError('maxlength') && sidingsItemFormGroup.controls['section'].touched"
+                                                                     class="alert alert-danger">Max 250 characters only
+                                                                     </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
@@ -73,12 +81,20 @@
                                                               
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="PrivateRailway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" />
+                                                                      <textarea matInput placeholder="PrivateRailway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" ></textarea>
+                                                                      <mat-error 
+                                                                    *ngIf="sidingsItemFormGroup.controls['privateRailway'].hasError('maxlength') && sidingsItemFormGroup.controls['privateRailway'].touched"
+                                                                     class="alert alert-danger">Max 250 characters only
+                                                                     </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="Status" [formControl]="sidingsItemFormGroup.controls['status']" />
+                                                                      <textarea matInput placeholder="Status" [formControl]="sidingsItemFormGroup.controls['status']" ></textarea>
+                                                                      <mat-error 
+                                                                    *ngIf="sidingsItemFormGroup.controls['status'].hasError('maxlength') && sidingsItemFormGroup.controls['status'].touched"
+                                                                     class="alert alert-danger">Max 250 characters only
+                                                                     </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-2">
@@ -153,7 +169,7 @@
                                                             </div>
                                                               <div class="col-md-3">
                                                                   <mat-form-field>
-                                                                      <input matInput [matDatepicker]="picker3" placeholder="Energised Date" [min]="today" [max]="today"
+                                                                      <input matInput [matDatepicker]="picker3" placeholder="Energised Date"  [max]="today"
                                                                       [formControl]="sidingsItemFormGroup.controls['completionDate']" >
                                                                           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                                                                           <mat-datepicker #picker3  ></mat-datepicker>

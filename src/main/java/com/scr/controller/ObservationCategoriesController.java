@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,4 +116,18 @@ public class ObservationCategoriesController {
 			return Helper.findResponseStatus("observation Category Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
+	
+	@RequestMapping(value = "/existsInspectionTypeAndObservationCategory/{inspectionType}/{observationCategory}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsInspectionTypeAndObservationCategory(@PathVariable("inspectionType") String inspectionType ,@PathVariable("observationCategory") String observationCategory){
+			
+		try {
+			log.info("Request for checking exists inspection Type and observationCategory.");
+			return observationCategoriesService.existsByInspectionTypeAndObservationCategory(inspectionType,observationCategory);	
+		} catch (Exception e) {
+			log.error("Error while checking exists inspectionType and observationCategory..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	
 }
