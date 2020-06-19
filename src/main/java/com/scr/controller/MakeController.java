@@ -116,7 +116,7 @@ public class MakeController {
 }
 	
 	@RequestMapping(value = "/findMakeById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<Make> findMakeById(@PathVariable Long id){
+	public ResponseEntity<Make> findMakeById(@PathVariable("id") Long id){
 
 		Optional<Make> make = null;
 		try {
@@ -126,6 +126,7 @@ public class MakeController {
 			if(make.isPresent()) {
 				logger.info("make Data = "+make.get());
 				return new ResponseEntity<Make>(make.get(), HttpStatus.OK);
+				
 			}
 			else
 				return new ResponseEntity<Make>(make.get(), HttpStatus.CONFLICT);
@@ -149,7 +150,7 @@ public class MakeController {
 	@RequestMapping(value = "/existsMakeCode/{makeCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsMakeCode(@PathVariable("makeCode") String makeCode){		
 		try {
-			return makeService.existsByMakeCode(makeCode);
+			return makeService.existsByMakeCode(makeCode.toUpperCase());
 		} catch (Exception e) {
 			logger.error("Error while checking exists make code.");
 			return false;

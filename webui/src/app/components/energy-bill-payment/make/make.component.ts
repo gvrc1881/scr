@@ -99,6 +99,7 @@ export class MakeComponent implements OnInit{
             console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
             this.makeService.save(MakePayload.ADD_PAYLOAD).subscribe((data)=>{
               this.makeResponse=data;
+              this.spinnerService.hide();
               if(this.makeResponse.code==200 && !!this.makeResponse){
                 this.commonService.showAlertMessage(this.makeResponse.message);
                 this.getAllMakeData();
@@ -128,11 +129,13 @@ export class MakeComponent implements OnInit{
         this.makeService.update(MakePayload.UPDATE_PAYLOAD)
           .subscribe((data) => {
             this.makeResponse = data;
+            this.spinnerService.hide();
             if(this.makeResponse.code==200 && !!this.makeResponse){
 
               this.commonService.showAlertMessage(this.makeResponse.message);
            
             this.getAllMakeData();
+           
             this.makeFormGroup.reset();
            
             this.addMake = false;
@@ -152,7 +155,7 @@ export class MakeComponent implements OnInit{
     }
 
     getAllMakeData() {
-        console.log("get all guidence items");
+        console.log("get all  Make data");
         const make : MakeModel[] = [];
         this.makeService.getAllMake().subscribe((data) => {
             this.makeList = data;
@@ -257,24 +260,25 @@ export class MakeComponent implements OnInit{
           }
         }
       }
-      duplicateMakeName() {
-        const q = new Promise((resolve, reject) => {
+      // duplicateMakeName() {
+      //   const q = new Promise((resolve, reject) => {
         
-          let makeName: string = this.makeFormGroup.controls['makeName'].value;
+      //     let makeName: string = this.makeFormGroup.controls['makeName'].value;
         
          
-          this.makeService.existsMakeName(
-            makeName
-          ).subscribe((duplicate) => {
-            if (duplicate) {
-              resolve({ 'duplicateMakeName': true });
-            } else {
-              resolve(null);
-            }
-          }, () => { resolve({ 'duplicateMakeName': true }); });
-        });
-        return q;
-      }
+      //     this.makeService.existsMakeName(
+      //       makeName
+      //     ).subscribe((duplicate) => {
+      //       if (duplicate) {
+      //         resolve({ 'duplicateMakeName': true });
+      //       } else {
+      //         resolve(null);
+      //       }
+      //     }, () => { resolve({ 'duplicateMakeName': true }); });
+      //   });
+      //   return q;
+      // }
+
       duplicateMakeCode() {
         const q = new Promise((resolve, reject) => {
          
