@@ -30,7 +30,7 @@ public class ContentManagement implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")	 
-	private Long Id;	
+	private Long id;	
 	
 	@Column(name="commonFileId")
 	private Long commonFileId;
@@ -88,11 +88,11 @@ public class ContentManagement implements Serializable{
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		id = id;
 	}
 
 	
