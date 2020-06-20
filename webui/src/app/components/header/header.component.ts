@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   userdata: any;
   loggedUser: any;
   rolePermission: boolean = true;
+  
   constructor(
     private route: Router,
     private commonService: CommonService) {
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit, DoCheck {
       this.rolePermission = this.commonService.rolePermission();   
    
     
+    //console.log(JSON.stringify(this.loggedUser.menuPermissionResponses))
     
     this.MenusList = [
       { 
@@ -129,53 +131,53 @@ export class HeaderComponent implements OnInit, DoCheck {
           },
         ] 
       },
-      { 
-        ID: 3, 
-        menuName: 'Schedule Settings', 
-        menuUrl: 'settings', 
-        icon: "fa fa-cogs", 
-        color: "#1285EE", 
-        permission:this.commonService.findPermission('Schedule Settings', 'menu', 'view'),
-        isSelected: false, 
-        currentTab: !!path && (path.includes("settings") || path.includes("repository") || path.includes("jobType") || path.includes("timeInterval")) ? "open admin-view" : "admin-view", 
-        subMenus: [
-          { 
-            subMenuName: "Schedule", 
-            subMenuURL: "settings", 
-            subMenuIcon: "fa fa-cogs",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Schedule', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("settings") ? "active-item" : "",
-          }, 
-          { 
-            subMenuName: "Repository", 
-            subMenuURL: "repository", 
-            subMenuIcon: "fa fa-bars",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Repository', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("repository") ? "active-item" : "",
-          }, 
-          { 
-            subMenuName: "Job Type", 
-            subMenuURL: "jobType", 
-            subMenuIcon: "fa fa-align-left",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Job Type', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("jobType") ? "active-item" : "",
-          }, 
-          { 
-            subMenuName: "Time Interval", 
-            subMenuURL: "timeInterval", 
-            subMenuIcon: "fa fa-align-left",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Time Interval', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("timeInterval") ? "active-item" : "",
-          }
-        ] 
-      },
-      { 
+      // { 
+      //   ID: 3, 
+      //   menuName: 'Schedule Settings', 
+      //   menuUrl: 'settings', 
+      //   icon: "fa fa-cogs", 
+      //   color: "#1285EE", 
+      //   permission:this.commonService.findPermission('Schedule Settings', 'menu', 'view'),
+      //   isSelected: false, 
+      //   currentTab: !!path && (path.includes("settings") || path.includes("repository") || path.includes("jobType") || path.includes("timeInterval")) ? "open admin-view" : "admin-view", 
+      //   subMenus: [
+      //     { 
+      //       subMenuName: "Schedule", 
+      //       subMenuURL: "settings", 
+      //       subMenuIcon: "fa fa-cogs",
+      //       rolePermission:true,
+      //       permission:this.commonService.findPermission('Schedule', 'submenu', 'view'),
+      //       currentSubMenu: !!path && path.includes("settings") ? "active-item" : "",
+      //     }, 
+      //     { 
+      //       subMenuName: "Repository", 
+      //       subMenuURL: "repository", 
+      //       subMenuIcon: "fa fa-bars",
+      //       rolePermission:true,
+      //       permission:this.commonService.findPermission('Repository', 'submenu', 'view'),
+      //       currentSubMenu: !!path && path.includes("repository") ? "active-item" : "",
+      //     }, 
+      //     { 
+      //       subMenuName: "Job Type", 
+      //       subMenuURL: "jobType", 
+      //       subMenuIcon: "fa fa-align-left",
+      //       rolePermission:true,
+      //       permission:this.commonService.findPermission('Job Type', 'submenu', 'view'),
+      //       currentSubMenu: !!path && path.includes("jobType") ? "active-item" : "",
+      //     }, 
+      //     { 
+      //       subMenuName: "Time Interval", 
+      //       subMenuURL: "timeInterval", 
+      //       subMenuIcon: "fa fa-align-left",
+      //       rolePermission:true,
+      //       permission:this.commonService.findPermission('Time Interval', 'submenu', 'view'),
+      //       currentSubMenu: !!path && path.includes("timeInterval") ? "active-item" : "",
+      //     }
+      //   ] 
+      // },
+       { 
         ID: 4, 
-        menuName: 'Schedule Tracking', 
+        menuName: 'Jobs Tracking', 
         menuUrl: 'schedule', 
         icon: "fa fa-briefcase", 
         color: "#6212EE",
@@ -216,7 +218,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#85929E", 
         isSelected: false, 
         permission:this.commonService.findPermission('Masters', 'menu', 'view'),
-        currentTab: !!path && (path.includes("masters") || path.includes("roles") || path.includes("rolePermissions") || path.includes("users") || path.includes("department")) ? "open" : "", 
+        currentTab: !!path && (path.includes("masters") || path.includes("roles") || path.includes("rolePermissions") || path.includes("users") || path.includes("department")||path.includes("settings") || path.includes("repository") || path.includes("jobType") || path.includes("timeInterval")) ? "open" : "", 
         subMenus: [
           { 
             subMenuName: "Roles", 
@@ -249,7 +251,40 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('Users', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("users") ? "active-item" : "",
+          },
+          { 
+            subMenuName: "Schedule", 
+            subMenuURL: "settings", 
+            subMenuIcon: "fa fa-cogs",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Schedule', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("settings") ? "active-item" : "",
+          }, 
+          { 
+            subMenuName: "Repository", 
+            subMenuURL: "repository", 
+            subMenuIcon: "fa fa-bars",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Repository', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("repository") ? "active-item" : "",
+          }, 
+          { 
+            subMenuName: "Job Type", 
+            subMenuURL: "jobType", 
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Job Type', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("jobType") ? "active-item" : "",
+          }, 
+          { 
+            subMenuName: "Time Interval", 
+            subMenuURL: "timeInterval", 
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Time Interval', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("timeInterval") ? "active-item" : "",
           }
+      
         ] 
       },
       { 
@@ -260,8 +295,8 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
-        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("sidings") || path.includes("tractionEneTariff") || path.includes("track")) 
-        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
+        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("sidings") || path.includes("asset-master-data") || path.includes("tractionEneTariff") || path.includes("track")) 
+        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")|| path.includes("make")?  "open" : "",  
         subMenus: [
           {
             subMenuName: "Guidance",
@@ -395,7 +430,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('FP Inspection', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("foot-patrolling-inspection") ? "active-item" : "",
-          },
+          },          
           {
             subMenuName: "Make",
             subMenuURL: "make",
@@ -408,7 +443,7 @@ export class HeaderComponent implements OnInit, DoCheck {
       },
       { 
         ID: 7,
-        menuName: 'Content Management', 
+        menuName: 'Docs', 
         menuUrl: 'contentManagement', 
         icon: "fa fa-file",
         color: "#12E1EE", 
@@ -616,6 +651,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         ]
       }
     ];
+ //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);
   }
    this.loginValidate = this.commonService.loginValidate(window.location.pathname);
