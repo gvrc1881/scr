@@ -33,8 +33,8 @@
 
                                     <ng-container matColumnDef="fileName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>File Name
-                                        </mat-header-cell> <!--href="{{row.path}}"-->
-                                        <mat-cell *matCellDef="let row" style="cursor: pointer;">  <a target="_blank" href="{{row.type}}/{{row.fileName}}">{{row.fileName}}</a> 
+                                        </mat-header-cell> 
+                                        <mat-cell *matCellDef="let row" style="cursor: pointer;">  <a target="_blank" (click)="downloadFile(row.type, row.fileName)">{{row.fileName}}</a> 
                                             
                                         </mat-cell>
                                     </ng-container>

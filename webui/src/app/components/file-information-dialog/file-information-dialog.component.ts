@@ -4,7 +4,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-
+import { environment } from '../../../environments/environment';
 @Component({
     selector: 'file-information-dialog',
     templateUrl: './file-information-dialog.component.html',
@@ -14,6 +14,7 @@ export class FilesInformationDialogComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     public response: any = [];
     type: string;
+    url:string;
     schedulerDisplayedColumns = ['sno', 'fileName', 'actions'];
     schedulerDataSource: MatTableDataSource<any>;
     @ViewChild(MatPaginator, { static: true }) schedulerPaginator: MatPaginator;
@@ -34,20 +35,25 @@ export class FilesInformationDialogComponent implements OnInit {
     ngOnInit() {
         //localStorage.setItem('driveFileType','INSPECTION');
         this.type = localStorage.getItem("driveFileType");
+        if(this.type == 'inspection'){
+            this.url = environment.inspectionUrl;
+        }else{
+            this.url = environment.stipulationUrl;
+        }
         this.prepareTable();
     }
     downloadFile(path, fileName) {
         console.log(path + " = " + fileName)
-        /*  const link = document.createElement('a');
+          const link = document.createElement('a');
          link.setAttribute('target', '_blank');
          link.setAttribute('href', path);
          link.setAttribute('download', fileName);
          document.body.appendChild(link);
-         link.click(); */
+         link.click(); 
         //link.remove();
-        this.drivesService.downloadDriveFile(this.type, fileName).subscribe((response) => {
+        /* this.drivesService.downloadDriveFile(this.type, fileName).subscribe((response) => {
             console.log(JSON.stringify(response));
-        }, error => this.commonService.showAlertMessage(error));
+        }, error => this.commonService.showAlertMessage(error)); */
     }
     prepareTable() {
         const divisionHistoryData = [];
@@ -57,7 +63,7 @@ export class FilesInformationDialogComponent implements OnInit {
                 divisionHistoryData.push({
                     "sno": i + 1,
                     "fileName": this.response[i].changeFileName,
-                    "type": 'D:/SCR/'+this.type,
+                    "type": this.url + this.type+'/'+this.response[i].changeFileName,
                     "rowid":this.response[i].id,
                     "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changeFileName
                 });
