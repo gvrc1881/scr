@@ -80,6 +80,9 @@ public class ContentManagement implements Serializable{
 	@Column(name = "docCategory")
 	private String docCategory;
 	
+	@Column(name="fileSize")
+	private String fileSize;
+	
 	@Column(name = "status_id")
 	private Integer statusId;
 	
@@ -231,6 +234,14 @@ public class ContentManagement implements Serializable{
 
 	public void setDocCategory(String docCategory) {
 		this.docCategory = docCategory;
+	}
+
+	public String getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
 	}
 
 	public Integer getStatusId() {

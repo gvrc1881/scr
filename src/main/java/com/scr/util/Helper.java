@@ -53,7 +53,7 @@ public class Helper {
 	
 	public static Timestamp convertStringToTimestamp(String dateString) {
 		logger.info("Input : " + dateString.toString());
-		if (dateString != null && !dateString.trim().equalsIgnoreCase("null")) {
+		if (dateString != null && !dateString.isEmpty() && !dateString.trim().equalsIgnoreCase("null")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 			@SuppressWarnings("deprecation")
 			Date date = new Date(dateString);

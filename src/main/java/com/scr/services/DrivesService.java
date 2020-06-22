@@ -482,6 +482,13 @@ public class DrivesService {
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 			contentManagement.setChangeFileName(changedFileName);
+			double bytes = mf.getSize();
+			logger.info("bytes = "+bytes);
+			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+			logger.info("KB = "+kilobytes);
+			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+			logger.info("mega bytes = "+megabytes);
+			contentManagement.setFileSize(kilobytes+" KB");
 			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setCreatedBy(Integer.parseInt(stipulationsRequest.getCreatedBy()));
@@ -508,19 +515,29 @@ public class DrivesService {
 	}	
 
 	public String updateStipulationsData(@Valid DriveRequest request, List<MultipartFile> file) {
+	Long commonFileId = (long) 0.0; 
+		if(file != null && file.size() > 0) {
+			logger.info("file ");
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
-		Long commonFileId = (long) 0.0; 
-		if(fileId == null || fileId.getCommonFileId() == null) {
-			commonFileId = (long) 1;
+		logger.info("commonfifle "+request.getAttachment());
+		if(request.getAttachment() == null || request.getAttachment().equalsIgnoreCase("undefined") || Long.parseLong(request.getAttachment()) ==0.0 ) {
+			
+			ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();		
+			if(fileId == null || fileId.getCommonFileId() == null) {
+				commonFileId = (long) 1;
+			}else {
+				commonFileId = fileId.getCommonFileId()+1;
+			}
 		}else {
-			commonFileId = fileId.getCommonFileId()+1;
+			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
 		}
+		logger.info("find file = "+commonFileId);
+		
 		for(MultipartFile mf: file)
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getUpdatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -531,16 +548,23 @@ public class DrivesService {
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 			contentManagement.setChangeFileName(changedFileName);
-			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			double bytes = mf.getSize();
+			logger.info("bytes = "+bytes);
+			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+			logger.info("KB = "+kilobytes);
+			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+			logger.info("mega bytes = "+megabytes);
+			contentManagement.setFileSize(kilobytes+" KB");
+			//contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
+			contentManagement.setModifiedBy(Integer.parseInt(request.getUpdatedBy()));
 			contentManagement.setAssetTypeRlyId("");
 			contentManagement.setMake("");
 			contentManagement.setModel("");
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
 			try {
-				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
+				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
 				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -551,6 +575,12 @@ public class DrivesService {
 			repository.saveAll(liContentManagements);
 			logger.info("Files Details saved in to Database Successfully.");
 		}
+		}else {
+			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
+			logger.info("find file = "+commonFileId);
+		}
+		
+		logger.info("find the existing inspection by id : "+commonFileId);
 		Optional<Stipulations> stipulations = driveStipulationRepository.findById(request.getId());
 		if(stipulations.isPresent()) {
 			Stipulations stipulationsUpdate = driveMapper.prepareStipulationsUpdataData(stipulations.get(), request, file, commonFileId);
@@ -605,6 +635,13 @@ public class DrivesService {
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 			contentManagement.setChangeFileName(changedFileName);
+			double bytes = mf.getSize();
+			logger.info("bytes = "+bytes);
+			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+			logger.info("KB = "+kilobytes);
+			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+			logger.info("mega bytes = "+megabytes);
+			contentManagement.setFileSize(kilobytes+" KB");
 			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
@@ -631,19 +668,29 @@ public class DrivesService {
 	}	
 
 	public String updateInspectionsData(@Valid DriveRequest request, List<MultipartFile> file) {
-		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
 		Long commonFileId = (long) 0.0; 
-		if(fileId == null || fileId.getCommonFileId() == null) {
-			commonFileId = (long) 1;
+		if(file != null && file.size() > 0) {
+			logger.info("file ");
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+		logger.info("commonfifle "+request.getAttachment());
+		if(request.getAttachment() == null || Long.parseLong(request.getAttachment()) ==0.0 ) {
+			
+			ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();		
+			if(fileId == null || fileId.getCommonFileId() == null) {
+				commonFileId = (long) 1;
+			}else {
+				commonFileId = fileId.getCommonFileId()+1;
+			}
 		}else {
-			commonFileId = fileId.getCommonFileId()+1;
+			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
 		}
+		logger.info("find file = "+commonFileId);
+		
 		for(MultipartFile mf: file)
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, request.getInspectionType(), request.getUpdatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -654,9 +701,16 @@ public class DrivesService {
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 			contentManagement.setChangeFileName(changedFileName);
-			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			double bytes = mf.getSize();
+			logger.info("bytes = "+bytes);
+			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+			logger.info("KB = "+kilobytes);
+			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+			logger.info("mega bytes = "+megabytes);
+			contentManagement.setFileSize(kilobytes+" KB");
+			//contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
+			contentManagement.setModifiedBy(Integer.parseInt(request.getUpdatedBy()));
 			contentManagement.setAssetTypeRlyId("");
 			contentManagement.setMake("");
 			contentManagement.setModel("");
@@ -674,6 +728,12 @@ public class DrivesService {
 			repository.saveAll(liContentManagements);
 			logger.info("Files Details saved in to Database Successfully.");
 		}
+		}else {
+			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
+			logger.info("find file = "+commonFileId);
+		}
+		
+		logger.info("find the existing inspection by id : "+commonFileId);
 		Optional<CrsEigInspections> inspections = driveInspectionRepository.findById(request.getId());
 		if(inspections.isPresent()) {
 			CrsEigInspections inspectionsUpdate = driveMapper.prepareInspectionsUpdataData(inspections.get(), request, file, commonFileId);
@@ -716,8 +776,8 @@ public class DrivesService {
 		return inspectionTypeRepository.findAll();
 	}
 
-	public List<ContentManagement> findInspectionsContentById(Long id) {
-		return repository.findByCommonFileId(id);
+	public List<ContentManagement> findInspectionsContentById(Long commonFileId) {
+		return repository.findByCommonFileIdAndStatusId(commonFileId, Constants.ACTIVE_STATUS_ID);
 	}
 
 	public Optional<ContentManagement> findInspectionsContentByIdAndCommon(Long commonFileId, Long Id) {

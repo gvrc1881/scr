@@ -616,7 +616,6 @@ public class DriveMapper {
 	public CrsEigInspections prepareInspectionsUpdataData(CrsEigInspections inspections,
 			@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		if(request != null) {
-			//String fileList = storeDriveFiles(file, inspectionPath, Constants.INSPECTION);
 			inspections.setInspectionType(request.getInspectionType());
 			inspections.setSection(request.getSection());
 		    inspections.setSectionStartLocation(request.getSectionStartLocation());

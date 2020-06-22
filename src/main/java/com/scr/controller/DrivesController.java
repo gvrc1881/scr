@@ -798,7 +798,8 @@ public class DrivesController {
 			@RequestParam("compliance") String compliance,
 			@RequestParam("compliedBy") String compliedBy,
 			@RequestParam("updatedBy") String updatedBy,
-			@RequestParam("updatedOn") String updatedOn) {
+			@RequestParam("updatedOn") String updatedOn,
+			@RequestParam("attachment") String attachment) {
 		try {
 			logger.info("dateOfStipulation= "+dateOfStipulation);
 			DriveRequest stipulationsRequest = new DriveRequest();
@@ -810,7 +811,8 @@ public class DrivesController {
 			stipulationsRequest.setCompliance(compliance);
 			stipulationsRequest.setCompliedBy(compliedBy);
 			stipulationsRequest.setUpdatedBy(updatedBy);
-			
+			stipulationsRequest.setAttachment(attachment);
+			logger.info("updatedBy = "+updatedBy);
 			String status = service.updateStipulationsData(stipulationsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 				return Helper.findResponseStatus("Stipulations Data Updated Successfully", Constants.SUCCESS_CODE);
@@ -942,7 +944,8 @@ public class DrivesController {
 			@RequestParam("chargingDate") String chargingDate,
 			@RequestParam("station") String station,
 			@RequestParam("updatedBy") String updatedBy,
-			@RequestParam("updatedOn") String updatedOn) {
+			@RequestParam("updatedOn") String updatedOn,
+			@RequestParam("attachment") String attachment) {
 		try {
 			logger.info("Update Inspection");
 			DriveRequest inspectionsRequest = new DriveRequest();
@@ -959,7 +962,8 @@ public class DrivesController {
 			inspectionsRequest.setChargingDate(Helper.convertStringToTimestamp(chargingDate));
 			inspectionsRequest.setStation(station);
 			inspectionsRequest.setUpdatedBy(updatedBy);
-			
+			inspectionsRequest.setAttachment(attachment);
+			logger.info("calling update inspection");
 			String status = service.updateInspectionsData(inspectionsRequest, file);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 				return Helper.findResponseStatus("Inspections Data Updated Successfully", Constants.SUCCESS_CODE);
@@ -989,17 +993,18 @@ public class DrivesController {
 	}
 	
 	@RequestMapping(value = "/inspectionsContentById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public ResponseEntity<List<ContentManagement>> findInspectionsContentDataById(@PathVariable("id") Long id){
+	public ResponseEntity<List<ContentManagement>> findInspectionsContentDataById(@PathVariable("id") Long commonFileId){
 		List<ContentManagement> depOptional= null;
 		try {
-			depOptional = service.findInspectionsContentById(id);
+			logger.info("common fileid = "+commonFileId);
+			depOptional = service.findInspectionsContentById(commonFileId);
 			if(depOptional != null)
 				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.OK);
 			else
 				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.CONFLICT);
 				
 		} catch (Exception e) {
-			logger.error("Error while find Inspections Details by id");
+			logger.error("Error while finding the Content Management Files by id "+e.getMessage());
 			return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -28,6 +28,8 @@ public interface ContentManagementRepository extends JpaRepository<ContentManage
 
 	Optional<ContentManagement> findByIdAndCommonFileId(Long Id, Long commonFileId);
 
+	List<ContentManagement> findByCommonFileIdAndStatusId(Long commonFileId, Integer statusId);
+
 	//Optional<ContentManagement> findByIdAndCommonFileId(Long Id, Long commonFileId);
 
 }

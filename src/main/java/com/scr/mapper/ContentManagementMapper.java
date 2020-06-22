@@ -67,7 +67,11 @@ public class ContentManagementMapper {
 		contentManagement.setGenOps(genOps);
 		contentManagement.setTopic("Indents");
 		contentManagement.setDescription(description);
-		contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+		contentManagement.setOriginalFileName(mf.getOriginalFilename());
+		double bytes = mf.getSize();
+		double kilobytes = (bytes / 1024);
+		double megabytes = (kilobytes / 1024);
+		contentManagement.setFileSize(megabytes+" MB");
 		contentManagement.setChangeFileName(changedFileName);
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
