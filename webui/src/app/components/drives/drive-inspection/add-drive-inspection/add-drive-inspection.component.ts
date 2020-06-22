@@ -5,6 +5,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { MatDialogRef, MatDialog } from '@angular/material';
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
@@ -26,6 +28,8 @@ export class AddDriveInspectionComponent implements OnInit {
   inspectionFormErrors:any;
   stateList: any;
   inspectionTypeList:any;
+  attachedImages:any;
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
     private drivesService: DrivesService,
@@ -33,6 +37,7 @@ export class AddDriveInspectionComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
   ) { 
      this.inspectionFormErrors = {
       inspectionType:{},
@@ -107,11 +112,32 @@ export class AddDriveInspectionComponent implements OnInit {
         station: this.resp.station,
       });
       console.log(this.resp.attachment);
-      var images = !!this.resp.attachment && this.resp.attachment.split(',');
-      console.log(images)
+      var commonId = !!this.resp.attachment && this.resp.attachment;
+      console.log(commonId)
       this.spinnerService.hide();
+      this.findAttachedFiles(commonId);
     })
   }
+  findAttachedFiles(commonId){
+    this.drivesService.findStipulationAndInspectionDataById(commonId)
+    .subscribe((resp) => {
+      console.log("files : "+JSON.stringify(resp));  
+      this.attachedImages = resp;
+     // this.attachedImages.filter(ime =>{
+      //  var f = new File([""], ime.originalFileName);
+      //  f.size = ime.fileSize;
+       /*  this.addDriveInspectionFormGroup.patchValue({
+          attachment: ime.originalFileName
+        }); */
+      //  this.filesExists = true;
+        
+       // this.selectedFiles.push(f);
+      //});
+      //var f = new File([""], "filename");    
+      //this.selectedFiles.push(
+    })
+  }
+
   public get f() { return this.addDriveInspectionFormGroup.controls; }
   onFormValuesChanged() {
     for (const field in this.inspectionFormErrors) {
@@ -146,7 +172,6 @@ export class AddDriveInspectionComponent implements OnInit {
       });
   }
   onAddInspectionsFormSubmit() {
-
     if (this.addDriveInspectionFormGroup.invalid) {
       this.isSubmit = false;
       return;
@@ -195,7 +220,7 @@ export class AddDriveInspectionComponent implements OnInit {
         remarks: this.addDriveInspectionFormGroup.value.remarks,
         authorisationDate: this.addDriveInspectionFormGroup.value.authorisationDate,
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
-        attachment: this.addDriveInspectionFormGroup.value.attachment,
+        attachment: this.resp.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
         "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
@@ -228,6 +253,31 @@ export class AddDriveInspectionComponent implements OnInit {
   }
   removeFile(id) {
     this.selectedFiles.splice(id, 1);
+  }
+  removeEditFile(commonFileid, rowid){
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+  });
+  this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+  this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('result : '+result)
+        //  this.spinnerService.show();
+          var id = localStorage.getItem('driveFileTypeId');
+          this.drivesService.deleteFile(commonFileid, rowid, 'Inspection').subscribe(data => {
+             // this.spinnerService.hide();
+              this.commonService.showAlertMessage("Deleted File Successfully");
+             // this.updateData(id);
+             this.findAttachedFiles(commonFileid);
+          }, error => {
+              console.log('ERROR >>>');
+              //this.spinnerService.hide();
+              this.commonService.showAlertMessage("File Deletion Failed.");
+          })
+           this.confirmDialogRef = null;
+      }
+     
+  });
   }
   
 }

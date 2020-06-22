@@ -57,7 +57,8 @@ export class FilesInformationDialogComponent implements OnInit {
                 divisionHistoryData.push({
                     "sno": i + 1,
                     "fileName": this.response[i].changeFileName,
-                    "type": this.type,
+                    "type": 'D:/SCR/'+this.type,
+                    "rowid":this.response[i].id,
                     "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changeFileName
                 });
             }
@@ -71,7 +72,6 @@ export class FilesInformationDialogComponent implements OnInit {
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.schedulerDataSource.filter = filterValue;
     }
-
     delete(rowid) {
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
@@ -81,6 +81,7 @@ export class FilesInformationDialogComponent implements OnInit {
             if (result) {
                 this.spinnerService.show();
                 var id = localStorage.getItem('driveFileTypeId');
+                console.log("common id = "+id+" row id="+rowid)
                 this.drivesService.deleteFile(id, rowid, this.type).subscribe(data => {
                     this.spinnerService.hide();
                     this.commonService.showAlertMessage("Deleted File Successfully");
@@ -96,7 +97,22 @@ export class FilesInformationDialogComponent implements OnInit {
     }
     filesInfor: any;
     updateData(id) {
-        if (this.type == 'Stipulation') {
+       // if (this.type == 'Stipulation') {
+            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
+                this.filesInfor = response;
+                console.log(JSON.stringify(response));
+                this.response = response;
+                this.spinnerService.hide();
+                this.prepareTable();
+                /* if (this.filesInfor.attachment != '') {
+                    var data = this.filesInfor.attachment.split(',');
+                    console.log('data= ' + JSON.stringify(data))
+                    this.spinnerService.hide();
+                    this.response = data;
+                    this.prepareTable();
+                } */
+            }, error => this.commonService.showAlertMessage(error));
+        /* } else if (this.type == 'Inspection') {
             this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
                 this.filesInfor = response;
                 console.log(JSON.stringify(response));
@@ -106,25 +122,10 @@ export class FilesInformationDialogComponent implements OnInit {
                     console.log('data= ' + JSON.stringify(data))
                     this.spinnerService.hide();
                     this.response = data;
-
-                }
-                this.prepareTable();
-
-            }, error => this.commonService.showAlertMessage(error));
-        } else if (this.type == 'Inspection') {
-            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
-                this.filesInfor = response;
-                console.log(JSON.stringify(response));
-                this.response = [];
-                if (this.filesInfor.attachment != '') {
-                    var data = this.filesInfor.attachment.split(',');
-                    console.log('data= ' + JSON.stringify(data))
-                    this.spinnerService.hide();
-                    this.response = data;
                 }
                 this.prepareTable();
             }, error => this.commonService.showAlertMessage(error));
-        }
+        } */
     }
 
 }

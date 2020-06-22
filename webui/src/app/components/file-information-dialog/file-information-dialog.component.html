@@ -34,7 +34,7 @@
                                     <ng-container matColumnDef="fileName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>File Name
                                         </mat-header-cell> <!--href="{{row.path}}"-->
-                                        <mat-cell *matCellDef="let row" style="cursor: pointer;">  <a target="_blank" href="http://localhost:9090/scr/api/driveFiles/{{row.type}}/{{row.fileName}}">  {{row.fileName}}</a> 
+                                        <mat-cell *matCellDef="let row" style="cursor: pointer;">  <a target="_blank" href="{{row.type}}/{{row.fileName}}">{{row.fileName}}</a> 
                                             
                                         </mat-cell>
                                     </ng-container>
@@ -43,7 +43,7 @@
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
                                            <button mat-icon-button matTooltip="Delete"
-                                                (click)="delete(row.id)"
+                                                (click)="delete(row.rowid)"
                                                 > <!--*ngIf="rolePermission && (userdata.email != row.email ) && deletePermission"-->
                                                 <mat-icon style="color: rgb(161, 56, 48);">delete</mat-icon>
                                             </button>

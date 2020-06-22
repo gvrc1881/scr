@@ -4,8 +4,9 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDatepickerInputEvent } from '@angular/material';
+import { MatDatepickerInputEvent, MatDialogRef, MatDialog } from '@angular/material';
 import { Constants } from 'src/app/common/constants';
+import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-add-drive-stipulation',
@@ -28,6 +29,8 @@ export class AddDriveStipulationComponent implements OnInit {
   stateList: any;
   assertTypeList: any;
   minDateComplied = new Date();
+  attachedImages:any;
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
     private drivesService: DrivesService,
@@ -35,6 +38,7 @@ export class AddDriveStipulationComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
   ) {
     // Reactive form errors
     this.stipulationFormErrors = {
@@ -95,8 +99,21 @@ export class AddDriveStipulationComponent implements OnInit {
           compliance: this.resp.compliance,
           compliedBy: this.resp.compliedBy,
         });
+        this.minDateComplied =  new Date(this.resp.dateOfStipulation);
+        console.log(this.resp.attachment);
+        var commonId = !!this.resp.attachment && this.resp.attachment;
+        console.log(commonId)
         this.spinnerService.hide();
+        this.findAttachedFiles(commonId);
       })
+  }
+
+  findAttachedFiles(commonId){
+    this.drivesService.findStipulationAndInspectionDataById(commonId)
+    .subscribe((resp) => {
+      console.log("files : "+JSON.stringify(resp));  
+      this.attachedImages = resp;
+    })
   }
 
 
@@ -172,6 +189,7 @@ export class AddDriveStipulationComponent implements OnInit {
         dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
+        attachment: this.resp.attachment,
         "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
@@ -203,5 +221,31 @@ export class AddDriveStipulationComponent implements OnInit {
   }
   removeFile(id) {
     this.selectedFiles.splice(id, 1);
+  }
+
+  removeEditFile(commonFileid, rowid){
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+  });
+  this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+  this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('result : '+result)
+        //  this.spinnerService.show();
+          var id = localStorage.getItem('driveFileTypeId');
+          this.drivesService.deleteFile(commonFileid, rowid, 'Inspection').subscribe(data => {
+             // this.spinnerService.hide();
+              this.commonService.showAlertMessage("Deleted File Successfully");
+             // this.updateData(id);
+             this.findAttachedFiles(commonFileid);
+          }, error => {
+              console.log('ERROR >>>');
+              //this.spinnerService.hide();
+              this.commonService.showAlertMessage("File Deletion Failed.");
+          })
+           this.confirmDialogRef = null;
+      }
+     
+  });
   }
 }

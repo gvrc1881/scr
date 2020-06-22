@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DriveModel, ElectrificationTargetstModel, StipulationstModel, InspectionstModel, FailureAnalysisModel, DriveTargetModel, DriveDailyProgressModel, DriveCategoryAssoModel, DriveCategoryModel } from '../models/drive.model';
+import { format } from 'util';
 
 @Injectable()
 export class DrivesService {
@@ -226,6 +227,7 @@ export class DrivesService {
        formdata.append('createdOn', update.createdOn);
        formdata.append('updatedBy', update.updatedBy);
        formdata.append('updatedOn', update.updatedOn);
+       formdata.append('attachment', update.attachment);
        let header = new HttpHeaders({           
            'Authorization': `Bearer ${this.accessToken}`
           // 'Content-Type': 'multipart/form-data; boundary=------WebKitFormBoundary7MA4YWxkTrZu0gW'
@@ -290,6 +292,7 @@ export class DrivesService {
        formdata.append('createdOn', update.createdOn);
        formdata.append('updatedBy', update.updatedBy);
        formdata.append('updatedOn', update.updatedOn);
+       formdata.append('attachment',update.attachment);
        let header = new HttpHeaders({           
         'Authorization': `Bearer ${this.accessToken}`
     }); 
