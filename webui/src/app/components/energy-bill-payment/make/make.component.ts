@@ -56,7 +56,7 @@ export class MakeComponent implements OnInit{
 
     ngOnInit () {
 
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Make") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("CONFIG","Make") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -70,7 +70,8 @@ export class MakeComponent implements OnInit{
             'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateMakeCode.bind(this)],
             'description': [null, Validators.maxLength(255)],
             'brandName': [null, Validators.maxLength(255)],
-            'makeType' : [null, Validators.maxLength(255)]
+            'makeType' : [null, Validators.maxLength(255)],
+            
             
         });
         
@@ -86,6 +87,7 @@ export class MakeComponent implements OnInit{
         let description: string=this.makeFormGroup.value.description;
         let brandName: string=this.makeFormGroup.value.brandName;
         let makeType: string=this.makeFormGroup.value.makeType;
+   
        this.addMake=false;
 
        if(this.title == Constants.EVENTS.SAVE)

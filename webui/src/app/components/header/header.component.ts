@@ -218,7 +218,9 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#85929E", 
         isSelected: false, 
         permission:this.commonService.findPermission('Masters', 'menu', 'view'),
-        currentTab: !!path && (path.includes("masters") || path.includes("roles") || path.includes("rolePermissions") || path.includes("users") || path.includes("department")||path.includes("settings") || path.includes("repository") || path.includes("jobType") || path.includes("timeInterval")) ? "open" : "", 
+        currentTab: !!path && (path.includes("masters") || path.includes("roles") || path.includes("rolePermissions") 
+        || path.includes("users") || path.includes("department")||path.includes("settings") || path.includes("repository") 
+        || path.includes("jobType") || path.includes("timeInterval")) ? "open" : "", 
         subMenus: [
           { 
             subMenuName: "Roles", 
@@ -296,7 +298,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
         currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("sidings") || path.includes("asset-master-data") || path.includes("tractionEneTariff") || path.includes("track")) 
-        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")|| path.includes("make")?  "open" : "",  
+        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
         subMenus: [
           {
             subMenuName: "Guidance",
@@ -431,14 +433,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('FP Inspection', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("foot-patrolling-inspection") ? "active-item" : "",
           },          
-          {
-            subMenuName: "Make",
-            subMenuURL: "make",
-            subMenuIcon: "",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Make', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("make") ? "active-item" : "",
-          },
+          
         ]
       },
       { 
@@ -649,7 +644,35 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("actions") ? "active-item" : "",
           }
         ]
-      }
+      },
+      { 
+        ID: 12,
+        menuName: 'CONFIG', 
+        menuUrl: 'make', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('CONFIG', 'menu', 'view'),
+        currentTab: !!path &&  path.includes("make")|| path.includes("model")  ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Make",
+            subMenuURL: "make",
+            subMenuIcon: "",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Make', 'submenu', 'view'),
+            currentSubMenu: !!path &&  path.includes("make") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Model",
+            subMenuURL: "model",
+            subMenuIcon: "",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Model', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("model") ? "active-item" : "",
+          },
+        ]
+      },
     ];
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);

@@ -5,7 +5,7 @@
           <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                      <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment</a></li>
+                      <!-- <li class="breadcrumb-item"><a [routerLink]="['/config']">Config</a></li> -->
                         <li class="breadcrumb-item active" aria-current="page">Make</li>
               </ol>
           </nav>
@@ -60,7 +60,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
           <div class="col-md-3">
               <mat-form-field fxFlex="30">
                   <input matInput placeholder="Make Code" [formControl]="makeFormGroup.controls['makeCode']" required
-                  [ngModel]="value" (ngModelChange)="changeMakeCode($event)"/>
+                  oninput="this.value = this.value.toUpperCase()"/>
       
                      <mat-error
                       *ngIf=" makeFormGroup.controls['makeCode'].hasError('required')"
