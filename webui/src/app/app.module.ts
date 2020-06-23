@@ -41,6 +41,7 @@ import { DriveStipulationModule } from './components/drives/drive-stipulation/dr
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
 import {  DecimalValidationsModule } from './modules/decimal-validations.module';
 import { NumberValidationsModule } from './modules/number-validations.module';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -108,7 +109,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     ReactiveFormsModule,
     PreviousRouteService,
     ReportService,
-    DatePipe
+    DatePipe,
+    SendAndRequestService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

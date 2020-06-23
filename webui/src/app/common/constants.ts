@@ -14,6 +14,44 @@ export const Constants = {
         RESET_PASSWORD:"/resetPassword",
         CHANGE_PASSWORD:"/changePassword",
         MAIL_CONFIRMATION:"/mailConfirmation",
+        REPORTS:{
+            
+        },
+        JOBS_TRACKING:{
+
+        },
+        MASTERS:{
+
+        },
+        ENERGY_BILL_PAYMENTS:{
+
+        },
+        DOCS:{
+
+        },
+        DRIVE:{
+            DRIVE:{
+                GET_DRIVES:"/drives",
+                GET_FUNCTIONAL_LOCATIONS_TYPES:"/functionalLocationsTypes",
+                GET_DRIVE_ID:"/driveById/",
+                SAVE_DRIVE:"/saveDrive"
+            },
+            DRIVE_CATEGORY:{
+
+            },
+            DRIVE_CATEGORY_ASSOCIATION:{
+
+            }
+        },
+        INSPECTIONS:{
+
+        },
+        DAILY_SUMMARY:{
+
+        },
+        FAILURES:{
+            
+        }
     },
     EVENTS:{
         ADD:"Add",

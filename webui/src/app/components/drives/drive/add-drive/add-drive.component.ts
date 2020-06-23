@@ -6,6 +6,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
 import { getMatFormFieldDuplicatedHintError } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive',
   templateUrl: './add-drive.component.html',
@@ -39,6 +40,7 @@ export class AddDriveComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
+    private sendAndRequestService:SendAndRequestService
   ) {
     // Reactive form errors
     this.driveFormErrors = {
@@ -265,7 +267,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.id,
         "createdOn": new Date()
       }
-      this.drivesService.saveDriveData(saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

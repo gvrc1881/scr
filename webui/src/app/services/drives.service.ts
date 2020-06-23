@@ -35,7 +35,8 @@ export class DrivesService {
     }
     saveDriveData(saveDriveData){
         return this.http.post(environment.apiUrl + '/saveDrive', saveDriveData, { headers: this.header });
-    }updateDriveData(updateDriveData){
+    }
+    updateDriveData(updateDriveData){
         return this.http.put(environment.apiUrl + '/updateDrive', updateDriveData, { headers: this.header });
     }
     deleteDriveData(id:number){
