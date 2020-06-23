@@ -287,11 +287,7 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/make/make.module#MakeModule',
     canActivate: [AuthGuard]
   },
-  {
-    path: 'model',
-    loadChildren: './components/energy-bill-payment/model/model.module#ModelModule',
-    canActivate: [AuthGuard]
-  }
+
 ];
 
 @NgModule({
