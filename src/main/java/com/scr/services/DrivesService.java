@@ -564,7 +564,7 @@ public class DrivesService {
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
 			try {
-				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
+				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
 				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
 			} catch (Exception e) {
 				e.printStackTrace();
