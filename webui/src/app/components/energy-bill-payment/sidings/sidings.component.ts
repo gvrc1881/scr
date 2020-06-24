@@ -79,7 +79,7 @@ export class SidingsComponent implements OnInit {
         const q = new Promise((resolve, reject) => {
           let siding: string = this.sidingsItemFormGroup.controls['sidingCode'].value;
           var filter = !!this.sidingsItemList && this.sidingsItemList.filter(sidings => {
-            return sidings.sidingCode.toLowerCase() == siding.trim().toLowerCase();
+            return sidings.sidingCode.toUpperCase() == siding.trim().toUpperCase();
           });
           if (filter.length > 0) {
             resolve({ 'duplicateSidingCode': true });
@@ -96,9 +96,9 @@ export class SidingsComponent implements OnInit {
         });
         return q;
       }
-     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-        this.toMinDate = event.value;
-      }
+      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.toMinDate = new Date(event.value);
+    }
      getAllSidingsData() {
         console.log("get all sidings items");
         const sidingsDetails : SidingsModel[] = [];

@@ -8,8 +8,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
-import { MatDatepickerInputEvent } from '@angular/material';
 import { Router } from '@angular/router';
+import { MatDatepickerInputEvent } from '@angular/material';
 
 
 @Component({
@@ -84,8 +84,8 @@ export class ObservationCheckListComponent implements OnInit{
         });
     }
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-        this.toMinDate = event.value;
-      }
+        this.toMinDate = new Date(event.value);
+    }
     getAllObservationsCheckListData() {
         const observationsCheckList : ObservationsCheckListModel[] = [];
         this.observationsCheckListService.getAllObservationCheckListDetails().subscribe((data) => {
@@ -171,7 +171,6 @@ export class ObservationCheckListComponent implements OnInit{
                 thruDate: !!this.editObservationCheckLisResponse.thruDate ? new Date(this.editObservationCheckLisResponse.thruDate) : '',
             });
             this.toMinDate = new Date(this.editObservationCheckLisResponse.fromDate);
-
         } ,error => {})
     }
 

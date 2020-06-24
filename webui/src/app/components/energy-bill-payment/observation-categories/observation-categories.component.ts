@@ -85,10 +85,10 @@ export class ObservationCategoriesComponent implements OnInit{
         return q;
       }
       public get f() { return this.observationCategoriesFormGroup.controls; }
-
+     
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-        this.toMinDate = event.value;
-      }
+        this.toMinDate = new Date(event.value);
+    }
     getAllObservationCategoriesData() {
         const observationCategories : ObservationCategoriesModel[] = [];
         this.observationCategoriesService.getAllObservationCategoriesDetails().subscribe((data) => {
@@ -167,7 +167,6 @@ export class ObservationCategoriesComponent implements OnInit{
                 remark: this.editobservationCategoriesResponse.remark,
                 fromDate: this.editobservationCategoriesResponse.fromDate,
                 thruDate: !!this.editobservationCategoriesResponse.thruDate ? new Date(this.editobservationCategoriesResponse.thruDate) : '',
-
             });
             this.toMinDate = new Date(this.editobservationCategoriesResponse.fromDate);
 
