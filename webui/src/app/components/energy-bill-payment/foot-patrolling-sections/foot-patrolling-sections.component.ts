@@ -25,6 +25,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     fpSectionsItemFormGroup: FormGroup;
     fpSectionsList : any;
     toMinDate=new Date();
+    currentDate = new Date();
     facilityData:any;
     fpSectionsItemDataSource: MatTableDataSource<FootPatrollingSectionsModel>;
     fpSectionsItemDisplayColumns = ['sno' ,'facilityDepot','fpSection' , 'fromLocation' , 'toLocation' , 'fromDate' , 'toDate' , 'remarks' , 'id' ] ;
@@ -55,7 +56,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.fpSectionsItemFormGroup = this.formBuilder.group({
             id: 0,
             'facilityDepot':[null],
-            'fpSection':[null,Validators.required, this.duplicatefpSection.bind(this)],
+            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicatefpSection.bind(this)],
             'fromLocation': [null],
             'toLocation': [null],
             'fromDate': [null],
@@ -64,13 +65,19 @@ export class FootPatrollingSectionsComponent implements OnInit{
         });
         
     }
-    duplicatefpSection() {
+      duplicatefpSection() {
         const q = new Promise((resolve, reject) => {
+          let fpSection: string = this.fpSectionsItemFormGroup.controls['fpSection'].value;
+          var filter = !!this.fpSectionsList && this.fpSectionsList.filter(fpSections => {
+            return fpSections.fpSection.toLowerCase() == fpSection.trim().toLowerCase();
+          });
+          if (filter.length > 0) {
+            resolve({ 'duplicatefpSection': true });
+          }
           this.footPatrollingSectionsService.existsFpSection(
             this.fpSectionsItemFormGroup.controls['fpSection'].value
           ).subscribe((duplicate) => {
             if (duplicate) {
-                console.log('duplicatefpSection'+duplicate);
               resolve({ 'duplicatefpSection': true });
             } else {
               resolve(null);
@@ -81,7 +88,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
       }
       public get f() { return this.fpSectionsItemFormGroup.controls; }
 
-    addEvent(event: MatDatepickerInputEvent<Date>) {
+      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }
     getAllFootPatrollingSectionsData() {
@@ -161,9 +168,11 @@ export class FootPatrollingSectionsComponent implements OnInit{
                 fromLocation: this.editfpSectionsItemResponse.fromLocation,
                 toLocation: this.editfpSectionsItemResponse.toLocation,
                 fromDate: this.editfpSectionsItemResponse.fromDate,
-                toDate: this.editfpSectionsItemResponse.toDate,
+                toDate: !!this.editfpSectionsItemResponse.toDate ? new Date(this.editfpSectionsItemResponse.toDate) : '',
                 remarks: this.editfpSectionsItemResponse.remarks
-            })
+            });
+            this.toMinDate = new Date(this.editfpSectionsItemResponse.fromDate);
+
         } ,error => {})
     }
 

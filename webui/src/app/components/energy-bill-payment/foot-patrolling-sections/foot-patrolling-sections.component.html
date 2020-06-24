@@ -55,6 +55,10 @@
                                 FPSecion Already Exists
                               </mat-error>
                               <mat-error
+                              *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('maxlength') && fpSectionsItemFormGroup.controls['fpSection'].touched"
+                              class="alert alert-danger">Max 250 characters only
+                          </mat-error>
+                              <mat-error
                                 *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('pattern') && fpSectionsItemFormGroup.controls['fpSection'].touched"
                                class="alert alert-danger">Special characters are not allowed
                              </mat-error>
@@ -80,31 +84,27 @@
                              </mat-error>
                             </mat-form-field>
                           </div>
-                         <!-- FROM DATE -->
+                         <!-- From DATE -->
                          <div class="col-md-3">
-                           
                           <mat-form-field>
-                              <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                  [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
-                                  (dateTimeChange)="addEvent($event)" 
-                                  [formControl]="fpSectionsItemFormGroup.controls['fromDate']" >                                                                
-                                  <owl-date-time #dt1 [showSecondsTimer]=true
-                                      ></owl-date-time>
-                                  <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+                              <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
+                                  placeholder="Choose From Date"
+                                  [formControl]="fpSectionsItemFormGroup.controls['fromDate']" required>
+                              <mat-datepicker-toggle matSuffix [for]="picker1">
+                              </mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
                           </mat-form-field>
                       </div>
 
-
-                      <!-- TO DATE -->
+                      <!-- To DATE -->
                       <div class="col-md-3">
                           <mat-form-field>
-                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                  [owlDateTimeTrigger]="dt2" placeholder="Choose To Date"
-                                 [min]="toMinDate"
-                                  [formControl]="fpSectionsItemFormGroup.controls['toDate']" >                                                                
-                                  <owl-date-time #dt2 [showSecondsTimer]=true
-                                      ></owl-date-time>
-                                  <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+                              <input matInput [matDatepicker]="picker"
+                                  placeholder="Choose Valid Till Date" [min]="toMinDate"
+                                  [formControl]="fpSectionsItemFormGroup.controls['toDate']" >
+                              <mat-datepicker-toggle matSuffix [for]="picker">
+                              </mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
                       </div>
                           <div class="col-md-3">

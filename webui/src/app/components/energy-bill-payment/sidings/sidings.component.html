@@ -40,15 +40,19 @@
 
                                                               <div class="col-md-3">
                                                                   <mat-form-field fxFlex="30">
-                                                                      <input matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required/>
+                                                                      <textarea matInput placeholder="sidingCode" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required></textarea>
                                                                       <mat-error *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('required')">
-                                                                        Enter Fp Secion
+                                                                        Enter siding Code
                                                                       </mat-error>
                                                                       <mat-error
                                                                 *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('duplicateSidingCode')"
                                                                 class="alert alert-danger">
                                                                 siding Code Already Exist
                                                             </mat-error>
+                                                            <mat-error 
+                                                                    *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('maxlength') && sidingsItemFormGroup.controls['sidingCode'].touched"
+                                                                     class="alert alert-danger">Max 250 characters only
+                                                                     </mat-error>
                                                                   </mat-form-field>
                                                               </div>
                                                               <div class="col-md-3">

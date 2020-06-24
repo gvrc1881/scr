@@ -61,21 +61,29 @@ export class ObservationCategoriesComponent implements OnInit{
             'thruDate' : [null]
         });
     }
-    duplicateObservationCategory() {
-    	const q = new Promise((resolve, reject) => {
-	       this.observationCategoriesService.existsInspectionTypeAndObservationCategory(
+     
+      duplicateObservationCategory() {
+        const q = new Promise((resolve, reject) => {
+          let observationCategories: string = this.observationCategoriesFormGroup.controls['observationCategory'].value;
+          var filter = !!this.observationCategoriesList && this.observationCategoriesList.filter(observationCategorie => {
+            return observationCategorie.observationCategory.toLowerCase() == observationCategories.trim().toLowerCase();
+          });
+          if (filter.length > 0) {
+            resolve({ 'duplicate': true });
+          }
+          this.observationCategoriesService.existsInspectionTypeAndObservationCategory(
 	        this.observationCategoriesFormGroup.controls['inspectionType'].value,
 	        this.observationCategoriesFormGroup.controls['observationCategory'].value
-	      ).subscribe((duplicate) => {
-	        if (duplicate) {
+          ).subscribe((duplicate) => {
+            if (duplicate) {
               resolve({ 'duplicate': true });
-	        } else {
-	          resolve(null);
-	        }
-	      }, () => { resolve({ 'duplicate': true }); });
-	    });
-    	return q;
-  	}    
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicate': true }); });
+        });
+        return q;
+      }
       public get f() { return this.observationCategoriesFormGroup.controls; }
 
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -158,8 +166,11 @@ export class ObservationCategoriesComponent implements OnInit{
                 description: this.editobservationCategoriesResponse.description,
                 remark: this.editobservationCategoriesResponse.remark,
                 fromDate: this.editobservationCategoriesResponse.fromDate,
-                thruDate: this.editobservationCategoriesResponse.thruDate,
-            })
+                thruDate: !!this.editobservationCategoriesResponse.thruDate ? new Date(this.editobservationCategoriesResponse.thruDate) : '',
+
+            });
+            this.toMinDate = new Date(this.editobservationCategoriesResponse.fromDate);
+
         } ,error => {})
     }
 

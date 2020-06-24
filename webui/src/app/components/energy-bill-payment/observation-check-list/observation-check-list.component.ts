@@ -30,6 +30,7 @@ export class ObservationCheckListComponent implements OnInit{
     inspectionTypeList:any;
     statusTypeData:any;
     toMinDate=new Date();
+    currentDate = new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
     observationCheckListDisplayColumns = ['sno' ,'inspectionType','observationCategory' , 'observationItem' , 'severity' ,'description','priority', 'fromDate' , 'thruDate' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -167,8 +168,10 @@ export class ObservationCheckListComponent implements OnInit{
                 priority: this.editObservationCheckLisResponse.priority,
                 severity: this.editObservationCheckLisResponse.severity,
                 fromDate: this.editObservationCheckLisResponse.fromDate,
-                thruDate: this.editObservationCheckLisResponse.thruDate
-            })
+                thruDate: !!this.editObservationCheckLisResponse.thruDate ? new Date(this.editObservationCheckLisResponse.thruDate) : '',
+            });
+            this.toMinDate = new Date(this.editObservationCheckLisResponse.fromDate);
+
         } ,error => {})
     }
 

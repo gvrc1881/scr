@@ -56,7 +56,7 @@ export class SidingsComponent implements OnInit {
         this.sidingsItemFormGroup = this.formBuilder.group({
             id: 0,
             'station':[null,Validators.maxLength(250)],
-            'sidingCode': [null,Validators.required, this.duplicateSidingCode.bind(this)],
+            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCode.bind(this)],
             'section': [null,Validators.maxLength(250)],
             'sectionEletrifiedStatus': [null],
             'sidingEletrifiedStatus' : [null],
@@ -75,8 +75,15 @@ export class SidingsComponent implements OnInit {
 
         
      }
-     duplicateSidingCode() {
+      duplicateSidingCode() {
         const q = new Promise((resolve, reject) => {
+          let siding: string = this.sidingsItemFormGroup.controls['sidingCode'].value;
+          var filter = !!this.sidingsItemList && this.sidingsItemList.filter(sidings => {
+            return sidings.sidingCode.toLowerCase() == siding.trim().toLowerCase();
+          });
+          if (filter.length > 0) {
+            resolve({ 'duplicateSidingCode': true });
+          }
           this.sidingsService.existsSidingCode(
             this.sidingsItemFormGroup.controls['sidingCode'].value
           ).subscribe((duplicate) => {
@@ -89,7 +96,6 @@ export class SidingsComponent implements OnInit {
         });
         return q;
       }
-     
      addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = event.value;
       }
@@ -205,12 +211,13 @@ export class SidingsComponent implements OnInit {
                 remarks: this.editsidingsItemResponse.remarks,
                 sidingProposed: this.editsidingsItemResponse.sidingProposed,
                 proposedDate: this.editsidingsItemResponse.proposedDate,
-                approvalDate: this.editsidingsItemResponse.approvalDate,
-                workOrderDate: this.editsidingsItemResponse.workOrderDate,
+                approvalDate: !!this.editsidingsItemResponse.approvalDate ? new Date(this.editsidingsItemResponse.approvalDate) : '',
+                workOrderDate: !!this.editsidingsItemResponse.workOrderDate ? new Date(this.editsidingsItemResponse.workOrderDate) : '',
                 workProgressPercentage: this.editsidingsItemResponse.workProgressPercentage,
                 workProgressRemark: this.editsidingsItemResponse.workProgressRemark,
                 completionDate: this.editsidingsItemResponse.completionDate
-            })
+            });
+            this.toMinDate = new Date(this.editsidingsItemResponse.proposedDate);
         } ,error => {})
     }
 

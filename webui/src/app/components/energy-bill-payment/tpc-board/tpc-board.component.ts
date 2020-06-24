@@ -61,6 +61,13 @@ export class TPCBoardComponent implements OnInit{
     }
     duplicateTpcBoard() {
     	const q = new Promise((resolve, reject) => {
+            let tpcBoard: string = this.tpcBoardFormGroup.controls['tpcBoard'].value;
+            var filter = !!this.tpcBoardList && this.tpcBoardList.filter(tpcBoardCase => {
+              return tpcBoardCase.tpcBoard.toLowerCase() == tpcBoard.trim().toLowerCase();
+            });
+            if (filter.length > 0) {
+              resolve({ 'duplicate': true });
+            }
 	       this.tpcBoardService.existsTpcBoardAndDataDiv(
 	        this.tpcBoardFormGroup.controls['tpcBoard'].value,
 	        this.tpcBoardFormGroup.controls['dataDiv'].value
@@ -74,7 +81,8 @@ export class TPCBoardComponent implements OnInit{
 	      }, () => { resolve({ 'duplicate': true }); });
 	    });
     	return q;
-  	}    
+      }    
+     
       public get f() { return this.tpcBoardFormGroup.controls; }
     getAllTPCBoardData() {
         const tpcBoard : TPCBoardModel[] = [];

@@ -24,6 +24,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     fpInspectionItemFormGroup: FormGroup;
     fpInspectionList : any;
     toMinDate=new Date();
+    currentDate = new Date();
     facilityData:any;
     fpInspectionItemDataSource: MatTableDataSource<FootPatrollingInspectionModel>;
     fpInspectionItemDisplayColumns = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id' ] ;
@@ -53,9 +54,9 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.fpInspectionItemFormGroup = this.formBuilder.group({
             id: 0,
             'facilityId':[null],
-            'inspectionType':[null],
-            'section': [null],
-            'inspectionBy': [null],
+            'inspectionType':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'section': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'inspectionBy': [null,Validators.compose([Validators.required, Validators.maxLength(250)])],
             'startTime': [null],
             'stopTime' : [null]
         });
@@ -64,8 +65,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
     
       public get f() { return this.fpInspectionItemFormGroup.controls; }
 
-    addEvent(event: MatDatepickerInputEvent<Date>) {
-        this.toMinDate = event.value;
+      addEvent($event) {
+        this.toMinDate = new Date($event.value);
       }
     getAllFootPatrollingInspectionData() {
         const footPatrollingInspection : FootPatrollingInspectionModel[] = [];
@@ -82,7 +83,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
         } , error => {});
 
     }
-
     fpInspectionItemSubmit () {
         let facilityId: string = this.fpInspectionItemFormGroup.value.facilityId;
         let inspectionType: string = this.fpInspectionItemFormGroup.value.inspectionType;
@@ -141,8 +141,10 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 section: this.editfpInspectionItemResponse.section,
                 inspectionBy: this.editfpInspectionItemResponse.inspectionBy,
                 startTime: this.editfpInspectionItemResponse.startTime,
-                stopTime: this.editfpInspectionItemResponse.stopTime
-            })
+                stopTime: !!this.editfpInspectionItemResponse.stopTime ? new Date(this.editfpInspectionItemResponse.stopTime) : ''
+
+            });
+            this.toMinDate = new Date(this.editfpInspectionItemResponse.startTime);
         } ,error => {})
     }
 

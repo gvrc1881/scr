@@ -60,8 +60,15 @@ export class StationsSectionsComponent implements OnInit{
             'division' : [null,Validators.maxLength(250)]
         });
     }
-    duplicateStationCode() {
+      duplicateStationCode() {
         const q = new Promise((resolve, reject) => {
+          let stationSection: string = this.stationsSectionsFormGroup.controls['stationCode'].value;
+          var filter = !!this.stationsSectionsList && this.stationsSectionsList.filter(stationSections => {
+            return stationSections.stationCode.toLowerCase() == stationSection.trim().toLowerCase();
+          });
+          if (filter.length > 0) {
+            resolve({ 'duplicateStationCode': true });
+          }
           this.stationsSectionsService.existsStationCode(
             this.stationsSectionsFormGroup.controls['stationCode'].value
           ).subscribe((duplicate) => {
@@ -76,7 +83,14 @@ export class StationsSectionsComponent implements OnInit{
       }
       duplicateStationName() {
         const q = new Promise((resolve, reject) => {
-          this.stationsSectionsService.existsStationName(
+          let stationSection: string = this.stationsSectionsFormGroup.controls['stationName'].value;
+          var filter = !!this.stationsSectionsList && this.stationsSectionsList.filter(stationSections => {
+            return stationSections.stationName.toLowerCase() == stationSection.trim().toLowerCase();
+          });
+          if (filter.length > 0) {
+            resolve({ 'duplicateStationName': true });
+          }
+          this.stationsSectionsService.existsStationCode(
             this.stationsSectionsFormGroup.controls['stationName'].value
           ).subscribe((duplicate) => {
             if (duplicate) {
