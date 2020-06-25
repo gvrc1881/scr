@@ -471,7 +471,7 @@ public class DrivesService {
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, stipulationsRequest.getStipulation(), stipulationsRequest.getCreatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, Constants.STIPULATION, stipulationsRequest.getCreatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -537,7 +537,7 @@ public class DrivesService {
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getUpdatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, Constants.STIPULATION, request.getUpdatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -624,7 +624,7 @@ public class DrivesService {
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, request.getStipulation(), request.getCreatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, Constants.INSPECTION, request.getCreatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -690,7 +690,7 @@ public class DrivesService {
 		{	
 			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, request.getInspectionType(), request.getUpdatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, Constants.INSPECTION, request.getUpdatedBy());
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
