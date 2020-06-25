@@ -65,6 +65,22 @@
                                                     </div>
 
                                                     <!-- dateOfStipulation -->
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker1"
+                                                                placeholder="Choose Date Of Stipulation"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['dateOfStipulation']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+
+
+
+
+                                                    <!-- dateOfStipulation 
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [owlDateTime]="dt1" style="width: 94%;"
@@ -75,9 +91,22 @@
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
 
                                                      <!-- dateComplied -->
+
+                                                     <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                placeholder="Choose Date Complied"
+                                                                [formControl]="addDriveStipulationFormGroup.controls['dateComplied']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <!-- dateComplied 
                                                      <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;" [min]="minDateComplied"
@@ -87,7 +116,7 @@
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
 
                                                      <!-- compliance -->
                                                      <div class="col-md-3">
