@@ -1,5 +1,7 @@
 package com.scr.repository;
 
+import java.sql.Timestamp;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,10 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
             nativeQuery=true
     )
     public List<Facility> findByDepotType(String depotType);
+	List<Facility> findByCreatedStampLessThanEqualAndCreatedStampGreaterThan(Timestamp currenTimestamp,
+			Timestamp previousTimestamp);
+	List<Facility> findByLastUpdatedStampLessThanEqualAndLastUpdatedStampGreaterThan(Timestamp currenTimestamp,
+			Timestamp previousTimestamp);
 	
 
 }

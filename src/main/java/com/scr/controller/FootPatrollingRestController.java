@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.app.dto.FpAppMasterDto;
+import com.scr.app.dto.ReportDto;
 import com.scr.services.FootPatrollingRestService;
-import com.scr.util.Helper;
 
 @RestController
 @RequestMapping("/warehouse/fpApp")
@@ -25,8 +25,9 @@ public class FootPatrollingRestController {
 	private FootPatrollingRestService footPatrollingRestService;
 	
 	@RequestMapping(value = "/hellow", method = RequestMethod.GET)
-	public void helloWorld() {
+	public String helloWorld() {
 		System.out.println("hellow world:::");
+		return "*** HELLO WORLD ***";
 	}
 	
 	@RequestMapping(value = "/get-fp-data", method = RequestMethod.POST,  produces = "application/json")
@@ -44,5 +45,45 @@ public class FootPatrollingRestController {
 		}
 		return fpMasterDto;
 	}
+	
+	
+	@RequestMapping(value = "/get-report-names", method = RequestMethod.GET,  produces = "application/json")
+	public FpAppMasterDto getReportNames(){
+		log.info("*** request for to get report names ***");
+		return footPatrollingRestService.getRepotNames();
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/report-execution", method = RequestMethod.POST,  produces = "application/json")
+	public ReportDto reportExecution(ReportDto reportDto) {
+		 log.info("*** request for report execution ***");
+		 return footPatrollingRestService.reportExecution(reportDto);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

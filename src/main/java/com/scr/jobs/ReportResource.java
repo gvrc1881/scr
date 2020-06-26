@@ -4,6 +4,7 @@
 package com.scr.jobs;
 
 import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,7 +57,7 @@ public class ReportResource {
 	@Autowired
 	private Environment environment;
 
-	private String getBasePath() {
+	public String getBasePath() {
 		// TODO Auto-generated method stub
 		String os = System.getProperty("os.name").toLowerCase();
 		String basePath = null;
@@ -69,7 +70,7 @@ public class ReportResource {
 		return basePath;
 	}
 
-	private String getAbsolutePath(String path, String jrxmlFileName, Map<String, Object> parameters,
+	public String getAbsolutePath(String path, String jrxmlFileName, Map<String, Object> parameters,
 			String reportsBasePath) {
 		// TODO Auto-generated method stub
 		String absolutePath = null;
