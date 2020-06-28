@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'daily-summary',
@@ -40,7 +41,9 @@ export class DailySummaryComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private reportService:ReportService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -91,7 +94,7 @@ export class DailySummaryComponent implements OnInit{
 
     getAllDailySummaryData() {
         const dailyProgressSummery : DailySummaryModel[] = [];
-        this.dailySummaryService.getAllDailySummary().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY).subscribe((data) => {
             this.dailySummaryList = data;
             for (let i = 0; i < this.dailySummaryList.length; i++) {
                 this.dailySummaryList[i].sno = i+1;
@@ -124,7 +127,7 @@ export class DailySummaryComponent implements OnInit{
         this.addDailySummary = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.dailySummaryService.saveDailySummary({
+            var saveDailySummaryModel={
                 'createdDate':createdDate,
                 'facilityId':facilityId,
                 'nameOfStaff':nameOfStaff,
@@ -139,15 +142,16 @@ export class DailySummaryComponent implements OnInit{
                 'staffStrength':staffStrength,
                 'powerBlock':powerBlock,
                 'nonPowerBlock':nonPowerBlock,
-                'remarks':remarks,
-            }).subscribe((data) => {
+                'remarks':remarks
+            }
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.SAVE_DAILY_SUMMARY, saveDailySummaryModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editDailySummaryResponse.id;
-            this.dailySummaryService.updateDailySummary({
+            var updateDailySummaryModel={
                 'id':id,
                 'createdDate':createdDate,
                 'facilityId':facilityId,
@@ -164,7 +168,8 @@ export class DailySummaryComponent implements OnInit{
                 'powerBlock':powerBlock,
                 'nonPowerBlock':nonPowerBlock,
                 'remarks':remarks,
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.UPDATE_DAILY_SUMMARY,updateDailySummaryModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();
@@ -181,7 +186,7 @@ export class DailySummaryComponent implements OnInit{
     }
 
     dailySummaryEditAction(id: number) {
-        this.dailySummaryService.findDailySummaryById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID, id).subscribe((responseData) => {
             this.editDailySummaryResponse = responseData;
             this.dailySummaryFormGroup.patchValue({
                 id: this.editDailySummaryResponse.id,
@@ -212,8 +217,7 @@ export class DailySummaryComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Daily Summary?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.dailySummaryService.deleteDailySummary(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.DELETE_DAILY_SUMMARY, id).subscribe(response => {
                         this.commonService.showAlertMessage('DailySummary Deleted Successfully');
                         this.getAllDailySummaryData();
                     },error => {});

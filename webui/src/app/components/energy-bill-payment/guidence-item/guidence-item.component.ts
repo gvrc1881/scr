@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService } from 'src/app/services/report.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'guidence-item',
@@ -40,7 +41,9 @@ export class GuidenceItemComponent implements OnInit{
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private reportService: ReportService,
-        private spinnerService: Ng4LoadingSpinnerService
+        private spinnerService: Ng4LoadingSpinnerService,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -48,7 +51,6 @@ export class GuidenceItemComponent implements OnInit{
     ngOnInit () {
         this.getAllGuidenceItemData();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","GUIDENCE ITEM") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		// console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -73,7 +75,7 @@ export class GuidenceItemComponent implements OnInit{
     getAllGuidenceItemData() {
         // console.log("get all guidence items");
         const guidenceItem : GuidenceItemModel[] = [];
-        this._guidenceItemService.getAllGuidenceItems().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM).subscribe((data) => {
             this.guidenceItemList = data;
             for (let i = 0; i < this.guidenceItemList.length; i++) {
                 this.guidenceItemList[i].sno = i+1;
@@ -101,19 +103,20 @@ export class GuidenceItemComponent implements OnInit{
         this.addGuidenceItem = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this._guidenceItemService.save({
-                'agencyRbRdso':agencyRbRdso,
-                'detailsOfIssue': detailsOfIssue,
-                'date':date,
-                'heading': heading,
-                'letterNo' : letterNo,
-                'reportContinue': reportContinue,
-                'response' : response,
-                'shortDescription' : shortDescription,
-                'status' : status,
-                'closedRemark' : closedRemark
-            }).subscribe((data) => {
-            	this.guidenceItemResponse = data
+                var guidenceItemModel ={
+                    'agencyRbRdso':agencyRbRdso,
+                    'detailsOfIssue': detailsOfIssue,
+                    'date':date,
+                    'heading': heading,
+                    'letterNo' : letterNo,
+                    'reportContinue': reportContinue,
+                    'response' : response,
+                    'shortDescription' : shortDescription,
+                    'status' : status,
+                    'closedRemark' : closedRemark
+                }
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.SAVE_GUIDENCE_ITEM, guidenceItemModel).subscribe(response => {
+                    this.guidenceItemResponse = response
             	if(this.guidenceItemResponse.code == 200 && !!this.guidenceItemResponse) {
 	                this.commonService.showAlertMessage(this.guidenceItemResponse.message);
     	            this.getAllGuidenceItemData();
@@ -129,7 +132,7 @@ export class GuidenceItemComponent implements OnInit{
             });
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editguidenceItemResponse.id;
-            this._guidenceItemService.update({
+            var updateguidenceItemModel={
                 'id':id,
                 'agencyRbRdso':agencyRbRdso,
                 'detailsOfIssue': detailsOfIssue,
@@ -141,7 +144,8 @@ export class GuidenceItemComponent implements OnInit{
                 'shortDescription' : shortDescription,
                 'status' : status,
                 'closedRemark' : closedRemark
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.UPDATE_GUIDENCE_ITEM,updateguidenceItemModel).subscribe(data => {
             	this.guidenceItemResponse = data
             	if(this.guidenceItemResponse.code == 200 && !!this.guidenceItemResponse) {
                 	this.commonService.showAlertMessage(this.guidenceItemResponse.message);
@@ -168,7 +172,7 @@ export class GuidenceItemComponent implements OnInit{
     }
 
     guidenceItemEditAction(id: number) {
-        this._guidenceItemService.findGuidenceItemById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID, id).subscribe((responseData) => {
             this.editguidenceItemResponse = responseData;
             this.guidenceItemFormGroup.patchValue({
                 id: this.editguidenceItemResponse.id,
@@ -194,7 +198,7 @@ export class GuidenceItemComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected guidance item?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this._guidenceItemService.deleteGuidenceItem(id)
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.DELETE_GUIDENCE_ITEM, id)
                     .subscribe((data) => {
                     	this.guidenceItemResponse = data;
                     	if(this.guidenceItemResponse.code == 200 && !!this.guidenceItemResponse) {

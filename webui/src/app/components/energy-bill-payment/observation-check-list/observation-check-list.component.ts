@@ -10,6 +10,7 @@ import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 @Component({
@@ -45,25 +46,22 @@ export class ObservationCheckListComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private router: Router, 
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
     ){
 
     }
 
     ngOnInit () {
-        console.log("routerUrl"+this.router.url);
         let statusTypeId = '';
    
         if(this.router.url == '/observation-check-list'){
             statusTypeId = 'FP_SEVERITY_TYPE';  
-          console.log("statusTypeId"+statusTypeId)    
         }
         this.reportService.statusItemDetails(statusTypeId).subscribe((data)=>{
           this.statusTypeData =data;
-          console.log('statusTypeData '+JSON.stringify(data));
               })
 
-        console.log('in ngOnintit method:::');
         this.getAllObservationsCheckListData();
         this.observationCategories();
         this.inspectionType();
@@ -88,7 +86,7 @@ export class ObservationCheckListComponent implements OnInit{
     }
     getAllObservationsCheckListData() {
         const observationsCheckList : ObservationsCheckListModel[] = [];
-        this.observationsCheckListService.getAllObservationCheckListDetails().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST).subscribe((data) => {
             this.observationCheckList = data;
             for (let i = 0; i < this.observationCheckList.length; i++) {
                 this.observationCheckList[i].sno = i+1;
@@ -114,7 +112,7 @@ export class ObservationCheckListComponent implements OnInit{
         this.addObservationCheckListItem = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.observationsCheckListService.saveObservationCheckList({
+            var saveObsCheckListModel={
                 'inspectionType':inspectionType,
                 'observationCategory':observationCategory,
                 'observationItem': observationItem,
@@ -123,14 +121,15 @@ export class ObservationCheckListComponent implements OnInit{
                 'severity': severity,
                 'fromDate':fromDate,
                 'thruDate': thruDate
-            }).subscribe((data) => {
+            }          
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.SAVE__OBS_CHECK_LIST, saveObsCheckListModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editObservationCheckLisResponse.id;
-            this.observationsCheckListService.updateObservationCheckList({
+            var updateObsCheckListModel={
                 'id':id,
                 'inspectionType':inspectionType,
                 'observationCategory':observationCategory,
@@ -140,7 +139,8 @@ export class ObservationCheckListComponent implements OnInit{
                 'severity': severity,
                 'fromDate': fromDate,
                 'thruDate' : thruDate
-            }).subscribe((data) =>{
+            }        
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.UPDATE_OBS_CHECK_LIST,updateObsCheckListModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();
@@ -157,7 +157,7 @@ export class ObservationCheckListComponent implements OnInit{
     }
 
     observationCheckListEditAction(id: number) {
-        this.observationsCheckListService.findObservationCheckListById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID, id).subscribe((responseData) => {
             this.editObservationCheckLisResponse = responseData;
             this.ObservationCheckListItemFormGroup.patchValue({
                 id: this.editObservationCheckLisResponse.id,
@@ -182,8 +182,7 @@ export class ObservationCheckListComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Observations Check List?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.observationsCheckListService.deleteObservationCheckList(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.DELETE_OBS_CHECK_LIST, id).subscribe(response => {
                         this.commonService.showAlertMessage('Observations Check List Deleted Successfully');
                         this.getAllObservationsCheckListData();
                     },error => {});

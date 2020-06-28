@@ -7,6 +7,7 @@ import{SidingsService} from   "src/app/services/sidings.service";
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'app-sidings',
@@ -44,7 +45,9 @@ export class SidingsComponent implements OnInit {
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private sidingsService:SidingsService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
+
     ) { }
  
     ngOnInit()  {
@@ -79,7 +82,7 @@ export class SidingsComponent implements OnInit {
         const q = new Promise((resolve, reject) => {
           let siding: string = this.sidingsItemFormGroup.controls['sidingCode'].value;
           var filter = !!this.sidingsItemList && this.sidingsItemList.filter(sidings => {
-            return sidings.sidingCode.toUpperCase() == siding.trim().toUpperCase();
+            return sidings.sidingCode.toLowerCase() == siding.trim().toLowerCase();
           });
           if (filter.length > 0) {
             resolve({ 'duplicateSidingCode': true });
@@ -102,7 +105,7 @@ export class SidingsComponent implements OnInit {
      getAllSidingsData() {
         console.log("get all sidings items");
         const sidingsDetails : SidingsModel[] = [];
-        this.sidingsService.getAllSidingsItems().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS).subscribe((data) => {
             this.sidingsItemList = data;
             for (let i = 0; i < this.sidingsItemList.length; i++) {
                 this.sidingsItemList[i].sno = i+1;
@@ -136,7 +139,7 @@ export class SidingsComponent implements OnInit {
         let completionDate: Date = this.sidingsItemFormGroup.value.completionDate;
         this.addSidingsItem = false;
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.sidingsService.save({
+            var saveSidingsModel ={
                 'station':station,
                 'sidingCode': sidingCode,
                 'section':section,
@@ -153,7 +156,8 @@ export class SidingsComponent implements OnInit {
                 'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
-            }).subscribe((data) => {
+            }              
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.SAVE_SIDINGS, saveSidingsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllSidingsData();
                 this.sidingsItemFormGroup.reset();
@@ -161,7 +165,7 @@ export class SidingsComponent implements OnInit {
         }
         else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editsidingsItemResponse.id;
-            this.sidingsService.update({
+            var updateSidingsModel={
                 'id':id,
                 'station':station,
                 'sidingCode': sidingCode,
@@ -178,8 +182,9 @@ export class SidingsComponent implements OnInit {
                 'workOrderDate' : workOrderDate,
                 'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
-                'completionDate' : completionDate,
-            }).subscribe((data) =>{
+                'completionDate' : completionDate
+            }
+                this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.UPDATE_SIDINGS, updateSidingsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllSidingsData();
                 this.sidingsItemFormGroup.reset();
@@ -196,7 +201,7 @@ export class SidingsComponent implements OnInit {
     }
 
     sidingsItemEditAction(id: number) {
-        this.sidingsService.findSidingsItemById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID, id).subscribe((responseData) => {
             this.editsidingsItemResponse = responseData;
             this.sidingsItemFormGroup.patchValue({
                 id: this.editsidingsItemResponse.id,
@@ -229,7 +234,7 @@ export class SidingsComponent implements OnInit {
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected sidings item?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.sidingsService.deleteSidingsItem(id)
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.DELETE_SIDINGS, id)
                     .subscribe((data) => {
                         this.commonService.showAlertMessage('Sidings Item Deleted Successfully');
                         this.getAllSidingsData();

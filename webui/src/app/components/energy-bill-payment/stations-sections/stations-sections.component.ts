@@ -7,6 +7,7 @@ import { Constants } from 'src/app/common/constants';
 import { StationsSectionsModel } from 'src/app/models/stations-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'stations-sections',
@@ -36,7 +37,8 @@ export class StationsSectionsComponent implements OnInit{
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
     ){
 
     }
@@ -104,8 +106,8 @@ export class StationsSectionsComponent implements OnInit{
       }
     getAllStationsSectionsData() {
         const stationsSections : StationsSectionsModel[] = [];
-        this.stationsSectionsService.getAllStationsSections().subscribe((data) => {
-            this.stationsSectionsList = data;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS).subscribe((data) => {
+          this.stationsSectionsList = data;
             for (let i = 0; i < this.stationsSectionsList.length; i++) {
                 this.stationsSectionsList[i].sno = i+1;
                 stationsSections.push(this.stationsSectionsList[i]);              
@@ -130,10 +132,8 @@ export class StationsSectionsComponent implements OnInit{
         let division: string = this.stationsSectionsFormGroup.value.division;
        
         this.addStationsSections = false;
-        console.log("AddSta"+this.addStationsSections);
         if (this.title ==  Constants.EVENTS.SAVE) {
-            console.log("this.title"+this.title);
-            this.stationsSectionsService.saveStationsSections({
+                var saveSSModel ={
                 'stationCode':stationCode,
                 'stationName': stationName,
                 'majorSectionRoute':majorSectionRoute,
@@ -142,15 +142,16 @@ export class StationsSectionsComponent implements OnInit{
                 'dnSection': dnSection,
                 'dnSectionName' : dnSectionName,
                 'division' : division
-            }).subscribe((data) => {
+                }
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.SAVE_STATION_SECTIONS, saveSSModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllStationsSectionsData();
                 this.stationsSectionsFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editstationsSectionsResponse.id;
-            this.stationsSectionsService.updateStationSections({
-                'id':id,
+            var updateSSModel={
+              'id':id,
                 'stationCode':stationCode,
                 'stationName': stationName,
                 'majorSectionRoute':majorSectionRoute,
@@ -159,7 +160,8 @@ export class StationsSectionsComponent implements OnInit{
                 'dnSection': dnSection,
                 'dnSectionName' : dnSectionName,
                 'division' : division
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.UPDATE_STATION_SECTIONS, updateSSModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllStationsSectionsData();
                 this.stationsSectionsFormGroup.reset();
@@ -176,8 +178,8 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     stationsSectionsEditAction(id: number) {
-        this.stationsSectionsService.findStationSectionsById(id).subscribe((responseData) => {
-            this.editstationsSectionsResponse = responseData;
+      this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID, id).subscribe((responseData) => {
+        this.editstationsSectionsResponse = responseData;
             this.stationsSectionsFormGroup.patchValue({
                 id: this.editstationsSectionsResponse.id,
                 stationCode:this.editstationsSectionsResponse.stationCode,
@@ -200,8 +202,7 @@ export class StationsSectionsComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the Selected stations Sections?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.stationsSectionsService.deleteStationSections(id)
-                    .subscribe((data) => {
+              this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.DELETE_STATION_SECTIONS, id).subscribe(response => {
                         this.commonService.showAlertMessage('Stations sections Deleted Successfully');
                         this.getAllStationsSectionsData();
                     },error => {});

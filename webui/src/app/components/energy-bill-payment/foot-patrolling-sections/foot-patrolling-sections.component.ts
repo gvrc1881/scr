@@ -9,6 +9,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'foot-patrolling-sections',
@@ -40,7 +41,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
     ){
 
     }
@@ -93,7 +95,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
     getAllFootPatrollingSectionsData() {
         const footPatrollingSections : FootPatrollingSectionsModel[] = [];
-        this.footPatrollingSectionsService.getAllFPSectionsItems().subscribe((data) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.GET_FP_SECTIONS).subscribe((data) => {
             this.fpSectionsList = data;
             for (let i = 0; i < this.fpSectionsList.length; i++) {
                 this.fpSectionsList[i].sno = i+1;
@@ -118,22 +120,23 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.addFPSectionsItem = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.footPatrollingSectionsService.saveFPSections({
-                'facilityDepot':facilityDepot,
-                'fpSection':fpSection,
-                'fromLocation': fromLocation,
-                'toLocation': toLocation,
-                'fromDate':fromDate,
-                'toDate': toDate,
-                'remarks' : remarks
-            }).subscribe((data) => {
+                var saveFpSectCionsModel ={
+                    'facilityDepot':facilityDepot,
+                    'fpSection':fpSection,
+                    'fromLocation': fromLocation,
+                    'toLocation': toLocation,
+                    'fromDate':fromDate,
+                    'toDate': toDate,
+                    'remarks' : remarks
+                } 
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.SAVE_FP_SECTIONS, saveFpSectCionsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllFootPatrollingSectionsData();
                 this.fpSectionsItemFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editfpSectionsItemResponse.id;
-            this.footPatrollingSectionsService.updateFPSectionsItem({
+            var updateFpSectCionsModel={
                 'id':id,
                 'facilityDepot':facilityDepot,
                 'fpSection':fpSection,
@@ -142,7 +145,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
                 'fromDate': fromDate,
                 'toDate' : toDate,
                 'remarks': remarks
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.UPDATE_FP_SECTIONS, updateFpSectCionsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllFootPatrollingSectionsData();
                 this.fpSectionsItemFormGroup.reset();
@@ -159,7 +163,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
 
     fpSectionsItemEditAction(id: number) {
-        this.footPatrollingSectionsService.findFPSectionsItemById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.GET_FP_SECTIONS_ID, id).subscribe((responseData) => {
             this.editfpSectionsItemResponse = responseData;
             this.fpSectionsItemFormGroup.patchValue({
                 id: this.editfpSectionsItemResponse.id,
@@ -184,8 +188,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected fpSections item?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.footPatrollingSectionsService.deleteFPSectionsItem(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.DELETE_FP_SECTIONS, id).subscribe(response => {
                         this.commonService.showAlertMessage('FP Sections Deleted Successfully');
                         this.getAllFootPatrollingSectionsData();
                     },error => {});
@@ -209,7 +212,6 @@ export class FootPatrollingSectionsComponent implements OnInit{
         {  
                this.reportService. depotTypeForOhe().subscribe((data) => {
                  this.facilityData = data;
-                 console.log('facilityData '+JSON.stringify(data))
         }
                );
 

@@ -7,6 +7,7 @@ import { TPCBoardModel } from 'src/app/models/tpc-board.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'tpc-board',
@@ -37,7 +38,8 @@ export class TPCBoardComponent implements OnInit{
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
     ){
 
     }
@@ -86,7 +88,7 @@ export class TPCBoardComponent implements OnInit{
       public get f() { return this.tpcBoardFormGroup.controls; }
     getAllTPCBoardData() {
         const tpcBoard : TPCBoardModel[] = [];
-        this.tpcBoardService.getAllTPCBoardDetails().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD).subscribe((data) => {
             this.tpcBoardList = data;
             for (let i = 0; i < this.tpcBoardList.length; i++) {
                 this.tpcBoardList[i].sno = i+1;
@@ -108,23 +110,25 @@ export class TPCBoardComponent implements OnInit{
         this.addTPCBoard = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.tpcBoardService.saveTPCBoard({
+            var saveTPCBoardModel ={
                 'tpcBoard':tpcBoard,
                 'dataDiv':dataDiv,
                 'description':description
-            }).subscribe((data) => {
+            }
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.SAVE_TPC_BOARD, saveTPCBoardModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllTPCBoardData();
                 this.tpcBoardFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editTpcBoardResponse.id;
-            this.tpcBoardService.updateTPCBoard({
+            var updateTPCBoardModel ={
                 'id':id,
                 'tpcBoard':tpcBoard,
                 'dataDiv':dataDiv,
                 'description':description,
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllTPCBoardData();
                 this.tpcBoardFormGroup.reset();
@@ -141,7 +145,7 @@ export class TPCBoardComponent implements OnInit{
     }
 
     tpcBoardEditAction(id: number) {
-        this.tpcBoardService.findTPCBoardById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID, id).subscribe((responseData) => {
             this.editTpcBoardResponse = responseData;
             this.tpcBoardFormGroup.patchValue({
                 id: this.editTpcBoardResponse.id,
@@ -161,8 +165,7 @@ export class TPCBoardComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected tpcBoard?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.tpcBoardService.deleteTPCBoardById(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.DELETE_TPC_BOARD, id).subscribe(response => {
                         this.commonService.showAlertMessage('TPCBoard Deleted Successfully');
                         this.getAllTPCBoardData();
                     },error => {});

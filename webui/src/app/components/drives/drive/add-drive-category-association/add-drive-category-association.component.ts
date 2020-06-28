@@ -5,6 +5,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-category-association',
@@ -32,6 +33,8 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
+    private sendAndRequestService:SendAndRequestService
+
   ) {
     // Reactive form errors
     this.driveFormErrors = {
@@ -61,7 +64,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     }
   }
   getDrivesData() {
-    this.drivesService.getDrivesData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
       console.log(this.driveList)
       this.spinnerService.hide();
@@ -70,7 +73,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     });
   }
   getDriveCategoryData() {
-    this.drivesService.getDriveCategoryData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
       this.driveCategoryList = data;
       this.spinnerService.hide();
     }, error => {
@@ -103,7 +106,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
 
 
   getDriveCategoryAssoDataById(id) {
-    this.drivesService.findDriveCategoryAssoDataById(id)
+    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID, id)
       .subscribe((resp) => {
         console.log(resp)
         this.resp = resp;
@@ -134,7 +137,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "createdBy": this.loggedUserData.id,
         "createdOn": new Date()
       }
-      this.drivesService.saveDriveCategoryAssoData(saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.SAVE_DRIVE_CATEGORY_ASSOC, saveDriveModel).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -157,9 +160,10 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
-      this.drivesService.updateDriveCategoryAssoData(updateDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.UPDATE_DRIVE_CATEGORY_ASSOC, updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
+
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Category Association Data Updated Successfully");
         this.router.navigate(['../../'], { relativeTo: this.route });

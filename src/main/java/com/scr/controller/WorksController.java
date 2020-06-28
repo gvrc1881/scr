@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +134,6 @@ public class WorksController {
 	
 	@RequestMapping(value = "/existsWorkName/{workName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsWorkName(@PathVariable("workName") String workName){
-			log.info("Enter work name"+workName);
 		try {
 			return worksServices.existsByWorkName(workName);
 		} catch (Exception e) {

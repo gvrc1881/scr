@@ -24,11 +24,25 @@ export class SendAndRequestService {
     // METHOD FOR GET REQUESTS
     requestForGET(requestUrl) {        
         return this._http.get<any[]>(environment.apiUrl + requestUrl, { headers: this.header });
-    }  
-
+    } 
+    
+    //METHOD FOR GET ID REQUESTS
+    requestForGETId(requestUrl,requestData) {        
+        return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    }
     // METHOD FOR POST REQUESTS
     requestForPOST(requestUrl, requestData){
         return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
     }
+    //METHOD FOR PUT REQUESTS
+    requestForPUT(requestUrl, requestData){
+        return this._http.put(environment.apiUrl + requestUrl, requestData, { headers: this.header });
 
+    }
+    //METHOD FOR DELETE
+    requestForDELETE(requestUrl, requestData){
+        return this._http.delete(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    }
+    
 }
+

@@ -8,6 +8,7 @@ import { TPCBoardDepotAssocModel } from 'src/app/models/tpc-board-depot-assoc.mo
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'tpc-board-depot-assoc',
@@ -39,7 +40,9 @@ export class TPCBoardDepotAssocComponent implements OnInit{
         private reportService:ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
    
@@ -87,7 +90,7 @@ duplicateTpcBoard() {
     getAllTPCBoardDepotAssocData() {
        
         const tpcBoardDepotAssoc : TPCBoardDepotAssocModel[] = [];
-        this.tpcBoardDepotAssocService.getAllTPCBoardDepotAssocDetails().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC).subscribe((data) => {
             this.tpcBoardDepotAssocList = data;
             for (let i = 0; i < this.tpcBoardDepotAssocList.length; i++) {
                 this.tpcBoardDepotAssocList[i].sno = i+1;
@@ -110,25 +113,27 @@ duplicateTpcBoard() {
         this.addTPCBoardDepotAssoc = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.tpcBoardDepotAssocService.saveTPCBoardDepotAssoc({
+            var saveTPCBoardAssocModel ={
                 'tpcBoard':tpcBoard,
                 'unitType':unitType,
                 'unitName':unitName,
                 'description':description
-            }).subscribe((data) => {
+            }
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.SAVE_TPC_BOARD_ASSOC, saveTPCBoardAssocModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllTPCBoardDepotAssocData();
                 this.tpcBoardDepotAssocFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editTpcBoardDepotAssocResponse.id;
-            this.tpcBoardDepotAssocService.updateTPCBoardDepotAssoc({
+            var updateTPCBoardAssocModel={
                 'id':id,
                 'tpcBoard':tpcBoard,
                 'unitType':unitType,
                 'unitName':unitName,
-                'description':description,
-            }).subscribe((data) =>{
+                'description':description
+            }       
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.UPDATE_TPC_BOARD_ASSOC, updateTPCBoardAssocModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllTPCBoardDepotAssocData();
                 this.tpcBoardDepotAssocFormGroup.reset();
@@ -145,7 +150,7 @@ duplicateTpcBoard() {
     }
 
     tpcBoardDepotAssocEditAction(id: number) {
-        this.tpcBoardDepotAssocService.findTPCBoardDepotAssocById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID, id).subscribe((responseData) => {
             this.editTpcBoardDepotAssocResponse = responseData;
             this.tpcBoardDepotAssocFormGroup.patchValue({
                 id: this.editTpcBoardDepotAssocResponse.id,
@@ -166,8 +171,7 @@ duplicateTpcBoard() {
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected tpcBoard Depot Assoc?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.tpcBoardDepotAssocService.deleteTPCBoarDepotAssocdById(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.DELETE_TPC_BOARD_ASSOC, id).subscribe(response => {
                         this.commonService.showAlertMessage('TPCBoard Depot Assoc Deleted Successfully');
                         this.getAllTPCBoardDepotAssocData();
                     },error => {});

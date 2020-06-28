@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { ReportService  } from "src/app/services/report.service";
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'foot-patrolling-inspection',
@@ -39,7 +40,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private reportService: ReportService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
     ){
 
     }
@@ -70,7 +72,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
       }
     getAllFootPatrollingInspectionData() {
         const footPatrollingInspection : FootPatrollingInspectionModel[] = [];
-        this.footPatrollingInspectionService.getAllFPInspectionItems().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION).subscribe((data) => {
             this.fpInspectionList = data;
             for (let i = 0; i < this.fpInspectionList.length; i++) {
                 this.fpInspectionList[i].sno = i+1;
@@ -93,21 +95,22 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.addFPInspectionItem = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.footPatrollingInspectionService.saveFPInspection({
+            var saveFpInspection={
                 'facilityId':facilityId,
                 'inspectionType':inspectionType,
                 'section': section,
                 'inspectionBy': inspectionBy,
                 'startTime':startTime,
                 'stopTime': stopTime
-            }).subscribe((data) => {
+            }               
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.SAVE_FP_INSPECTION, saveFpInspection).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllFootPatrollingInspectionData();
                 this.fpInspectionItemFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editfpInspectionItemResponse.id;
-            this.footPatrollingInspectionService.updateFPInspectionItem({
+            var updateFpSInspection={
                 'id':id,
                 'facilityId':facilityId,
                 'inspectionType':inspectionType,
@@ -115,7 +118,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 'inspectionBy':inspectionBy,
                 'startTime': startTime,
                 'stopTime' : stopTime
-            }).subscribe((data) =>{
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.UPDATE_FP_INSPECTION,updateFpSInspection).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllFootPatrollingInspectionData();
                 this.fpInspectionItemFormGroup.reset();
@@ -132,7 +136,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     fpInspectionItemEditAction(id: number) {
-        this.footPatrollingInspectionService.findFPInspectionItemById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID, id).subscribe((responseData) => {
             this.editfpInspectionItemResponse = responseData;
             this.fpInspectionItemFormGroup.patchValue({
                 id: this.editfpInspectionItemResponse.id,
@@ -156,8 +160,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected fpInspection item?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.footPatrollingInspectionService.deleteFPInspectionItem(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.DELETE_FP_INSPECTION, id).subscribe(response => {
                         this.commonService.showAlertMessage('FP Inspection Deleted Successfully');
                         this.getAllFootPatrollingInspectionData();
                     },error => {});

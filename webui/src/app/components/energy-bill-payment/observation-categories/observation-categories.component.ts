@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService  } from "src/app/services/report.service";
 import { MatDatepickerInputEvent } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'observation-categories',
@@ -38,7 +39,9 @@ export class ObservationCategoriesComponent implements OnInit{
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -91,7 +94,7 @@ export class ObservationCategoriesComponent implements OnInit{
     }
     getAllObservationCategoriesData() {
         const observationCategories : ObservationCategoriesModel[] = [];
-        this.observationCategoriesService.getAllObservationCategoriesDetails().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES).subscribe((data) => {
             this.observationCategoriesList = data;
             for (let i = 0; i < this.observationCategoriesList.length; i++) {
                 this.observationCategoriesList[i].sno = i+1;
@@ -115,7 +118,7 @@ export class ObservationCategoriesComponent implements OnInit{
         let thruDate: Date = this.observationCategoriesFormGroup.value.thruDate;
         this.addObservationCategories = false;
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.observationCategoriesService.saveObservationCategories({
+            var saveObsCategoriesModel={
                 'inspectionType':inspectionType,
                 'department':department,
                 'observationCategory': observationCategory,
@@ -123,14 +126,15 @@ export class ObservationCategoriesComponent implements OnInit{
                 'remark': remark,
                 'fromDate':fromDate,
                 'thruDate': thruDate
-            }).subscribe((data) => {
+            }                
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.SAVE_OBS_CATEGORIES, saveObsCategoriesModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllObservationCategoriesData();
                 this.observationCategoriesFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editobservationCategoriesResponse.id;
-            this.observationCategoriesService.updateObservationCategories({
+            var updateObsCategoriesMode={
                 'id':id,
                 'inspectionType':inspectionType,
                 'department':department,
@@ -139,7 +143,8 @@ export class ObservationCategoriesComponent implements OnInit{
                 'remark': remark,
                 'fromDate' : fromDate,
                 'thruDate': thruDate
-            }).subscribe((data) =>{
+            } 
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.UPDATE_OBS_CATEGORIES,updateObsCategoriesMode).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllObservationCategoriesData();
                 this.observationCategoriesFormGroup.reset();
@@ -156,7 +161,7 @@ export class ObservationCategoriesComponent implements OnInit{
     }
 
     observationCategoriesEditAction(id: number) {
-        this.observationCategoriesService.findObservationCategoriesById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID, id).subscribe((responseData) => {
             this.editobservationCategoriesResponse = responseData;
             this.observationCategoriesFormGroup.patchValue({
                 id: this.editobservationCategoriesResponse.id,
@@ -181,8 +186,7 @@ export class ObservationCategoriesComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected observation Categories?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.observationCategoriesService.deleteObservationCategories(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.DELETE_OBS_CATEGORIES, id).subscribe(response => {
                         this.commonService.showAlertMessage('observation Categories Deleted Successfully');
                         this.getAllObservationCategoriesData();
                     },error => {});

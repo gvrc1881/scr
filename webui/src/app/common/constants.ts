@@ -15,18 +15,106 @@ export const Constants = {
         CHANGE_PASSWORD:"/changePassword",
         MAIL_CONFIRMATION:"/mailConfirmation",
         REPORTS:{
-            
+            GET_REPORT_PARAMETER:"/reportParameterNames",
+            GET_REPORT_NAMES:"/reportNames/",
+            GET_MAKE_DETAILS:"/makeReport",
+            GET_FACILITY_NAMES:"/facilityNames",
+            GET_POWER_BLOCKS:"/powerBlocks",
+            GET_ZONE_LIST:"/zoneList",
+            GET_PB_SWITCH_CONTROL:"/pbSwitchControl",
+            GET_ELEMENTARY_SECTIONS:"/elementarySectionsByFacilityId",
+            GET_OBS_CATEGORIES:"/observationCategories",
+            GET_OBS_CHECK_LIST:"/observationCheckList",
         },
         JOBS_TRACKING:{
-
+            GET_JOB_TYPE:"/findAllJobTypes",
+            GET_JOB_TYPE_ID:"/findJobTypeById/",
+            SAVE_JOB_TYE:"/addJobType",
+            UPDATE_JOB_TYPE:"/updateJobType",
+            DELETE_JOB_TYPE:"/deleteJobType/"
         },
         MASTERS:{
 
         },
         ENERGY_BILL_PAYMENTS:{
-
+            GUIDENCE_ITEM:{
+                GET_GUIDENCE_ITEM:"/findAllGuidenceItems",
+                GET_GUIDENCE_ITEM_ID:"/findGuidenceItemById/",
+                SAVE_GUIDENCE_ITEM:"/addGuidenceItem",
+                UPDATE_GUIDENCE_ITEM:"/updateGuidenceItem",
+                DELETE_GUIDENCE_ITEM:"/deleteGuidenceItem/"
+            },
+            WORK:{
+                GET_WORK:"/findAllWorks",
+                GET_WORK_ID:"/findWork/",
+                SAVE_WORK:"/addWork",
+                UPDATE_WORK:"/updateWork",
+                DELETE_WORK:"/deleteWork/"
+            },
+            SIDINGS:{
+                GET_SIDINGS:"/findAllSidingsItems",
+                GET_SIDINGS_ID:"/findSidingsItemById/",
+                SAVE_SIDINGS:"/addSlidingsItem",
+                UPDATE_SIDINGS:"/updateSlidingsItem",
+                DELETE_SIDINGS:"/deleteSidingsItem/"
+            },
+            TARIFF:{
+                GET_TARIFF:"/findAllTractionEnergyTariff",
+                GET_TARIFF_ID:"/findTractionEnergyTariff/",
+                SAVE_TARIFF:"/addTractionEnergyTariff",
+                UPDATE_TARIFF:"/updateTractionEnergyTariff",
+                DELETE_TARIFF:"/deleteTractionEnergyTariff/",
+                ATTACHMENT_LIST:"/attachedDocumentList"
+            },
+            TRACK:{
+                GET_TRACK:"/findAllTrack",
+                GET_TRACK_ID:"/findTrack/",
+                SAVE_TRACK:"/addTrack",
+                UPDATE_TRACK:"/updateTrack",
+                DELETE_TRACK:"/deleteTrack/"
+            },
+            ENERGY_METER:{
+                GET_ENERGY_METER:"/findAllEnergyMeter",
+                GET_ENERGY_METER_ID:"/findEnergyMeter/",
+                SAVE_ENERGY_METER:"/addEnergyMeter",
+                UPDATE_ENERGY_METER:"/updateEnergyMeter",
+                DELETE_ENERGY_METER:"/deleteEnergyMeter/"
+            },
+            STATION_SECTIONS:{
+                GET_STATION_SECTIONS:"/findAllStationSections",
+                GET_STATION_SECTIONS_ID:"/findStationSectionsById/",
+                SAVE_STATION_SECTIONS:"/addStationSections",
+                UPDATE_STATION_SECTIONS:"/updateStationSections",
+                DELETE_STATION_SECTIONS:"/deleteStationSections/"
+            },
+            TPC_BOARD:{
+                GET_TPC_BOARD:"/findAllTPCBoard",
+                GET_TPC_BOARD_ID:"/findTPCBoardById/",
+                SAVE_TPC_BOARD:"/addTPCBoard",
+                UPDATE_TPC_BOARD:"/updateTPCBoard",
+                DELETE_TPC_BOARD:"/deleteTPCBoard/"
+            },
+            TPC_BOARD_ASSOC:{
+                GET_TPC_BOARD_ASSOC:"/findAllTPCBoardDepotAssoc",
+                GET_TPC_BOARD_ASSOC_ID:"/findTPCBoardDepotAssocById/",
+                SAVE_TPC_BOARD_ASSOC:"/addTPCBoardDeotAssoc",
+                UPDATE_TPC_BOARD_ASSOC:"/updateTPCBoardDepotAssoc",
+                DELETE_TPC_BOARD_ASSOC:"/deleteTPCBoardDepotAssoc/"
+            },
+            FP_SECTIONS:{
+                GET_FP_SECTIONS:"/findAllFPSectionsItems",
+                GET_FP_SECTIONS_ID:"/findFPSectionsItemById/",
+                SAVE_FP_SECTIONS:"/addFPSectionsItem",
+                UPDATE_FP_SECTIONS:"/updateFPSectionsItem",
+                DELETE_FP_SECTIONS:"/deleteFPSectionsItem/",
+                EXIST_FP_SECTIONS:"/existsFpSection/"
+            }
         },
         DOCS:{
+            GET_UPLOAD_FILES:"/getUploadedFiles/",
+            UPDATE_DOCS:"/updateDescription",
+            DELETE_DOCS:"/deleteFile/"
+            
 
         },
         DRIVE:{
@@ -34,19 +122,68 @@ export const Constants = {
                 GET_DRIVES:"/drives",
                 GET_FUNCTIONAL_LOCATIONS_TYPES:"/functionalLocationsTypes",
                 GET_DRIVE_ID:"/driveById/",
-                SAVE_DRIVE:"/saveDrive"
+                GET_ASSET_TYPE:"/allAssetTypeReports/",
+                SAVE_DRIVE:"/saveDrive",
+                UPDATE_DRIVE:"/updateDrive",
+                DELETE_DRIVE:"/deleteDrive/"
             },
             DRIVE_CATEGORY:{
+                GET_DRIVE_CATEGORY:"/driveCategory",
+                GET_DRIVE_CATEGORY_ID:"/driveCategoryById/",
+                SAVE_DRIVE_CATEGORY:"/saveDriveCategory",
+                UPDATE_DRIVE_CATEGORY:"/updateDriveCategory",
+                DELETE_DRIVE_CATEGORY:'/deleteDrive/'+"id"
 
             },
             DRIVE_CATEGORY_ASSOCIATION:{
+                GET_DRIVE_CATEGORY_ASSOC:"/driveCategoryAsso",
+                GET_DRIVE_CATEGORY_ASSOC_ID:"/driveCategoryAssoById/",
+                SAVE_DRIVE_CATEGORY_ASSOC:"/saveDriveCategoryAsso",
+                UPDATE_DRIVE_CATEGORY_ASSOC:"/updateDriveCategoryAsso",
+                DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/"
 
             }
         },
         INSPECTIONS:{
+            STIPULATION:{
+                GET_STIPULATION:"/stipulations",
+                GET_STIPULATION_ID:"/stipulationsById/",
+                GET_INSPECTION_AND_STIPULATION_ID:"/inspectionsContentById/",
+                SAVE_STIPULATION:"/saveStipulations",
+                UPDATE_STIPULATION:"/updateStipulations",
+                DELETE_STIPULATION:"/deleteStipulations/"
+            }
 
         },
         DAILY_SUMMARY:{
+            DAILY_SUMMARY:{
+                GET_DAILY_SUMMARY:"/findAllDailySummary",
+                GET_DAILY_SUMMARY_ID:"/findDailySummaryById/",
+                SAVE_DAILY_SUMMARY:"/addDailySummary",
+                UPDATE_DAILY_SUMMARY:"/updateDailySummary",
+                DELETE_DAILY_SUMMARY:"/deleteDailySummary/"
+            },
+            OBSERVATION_CATEGORIES:{
+                GET_OBS_CATEGORIES:"/findAllObservationCategory",
+                GET_OBS_CATEGORIES_ID:"/findObservationCategoriesById/",
+                SAVE_OBS_CATEGORIES:"/addObservationCategories",
+                UPDATE_OBS_CATEGORIES:"/updateObservationCategories",
+                DELETE_OBS_CATEGORIES:"/deleteObservationCategories/"
+            },
+            OBSERVATION_CHECK_LIST:{
+                GET_OBS_CHECK_LIST:"/findAllObservationCheckList",
+                GET_OBS_CHECK_LIST_ID:"/findObservationCheckListById/",
+                SAVE__OBS_CHECK_LIST:"/addObservationCheckList",
+                UPDATE_OBS_CHECK_LIST:"/updateObservationCheckList",
+                DELETE_OBS_CHECK_LIST:"/deleteObservationCheckList/"
+            },
+            FP_INSPECTION:{
+                GET_FP_INSPECTION:"/findAllFPInspectionItems",
+                GET_FP_INSPECTION_ID:"/findFPInspectionItemById/",
+                SAVE_FP_INSPECTION:"/addFPInspection",
+                UPDATE_FP_INSPECTION:"/updateFPInspectionItem",
+                DELETE_FP_INSPECTION:"/deleteFPInspectionItem/"
+            }
 
         },
         FAILURES:{

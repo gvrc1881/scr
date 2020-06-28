@@ -172,7 +172,7 @@ export class AddDriveComponent implements OnInit {
    public get f() { return this.addDriveFormGroup.controls; } 
 
   findDepoTypeList() {
-    this.drivesService.findDepoTypeList()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_FUNCTIONAL_LOCATIONS_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
@@ -182,7 +182,7 @@ export class AddDriveComponent implements OnInit {
   }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-    this.drivesService.findAssetTypeList(assertType)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_ASSET_TYPE)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })
@@ -210,8 +210,8 @@ export class AddDriveComponent implements OnInit {
     }
   }
   getDriveDataById(id) {
-    this.drivesService.findDriveDataById(id)
-      .subscribe((resp) => {
+    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID, id)
+    .subscribe((resp) => {
         this.resp = resp;
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
@@ -300,7 +300,7 @@ export class AddDriveComponent implements OnInit {
         "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
-      this.drivesService.updateDriveData(updateDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE.UPDATE_DRIVE, updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

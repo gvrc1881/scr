@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { WorksPayload } from 'src/app/payloads/works.payload';
 import { ReportService } from 'src/app/services/report.service';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'works',
@@ -45,7 +46,9 @@ export class WorksComponent implements OnInit {
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-        private reportService: ReportService
+        private reportService: ReportService,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -146,7 +149,7 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
         WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
         if (this.title == Constants.EVENTS.SAVE) {
-            this.workService.saveWork(WorksPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.SAVE_WORK, WorksPayload.ADD_PAYLOAD).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
                 	this.commonService.showAlertMessage(this.workResponse.message);
@@ -183,7 +186,7 @@ export class WorksComponent implements OnInit {
 	        WorksPayload.UPDATE_PAYLOAD.workName = this.workFormGroup.value.workName;
 	        WorksPayload.UPDATE_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
 	        WorksPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
-            this.workService.updateWork(WorksPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.UPDATE_WORK, WorksPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
                 	this.commonService.showAlertMessage(this.workResponse.message);
@@ -206,7 +209,7 @@ export class WorksComponent implements OnInit {
 
     getAllWorksData() {
     	const work: WorksModel [] = [];
-        this.workService.findAllWorks().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
         	this.workList = data;
             for (let i = 0; i < this.workList.length; i++) {
                 this.workList[i].sno = i+1;
@@ -234,7 +237,7 @@ export class WorksComponent implements OnInit {
     }
     
     workEditAction(id: number) {
-    	 this.workService.findWorkById(id)
+    	this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID, id)
             .subscribe((responseData) => {
                 this.editWorkResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));
@@ -272,7 +275,7 @@ export class WorksComponent implements OnInit {
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected work?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.workService.deleteWorkById(id)
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.DELETE_WORK, id)
                     .subscribe((data) => {
                     this.workResponse = data;
                 	if(this.workResponse.code == 200 && !!this.workResponse) {

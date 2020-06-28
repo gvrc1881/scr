@@ -10,6 +10,7 @@ import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { TrackPayload } from 'src/app/payloads/track.payload';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'track',
@@ -42,7 +43,9 @@ export class TrackComponent implements OnInit{
         private trackService: TrackService,
         private reportService: ReportService,
         private spinnerService: Ng4LoadingSpinnerService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private sendAndRequestService:SendAndRequestService
+
     ){
     }
     
@@ -79,7 +82,7 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
         //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
-            this.trackService.saveTrack(TrackPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
                 	this.commonService.showAlertMessage(this.trackResponse.message);
@@ -102,7 +105,7 @@ export class TrackComponent implements OnInit{
 	        TrackPayload.UPDATE_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
 	        TrackPayload.UPDATE_PAYLOAD.remark = this.trackFormGroup.value.remark;
 	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
-            this.trackService.updateTrack(TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
                 	this.commonService.showAlertMessage(this.trackResponse.message);
@@ -131,7 +134,7 @@ export class TrackComponent implements OnInit{
     
     getTrackData() {
         const track : TrackModel [] = [];
-        this.trackService.findAllTrack().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK).subscribe((data) => {
             this.trackList = data;
             
             for (let i = 0; i < this.trackList.length; i++) {
@@ -159,7 +162,7 @@ export class TrackComponent implements OnInit{
     }   
      
     trackEditAction(id: number) {
-    	 this.trackService.findTrackById(id)
+    	this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID, id)
             .subscribe((responseData) => {
                 this.editTrackResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));
@@ -181,7 +184,7 @@ export class TrackComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected track ?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.trackService.deleteTrackById(id)
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.DELETE_TRACK, id)
                     .subscribe((data) => {
                     	this.trackResponse = data;
                 		if(this.trackResponse.code == 200 && !!this.trackResponse) {

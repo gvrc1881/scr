@@ -8,6 +8,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { ReportService } from 'src/app/services/report.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'energy-meter',
@@ -39,7 +40,9 @@ export class EnergyMeterComponent implements OnInit{
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private reportService: ReportService,
-        private spinnerService: Ng4LoadingSpinnerService
+        private spinnerService: Ng4LoadingSpinnerService,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -114,7 +117,7 @@ export class EnergyMeterComponent implements OnInit{
         this.addEnergyMeter = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
-            this.energyMeterService.save({
+            var saveEnergyMeterModel={
                 'cmd':cmd,
                 'startKvah': startKvah,
                 'feederId':feederId,
@@ -132,7 +135,8 @@ export class EnergyMeterComponent implements OnInit{
             	'remarks' : remarks,
             	'startDate' : startDate,
             	'endDate' : endDate
-            }).subscribe((data) => {
+            }              
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.SAVE_ENERGY_METER, saveEnergyMeterModel).subscribe(data => {
             	this.energyMeterResponse = data;
             	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
 	                this.commonService.showAlertMessage(this.energyMeterResponse.message);
@@ -149,7 +153,7 @@ export class EnergyMeterComponent implements OnInit{
             });
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editEnergyMeterResponse.id;
-            this.energyMeterService.update({
+            var updateEnergyMeterModel={
                 'id':id,
                 'cmd':cmd,
                 'startKvah': startKvah,
@@ -168,7 +172,8 @@ export class EnergyMeterComponent implements OnInit{
             	'remarks' : remarks,
             	'startDate' : startDate,
             	'endDate' : endDate
-            }).subscribe((data) => {
+            }    
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.UPDATE_ENERGY_METER,updateEnergyMeterModel).subscribe(data => {
             	this.energyMeterResponse = data;
             	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
 	                this.commonService.showAlertMessage(this.energyMeterResponse.message);
@@ -195,7 +200,7 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     energyMeterEditAction(id: number) {
-        this.energyMeterService.findById(id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID, id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
              // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
@@ -225,7 +230,7 @@ export class EnergyMeterComponent implements OnInit{
     
     getAllEnergyMeterData() {
         const energyMeter : EnergyMeterModel[] = [];
-        this.energyMeterService.getAllEnergyMeters().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER).subscribe((data) => {
             this.energyMeterList = data;
             for (let i = 0; i < this.energyMeterList.length; i++) {
                 this.energyMeterList[i].sno = i+1;
@@ -248,8 +253,7 @@ export class EnergyMeterComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Energy Meter?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.energyMeterService.delete(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.DELETE_ENERGY_METER, id).subscribe(data => {
                     	this.energyMeterResponse = data;
             			if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
                         	this.commonService.showAlertMessage(this.energyMeterResponse.message);

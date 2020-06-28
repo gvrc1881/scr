@@ -10,6 +10,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { TractionEnergyTariffPayload } from 'src/app/payloads/traction-energy-tariff.payload';
 import { ReportService } from 'src/app/services/report.service';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+
 
 @Component({
     selector: 'traction-energy-tariff',
@@ -52,7 +54,9 @@ export class TractionEnergyTariffComponent implements OnInit{
         private tractionEnergyTariffService: TractionEnergyTariffService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-        private reportService: ReportService
+        private reportService: ReportService,
+        private sendAndRequestService:SendAndRequestService
+
     ){
 
     }
@@ -204,7 +208,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
         // console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
-            this.tractionEnergyTariffService.saveTrationEneTariff(TractionEnergyTariffPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.SAVE_TARIFF,TractionEnergyTariffPayload.ADD_PAYLOAD).subscribe((data) => {
                 this.tariffResponse = data;
               	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
 	                this.commonService.showAlertMessage(this.tariffResponse.message);
@@ -228,7 +232,7 @@ export class TractionEnergyTariffComponent implements OnInit{
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
-            this.tractionEnergyTariffService.updateTrationEneTariff(TractionEnergyTariffPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.UPDATE_TARIFF,TractionEnergyTariffPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.tariffResponse = data;
               	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
 	                this.commonService.showAlertMessage(this.tariffResponse.message);
@@ -263,7 +267,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     
     getTractionEnergyTariffData() {
         const tractionEnergyTariff: TractionEnergyTariffModel [] = [];
-        this.tractionEnergyTariffService.findAllTractionEnergyTariff().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID).subscribe((data) => {
             this.tractionEnergyTariffList = data;
             for (let i = 0; i < this.tractionEnergyTariffList.length; i++) {
                 this.tractionEnergyTariffList[i].sno = i+1;
@@ -286,7 +290,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
-    	 this.tractionEnergyTariffService.findTrationEneTariffById(id)
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID, id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));
@@ -310,8 +314,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected tarction energy tariff?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this.tractionEnergyTariffService.deleteTractionEneTariffById(id)
-                    .subscribe((data) => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.DELETE_TARIFF, id).subscribe((data) => {
                     	this.tariffResponse = data;
               				if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
 	                			this.commonService.showAlertMessage(this.tariffResponse.message);

@@ -5,6 +5,7 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-category',
@@ -31,6 +32,7 @@ export class AddDriveCategoryComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
+    private sendAndRequestService:SendAndRequestService
   ) {
     // Reactive form errors
     this.driveFormErrors = {
@@ -145,9 +147,8 @@ export class AddDriveCategoryComponent implements OnInit {
 
 
   getDriveCategoryDataById(id) {
-    this.drivesService.findDriveCategoryDataById(id)
-      .subscribe((resp) => {
-
+    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY_ID, id)      
+    .subscribe((resp) => {
         this.resp = resp;
         this.addDriveCategoryFormGroup.patchValue({
           id: this.resp.id,
@@ -179,7 +180,7 @@ export class AddDriveCategoryComponent implements OnInit {
         "createdBy": this.loggedUserData.id,
         "createdOn": new Date()
       }
-      this.drivesService.saveDriveCategoryData(saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY.SAVE_DRIVE_CATEGORY, saveDriveModel).subscribe(response => {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.spinnerService.hide();
@@ -204,7 +205,7 @@ export class AddDriveCategoryComponent implements OnInit {
         "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
-      this.drivesService.updateDriveCategoryData(updateDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY.UPDATE_DRIVE_CATEGORY, updateDriveModel).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

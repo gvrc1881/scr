@@ -144,7 +144,7 @@ export class DrivesComponent implements OnInit {
 
   getDriveCategoryData() {
     const drive: DriveCategoryModel[] = [];
-    this.drivesService.getDriveCategoryData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
       this.driveCategoryList = data;
       for (let i = 0; i < this.driveCategoryList.length; i++) {
         this.driveCategoryList[i].sno = i + 1;
@@ -163,7 +163,7 @@ export class DrivesComponent implements OnInit {
 
   getDriveCategoryAssoData() {
     const drive: DriveCategoryAssoModel[] = [];
-    this.drivesService.getDriveCategoryAssoData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC).subscribe((data) => {
       this.driveCategoryAssoList = data;
       for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
         this.driveCategoryAssoList[i].sno = i + 1;
@@ -192,7 +192,7 @@ export class DrivesComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteDriveData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE.DELETE_DRIVE, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Drive Successfully");
           this.getDrivesData();
@@ -211,7 +211,7 @@ export class DrivesComponent implements OnInit {
   }
   driveCategoryDelete(id) {
     this.spinnerService.show();
-    this.drivesService.deleteDriveCategoryData(id).subscribe(data => {
+    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY.DELETE_DRIVE_CATEGORY, id).subscribe(data => {
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Successfully");
       this.getDriveCategoryData();
@@ -227,7 +227,7 @@ export class DrivesComponent implements OnInit {
   }
   driveCategoryAssoDelete(id) {
     this.spinnerService.show();
-    this.drivesService.deleteDriveCategoryAssoData(id).subscribe(data => {
+    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.DELETE_DRIVE_CATEGORY_ASSOC, id).subscribe(data => {
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
       this.getDriveCategoryAssoData();
