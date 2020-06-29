@@ -41,7 +41,7 @@ public class MakeController {
 		logger.info("Request Parameters = "+make.toString());
 		
 		make.setMakeCode(make.getMakeCode().toUpperCase());
-		//make.setMakeName(make.getMakeName().toUpperCase());
+		make.setMakeName(make.getMakeCode().toUpperCase());
 		try {
 			logger.info("Calling service with request parameters.");
 		makeService.save(make);

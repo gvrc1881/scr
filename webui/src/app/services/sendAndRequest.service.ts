@@ -43,6 +43,10 @@ export class SendAndRequestService {
     requestForDELETE(requestUrl, requestData){
         return this._http.delete(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     }
+      //METHOD FOR GET ID REQUESTS
+      requestForEXIST(requestUrl,requestData) {        
+        return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    }
     
 }
 

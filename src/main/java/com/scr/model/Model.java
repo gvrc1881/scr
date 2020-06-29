@@ -16,6 +16,7 @@ public class Model implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="brand_name")
@@ -169,6 +170,18 @@ public class Model implements Serializable {
 
 	public void setSeqId(String seqId) {
 		this.seqId = seqId;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Model [id=" + id + ", brandName=" + brandName + ", createdBy=" + createdBy + ", createdOn=" + createdOn
+				+ ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv
+				+ ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", modelCode=" + modelCode + ", modelName=" + modelName + ", modelType="
+				+ modelType + ", seqId=" + seqId + "]";
 	}
 
 }

@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { ModelPayload } from 'src/app/payloads/model.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class ModelComponent implements OnInit{
         private commonService: CommonService,
         private modelService:ModelService,
         private spinnerService: Ng4LoadingSpinnerService,
+        private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
         ){
                 this.modelErrors = {
@@ -73,7 +75,7 @@ export class ModelComponent implements OnInit{
             'description': [null, Validators.maxLength(255)],
             'brandName': [null, Validators.maxLength(255)],
             'modelType' : [null, Validators.maxLength(255)],
-            'modecode':[null,Validators.compose([Validators.required,Validators.maxLength(255)])]
+            
             
         });
         
@@ -100,7 +102,9 @@ export class ModelComponent implements OnInit{
             ModelPayload.ADD_PAYLOAD.brandName =brandName;
             ModelPayload.ADD_PAYLOAD.modelType =modelType;
             console.log("ADD Payload =" + JSON.stringify(ModelPayload.ADD_PAYLOAD))
-            this.modelService.save(ModelPayload.ADD_PAYLOAD).subscribe((data)=>{
+           // this.modelService.save(ModelPayload.ADD_PAYLOAD)
+           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD)
+            .subscribe((data)=>{
               this.modelResponse=data;
               this.spinnerService.hide();
               if(this.modelResponse.code==200 && !!this.modelResponse){
@@ -122,14 +126,14 @@ export class ModelComponent implements OnInit{
         
         this.saveModel = false;
         let id: number = this.editModelResponse.id;
-       ModelPayload.UPDATE_PAYLOAD.id =id;
-       
-       ModelPayload.UPDATE_PAYLOAD.modelCode =modecode;
+       ModelPayload.UPDATE_PAYLOAD.id =id;       
+       ModelPayload.UPDATE_PAYLOAD.modelCode =modelCode;
        ModelPayload.UPDATE_PAYLOAD.description =description;
        ModelPayload.UPDATE_PAYLOAD.brandName =brandName;
        ModelPayload.UPDATE_PAYLOAD.modelType =modelType;
         console.log("Update Payload =" + JSON.stringify(ModelPayload.UPDATE_PAYLOAD))
-        this.modelService.update(ModelPayload.UPDATE_PAYLOAD)
+       // this.modelService.update(ModelPayload.UPDATE_PAYLOAD)
+       this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MODEL.UPDATE_MODEL,ModelPayload.UPDATE_PAYLOAD)
           .subscribe((data) => {
             this.modelResponse = data;
             this.spinnerService.hide();
@@ -160,7 +164,9 @@ export class ModelComponent implements OnInit{
     getAllModelData() {
         console.log("get all  Model data");
         const model : ModelModel[] = [];
-        this.modelService.getAllModel().subscribe((data) => {
+        //this.modelService.getAllModel()
+        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL)
+        .subscribe((data) => {
             this.modelList = data;
             for (let i = 0; i < this.modelList.length; i++) {
                 this.modelList[i].sno = i+1;
@@ -200,7 +206,8 @@ export class ModelComponent implements OnInit{
         this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
             this.spinnerService.show();
-            this.modelService.delete(id)
+           // this.modelService.delete(id)
+           this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.MODEL.DELETE_MODEL_ID,id)
               .subscribe((data) => {
                 this.commonService.showAlertMessage('Model Deleted Successfully.')
                 this.getAllModelData();
@@ -229,7 +236,9 @@ export class ModelComponent implements OnInit{
 
       ModelEditAction(id: number) {
         this.addModel = true;
-        this.modelService.findModelById(id).subscribe((resp) => {
+       // this.modelService.findModelById(id)
+       this.sendAndRequestService.requestForGETId(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID,id)
+        .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;
           this.saveModel = false;
@@ -271,9 +280,9 @@ export class ModelComponent implements OnInit{
           let modelCode: string = this.modelFormGroup.controls['modelCode'].value;
         
          
-          this.modelService.existsModelCode(
-            modelCode
-          ).subscribe((duplicate) => {
+         // this.modelService.existsModelCode( modelCode )
+          this.sendAndRequestService.requestForEXIST(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE,modelCode)
+          .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateModelCode': true });
             } else {

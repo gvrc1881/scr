@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { MakePayload } from 'src/app/payloads/make.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class MakeComponent implements OnInit{
         private commonService: CommonService,
         private makeService:MakeService,
         private spinnerService: Ng4LoadingSpinnerService,
+        private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
         ){
                 this.makeErrors = {
@@ -99,7 +101,9 @@ export class MakeComponent implements OnInit{
             MakePayload.ADD_PAYLOAD.brandName =brandName;
             MakePayload.ADD_PAYLOAD.makeType =makeType;
             console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
-            this.makeService.save(MakePayload.ADD_PAYLOAD).subscribe((data)=>{
+           // this.makeService.save(MakePayload.ADD_PAYLOAD)
+           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD)
+            .subscribe((data)=>{
               this.makeResponse=data;
               this.spinnerService.hide();
               if(this.makeResponse.code==200 && !!this.makeResponse){
@@ -128,7 +132,8 @@ export class MakeComponent implements OnInit{
        MakePayload.UPDATE_PAYLOAD.brandName =brandName;
        MakePayload.UPDATE_PAYLOAD.makeType =makeType;
         console.log("Update Payload =" + JSON.stringify(MakePayload.UPDATE_PAYLOAD))
-        this.makeService.update(MakePayload.UPDATE_PAYLOAD)
+       // this.makeService.update(MakePayload.UPDATE_PAYLOAD)
+       this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MAKE.UPDATE_MAKE,MakePayload.UPDATE_PAYLOAD)
           .subscribe((data) => {
             this.makeResponse = data;
             this.spinnerService.hide();
@@ -158,8 +163,11 @@ export class MakeComponent implements OnInit{
 
     getAllMakeData() {
         console.log("get all  Make data");
-        const make : MakeModel[] = [];
-        this.makeService.getAllMake().subscribe((data) => {
+           
+            const make : MakeModel[] = [];
+           
+        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE. GET_MAKE)
+        .subscribe((data) => {
             this.makeList = data;
             for (let i = 0; i < this.makeList.length; i++) {
                 this.makeList[i].sno = i+1;
@@ -199,7 +207,7 @@ export class MakeComponent implements OnInit{
         this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
             this.spinnerService.show();
-            this.makeService.delete(id)
+            this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.MAKE.DELETE_MAKE_ID,id)
               .subscribe((data) => {
                 this.commonService.showAlertMessage('Make Deleted Successfully.')
                 this.getAllMakeData();
@@ -228,7 +236,9 @@ export class MakeComponent implements OnInit{
 
       MakeEditAction(id: number) {
         this.addMake = true;
-        this.makeService.findMakeById(id).subscribe((resp) => {
+        //this.makeService.findMakeById(id)
+        this.sendAndRequestService.requestForGETId(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID,id)
+        .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;
           this.saveMake = false;
@@ -236,7 +246,7 @@ export class MakeComponent implements OnInit{
           this.responseStatus = resp;
           this.makeFormGroup.patchValue({
             id: this.responseStatus.id,
-            makeName: this.responseStatus.makeName,
+            //makeName: this.responseStatus.makeName,
             makeCode: this.responseStatus.makeCode,
             description: this.responseStatus.description,
             brandName: this.responseStatus.brandName,
@@ -287,9 +297,9 @@ export class MakeComponent implements OnInit{
           let makeCode: string = this.makeFormGroup.controls['makeCode'].value;
         
          
-          this.makeService.existsMakeCode(
-            makeCode
-          ).subscribe((duplicate) => {
+          //this.makeService.existsMakeCode(makeCode)
+          this.sendAndRequestService.requestForEXIST(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE,makeCode)
+          .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateMakeCode': true });
             } else {

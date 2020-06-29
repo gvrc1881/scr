@@ -41,6 +41,7 @@ public class ModelController {
 		logger.info("Request Parameters = "+model.toString());
 		
 		model.setModelCode(model.getModelCode().toUpperCase());
+		model.setModelName(model.getModelCode().toUpperCase());
 		
 		try {
 			logger.info("Calling service with request parameters.");
