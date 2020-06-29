@@ -57,7 +57,7 @@ public class TractionEnergyTariffService {
 			String divisionCode, String createdBy, String zonal, String fU, String contentTopic,Integer tractionEnergyTariffId) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		try {
-			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(zonal, divisionCode, fU, contentTopic, contentCategory );
+			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(contentTopic, contentCategory );
 			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
 				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 				ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();

@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,11 +36,14 @@ public class ContentManagementService {
 	@Autowired
 	private ContentManagementMapper mapper;
 	
+	@Value("${content.management.path}")
+	private String contentManagementPath;
+	
 	public ResponseStatus storeUploadedFiles(List<MultipartFile> multipartFile, String genOps, String description,
 			String divisionCode, String createdBy, String zonal, String fU, String topic, String assetTypeRlyId, String make, String model, String docCategory) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		try {
-			ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(zonal, divisionCode, fU, topic, genOps );
+			ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(contentManagementPath, genOps );
 			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
 				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 				ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();

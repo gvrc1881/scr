@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
+import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
@@ -65,6 +66,9 @@ public class DrivesService {
 	@Value("${inspection.path}")
 	private String inspectionPath;
 	
+	@Value("${content.management.path}")
+	private String contentManagementPath;
+		
 	@Autowired
 	private DriveMapper driveMapper;
 	
@@ -467,11 +471,21 @@ public class DrivesService {
 		}else {
 			commonFileId = fileId.getCommonFileId()+1;
 		}
+		ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(stipulationPath, Constants.STIPULATION );
+		
 		for(MultipartFile mf: file)
 		{	
-			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
 			String changedFileName = Helper.prepareChangeFileName(mf, Constants.STIPULATION, stipulationsRequest.getCreatedBy());
+			Path rootLocation = null;
+			try {
+				String folderPath = folderResponse.getMessage();
+				rootLocation = Paths.get(folderPath);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
+			ContentManagement contentManagement = new ContentManagement();
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -481,7 +495,7 @@ public class DrivesService {
 			contentManagement.setTopic("Stipulations");
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 			double bytes = mf.getSize();
 			logger.info("bytes = "+bytes);
 			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
@@ -497,12 +511,7 @@ public class DrivesService {
 			contentManagement.setModel("");
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			try {
-				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			liContentManagements.add(contentManagement);
 		}
 		if(!liContentManagements.isEmpty()) {
@@ -533,11 +542,21 @@ public class DrivesService {
 		}
 		logger.info("find file = "+commonFileId);
 		
+		ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(stipulationPath, Constants.STIPULATION );
+		
 		for(MultipartFile mf: file)
 		{	
-			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, Constants.STIPULATION, request.getUpdatedBy());
+			String changedFileName = Helper.prepareChangeFileName(mf, Constants.STIPULATION, request.getCreatedBy());
+			Path rootLocation = null;
+			try {
+				String folderPath = folderResponse.getMessage();
+				rootLocation = Paths.get(folderPath);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+			ContentManagement contentManagement = new ContentManagement();
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -547,7 +566,7 @@ public class DrivesService {
 			contentManagement.setTopic("Stipulations");
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 			double bytes = mf.getSize();
 			logger.info("bytes = "+bytes);
 			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
@@ -563,12 +582,7 @@ public class DrivesService {
 			contentManagement.setModel("");
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			try {
-				Path rootLocation = Paths.get(stipulationPath + Constants.STIPULATION);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			liContentManagements.add(contentManagement);
 		}
 		if(!liContentManagements.isEmpty()) {
@@ -620,11 +634,23 @@ public class DrivesService {
 		}else {
 			commonFileId = fileId.getCommonFileId()+1;
 		}
+		
+		ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(inspectionPath, Constants.INSPECTION );
+		
 		for(MultipartFile mf: file)
 		{	
-			ContentManagement contentManagement = new ContentManagement();
 			logger.info("filename: "+mf.getOriginalFilename());
 			String changedFileName = Helper.prepareChangeFileName(mf, Constants.INSPECTION, request.getCreatedBy());
+			Path rootLocation = null;
+			try {
+				String folderPath = folderResponse.getMessage();
+				rootLocation = Paths.get(folderPath);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			ContentManagement contentManagement = new ContentManagement();			
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -634,7 +660,7 @@ public class DrivesService {
 			contentManagement.setTopic("Inspections");
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 			double bytes = mf.getSize();
 			logger.info("bytes = "+bytes);
 			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
@@ -650,12 +676,7 @@ public class DrivesService {
 			contentManagement.setModel("");
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			try {
-				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			liContentManagements.add(contentManagement);
 		}
 		if(!liContentManagements.isEmpty()) {
@@ -671,6 +692,7 @@ public class DrivesService {
 		Long commonFileId = (long) 0.0; 
 		if(file != null && file.size() > 0) {
 			logger.info("file ");
+		ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(inspectionPath, Constants.INSPECTION );
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 		logger.info("commonfifle "+request.getAttachment());
 		if(request.getAttachment() == null || Long.parseLong(request.getAttachment()) ==0.0 ) {
@@ -689,8 +711,18 @@ public class DrivesService {
 		for(MultipartFile mf: file)
 		{	
 			ContentManagement contentManagement = new ContentManagement();
-			logger.info("filename: "+mf.getOriginalFilename());
 			String changedFileName = Helper.prepareChangeFileName(mf, Constants.INSPECTION, request.getUpdatedBy());
+			Path rootLocation = null;
+			try {
+				String folderPath = folderResponse.getMessage();
+				rootLocation = Paths.get(folderPath);
+				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			logger.info("filename: "+mf.getOriginalFilename());
+			
 			logger.info("File Saved Successfully with name "+changedFileName);
 			contentManagement = new ContentManagement();
 			contentManagement.setCommonFileId(commonFileId);
@@ -700,7 +732,7 @@ public class DrivesService {
 			contentManagement.setTopic("Stipulations");
 			contentManagement.setDescription("");
 			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(changedFileName);
+			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 			double bytes = mf.getSize();
 			logger.info("bytes = "+bytes);
 			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
@@ -716,12 +748,7 @@ public class DrivesService {
 			contentManagement.setModel("");
 			contentManagement.setDocCategory("");
 			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			try {
-				Path rootLocation = Paths.get(inspectionPath + Constants.INSPECTION);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			liContentManagements.add(contentManagement);
 		}
 		if(!liContentManagements.isEmpty()) {

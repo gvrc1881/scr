@@ -12,6 +12,7 @@ import java.util.Calendar;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,14 +27,17 @@ import com.scr.util.Helper;
  */
 @Component
 public class ContentManagementMapper {
-
+	
 	static Logger logger = LogManager.getLogger(ContentManagementMapper.class);
+	
+	
+	
 	private final Path rootLocation = Paths.get("upload-dir");
-	public ResponseStatus checkAndCreateFolderStructure(String zonal, String divisionCode, String fU, String topic, String genOps) {
+	public ResponseStatus checkAndCreateFolderStructure(String path, String genOps) {
 		ResponseStatus resStatus = new ResponseStatus();
 		try {
 			String currentYear = Helper.getCurrentYear();
-			File file = new File(rootLocation+Constants.BACK_SLASH+
+			File file = new File(path+Constants.BACK_SLASH+
 					currentYear+Constants.BACK_SLASH+
 					//zonal+Constants.BACK_SLASH+
 					//divisionCode+Constants.BACK_SLASH+
@@ -54,11 +58,21 @@ public class ContentManagementMapper {
 		}
 		return resStatus;
 	}
-	public ContentManagement saveAndStoreDetails(MultipartFile mf, String divisionCode, String createdBy, String zonal,
-			String fU, String topic, String description, String genOps, String folderPath, Long commonFileId, String assetTypeRlyId, String make, String model, String docCategory) {
+	public ContentManagement saveAndStoreDetails(MultipartFile mf, String divisionCode, String createdBy, 
+			String zonal, String fU, String topic, String description, String genOps, String folderPath, 
+			Long commonFileId, String assetTypeRlyId, String make, String model, String docCategory) {
 		ContentManagement contentManagement = new ContentManagement();
-		logger.info("filename: "+mf.getOriginalFilename());
 		String changedFileName = Helper.prepareChangeFileName(mf, divisionCode, createdBy);
+		Path rootLocation = null;
+		try {
+			rootLocation = Paths.get(folderPath);
+			Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			logger.info("path location = "+rootLocation);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		logger.info("filename: "+mf.getOriginalFilename());
+		//String changedFileName = Helper.prepareChangeFileName(mf, divisionCode, createdBy);
 		logger.info("File Saved Successfully with name "+changedFileName);
 		contentManagement = new ContentManagement();
 		contentManagement.setCommonFileId(commonFileId);
@@ -69,10 +83,13 @@ public class ContentManagementMapper {
 		contentManagement.setDescription(description);
 		contentManagement.setOriginalFileName(mf.getOriginalFilename());
 		double bytes = mf.getSize();
-		double kilobytes = (bytes / 1024);
-		double megabytes = (kilobytes / 1024);
-		contentManagement.setFileSize(megabytes+" MB");
-		contentManagement.setChangeFileName(changedFileName);
+		logger.info("bytes = "+bytes);
+		double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+		logger.info("KB = "+kilobytes);
+		double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+		logger.info("mega bytes = "+megabytes);
+		contentManagement.setFileSize(kilobytes+" KB");
+		contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setCreatedBy(Integer.parseInt(createdBy));
@@ -80,21 +97,23 @@ public class ContentManagementMapper {
 		contentManagement.setMake(make);
 		contentManagement.setModel(model);
 		contentManagement.setDocCategory(docCategory);
-		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
+		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);		
+		return contentManagement;
+	}
+	public ContentManagement saveAndStoreDetails(MultipartFile mf, String divisionCode, String createdBy, 
+			String zonal, String fU, String contentTopic, String description, String contentCategory,
+			String folderPath,Long commonFileId) {
+		String changedFileName = Helper.prepareChangeFileName(mf, divisionCode, createdBy);
+		Path rootLocation = null;
 		try {
-			Path rootLocation = Paths.get(folderPath);
+			rootLocation = Paths.get(folderPath);
 			Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
+			logger.info("path location = "+rootLocation.getRoot());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return contentManagement;
-	}
-	public ContentManagement saveAndStoreDetails(MultipartFile mf, String divisionCode, String createdBy, String zonal,
-			String fU, String contentTopic, String description, String contentCategory, String folderPath,
-			Long commonFileId) {
 		ContentManagement contentManagement = new ContentManagement();
-		logger.info("filename: "+mf.getOriginalFilename());
-		String changedFileName = Helper.prepareChangeFileName(mf, divisionCode, createdBy);
+		logger.info("filename: "+mf.getOriginalFilename());		
 		logger.info("File Saved Successfully with name "+changedFileName);
 		contentManagement = new ContentManagement();
 		contentManagement.setCommonFileId(commonFileId);
@@ -104,17 +123,12 @@ public class ContentManagementMapper {
 		contentManagement.setTopic(contentTopic);
 		contentManagement.setDescription(description);
 		contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-		contentManagement.setChangeFileName(changedFileName);
+		contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setCreatedBy(Integer.parseInt(createdBy));
 		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-		try {
-			Path rootLocation = Paths.get(folderPath);
-			Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		return contentManagement;
 	}
 
