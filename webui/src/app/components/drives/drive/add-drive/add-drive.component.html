@@ -56,7 +56,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Description"
                                                                 [formControl]="addDriveFormGroup.controls['description']"
-                                                                required oninput="this.value = this.value.toUpperCase()"
+                                                                required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['description'].hasError('required') && addDriveFormGroup.controls['description'].touched"

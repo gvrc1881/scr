@@ -132,7 +132,7 @@ export const Constants = {
                 GET_DRIVE_CATEGORY_ID:"/driveCategoryById/",
                 SAVE_DRIVE_CATEGORY:"/saveDriveCategory",
                 UPDATE_DRIVE_CATEGORY:"/updateDriveCategory",
-                DELETE_DRIVE_CATEGORY:'/deleteDrive/'+"id"
+                DELETE_DRIVE_CATEGORY:'/deleteDriveCategory/'
 
             },
             DRIVE_CATEGORY_ASSOCIATION:{

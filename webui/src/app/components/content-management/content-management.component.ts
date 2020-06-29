@@ -34,7 +34,7 @@ export class ContentManagementComponent implements OnInit {
     pattern = "[a-zA-Z][a-zA-Z ]*";
     GenOpsArray = [{ ID: 1, VALUE: 'Circulars' }, { ID: 2, VALUE: 'Drawing' }, { ID: 3, VALUE: 'Tech Specs' }, { ID: 4, VALUE: 'Operational Manual' }, { ID: 5, VALUE: 'User manuals' }];
 
-    displayedColumns = ['sno', 'originalFileName', 'genOps', 'description', 'actions'];
+    displayedColumns = ['sno', 'originalFileName','size', 'genOps', 'description', 'actions'];
     // dataSource = new ExampleDataSource(initialData);
     dataSource: MatTableDataSource<ContentManagementModel>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
