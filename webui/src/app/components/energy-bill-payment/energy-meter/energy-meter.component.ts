@@ -48,7 +48,7 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     ngOnInit () {
-    	var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","ENERGY METER") ;
+    	var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","ENERGY METER") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

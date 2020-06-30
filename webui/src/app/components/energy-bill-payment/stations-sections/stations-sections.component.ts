@@ -46,7 +46,7 @@ export class StationsSectionsComponent implements OnInit{
     ngOnInit () {
         this.getAllStationsSectionsData();
         this.divisionDetails();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Stations-sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","Stations-sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

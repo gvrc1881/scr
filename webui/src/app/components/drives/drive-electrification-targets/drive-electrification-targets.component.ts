@@ -41,7 +41,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("DRIVES","ELECTRIFICATION TARGETS") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","ELECTRIFICATION TARGETS") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

@@ -51,7 +51,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         console.log('in ngOnintit method:::');
         this.getAllFootPatrollingSectionsData();
         this.depotTypeForOhe();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

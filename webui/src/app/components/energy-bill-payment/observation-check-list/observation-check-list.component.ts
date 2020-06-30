@@ -65,7 +65,7 @@ export class ObservationCheckListComponent implements OnInit{
         this.getAllObservationsCheckListData();
         this.observationCategories();
         this.inspectionType();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Check List") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","Obs Check List") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

@@ -61,7 +61,7 @@ export class WorksComponent implements OnInit {
                }
             }
         this.currentYear = (new Date()).getFullYear() ;
-		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","WORK") ;
+		var permissionName = this.commonService.getPermissionNameByLoggedData("WORKS","WORK") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

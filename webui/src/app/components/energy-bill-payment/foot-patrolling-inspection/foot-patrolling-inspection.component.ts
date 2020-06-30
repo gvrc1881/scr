@@ -49,7 +49,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     ngOnInit () {
         this.getAllFootPatrollingInspectionData();
         this.depotTypeForOhe();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","FP Inspection") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Inspection") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

@@ -290,153 +290,6 @@ export class HeaderComponent implements OnInit, DoCheck {
         ] 
       },
       { 
-        ID: 6,
-        menuName: 'Energy Bill Payment', 
-        menuUrl: 'energyBillPayment', 
-        icon: "fa fa-paypal",
-        color: "#12E1EE", 
-        isSelected: true, 
-        permission:this.commonService.findPermission('Energy Bill Payment', 'menu', 'view'),
-        currentTab: !!path && (path.includes("energyBillPayment") || path.includes("guidenceItem") || path.includes("work") || path.includes("sidings") || path.includes("asset-master-data") || path.includes("tractionEneTariff") || path.includes("track")) 
-        || path.includes("energyMeter")|| path.includes("foot-patrolling-sections")|| path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")|| path.includes("daily-summary")|| path.includes("observation-categories")|| path.includes("observation-check-list")?  "open" : "",  
-        subMenus: [
-          {
-            subMenuName: "Guidance",
-            subMenuURL: "guidenceItem",
-            subMenuIcon: "",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Guidence Item', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("guidenceItem") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Work",
-            subMenuURL: "work",
-            subMenuIcon: "",
-            rolePermission:true,
-            permission:this.commonService.findPermission('work', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("work") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Asset Master",
-            subMenuURL: "asset-master-data",
-            subMenuIcon: "fa fas fa-cloud",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("asset-master-data") ? "active-item" : "",
-          },
-          
-          {
-            subMenuName: "Sidings",
-            subMenuURL: "sidings",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Sidings', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("sidings") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Tariff",
-            subMenuURL: "tractionEneTariff",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Traction Energy Tariff', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("tractionEneTariff") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Track",
-            subMenuURL: "track",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Track', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("track") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Energy Meter",
-            subMenuURL: "energyMeter",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Energy Meter', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("energyMeter") ? "active-item" : "",
-          },
-          {
-            subMenuName: "FP Sections",
-            subMenuURL: "foot-patrolling-sections",
-            subMenuIcon: "fa fa-train",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('FP Sections', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("foot-patrolling-sections") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Sections-stations",
-            subMenuURL: "stations-sections",
-            subMenuIcon: "fa fa-train",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
-          },
-          {
-            subMenuName: "TPC Board Assoc",
-            subMenuURL: "tpc-board-depot-assoc",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("TPC Board Assoc") ? "active-item" : "",
-          },
-          {
-            subMenuName: "TPC Board",
-            subMenuURL: "tpc-board",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Daily Summary",
-            subMenuURL: "daily-summary",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("Daily Summary") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Obs Categories",
-            subMenuURL: "observation-categories",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("Obs Categories") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Obs Check List",
-            subMenuURL: "observation-check-list",
-            subMenuIcon: "",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:true,
-            currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
-          },
-          {
-            subMenuName: "FP Inspection",
-            subMenuURL: "foot-patrolling-inspection",
-            subMenuIcon: "fa fa-train",
-            color: "#12E1EE",
-            rolePermission:true,
-            permission:this.commonService.findPermission('FP Inspection', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("foot-patrolling-inspection") ? "active-item" : "",
-          },          
-          
-        ]
-      },
-      { 
         ID: 7,
         menuName: 'Docs', 
         menuUrl: 'contentManagement', 
@@ -466,7 +319,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         permission:this.commonService.findPermission('Drives', 'menu', 'view'),
         currentTab: !!path && path.includes("drives") || path.includes("checklist") ||
         path.includes("target") || path.includes("progress-record") || 
-        path.includes("failure-analysis") || path.includes("electrification-targets") ||
+        path.includes("failure-analysis")  ||
         path.includes("inspection") || path.includes("stipulation")  ? "open" : "",  
         subMenus: [
           {
@@ -509,14 +362,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
           },
-          {
-            subMenuName: "Electrification Targets",
-            subMenuURL: "electrification-targets",
-            subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Electrification Targets', 'submenu', 'view'),
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("electrification-targets") ? "active-item" : "",
-          }
+         
         ]
       },
       { 
@@ -647,7 +493,7 @@ export class HeaderComponent implements OnInit, DoCheck {
       },
       { 
         ID: 12,
-        menuName: 'CONFIG', 
+        menuName: 'MAT CONFIG', 
         menuUrl: 'make', 
         icon: "fa fa-file",
         color: "#12E1EE", 
@@ -673,6 +519,219 @@ export class HeaderComponent implements OnInit, DoCheck {
           },
         ]
       },
+      { 
+        ID: 13,
+        menuName: 'WORKS', 
+        menuUrl: 'work', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('WORKS', 'menu', 'view'),
+        currentTab: !!path &&  path.includes("work") || path.includes("guidenceItem") ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Work",
+            subMenuURL: "work",
+            subMenuIcon: "",
+            rolePermission:true,
+            permission:this.commonService.findPermission('work', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("work") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Guidance",
+            subMenuURL: "guidenceItem",
+            subMenuIcon: "",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Guidence Item', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("guidenceItem") ? "active-item" : "",
+          },
+         
+        ]
+      },
+      { 
+        ID: 14,
+        menuName: 'REGISTER', 
+        menuUrl: 'electrification-targets', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
+        currentTab: !!path && path.includes("electrification-targets")|| path.includes("sidings") 
+        || path.includes("track") || path.includes("asset-master-data")  ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Electrification Targets",
+            subMenuURL: "electrification-targets",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Electrification Targets', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("electrification-targets") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Sidings",
+            subMenuURL: "sidings",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Sidings', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("sidings") ? "active-item" : "",
+          },
+          
+          {
+            subMenuName: "Track",
+            subMenuURL: "track",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Track', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("track") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Asset Master",
+            subMenuURL: "asset-master-data",
+            subMenuIcon: "fa fas fa-cloud",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("asset-master-data") ? "active-item" : "",
+          },
+         
+        ]
+      },
+      { 
+        ID: 15,
+        menuName: 'FP', 
+        menuUrl: 'foot-patrolling-sections', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('FP', 'menu', 'view'),
+        currentTab: !!path && path.includes("foot-patrolling-sections")|| path.includes("observation-categories")
+        || path.includes("observation-check-list")|| path.includes("foot-patrolling-inspection")  ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "FP Sections",
+            subMenuURL: "foot-patrolling-sections",
+            subMenuIcon: "fa fa-train",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('FP Sections', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("foot-patrolling-sections") ? "active-item" : "",
+          },  
+          {
+            subMenuName: "FP Inspection",
+            subMenuURL: "foot-patrolling-inspection",
+            subMenuIcon: "fa fa-train",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('FP Inspection', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("foot-patrolling-inspection") ? "active-item" : "",
+          },   
+          {
+            subMenuName: "Obs Categories",
+            subMenuURL: "observation-categories",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("Obs Categories") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Obs Check List",
+            subMenuURL: "observation-check-list",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
+          }  
+              
+              
+        ]
+      },
+      { 
+        ID: 16,
+        menuName: 'ENERGY', 
+        menuUrl: 'energyMeter', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('ENERGY', 'menu', 'view'),
+        currentTab: !!path &&  path.includes("energyMeter")
+        || path.includes("tractionEneTariff")||path.includes("energyBillPayment")
+         ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Energy Meter",
+            subMenuURL: "energyMeter",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Energy Meter', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("energyMeter") ? "active-item" : "",
+          }, 
+          {
+            subMenuName: "Tariff",
+            subMenuURL: "tractionEneTariff",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Traction Energy Tariff', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("tractionEneTariff") ? "active-item" : "",
+          },  
+          {
+            subMenuName: "Energy Bill Payment",
+            subMenuURL: "energyBillPayment",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Energy Bill Payment', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("energyBillPayment") ? "active-item" : "",
+          },  
+              
+        ]
+      },
+      { 
+        ID: 16,
+        menuName: 'TRD CONFIG', 
+        menuUrl: 'stations-sections', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('TRD CONFIG', 'menu', 'view'),
+        currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")
+         ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Sections-stations",
+            subMenuURL: "stations-sections",
+            subMenuIcon: "fa fa-train",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
+          },
+          {
+            subMenuName: "TPC Board Assoc",
+            subMenuURL: "tpc-board-depot-assoc",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("TPC Board Assoc") ? "active-item" : "",
+          },
+          {
+            subMenuName: "TPC Board",
+            subMenuURL: "tpc-board",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
+          },
+              
+        ]
+      },
+      
     ];
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);

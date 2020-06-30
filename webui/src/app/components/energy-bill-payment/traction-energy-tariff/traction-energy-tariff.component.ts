@@ -62,7 +62,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     }
     
 	ngOnInit() {
-		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TRACTION ENERGY TARIFF") ;//p == 0 ? 'No Permission' : p[0].permissionName;
+		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","TRACTION ENERGY TARIFF") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

@@ -52,7 +52,7 @@ export class SidingsComponent implements OnInit {
  
     ngOnInit()  {
         this.getAllSidingsData();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Sidings") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","Sidings") ;
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

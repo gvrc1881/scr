@@ -50,7 +50,7 @@ export class TrackComponent implements OnInit{
     }
     
 	ngOnInit() {
-		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","TRACK") ;
+		var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","TRACK") ;
   		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);

@@ -49,7 +49,7 @@ export class ObservationCategoriesComponent implements OnInit{
     ngOnInit () {
         this.getAllObservationCategoriesData();
         this.inspectionType();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Obs Categories") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","Obs Categories") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
