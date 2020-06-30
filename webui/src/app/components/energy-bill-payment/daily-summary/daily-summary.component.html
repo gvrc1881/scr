@@ -31,7 +31,54 @@
                                                 <div class="panel panel-primary">
                                                     <div class="panel-heading">{{title}} Daily Summary Item</div>
                                                     <div class="panel-body">
-                                                      <div class="col-md-3">
+                                                      <div class="col-md-3" *ngIf = "enableZone">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select zone" 
+                                                            [formControl]="dailySummaryFormGroup.controls['zone']" (ngModelChange)="findDivisions()">
+                                                            <mat-option *ngFor="let zoneData of zoneList"
+                                                              [value]="zoneData.facilityName">
+                                                              {{ zoneData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-3" *ngIf = "enableDivision">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select Division" 
+                                                            [formControl]="dailySummaryFormGroup.controls['division']" (ngModelChange)="findSubDivisions()">
+                                                            <mat-option *ngFor="let divisionData of divisionList"
+                                                              [value]="divisionData.facilityName">
+                                                              {{ divisionData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-3" *ngIf = "enableSubDiv">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select Sub Division" 
+                                                            [formControl]="dailySummaryFormGroup.controls['subDiv']" (ngModelChange)="findDepots()">
+                                                            <mat-option *ngFor="let subDivData of subDivList"
+                                                              [value]="subDivData.facilityName">
+                                                              {{ subDivData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-3" *ngIf = "enableDepot">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select Depot" 
+                                                            [formControl]="dailySummaryFormGroup.controls['facilityId']" required>
+                                                            <mat-option *ngFor="let depotData of facilityList"
+                                                              [value]="depotData.facilityName">
+                                                              {{ depotData.facilityName }}
+                                                            </mat-option>
+                                                          </mat-select>
+                                                          <mat-error
+                                                            *ngIf="dailySummaryFormGroup.controls['facilityId'].hasError('required') && dailySummaryFormGroup.controls['facilityId'].touched"
+                                                            class="alert alert-danger">Select Depot</mat-error>
+                                                        </mat-form-field>
+                                                      </div>
+                                                      <div class="col-md-3" *ngIf = "enableDepotLevel">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Select Depot" 
                                                             [formControl]="dailySummaryFormGroup.controls['facilityId']" required>
@@ -44,6 +91,11 @@
                                                             *ngIf="dailySummaryFormGroup.controls['facilityId'].hasError('required') && dailySummaryFormGroup.controls['facilityId'].touched"
                                                             class="alert alert-danger">Select Depot</mat-error>                           
                                                         </mat-form-field>
+                                                      </div>
+                                                      <div class = "col-md-3" *ngIf="disableFacility">
+                                                      	<mat-form-field fxFlex="30">
+                                                      		<input matInput placeholder = "Depot" [formControl]="dailySummaryFormGroup.controls['facilityId']" required [readonly]="true"/>
+                                                      	</mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field>

@@ -24,7 +24,7 @@ export class DailySummaryComponent implements OnInit{
     title: string = "Save";
     dailySummaryFormGroup: FormGroup;
     dailySummaryList : any;
-    facilityData:any;
+    facilityData: any;
     today=new Date();
     dailySummaryDataSource: MatTableDataSource<DailySummaryModel>;
     dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast',
@@ -33,7 +33,17 @@ export class DailySummaryComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editDailySummaryResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
+    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    zoneList: FacilityModel [] = [];
+    divisionList:  FacilityModel [] = [];
+    subDivList:  FacilityModel [] = [];
+    facilityList: FacilityModel [] = [];
+	enableZone: boolean ;
+	enableDivision: boolean;
+	enableSubDiv: boolean;
+	enableDepot: boolean;
+	enableDepotLevel: boolean;
+	disableFacility: boolean;
 
 
     constructor(
@@ -55,7 +65,7 @@ export class DailySummaryComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.depotTypeOheAndPsi();
+        //this.depotTypeOheAndPsi();
         this.dailySummaryFormGroup = this.formBuilder.group({
             id: 0,
             'createdDate':[null, Validators.required, this.duplicateFromDate.bind(this)],
@@ -72,9 +82,31 @@ export class DailySummaryComponent implements OnInit{
             'staffStrength' : [null,Validators.maxLength(250)],
             'powerBlock' : [null,Validators.maxLength(250)],
             'nonPowerBlock' : [null,Validators.maxLength(250)],
-            'remarks' : [null,Validators.maxLength(250)]
+            'remarks' : [null,Validators.maxLength(250)],
+            'zone' : [null],
+            'division' : [null],
+            'subDiv' : [null],
         });
+        this.displayHierarchyFields();
     }
+    
+    displayHierarchyFields(){
+    	this.zoneList = [];
+    	this.divisionList = [];
+    	this.subDivList = [];
+    	this.facilityList = [];
+    	for (let i = 0; i < this.userHierarchy.length; i++) {
+               if(this.userHierarchy[i].depotType == 'ZONE'){
+               	this.zoneList.push(this.userHierarchy[i]);
+               	this.enableZone = true;
+               }
+            }
+        if(!this.enableZone){
+        	this.depotTypeOheAndPsi();
+        	this.enableDepotLevel = true;
+        }    
+    }
+    
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
 	       this.dailySummaryService.existsFacilityIdAndCreatedDate(
@@ -174,6 +206,7 @@ export class DailySummaryComponent implements OnInit{
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();
                 this.addDailySummary =  false;
+                this.displayHierarchyFields();
             } , error => {})
             
         }
@@ -183,6 +216,12 @@ export class DailySummaryComponent implements OnInit{
         this.addDailySummary = true;
         this.dailySummaryEditAction(id);
         this.title = 'Update';
+        this.enableZone = false;
+        this.enableDivision = false;
+        this.enableSubDiv = false;
+        this.enableDepot = false;
+        this.disableFacility = true;
+        this.enableDepotLevel = false;
     }
 
     dailySummaryEditAction(id: number) {
@@ -220,6 +259,7 @@ export class DailySummaryComponent implements OnInit{
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.DELETE_DAILY_SUMMARY, id).subscribe(response => {
                         this.commonService.showAlertMessage('DailySummary Deleted Successfully');
                         this.getAllDailySummaryData();
+                        this.displayHierarchyFields();
                     },error => {});
             }
         });
@@ -236,6 +276,10 @@ export class DailySummaryComponent implements OnInit{
         this.dailySummaryFormGroup.reset();
         this.addDailySummary = false;
         this.title = 'Save';
+        this.enableDivision = false;
+        this.enableSubDiv = false;
+        this.enableDepot = false;
+        this.displayHierarchyFields();
     }
     depotTypeOheAndPsi()
         {
@@ -248,6 +292,37 @@ export class DailySummaryComponent implements OnInit{
 
        NewDailySummary () {
         this.addDailySummary = true;
+        this.disableFacility = false;
+    }
+    
+    findDivisions(){
+    	let zone: string = this.dailySummaryFormGroup.value.zone;
+    	for (let i = 0; i < this.userHierarchy.length; i++) {
+               if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
+               	this.divisionList.push(this.userHierarchy[i]);
+               	this.enableDivision = true;
+               }
+            }
+    }
+    
+    findSubDivisions(){
+    	let division: string = this.dailySummaryFormGroup.value.division;
+    	for (let i = 0; i < this.userHierarchy.length; i++) {
+               if(this.userHierarchy[i].division == division && this.userHierarchy[i].depotType == 'SUBDIV'){
+               	this.subDivList.push(this.userHierarchy[i]);
+               	this.enableSubDiv = true;
+               }
+            }
+    }
+    
+    findDepots(){
+    	let subDiv: string = this.dailySummaryFormGroup.value.subDiv;
+    	for (let i = 0; i < this.userHierarchy.length; i++) {
+               if(this.userHierarchy[i].subDivision == subDiv && (this.userHierarchy[i].depotType == 'OHE' || this.userHierarchy[i].depotType == 'PSI') ){
+               	this.facilityList.push(this.userHierarchy[i]);
+               	this.enableDepot = true;
+               }
+            }
     }
 
 }
