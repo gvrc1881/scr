@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from '../../../common/common.service';
-
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { DepartmentModel } from 'src/app/models/department.model';
 import { Constants } from 'src/app/common/constants';
@@ -49,6 +49,7 @@ export class DepartmentComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private departmentService: DepartmentService,
+    private sendAndRequestService:SendAndRequestService
   ) {
 
     this.departmentErrors = {
@@ -79,7 +80,7 @@ export class DepartmentComponent implements OnInit {
   }
   departmentEditAction(id: number) {
     this.addDepartment = true;
-    this.departmentService.findRepartmentById(id).subscribe((resp) => {
+    this.sendAndRequestService.requestForGETId(Constants.app_urls.MASTERS.DEPARTMENT.GET_DEPARTMENT_ID, id).subscribe((resp) => {
       this.cloneupdate = false;
       this.updatedata = false;
       this.saveDepartment = false;
@@ -95,7 +96,7 @@ export class DepartmentComponent implements OnInit {
 
   getDepartmentdata() {
     const department: DepartmentModel[] = [];
-    this.departmentService.findAllDepartments().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.DEPARTMENT.GET_DEPARTMENTS).subscribe((data) => {
       this.departmentList = data;
       for (let i = 0; i < this.departmentList.length; i++) {
         this.departmentList[i].sno = i + 1;
@@ -141,7 +142,8 @@ export class DepartmentComponent implements OnInit {
       DepartmentPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
       DepartmentPayload.ADD_PAYLOAD.modifiedBy = this.loggedUserData.id;
       DepartmentPayload.ADD_PAYLOAD.departmentName = departmentName;
-      this.departmentService.addDepartment(DepartmentPayload.ADD_PAYLOAD).subscribe((data) => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.DEPARTMENT.SAVE_DEPARTMENT, DepartmentPayload.ADD_PAYLOAD)
+       .subscribe((data) => {
         this.data = data;
         this.commonService.showAlertMessage("Department Saved Successfully");
         setTimeout(() => { this.status = false }, 4000)
@@ -163,7 +165,7 @@ export class DepartmentComponent implements OnInit {
       DepartmentPayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
       DepartmentPayload.UPDATE_PAYLOAD.departmentName = departmentName;
       //console.log("Update Payload =" + JSON.stringify(DepartmentPayload.UPDATE_PAYLOAD))
-      this.departmentService.updateDepartment(DepartmentPayload.UPDATE_PAYLOAD)
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.DEPARTMENT.UPDATE_DEPARTMENT,DepartmentPayload.UPDATE_PAYLOAD)
         .subscribe((data) => {
           this.commonService.showAlertMessage("Department Updated Successfully");
           this.title = "Save";
@@ -213,8 +215,8 @@ export class DepartmentComponent implements OnInit {
     this.title = 'Save';
   }
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
     this.departmentDataSource.filter = filterValue;
   }
   deleteDepartment(id) {
@@ -225,7 +227,7 @@ export class DepartmentComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.departmentService.deleteDepartment(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.DEPARTMENT.DELETE_DEPARTMENT, id)
           .subscribe((data) => {
             this.commonService.showAlertMessage('Department Deleted Successfully.')
             this.getDepartmentdata();

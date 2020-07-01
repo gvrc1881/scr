@@ -7,6 +7,9 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/m
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from '../../../common/common.service';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
+
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
@@ -49,6 +52,8 @@ export class UsersComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
         private repositoryService: RepositoryService,
+        private sendAndRequestService:SendAndRequestService
+
     ) {
         // Reactive form errors
         this.userFormErrors = {
@@ -93,8 +98,7 @@ export class UsersComponent implements OnInit {
             this.saveUser = false;
             this.updateUser = true;
             this.checkInput = true;
-            this._userMenuService.getUsersListById(this.id)
-
+            this.sendAndRequestService.requestForGETId(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID, this.id)
                 .subscribe(resp => {
                     
 this.resp = resp;
@@ -137,12 +141,12 @@ this.resp = resp;
             this.checkInput = false;
         }
 
-        this._userMenuService.roletypeMaster()
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.ROLE_TYPE_MASTER)
             .subscribe((roles) => {
                 
                 this.rolesList = roles;
             })
-        this._userMenuService.departmentNameList().subscribe((department) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_DEPARTMENT_MASTER).subscribe((department) => {
            
             this.departmentList = department;
         })
@@ -254,7 +258,7 @@ this.resp = resp;
                 return;
             }
 
-            this._userMenuService.saveUsersList({              
+                var saveUsersModel ={             
                 "user_id": null,
                 "username": var_userName,
                 "email": var_email,
@@ -273,8 +277,9 @@ this.resp = resp;
                 "createdBy": null,                
                 "roleTypeId": var_role,
                 "status_id": 1,
-                "divisionCode":repositoryCode             
-            }).subscribe((data) => {
+                "divisionCode":repositoryCode    
+                }         
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS, saveUsersModel).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage('User Added Successfully.')
                 if (this.data) {

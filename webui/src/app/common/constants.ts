@@ -17,7 +17,7 @@ export const Constants = {
         REPORTS:{
             GET_REPORT_PARAMETER:"/reportParameterNames",
             GET_REPORT_NAMES:"/reportNames/",
-            GET_MAKE_DETAILS:"/makeReport",
+            GET_MAKE_REPORT:"/makeReport",
             GET_FACILITY_NAMES:"/facilityNames",
             GET_POWER_BLOCKS:"/powerBlocks",
             GET_ZONE_LIST:"/zoneList",
@@ -25,6 +25,39 @@ export const Constants = {
             GET_ELEMENTARY_SECTIONS:"/elementarySectionsByFacilityId",
             GET_OBS_CATEGORIES:"/observationCategories",
             GET_OBS_CHECK_LIST:"/observationCheckList",
+            GET_REPORT:"/generateReport",
+            GET_ASSET_TYPES:"/allAssetTypeReports/",
+            GET_ASSETMASTER_DATA:"/assetMasterData",
+            GET_DIVISION_DETAILS:"/divisionDetails",
+            GET_DEPOTTYPE_FOR_OHE:"/depotTypeForOhe",
+            GET_INSPECTION_TYPE:"/inspectionTypeData",
+            GET_ENERGY_SUPPLIERS:"/electricEnergySuppliers",
+            GET_DEPOT_OHE_AND_PSI:"/depotTypeOheAndPsi",
+            GET_FUNCTIONAL_LOCATION_TYPES:"/functionalLocationsTypes",
+            GET_STIPULATION_DETAILS:"/stipulationDetails",
+            GET_UOM_DETAILS:"/uomDetails",
+            GET_SECTION_DETAILS:"/sectionDetails",
+            GET_STATUS_DETAILS:"/statusItemDetails/",
+            GET_MAKE_DETAILS:"/makeDetails",
+            GET_MODEL_DETAILS:"/modelDetails",
+            GET_MAJOR_SECTION_DETAILS:"/majorSectionDetails",
+            GET_PRODUCT_MAKE_MODEL_ASSOC:"/productMakeModelAssoc",
+            GET_TPC_BOARD_DETAILS:"/tpcBoardDetails",
+            GET_PRECAUTIONARY_MEASURE_DETAILS:"/precautionaryMeasureDetails",
+            GET_ELECTRIFICATION_TARGET_DETAILS:"/electrificationTargets",
+            GET_FAILUREANALYSIS_DETAILS:"/failureAnalysisDetails",
+            GET_CRS_EIG_INSPECTION_DETAILS:"/crsEigInspectionDetails",
+            GET_TSS_FEEDER_MASTER_DETAILS:"/findAllTssFeederMaster",
+            GET_CONTENET_TOPIC:"/existsContentTopic",
+            GET_CONTENT_CATEGORY:"/existsContentCategory",
+            GET_ASSETTYPE_BASED_ON_ASSETID_FACILITYID:"/assetTypeBasedonAssetIdAndFacilityId/",
+            GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/assetIdBasedonAssetTypeAndFacilityId/",
+            GET_FACILITY_BASED_ON_DEPOTTYPE:"/getFacilitysBasedOnDepotType/",
+            GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE:"/getscheduleCodesBasedonAssetType/",
+            GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES:"/getAssetIdBasedOnScheduleCodesAndAssetTypes/",
+            GET_DIVISION_BASED_ON_ZONE:"/getDivisionBasedOnZone/",
+            GET_SUBDIVISION_BASED_ON_DIVISION:"/getSubDivisionBasedOnDivision/",
+            GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/"
         },
         JOBS_TRACKING:{
             GET_JOB_TYPE:"/findAllJobTypes",
@@ -34,6 +67,53 @@ export const Constants = {
             DELETE_JOB_TYPE:"/deleteJobType/"
         },
         MASTERS:{
+            ROLE_TYPE:{
+                GET_ROLE_LIST:"/findAllRoles",
+                GET_MASTER_ROLE_LIST:"/findMasterRoles",
+                GET_ROLE_DATA_ID:"/roleById/",
+                SAVE_ROLE:"/addRole",
+                UPDATE_ROLE:"/editRole",
+                SAVE_ROLE_PERMISSION:"/api/saveRolePermission/",
+                DELETE_ROLE:"/deleteRole/",
+                GET_PERMISSION:"/permissions",
+                DELETE_ROLE_PERMISSION:"/api/api/Permissions/Delete?id=",
+                GET_ROLE_TYPE_PERMISSION:"/api/getRoleTypePermissons/",
+                DUPLICATE_ROLE_TYPE:"/findDuplicateRole/",
+                CREATED_PERMISSIONS:"/savePermission"
+            },
+            DEPARTMENT:{
+                GET_DEPARTMENTS:"/findAllDepartments",
+                GET_DEPARTMENT_ID:"/findRepartmentById/",
+                SAVE_DEPARTMENT:"/addDepartment",
+                UPDATE_DEPARTMENT:"/updateDepartment",
+                DELETE_DEPARTMENT:"/deleteDepartment/",
+                EXIST_DEPARTMENT:"/existsDepartmentName/"
+            },
+            USERS:{
+                GET_USER:"/users",
+                GET_USER_ID:"/users/",
+                SAVE_USER:"/users/register",
+                UPDATE_USER:"/users/",
+                DELETE_USER:"/users/",
+                GET_ALLUSERS:"/allUsers",
+                ROLE_TYPE_MASTER:"/findAllRoles",
+                GET_DEPARTMENT_MASTER:"/findAllDepartments",
+                SAVE_USERS:"/addUser",
+                GET_USERS_BYID:"/findUserById/",
+                UPDATE_USERS:"/editUser",
+                DELETE_USERS:"/deleteUser/",
+                EXIST_EMAIL:"/duplicateEmail"
+            },
+            ROLE_PERMISSIONS:{
+
+                GET_ROLE_PERMISSION:"/findAllRolesWithPermissions",
+                GET_TIME_INTERVAL_BY_ID:"/findTimeIntervalById/",
+                SAVE_TIME_INTERVAL:"/addTimeInterval",
+                UPDATE_TIME_INTERVAL:"/updatePermission",
+                DELETE_TIME_INTERVAL:"/deleteTimeInterval/",
+                EXISTS_TIME_INTERVAL:"/existsTimeInterval/"
+            },
+            
 
         },
         ENERGY_BILL_PAYMENTS:{
@@ -132,7 +212,7 @@ export const Constants = {
                 GET_DRIVE_CATEGORY_ID:"/driveCategoryById/",
                 SAVE_DRIVE_CATEGORY:"/saveDriveCategory",
                 UPDATE_DRIVE_CATEGORY:"/updateDriveCategory",
-                DELETE_DRIVE_CATEGORY:'/deleteDriveCategory/'
+                DELETE_DRIVE_CATEGORY:"/deleteDriveCategory/"
 
             },
             DRIVE_CATEGORY_ASSOCIATION:{
@@ -188,26 +268,6 @@ export const Constants = {
         },
         FAILURES:{
             
-        },
-        CONFIG:{
-            MAKE:{  
-            GET_MAKE:"/findAllMake",
-            SAVE_MAKE:"/addMake",
-            GET_MAKE_ID:"/findMakeById/",
-            EXIST_MAKE_CODE:"/existsMakeCode/",
-            UPDATE_MAKE:"/updateMake",
-            DELETE_MAKE_ID:"/deleteMake/"
-            },
-            MODEL:{  
-                GET_MODEL:"/findAllModel",
-                SAVE_MODEL:"/addModel",
-                GET_MODEL_ID:"/findModelById/",
-                EXIST_MODEL_CODE:"/existsModelCode/",
-                UPDATE_MODEL:"/updateModel",
-                DELETE_MODEL_ID:"/deleteModel/"
-                },
-
-
         }
     },
     EVENTS:{

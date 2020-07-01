@@ -11,6 +11,8 @@ import {FailuresTableModel}from 'src/app/models/failures-table.model';
 import { ProductModel } from 'src/app/models/product.model';
 import { ScheduleModel } from 'src/app/models/schedule.model';
 import { PreviousRouteService } from 'src/app/services/previousRoute.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
     selector: 'app-reportParameterDisplay',
@@ -32,8 +34,8 @@ export class ReportParameterDisplayComponent implements OnInit {
      divisionsData:any;
      parameterData:any;
      observationCategory:any;
-     facilityData:FacilityModel;
-     failuresModel:FailuresTableModel;
+     facilityData:any;
+     failuresModel:any;
      productModel:ProductModel;
      scheduleData:ScheduleModel;
      submitedForm:any;
@@ -48,6 +50,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        private Activatedroute:ActivatedRoute,
         private router:Router,
         private formBuilder: FormBuilder ,
+        private sendAndRequestService:SendAndRequestService,
         private previousRouterUrl: PreviousRouteService) { }
      
     ngOnInit() {        
@@ -68,7 +71,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.assetType = 'PSI_FIXED_ASSET'
        }
       
-       this.reportService.allAssetTypeReports(this.assetType).subscribe((data)=>{
+       this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_ASSET_TYPES,this.assetType).subscribe((data)=>{
          this.assetType =data;
      })
         this.reportModel = new ReportModel();
@@ -101,22 +104,17 @@ export class ReportParameterDisplayComponent implements OnInit {
          {
                 const parameterData : FacilityModel[] = [];
                 console.log('facilityModel');
-                this.reportService. reportParameterNames().subscribe((data) => {
+                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_PARAMETER).subscribe((data) => {
                   this.parameterData = data;
-                  
-                 // console.log('parameter Data '+JSON.stringify(data))
-         }
+                           }
                 );
 
         }
         facilityNames()
         {
                const facilityData : ReportParameterModel[] = [];
-               console.log('facilityData27-12-19');
-               this.reportService. facilityNames().subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                  this.facilityData = data;
-                // console.log('facility27-19-19'+this.facilityData);
-                // console.log('facilityData '+JSON.stringify(data))
         }
                );
 
@@ -124,37 +122,31 @@ export class ReportParameterDisplayComponent implements OnInit {
        powerBlocks()
         {
                const failuresModel : FailuresTableModel[] = [];
-               //console.log('failuresModel');
-               this.reportService. powerBlocks().subscribe((data) => {
-                 this.failuresModel = data;
-                 //console.log('failuresModel'+this.facilityData);
-                 
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_POWER_BLOCKS).subscribe((data) => {
+                 this.failuresModel = data;     
         }
                );
 
        }
        observationCategories()
         {
-               
-               this.reportService. observationCategories().subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CATEGORIES).subscribe((data) => {
                  this.department = data;
         }
                );
 
        }
        zoneList()
-        {
-              
-               this.reportService. zoneList().subscribe((data) => {
+        {   
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
                  this.zoneData = data;
         }
                );
 
        }
        observationCheckList()
-        {
-               
-               this.reportService. observationCheckList().subscribe((data) => {
+        {    
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CHECK_LIST).subscribe((data) => {
                  this.observationCategory = data;
         }
                );
@@ -163,7 +155,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        elementarySections()
        {
                
-              this.reportService. elementarySections().subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ELEMENTARY_SECTIONS).subscribe((data) => {
                 this.elementarySectionCode = data;
        }
               );
@@ -172,7 +164,7 @@ export class ReportParameterDisplayComponent implements OnInit {
       pbSwitchControl()
       {
               
-             this.reportService. pbSwitchControl().subscribe((data) => {
+       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_PB_SWITCH_CONTROL).subscribe((data) => {
                this.pbSwitchControlData = data;
       }
              );
@@ -187,14 +179,14 @@ export class ReportParameterDisplayComponent implements OnInit {
        {   
 
           this.reportModel.reportId=this.id;
-          console.log("facilityId6-1-2020:::"+JSON.stringify(this.reportModel));
+         // console.log("facilityId6-1-2020:::"+JSON.stringify(this.reportModel));
           this.submitedForm = "";
           console.log("Report Model::2-1-2020:::"+this.reportModel);
-          this.reportService.generateReport(this.reportModel).subscribe((response) => {
+          this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_REPORT,this.reportModel)
+             .subscribe((response) => {
           this.submitedForm = response;
           let pdfWindow = window.open("download","");
           let content = encodeURIComponent(this.submitedForm.outputData);
-                    // let content=JSON.stringify(ReportPayload.GET.outputData);
           let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";
           let iframeEnd= "'><\/iframe>";
           pdfWindow.document.write(iframeStart + content + iframeEnd);

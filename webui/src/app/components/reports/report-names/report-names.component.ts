@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ReportService  } from "src/app/services/report.service";
 import { Router } from '@angular/router';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-report-names.component',
@@ -15,6 +17,8 @@ export class ReportNamesComponent implements OnInit {
   constructor(
     private reportService: ReportService,   
     private router: Router, 
+    private sendAndRequestService:SendAndRequestService
+
   ) { }
 
   ngOnInit() {   
@@ -44,9 +48,9 @@ export class ReportNamesComponent implements OnInit {
       this.breadcrumb = 'Asset Master Reports';
     }
     console.log("reportType"+this.reportType)  
-    this.reportService.reportNames(this.reportType).subscribe((data)=>{
+    this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_REPORT_NAMES,this.reportType)
+    .subscribe((data)=>{
       this.reportNamesData =data;
-     // console.log(reportType+' = '+JSON.stringify(data))
   })
 }
   
