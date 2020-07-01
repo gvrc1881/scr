@@ -177,7 +177,7 @@ export class AddDriveCategoryComponent implements OnInit {
         "fromDate": this.addDriveCategoryFormGroup.value.fromDate,
         "toDate": this.addDriveCategoryFormGroup.value.toDate,
         "authority": this.addDriveCategoryFormGroup.value.authority,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY.SAVE_DRIVE_CATEGORY, saveDriveModel).subscribe(response => {
@@ -202,7 +202,7 @@ export class AddDriveCategoryComponent implements OnInit {
         "fromDate": this.addDriveCategoryFormGroup.value.fromDate,
         "toDate": this.addDriveCategoryFormGroup.value.toDate,
         "authority": this.addDriveCategoryFormGroup.value.authority,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY.UPDATE_DRIVE_CATEGORY, updateDriveModel).subscribe(response => {

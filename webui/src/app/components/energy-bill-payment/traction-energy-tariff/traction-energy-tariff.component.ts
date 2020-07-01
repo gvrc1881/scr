@@ -205,7 +205,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         // TractionEnergyTariffPayload.ADD_PAYLOAD.year = this.tractionEnergyTariffFormGroup.value.year;
         TractionEnergyTariffPayload.ADD_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
-        TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
+        TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
         // console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.SAVE_TARIFF,TractionEnergyTariffPayload.ADD_PAYLOAD).subscribe((data) => {
@@ -231,7 +231,7 @@ export class TractionEnergyTariffComponent implements OnInit{
 	       // TractionEnergyTariffPayload.UPDATE_PAYLOAD.year = this.tractionEnergyTariffFormGroup.value.year;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
-	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
+	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.UPDATE_TARIFF,TractionEnergyTariffPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.tariffResponse = data;
               	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  

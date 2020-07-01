@@ -149,7 +149,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
         "performedCount": this.addDriveDailyProgressFormGroup.value.performedCount,
         "supervisor": this.addDriveDailyProgressFormGroup.value.supervisor,
         "driveId": this.addDriveDailyProgressFormGroup.value.drive,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
@@ -179,7 +179,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
         "performedCount": this.addDriveDailyProgressFormGroup.value.performedCount,
         "supervisor": this.addDriveDailyProgressFormGroup.value.supervisor,
         "driveId": this.addDriveDailyProgressFormGroup.value.drive,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';

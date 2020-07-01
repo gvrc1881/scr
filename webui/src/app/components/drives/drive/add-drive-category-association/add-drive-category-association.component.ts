@@ -134,7 +134,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "driveId": this.addDriveCategoryAssoFormGroup.value.drive,
         "driveCategoryId": this.addDriveCategoryAssoFormGroup.value.driveCategory,
         "active": this.addDriveCategoryAssoFormGroup.value.active,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.SAVE_DRIVE_CATEGORY_ASSOC, saveDriveModel).subscribe(response => {
@@ -157,7 +157,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "driveId": this.addDriveCategoryAssoFormGroup.value.drive,
         "driveCategoryId": this.addDriveCategoryAssoFormGroup.value.driveCategory,
         "active": this.addDriveCategoryAssoFormGroup.value.active,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.UPDATE_DRIVE_CATEGORY_ASSOC, updateDriveModel).subscribe(response => {

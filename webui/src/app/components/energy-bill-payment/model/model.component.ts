@@ -40,6 +40,7 @@ export class ModelComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     modelResponse:any;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     
    
     constructor( 
@@ -90,7 +91,7 @@ export class ModelComponent implements OnInit{
         let description: string=this.modelFormGroup.value.description;
         let brandName: string=this.modelFormGroup.value.brandName;
         let modelType: string=this.modelFormGroup.value.modelType;
-        let modecode:string=this.modelFormGroup.value.modecode;
+       
        this.addModel=false;
 
        if(this.title == Constants.EVENTS.SAVE)
@@ -101,6 +102,7 @@ export class ModelComponent implements OnInit{
             ModelPayload.ADD_PAYLOAD.description =description;
             ModelPayload.ADD_PAYLOAD.brandName =brandName;
             ModelPayload.ADD_PAYLOAD.modelType =modelType;
+            ModelPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
             console.log("ADD Payload =" + JSON.stringify(ModelPayload.ADD_PAYLOAD))
            // this.modelService.save(ModelPayload.ADD_PAYLOAD)
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD)
@@ -131,6 +133,7 @@ export class ModelComponent implements OnInit{
        ModelPayload.UPDATE_PAYLOAD.description =description;
        ModelPayload.UPDATE_PAYLOAD.brandName =brandName;
        ModelPayload.UPDATE_PAYLOAD.modelType =modelType;
+       ModelPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
         console.log("Update Payload =" + JSON.stringify(ModelPayload.UPDATE_PAYLOAD))
        // this.modelService.update(ModelPayload.UPDATE_PAYLOAD)
        this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MODEL.UPDATE_MODEL,ModelPayload.UPDATE_PAYLOAD)

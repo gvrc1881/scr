@@ -39,6 +39,7 @@ export class SidingsComponent implements OnInit {
     selected: any;
     yes: any;
     onlyNo: boolean;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
    
     constructor(
         
@@ -156,6 +157,9 @@ export class SidingsComponent implements OnInit {
                 'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
+                "createdBy": this.loggedUserData.username,
+
+
             }              
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.SAVE_SIDINGS, saveSidingsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
@@ -182,7 +186,8 @@ export class SidingsComponent implements OnInit {
                 'workOrderDate' : workOrderDate,
                 'workProgressPercentage' : workProgressPercentage,
                 'workProgressRemark' : workProgressRemark,
-                'completionDate' : completionDate
+                'completionDate' : completionDate,
+                "updatedBy": this.loggedUserData.username,
             }
                 this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.UPDATE_SIDINGS, updateSidingsModel).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');

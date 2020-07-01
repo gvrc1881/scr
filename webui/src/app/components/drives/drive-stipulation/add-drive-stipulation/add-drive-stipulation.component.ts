@@ -163,7 +163,7 @@ export class AddDriveStipulationComponent implements OnInit {
         dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.drivesService.saveStipulationData(save, this.selectedFiles).subscribe(response => {
@@ -190,7 +190,7 @@ export class AddDriveStipulationComponent implements OnInit {
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
         attachment: this.resp.attachment,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.drivesService.updateStipulationData(update, this.selectedFiles).subscribe(response => {

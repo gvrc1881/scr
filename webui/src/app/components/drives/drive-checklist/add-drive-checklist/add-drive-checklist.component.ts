@@ -149,7 +149,7 @@ export class AddDriveChecklistComponent implements OnInit {
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
         active: this.addDriveChecklistFormGroup.value.status,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.drivesService.saveCheckListData(save).subscribe(response => {
@@ -175,7 +175,7 @@ export class AddDriveChecklistComponent implements OnInit {
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
         active: this.addDriveChecklistFormGroup.value.status,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.drivesService.updateCheckListData(update).subscribe(response => {

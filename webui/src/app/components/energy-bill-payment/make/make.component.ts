@@ -40,6 +40,7 @@ export class MakeComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     makeResponse:any;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 
     constructor( 
         private formBuilder: FormBuilder,
@@ -100,6 +101,7 @@ export class MakeComponent implements OnInit{
             MakePayload.ADD_PAYLOAD.description =description;
             MakePayload.ADD_PAYLOAD.brandName =brandName;
             MakePayload.ADD_PAYLOAD.makeType =makeType;
+            MakePayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
             console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
            // this.makeService.save(MakePayload.ADD_PAYLOAD)
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD)
@@ -131,6 +133,7 @@ export class MakeComponent implements OnInit{
        MakePayload.UPDATE_PAYLOAD.description =description;
        MakePayload.UPDATE_PAYLOAD.brandName =brandName;
        MakePayload.UPDATE_PAYLOAD.makeType =makeType;
+       MakePayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
         console.log("Update Payload =" + JSON.stringify(MakePayload.UPDATE_PAYLOAD))
        // this.makeService.update(MakePayload.UPDATE_PAYLOAD)
        this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MAKE.UPDATE_MAKE,MakePayload.UPDATE_PAYLOAD)

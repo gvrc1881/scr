@@ -219,7 +219,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
@@ -260,7 +260,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';

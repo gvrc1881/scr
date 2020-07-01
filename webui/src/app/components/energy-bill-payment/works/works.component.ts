@@ -56,7 +56,7 @@ export class WorksComponent implements OnInit {
     ngOnInit() {
           for (let i = 0; i < this.userHierarchy.length; i++) {
                if(this.userHierarchy[i].depotType == 'DIV'){
-	               console.log('IN SIDE LOOP ****'+JSON.stringify(this.userHierarchy[i]));
+	              // console.log('IN SIDE LOOP ****'+JSON.stringify(this.userHierarchy[i]));
                	this.divisionList.push(this.userHierarchy[i]);
                }
             }
@@ -147,7 +147,7 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.tkm = this.workFormGroup.value.tkm;
         WorksPayload.ADD_PAYLOAD.workName = this.workFormGroup.value.workName;
         WorksPayload.ADD_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
-        WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
+        WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.SAVE_WORK, WorksPayload.ADD_PAYLOAD).subscribe((data) => {
                 this.workResponse = data;
@@ -185,7 +185,7 @@ export class WorksComponent implements OnInit {
 	        WorksPayload.UPDATE_PAYLOAD.tkm = this.workFormGroup.value.tkm;
 	        WorksPayload.UPDATE_PAYLOAD.workName = this.workFormGroup.value.workName;
 	        WorksPayload.UPDATE_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
-	        WorksPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
+	        WorksPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.UPDATE_WORK, WorksPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {

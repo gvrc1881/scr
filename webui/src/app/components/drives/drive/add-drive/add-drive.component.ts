@@ -264,7 +264,7 @@ export class AddDriveComponent implements OnInit {
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
         "active": this.addDriveFormGroup.value.status,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel).subscribe(response => {
@@ -297,7 +297,7 @@ export class AddDriveComponent implements OnInit {
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
         "active": this.addDriveFormGroup.value.status,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE.UPDATE_DRIVE, updateDriveModel).subscribe(response => {

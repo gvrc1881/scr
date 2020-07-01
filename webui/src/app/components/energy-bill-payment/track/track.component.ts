@@ -79,7 +79,7 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.tkm = this.trackFormGroup.value.tkm;
         TrackPayload.ADD_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
         TrackPayload.ADD_PAYLOAD.remark = this.trackFormGroup.value.remark;
-        TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
+        TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
         //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD).subscribe((data) => {
@@ -104,7 +104,7 @@ export class TrackComponent implements OnInit{
 	        TrackPayload.UPDATE_PAYLOAD.tkm = this.trackFormGroup.value.tkm;
 	        TrackPayload.UPDATE_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
 	        TrackPayload.UPDATE_PAYLOAD.remark = this.trackFormGroup.value.remark;
-	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.id;
+	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {

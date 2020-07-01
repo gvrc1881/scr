@@ -193,7 +193,7 @@ export class AddDriveTargetComponent implements OnInit {
         "target": this.addDriveTargetFormGroup.value.target,
         "poulation": this.addDriveTargetFormGroup.value.poulation,
         "driveId": this.addDriveTargetFormGroup.value.drive,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
@@ -220,7 +220,7 @@ export class AddDriveTargetComponent implements OnInit {
         "target": this.addDriveTargetFormGroup.value.target,
         "poulation": this.addDriveTargetFormGroup.value.poulation,
         "driveId": this.addDriveTargetFormGroup.value.drive,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';

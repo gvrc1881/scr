@@ -4,7 +4,8 @@ export const ModelPayload = {
       "modelCode":"",
       "description":"",
       "brandName":"",
-      "modelType":""
+      "modelType":"",
+      "createdBy":""
       
     },
     UPDATE_PAYLOAD: {
@@ -12,6 +13,7 @@ export const ModelPayload = {
         "modelCode":"",
         "description":"",
         "brandName":"",
-        "modelType":""
+        "modelType":"",
+        "updatedBy":""
     },
 };

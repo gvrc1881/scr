@@ -190,7 +190,7 @@ export class AddDriveInspectionComponent implements OnInit {
         authorisationDate: this.addDriveInspectionFormGroup.value.authorisationDate,
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
         station: this.addDriveInspectionFormGroup.value.station,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.drivesService.saveInspectionsData(save, this.selectedFiles).subscribe(response => {
@@ -222,7 +222,7 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
         attachment: this.resp.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
       this.drivesService.updateInspectionsData(update, this.selectedFiles).subscribe(response => {

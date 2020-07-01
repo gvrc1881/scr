@@ -208,7 +208,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         "sanctionByBoard": this.addDriveElectrificationTargetsFormGroup.value.sanctionByBoard,
         "yearOfSanction": this.addDriveElectrificationTargetsFormGroup.value.yearOfSanction,
         "dateOfCompletion": this.addDriveElectrificationTargetsFormGroup.value.dateOfCompletion,
-        "createdBy": this.loggedUserData.id,
+        "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
@@ -248,7 +248,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         "sanctionByBoard": this.addDriveElectrificationTargetsFormGroup.value.sanctionByBoard,
         "yearOfSanction": this.addDriveElectrificationTargetsFormGroup.value.yearOfSanction,
         "dateOfCompletion": this.addDriveElectrificationTargetsFormGroup.value.dateOfCompletion,
-        "updatedBy": this.loggedUserData.id,
+        "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';
