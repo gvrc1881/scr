@@ -268,7 +268,25 @@ export const Constants = {
         },
         FAILURES:{
             
-        }
+        },
+        CONFIG:{
+            MAKE:{  
+            GET_MAKE:"/findAllMake",
+            SAVE_MAKE:"/addMake",
+            GET_MAKE_ID:"/findMakeById/",
+            EXIST_MAKE_CODE:"/existsMakeCode/",
+            UPDATE_MAKE:"/updateMake",
+            DELETE_MAKE_ID:"/deleteMake/"
+            },
+            MODEL:{  
+                GET_MODEL:"/findAllModel",
+                SAVE_MODEL:"/addModel",
+                GET_MODEL_ID:"/findModelById/",
+                EXIST_MODEL_CODE:"/existsModelCode/",
+                UPDATE_MODEL:"/updateModel",
+                DELETE_MODEL_ID:"/deleteModel/"
+                },
+            }
     },
     EVENTS:{
         ADD:"Add",
