@@ -51,30 +51,31 @@ export class ContentManagementComponent implements OnInit {
     }
     ngOnInit() {
         // console.log(JSON.stringify(this.userdata))
-        this.createCMForm();
-
-        var permissionName = this.commonService.getPermissionNameByLoggedData("CONTENT MANAGEMENT","CONTENT MANAGEMENT") ;
-  		console.log("permissionName = "+permissionName);
-  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
-    	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
-    	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-
-        this.contentManagementFormGroup.get('GenOps').valueChanges.subscribe(item => {
-           /*  let ops = this.GenOpsArray.filter(function (value) {
-                return item == value.ID;
-            });
-            if (item == 2) {
-                this.onlyDrawing = true;
-            } else {
-                this.onlyDrawing = false;
-            }
-            console.log(this.selectedGenOps) */
-          //  this.selectedGenOps = ops[0].VALUE;
-            //this.getUploadedFiles();
-        })
-
+        this.init();
     }
-
+    init(){
+        this.createCMForm();
+        
+                var permissionName = this.commonService.getPermissionNameByLoggedData("CONTENT MANAGEMENT","CONTENT MANAGEMENT") ;
+                  console.log("permissionName = "+permissionName);
+                  this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
+                this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
+                this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
+        
+                this.contentManagementFormGroup.get('GenOps').valueChanges.subscribe(item => {
+                   /*  let ops = this.GenOpsArray.filter(function (value) {
+                        return item == value.ID;
+                    });
+                    if (item == 2) {
+                        this.onlyDrawing = true;
+                    } else {
+                        this.onlyDrawing = false;
+                    }
+                    console.log(this.selectedGenOps) */
+                  //  this.selectedGenOps = ops[0].VALUE;
+                    //this.getUploadedFiles();
+                })
+    }
     createCMForm() {
         this.contentManagementFormGroup = this.formBuilder.group({
             GenOps: ['', Validators.required],
@@ -170,8 +171,10 @@ export class ContentManagementComponent implements OnInit {
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
-                window.location.reload();
-                //this.contentManagementFormGroup.reset();
+               // window.location.href = window.location.href;
+               // window.location.reload();
+               this.init();
+               // this.contentManagementFormGroup.reset();
                 this.getUploadedFiles();
             }, error => {
                 console.log('ERROR >>>');
