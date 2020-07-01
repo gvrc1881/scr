@@ -318,8 +318,8 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('Drives', 'menu', 'view'),
         currentTab: !!path && path.includes("drives") || path.includes("checklist") ||
-        path.includes("target") || path.includes("progress-record") || 
-        path.includes("failure-analysis")  ||
+        path.includes("target") || path.includes("progress-record") 
+         ||
         path.includes("inspection") || path.includes("stipulation")  ? "open" : "",  
         subMenus: [
           {
@@ -354,14 +354,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             currentSubMenu: !!path && path.includes("progress-record") ? "active-item" : "",
           },
-          {
-            subMenuName: "Failure Analysis",
-            subMenuURL: "failure-analysis",
-            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
-            subMenuIcon: "fa fa-file",
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
-          },
+        
          
         ]
       },
@@ -432,15 +425,23 @@ export class HeaderComponent implements OnInit, DoCheck {
       { 
         ID: 11,
         menuName: 'Failures', 
-        menuUrl: 'failures', 
+        menuUrl: 'failure-analysis', 
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Failures', 'menu', 'view'),
         currentTab: !!path && path.includes("cb-tripping") || path.includes("grid-failures") ||
         path.includes("rc-faiures") || path.includes("unusual-occurrence") || 
-        path.includes("failure-occurrence") || path.includes("actions")  ? "open" : "",  
+        path.includes("failure-occurrence") || path.includes("actions")|| path.includes("failure-analysis")  ? "open" : "",  
         subMenus: [
+          {
+            subMenuName: "Failure Analysis",
+            subMenuURL: "failure-analysis",
+            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
+          },
           {
             subMenuName: "CB Tripping",
             subMenuURL: "cb-tripping",
