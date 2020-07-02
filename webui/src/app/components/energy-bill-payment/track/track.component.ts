@@ -64,6 +64,8 @@ export class TrackComponent implements OnInit{
             "tkm": [null, Validators.compose([Validators.required])],
             "rkm":[null, Validators.compose([Validators.required])],
             "remark": [null, Validators.maxLength(250)],
+            "electrifiedRkm": [null, Validators.compose([Validators.required])],
+    		"electrifiedTkm": [null, Validators.compose([Validators.required])],
         });
         this.reportService.functionalLocationTypes().subscribe((data) => {
                  this.funLocTypeData = data;
@@ -80,6 +82,8 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
         TrackPayload.ADD_PAYLOAD.remark = this.trackFormGroup.value.remark;
         TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
+		TrackPayload.ADD_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
+        TrackPayload.ADD_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
         //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD).subscribe((data) => {
@@ -105,6 +109,8 @@ export class TrackComponent implements OnInit{
 	        TrackPayload.UPDATE_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
 	        TrackPayload.UPDATE_PAYLOAD.remark = this.trackFormGroup.value.remark;
 	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
+			TrackPayload.UPDATE_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
+        	TrackPayload.UPDATE_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
@@ -172,6 +178,8 @@ export class TrackComponent implements OnInit{
                     tkm: this.editTrackResponse.tkm,
                     rkm: this.editTrackResponse.rkm,
                     remark: this.editTrackResponse.remark,
+                    electrifiedTkm: this.editTrackResponse.electrifiedTkm, 
+                    electrifiedRkm: this.editTrackResponse.electrifiedRkm
                 });
             } , error => {});
     } 

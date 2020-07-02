@@ -3,6 +3,7 @@ package com.scr.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,10 @@ public class Track implements Serializable {
 	private Double tkm;
 	private Double rkm;
 	private String remark;
+	@Column(name = "electrified_rkm")
+	private Double electrifiedRkm;
+	@Column(name = "electrified_tkm")
+	private Double electrifiedTkm;
 
 	public Integer getId() {
 		return id;
@@ -101,6 +106,22 @@ public class Track implements Serializable {
 
 	public void setRkm(Double rkm) {
 		this.rkm = rkm;
+	}
+
+	public Double getElectrifiedRkm() {
+		return electrifiedRkm;
+	}
+
+	public void setElectrifiedRkm(Double electrifiedRkm) {
+		this.electrifiedRkm = electrifiedRkm;
+	}
+
+	public Double getElectrifiedTkm() {
+		return electrifiedTkm;
+	}
+
+	public void setElectrifiedTkm(Double electrifiedTkm) {
+		this.electrifiedTkm = electrifiedTkm;
 	}
 
 	@Override

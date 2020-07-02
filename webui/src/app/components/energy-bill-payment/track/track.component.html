@@ -75,9 +75,25 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Electrified TKM" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedTkm']" />
+	                                                                <mat-error *ngIf="trackFormGroup.controls['electrifiedTkm'].hasError('required')">
+										                                Enter Electrified TKM
+										                            </mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="RKM" required decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
 	                                                                <mat-error *ngIf="trackFormGroup.controls['rkm'].hasError('required')">
-										                                Enter TKM
+										                                Enter RKM
+										                            </mat-error>
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-3">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Electrified RKM" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedRkm']" />
+	                                                                <mat-error *ngIf="trackFormGroup.controls['electrifiedRkm'].hasError('required')">
+										                                Enter Electrified RKM
 										                            </mat-error>
 	                                                            </mat-form-field>
 	                                                        </div>

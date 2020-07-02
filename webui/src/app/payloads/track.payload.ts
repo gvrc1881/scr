@@ -5,7 +5,9 @@ export const TrackPayload = {
     	"rkm":"",
     	"remark":"",
     	"facilityId":"",
-    	"createdBy":""
+    	"createdBy":"",
+    	"electrifiedRkm":"",
+    	"electrifiedTkm":""
     },
     UPDATE_PAYLOAD: {
     	"id":"0",
@@ -13,6 +15,8 @@ export const TrackPayload = {
     	"rkm":"",
     	"remark":"",
     	"facilityId":"",
-    	"updatedBy":""
+    	"updatedBy":"",
+    	"electrifiedRkm":"",
+    	"electrifiedTkm":""
     },
 };
