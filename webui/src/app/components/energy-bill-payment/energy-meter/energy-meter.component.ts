@@ -33,6 +33,7 @@ export class EnergyMeterComponent implements OnInit{
     tssFeederMaterList: any;
     energyMeterResponse: any;
     toMinDate=new Date();
+    enableEndReadings: boolean;
 
     constructor(
         private energyMeterService: EnergyMeterService,
@@ -197,6 +198,7 @@ export class EnergyMeterComponent implements OnInit{
         this.addEnergyMeter = true;
         this.energyMeterEditAction(id);
         this.title = 'Update';
+        this.enableEndReadings = true;
     }
 
     energyMeterEditAction(id: number) {
@@ -284,6 +286,7 @@ export class EnergyMeterComponent implements OnInit{
 
     newEnergyMeter() {
         this.addEnergyMeter = true;
+        this.enableEndReadings = false;
     }
     
  }   

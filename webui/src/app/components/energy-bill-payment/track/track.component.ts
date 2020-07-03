@@ -36,6 +36,8 @@ export class TrackComponent implements OnInit{
     trackDisplayedColumns = ['sno' ,  'depot'  , 'TKM' , 'RKM' , 'remarks' , 'id' ];
     funLocTypeData: any;
     trackResponse: any;
+    enableDepotType: boolean;
+    enableDepots: boolean;
     
     constructor(
         private commonService: CommonService,
@@ -74,6 +76,8 @@ export class TrackComponent implements OnInit{
         
     addNewTrack() {
         this.addTrack = true;
+        this.enableDepotType = true;
+    	this.enableDepots = true;
     }
     
     onTrackSubmit() {
@@ -165,6 +169,8 @@ export class TrackComponent implements OnInit{
                  this.facilityData = data;
         		});
         this.spinnerService.hide();
+        this.enableDepots = false;
+        this.enableDepotType = false;
     }   
      
     trackEditAction(id: number) {

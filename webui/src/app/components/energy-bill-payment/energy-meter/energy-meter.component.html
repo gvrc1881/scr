@@ -36,7 +36,10 @@
 	                                                                <input matInput placeholder="Meter Nubmer" [formControl]="energyMeterFormGroup.controls['meterNo']" />
 	                                                            </mat-form-field>
 	                                                        </div>
-	                                                        <div class="col-md-2">
+									                        <div *ngIf ="enableEndReadings">
+									                        </div>
+									                        <div *ngIf="!enableEndReadings; else feederElseBlock">
+									                        	<div class="col-md-2">
 									                             <mat-form-field fxFlex="30">
 									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" >
 									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater.feederName">
@@ -44,7 +47,31 @@
 									                                </mat-option>
 									                              </mat-select>
 									                            </mat-form-field>
-									                          </div>
+									                        </div>
+									                        </div>
+															<ng-template #feederElseBlock>
+																  <div class = "col-md-2" >
+                                                      				<mat-form-field fxFlex="30">
+                                                      					<input matInput placeholder = "Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" required [readonly]="true"/>
+                                                      				</mat-form-field>
+                                                      			  </div>
+															</ng-template>
+									                        <div class="col-md-2">
+		                                                        <mat-form-field fxFlex="30">
+	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
+		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+		                                                                [owlDateTimeTrigger]="dt1" placeholder="Start Date"
+		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
+		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+		                                                                    ></owl-date-time>
+		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+		                                                                <mat-error
+										                            		*ngIf="energyMeterFormGroup.controls['startDate'].hasError('duplicateFeederAndStartDate')" 
+										                            		class="alert alert-danger" >
+										                                		Already Exists
+										                        		</mat-error>
+		                                                        </mat-form-field>
+		                                                    </div>  
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="Multiplication Factor" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
@@ -72,6 +99,34 @@
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Meter Make"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Meter Model"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+	                                                        <div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                <input matInput placeholder="Cmd" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
+	                                                            </mat-form-field>
+	                                                        </div>
+		                                                    <div *ngIf ="enableEndReadings">
+  															<div class="col-md-2">
+		                                                        <mat-form-field fxFlex="30">
+	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
+	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
+		                                                                [owlDateTimeTrigger]="dt2" placeholder="End Date"
+		                                                                [min]="toMinDate"
+		                                                                [formControl]="energyMeterFormGroup.controls['endDate']" >                                                                
+		                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+		                                                                    ></owl-date-time>
+		                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+	  															</mat-form-field>
+  															</div>
+  															<div class="col-md-2">
+	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="End Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
 	                                                            </mat-form-field>
 	                                                        </div>
@@ -90,49 +145,7 @@
 	                                                                <input matInput placeholder="End Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
 	                                                            </mat-form-field>
 	                                                        </div>
-	                                                        <div class="col-md-2">
-	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Make"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
-	                                                            </mat-form-field>
 	                                                        </div>
-	                                                        <div class="col-md-2">
-	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Model"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
-	                                                            </mat-form-field>
-	                                                        </div>
-	                                                        <div class="col-md-2">
-	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Cmd" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
-	                                                            </mat-form-field>
-	                                                        </div>
-	                                                        <div class="col-md-2">
-		                                                        <mat-form-field fxFlex="30">
-	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
-		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
-		                                                                [owlDateTimeTrigger]="dt1" placeholder="Start Date"
-		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
-		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
-		                                                                    ></owl-date-time>
-		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
-		                                                                <mat-error
-										                            		*ngIf="energyMeterFormGroup.controls['startDate'].hasError('duplicateFeederAndStartDate')" 
-										                            		class="alert alert-danger" >
-										                                		Already Exists
-										                        		</mat-error>
-		                                                        </mat-form-field>
-		                                                    </div>
-  															<div class="col-md-2">
-		                                                        <mat-form-field fxFlex="30">
-	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
-	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
-		                                                                [owlDateTimeTrigger]="dt2" placeholder="End Date"
-		                                                                [min]="toMinDate"
-		                                                                [formControl]="energyMeterFormGroup.controls['endDate']" >                                                                
-		                                                                <owl-date-time #dt2 [showSecondsTimer]=true
-		                                                                    ></owl-date-time>
-		                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
-	  															</mat-form-field>
-  															</div>
   															<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<textarea matInput placeholder="Remark" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
