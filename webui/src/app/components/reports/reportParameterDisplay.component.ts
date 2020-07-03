@@ -71,7 +71,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.assetType = 'PSI_FIXED_ASSET'
        }
       
-       this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_ASSET_TYPES,this.assetType).subscribe((data)=>{
+       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+'/'+this.assetType).subscribe((data)=>{
          this.assetType =data;
      })
         this.reportModel = new ReportModel();
@@ -182,7 +182,7 @@ export class ReportParameterDisplayComponent implements OnInit {
          // console.log("facilityId6-1-2020:::"+JSON.stringify(this.reportModel));
           this.submitedForm = "";
           console.log("Report Model::2-1-2020:::"+this.reportModel);
-          this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_REPORT,this.reportModel)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT+'/'+this.reportModel)
              .subscribe((response) => {
           this.submitedForm = response;
           let pdfWindow = window.open("download","");

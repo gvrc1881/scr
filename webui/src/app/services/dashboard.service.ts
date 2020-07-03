@@ -14,7 +14,6 @@ export class DashboardService {
             'Authorization': `Bearer ${this.accessToken}`
         });
     }
-
     findDashboardData(divisionCode: string) {
         return this.http.get(environment.apiUrl + '/dashboard/' + divisionCode, { headers: this.header });
     }

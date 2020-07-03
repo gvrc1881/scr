@@ -143,7 +143,7 @@ export class StationsSectionsComponent implements OnInit{
                 'dnSectionName' : dnSectionName,
                 'division' : division
                 }
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.SAVE_STATION_SECTIONS, saveSSModel).subscribe(response => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.SAVE_STATION_SECTIONS, saveSSModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllStationsSectionsData();
                 this.stationsSectionsFormGroup.reset();
@@ -178,7 +178,7 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     stationsSectionsEditAction(id: number) {
-      this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID, id).subscribe((responseData) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID+'/'+id).subscribe((responseData) => {
         this.editstationsSectionsResponse = responseData;
             this.stationsSectionsFormGroup.patchValue({
                 id: this.editstationsSectionsResponse.id,

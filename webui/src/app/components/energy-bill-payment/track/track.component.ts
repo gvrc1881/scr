@@ -86,7 +86,7 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
         //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
                 	this.commonService.showAlertMessage(this.trackResponse.message);
@@ -168,7 +168,7 @@ export class TrackComponent implements OnInit{
     }   
      
     trackEditAction(id: number) {
-    	this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID, id)
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editTrackResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));

@@ -32,12 +32,12 @@ export class CommonService {
 
     loginValidate(url: string) {
         return (url === '/' ||
-            url === Constants.app_urls.LOGIN ||
-            url === Constants.app_urls.REGISTRATION ||
+            url === Constants.app_urls.AUTHENTICATION.LOGIN ||
+            url === Constants.app_urls.AUTHENTICATION.REGISTRATION ||
             // url === Constants.app_urls.CHANGE_PASSWORD || 
-            url === Constants.app_urls.MAIL_CONFIRMATION ||
-            url === Constants.app_urls.RESET_PASSWORD ||
-            url === Constants.app_urls.FORGOT_PASSWORD) ? false : true;
+            url === Constants.app_urls.AUTHENTICATION.MAIL_CONFIRMATION ||
+            url === Constants.app_urls.AUTHENTICATION.RESET_PASSWORD ||
+            url === Constants.app_urls.AUTHENTICATION.FORGOT_PASSWORD) ? false : true;
     }
     findPermission(value, type, permissionType) {
         let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));

@@ -751,7 +751,6 @@ export class AuthenticationService {
         return data;
       });
   }
-
   updatePassword(user) {   
     let accessToken = JSON.parse(localStorage.getItem('accessToken'));    
     this.header = new HttpHeaders({

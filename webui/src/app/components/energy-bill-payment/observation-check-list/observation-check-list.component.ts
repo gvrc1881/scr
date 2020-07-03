@@ -122,7 +122,7 @@ export class ObservationCheckListComponent implements OnInit{
                 'fromDate':fromDate,
                 'thruDate': thruDate
             }          
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.SAVE__OBS_CHECK_LIST, saveObsCheckListModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.SAVE__OBS_CHECK_LIST, saveObsCheckListModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();
@@ -157,7 +157,7 @@ export class ObservationCheckListComponent implements OnInit{
     }
 
     observationCheckListEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID+'/'+id).subscribe((responseData) => {
             this.editObservationCheckLisResponse = responseData;
             this.ObservationCheckListItemFormGroup.patchValue({
                 id: this.editObservationCheckLisResponse.id,

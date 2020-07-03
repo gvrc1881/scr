@@ -208,7 +208,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
         // console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.SAVE_TARIFF,TractionEnergyTariffPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.SAVE_TARIFF,TractionEnergyTariffPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.tariffResponse = data;
               	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
 	                this.commonService.showAlertMessage(this.tariffResponse.message);
@@ -290,7 +290,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID, id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));

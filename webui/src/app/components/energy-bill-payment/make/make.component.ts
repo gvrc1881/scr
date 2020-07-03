@@ -104,7 +104,7 @@ export class MakeComponent implements OnInit{
             MakePayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
             console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
            // this.makeService.save(MakePayload.ADD_PAYLOAD)
-           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD)
+           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.makeResponse=data;
               this.spinnerService.hide();
@@ -240,7 +240,7 @@ export class MakeComponent implements OnInit{
       MakeEditAction(id: number) {
         this.addMake = true;
         //this.makeService.findMakeById(id)
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID,id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID+'/'+id)
         .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;
@@ -301,7 +301,7 @@ export class MakeComponent implements OnInit{
         
          
           //this.makeService.existsMakeCode(makeCode)
-          this.sendAndRequestService.requestForEXIST(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE,makeCode)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE+'/'+makeCode)
           .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateMakeCode': true });

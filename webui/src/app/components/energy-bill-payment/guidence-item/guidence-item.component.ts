@@ -115,7 +115,7 @@ export class GuidenceItemComponent implements OnInit{
                     'status' : status,
                     'closedRemark' : closedRemark
                 }
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.SAVE_GUIDENCE_ITEM, guidenceItemModel).subscribe(response => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.SAVE_GUIDENCE_ITEM, guidenceItemModel, false).subscribe(response => {
                     this.guidenceItemResponse = response
             	if(this.guidenceItemResponse.code == 200 && !!this.guidenceItemResponse) {
 	                this.commonService.showAlertMessage(this.guidenceItemResponse.message);
@@ -172,7 +172,7 @@ export class GuidenceItemComponent implements OnInit{
     }
 
     guidenceItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID+'/'+id).subscribe((responseData) => {
             this.editguidenceItemResponse = responseData;
             this.guidenceItemFormGroup.patchValue({
                 id: this.editguidenceItemResponse.id,

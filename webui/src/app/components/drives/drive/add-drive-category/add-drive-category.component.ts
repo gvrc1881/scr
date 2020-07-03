@@ -28,7 +28,7 @@ export class AddDriveCategoryComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
@@ -114,7 +114,7 @@ export class AddDriveCategoryComponent implements OnInit {
       if(this.update && name.toUppercase() == this.resp.name.toUppercase){
         resolve(null);        
       }else{
-      this.drivesService.existsDriveCategoryName(name).subscribe((duplicate) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.EXISTS_DRIVE_CATEGORY_NAME + name).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateName': true });
         } else {
@@ -132,7 +132,7 @@ export class AddDriveCategoryComponent implements OnInit {
       if(this.update && desc.toUppercase() == this.resp.description.toUppercase()){
         resolve(null);
       }else{
-      this.drivesService.existsDriveCategoryDescription(desc).subscribe((duplicate) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.EXISTS_DRIVE_CATEGORY_DESCRIPTION +desc).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });
         } else {
@@ -147,7 +147,7 @@ export class AddDriveCategoryComponent implements OnInit {
 
 
   getDriveCategoryDataById(id) {
-    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY_ID, id)      
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY_ID+'/'+id)      
     .subscribe((resp) => {
         this.resp = resp;
         this.addDriveCategoryFormGroup.patchValue({
@@ -180,7 +180,7 @@ export class AddDriveCategoryComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY.SAVE_DRIVE_CATEGORY, saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY.SAVE_DRIVE_CATEGORY, saveDriveModel, false).subscribe(response => {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.spinnerService.hide();

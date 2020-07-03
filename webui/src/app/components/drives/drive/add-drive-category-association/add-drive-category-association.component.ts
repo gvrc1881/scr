@@ -29,7 +29,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
@@ -106,7 +106,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
 
 
   getDriveCategoryAssoDataById(id) {
-    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID, id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID+'/'+id)
       .subscribe((resp) => {
         console.log(resp)
         this.resp = resp;
@@ -137,7 +137,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.SAVE_DRIVE_CATEGORY_ASSOC, saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.SAVE_DRIVE_CATEGORY_ASSOC, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

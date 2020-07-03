@@ -9,6 +9,8 @@ import { ContentManagementModel } from 'src/app/models/content-management.model'
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ContentManagementDialogComponent } from '../content-management-edit-dialog/content-management-edit-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
     selector: 'content-management',
@@ -43,9 +45,10 @@ export class ContentManagementComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private formBuilder: FormBuilder,
-        private service: ContentManagementService,
+     //   private service: ContentManagementService,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
+        private sendAndGetService:SendAndRequestService
     ) {
         console.log('in constructor');
     }
@@ -91,7 +94,7 @@ export class ContentManagementComponent implements OnInit {
     getUploadedFiles() {
         this.spinnerService.show();
         const uploadedFiles: ContentManagementModel[] = [];
-        this.service.getUploadedFiles(this.userdata.id, this.selected).subscribe(data => {
+        this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_UPLOAD_FILES+this.userdata.id+'/'+this.selected.replace(' ','-')).subscribe(data => {
            // console.log(JSON.stringify(data))
             this.spinnerService.hide();
 
@@ -165,17 +168,34 @@ export class ContentManagementComponent implements OnInit {
                 "model": this.contentManagementFormGroup.value.model,
                 "docCategory": this.contentManagementFormGroup.value.docCategory,
             }
-            this.service.uploadAttachedFiles(this.selectedFiles, saveDetails).subscribe(data => {
-                console.log(JSON.stringify(data));
+            let formdata: FormData = new FormData();
+            for(var i=0;i<this.selectedFiles.length;i++){
+                formdata.append('file', this.selectedFiles[i]);
+            }
+            formdata.append('GenOps', saveDetails.GenOps);
+            formdata.append('description', saveDetails.description);
+            formdata.append('divisionCode', saveDetails.divisionCode);
+            formdata.append('createdBy', saveDetails.createdBy);
+            formdata.append('zonal', saveDetails.zonal);
+            formdata.append('FU', saveDetails.FU);
+            formdata.append('topic', saveDetails.topic);
+            formdata.append('assetTypeRlyId', saveDetails.assetTypeRlyId);
+            formdata.append('make', saveDetails.make);
+            formdata.append('model', saveDetails.model);
+            formdata.append('docCategory', saveDetails.docCategory);        
+           // this.service.uploadAttachedFiles(this.selectedFiles, saveDetails).subscribe(data => {
+                //console.log(JSON.stringify(data));
+            this.sendAndGetService.requestForPOST(Constants.app_urls.DOCS.UPLOAD_ATTACHED_FILE, formdata, true).subscribe(data => {
                 this.spinnerService.hide();
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
                // window.location.href = window.location.href;
                // window.location.reload();
-               this.init();
-               // this.contentManagementFormGroup.reset();
+               //this.init();
+               
                 this.getUploadedFiles();
+                this.contentManagementFormGroup.reset();
             }, error => {
                 console.log('ERROR >>>');
                 this.spinnerService.hide();
@@ -186,7 +206,7 @@ export class ContentManagementComponent implements OnInit {
 
     deleteFile(id: number) {
         this.spinnerService.show();
-        this.service.deleteFile(id).subscribe(data => {
+        this.sendAndGetService.requestForDELETE(Constants.app_urls.DOCS.DELETE_DOCS,id).subscribe(data => {
             this.spinnerService.hide();
             this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
             this.selectedFiles = [];

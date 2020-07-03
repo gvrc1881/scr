@@ -161,7 +161,7 @@ export class SidingsComponent implements OnInit {
 
 
             }              
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.SAVE_SIDINGS, saveSidingsModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.SAVE_SIDINGS, saveSidingsModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllSidingsData();
                 this.sidingsItemFormGroup.reset();
@@ -206,7 +206,7 @@ export class SidingsComponent implements OnInit {
     }
 
     sidingsItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID+'/'+id).subscribe((responseData) => {
             this.editsidingsItemResponse = responseData;
             this.sidingsItemFormGroup.patchValue({
                 id: this.editsidingsItemResponse.id,

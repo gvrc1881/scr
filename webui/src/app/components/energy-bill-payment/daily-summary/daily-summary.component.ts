@@ -176,7 +176,7 @@ export class DailySummaryComponent implements OnInit{
                 'nonPowerBlock':nonPowerBlock,
                 'remarks':remarks
             }
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.SAVE_DAILY_SUMMARY, saveDailySummaryModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.SAVE_DAILY_SUMMARY, saveDailySummaryModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();
@@ -225,7 +225,7 @@ export class DailySummaryComponent implements OnInit{
     }
 
     dailySummaryEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID+'/'+id).subscribe((responseData) => {
             this.editDailySummaryResponse = responseData;
             this.dailySummaryFormGroup.patchValue({
                 id: this.editDailySummaryResponse.id,

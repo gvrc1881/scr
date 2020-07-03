@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-electrification-targets',
@@ -31,11 +32,12 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    private sendAndRequestService: SendAndRequestService
   ) {
     // Reactive form errors
     this.electrificationTargetsFormErrors = {
@@ -123,7 +125,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   }
 
   getElectrificationTargetsDataById(id) {
-    this.drivesService.findElectrificationTargetsDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.EDIT + id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveElectrificationTargetsFormGroup.patchValue({
@@ -151,28 +153,28 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       })
   }
   findGuage(){
-    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.GAUGE_TYPE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.GAUGE_TYPE)
     .subscribe((resp) => {
       this.guageList = resp;
     });
   }
 
   findExecutionAgency(){
-    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.ELECTRIFICATION_EXEC_AGENCY_TYPE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.ELECTRIFICATION_EXEC_AGENCY_TYPE)
     .subscribe((resp) => {
       this.executionAgencyList = resp;
     });
   }
 
   findDoublingTrippling(){
-    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.DOUBLE_TRIPLE_TYPE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.DOUBLE_TRIPLE_TYPE)
     .subscribe((resp) => {
       this.doublingTripplingList = resp;
     });
   }
 
   findDivisions(){
-    this.drivesService.findDivisions()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
     .subscribe((resp) => {
       this.divisionList = resp;
     });
@@ -213,7 +215,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.drivesService.saveElectrificationTargetsData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.SAVE ,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -253,7 +255,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.drivesService.updateElectrificationTargetsData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.UPDATE ,data).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

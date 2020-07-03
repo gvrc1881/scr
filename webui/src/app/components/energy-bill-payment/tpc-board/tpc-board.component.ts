@@ -115,7 +115,7 @@ export class TPCBoardComponent implements OnInit{
                 'dataDiv':dataDiv,
                 'description':description
             }
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.SAVE_TPC_BOARD, saveTPCBoardModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.SAVE_TPC_BOARD, saveTPCBoardModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllTPCBoardData();
                 this.tpcBoardFormGroup.reset();
@@ -145,7 +145,7 @@ export class TPCBoardComponent implements OnInit{
     }
 
     tpcBoardEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID+'/'+id).subscribe((responseData) => {
             this.editTpcBoardResponse = responseData;
             this.tpcBoardFormGroup.patchValue({
                 id: this.editTpcBoardResponse.id,

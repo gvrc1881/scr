@@ -42,7 +42,6 @@ export class ContentManagementService {
     getUploadedFiles(id:number, value:string){       
         return this.http.get<ContentManagementModel[]>(environment.apiUrl + '/getUploadedFiles/'+id+'/'+value.replace(' ','-'), { headers: this.header });
     }
-
     deleteFile(id:number){
         return this.http.delete(environment.apiUrl + '/deleteFile/'+id, { headers: this.header });
     }

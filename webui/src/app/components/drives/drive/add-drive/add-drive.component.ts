@@ -36,7 +36,7 @@ export class AddDriveComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
@@ -131,13 +131,12 @@ export class AddDriveComponent implements OnInit {
     });
   }
   duplicateName() {
-    //this.resp
     var name =  this.addDriveFormGroup.controls['name'].value
     const q = new Promise((resolve, reject) => {
       if(this.update && name.toUpperCase()  == this.resp.name.toUpperCase()){
         resolve(null);
       }else{
-      this.drivesService.existsDriveName(name
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.EXISTS_DRIVE_NAME + name
       ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateName': true });
@@ -155,7 +154,7 @@ export class AddDriveComponent implements OnInit {
       if(this.update && desc.toUpperCase() == this.resp.description.toUpperCase()){
         resolve(null);
       }else{
-      this.drivesService.existsDriveDescription(desc
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.EXISTS_DRIVE_DESCRIPTION + desc
       ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDescription': true });
@@ -172,7 +171,7 @@ export class AddDriveComponent implements OnInit {
    public get f() { return this.addDriveFormGroup.controls; } 
 
   findDepoTypeList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_FUNCTIONAL_LOCATIONS_TYPES)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
@@ -182,7 +181,7 @@ export class AddDriveComponent implements OnInit {
   }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_ASSET_TYPE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })
@@ -195,7 +194,7 @@ export class AddDriveComponent implements OnInit {
       }) */
   }
   findFunctionalUnits() {
-    this.drivesService.findFunctionslUnits()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
         this.allFunctionalUnitsList = units;
       })
@@ -210,7 +209,7 @@ export class AddDriveComponent implements OnInit {
     }
   }
   getDriveDataById(id) {
-    this.sendAndRequestService.requestForGETId(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID, id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+'/'+id)
     .subscribe((resp) => {
         this.resp = resp;
         this.addDriveFormGroup.patchValue({
@@ -267,7 +266,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

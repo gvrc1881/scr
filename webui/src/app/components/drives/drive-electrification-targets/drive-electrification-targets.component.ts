@@ -6,6 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-electrification-targets',
@@ -34,7 +36,8 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
+    private sendAndRequestService: SendAndRequestService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -57,7 +60,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   }
   getElectrificationTargetsData() {
     const electrificationTargets: ElectrificationTargetstModel[] = [];
-    this.drivesService.getElectrificationTargetsData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.GET_ELECTRIFICATION_TARGETS).subscribe((data) => {
       this.electrificationTargetsList = data;
       for (let i = 0; i < this.electrificationTargetsList.length; i++) {
         this.electrificationTargetsList[i].sno = i + 1;
@@ -85,7 +88,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteElectrificationTargetsData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.DELETE, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Electrification Targets Successfully");
           this.getElectrificationTargetsData();

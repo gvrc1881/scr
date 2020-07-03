@@ -136,7 +136,7 @@ export class EnergyMeterComponent implements OnInit{
             	'startDate' : startDate,
             	'endDate' : endDate
             }              
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.SAVE_ENERGY_METER, saveEnergyMeterModel).subscribe(data => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.SAVE_ENERGY_METER, saveEnergyMeterModel, false).subscribe(data => {
             	this.energyMeterResponse = data;
             	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
 	                this.commonService.showAlertMessage(this.energyMeterResponse.message);
@@ -200,7 +200,7 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     energyMeterEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+'/'+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
              // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);

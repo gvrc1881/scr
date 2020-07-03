@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-checklist',
@@ -28,11 +29,12 @@ export class AddDriveChecklistComponent implements OnInit {
   checkListFormErrors: any;
   constructor(
     private formBuilder: FormBuilder,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    private sendAndRequestService:SendAndRequestService
   ) {
     // Reactive form errors
     this.checkListFormErrors = {
@@ -68,13 +70,13 @@ export class AddDriveChecklistComponent implements OnInit {
     
   }
   findYesNoStatus(){
-    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.YES_NO_TYPE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.YES_NO_TYPE)
     .subscribe((resp) => {
       this.statusList = resp;
     });
   }
   getCheckListData(id) {
-    this.drivesService.findCheckListDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_CHECKLIST_BY_ID +  id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveChecklistFormGroup.patchValue({
@@ -91,7 +93,7 @@ export class AddDriveChecklistComponent implements OnInit {
   }
 
   getDrivesData() {
-    this.drivesService.getDrivesData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
       this.spinnerService.hide();
     }, error => {
@@ -101,7 +103,7 @@ export class AddDriveChecklistComponent implements OnInit {
   
 
   findMeasureActivityList() {
-    this.drivesService.findMeasureActivityList().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_MEASURE_ACTIVITY_LIST).subscribe((data) => {
       this.measureActivityList = data;
       this.spinnerService.hide();
     }, error => {
@@ -152,7 +154,7 @@ export class AddDriveChecklistComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.drivesService.saveCheckListData(save).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.SAVE_CHECK_LIST ,save, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -178,7 +180,7 @@ export class AddDriveChecklistComponent implements OnInit {
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
-      this.drivesService.updateCheckListData(update).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.UPDATE_CHECK_LIST ,update).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

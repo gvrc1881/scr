@@ -119,7 +119,7 @@ duplicateTpcBoard() {
                 'unitName':unitName,
                 'description':description
             }
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.SAVE_TPC_BOARD_ASSOC, saveTPCBoardAssocModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.SAVE_TPC_BOARD_ASSOC, saveTPCBoardAssocModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllTPCBoardDepotAssocData();
                 this.tpcBoardDepotAssocFormGroup.reset();
@@ -150,7 +150,7 @@ duplicateTpcBoard() {
     }
 
     tpcBoardDepotAssocEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID+'/'+id).subscribe((responseData) => {
             this.editTpcBoardDepotAssocResponse = responseData;
             this.tpcBoardDepotAssocFormGroup.patchValue({
                 id: this.editTpcBoardDepotAssocResponse.id,

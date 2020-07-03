@@ -129,7 +129,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
                     'toDate': toDate,
                     'remarks' : remarks
                 } 
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.SAVE_FP_SECTIONS, saveFpSectCionsModel).subscribe(response => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.SAVE_FP_SECTIONS, saveFpSectCionsModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllFootPatrollingSectionsData();
                 this.fpSectionsItemFormGroup.reset();
@@ -163,7 +163,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
 
     fpSectionsItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.GET_FP_SECTIONS_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.GET_FP_SECTIONS_ID+'/'+id).subscribe((responseData) => {
             this.editfpSectionsItemResponse = responseData;
             this.fpSectionsItemFormGroup.patchValue({
                 id: this.editfpSectionsItemResponse.id,

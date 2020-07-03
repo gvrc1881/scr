@@ -149,7 +149,7 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
         WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
         if (this.title == Constants.EVENTS.SAVE) {
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.SAVE_WORK, WorksPayload.ADD_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.SAVE_WORK, WorksPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
                 	this.commonService.showAlertMessage(this.workResponse.message);
@@ -237,7 +237,7 @@ export class WorksComponent implements OnInit {
     }
     
     workEditAction(id: number) {
-    	this.sendAndRequestService.requestForGETId(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID, id)
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editWorkResponse = responseData;
                 // console.log('responseData'+JSON.stringify(responseData));

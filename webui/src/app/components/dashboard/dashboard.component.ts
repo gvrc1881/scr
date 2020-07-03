@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 declare function loadData(id:number, name:string, image:any);
 
 @Component({
@@ -40,14 +42,15 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
-    private dashboardService: DashboardService,
+   // private dashboardService: DashboardService,
+   private sendAndRequestService:SendAndRequestService
   ) {
 
 
   }
 
   ngOnInit() {
-    loadData(127,"Phanendra","");
+    
     this.spinnerService.show();
     this.findDashboardData();
     //location.reload();
@@ -321,7 +324,7 @@ export class DashboardComponent implements OnInit {
 
   findDashboardData() {
 
-    this.dashboardService.findDashboardData(this.loggedUserData.divisionCode).subscribe(response => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_DASHBOARD+ this.loggedUserData.divisionCode).subscribe(response => {
       this.dashboardResponse = response;      
       if(response){
        console.log(JSON.stringify(response));

@@ -321,7 +321,6 @@ export class DrivesService {
         }
         return this.http.post<any[]>(environment.apiUrl + '/deleteFile', data, { headers: this.header });
     }
-
     findStatusItem(statusType){
         return this.http.get<any[]>(environment.apiUrl + '/statusItem/'+statusType, { headers: this.header });
     }

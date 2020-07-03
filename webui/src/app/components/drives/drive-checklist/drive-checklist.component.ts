@@ -6,6 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-drive-checklist',
@@ -32,10 +34,11 @@ export class DriveChecklistComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private sendAndRequestService:SendAndRequestService
   ) { }
 
   ngOnInit() {
@@ -55,7 +58,7 @@ export class DriveChecklistComponent implements OnInit {
   }
   getDrivesData() {
     const drive: DriveChecklistModel[] = [];
-    this.drivesService.getDrivesCheckListData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_CHECK_LIST).subscribe((data) => {
       this.drivesCheckList = data;
       for (let i = 0; i < this.drivesCheckList.length; i++) {
         this.drivesCheckList[i].sno = i + 1;
@@ -83,7 +86,7 @@ export class DriveChecklistComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteDriveData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.DELETE_CHECK_LIST_BY_ID ,id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Drive Successfully");
           this.getDrivesData();

@@ -127,7 +127,7 @@ export class ObservationCategoriesComponent implements OnInit{
                 'fromDate':fromDate,
                 'thruDate': thruDate
             }                
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.SAVE_OBS_CATEGORIES, saveObsCategoriesModel).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.SAVE_OBS_CATEGORIES, saveObsCategoriesModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllObservationCategoriesData();
                 this.observationCategoriesFormGroup.reset();
@@ -161,7 +161,7 @@ export class ObservationCategoriesComponent implements OnInit{
     }
 
     observationCategoriesEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID+'/'+id).subscribe((responseData) => {
             this.editobservationCategoriesResponse = responseData;
             this.observationCategoriesFormGroup.patchValue({
                 id: this.editobservationCategoriesResponse.id,

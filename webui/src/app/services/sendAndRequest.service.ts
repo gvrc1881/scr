@@ -27,11 +27,17 @@ export class SendAndRequestService {
     } 
     
     //METHOD FOR GET ID REQUESTS
-    requestForGETId(requestUrl,requestData) {        
-        return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
-    }
+   // requestForGETId(requestUrl,requestData) {        
+     //   return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    //}
     // METHOD FOR POST REQUESTS
-    requestForPOST(requestUrl, requestData){
+    requestForPOST(requestUrl, requestData, flag){
+        if(flag){
+            let header = new HttpHeaders({           
+                'Authorization': `Bearer ${this.accessToken}`
+            });
+            this.header = header;
+        }
         return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
     }
     //METHOD FOR PUT REQUESTS
@@ -44,9 +50,9 @@ export class SendAndRequestService {
         return this._http.delete(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     }
       //METHOD FOR GET ID REQUESTS
-      requestForEXIST(requestUrl,requestData) {        
-        return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
-    }
+    //  requestForEXIST(requestUrl,requestData) {        
+      //  return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    //}
     
 }
 

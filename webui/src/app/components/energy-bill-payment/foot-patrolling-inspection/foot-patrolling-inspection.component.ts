@@ -103,7 +103,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 'startTime':startTime,
                 'stopTime': stopTime
             }               
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.SAVE_FP_INSPECTION, saveFpInspection).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.SAVE_FP_INSPECTION, saveFpInspection, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllFootPatrollingInspectionData();
                 this.fpInspectionItemFormGroup.reset();
@@ -136,7 +136,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     fpInspectionItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGETId(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID, id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID+'/'+id).subscribe((responseData) => {
             this.editfpInspectionItemResponse = responseData;
             this.fpInspectionItemFormGroup.patchValue({
                 id: this.editfpInspectionItemResponse.id,

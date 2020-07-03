@@ -48,7 +48,7 @@ export class ReportNamesComponent implements OnInit {
       this.breadcrumb = 'Asset Master Reports';
     }
     console.log("reportType"+this.reportType)  
-    this.sendAndRequestService.requestForGETId(Constants.app_urls.REPORTS.GET_REPORT_NAMES,this.reportType)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_NAMES+'/'+this.reportType)
     .subscribe((data)=>{
       this.reportNamesData =data;
   })

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { AuthenticationService } from '../../services/authentication.service';
 import { AlertService } from '../../services/alert.service';
 import {  
   PasswordValidator,
@@ -10,6 +9,8 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { CommonService } from 'src/app/common/common.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-change-password',
@@ -31,7 +32,7 @@ export class ChangePasswordComponent implements OnInit {
   country_phone_group: FormGroup;
   tokenResponse: any;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-
+  response:any;
 
 
   change_password_validation_messages = {
@@ -54,7 +55,7 @@ export class ChangePasswordComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private spinnerService: Ng4LoadingSpinnerService,
-    private authenticationService: AuthenticationService,
+    private sendAndGetService:SendAndRequestService,
     private alertService: AlertService,
     private route: ActivatedRoute,
     private commonService: CommonService
@@ -89,12 +90,12 @@ export class ChangePasswordComponent implements OnInit {
     })
 
   }
-
   duplicateDepartment() {
     const q = new Promise((resolve, reject) => {
       let current_password: string = this.changePasswordDetailsForm.controls['current_password'].value;
       let email: string = this.loggedUserData.email;
-      this.authenticationService.validateCurrentPassword(current_password, email).subscribe((duplicate) => {
+      //{"password":currentPassword,"email":email}
+      this.sendAndGetService.requestForPOST(Constants.app_urls.AUTHENTICATION.CHANGE_PASSWORD, {"password":current_password,"email":email}, false).subscribe((duplicate) => {
         if (!duplicate) {
           resolve({ 'currentPasswordDuplicate': true });
         } else {
@@ -113,16 +114,15 @@ export class ChangePasswordComponent implements OnInit {
       "email": email,
       "password": password
     }
-    this.authenticationService.updatePassword(user)
+    this.sendAndGetService.requestForPOST(Constants.app_urls.AUTHENTICATION.UPDATE_PASSWORD, user, false)
       .subscribe(
         response => {
-          console.log('response: ' + JSON.stringify(response))
-          if (!!response && response.code == 200) {
+          console.log('response: ' + JSON.stringify(response));
+          this.response = response;
+          if (!!this.response && this.response.code == 200) {
             this.commonService.showAlertMessage('Password Updated Successfully. Please login with updated password');
             this.router.navigate(['/login']);
-
           } else {
-
             this.commonService.showAlertMessage('Password Updation Failed.');
           }
         },

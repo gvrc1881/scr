@@ -53,7 +53,7 @@ export class DrivesComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -93,16 +93,15 @@ export class DrivesComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.driveCategoryAssoDataSource.filter = filterValue;
   }
-
   findDepoTypeList() {
-    this.drivesService.findDepoTypeList()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
   }
 
   findAssetTypeList(assertType) {
-    this.drivesService.findAssetTypeList(assertType)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + assertType)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })
@@ -115,7 +114,7 @@ export class DrivesComponent implements OnInit {
       }) */
   }
   findFunctionalUnits() {
-    this.drivesService.findFunctionslUnits()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
         this.allFunctionalUnitsList = units;
       })

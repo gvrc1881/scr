@@ -105,7 +105,7 @@ export class ModelComponent implements OnInit{
             ModelPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
             console.log("ADD Payload =" + JSON.stringify(ModelPayload.ADD_PAYLOAD))
            // this.modelService.save(ModelPayload.ADD_PAYLOAD)
-           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD)
+           this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.modelResponse=data;
               this.spinnerService.hide();
@@ -240,7 +240,7 @@ export class ModelComponent implements OnInit{
       ModelEditAction(id: number) {
         this.addModel = true;
        // this.modelService.findModelById(id)
-       this.sendAndRequestService.requestForGETId(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID,id)
+       this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID+'/'+id)
         .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;
@@ -284,7 +284,7 @@ export class ModelComponent implements OnInit{
         
          
          // this.modelService.existsModelCode( modelCode )
-          this.sendAndRequestService.requestForEXIST(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE,modelCode)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE+'/'+modelCode)
           .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateModelCode': true });

@@ -5,15 +5,21 @@ export const Constants = {
         'SUCCESS':200
     },
     app_urls:{
-        LOGIN:"/login",
-        REGISTRATION:"/registration",
-        DASHBOARD:"dashboard",
-        MENU_MASTER:"menuMaster",
-        SUB_MENU_URL:"submenuMaster",
-        FORGOT_PASSWORD:"/forgotPassword",
-        RESET_PASSWORD:"/resetPassword",
-        CHANGE_PASSWORD:"/changePassword",
-        MAIL_CONFIRMATION:"/mailConfirmation",
+        AUTHENTICATION:{
+            LOGIN:"/login",
+            REGISTRATION:"/registration",
+            DASHBOARD:"dashboard",
+            MENU_MASTER:"menuMaster",
+            SUB_MENU_URL:"submenuMaster",
+            FORGOT_PASSWORD:"/forgotPassword",
+            RESET_PASSWORD:"/resetPassword",
+            CHANGE_PASSWORD:"/changePassword",
+            UPDATE_PASSWORD:"/updatePassword",
+            MAIL_CONFIRMATION:"/mailConfirmation",
+        }, 
+        DASHBOARD:{
+            GET_DASHBOARD:"/dashboard/"
+        },    
         REPORTS:{
             GET_REPORT_PARAMETER:"/reportParameterNames",
             GET_REPORT_NAMES:"/reportNames/",
@@ -193,27 +199,27 @@ export const Constants = {
         DOCS:{
             GET_UPLOAD_FILES:"/getUploadedFiles/",
             UPDATE_DOCS:"/updateDescription",
-            DELETE_DOCS:"/deleteFile/"
-            
-
+            DELETE_DOCS:"/deleteFile/",
+            UPLOAD_ATTACHED_FILE:"/uploadAttachedFiles"            
         },
         DRIVE:{
             DRIVE:{
                 GET_DRIVES:"/drives",
-                GET_FUNCTIONAL_LOCATIONS_TYPES:"/functionalLocationsTypes",
                 GET_DRIVE_ID:"/driveById/",
-                GET_ASSET_TYPE:"/allAssetTypeReports/",
                 SAVE_DRIVE:"/saveDrive",
                 UPDATE_DRIVE:"/updateDrive",
-                DELETE_DRIVE:"/deleteDrive/"
+                DELETE_DRIVE:"/deleteDrive/",
+                EXISTS_DRIVE_NAME:"/existsDriveName/",
+                EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/"
             },
             DRIVE_CATEGORY:{
                 GET_DRIVE_CATEGORY:"/driveCategory",
                 GET_DRIVE_CATEGORY_ID:"/driveCategoryById/",
                 SAVE_DRIVE_CATEGORY:"/saveDriveCategory",
                 UPDATE_DRIVE_CATEGORY:"/updateDriveCategory",
-                DELETE_DRIVE_CATEGORY:"/deleteDriveCategory/"
-
+                DELETE_DRIVE_CATEGORY:"/deleteDriveCategory/",
+                EXISTS_DRIVE_CATEGORY_NAME:"/existsDriveCategoryName/",
+                EXISTS_DRIVE_CATEGORY_DESCRIPTION:"/existsDriveCategoryDescription/"                
             },
             DRIVE_CATEGORY_ASSOCIATION:{
                 GET_DRIVE_CATEGORY_ASSOC:"/driveCategoryAsso",
@@ -221,9 +227,26 @@ export const Constants = {
                 SAVE_DRIVE_CATEGORY_ASSOC:"/saveDriveCategoryAsso",
                 UPDATE_DRIVE_CATEGORY_ASSOC:"/updateDriveCategoryAsso",
                 DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/"
-
-            }
+            },
+            DRIVE_CHECK_LIST :{
+                GET_CHECK_LIST:'/checklist',
+                GET_CHECKLIST_BY_ID:'/checkListById/',
+                GET_STATUS_ITEM:'/statusItem/',
+                GET_MEASURE_ACTIVITY_LIST:'/measureActivityList',
+                SAVE_CHECK_LIST:'/saveCheckList',
+                UPDATE_CHECK_LIST:'/updateCheckList',
+                DELETE_CHECK_LIST_BY_ID:'/deleteDrive/'
+            },
+            ELECTRIFICATION_TARGETS:{
+                GET_ELECTRIFICATION_TARGETS:'/electrificationTargets',
+                DELETE:'/deleteElectrificationTargets/',
+                EDIT:'/electrificationTargetsById/',
+                SAVE:'/saveElectrificationTargets',
+                UPDATE:'/updateElectrificationTargets'
+            },
+            GET_DIVISIONS:'/divisions'
         },
+        
         INSPECTIONS:{
             STIPULATION:{
                 GET_STIPULATION:"/stipulations",

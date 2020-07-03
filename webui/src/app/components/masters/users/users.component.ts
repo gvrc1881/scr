@@ -98,7 +98,7 @@ export class UsersComponent implements OnInit {
             this.saveUser = false;
             this.updateUser = true;
             this.checkInput = true;
-            this.sendAndRequestService.requestForGETId(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID, this.id)
+            this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID+'/'+this.id)
                 .subscribe(resp => {
                     
 this.resp = resp;
@@ -279,7 +279,7 @@ this.resp = resp;
                 "status_id": 1,
                 "divisionCode":repositoryCode    
                 }         
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS, saveUsersModel).subscribe((data) => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS, saveUsersModel, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage('User Added Successfully.')
                 if (this.data) {
