@@ -82,7 +82,7 @@ export class ContentManagementComponent implements OnInit {
     createCMForm() {
         this.contentManagementFormGroup = this.formBuilder.group({
             GenOps: ['', Validators.required],
-            description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            description: ['', Validators.compose([Validators.required])],
             uploadFiles: ['', Validators.required],
             assetTypeRlyId: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
             make: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],

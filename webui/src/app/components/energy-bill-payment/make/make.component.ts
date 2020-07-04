@@ -301,7 +301,7 @@ export class MakeComponent implements OnInit{
         
          
           //this.makeService.existsMakeCode(makeCode)
-          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE+'/'+makeCode)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE+makeCode)
           .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateMakeCode': true });

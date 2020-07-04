@@ -50,7 +50,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Section"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['section']"
-                                                                required>
+                                                                required  pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$">
                                                             <mat-error
                                                                 *ngIf="addDriveInspectionFormGroup.controls['section'].hasError('required') && addDriveInspectionFormGroup.controls['section'].touched"
                                                                 class="alert alert-danger">Enter Section</mat-error>

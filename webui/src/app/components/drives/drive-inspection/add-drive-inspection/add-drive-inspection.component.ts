@@ -160,7 +160,7 @@ export class AddDriveInspectionComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'inspectionType': [null, Validators.compose([Validators.required])],
-        'section': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        'section': [null, Validators.compose([Validators.required])],
         'sectionStartLocation': [null],
         'sectionEndLocation': [null],
         'dateOfInspection': [null],

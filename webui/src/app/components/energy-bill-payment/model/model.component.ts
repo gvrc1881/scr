@@ -284,7 +284,7 @@ export class ModelComponent implements OnInit{
         
          
          // this.modelService.existsModelCode( modelCode )
-          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE+'/'+modelCode)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE+modelCode)
           .subscribe((duplicate) => {
             if (duplicate) {
               resolve({ 'duplicateModelCode': true });

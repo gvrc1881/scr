@@ -31,7 +31,7 @@
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30" *ngIf="addPermission">
                               <input matInput placeholder="Description" formControlName="description"
-                                required />
+                                required  pattern="^[a-zA-Z,0-9,\s._-]+(\s[a-zA-Z,0-9,._-]+)?$" />
                               <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.required"
                                 class="alert alert-danger">Description required</mat-error>
                               <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.pattern"

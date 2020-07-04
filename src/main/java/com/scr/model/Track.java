@@ -21,8 +21,13 @@ public class Track implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer createdBy;
-	private Integer updatedBy;
+	
+	@Column(name="created_by")
+	private String createdBy;
+
+	@Column(name="updated_by")
+	private String updatedBy;
+	
 	private Timestamp createdOn;
 	private Timestamp updatedOn;
 	@ManyToOne
@@ -44,19 +49,19 @@ public class Track implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getCreatedBy() {
-		return createdBy;
+	public String getCreatedBy() {
+		return this.createdBy;
 	}
 
-	public void setCreatedBy(Integer createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public Integer getUpdatedBy() {
-		return updatedBy;
+	public String getUpdatedBy() {
+		return this.updatedBy;
 	}
 
-	public void setUpdatedBy(Integer updatedBy) {
+	public void setUpdatedBy(String UpdatedBy) {
 		this.updatedBy = updatedBy;
 	}
 
