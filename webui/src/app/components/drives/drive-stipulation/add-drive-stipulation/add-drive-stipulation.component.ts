@@ -165,7 +165,7 @@ export class AddDriveStipulationComponent implements OnInit {
         dateComplied: this.addDriveStipulationFormGroup.value.dateComplied,
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
-        "createdBy": this.loggedUserData.username,
+        "createdBy": this.loggedUserData.id,
         "createdOn": new Date()
       }
       let formdata: FormData = new FormData();
@@ -207,7 +207,7 @@ export class AddDriveStipulationComponent implements OnInit {
         compliance: this.addDriveStipulationFormGroup.value.compliance,
         compliedBy: this.addDriveStipulationFormGroup.value.compliedBy,
         attachment: this.resp.attachment,
-        "updatedBy": this.loggedUserData.username,
+        "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
       let formdata: FormData = new FormData();

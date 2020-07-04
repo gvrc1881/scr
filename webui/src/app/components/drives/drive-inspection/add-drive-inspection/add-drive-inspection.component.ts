@@ -192,7 +192,7 @@ export class AddDriveInspectionComponent implements OnInit {
         authorisationDate: this.addDriveInspectionFormGroup.value.authorisationDate,
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
         station: this.addDriveInspectionFormGroup.value.station,
-        "createdBy": this.loggedUserData.username,
+        "createdBy": this.loggedUserData.id,
         "createdOn": new Date()
       }
       let formdata: FormData = new FormData();
@@ -244,7 +244,7 @@ export class AddDriveInspectionComponent implements OnInit {
         chargingDate: this.addDriveInspectionFormGroup.value.chargingDate,
         attachment: this.resp.attachment,
         station: this.addDriveInspectionFormGroup.value.station,
-        "updatedBy": this.loggedUserData.username,
+        "updatedBy": this.loggedUserData.id,
         "updatedOn": new Date()
       }
       let formdata: FormData = new FormData();
