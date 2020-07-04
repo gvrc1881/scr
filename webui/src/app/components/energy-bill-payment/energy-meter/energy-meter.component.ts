@@ -36,7 +36,7 @@ export class EnergyMeterComponent implements OnInit{
     enableEndReadings: boolean;
 
     constructor(
-        private energyMeterService: EnergyMeterService,
+        //private energyMeterService: EnergyMeterService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -83,9 +83,10 @@ export class EnergyMeterComponent implements OnInit{
     duplicateFeederAndStartDate() {
     	const q = new Promise((resolve, reject) => {
       //console.log(JSON.stringify(this.scheduleJobData))
-	       this.energyMeterService.existsFeederAndStartDate(
-	        this.energyMeterFormGroup.controls['feederId'].value,
-	        this.energyMeterFormGroup.controls['startDate'].value
+	       this.sendAndRequestService.requestForGET(
+                Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_START_DATE +
+	            this.energyMeterFormGroup.controls['feederId'].value + '/'+
+	            this.energyMeterFormGroup.controls['startDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
 	          resolve({ 'duplicate': true });

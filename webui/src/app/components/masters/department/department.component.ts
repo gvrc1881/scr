@@ -48,7 +48,7 @@ export class DepartmentComponent implements OnInit {
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private departmentService: DepartmentService,
+    //private departmentService: DepartmentService,
     private sendAndRequestService:SendAndRequestService
   ) {
 
@@ -191,7 +191,7 @@ export class DepartmentComponent implements OnInit {
       if (filter.length > 0) {
         resolve({ 'duplicateDepartment': true });
       }
-      this.departmentService.existsDepartmentName(
+      this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.DEPARTMENT.EXIST_DEPARTMENT +
         this.departmentFormGroup.controls['departmentName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {

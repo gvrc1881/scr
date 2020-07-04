@@ -141,7 +141,6 @@ export class DrivesService {
         return this.http.delete<any[]>(environment.apiUrl + '/deleteDriveDailyProgress/'+id, { headers: this.header });
     }
     // DRIVE DAILY PROGRESS
-
     // DRIVE FAILURE ANALYSIS
     getFailureAnalysisData(){
         return this.http.get<FailureAnalysisModel[]>(environment.apiUrl + '/failureAnalysis', { headers: this.header });            

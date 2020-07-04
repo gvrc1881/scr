@@ -33,7 +33,7 @@ export class StationsSectionsComponent implements OnInit{
 
 
     constructor(
-        private stationsSectionsService: StationsSectionsService,
+        //private stationsSectionsService: StationsSectionsService,
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -71,7 +71,7 @@ export class StationsSectionsComponent implements OnInit{
           if (filter.length > 0) {
             resolve({ 'duplicateStationCode': true });
           }
-          this.stationsSectionsService.existsStationCode(
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.EXISTS_STATION_CODE +
             this.stationsSectionsFormGroup.controls['stationCode'].value
           ).subscribe((duplicate) => {
             if (duplicate) {
@@ -92,7 +92,7 @@ export class StationsSectionsComponent implements OnInit{
           if (filter.length > 0) {
             resolve({ 'duplicateStationName': true });
           }
-          this.stationsSectionsService.existsStationCode(
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.EXISTS_STATION_NAME +
             this.stationsSectionsFormGroup.controls['stationName'].value
           ).subscribe((duplicate) => {
             if (duplicate) {

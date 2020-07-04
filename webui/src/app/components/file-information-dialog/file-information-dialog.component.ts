@@ -5,6 +5,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../environments/environment';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'file-information-dialog',
     templateUrl: './file-information-dialog.component.html',
@@ -25,7 +27,8 @@ export class FilesInformationDialogComponent implements OnInit {
         public dialogRef: MatDialogRef<FilesInformationDialogComponent>,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private drivesService: DrivesService, 
+        private sendAndRequestService: SendAndRequestService,
+        //private drivesService: DrivesService, 
         public dialog: MatDialog,) {
         if (data) {
             this.response = data;
@@ -88,7 +91,12 @@ export class FilesInformationDialogComponent implements OnInit {
                 this.spinnerService.show();
                 var id = localStorage.getItem('driveFileTypeId');
                 console.log("common id = "+id+" row id="+rowid)
-                this.drivesService.deleteFile(id, rowid, this.type).subscribe(data => {
+                var data ={
+                    "id":id,
+                    "fileName":rowid,
+                    "type":this.type
+                }
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
                     this.spinnerService.hide();
                     this.commonService.showAlertMessage("Deleted File Successfully");
                     this.updateData(id);
@@ -104,7 +112,7 @@ export class FilesInformationDialogComponent implements OnInit {
     filesInfor: any;
     updateData(id) {
        // if (this.type == 'Stipulation') {
-            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
                 this.filesInfor = response;
                 console.log(JSON.stringify(response));
                 this.response = response;

@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { DriveTargetModel } from 'src/app/models/drive.model';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-target',
@@ -32,7 +33,8 @@ export class AddDriveTargetComponent implements OnInit {
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
+    private sendAndRequestService: SendAndRequestService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
@@ -73,7 +75,7 @@ export class AddDriveTargetComponent implements OnInit {
   }
   getDriveTargetData() {
     const driveTarget: DriveTargetModel[] = [];
-    this.drivesService.getDriveTargetData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.GET_TARGETS).subscribe((data) => {
       this.driveTargetList = data;                  
       this.spinnerService.hide();
     }, error => {
@@ -119,13 +121,13 @@ export class AddDriveTargetComponent implements OnInit {
     return q;
   }
   findDepoTypeList() {
-    this.drivesService.findDepoTypeList()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
       })
   }
   findFunctionalUnits() {
-    this.drivesService.findFunctionslUnits()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
         this.allFunctionalUnitsList = units;
       })
@@ -154,7 +156,7 @@ export class AddDriveTargetComponent implements OnInit {
   }
 
   getDrivesData() {
-    this.drivesService.getDrivesData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
       this.spinnerService.hide();
     }, error => {
@@ -162,7 +164,7 @@ export class AddDriveTargetComponent implements OnInit {
     });
   }
   getDriveTargetDataById(id) {
-    this.drivesService.findDriveTargetDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.EDIT + id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveTargetFormGroup.patchValue({
@@ -198,7 +200,7 @@ export class AddDriveTargetComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.drivesService.saveDriveTargetData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.TARGETS.SAVE ,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -225,7 +227,7 @@ export class AddDriveTargetComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.drivesService.updateDriveTargetData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.TARGETS.UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

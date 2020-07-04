@@ -7,6 +7,8 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-inspection',
@@ -35,7 +37,8 @@ export class DriveInspectionComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+    private sendandRequestService:SendAndRequestService,
+    //private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -57,7 +60,7 @@ export class DriveInspectionComponent implements OnInit {
   }
   getInspectionData() {
     const inspections: InspectionstModel[] = [];
-    this.drivesService.getInspectionData().subscribe((data) => {
+    this.sendandRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
       this.inspectionsList = data;
       for (let i = 0; i < this.inspectionsList.length; i++) {
         this.inspectionsList[i].sno = i + 1;
@@ -85,7 +88,7 @@ export class DriveInspectionComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteInspectionsData(id).subscribe(data => {
+        this.sendandRequestService.requestForDELETE(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Inspection Successfully");
           this.getInspectionData();
@@ -102,7 +105,7 @@ export class DriveInspectionComponent implements OnInit {
   filesInfor: any;
   viewFilesDetails(id) {
     this.spinnerService.show();
-    this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
+    this.sendandRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
       localStorage.setItem('driveFileType', 'inspection');
       localStorage.setItem('driveFileTypeId', id);

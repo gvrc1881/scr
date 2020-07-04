@@ -37,7 +37,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
 
 
     constructor(
-        private footPatrollingSectionsService: FootPatrollingSectionsService,
+        //private footPatrollingSectionsService: FootPatrollingSectionsService,
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -76,7 +76,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
           if (filter.length > 0) {
             resolve({ 'duplicatefpSection': true });
           }
-          this.footPatrollingSectionsService.existsFpSection(
+          this.sendAndRequestService.requestForGET( Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.EXIST_FP_SECTIONS +
             this.fpSectionsItemFormGroup.controls['fpSection'].value
           ).subscribe((duplicate) => {
             if (duplicate) {

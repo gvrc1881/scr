@@ -36,7 +36,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
 
 
     constructor(
-        private footPatrollingInspectionService: FootPatrollingInspectionService,
+       // private footPatrollingInspectionService: FootPatrollingInspectionService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private reportService: ReportService,

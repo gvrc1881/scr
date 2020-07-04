@@ -7,6 +7,8 @@ import { SchedulerTrackingService } from '../../services/scheduler-tracking.serv
 import { SchedulerTrackingModel } from 'src/app/models/scheduler-tracking.model';
 import { RemarkDialogComponent } from '../remark-dialog/remark-dialog.component';
 import { Router } from '@angular/router';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-scheduler-tracking',
@@ -37,7 +39,8 @@ export class SchedulerTrackingComponent implements OnInit {
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private schedulerTrackingService: SchedulerTrackingService,
+   // private schedulerTrackingService: SchedulerTrackingService,
+   private sendAndRequestService: SendAndRequestService,
     private router: Router,
   ) {
 
@@ -51,7 +54,7 @@ export class SchedulerTrackingComponent implements OnInit {
   findAllJobInfo() {
     this.spinnerService.show();
     const schedulerData: SchedulerTrackingModel[] = [];
-    this.schedulerTrackingService.findAllJobInfo().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.GET_JOBS).subscribe((data) => {
       this.schedulerData = data;
       console.log('schedulerData: '+JSON.stringify(data))
       for (let i = 0; i < this.schedulerData.length; i++) {
@@ -139,7 +142,7 @@ export class SchedulerTrackingComponent implements OnInit {
           "runBy":this.loggedUserData.id,
           "processedDate":dataString
       }
-         this.schedulerTrackingService.reRunByIdByType(remarkDetails).subscribe((response) => {
+         this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.RERUN_WITH_REMARK,remarkDetails, false).subscribe((response) => {
           this.schedulerResponse = response;
           console.log(JSON.stringify(response));
           this.spinnerService.hide();
@@ -159,7 +162,7 @@ export class SchedulerTrackingComponent implements OnInit {
       "runTypeId": runTypeId,     
       "runBy":this.loggedUserData.id
     }
-    this.schedulerTrackingService.downloadXSL(details).subscribe((response) => {
+    this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.DOWNLOAD_XL,details, false).subscribe((response) => {
       this.response = response;
       if(this.response.code == 200){
         this.commonService.showAlertMessage("Downloaded Successfully.");

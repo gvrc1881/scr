@@ -10,6 +10,8 @@ import { RoleTypeModel } from 'src/app/models/role-type.model';
 import { RolePermissionService } from 'src/app/services/role-permission.service';
 import { RolePermissionModel } from 'src/app/models/role-permissions.model';
 import { RolePermissionPayload } from 'src/app/payloads/role-permission.payload';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-role-permissions',
   templateUrl: './role-permissions.component.html',
@@ -49,7 +51,8 @@ export class RolePermissionsComponent implements OnInit {
       private spinnerService: Ng4LoadingSpinnerService,
       public dialog: MatDialog,
       private commonService: CommonService,
-      private rolePermissionService: RolePermissionService
+      private sendAndRequestService:SendAndRequestService
+     // private rolePermissionService: RolePermissionService
      ) { }
 
   ngOnInit() {   
@@ -64,7 +67,7 @@ export class RolePermissionsComponent implements OnInit {
   getRoleTypedata() {
     this.spinnerService.show();
     const roles: RolePermissionModel[] = [];
-    this.rolePermissionService.findAllRolesWithPermissions().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_PERMISSIONS.GET_ROLE_PERMISSION).subscribe((data) => {
       this.rolesList = data;
       for (let i = 0; i < this.rolesList.length; i++) {
         this.rolesList[i].sno = i + 1;
@@ -159,7 +162,7 @@ export class RolePermissionsComponent implements OnInit {
       RolePermissionPayload.UPDATE_PAYLOAD.roleName = roleName
       RolePermissionPayload.UPDATE_PAYLOAD.permission = permission
       
-    this.rolePermissionService.updateRolePermission(RolePermissionPayload.UPDATE_PAYLOAD).subscribe(response =>{
+    this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.ROLE_PERMISSIONS.UPDATE_ROLE_PERMISSION, RolePermissionPayload.UPDATE_PAYLOAD, false).subscribe(response =>{
       this.spinnerService.hide();      
       this.loadRolePermissionDataById(this.id);
       this.getRoleTypedata()

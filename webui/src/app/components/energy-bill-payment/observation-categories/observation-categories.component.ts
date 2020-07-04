@@ -35,7 +35,7 @@ export class ObservationCategoriesComponent implements OnInit{
 
 
     constructor(
-        private observationCategoriesService: ObservationCategoriesService,
+       // private observationCategoriesService: ObservationCategoriesService,
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -74,8 +74,9 @@ export class ObservationCategoriesComponent implements OnInit{
           if (filter.length > 0) {
             resolve({ 'duplicate': true });
           }
-          this.observationCategoriesService.existsInspectionTypeAndObservationCategory(
-	        this.observationCategoriesFormGroup.controls['inspectionType'].value,
+          this.sendAndRequestService.requestForGET(
+              Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.EXISTS_INPECTION_TYPE_OBJ_CATG +
+	        this.observationCategoriesFormGroup.controls['inspectionType'].value + '/'+
 	        this.observationCategoriesFormGroup.controls['observationCategory'].value
           ).subscribe((duplicate) => {
             if (duplicate) {

@@ -7,6 +7,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'energy-bill-payment',
@@ -35,7 +36,8 @@ export class EnergyBillPaymentComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-        private _energyBillPaymentService: EnergyBillPaymentService,
+       // private _energyBillPaymentService: EnergyBillPaymentService,
+       private sendAndRequestService : SendAndRequestService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder
     ){
@@ -78,7 +80,7 @@ export class EnergyBillPaymentComponent implements OnInit{
 
     getEnergyBillPaymentData() {
         const eneBillPayment: EnergyBillPaymentModel [] = [];
-        this._energyBillPaymentService.findAllEnergyBillPayments().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GET_ENERGY_BILL_PAYMENTS).subscribe((data) => {
             this.eneBillPaymentList = data;
             for (let i = 0; i < this.eneBillPaymentList.length; i++) {
                 this.eneBillPaymentList[i].sno = i+1;
@@ -101,13 +103,13 @@ export class EnergyBillPaymentComponent implements OnInit{
         // this.saveEnergyBillPayment = false;
         console.log('title::'+this.title);
         if (this.title == Constants.EVENTS.SAVE) {
-            this._energyBillPaymentService.saveEneBillPayment({
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SAVE,{
                 "amount":amount,
                 "dateOfPayment":dateOfPayment,
                 "division": division,
                 "month": month,
                 "year": year
-            }).subscribe((data) => {
+            }, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage("Successfully saved");
                 this.getEnergyBillPaymentData();
@@ -119,14 +121,14 @@ export class EnergyBillPaymentComponent implements OnInit{
         }else if(this.title == Constants.EVENTS.UPDATE){
             console.log('in else if block::');
             let id: number = this.editEneBillPaymentResponse.id;
-            this._energyBillPaymentService.updateEneBillPayment({
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.UPDATE,{
                 "id":id,
                 "amount":amount,
                 "dateOfPayment":dateOfPayment,
                 "division": division,
                 "month": month,
                 "year": year
-            }).subscribe((data) => {
+            }, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage("Successfully updated");
                 this.getEnergyBillPaymentData();
@@ -148,7 +150,7 @@ export class EnergyBillPaymentComponent implements OnInit{
     }
 
     eneBillPaymentEditAction(id: number) {
-        this._energyBillPaymentService.findEneBillPaymentById(id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.EDIT + id)
             .subscribe((responseData) => {
                 this.editEneBillPaymentResponse = responseData;
                 this.energyBillPaymentFormGroup.patchValue({
@@ -169,7 +171,7 @@ export class EnergyBillPaymentComponent implements OnInit{
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected energy bill payment?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
-                this._energyBillPaymentService.deleteEneBillPaymentById(id)
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.DELETE ,id)
                     .subscribe((data) => {
                         this.commonService.showAlertMessage('Energy Bill Payment Deleted Successfully');
                         this.getEnergyBillPaymentData();

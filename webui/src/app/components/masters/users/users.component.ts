@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
     @ViewChild(MatSort, { static: true }) sort: MatSort;
 
     constructor(private formBuilder: FormBuilder,
-        private _userMenuService: UsersService,
+        //private _userMenuService: UsersService,
         private _router: Router,
         public dialog: MatDialog,
         private route: ActivatedRoute,
@@ -170,7 +170,7 @@ this.resp = resp;
 
     emailValidation() {
         const q = new Promise((resolve, reject) => {
-            this._userMenuService.duplicateEmail({
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.EXIST_EMAIL,{
 
                 'modifiedBy': null,
                 'createdBy': null,
@@ -188,7 +188,7 @@ this.resp = resp;
                 'phone': null,
                 'department': null,
                 'id': null,
-            }).subscribe((dublicate) => {
+            }, false).subscribe((dublicate) => {
                 if (dublicate) {
                     resolve({ 'emailValidation': true });
 
@@ -301,7 +301,7 @@ this.resp = resp;
 
         else if (this.updateUser) {
          
-            this._userMenuService.editUser({
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.UPDATE_USER,{
 
                 "user_id": var_id,
                 "id":var_id,
@@ -323,7 +323,7 @@ this.resp = resp;
                 "roleTypeId": var_role,
                 "status_id": 1,
                 "divisionCode":repositoryCode
-            }, var_id)
+            }, false)
                 .subscribe((data) => {
                    
                     this.commonService.showAlertMessage('User Data Updated Successfully.')                  

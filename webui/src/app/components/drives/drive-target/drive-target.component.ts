@@ -6,6 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-target',
@@ -31,7 +33,8 @@ export class DriveTargetComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
+   private sendAndRequestService : SendAndRequestService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -54,7 +57,7 @@ export class DriveTargetComponent implements OnInit {
   }
   getDriveTargetData() {
     const driveTarget: DriveTargetModel[] = [];
-    this.drivesService.getDriveTargetData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.GET_TARGETS).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
@@ -82,7 +85,7 @@ export class DriveTargetComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteDriveTargetData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.TARGETS.DELETE, id).subscribe(data => {
           console.log(JSON.stringify(data));
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Drive Target Successfully");

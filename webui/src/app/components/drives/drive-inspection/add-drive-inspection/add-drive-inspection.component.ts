@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { MatDialogRef, MatDialog } from '@angular/material';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
@@ -32,12 +33,13 @@ export class AddDriveInspectionComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private sendAndRequestService: SendAndRequestService
   ) { 
      this.inspectionFormErrors = {
       inspectionType:{},
@@ -78,7 +80,7 @@ export class AddDriveInspectionComponent implements OnInit {
     }    
   }
   getInspectionData() {    
-    this.drivesService.getInspectionData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
       this.inspectionsList = data;     
       this.spinnerService.hide();
     }, error => {
@@ -86,7 +88,7 @@ export class AddDriveInspectionComponent implements OnInit {
     });
   }
   findInspectionType(){
-    this.drivesService.getInspectionsType().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.INSPECTION_TYPE).subscribe((data) => {
       this.inspectionTypeList = data;
       this.spinnerService.hide();
     }, error => {
@@ -94,7 +96,7 @@ export class AddDriveInspectionComponent implements OnInit {
     });
   }
   getInspectionDataById(id){
-    this.drivesService.findInspectionsDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + id)
     .subscribe((resp) => {
       this.resp = resp;
       this.addDriveInspectionFormGroup.patchValue({
@@ -119,7 +121,7 @@ export class AddDriveInspectionComponent implements OnInit {
     })
   }
   findAttachedFiles(commonId){
-    this.drivesService.findStipulationAndInspectionDataById(commonId)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + commonId)
     .subscribe((resp) => {
       console.log("files : "+JSON.stringify(resp));  
       this.attachedImages = resp;
@@ -193,7 +195,27 @@ export class AddDriveInspectionComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.drivesService.saveInspectionsData(save, this.selectedFiles).subscribe(response => {
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('inspectionType', save.inspectionType);
+      formdata.append('section', save.section);
+      formdata.append('sectionStartLocation', save.sectionStartLocation);
+      formdata.append('sectionEndLocation', save.sectionEndLocation);
+      formdata.append('dateOfInspection', save.dateOfInspection);
+      formdata.append('tkm', save.tkm);
+      formdata.append('rkm', save.rkm);
+      formdata.append('remarks', save.remarks);
+      formdata.append('authorisationDate', save.authorisationDate);
+      formdata.append('chargingDate', save.chargingDate);
+      formdata.append('station', save.station);
+      //formdata.append('stipulationsId', save.stipulationsId);
+      formdata.append('createdBy', save.createdBy);
+      formdata.append('createdOn', save.createdOn.toLocaleDateString());
+      //formdata.append('updatedBy', save.updatedBy);
+      //formdata.append('updatedOn', save.updatedOn);
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.SAVE,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if(this.resp.code == Constants.CODES.SUCCESS){
@@ -225,7 +247,29 @@ export class AddDriveInspectionComponent implements OnInit {
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
-      this.drivesService.updateInspectionsData(update, this.selectedFiles).subscribe(response => {
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('id', update.id.toString());
+      formdata.append('inspectionType', update.inspectionType);
+      formdata.append('section', update.section);
+      formdata.append('sectionStartLocation', update.sectionStartLocation);
+      formdata.append('sectionEndLocation', update.sectionEndLocation);
+      formdata.append('dateOfInspection', update.dateOfInspection);
+      formdata.append('tkm', update.tkm);
+      formdata.append('rkm', update.rkm);
+      formdata.append('remarks', update.remarks);
+      formdata.append('authorisationDate', update.authorisationDate);
+      formdata.append('chargingDate', update.chargingDate);
+      formdata.append('station', update.station);
+     // formdata.append('stipulationsId', update.stipulationsId);
+      //formdata.append('createdBy', update.createdBy);
+      //formdata.append('createdOn', update.createdOn);
+      formdata.append('updatedBy', update.updatedBy);
+      formdata.append('updatedOn', update.updatedOn.toLocaleDateString());
+      formdata.append('attachment', update.attachment);
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.INSPECTIONS.INSPECTIONS.UPDATE ,update, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if(this.resp.code == Constants.CODES.SUCCESS){
@@ -263,8 +307,13 @@ export class AddDriveInspectionComponent implements OnInit {
       if (result) {
         console.log('result : '+result)
         //  this.spinnerService.show();
+        var data ={
+          "id":commonFileid,
+          "fileName":rowid,
+          "type":'Inspection'
+      }
           var id = localStorage.getItem('driveFileTypeId');
-          this.drivesService.deleteFile(commonFileid, rowid, 'Inspection').subscribe(data => {
+          this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
              // this.spinnerService.hide();
               this.commonService.showAlertMessage("Deleted File Successfully");
              // this.updateData(id);

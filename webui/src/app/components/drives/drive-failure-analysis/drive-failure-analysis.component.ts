@@ -6,6 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-failure-analysis',
@@ -35,7 +37,8 @@ export class DriveFailureAnalysisComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
+    private sendAndRequestService: SendAndRequestService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -58,7 +61,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
   }
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
-    this.drivesService.getFailureAnalysisData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
@@ -84,7 +87,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteFailureAnalysisData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Failure Analysis Successfully");
           this.getFailureAnalysisData();

@@ -6,6 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-progress-record',
@@ -32,10 +34,11 @@ export class DriveProgressRecordComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private sendAndRequestService: SendAndRequestService
   ) { }
 
   ngOnInit() {
@@ -55,7 +58,7 @@ export class DriveProgressRecordComponent implements OnInit {
   }
   getDriveDailyProgressData() {
     const driveTarget: DriveDailyProgressModel[] = [];
-    this.drivesService.getDriveDailyProgressData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_PROGRESS_RECORDS).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
@@ -82,7 +85,7 @@ export class DriveProgressRecordComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteDriveDailyProgressData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PROGRESS_RECORD.DELETE ,id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Drive Daily Progress Successfully");
           this.getDriveDailyProgressData();

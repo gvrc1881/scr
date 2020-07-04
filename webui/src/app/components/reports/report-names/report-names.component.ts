@@ -15,7 +15,7 @@ export class ReportNamesComponent implements OnInit {
   reportType:string;
   breadcrumb:string;
   constructor(
-    private reportService: ReportService,   
+   // private reportService: ReportService,   
     private router: Router, 
     private sendAndRequestService:SendAndRequestService
 

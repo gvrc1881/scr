@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ReportService  } from "src/app/services/report.service";
 import { Router } from '@angular/router';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 //import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,7 +15,8 @@ export class DailyProgressReportsComponent implements OnInit {
   dailyReportData: any;
   
   constructor(
-    private reportService: ReportService,   
+    //private reportService: ReportService,   
+    private sendAndRequestService: SendAndRequestService,
     private router: Router, 
   ) { }
 
@@ -40,7 +43,7 @@ export class DailyProgressReportsComponent implements OnInit {
     else if(this.router.url == '/asset-master-reports'){
       reportType = 'Asset_Master_Reports';
     }
-    this.reportService.reportNames(reportType).subscribe((data)=>{
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_NAMES + reportType).subscribe((data)=>{
       this.dailyReportData =data;
   })
 }

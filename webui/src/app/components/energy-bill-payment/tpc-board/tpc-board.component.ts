@@ -34,7 +34,7 @@ export class TPCBoardComponent implements OnInit{
 
 
     constructor(
-        private tpcBoardService: TPCBoardService,
+        //private tpcBoardService: TPCBoardService,
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -70,8 +70,8 @@ export class TPCBoardComponent implements OnInit{
             if (filter.length > 0) {
               resolve({ 'duplicate': true });
             }
-	       this.tpcBoardService.existsTpcBoardAndDataDiv(
-	        this.tpcBoardFormGroup.controls['tpcBoard'].value,
+	       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.EXISTS_TPC_BOARD_DATADIV + 
+	        this.tpcBoardFormGroup.controls['tpcBoard'].value + '/'+
 	        this.tpcBoardFormGroup.controls['dataDiv'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {

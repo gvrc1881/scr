@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-progress-record',
@@ -28,11 +29,12 @@ export class AddDriveProgressRecordComponent implements OnInit {
   //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    private sendAndRequestService:SendAndRequestService
   ) {
     // Reactive form errors
     this.driveDailyProgressFormErrors = {
@@ -68,7 +70,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
     }
   }
   findDivisions(){
-    this.drivesService.findDivisions()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
     .subscribe((resp) => {
       this.divisionList = resp;
     });
@@ -103,7 +105,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
   }
 
   getDrivesData() {
-    this.drivesService.getDrivesData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
       this.spinnerService.hide();
     }, error => {
@@ -111,7 +113,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
     });
   }
   getDriveDailyProgressDataById(id) {
-    this.drivesService.findDriveDailyProgressDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.EDIT + id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveDailyProgressFormGroup.patchValue({
@@ -154,7 +156,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.drivesService.saveDriveDailyProgressData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE ,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -184,7 +186,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.drivesService.updateDriveDailyProgressData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.PROGRESS_RECORD.UPDATE ,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

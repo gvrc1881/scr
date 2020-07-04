@@ -42,8 +42,8 @@ export class TrackComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-        private trackService: TrackService,
-        private reportService: ReportService,
+        //private trackService: TrackService,
+        //private reportService: ReportService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
         private sendAndRequestService:SendAndRequestService
@@ -69,7 +69,7 @@ export class TrackComponent implements OnInit{
             "electrifiedRkm": [null, Validators.compose([Validators.required])],
     		"electrifiedTkm": [null, Validators.compose([Validators.required])],
         });
-        this.reportService.functionalLocationTypes().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
                  this.funLocTypeData = data;
       		});
     }
@@ -165,7 +165,7 @@ export class TrackComponent implements OnInit{
         this.addTrack = true;
         this.trackEditAction(id);
         this.title = "Update";
-        this.reportService.facilityNames().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                  this.facilityData = data;
         		});
         this.spinnerService.hide();
@@ -230,7 +230,7 @@ export class TrackComponent implements OnInit{
     
     getFacilitys(){
     	var depotType = this.trackFormGroup.value.depotType ;
-    	this.reportService.getFacilitysBasedOnDepotType(depotType.code).subscribe((data) => {
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + depotType.code).subscribe((data) => {
                  this.facilityData = data;
         		});
     }

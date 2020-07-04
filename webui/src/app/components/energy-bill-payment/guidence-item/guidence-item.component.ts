@@ -36,7 +36,7 @@ export class GuidenceItemComponent implements OnInit{
 
 
     constructor(
-        private _guidenceItemService: GuidenceItemService,
+       // private _guidenceItemService: GuidenceItemService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,

@@ -8,6 +8,7 @@ import {
   ParentErrorStateMatcher
 } from '../../validators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -69,6 +70,7 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private spinnerService: Ng4LoadingSpinnerService,
     private authenticationService: AuthenticationService,
+    priavte sendAndRequestService: SendAndRequestService,
     private alertService: AlertService,
     private route: ActivatedRoute,
 

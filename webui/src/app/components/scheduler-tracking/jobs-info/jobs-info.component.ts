@@ -9,6 +9,8 @@ import { SchedulerTrackingModel } from 'src/app/models/scheduler-tracking.model'
 import { ActivatedRoute } from '@angular/router';
 import { DivisionHistoryDialogComponent } from '../../division-history-dialog/division-history-dialog.component';
 import { ViewEncapsulation } from '@angular/compiler/src/core';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-jobs-info',
   templateUrl: './jobs-info.component.html',
@@ -39,7 +41,8 @@ export class JobsInfoComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
-    private schedulerTrackingService: SchedulerTrackingService,
+   // private schedulerTrackingService: SchedulerTrackingService,
+   private sendAndRequestService: SendAndRequestService,
   ) {
     
   }
@@ -57,7 +60,7 @@ export class JobsInfoComponent implements OnInit {
     const schedulerData: SchedulerTrackingModel[] = [];
     //console.log(JSON.stringify(this.route.snapshot.params['id']))
     localStorage.setItem("pid", this.route.snapshot.params['id']);
-    this.schedulerTrackingService.findOperationTypesHistoryInfo(this.route.snapshot.params['id']).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.FIND_OPERATIONS_INFO + this.route.snapshot.params['id']).subscribe((data) => {
       this.schedulerData = data; 
       //console.log(JSON.stringify(data))     
       for (let i = 0; i < this.schedulerData.length; i++) {

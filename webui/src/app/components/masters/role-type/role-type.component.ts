@@ -8,6 +8,8 @@ import { RoleTypeModule } from './role-type.module';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from '../../../common/common.service';
 import { RoleTypeModel } from 'src/app/models/role-type.model';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-role-type',
   templateUrl: './role-type.component.html',
@@ -42,7 +44,8 @@ export class RoleTypeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
-    private _roleTypemaster: RoleTypeService,
+    //private _roleTypemaster: RoleTypeService,
+    private sendAndRequestService : SendAndRequestService,
     private formBuilder: FormBuilder,
     private _router: Router, private router: ActivatedRoute,
     private actRoute: ActivatedRoute,
@@ -85,7 +88,7 @@ export class RoleTypeComponent implements OnInit {
   }
   RoleEditAction(id: number) {
     this.addRole = true;
-    this._roleTypemaster.getRoledata(id).subscribe((resp) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.GET_ROLE_DATA_ID + id).subscribe((resp) => {
       this.cloneupdate = false;
       this.updatedata = false;
       this.saveRole = false;
@@ -101,7 +104,7 @@ export class RoleTypeComponent implements OnInit {
 
   getRoleTypeData() {
     const roles: RoleTypeModel[] = [];
-    this._roleTypemaster.getRoleList().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.GET_ROLE_LIST).subscribe((data) => {
       this.rolesList = data;
       for (let i = 0; i < this.rolesList.length; i++) {
         this.rolesList[i].sno = i + 1;
@@ -145,7 +148,7 @@ export class RoleTypeComponent implements OnInit {
       this.addRole = false;
       this.updatedata = true;
 
-      this._roleTypemaster.addMroleType({
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.ROLE_TYPE.SAVE_ROLE,{
         'createdBy': this.userdata.id,
         'createdDate': null,
         'roleType': var_roles,
@@ -156,7 +159,7 @@ export class RoleTypeComponent implements OnInit {
         //  'id': null,
         'statusId': 1,
         //'sno': 1,
-      }).subscribe((data) => {
+      }, false).subscribe((data) => {
         this.data = data;
         this.commonService.showAlertMessage("Role Saved Successfully");
         let temObj = 0;
@@ -187,7 +190,7 @@ export class RoleTypeComponent implements OnInit {
     else if (this.title == "Update") {
       this.spinnerService.show();
       this.saveRole = false;
-      this._roleTypemaster.editMroleType({
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.ROLE_TYPE.UPDATE_ROLE,{
         'createdBy': this.userdata.id,
         'createdDate': null,
         'roleType': var_roles,
@@ -198,7 +201,7 @@ export class RoleTypeComponent implements OnInit {
         'statusId': 1,
         'sno': 1,
         'id': var_id,
-      }, var_id)
+      }, var_id, false)
         .subscribe((data) => {
           this.commonService.showAlertMessage("Role Updated Successfully");
           this.title = "Save";
@@ -225,13 +228,7 @@ export class RoleTypeComponent implements OnInit {
       if (filter.length > 0) {
         resolve({ 'duplicateRoletype': true });
       }
-      this._roleTypemaster.duplicateRoletype({
-        'modifiedBy': null,
-        'createdBy': null,
-        'roleType': this.RoleType.controls['roles'].value,
-        'id': null,
-        'role': null
-      }).subscribe((duplicate) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.DUPLICATE_ROLE_TYPE + this.RoleType.controls['roles'].value        ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateRoletype': true });
         } else {
@@ -244,7 +241,7 @@ export class RoleTypeComponent implements OnInit {
 
   AddRole() {
     this.spinnerService.show();
-    this._roleTypemaster.getMasterRoleList().subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.GET_MASTER_ROLE_LIST).subscribe((response) => {
       this.availableRolesList = response;
       let list = this.availableRolesList;
       for (let i = 0; i < list.length; i++) {
@@ -283,7 +280,7 @@ export class RoleTypeComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this._roleTypemaster.deleteRole(id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.DELETE_ROLE + id)
           .subscribe((data) => {
             this.commonService.showAlertMessage('Role Deleted Successfully.')
             this.getRoleTypeData();
@@ -310,7 +307,7 @@ export class RoleTypeComponent implements OnInit {
     this.spinnerService.hide();
   }
   getRoleTypePermissons(id: number) {
-    this._roleTypemaster.getRoleTypePermissons(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.GET_ROLE_TYPE_PERMISSION + id)
     this._router.navigate([id], { relativeTo: this.router });
   }
 }

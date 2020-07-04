@@ -79,11 +79,11 @@ export const Constants = {
                 GET_ROLE_DATA_ID:"/roleById/",
                 SAVE_ROLE:"/addRole",
                 UPDATE_ROLE:"/editRole",
-                SAVE_ROLE_PERMISSION:"/api/saveRolePermission/",
+                SAVE_ROLE_PERMISSION:"/saveRolePermission/",
                 DELETE_ROLE:"/deleteRole/",
                 GET_PERMISSION:"/permissions",
-                DELETE_ROLE_PERMISSION:"/api/api/Permissions/Delete?id=",
-                GET_ROLE_TYPE_PERMISSION:"/api/getRoleTypePermissons/",
+                DELETE_ROLE_PERMISSION:"/Permissions/Delete?id=",
+                GET_ROLE_TYPE_PERMISSION:"/getRoleTypePermissons/",
                 DUPLICATE_ROLE_TYPE:"/findDuplicateRole/",
                 CREATED_PERMISSIONS:"/savePermission"
             },
@@ -111,18 +111,36 @@ export const Constants = {
                 EXIST_EMAIL:"/duplicateEmail"
             },
             ROLE_PERMISSIONS:{
-
                 GET_ROLE_PERMISSION:"/findAllRolesWithPermissions",
                 GET_TIME_INTERVAL_BY_ID:"/findTimeIntervalById/",
                 SAVE_TIME_INTERVAL:"/addTimeInterval",
-                UPDATE_TIME_INTERVAL:"/updatePermission",
+                UPDATE_ROLE_PERMISSION:"/updatePermission",
                 DELETE_TIME_INTERVAL:"/deleteTimeInterval/",
                 EXISTS_TIME_INTERVAL:"/existsTimeInterval/"
             },
-            
-
+            SCHEDULER_TRACKING:{
+                GET_JOBS:'/findAllJobInfo',
+                RERUN_WITH_REMARK:'/reRunWithRemark',
+                DOWNLOAD_XL:'/download',
+                FIND_OPERATIONS_INFO:'/findOperationsInfo/',
+                FIND_JOBS_HISTORY_INFO:'/findJobsHistoryInfo/',
+                DIVISION_INFO:'/divisionInfo/'
+            },
+            SCHEDULER_SETTINGS:{
+                SAVE:'/addSchedulerSettings',
+                UPDATE:'/updateSchedulerSettings',
+                DELETE:'/deleteSchedulerSettings/',
+                GET_SCHEDULER_JOBS:'/findAllSchedulerJobs',
+                EDIT:'/findScheduleJobById/',
+                GET_SCHEDULER_JOBS_LIST:'/findAllSchedulerJobsList'
+            }
         },
         ENERGY_BILL_PAYMENTS:{
+            GET_ENERGY_BILL_PAYMENTS:'findAllEnergyBillPayments',
+            SAVE:'/addEneBillPayment',
+            EDIT:'/findEneBillPayment/',
+            UPDATE:'/updateEneBillPayment',
+            DELETE:'/deleteEneBillPayment/',
             GUIDENCE_ITEM:{
                 GET_GUIDENCE_ITEM:"/findAllGuidenceItems",
                 GET_GUIDENCE_ITEM_ID:"/findGuidenceItemById/",
@@ -135,14 +153,16 @@ export const Constants = {
                 GET_WORK_ID:"/findWork/",
                 SAVE_WORK:"/addWork",
                 UPDATE_WORK:"/updateWork",
-                DELETE_WORK:"/deleteWork/"
+                DELETE_WORK:"/deleteWork/",
+                EXISTS_WORK_NAME:'/existsWorkName/'
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",
                 GET_SIDINGS_ID:"/findSidingsItemById/",
                 SAVE_SIDINGS:"/addSlidingsItem",
                 UPDATE_SIDINGS:"/updateSlidingsItem",
-                DELETE_SIDINGS:"/deleteSidingsItem/"
+                DELETE_SIDINGS:"/deleteSidingsItem/",
+                EXISTS_SIDING_CODE:'/existsSidingCode/'
             },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
@@ -150,7 +170,9 @@ export const Constants = {
                 SAVE_TARIFF:"/addTractionEnergyTariff",
                 UPDATE_TARIFF:"/updateTractionEnergyTariff",
                 DELETE_TARIFF:"/deleteTractionEnergyTariff/",
-                ATTACHMENT_LIST:"/attachedDocumentList"
+                ATTACHMENT_LIST:"/attachedDocumentList/",
+                EXISTS_FROM_DATE:'/existsFromDate/',
+                TARIFF_UPLOAD_FILES:'tariffUploadFiles'
             },
             TRACK:{
                 GET_TRACK:"/findAllTrack",
@@ -164,28 +186,33 @@ export const Constants = {
                 GET_ENERGY_METER_ID:"/findEnergyMeter/",
                 SAVE_ENERGY_METER:"/addEnergyMeter",
                 UPDATE_ENERGY_METER:"/updateEnergyMeter",
-                DELETE_ENERGY_METER:"/deleteEnergyMeter/"
+                DELETE_ENERGY_METER:"/deleteEnergyMeter/",
+                EXISTS_FEEDER_START_DATE:'/existsFeederAndStartDate/'
             },
             STATION_SECTIONS:{
                 GET_STATION_SECTIONS:"/findAllStationSections",
                 GET_STATION_SECTIONS_ID:"/findStationSectionsById/",
                 SAVE_STATION_SECTIONS:"/addStationSections",
                 UPDATE_STATION_SECTIONS:"/updateStationSections",
-                DELETE_STATION_SECTIONS:"/deleteStationSections/"
+                DELETE_STATION_SECTIONS:"/deleteStationSections/",
+                EXISTS_STATION_CODE:"/existsStationCode/",
+                EXISTS_STATION_NAME:'existsStationName'
             },
             TPC_BOARD:{
                 GET_TPC_BOARD:"/findAllTPCBoard",
                 GET_TPC_BOARD_ID:"/findTPCBoardById/",
                 SAVE_TPC_BOARD:"/addTPCBoard",
                 UPDATE_TPC_BOARD:"/updateTPCBoard",
-                DELETE_TPC_BOARD:"/deleteTPCBoard/"
+                DELETE_TPC_BOARD:"/deleteTPCBoard/",
+                EXISTS_TPC_BOARD_DATADIV:"/existsTpcBoardAndDataDiv/"
             },
             TPC_BOARD_ASSOC:{
                 GET_TPC_BOARD_ASSOC:"/findAllTPCBoardDepotAssoc",
                 GET_TPC_BOARD_ASSOC_ID:"/findTPCBoardDepotAssocById/",
                 SAVE_TPC_BOARD_ASSOC:"/addTPCBoardDeotAssoc",
                 UPDATE_TPC_BOARD_ASSOC:"/updateTPCBoardDepotAssoc",
-                DELETE_TPC_BOARD_ASSOC:"/deleteTPCBoardDepotAssoc/"
+                DELETE_TPC_BOARD_ASSOC:"/deleteTPCBoardDepotAssoc/",
+                EXISTS_TPC_BOARD_UNIT_NAME:'/existsTpcBoardAndUnitName/'
             },
             FP_SECTIONS:{
                 GET_FP_SECTIONS:"/findAllFPSectionsItems",
@@ -244,6 +271,13 @@ export const Constants = {
                 SAVE:'/saveElectrificationTargets',
                 UPDATE:'/updateElectrificationTargets'
             },
+            TARGETS:{
+                GET_TARGETS:'/driveTarget',
+                SAVE:'/saveDriveTarget',
+                UPDATE:'/updateDriveTarget',
+                EDIT:'/driveTargetById/',
+                DELETE:'/deleteDriveTarget/'
+            },
             GET_DIVISIONS:'/divisions'
         },
         
@@ -254,9 +288,19 @@ export const Constants = {
                 GET_INSPECTION_AND_STIPULATION_ID:"/inspectionsContentById/",
                 SAVE_STIPULATION:"/saveStipulations",
                 UPDATE_STIPULATION:"/updateStipulations",
-                DELETE_STIPULATION:"/deleteStipulations/"
+                DELETE_STIPULATION:"/deleteStipulations/",
+                ASSERT_TYPE:'/assertType'
+            },
+            INSPECTIONS:{
+                GET_INSPECTIONS:'/inspections',
+                SAVE:'/saveInspections',
+                UPDATE:'/updateInspections',
+                EDIT:'/inspectionsById/',
+                DELETE:'/deleteInspections/',
+                FILE_INFO_BY_ID:'/inspectionsFileInfoById/',
+                INSPECTION_TYPE:'/inspectionType',
+                DELETE_FILE:'/deleteFile'
             }
-
         },
         DAILY_SUMMARY:{
             DAILY_SUMMARY:{
@@ -264,21 +308,24 @@ export const Constants = {
                 GET_DAILY_SUMMARY_ID:"/findDailySummaryById/",
                 SAVE_DAILY_SUMMARY:"/addDailySummary",
                 UPDATE_DAILY_SUMMARY:"/updateDailySummary",
-                DELETE_DAILY_SUMMARY:"/deleteDailySummary/"
+                DELETE_DAILY_SUMMARY:"/deleteDailySummary/",
+                EXISTS_FACILITY_ID_CREATED_DATE:'/existsFacilityIdAndCreatedDate/'
             },
             OBSERVATION_CATEGORIES:{
                 GET_OBS_CATEGORIES:"/findAllObservationCategory",
                 GET_OBS_CATEGORIES_ID:"/findObservationCategoriesById/",
                 SAVE_OBS_CATEGORIES:"/addObservationCategories",
                 UPDATE_OBS_CATEGORIES:"/updateObservationCategories",
-                DELETE_OBS_CATEGORIES:"/deleteObservationCategories/"
+                DELETE_OBS_CATEGORIES:"/deleteObservationCategories/",
+                EXISTS_INPECTION_TYPE_OBJ_CATG:'/existsInspectionTypeAndObservationCategory/'
             },
             OBSERVATION_CHECK_LIST:{
                 GET_OBS_CHECK_LIST:"/findAllObservationCheckList",
                 GET_OBS_CHECK_LIST_ID:"/findObservationCheckListById/",
                 SAVE__OBS_CHECK_LIST:"/addObservationCheckList",
                 UPDATE_OBS_CHECK_LIST:"/updateObservationCheckList",
-                DELETE_OBS_CHECK_LIST:"/deleteObservationCheckList/"
+                DELETE_OBS_CHECK_LIST:"/deleteObservationCheckList/",
+                
             },
             FP_INSPECTION:{
                 GET_FP_INSPECTION:"/findAllFPInspectionItems",
@@ -290,7 +337,18 @@ export const Constants = {
 
         },
         FAILURES:{
-            
+            GET_FAILURES:'/failureAnalysis',
+            SAVE:'/saveFailureAnalysis',
+            UPDATE:'/updateFailureAnalysis',
+            EDIT:'/failureAnalysisById/',
+            DELETE:'/deleteFailureAnalysis/'
+        },
+        PROGRESS_RECORD:{
+            GET_PROGRESS_RECORDS:'/driveDailyProgress',
+            SAVE:'/saveDriveDailyProgress',
+            UPDATE:'/updateDriveDailyProgress',
+            EDIT:'/driveDailyProgressById/',
+            DELETE:'/deleteDriveDailyProgress/'
         },
         CONFIG:{
             MAKE:{  

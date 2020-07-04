@@ -46,7 +46,7 @@ export class ModelComponent implements OnInit{
     constructor( 
         private formBuilder: FormBuilder,
         private commonService: CommonService,
-        private modelService:ModelService,
+        //private modelService:ModelService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog

@@ -41,7 +41,7 @@ export class ObservationCheckListComponent implements OnInit{
 
 
     constructor(
-        private observationsCheckListService: ObservationsCheckListService,
+       // private observationsCheckListService: ObservationsCheckListService,
         private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,

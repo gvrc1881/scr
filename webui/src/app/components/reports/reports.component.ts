@@ -12,7 +12,7 @@ export class ReportsComponent implements OnInit {
   reportData: any;
   
   constructor(
-    private reportService: ReportService,    
+    //private reportService: ReportService,    
   ) { }
 
   ngOnInit() {

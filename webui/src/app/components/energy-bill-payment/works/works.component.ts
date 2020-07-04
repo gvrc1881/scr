@@ -41,7 +41,7 @@ export class WorksComponent implements OnInit {
     currentYear: any;
 
     constructor(
-        private workService: WorksService,
+        //private workService: WorksService,
         private commonService: CommonService,
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -110,7 +110,7 @@ export class WorksComponent implements OnInit {
       if (filter.length > 0) {
         resolve({ 'duplicateWork': true });
       }
-      this.workService.existsWorkName(
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.EXISTS_WORK_NAME +
         this.workFormGroup.controls['workName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {

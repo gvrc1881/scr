@@ -7,6 +7,8 @@ import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -34,7 +36,8 @@ export class DriveStipulationComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
+    private sendAndRequestService: SendAndRequestService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -68,7 +71,7 @@ export class DriveStipulationComponent implements OnInit {
 
   getStipulationData() {
     const stipulations: StipulationstModel[] = [];
-    this.drivesService.getStipulationData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_STIPULATION).subscribe((data) => {
 
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
@@ -105,7 +108,7 @@ export class DriveStipulationComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.drivesService.deleteStipulationData(id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.INSPECTIONS.STIPULATION.DELETE_STIPULATION , id).subscribe(data => {
           console.log(JSON.stringify(data));
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Stipulation Successfully");
@@ -125,7 +128,7 @@ export class DriveStipulationComponent implements OnInit {
     this.spinnerService.show();
     localStorage.setItem('driveFileType', 'stipulation');
     localStorage.setItem('driveFileTypeId', id);
-    this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
       /* var data = [];
       if (this.filesInfor.attachment != '') {

@@ -45,7 +45,7 @@ export class SidingsComponent implements OnInit {
         
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private sidingsService:SidingsService,
+        //private sidingsService:SidingsService,
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
 
@@ -88,7 +88,7 @@ export class SidingsComponent implements OnInit {
           if (filter.length > 0) {
             resolve({ 'duplicateSidingCode': true });
           }
-          this.sidingsService.existsSidingCode(
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.EXISTS_SIDING_CODE +
             this.sidingsItemFormGroup.controls['sidingCode'].value
           ).subscribe((duplicate) => {
             if (duplicate) {

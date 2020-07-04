@@ -36,7 +36,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     tpcBoardData:any;
 
     constructor(
-        private tpcBoardDepotAssocService: TPCBoardDepotAssocService,
+        //private tpcBoardDepotAssocService: TPCBoardDepotAssocService,
         private reportService:ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -71,8 +71,8 @@ export class TPCBoardDepotAssocComponent implements OnInit{
 }
 duplicateTpcBoard() {
     const q = new Promise((resolve, reject) => {
-       this.tpcBoardDepotAssocService.existsTpcBoardAndUnitName(
-        this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value,
+       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.EXISTS_TPC_BOARD_UNIT_NAME +
+        this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value + '/'+
         this.tpcBoardDepotAssocFormGroup.controls['unitName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {

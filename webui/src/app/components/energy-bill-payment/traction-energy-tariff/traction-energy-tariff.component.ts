@@ -51,10 +51,10 @@ export class TractionEnergyTariffComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-        private tractionEnergyTariffService: TractionEnergyTariffService,
+        //private tractionEnergyTariffService: TractionEnergyTariffService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-        private reportService: ReportService,
+       // private reportService: ReportService,
         private sendAndRequestService:SendAndRequestService
 
     ){
@@ -77,7 +77,7 @@ export class TractionEnergyTariffComponent implements OnInit{
             "fromDate":[null,  Validators.required, this.duplicateFromDate.bind(this)],
             "thruDate":[null]
         });
-        this.reportService.getAllEleEnergySuppliers().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ENERGY_SUPPLIERS).subscribe((data) => {
         	 this.eleEnergySuppliersList = data;
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
@@ -98,8 +98,8 @@ export class TractionEnergyTariffComponent implements OnInit{
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
 	      //console.log(JSON.stringify(this.scheduleJobData))
-	       this.tractionEnergyTariffService.existsSupplierAndFromDate(
-	        this.tractionEnergyTariffFormGroup.controls['supplier'].value,
+	       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.EXISTS_FROM_DATE +
+	        this.tractionEnergyTariffFormGroup.controls['supplier'].value + '/'+
 	        this.tractionEnergyTariffFormGroup.controls['fromDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
@@ -137,7 +137,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     
     viewDocumentDetails(id){
 	    this.spinnerService.show();    
-	    this.tractionEnergyTariffService.attachedDocumentList(id).subscribe((response) => {     
+	    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.ATTACHMENT_LIST + id).subscribe((response) => {     
 	      this.spinnerService.hide(); 
 	      // console.log('vallues::::'+JSON.stringify(response));
 	      this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
@@ -172,8 +172,19 @@ export class TractionEnergyTariffComponent implements OnInit{
                 'FU': 'PSI',
                 'contentTopic': 'TARIFF',
           }
-          
-    	this.tractionEnergyTariffService.uploadAttachedFiles(this.selectedFiles, saveDetails).subscribe(data => {
+          let formdata: FormData = new FormData();
+          for(var i=0;i<this.selectedFiles.length;i++){
+              formdata.append('file', this.selectedFiles[i]);
+          }
+          formdata.append('tractionEnergyTariffId', saveDetails.tractionEnergyTariffId);
+          formdata.append('contentCategory', saveDetails.contentCategory);
+          formdata.append('description', saveDetails.description);
+          formdata.append('divisionCode', saveDetails.divisionCode);
+          formdata.append('createdBy', saveDetails.createdBy);
+          formdata.append('zonal', saveDetails.zonal);
+          formdata.append('FU', saveDetails.FU);
+          formdata.append('contentTopic', saveDetails.contentTopic);
+    	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.TARIFF_UPLOAD_FILES, saveDetails, true).subscribe(data => {
                 console.log(JSON.stringify(data));
                 this.spinnerService.hide();
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");

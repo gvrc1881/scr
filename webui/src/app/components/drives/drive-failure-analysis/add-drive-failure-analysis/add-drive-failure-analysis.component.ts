@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 @Component({
@@ -32,11 +33,12 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
-    private drivesService: DrivesService,
+   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    private sendAndRequestService: SendAndRequestService
   ) {
     // Reactive form errors
     this.failureAnalysisFormErrors = {
@@ -86,7 +88,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   }
 
   findDivisions(){
-    this.drivesService.findDivisions()
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
     .subscribe((resp) => {
       this.divisionList = resp;
     });
@@ -133,7 +135,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
   }
 
   getDrivesData() {
-    this.drivesService.getDrivesData().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
       this.spinnerService.hide();
     }, error => {
@@ -141,7 +143,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     });
   }
   findYesNoStatus() {
-    this.drivesService.findStatusItem(Constants.STATUS_ITEMS.YES_NO_TYPE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM+Constants.STATUS_ITEMS.YES_NO_TYPE).subscribe((data) => {
       this.reportedList = data;
       this.spinnerService.hide();
     }, error => {
@@ -155,7 +157,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
     }
   }
   getFailureAnalysisDataById(id) {
-    this.drivesService.findFailureAnalysisDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EDIT+id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addFailureAnalysisFormGroup.patchValue({
@@ -224,7 +226,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.drivesService.saveFailureAnalysisData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.SAVE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -265,7 +267,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.drivesService.updateFailureAnalysisData(data).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE,data).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

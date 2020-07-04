@@ -16,7 +16,6 @@ export class EnergyBillPaymentService {
             'Authorization': `Bearer  ${this.accessToken}`
         });
     }
-
     findAllEnergyBillPayments() {
         return this.http.get<EnergyBillPaymentModel[]>(this.url + '/findAllEnergyBillPayments', { headers: this.header });
     }

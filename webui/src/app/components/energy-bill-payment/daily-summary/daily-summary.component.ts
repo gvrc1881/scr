@@ -47,7 +47,7 @@ export class DailySummaryComponent implements OnInit{
 
 
     constructor(
-        private dailySummaryService: DailySummaryService,
+       // private dailySummaryService: DailySummaryService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private reportService:ReportService,
@@ -109,9 +109,10 @@ export class DailySummaryComponent implements OnInit{
     
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
-	       this.dailySummaryService.existsFacilityIdAndCreatedDate(
-	        this.dailySummaryFormGroup.controls['facilityId'].value,
-	        this.dailySummaryFormGroup.controls['createdDate'].value
+	       this.sendAndRequestService.requestForGET(
+                Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.EXISTS_FACILITY_ID_CREATED_DATE +
+	            this.dailySummaryFormGroup.controls['facilityId'].value + '/'+
+	            this.dailySummaryFormGroup.controls['createdDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
 	          resolve({ 'duplicate': true });

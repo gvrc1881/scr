@@ -8,6 +8,8 @@ import { SchedulerTrackingModel } from 'src/app/models/scheduler-tracking.model'
 import { ActivatedRoute } from '@angular/router';
 import { DivisionHistoryDialogComponent } from '../../division-history-dialog/division-history-dialog.component';
 import { ViewEncapsulation } from '@angular/compiler/src/core';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-divisions-info',
   templateUrl: './divisions-info.component.html',
@@ -38,7 +40,8 @@ export class DivisionsInfoComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
-    private schedulerTrackingService: SchedulerTrackingService,
+   // private schedulerTrackingService: SchedulerTrackingService,
+   private sendAndRequestService: SendAndRequestService
   ) {
     
   }
@@ -55,7 +58,7 @@ export class DivisionsInfoComponent implements OnInit {
   findTrackingIdJobHistoryInfo() {
     const schedulerData: SchedulerTrackingModel[] = [];
     console.log(JSON.stringify(this.route.snapshot.params['id'])+" : "+this.route.snapshot.params['name'])
-    this.schedulerTrackingService.findJobsHistoryInfo(this.route.snapshot.params['id']).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.FIND_JOBS_HISTORY_INFO + this.route.snapshot.params['id']).subscribe((data) => {
      // console.log(JSON.stringify(data))
       this.schedulerData = data;      
       for (let i = 0; i < this.schedulerData.length; i++) {
@@ -80,7 +83,7 @@ export class DivisionsInfoComponent implements OnInit {
     localStorage.setItem("type", this.route.snapshot.params['name']);
 
     this.spinnerService.show();    
-    this.schedulerTrackingService.divisionInfo(id).subscribe((response) => {     
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.DIVISION_INFO + id).subscribe((response) => {     
       this.spinnerService.hide(); 
        this.divisionHistoryDialogRef = this.dialog.open(DivisionHistoryDialogComponent, {
         disableClose: false,

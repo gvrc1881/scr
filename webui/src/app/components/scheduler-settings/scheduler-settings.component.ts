@@ -8,6 +8,7 @@ import { ScheduleJobModel } from 'src/app/models/schedule-job.model';
 import { ScheduleJobService } from 'src/app/services/schedule-job.service';
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-scheduler-settings',
   templateUrl: './scheduler-settings.component.html',
@@ -46,10 +47,11 @@ export class SchedulerSettingsComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private scheduleJobService: ScheduleJobService,
+    //private scheduleJobService: ScheduleJobService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
+    private sendAndRequestService: SendAndRequestService
   ) {
     this.scheduleJobErrors = {
       jobTypeId: {},
@@ -178,7 +180,7 @@ export class SchedulerSettingsComponent implements OnInit {
       ScheduleJobPayload.ADD_PAYLOAD.repositoryId = repositoryId;
       ScheduleJobPayload.ADD_PAYLOAD.timeIntervalId = timeIntervalId;      
       this.addScheduleJob = false;
-      this.scheduleJobService.addSchedulerSettings(ScheduleJobPayload.ADD_PAYLOAD).subscribe((response) => {        
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.SAVE, ScheduleJobPayload.ADD_PAYLOAD, false).subscribe((response) => {        
         this.scheduleJobResponse = response;
         if (!!this.scheduleJobResponse && this.scheduleJobResponse.code == 200) {
           this.commonService.showAlertMessage(this.scheduleJobResponse.message);
@@ -210,7 +212,7 @@ export class SchedulerSettingsComponent implements OnInit {
       
 
 
-      this.scheduleJobService.updateScheduleJob(ScheduleJobPayload.UPDATE_PAYLOAD).subscribe((response) => {       
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.UPDATE,ScheduleJobPayload.UPDATE_PAYLOAD, false).subscribe((response) => {       
         this.scheduleJobResponse = response;
         if (!!this.scheduleJobResponse && this.scheduleJobResponse.code == 200) {
           this.commonService.showAlertMessage(this.scheduleJobResponse.message);
@@ -243,7 +245,7 @@ export class SchedulerSettingsComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.scheduleJobService.deleteScheduleJob(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.DELETE, id)
           .subscribe((response) => {
             this.scheduleJobResponse = response;
             if (!!this.scheduleJobResponse && this.scheduleJobResponse.code == 200) {
@@ -273,7 +275,7 @@ export class SchedulerSettingsComponent implements OnInit {
   findAllScheduleJobData() {
     this.spinnerService.show();
     const scheduleJobData: ScheduleJobModel[] = [];
-    this.scheduleJobService.findAllSchedulerJobs().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.GET_SCHEDULER_JOBS).subscribe((data) => {
       this.scheduleJobData = data;
       //console.log(JSON.stringify(data))
       for (let i = 0; i < this.scheduleJobData.length; i++) {
@@ -331,7 +333,7 @@ export class SchedulerSettingsComponent implements OnInit {
 
   scheduleJobEditAction(id: number) {
     this.addScheduleJob = true;
-    this.scheduleJobService.getScheduleJobById(id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.EDIT + id).subscribe((response) => {
       this.cloneUpdateScheduleJob = false;
       this.saveScheduleJob = false;
       this.scheduleJobResponse = response;
@@ -362,7 +364,7 @@ export class SchedulerSettingsComponent implements OnInit {
   updateFields() {
     //this.spinnerService.show();
     this.addScheduleJob = true;
-    this.scheduleJobService.findAllSchedulerJobsList().subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.GET_SCHEDULER_JOBS_LIST).subscribe((response) => {
       this.cloneUpdateScheduleJob = false;
       this.saveScheduleJob = false;
       this.scheduleJobResponse = response;     

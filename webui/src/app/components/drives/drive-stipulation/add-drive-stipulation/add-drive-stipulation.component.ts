@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDatepickerInputEvent, MatDialogRef, MatDialog } from '@angular/material';
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-add-drive-stipulation',
@@ -33,7 +34,8 @@ export class AddDriveStipulationComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
-    private drivesService: DrivesService,
+    //private drivesService: DrivesService,
+    private sendAndRequestService : SendAndRequestService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
@@ -75,7 +77,7 @@ export class AddDriveStipulationComponent implements OnInit {
     }
   }
   findAssertTypeList() {
-    this.drivesService.findAssertTypeListFromProduct().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.ASSERT_TYPE).subscribe((data) => {
       this.assertTypeList = data;
       this.spinnerService.hide();
     }, error => {
@@ -87,7 +89,7 @@ export class AddDriveStipulationComponent implements OnInit {
 
 
   getStipulationDataById(id) {
-    this.drivesService.findStipulationDataById(id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_STIPULATION_ID + id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveStipulationFormGroup.patchValue({
@@ -109,7 +111,7 @@ export class AddDriveStipulationComponent implements OnInit {
   }
 
   findAttachedFiles(commonId){
-    this.drivesService.findStipulationAndInspectionDataById(commonId)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + commonId)
     .subscribe((resp) => {
       console.log("files : "+JSON.stringify(resp));  
       this.attachedImages = resp;
@@ -166,7 +168,22 @@ export class AddDriveStipulationComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      this.drivesService.saveStipulationData(save, this.selectedFiles).subscribe(response => {
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('stipulation', save.stipulation);
+      formdata.append('inspectionId', save.inspectionId);
+      formdata.append('dateOfStipulation', save.dateOfStipulation);
+      formdata.append('dateComplied', save.dateComplied);
+      formdata.append('compliance', save.compliance);
+      formdata.append('compliedBy', save.compliedBy);
+   //   formdata.append('assetType', save.assetType);
+      formdata.append('createdBy', save.createdBy);
+      formdata.append('createdOn', save.createdOn.toLocaleDateString());
+     // formdata.append('updatedBy', saveDetails.updatedBy);
+      //formdata.append('updatedOn', saveDetails.updatedOn);
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.STIPULATION.SAVE_STIPULATION ,save, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -193,7 +210,24 @@ export class AddDriveStipulationComponent implements OnInit {
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
-      this.drivesService.updateStipulationData(update, this.selectedFiles).subscribe(response => {
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('id', update.id.toString());
+      formdata.append('stipulation', update.stipulation);
+      formdata.append('inspectionId', update.inspectionId);
+      formdata.append('dateOfStipulation', update.dateOfStipulation);
+      formdata.append('dateComplied', update.dateComplied);
+      formdata.append('compliance', update.compliance);
+      formdata.append('compliedBy', update.compliedBy);
+      //formdata.append('assetType', update.assetType);
+     // formdata.append('createdBy', update.createdBy);
+      //formdata.append('createdOn', update.createdOn);
+      formdata.append('updatedBy', update.updatedBy);
+      formdata.append('updatedOn', update.updatedOn.toLocaleDateString());
+      formdata.append('attachment',update.attachment);
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.INSPECTIONS.STIPULATION.UPDATE_STIPULATION ,update, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -233,7 +267,12 @@ export class AddDriveStipulationComponent implements OnInit {
         console.log('result : '+result)
         //  this.spinnerService.show();
           var id = localStorage.getItem('driveFileTypeId');
-          this.drivesService.deleteFile(commonFileid, rowid, 'Inspection').subscribe(data => {
+          var data ={
+            "id":commonFileid,
+            "fileName":rowid,
+            "type":'Stipulation'
+        }
+          this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
              // this.spinnerService.hide();
               this.commonService.showAlertMessage("Deleted File Successfully");
              // this.updateData(id);
