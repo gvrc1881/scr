@@ -64,14 +64,7 @@ export const Constants = {
             GET_DIVISION_BASED_ON_ZONE:"/getDivisionBasedOnZone/",
             GET_SUBDIVISION_BASED_ON_DIVISION:"/getSubDivisionBasedOnDivision/",
             GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/"
-        },
-        JOBS_TRACKING:{
-            GET_JOB_TYPE:"/findAllJobTypes",
-            GET_JOB_TYPE_ID:"/findJobTypeById/",
-            SAVE_JOB_TYE:"/addJobType",
-            UPDATE_JOB_TYPE:"/updateJobType",
-            DELETE_JOB_TYPE:"/deleteJobType/"
-        },
+        },        
         MASTERS:{
             ROLE_TYPE:{
                 GET_ROLE_LIST:"/findAllRoles",
@@ -111,12 +104,8 @@ export const Constants = {
                 EXIST_EMAIL:"/duplicateEmail"
             },
             ROLE_PERMISSIONS:{
-                GET_ROLE_PERMISSION:"/findAllRolesWithPermissions",
-                GET_TIME_INTERVAL_BY_ID:"/findTimeIntervalById/",
-                SAVE_TIME_INTERVAL:"/addTimeInterval",
+                GET_ROLE_PERMISSION:"/findAllRolesWithPermissions",               
                 UPDATE_ROLE_PERMISSION:"/updatePermission",
-                DELETE_TIME_INTERVAL:"/deleteTimeInterval/",
-                EXISTS_TIME_INTERVAL:"/existsTimeInterval/"
             },
             SCHEDULER_TRACKING:{
                 GET_JOBS:'/findAllJobInfo',
@@ -132,7 +121,32 @@ export const Constants = {
                 DELETE:'/deleteSchedulerSettings/',
                 GET_SCHEDULER_JOBS:'/findAllSchedulerJobs',
                 EDIT:'/findScheduleJobById/',
-                GET_SCHEDULER_JOBS_LIST:'/findAllSchedulerJobsList'
+                GET_SCHEDULER_JOBS_LIST:'/findAllSchedulerJobsList',
+                TIME_INTERVAL:{
+                    GET_INTERVALS:'/findAllTimeIntervals',
+                    GET_TIME_INTERVAL_BY_ID:"/findTimeIntervalById/",
+                    SAVE_TIME_INTERVAL:"/addTimeInterval",
+                    UPDATE:'/updateTimeInterval',
+                    DELETE_TIME_INTERVAL:"/deleteTimeInterval/",
+                    EXISTS_TIME_INTERVAL:"/existsTimeInterval/"
+                },
+                JOB_TYPE:{
+                    GET_JOB_TYPE:"/findAllJobTypes",
+                    GET_JOB_TYPE_ID:"/findJobTypeById/",
+                    SAVE_JOB_TYE:"/addJobType",
+                    UPDATE_JOB_TYPE:"/updateJobType",
+                    DELETE_JOB_TYPE:"/deleteJobType/"                    
+                },
+                REPOSITORY:{
+                    GET_REPOSITORIES:'/findAllRepositories',
+                    FIND_BY_ID:'/findRepositoryById/',
+                    EXISTS_REPOSITORY_CODE:'/existsRepositoryCode/',
+                    EXISTS_REPOSITORY_NAME:'/existsRepositoryName/',
+                    EXISTS_REPOSITORY_IP:'/existsRepositoryIp/',
+                    SAVE:'/addRepository',
+                    UPDATE:'/updateRepository',
+                    DELETE:'/deleteRepository/'
+                }
             }
         },
         ENERGY_BILL_PAYMENTS:{

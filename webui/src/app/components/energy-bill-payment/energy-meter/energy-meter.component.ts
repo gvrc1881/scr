@@ -175,7 +175,7 @@ export class EnergyMeterComponent implements OnInit{
             	'startDate' : startDate,
             	'endDate' : endDate
             }    
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.UPDATE_ENERGY_METER,updateEnergyMeterModel).subscribe(data => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.UPDATE_ENERGY_METER,updateEnergyMeterModel, false).subscribe(data => {
             	this.energyMeterResponse = data;
             	if(this.energyMeterResponse.code == 200 && !!this.energyMeterResponse) {
 	                this.commonService.showAlertMessage(this.energyMeterResponse.message);

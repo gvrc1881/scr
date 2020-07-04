@@ -201,7 +201,7 @@ export class RoleTypeComponent implements OnInit {
         'statusId': 1,
         'sno': 1,
         'id': var_id,
-      }, var_id, false)
+      },  false)
         .subscribe((data) => {
           this.commonService.showAlertMessage("Role Updated Successfully");
           this.title = "Save";

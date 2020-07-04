@@ -128,7 +128,7 @@ export class TPCBoardComponent implements OnInit{
                 'dataDiv':dataDiv,
                 'description':description,
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllTPCBoardData();
                 this.tpcBoardFormGroup.reset();

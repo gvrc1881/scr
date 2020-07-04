@@ -202,7 +202,7 @@ export class DailySummaryComponent implements OnInit{
                 'nonPowerBlock':nonPowerBlock,
                 'remarks':remarks,
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.UPDATE_DAILY_SUMMARY,updateDailySummaryModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.UPDATE_DAILY_SUMMARY,updateDailySummaryModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllDailySummaryData();
                 this.dailySummaryFormGroup.reset();

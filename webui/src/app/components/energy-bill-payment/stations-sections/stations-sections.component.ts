@@ -161,7 +161,7 @@ export class StationsSectionsComponent implements OnInit{
                 'dnSectionName' : dnSectionName,
                 'division' : division
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.UPDATE_STATION_SECTIONS, updateSSModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.UPDATE_STATION_SECTIONS, updateSSModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllStationsSectionsData();
                 this.stationsSectionsFormGroup.reset();

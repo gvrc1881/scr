@@ -14,6 +14,7 @@ export class TimeIntervalService {
             'Authorization': `Bearer ${this.accessToken}`
         });
     }
+    
 
     findAllTimeIntervals() {
         return this.http.get<TimeIntervalModel[]>(environment.apiUrl + '/findAllTimeIntervals', { headers: this.header });

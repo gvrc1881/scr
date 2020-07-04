@@ -70,7 +70,7 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private spinnerService: Ng4LoadingSpinnerService,
     private authenticationService: AuthenticationService,
-    priavte sendAndRequestService: SendAndRequestService,
+   // priavte sendAndRequestService: SendAndRequestService,
     private alertService: AlertService,
     private route: ActivatedRoute,
 

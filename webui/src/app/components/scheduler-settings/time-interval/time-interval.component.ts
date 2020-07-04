@@ -20,6 +20,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment} from 'moment';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
@@ -75,7 +76,8 @@ export class TimeIntervalComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
-    private timeIntervalService: TimeIntervalService,
+    //private timeIntervalService: TimeIntervalService,
+    private sendAndRequestService:SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -177,7 +179,7 @@ export class TimeIntervalComponent implements OnInit {
       //console.log('Add Payload =' + JSON.stringify(TimeIntervalPayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addTimeInterval = false;
-      this.timeIntervalService.addTimeInterval(TimeIntervalPayload.ADD_PAYLOAD).subscribe((response) => {       
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.SAVE_TIME_INTERVAL,TimeIntervalPayload.ADD_PAYLOAD, false).subscribe((response) => {       
         this.spinnerService.hide();
         this.timeIntervalResponse = response;
         if (!!this.timeIntervalResponse && this.timeIntervalResponse.code == 200) {
@@ -205,7 +207,7 @@ export class TimeIntervalComponent implements OnInit {
       TimeIntervalPayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
       TimeIntervalPayload.UPDATE_PAYLOAD.timeInterval = timeInterval;
       TimeIntervalPayload.UPDATE_PAYLOAD.startDate = '';      
-      this.timeIntervalService.updateTimeInterval(TimeIntervalPayload.UPDATE_PAYLOAD).subscribe((response) => {      
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.UPDATE,TimeIntervalPayload.UPDATE_PAYLOAD, false).subscribe((response) => {      
         this.spinnerService.hide();
         this.timeIntervalResponse = response;
         if (!!this.timeIntervalResponse && this.timeIntervalResponse.code == 200) {
@@ -237,7 +239,7 @@ export class TimeIntervalComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.timeIntervalService.deleteTimeInterval(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.DELETE_TIME_INTERVAL,id)
           .subscribe((response) => {
             this.timeIntervalResponse = response;
             if (!!this.timeIntervalResponse && this.timeIntervalResponse.code == 200) {
@@ -266,7 +268,7 @@ export class TimeIntervalComponent implements OnInit {
 
   findAllTimeIntervalData() {
     const timeIntervalData: TimeIntervalModel[] = [];
-    this.timeIntervalService.findAllTimeIntervals().subscribe((data) => {     
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.GET_INTERVALS).subscribe((data) => {     
       this.timeIntervalData = data;
       for (let i = 0; i < this.timeIntervalData.length; i++) {
         this.timeIntervalData[i].sno = i + 1;        
@@ -287,7 +289,7 @@ export class TimeIntervalComponent implements OnInit {
 
   timeIntervalEditAction(id: number) {
     this.addTimeInterval = true;
-    this.timeIntervalService.getTimeIntervalById(id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.GET_TIME_INTERVAL_BY_ID + id).subscribe((response) => {
       this.cloneUpdateTimeInterval = false;
       this.saveTimeInterval = false;  
       this.timeIntervalResponse = response;

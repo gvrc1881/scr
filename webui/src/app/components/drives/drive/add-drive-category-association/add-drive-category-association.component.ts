@@ -160,7 +160,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.UPDATE_DRIVE_CATEGORY_ASSOC, updateDriveModel).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.UPDATE_DRIVE_CATEGORY_ASSOC, updateDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
 

@@ -145,7 +145,7 @@ export class GuidenceItemComponent implements OnInit{
                 'status' : status,
                 'closedRemark' : closedRemark
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.UPDATE_GUIDENCE_ITEM,updateguidenceItemModel).subscribe(data => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.UPDATE_GUIDENCE_ITEM,updateguidenceItemModel, false).subscribe(data => {
             	this.guidenceItemResponse = data
             	if(this.guidenceItemResponse.code == 200 && !!this.guidenceItemResponse) {
                 	this.commonService.showAlertMessage(this.guidenceItemResponse.message);

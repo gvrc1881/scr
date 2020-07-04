@@ -145,7 +145,7 @@ export class ObservationCategoriesComponent implements OnInit{
                 'fromDate' : fromDate,
                 'thruDate': thruDate
             } 
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.UPDATE_OBS_CATEGORIES,updateObsCategoriesMode).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.UPDATE_OBS_CATEGORIES,updateObsCategoriesMode, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllObservationCategoriesData();
                 this.observationCategoriesFormGroup.reset();

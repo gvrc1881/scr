@@ -243,7 +243,7 @@ export class TractionEnergyTariffComponent implements OnInit{
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.UPDATE_TARIFF,TractionEnergyTariffPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.UPDATE_TARIFF,TractionEnergyTariffPayload.UPDATE_PAYLOAD, false).subscribe((data) => {
                 this.tariffResponse = data;
               	if(this.tariffResponse.code == 200 && !!this.tariffResponse) {  
 	                this.commonService.showAlertMessage(this.tariffResponse.message);

@@ -41,7 +41,13 @@ export class SendAndRequestService {
         return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
     }
     //METHOD FOR PUT REQUESTS
-    requestForPUT(requestUrl, requestData){
+    requestForPUT(requestUrl, requestData, flag){
+        if(flag){
+            let header = new HttpHeaders({           
+                'Authorization': `Bearer ${this.accessToken}`
+            });
+            this.header = header;
+        }
         return this._http.put(environment.apiUrl + requestUrl, requestData, { headers: this.header });
 
     }

@@ -12,6 +12,7 @@ import { RepositoryModel } from 'src/app/models/repository.model';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
   selector: 'app-repository',
@@ -45,7 +46,8 @@ export class RepositoryComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
-    private repositoryService: RepositoryService,
+    //private repositoryService: RepositoryService,
+    private sendAndRequestService: SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -104,7 +106,7 @@ export class RepositoryComponent implements OnInit {
       }else{
       let ip = this.repositoryFormGroup.controls['ip'].value;
       ip = ip.replace(/\./g, '*');     
-      this.repositoryService.existsRepositoryIp(ip).subscribe((duplicate) => {        
+      this.sendAndRequestService.requestForGET( Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.EXISTS_REPOSITORY_IP+ ip).subscribe((duplicate) => {        
         if (duplicate) {
           resolve({ 'duplicateIP': true });
         } else {
@@ -121,7 +123,7 @@ export class RepositoryComponent implements OnInit {
       if(this.title == Constants.EVENTS.UPDATE){
         resolve(null);
       }else{ 
-      this.repositoryService.existsRepositoryName(this.repositoryFormGroup.controls['divisionName'].value).subscribe((duplicate) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.EXISTS_REPOSITORY_NAME + this.repositoryFormGroup.controls['divisionName'].value).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDivisionName': true });
         } else {
@@ -138,7 +140,7 @@ export class RepositoryComponent implements OnInit {
       if(this.title == Constants.EVENTS.UPDATE){
         resolve(null);
       }else{
-      this.repositoryService.existsRepositoryCode(this.repositoryFormGroup.controls['divisionCode'].value).subscribe((duplicate) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.EXISTS_REPOSITORY_CODE + this.repositoryFormGroup.controls['divisionCode'].value).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateDivisionCode': true });
         } else {
@@ -178,7 +180,7 @@ export class RepositoryComponent implements OnInit {
       //console.log('Add Payload =' + JSON.stringify(RepositoryPayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addRepository = false;
-      this.repositoryService.AddRepository(RepositoryPayload.ADD_PAYLOAD).subscribe((response) => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.SAVE,RepositoryPayload.ADD_PAYLOAD, false).subscribe((response) => {
         //console.log('Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.repositoryResponse = response;
@@ -214,7 +216,7 @@ export class RepositoryComponent implements OnInit {
       RepositoryPayload.UPDATE_PAYLOAD.repositoryUser = userName;
       RepositoryPayload.UPDATE_PAYLOAD.repositoryPassword = password;
       //console.log("Update Payload =" + JSON.stringify(RepositoryPayload.UPDATE_PAYLOAD))
-      this.repositoryService.updateRepository(RepositoryPayload.UPDATE_PAYLOAD).subscribe((response) => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.UPDATE,RepositoryPayload.UPDATE_PAYLOAD, false).subscribe((response) => {
         //console.log('Update Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.repositoryResponse = response;
@@ -247,7 +249,7 @@ export class RepositoryComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.repositoryService.deleteRepository(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.DELETE, id)
           .subscribe((response) => {
             this.repositoryResponse = response;
             if (!!this.repositoryResponse && this.repositoryResponse.code == 200) {
@@ -276,7 +278,7 @@ export class RepositoryComponent implements OnInit {
 
   findAllRepositoryData() {
     const repositoryData: RepositoryModel[] = [];
-    this.repositoryService.getAllRepositories().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.GET_REPOSITORIES).subscribe((data) => {
       this.repositoryData = data;
       for (let i = 0; i < this.repositoryData.length; i++) {
         if (!this.rolePermission) {
@@ -305,7 +307,7 @@ export class RepositoryComponent implements OnInit {
 
   repositoryEditAction(id: number) {
     this.addRepository = true;
-    this.repositoryService.getRepositoryById(id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.FIND_BY_ID+ id).subscribe((response) => {
       this.cloneUpdateRepository = false;      
       this.saveRepository = false;      
       this.repositoryResponse = response;

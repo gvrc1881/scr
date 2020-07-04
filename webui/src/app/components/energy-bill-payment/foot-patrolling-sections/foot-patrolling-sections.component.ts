@@ -146,7 +146,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
                 'toDate' : toDate,
                 'remarks': remarks
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.UPDATE_FP_SECTIONS, updateFpSectCionsModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.UPDATE_FP_SECTIONS, updateFpSectCionsModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllFootPatrollingSectionsData();
                 this.fpSectionsItemFormGroup.reset();

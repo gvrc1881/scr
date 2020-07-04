@@ -180,7 +180,7 @@ export class AddDriveChecklistComponent implements OnInit {
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.UPDATE_CHECK_LIST ,update).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.UPDATE_CHECK_LIST ,update, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

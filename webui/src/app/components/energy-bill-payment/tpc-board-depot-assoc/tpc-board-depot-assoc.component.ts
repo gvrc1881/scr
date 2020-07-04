@@ -133,7 +133,7 @@ duplicateTpcBoard() {
                 'unitName':unitName,
                 'description':description
             }       
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.UPDATE_TPC_BOARD_ASSOC, updateTPCBoardAssocModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.UPDATE_TPC_BOARD_ASSOC, updateTPCBoardAssocModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllTPCBoardDepotAssocData();
                 this.tpcBoardDepotAssocFormGroup.reset();

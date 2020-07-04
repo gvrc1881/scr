@@ -136,7 +136,7 @@ export class ModelComponent implements OnInit{
        ModelPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
         console.log("Update Payload =" + JSON.stringify(ModelPayload.UPDATE_PAYLOAD))
        // this.modelService.update(ModelPayload.UPDATE_PAYLOAD)
-       this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MODEL.UPDATE_MODEL,ModelPayload.UPDATE_PAYLOAD)
+       this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MODEL.UPDATE_MODEL,ModelPayload.UPDATE_PAYLOAD, false)
           .subscribe((data) => {
             this.modelResponse = data;
             this.spinnerService.hide();

@@ -267,7 +267,7 @@ export class AddDriveFailureAnalysisComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE,data).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

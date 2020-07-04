@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { JobTypeModel } from 'src/app/models/job-type.model';
 import { JobTypeService } from 'src/app/services/job-type.service';
 import { JobTypePayload } from 'src/app/payloads/job-type.payload';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-job-type',
   templateUrl: './job-type.component.html',
@@ -42,7 +43,8 @@ export class JobTypeComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
-    private jobTypeService: JobTypeService,
+    //private jobTypeService: JobTypeService,
+    private sendAndRequestService : SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -122,7 +124,7 @@ export class JobTypeComponent implements OnInit {
      // console.log('Add Payload =' + JSON.stringify(JobTypePayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addJobType = false;
-      this.jobTypeService.addJobType(JobTypePayload.ADD_PAYLOAD).subscribe((response) => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.SAVE_JOB_TYE,JobTypePayload.ADD_PAYLOAD, false).subscribe((response) => {
        // console.log('Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.jobTypeResponse = response;
@@ -152,7 +154,7 @@ export class JobTypeComponent implements OnInit {
       JobTypePayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
       JobTypePayload.UPDATE_PAYLOAD.jobTypeName = jobTypeName;
       //console.log("Update Payload =" + JSON.stringify(JobTypePayload.UPDATE_PAYLOAD))
-      this.jobTypeService.updateJobType(JobTypePayload.UPDATE_PAYLOAD).subscribe((response) => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.UPDATE_JOB_TYPE,JobTypePayload.UPDATE_PAYLOAD, false).subscribe((response) => {
        // console.log('Update Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.jobTypeResponse = response;
@@ -185,7 +187,7 @@ export class JobTypeComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.jobTypeService.deleteJobType(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.DELETE_JOB_TYPE,id)
           .subscribe((response) => {
             this.jobTypeResponse = response;
             if (!!this.jobTypeResponse && this.jobTypeResponse.code == 200) {
@@ -214,7 +216,7 @@ export class JobTypeComponent implements OnInit {
 
   findAllJobTypeData() {
     const jobTypeData: JobTypeModel[] = [];
-    this.jobTypeService.getAllJobTypes().subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.GET_JOB_TYPE).subscribe((data) => {
       this.jobTypeData = data;
       for (let i = 0; i < this.jobTypeData.length; i++) {
         this.jobTypeData[i].sno = i + 1;
@@ -235,7 +237,7 @@ export class JobTypeComponent implements OnInit {
 
   jobTypeEditAction(id: number) {
     this.addJobType = true;
-    this.jobTypeService.getJobTypeById(id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.GET_JOB_TYPE_ID + id).subscribe((response) => {
       this.cloneUpdateJobType = false;
       this.saveJobType = false;  
       this.jobTypeResponse = response;

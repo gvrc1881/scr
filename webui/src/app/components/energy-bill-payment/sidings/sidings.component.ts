@@ -189,7 +189,7 @@ export class SidingsComponent implements OnInit {
                 'completionDate' : completionDate,
                 "updatedBy": this.loggedUserData.username,
             }
-                this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.UPDATE_SIDINGS, updateSidingsModel).subscribe(response => {
+                this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.UPDATE_SIDINGS, updateSidingsModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllSidingsData();
                 this.sidingsItemFormGroup.reset();

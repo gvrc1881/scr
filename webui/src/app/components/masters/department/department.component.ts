@@ -165,7 +165,7 @@ export class DepartmentComponent implements OnInit {
       DepartmentPayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
       DepartmentPayload.UPDATE_PAYLOAD.departmentName = departmentName;
       //console.log("Update Payload =" + JSON.stringify(DepartmentPayload.UPDATE_PAYLOAD))
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.DEPARTMENT.UPDATE_DEPARTMENT,DepartmentPayload.UPDATE_PAYLOAD)
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.DEPARTMENT.UPDATE_DEPARTMENT,DepartmentPayload.UPDATE_PAYLOAD, false)
         .subscribe((data) => {
           this.commonService.showAlertMessage("Department Updated Successfully");
           this.title = "Save";

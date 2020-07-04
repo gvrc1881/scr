@@ -28,7 +28,7 @@ export class TrackComponent implements OnInit{
     title: string = "Save";
     trackList: any;
     editTrackResponse: any;
-    facilityData:FacilityModel;
+    facilityData:any;
     trackDataSource: MatTableDataSource<TrackModel>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -115,7 +115,7 @@ export class TrackComponent implements OnInit{
 	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
 			TrackPayload.UPDATE_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
         	TrackPayload.UPDATE_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD, false).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
                 	this.commonService.showAlertMessage(this.trackResponse.message);

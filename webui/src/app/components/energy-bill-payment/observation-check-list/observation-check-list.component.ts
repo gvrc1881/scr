@@ -140,7 +140,7 @@ export class ObservationCheckListComponent implements OnInit{
                 'fromDate': fromDate,
                 'thruDate' : thruDate
             }        
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.UPDATE_OBS_CHECK_LIST,updateObsCheckListModel).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.UPDATE_OBS_CHECK_LIST,updateObsCheckListModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();

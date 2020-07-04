@@ -119,7 +119,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 'startTime': startTime,
                 'stopTime' : stopTime
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.UPDATE_FP_INSPECTION,updateFpSInspection).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.UPDATE_FP_INSPECTION,updateFpSInspection, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllFootPatrollingInspectionData();
                 this.fpInspectionItemFormGroup.reset();

@@ -110,7 +110,7 @@ export class WorksComponent implements OnInit {
       if (filter.length > 0) {
         resolve({ 'duplicateWork': true });
       }
-      this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.EXISTS_WORK_NAME +
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.EXISTS_WORK_NAME +
         this.workFormGroup.controls['workName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {
@@ -186,7 +186,7 @@ export class WorksComponent implements OnInit {
 	        WorksPayload.UPDATE_PAYLOAD.workName = this.workFormGroup.value.workName;
 	        WorksPayload.UPDATE_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
 	        WorksPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.UPDATE_WORK, WorksPayload.UPDATE_PAYLOAD).subscribe((data) => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.UPDATE_WORK, WorksPayload.UPDATE_PAYLOAD, false).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
                 	this.commonService.showAlertMessage(this.workResponse.message);
