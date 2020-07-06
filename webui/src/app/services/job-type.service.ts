@@ -14,7 +14,6 @@ export class JobTypeService {
             'Authorization': `Bearer ${this.accessToken}`
         });
     }
-
     getAllJobTypes() {
         return this.http.get<JobTypeModel[]>(environment.apiUrl + '/findAllJobTypes', { headers: this.header });
     }

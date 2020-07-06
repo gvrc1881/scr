@@ -53,10 +53,6 @@ export class FilesInformationDialogComponent implements OnInit {
          link.setAttribute('download', fileName);
          document.body.appendChild(link);
          link.click(); 
-        //link.remove();
-        /* this.drivesService.downloadDriveFile(this.type, fileName).subscribe((response) => {
-            console.log(JSON.stringify(response));
-        }, error => this.commonService.showAlertMessage(error)); */
     }
     prepareTable() {
         const divisionHistoryData = [];

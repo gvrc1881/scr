@@ -88,7 +88,6 @@ export class JobTypeComponent implements OnInit {
   duplicateJobTypeName() {
     const q = new Promise((resolve, reject) => {
       let jobTypeName: string = this.jobTypeFormGroup.controls['jobTypeName'].value;      
-      //this.jobTypeService.existsJobTypeName(this.jobTypeFormGroup.controls['jobTypeName'].value).subscribe((duplicate) => {
         var filteredArray = !!this.jobTypeData && this.jobTypeData.filter(function(jobType){          
           return jobType.jobTypeName == jobTypeName;
         });    
@@ -97,7 +96,6 @@ export class JobTypeComponent implements OnInit {
         } else {
           resolve(null);
         }
-      //}, () => { resolve({ 'duplicateJobTypeName': true }); });
     });
     return q;
   }
