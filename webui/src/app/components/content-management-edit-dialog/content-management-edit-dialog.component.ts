@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ContentManagementService } from 'src/app/services/content-management.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ContentManagementPayload } from 'src/app/payloads/content-management.payload';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 @Component({
@@ -20,9 +21,9 @@ export class ContentManagementDialogComponent implements OnInit {
     contentManagementEditFormGroup: FormGroup;
     constructor(@Inject(MAT_DIALOG_DATA) private data: any, 
     private formBuilder: FormBuilder,
-    private service: ContentManagementService,    
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
+    private sendAndRequestService:SendAndRequestService,
     public dialogRef: MatDialogRef<ContentManagementDialogComponent>) {
         if (data) {
             this.response = data;                     
@@ -55,7 +56,7 @@ export class ContentManagementDialogComponent implements OnInit {
         ContentManagementPayload.UPDATE_PAYLOAD.modifiedBy = this.userdata.id
        
         let payload = ContentManagementPayload.UPDATE_PAYLOAD;
-        this.service.updateDescription(payload).subscribe(data =>{           
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.DOCS.UPDATE_DOCS, payload, false).subscribe(data =>{           
             this.spinnerService.hide();
             this.commonService.showAlertMessage("Description Updated Successfully");            
             this.dialogRef.close('closed');

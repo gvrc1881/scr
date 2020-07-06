@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ReportService  } from "src/app/services/report.service";
 import {ActivatedRoute } from '@angular/router';
 import{Router} from '@angular/router';
 import { FormBuilder} from '@angular/forms';
@@ -46,19 +45,16 @@ export class ReportParameterDisplayComponent implements OnInit {
      sub;/*It defines to store router map of subscribe*/
      id;  /* Its used to store the getting name on the report page  */
      otyp=["Adobe portable Document Format(pdf)","Comma Separated Value Text","HTML Text","Microsoft Excel","Plain Text","XML Text"]
-    constructor(private reportService: ReportService,
+    constructor(
        private Activatedroute:ActivatedRoute,
-        private router:Router,
         private formBuilder: FormBuilder ,
         private sendAndRequestService:SendAndRequestService,
         private previousRouterUrl: PreviousRouteService) { }
      
     ngOnInit() {        
        let previousUrl = this.previousRouterUrl.getPreviousUrl();
-       console.log('previousUrl::::'+previousUrl);
        
        if(previousUrl === '/daily-progress-reports'){
-              console.log("routerUrl"+this.router.url);
               this.assetType = 'TowerCar';     
        }
        else if(previousUrl === '/asset-reports') {
@@ -84,26 +80,18 @@ export class ReportParameterDisplayComponent implements OnInit {
         this.pbSwitchControl();
         this.zoneList();
         this.sub=this.Activatedroute.paramMap.subscribe(params => { 
-            console.log(params);
              this.id = params.get('id'); 
-             console.log("this is Getting Report Name :::"+this.id);   
          });
          
    
          this.reportParameterNames();
         
       ReportPayload.GET.reportId = this.id;
-        // ReportPayload.GET.zone = "kHG";
-        //ReportPayload.GET.division = "hyd";
-        // ReportPayload.GET.reportHeader = "REport";
-         //ReportPayload.GET.facilityId = "30017";
-         //ReportPayload.GET.permission="View";
        
     }
    reportParameterNames()
          {
                 const parameterData : FacilityModel[] = [];
-                console.log('facilityModel');
                 this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_PARAMETER).subscribe((data) => {
                   this.parameterData = data;
                            }
@@ -179,9 +167,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        {   
 
           this.reportModel.reportId=this.id;
-         // console.log("facilityId6-1-2020:::"+JSON.stringify(this.reportModel));
           this.submitedForm = "";
-          console.log("Report Model::2-1-2020:::"+this.reportModel);
           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT+'/'+this.reportModel)
              .subscribe((response) => {
           this.submitedForm = response;
@@ -196,38 +182,36 @@ export class ReportParameterDisplayComponent implements OnInit {
             }) 
         }
         schAssetType(productCategoryMemObj: Object){
-              //let values = Object.values(productCategoryMemObj)[9] ;
-              var assetType = JSON.stringify(productCategoryMemObj);
-              
-              this.reportService.getScheduleCodesBasedOnAssetType(assetType).subscribe((data) => {
+              var assetType = JSON.stringify(productCategoryMemObj);              
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + assetType).subscribe((data) => {
                      this.schedule = data;
               }    
               )
         }
         schAssetIdAndType(assetsScheHistObj: Object){
               var scheduleCode = JSON.stringify(assetsScheHistObj);
-              this.reportService.getAssetIdBasedOnScheduleCodesAndAssetTypes(scheduleCode).subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES + scheduleCode).subscribe((data) => {
                  this.assetId=data;    
               }    
               )
         }
         divisionCode(code: any){
               var zone = JSON.stringify(code);
-              this.reportService.getDivisionBasedOnZone(zone).subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone).subscribe((data) => {
                 this.divisionsData=data;   
               }    
               )
         }
         subDivision(code: any){
               var division = JSON.stringify(code);
-              this.reportService.getSubDivisionBasedOnDivision(division).subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + division).subscribe((data) => {
                 this.subDivisionData=data;   
               }    
               )
         }
         facility(code: any){
              var subDivision = JSON.stringify(code);
-             this.reportService.getFacilityBasedOnSubDivision(subDivision).subscribe((data) => {
+             this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + subDivision).subscribe((data) => {
                this.facilityId=data;
              }    
              )

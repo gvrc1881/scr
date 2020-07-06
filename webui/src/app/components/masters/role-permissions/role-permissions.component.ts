@@ -1,13 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
-import { RoleTypeService } from '../../../services/roletype.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { CommonService } from '../../../common/common.service';
-import { RoleTypeModel } from 'src/app/models/role-type.model';
-import { RolePermissionService } from 'src/app/services/role-permission.service';
 import { RolePermissionModel } from 'src/app/models/role-permissions.model';
 import { RolePermissionPayload } from 'src/app/payloads/role-permission.payload';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -45,19 +41,16 @@ export class RolePermissionsComponent implements OnInit {
   @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static:true}) sort: MatSort;
   constructor(
-      private _roleTypemaster: RoleTypeService, 
       private route: ActivatedRoute, 
       private _router: Router,
       private spinnerService: Ng4LoadingSpinnerService,
       public dialog: MatDialog,
       private commonService: CommonService,
       private sendAndRequestService:SendAndRequestService
-     // private rolePermissionService: RolePermissionService
      ) { }
 
   ngOnInit() {   
     var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","ROLES PERMISSION") ;
-  	console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName); 
@@ -91,20 +84,17 @@ export class RolePermissionsComponent implements OnInit {
 
    this.spinnerService.show();
     this.permisssionList = [];
-    this.id = id;//+this.route.snapshot.params['id'];
-    //this.editRoleTypePermission(this.id);
-    this._roleTypemaster.getPermissions().subscribe(resp => {      
+    this.id = id;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_PERMISSIONS.GET_ROLE_PERMISSION).subscribe(resp => {     
       this.permisssionList = resp;
-    });
+    })
   }
 
   editRoleTypePermission(id) {
-    this.permissionType = false
-    //this.rolesList = [];
+    this.permissionType = false;
     this.rolepermissions = [];
     this.permission = [];
-    this._roleTypemaster.getRoleTypePermissons(this.id).subscribe((data) => {
-    //  this.rolesList = data;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_TYPE.GET_ROLE_TYPE_PERMISSION + this.id).subscribe((data) => {
       this.rolepermissions = (data["#result-set-1"]);      
       for (let i = 0; i < this.rolepermissions.length; i++) {
         this.rolepermissions[i].sno = i + 1;
@@ -125,17 +115,16 @@ export class RolePermissionsComponent implements OnInit {
   }
 
   permissiontypeList() {
-    this._roleTypemaster.getPermissions().subscribe(resp => {     
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_PERMISSIONS.GET_ROLE_PERMISSION).subscribe(resp => {     
       this.permisssionList = resp;
     })
   }
   editPermissions(row) {
     row.editMode = true;        
     if (row.roleId) {
-      this._roleTypemaster.getPermissions().subscribe(resp => {    
-         
+      this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.ROLE_PERMISSIONS.GET_ROLE_PERMISSION).subscribe(resp => {     
         this.permisssionList = resp;
-      });
+      })
     }
   }
   cancelRoleTypePermission(row) {  
@@ -194,7 +183,7 @@ export class RolePermissionsComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this._roleTypemaster.deleteRolePermission(id)
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.MASTERS.ROLE_TYPE.DELETE_ROLE_PERMISSION, id)
           .subscribe((data) => {           
             this.editRoleTypePermission(this.id);            
           });

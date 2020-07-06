@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { ReportService  } from "src/app/services/report.service";
 import { Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
@@ -14,8 +13,7 @@ export class ReportNamesComponent implements OnInit {
   reportNamesData: any;
   reportType:string;
   breadcrumb:string;
-  constructor(
-   // private reportService: ReportService,   
+  constructor(  
     private router: Router, 
     private sendAndRequestService:SendAndRequestService
 

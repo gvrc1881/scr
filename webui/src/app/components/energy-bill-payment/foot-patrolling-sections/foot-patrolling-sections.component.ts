@@ -1,13 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { FootPatrollingSectionsService } from 'src/app/services/foot-patrolling-sections.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { FootPatrollingSectionsModel } from 'src/app/models/foot-patrolling-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService  } from "src/app/services/report.service";
-import { FacilityModel } from 'src/app/models/facility.model';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -37,8 +34,6 @@ export class FootPatrollingSectionsComponent implements OnInit{
 
 
     constructor(
-        //private footPatrollingSectionsService: FootPatrollingSectionsService,
-        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -48,7 +43,6 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllFootPatrollingSectionsData();
         this.depotTypeForOhe();
         var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
@@ -210,7 +204,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
     depotTypeForOhe()
         {  
-               this.reportService. depotTypeForOhe().subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE).subscribe((data) => {
                  this.facilityData = data;
         }
                );

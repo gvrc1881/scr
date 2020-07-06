@@ -1,14 +1,11 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from 'src/app/common/common.service';
-import { SchedulerTrackingService } from '../../../services/scheduler-tracking.service';
 import { SchedulerTrackingModel } from 'src/app/models/scheduler-tracking.model';
 import { ActivatedRoute } from '@angular/router';
 import { DivisionHistoryDialogComponent } from '../../division-history-dialog/division-history-dialog.component';
-import { ViewEncapsulation } from '@angular/compiler/src/core';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 @Component({
@@ -41,7 +38,6 @@ export class JobsInfoComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
-   // private schedulerTrackingService: SchedulerTrackingService,
    private sendAndRequestService: SendAndRequestService,
   ) {
     
@@ -58,11 +54,9 @@ export class JobsInfoComponent implements OnInit {
 
   findTrackingIdJobHistoryInfo() {
     const schedulerData: SchedulerTrackingModel[] = [];
-    //console.log(JSON.stringify(this.route.snapshot.params['id']))
     localStorage.setItem("pid", this.route.snapshot.params['id']);
     this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.FIND_OPERATIONS_INFO + this.route.snapshot.params['id']).subscribe((data) => {
-      this.schedulerData = data; 
-      //console.log(JSON.stringify(data))     
+      this.schedulerData = data;      
       for (let i = 0; i < this.schedulerData.length; i++) {
         this.schedulerData[i].sno = i + 1;
         schedulerData.push(this.schedulerData[i]);

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,10 +28,8 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   executionAgencyList:any;
   doublingTripplingList:any;
   divisionList:any;
-  //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,

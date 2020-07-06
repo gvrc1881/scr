@@ -1,10 +1,8 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { Form } from '@angular/forms';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { MakeModel } from 'src/app/models/make.model';
-import { MakeService } from 'src/app/services/make.service';
 import { Constants } from 'src/app/common/constants';
 import { MakePayload } from 'src/app/payloads/make.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
@@ -45,7 +43,6 @@ export class MakeComponent implements OnInit{
     constructor( 
         private formBuilder: FormBuilder,
         private commonService: CommonService,
-       // private makeService:MakeService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
@@ -60,16 +57,13 @@ export class MakeComponent implements OnInit{
     ngOnInit () {
 
         var permissionName = this.commonService.getPermissionNameByLoggedData("CONFIG","Make") ;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
-        console.log('in ngOnintit method:::');
         this.getAllMakeData();
         this.makeFormGroup = this.formBuilder.group({
             id: 0,
-           // 'makeName':[null,Validators.compose([Validators.maxLength(255)]), this.duplicateMakeName.bind(this)],
             'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateMakeCode.bind(this)],
             'description': [null, Validators.maxLength(255)],
             'brandName': [null, Validators.maxLength(255)],
@@ -84,9 +78,7 @@ export class MakeComponent implements OnInit{
     }
     makeSubmit(){ 
 
-        //let makeName: string=this.makeFormGroup.value.makeName; 
          let makeCode: string=this.makeFormGroup.value.makeCode;
-        console.log("makeCode==="+makeCode) ;
         let description: string=this.makeFormGroup.value.description;
         let brandName: string=this.makeFormGroup.value.brandName;
         let makeType: string=this.makeFormGroup.value.makeType;
@@ -96,14 +88,11 @@ export class MakeComponent implements OnInit{
        if(this.title == Constants.EVENTS.SAVE)
        {
            
-            //MakePayload.ADD_PAYLOAD.makeName =makeName;
             MakePayload.ADD_PAYLOAD.makeCode =makeCode;
             MakePayload.ADD_PAYLOAD.description =description;
             MakePayload.ADD_PAYLOAD.brandName =brandName;
             MakePayload.ADD_PAYLOAD.makeType =makeType;
             MakePayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
-            console.log("ADD Payload =" + JSON.stringify(MakePayload.ADD_PAYLOAD))
-           // this.makeService.save(MakePayload.ADD_PAYLOAD)
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.makeResponse=data;
@@ -128,14 +117,11 @@ export class MakeComponent implements OnInit{
         this.saveMake = false;
         let id: number = this.editMakeResponse.id;
        MakePayload.UPDATE_PAYLOAD.id =id;
-       //MakePayload.UPDATE_PAYLOAD.makeName =makeName;
        MakePayload.UPDATE_PAYLOAD.makeCode =makeCode;
        MakePayload.UPDATE_PAYLOAD.description =description;
        MakePayload.UPDATE_PAYLOAD.brandName =brandName;
        MakePayload.UPDATE_PAYLOAD.makeType =makeType;
        MakePayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
-        console.log("Update Payload =" + JSON.stringify(MakePayload.UPDATE_PAYLOAD))
-       // this.makeService.update(MakePayload.UPDATE_PAYLOAD)
        this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MAKE.UPDATE_MAKE,MakePayload.UPDATE_PAYLOAD, false)
           .subscribe((data) => {
             this.makeResponse = data;
@@ -165,8 +151,6 @@ export class MakeComponent implements OnInit{
     }
 
     getAllMakeData() {
-        console.log("get all  Make data");
-           
             const make : MakeModel[] = [];
            
         this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE. GET_MAKE)
@@ -192,7 +176,6 @@ export class MakeComponent implements OnInit{
 
 
     NewMake () {
-        console.log('in ngOnintit method:::'+this.addMake);
         this.addMake = true;
     }
 

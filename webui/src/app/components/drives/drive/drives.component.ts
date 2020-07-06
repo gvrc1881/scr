@@ -3,7 +3,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialogRef, MatDialog } fr
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DriveModel, DriveCategoryModel, DriveCategoryAssoModel } from 'src/app/models/drive.model';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -53,7 +52,6 @@ export class DrivesComponent implements OnInit {
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-   // private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -68,8 +66,6 @@ export class DrivesComponent implements OnInit {
 
     this.spinnerService.show();
     this.findDepoTypeList();
-    //this.findAssetTypeList();
-    this.findStatusItemDetails();
     this.findFunctionalUnits();
     this.getDrivesData();
 
@@ -106,13 +102,7 @@ export class DrivesComponent implements OnInit {
         this.assetTypeList = assetTypes;
       })
   }
-  findStatusItemDetails() {
-    /* this.drivesService.findStatusItemDetails()
-      .subscribe((assetTypes) => {
-       console.log('assetTypes = '+JSON.stringify(assetTypes))
-        
-      }) */
-  }
+ 
   findFunctionalUnits() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {

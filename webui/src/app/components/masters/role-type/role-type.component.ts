@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
-import { RoleTypeService } from '../../../services/roletype.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { RoleTypeModule } from './role-type.module';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from '../../../common/common.service';
 import { RoleTypeModel } from 'src/app/models/role-type.model';
@@ -44,11 +42,9 @@ export class RoleTypeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(
-    //private _roleTypemaster: RoleTypeService,
     private sendAndRequestService : SendAndRequestService,
     private formBuilder: FormBuilder,
     private _router: Router, private router: ActivatedRoute,
-    private actRoute: ActivatedRoute,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -69,7 +65,6 @@ export class RoleTypeComponent implements OnInit {
         this._router.navigate(['users']);
       }
     var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","ROLES") ;
-  	console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -248,7 +243,6 @@ export class RoleTypeComponent implements OnInit {
         let flag = this.rolesList.find(val=> {
           return val.roleType == list[i].roleName;
         });
-        console.log(flag+" : "+list[i].roleName)
         if(!flag){
           this.availableRolesList.splice( this.availableRolesList.indexOf(list[i].roleName), 1 );
         }

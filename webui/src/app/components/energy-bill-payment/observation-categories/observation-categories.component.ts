@@ -1,12 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { ObservationCategoriesService } from 'src/app/services/observation-categories.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationCategoriesModel } from 'src/app/models/observation-categories.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService  } from "src/app/services/report.service";
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -35,8 +33,6 @@ export class ObservationCategoriesComponent implements OnInit{
 
 
     constructor(
-       // private observationCategoriesService: ObservationCategoriesService,
-        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -210,7 +206,7 @@ export class ObservationCategoriesComponent implements OnInit{
     inspectionType()
         {
                
-               this.reportService. inspectionType().subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_INSPECTION_TYPE).subscribe((data) => {
                  this.inspectionTypeData = data;
         }
                );

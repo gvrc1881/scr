@@ -1,9 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { ReportService  } from "src/app/services/report.service";
 import { Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-//import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-daily-progress-reports.component',
@@ -15,18 +13,15 @@ export class DailyProgressReportsComponent implements OnInit {
   dailyReportData: any;
   
   constructor(
-    //private reportService: ReportService,   
     private sendAndRequestService: SendAndRequestService,
     private router: Router, 
   ) { }
 
   ngOnInit() {   
-    console.log(this.router.url);
     let reportType = '';
    
     if(this.router.url == '/daily-progress-reports'){
       reportType = 'DailyProgress';  
-      console.log("reportType"+reportType)    
     }
     else if(this.router.url == '/asset-reports') {
       reportType = 'AssetReports';      

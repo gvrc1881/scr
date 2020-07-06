@@ -1,7 +1,6 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { EnergyBillPaymentService } from 'src/app/services/energy-bill-payment.service';
 import { EnergyBillPaymentModel } from 'src/app/models/energy-bill-payment.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
@@ -36,22 +35,16 @@ export class EnergyBillPaymentComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-       // private _energyBillPaymentService: EnergyBillPaymentService,
        private sendAndRequestService : SendAndRequestService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder
     ){
-        console.log('in constructor');
     }
     ngOnInit(){
     	var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","ENERGY BILL PAYMENT") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        /* this.addPermission = this.commonService.getPermission("Add");
-        this.editPermission = this.commonService.getPermission("Edit");
-        this.deletePermission = this.commonService.getPermission("Delete"); */
         this.getEnergyBillPaymentData();
         this.spinnerService.show();
         this.energyBillPaymentFormGroup = this.formBuilder.group({
@@ -100,8 +93,6 @@ export class EnergyBillPaymentComponent implements OnInit{
         let division: string = this.energyBillPaymentFormGroup.value.division;
         let month: string = this.energyBillPaymentFormGroup.value.month;
         let year: string = this.energyBillPaymentFormGroup.value.year;
-        // this.saveEnergyBillPayment = false;
-        console.log('title::'+this.title);
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SAVE,{
                 "amount":amount,
@@ -119,7 +110,6 @@ export class EnergyBillPaymentComponent implements OnInit{
                 this.commonService.showAlertMessage("Error in Add")
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
-            console.log('in else if block::');
             let id: number = this.editEneBillPaymentResponse.id;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.UPDATE,{
                 "id":id,

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,10 +25,8 @@ export class AddDriveProgressRecordComponent implements OnInit {
   driveDailyProgressFormErrors: any;
   resp: any;
   divisionList:any;
-  //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
@@ -137,7 +134,6 @@ export class AddDriveProgressRecordComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveDailyProgressFormGroup.value);
     var data = {};
     var message = '';
     var failedMessage = '';

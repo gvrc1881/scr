@@ -2,7 +2,6 @@ import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
-import { DrivesService } from 'src/app/services/drives.service';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../environments/environment';
 import { Constants } from 'src/app/common/constants';
@@ -28,7 +27,6 @@ export class FilesInformationDialogComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
         private sendAndRequestService: SendAndRequestService,
-        //private drivesService: DrivesService, 
         public dialog: MatDialog,) {
         if (data) {
             this.response = data;
@@ -36,7 +34,6 @@ export class FilesInformationDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        //localStorage.setItem('driveFileType','INSPECTION');
         this.type = localStorage.getItem("driveFileType");
         if(this.type == 'inspection'){
             this.url = environment.inspectionUrl;
@@ -46,7 +43,6 @@ export class FilesInformationDialogComponent implements OnInit {
         this.prepareTable();
     }
     downloadFile(path, fileName) {
-        console.log(path + " = " + fileName)
           const link = document.createElement('a');
          link.setAttribute('target', '_blank');
          link.setAttribute('href', path);
@@ -56,7 +52,6 @@ export class FilesInformationDialogComponent implements OnInit {
     }
     prepareTable() {
         const divisionHistoryData = [];
-        console.log(window.location.pathname)
         for (let i = 0; i < this.response.length; i++) {
             if (!!this.response[i]) {
                 divisionHistoryData.push({
@@ -86,7 +81,6 @@ export class FilesInformationDialogComponent implements OnInit {
             if (result) {
                 this.spinnerService.show();
                 var id = localStorage.getItem('driveFileTypeId');
-                console.log("common id = "+id+" row id="+rowid)
                 var data ={
                     "id":id,
                     "fileName":rowid,
@@ -107,35 +101,14 @@ export class FilesInformationDialogComponent implements OnInit {
     }
     filesInfor: any;
     updateData(id) {
-       // if (this.type == 'Stipulation') {
             this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
                 this.filesInfor = response;
-                console.log(JSON.stringify(response));
                 this.response = response;
                 this.spinnerService.hide();
                 this.prepareTable();
-                /* if (this.filesInfor.attachment != '') {
-                    var data = this.filesInfor.attachment.split(',');
-                    console.log('data= ' + JSON.stringify(data))
-                    this.spinnerService.hide();
-                    this.response = data;
-                    this.prepareTable();
-                } */
+               
             }, error => this.commonService.showAlertMessage(error));
-        /* } else if (this.type == 'Inspection') {
-            this.drivesService.findStipulationAndInspectionDataById(id).subscribe((response) => {
-                this.filesInfor = response;
-                console.log(JSON.stringify(response));
-                this.response = [];
-                if (this.filesInfor.attachment != '') {
-                    var data = this.filesInfor.attachment.split(',');
-                    console.log('data= ' + JSON.stringify(data))
-                    this.spinnerService.hide();
-                    this.response = data;
-                }
-                this.prepareTable();
-            }, error => this.commonService.showAlertMessage(error));
-        } */
+        
     }
 
 }

@@ -6,19 +6,13 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
-import { TimeIntervalService } from 'src/app/services/time-interval.service';
 import { TimeIntervalPayload } from 'src/app/payloads/time-interval.payload';
 import { TimeIntervalModel } from 'src/app/models/time-interval.model';
 import { formatDate } from '@angular/common';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
-// Depending on whether rollup is used, moment needs to be imported differently.
-// Since Moment.js doesn't have a default export, we normally need to import using the `* as`
-// syntax. However, rollup creates a synthetic default module and we thus need to import it using
-// the `default as` syntax.
 import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
 import {default as _rollupMoment} from 'moment';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -40,11 +34,7 @@ export const MY_FORMATS = {
   templateUrl: './time-interval.component.html',
   styleUrls: ['./time-interval.component.css'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-
+      {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
 })
@@ -76,7 +66,6 @@ export class TimeIntervalComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
-    //private timeIntervalService: TimeIntervalService,
     private sendAndRequestService:SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -92,7 +81,6 @@ export class TimeIntervalComponent implements OnInit {
   ngOnInit() {
     this.rolePermission = this.commonService.rolePermission();
     var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","TIME INTERVAL") ;
-  		console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -101,7 +89,6 @@ export class TimeIntervalComponent implements OnInit {
    
     this.timeIntervalFormGroup = this.formBuilder.group({
       id: 0,
-     // 'startDate': [null, Validators.compose([Validators.required])],
       'timeInterval': [null, Validators.compose([Validators.required]), this.duplicateTimeInterval.bind(this)],
     });;    
     this.timeIntervalFormGroup.valueChanges.subscribe(() => {
@@ -123,19 +110,15 @@ export class TimeIntervalComponent implements OnInit {
 
   duplicateTimeInterval() {
     const q = new Promise((resolve, reject) => {
-    //  console.log(this.timeIntervalFormGroup.controls['timeInterval'].value)
     let timeInterval = this.timeIntervalFormGroup.controls['timeInterval'].value;
-      //this.timeIntervalService.existsTimeInterval().subscribe((duplicate) => {
         var filteredArray = !!this.timeIntervalData && this.timeIntervalData.filter(function(interval){          
           return interval.timeInterval == timeInterval;
         });        
         if(filteredArray.length !== 0){
-        //if (duplicate) {
           resolve({ 'duplicateTimeIntervalName': true });
         } else {
           resolve(null);
         }
-     // }, () => { resolve({ 'duplicateTimeIntervalName': true }); });
     });
     return q;
   }
@@ -144,39 +127,21 @@ export class TimeIntervalComponent implements OnInit {
   onAddTimeIntervalFormSubmit() {
 
     let timeInterval: string = this.timeIntervalFormGroup.value.timeInterval;
-    //console.log("timeInterval: "+timeInterval);
-   // console.log(JSON.stringify(this.timeIntervalData));
     var filteredArray = !!this.timeIntervalData && this.timeIntervalData.filter(function(interval){
-     // console.log("hello")
       return interval.timeInterval == timeInterval;
     });
-   // console.log(filteredArray);
     if(filteredArray.length !== 0){
       this.commonService.showAlertMessage(timeInterval+' time interval already selected.');
       return
     }
-    //if(timeInterval == this.)
-   // return;
-   // let startDate: string = this.timeIntervalFormGroup.value.startDate;    
-   // console.log('startDate: '+startDate);
-  //  console.log(JSON.stringify(this.timeIntervalFormGroup.value))
-    /* const format = 'yyyy-MM-dd';
-    const myDate = startDate;
-    const locale = 'en-US';
-    const formattedDate = formatDate(myDate, format, locale); */
-   // console.log("formattedDate: "+formattedDate)
-  
-
     if (!this.timeIntervalFormGroup.valid) {
       return;
     }
-    //console.log('title: ' + this.title);
     if (this.title == Constants.EVENTS.ADD || this.title == Constants.EVENTS.SAVE) {
       TimeIntervalPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
       TimeIntervalPayload.ADD_PAYLOAD.modifiedBy = this.loggedUserData.id;
       TimeIntervalPayload.ADD_PAYLOAD.timeInterval = timeInterval
       TimeIntervalPayload.ADD_PAYLOAD.startDate = '';
-      //console.log('Add Payload =' + JSON.stringify(TimeIntervalPayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addTimeInterval = false;
       this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.TIME_INTERVAL.SAVE_TIME_INTERVAL,TimeIntervalPayload.ADD_PAYLOAD, false).subscribe((response) => {       
@@ -293,13 +258,11 @@ export class TimeIntervalComponent implements OnInit {
       this.cloneUpdateTimeInterval = false;
       this.saveTimeInterval = false;  
       this.timeIntervalResponse = response;
-     // console.log("resp: " + JSON.stringify(response));
       const format = 'yyyy-MM-dd';
       const myDate = this.timeIntervalResponse.startDate;
       const locale = 'en-US';
       const formattedDate = formatDate(myDate, format, locale);
       this.timeIntervalFormGroup.patchValue({
-        //startDate: formattedDate,
         timeInterval: this.timeIntervalResponse.timeInterval
       });
     }, error => this.timeIntervalErrors = error);

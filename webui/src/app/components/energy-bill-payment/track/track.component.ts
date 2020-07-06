@@ -1,15 +1,12 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TrackService } from 'src/app/services/track.service';
-import { ReportService } from 'src/app/services/report.service';
 import { TrackModel } from 'src/app/models/track.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { TrackPayload } from 'src/app/payloads/track.payload';
-import { FacilityModel } from 'src/app/models/facility.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
@@ -42,8 +39,6 @@ export class TrackComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-        //private trackService: TrackService,
-        //private reportService: ReportService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
         private sendAndRequestService:SendAndRequestService
@@ -53,12 +48,10 @@ export class TrackComponent implements OnInit{
     
 	ngOnInit() {
 		var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","TRACK") ;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getTrackData();
-       // this.facilityNames();
         this.trackFormGroup = this.formBuilder.group({
              id: 0,
              "depotType":[null],
@@ -88,7 +81,6 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
 		TrackPayload.ADD_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
         TrackPayload.ADD_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
-        //console.log('json object::'+JSON.stringify(TrackPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.trackResponse = data;
@@ -106,7 +98,6 @@ export class TrackComponent implements OnInit{
         		this.commonService.showAlertMessage("Track Data Saving Failed.");
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
-            // console.log('in else if block::');
             TrackPayload.UPDATE_PAYLOAD.id = this.editTrackResponse.id;
             TrackPayload.UPDATE_PAYLOAD.facilityId = this.trackFormGroup.value.facilityId;
 	        TrackPayload.UPDATE_PAYLOAD.tkm = this.trackFormGroup.value.tkm;
@@ -177,7 +168,6 @@ export class TrackComponent implements OnInit{
     	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editTrackResponse = responseData;
-                // console.log('responseData'+JSON.stringify(responseData));
                 this.trackFormGroup.patchValue({
                     id: this.editTrackResponse.id,
                     facilityId: this.editTrackResponse.facilityId,
@@ -221,13 +211,6 @@ export class TrackComponent implements OnInit{
         filterValue = filterValue.toLowerCase();
         this.trackDataSource.filter = filterValue;
     }
-    /*
-    facilityNames() {
-               this.reportService.facilityNames().subscribe((data) => {
-                 this.facilityData = data;
-        		});
-    } */
-    
     getFacilitys(){
     	var depotType = this.trackFormGroup.value.depotType ;
     	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + depotType.code).subscribe((data) => {

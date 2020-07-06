@@ -1,11 +1,9 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { DailySummaryService } from 'src/app/services/daily-summary.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { DailySummaryModel } from 'src/app/models/daily-summary.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
-import { ReportService  } from "src/app/services/report.service";
 import { FacilityModel } from 'src/app/models/facility.model';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -47,10 +45,8 @@ export class DailySummaryComponent implements OnInit{
 
 
     constructor(
-       // private dailySummaryService: DailySummaryService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private reportService:ReportService,
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
 
@@ -61,11 +57,9 @@ export class DailySummaryComponent implements OnInit{
     ngOnInit () {
         this.getAllDailySummaryData();
         var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY BILL PAYMENT","Daily Summary") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        //this.depotTypeOheAndPsi();
         this.dailySummaryFormGroup = this.formBuilder.group({
             id: 0,
             'createdDate':[null, Validators.required, this.duplicateFromDate.bind(this)],
@@ -284,7 +278,7 @@ export class DailySummaryComponent implements OnInit{
     }
     depotTypeOheAndPsi()
         {
-               this.reportService. depotTypeOheAndPsi().subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOT_OHE_AND_PSI).subscribe((data) => {
                  this.facilityData = data;
         }
                );

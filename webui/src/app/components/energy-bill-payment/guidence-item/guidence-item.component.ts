@@ -1,12 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { GuidenceItemService } from 'src/app/services/guidence-item.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { GuidenceItemModel } from 'src/app/models/guidence-item.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService } from 'src/app/services/report.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -36,11 +34,9 @@ export class GuidenceItemComponent implements OnInit{
 
 
     constructor(
-       // private _guidenceItemService: GuidenceItemService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
-        private reportService: ReportService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
 
@@ -50,8 +46,8 @@ export class GuidenceItemComponent implements OnInit{
 
     ngOnInit () {
         this.getAllGuidenceItemData();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("WORKS","GUIDENCE ITEM") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
+        var permissionName = this.commonService.getPermissionNameByLoggedData("WORKS","GUIDENCE ITEM") ;
+  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.guidenceItemFormGroup = this.formBuilder.group({
@@ -67,13 +63,12 @@ export class GuidenceItemComponent implements OnInit{
             'status' : [null],
             'closedRemark' : [null,Validators.maxLength(250)]
         });
-        this.reportService.statusItemDetails('GUIDENCE_ITEM').subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'GUIDENCE_ITEM').subscribe((data) => {
                  this.statusItems = data;
       		});
     }
 
     getAllGuidenceItemData() {
-        // console.log("get all guidence items");
         const guidenceItem : GuidenceItemModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM).subscribe((data) => {
             this.guidenceItemList = data;

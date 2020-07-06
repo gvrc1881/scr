@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveFailureAnalysisComponent } from './add-drive-failure-analysis/add-drive-failure-analysis.component';
-import { DrivesService } from 'src/app/services/drives.service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
@@ -41,7 +40,7 @@ const routes: Routes = [
         OwlNativeDateTimeModule,
     ],
     providers: [
-        DrivesService
+        
     ],
     exports:[
         DriveFailureAnalysisComponent

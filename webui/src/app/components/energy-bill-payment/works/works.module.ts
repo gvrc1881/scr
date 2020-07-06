@@ -5,8 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
-import { MatMenuModule, MatGridListModule } from '@angular/material';
-import { WorksService } from 'src/app/services/work.service';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 
@@ -33,7 +31,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers:[
-    	WorksService
+    	
     ],
     exports:[
     	WorksComponent

@@ -2,12 +2,10 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './users.component';
-import { UsersService } from '../../../services/users.service';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RepositoryService } from 'src/app/services/repository.service';
 
 
 
@@ -25,8 +23,6 @@ const routes: Routes = [
     {
         path        : 'add-user',
         component:   UsersComponent
-        //canActivate: [AuthGuard]
-        //redirectTo:'dashboard'
     },
     
 
@@ -46,8 +42,6 @@ const routes: Routes = [
        
     ],
     providers: [
-        UsersService,
-        RepositoryService
     ],
     exports     : [
         UsersComponent

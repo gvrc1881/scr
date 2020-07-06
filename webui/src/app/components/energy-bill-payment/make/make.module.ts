@@ -1,6 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MakeComponent } from './make.component';
- import { MakeService } from 'src/app/services/make.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -28,7 +27,7 @@ const routes: Routes = [
         
     ],
     providers: [
-       MakeService
+       
    ],
     exports: [
         MakeComponent

@@ -1,14 +1,12 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TractionEnergyTariffService } from 'src/app/services/traction-energy-tariff.service';
 import { TractionEnergyTariffModel } from 'src/app/models/traction-energy-tariff.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { TractionEnergyTariffPayload } from 'src/app/payloads/traction-energy-tariff.payload';
-import { ReportService } from 'src/app/services/report.service';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -51,10 +49,8 @@ export class TractionEnergyTariffComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
-        //private tractionEnergyTariffService: TractionEnergyTariffService,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-       // private reportService: ReportService,
         private sendAndRequestService:SendAndRequestService
 
     ){
@@ -63,7 +59,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     
 	ngOnInit() {
 		var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","TRACTION ENERGY TARIFF") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -82,22 +77,11 @@ export class TractionEnergyTariffComponent implements OnInit{
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
             });
-        /*
-        this.reportService.getAllContentCategories().subscribe((data) => {
-        	 this.contentCategoryList = data;
-        	},  error => {
-                this.commonService.showAlertMessage("Error in Get")
-            });
-       this.reportService.getAllContentTopics().subscribe((data) => {
-        	 this.contentTopicList = data;
-        	},  error => {
-                this.commonService.showAlertMessage("Error in Get")
-            });     */
+        
     }
     
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
-	      //console.log(JSON.stringify(this.scheduleJobData))
 	       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.EXISTS_FROM_DATE +
 	        this.tractionEnergyTariffFormGroup.controls['supplier'].value + '/'+
 	        this.tractionEnergyTariffFormGroup.controls['fromDate'].value
@@ -120,7 +104,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     	this.toMinDate = new Date($event.value);
   	}
   	
-    // public get f() { return this.contentManagementFormGroup.controls; }
     fileUpload(id) {
     	this.uploadFile = true;
     	this.addPermission = false;
@@ -139,7 +122,6 @@ export class TractionEnergyTariffComponent implements OnInit{
 	    this.spinnerService.show();    
 	    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.ATTACHMENT_LIST + id).subscribe((response) => {     
 	      this.spinnerService.hide(); 
-	      // console.log('vallues::::'+JSON.stringify(response));
 	      this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
 	        	disableClose: false,
 	        	height: '600px',
@@ -159,7 +141,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     }
     
     onContentManagementSubmit () {
-    //	console.log("hello:::"+this.contentManagementFormGroup.value.contentCategory);
     	let category = this.contentManagementFormGroup.value.contentCategory;
     	let saveDetails = {
     		'tractionEnergyTariffId': this.tractionEnergyTariffId,
@@ -185,14 +166,11 @@ export class TractionEnergyTariffComponent implements OnInit{
           formdata.append('FU', saveDetails.FU);
           formdata.append('contentTopic', saveDetails.contentTopic);
     	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.TARIFF_UPLOAD_FILES, saveDetails, true).subscribe(data => {
-                console.log(JSON.stringify(data));
                 this.spinnerService.hide();
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
                 window.location.reload();
-                //this.contentManagementFormGroup.reset();
-               // this.getUploadedFiles();
             }, error => {
                 console.log('ERROR >>>');
                 this.spinnerService.hide();
@@ -213,11 +191,9 @@ export class TractionEnergyTariffComponent implements OnInit{
         TractionEnergyTariffPayload.ADD_PAYLOAD.rate = this.tractionEnergyTariffFormGroup.value.rate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.specification = this.tractionEnergyTariffFormGroup.value.specification;
         TractionEnergyTariffPayload.ADD_PAYLOAD.condition = this.tractionEnergyTariffFormGroup.value.condition;
-        // TractionEnergyTariffPayload.ADD_PAYLOAD.year = this.tractionEnergyTariffFormGroup.value.year;
         TractionEnergyTariffPayload.ADD_PAYLOAD.fromDate = this.tractionEnergyTariffFormGroup.value.fromDate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.thruDate = this.tractionEnergyTariffFormGroup.value.thruDate;
         TractionEnergyTariffPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
-        // console.log('json object::'+JSON.stringify(TractionEnergyTariffPayload.ADD_PAYLOAD));
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.SAVE_TARIFF,TractionEnergyTariffPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.tariffResponse = data;
@@ -233,7 +209,6 @@ export class TractionEnergyTariffComponent implements OnInit{
                 this.commonService.showAlertMessage(" Tariff Data Saving Failed.")
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
-            //console.log('in else if block::');
             TractionEnergyTariffPayload.UPDATE_PAYLOAD.id = this.editTractionEnergyTariffResponse.id;
             TractionEnergyTariffPayload.UPDATE_PAYLOAD.supplier = this.tractionEnergyTariffFormGroup.value.supplier;
 	        TractionEnergyTariffPayload.UPDATE_PAYLOAD.rate = this.tractionEnergyTariffFormGroup.value.rate;
@@ -304,7 +279,6 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
-                // console.log('responseData'+JSON.stringify(responseData));
                 this.tractionEnergyTariffFormGroup.patchValue({
                     id: this.editTractionEnergyTariffResponse.id,
                     supplier: this.editTractionEnergyTariffResponse.supplier,

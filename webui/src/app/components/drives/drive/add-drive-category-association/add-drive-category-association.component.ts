@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
@@ -29,7 +28,6 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
@@ -66,7 +64,6 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   getDrivesData() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
       this.driveList = data;
-      console.log(this.driveList)
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -108,7 +105,6 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
   getDriveCategoryAssoDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID+'/'+id)
       .subscribe((resp) => {
-        console.log(resp)
         this.resp = resp;
         this.addDriveCategoryAssoFormGroup.patchValue({
           id: this.resp.id,
@@ -128,7 +124,6 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
       return;
     }
     this.spinnerService.show();
-    console.log(this.addDriveCategoryAssoFormGroup.value);
     if (this.save) {
       var saveDriveModel = {
         "driveId": this.addDriveCategoryAssoFormGroup.value.drive,

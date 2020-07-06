@@ -1,12 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { EnergyMeterService } from 'src/app/services/energy-meter.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { EnergyMeterModel } from 'src/app/models/energy-meter.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService } from 'src/app/services/report.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -36,11 +34,9 @@ export class EnergyMeterComponent implements OnInit{
     enableEndReadings: boolean;
 
     constructor(
-        //private energyMeterService: EnergyMeterService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
-        private reportService: ReportService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
 
@@ -50,7 +46,6 @@ export class EnergyMeterComponent implements OnInit{
 
     ngOnInit () {
     	var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","ENERGY METER") ;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -75,14 +70,13 @@ export class EnergyMeterComponent implements OnInit{
             'feederId': [null]
         });
         this.getAllEnergyMeterData();
-        this.reportService.getAllTssFeederMaster().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_MASTER_DETAILS).subscribe((data) => {
             this.tssFeederMaterList = data;
             } , error => {});
     }
     
     duplicateFeederAndStartDate() {
     	const q = new Promise((resolve, reject) => {
-      //console.log(JSON.stringify(this.scheduleJobData))
 	       this.sendAndRequestService.requestForGET(
                 Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_START_DATE +
 	            this.energyMeterFormGroup.controls['feederId'].value + '/'+
@@ -205,7 +199,6 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterEditAction(id: number) {
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+'/'+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
-             // console.log('edit response:::'+JSON.stringify(this.editEnergyMeterResponse));
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
       		this.energyMeterFormGroup.patchValue({
                 id: this.editEnergyMeterResponse.id,

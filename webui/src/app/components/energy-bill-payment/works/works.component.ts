@@ -1,5 +1,4 @@
 import { Component, OnInit , ViewChild } from '@angular/core';
-import { WorksService } from 'src/app/services/work.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
@@ -8,7 +7,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorksModel } from 'src/app/models/works.model';
 import { CommonService } from 'src/app/common/common.service';
 import { WorksPayload } from 'src/app/payloads/works.payload';
-import { ReportService } from 'src/app/services/report.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
@@ -41,12 +39,10 @@ export class WorksComponent implements OnInit {
     currentYear: any;
 
     constructor(
-        //private workService: WorksService,
         private commonService: CommonService,
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-        private reportService: ReportService,
         private sendAndRequestService:SendAndRequestService
 
     ){
@@ -56,13 +52,11 @@ export class WorksComponent implements OnInit {
     ngOnInit() {
           for (let i = 0; i < this.userHierarchy.length; i++) {
                if(this.userHierarchy[i].depotType == 'DIV'){
-	              // console.log('IN SIDE LOOP ****'+JSON.stringify(this.userHierarchy[i]));
                	this.divisionList.push(this.userHierarchy[i]);
                }
             }
         this.currentYear = (new Date()).getFullYear() ;
 		var permissionName = this.commonService.getPermissionNameByLoggedData("WORKS","WORK") ;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -90,10 +84,10 @@ export class WorksComponent implements OnInit {
 			"workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicateWorkName.bind(this)],
 			"yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
         });
-        this.reportService.statusItemDetails('WORK_PROGRESS_STATUS').subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'WORK_PROGRESS_STATUS').subscribe((data) => {
                  this.statusItems = data;
       		});
-      	this.reportService.statusItemDetails('ELECTRIFICATION_EXEC_AGENCY').subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +'ELECTRIFICATION_EXEC_AGENCY').subscribe((data) => {
         	 this.execAgencyList = data;
         	},  error => {
                 this.commonService.showAlertMessage("Error in Get")
@@ -240,7 +234,6 @@ export class WorksComponent implements OnInit {
     	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+'/'+id)
             .subscribe((responseData) => {
                 this.editWorkResponse = responseData;
-                // console.log('responseData'+JSON.stringify(responseData));
                 this.workFormGroup.patchValue({
                     id: this.editWorkResponse.id,
                     allocation : this.editWorkResponse.allocation,

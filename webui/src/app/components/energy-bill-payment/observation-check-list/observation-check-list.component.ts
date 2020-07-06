@@ -1,13 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { ObservationsCheckListService } from 'src/app/services/observations-check-list.service';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder,Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationsCheckListModel } from 'src/app/models/observations-check-list.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService  } from "src/app/services/report.service";
-import { FacilityModel } from 'src/app/models/facility.model';
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -18,22 +15,22 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
     templateUrl: './observation-check-list.component.html',
     styleUrls: ['./observation-check-list.component.scss']
 })
-export class ObservationCheckListComponent implements OnInit{
+export class ObservationCheckListComponent implements OnInit {
 
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    addObservationCheckListItem: boolean ;
+    addObservationCheckListItem: boolean;
     title: string = "Save";
     ObservationCheckListItemFormGroup: FormGroup;
-    observationCheckList : any;
-    inspectionTypeData:any;
-    inspectionTypeList:any;
-    statusTypeData:any;
-    toMinDate=new Date();
+    observationCheckList: any;
+    inspectionTypeData: any;
+    inspectionTypeList: any;
+    statusTypeData: any;
+    toMinDate = new Date();
     currentDate = new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
-    observationCheckListDisplayColumns = ['sno' ,'inspectionType','observationCategory' , 'observationItem' , 'severity' ,'description','priority', 'fromDate' , 'thruDate' , 'id' ] ;
+    observationCheckListDisplayColumns = ['sno', 'inspectionType', 'observationCategory', 'observationItem', 'severity', 'description', 'priority', 'fromDate', 'thruDate', 'id'];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editObservationCheckLisResponse: any;
@@ -41,66 +38,64 @@ export class ObservationCheckListComponent implements OnInit{
 
 
     constructor(
-       // private observationsCheckListService: ObservationsCheckListService,
-        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private router: Router, 
+        private router: Router,
         private dialog: MatDialog,
-        private sendAndRequestService:SendAndRequestService
-    ){
+        private sendAndRequestService: SendAndRequestService
+    ) {
 
     }
 
-    ngOnInit () {
+    ngOnInit() {
         let statusTypeId = '';
-   
-        if(this.router.url == '/observation-check-list'){
-            statusTypeId = 'FP_SEVERITY_TYPE';  
+
+        if (this.router.url == '/observation-check-list') {
+            statusTypeId = 'FP_SEVERITY_TYPE';
         }
-        this.reportService.statusItemDetails(statusTypeId).subscribe((data)=>{
-          this.statusTypeData =data;
-              })
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + statusTypeId).subscribe((data) => {
+            this.statusTypeData = data;
+        })
 
         this.getAllObservationsCheckListData();
         this.observationCategories();
         this.inspectionType();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","Obs Check List") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
-    	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
-    	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP", "Obs Check List");//p == 0 ? 'No Permission' : p[0].permissionName;
+        this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
+        this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
+        this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.ObservationCheckListItemFormGroup = this.formBuilder.group({
             id: 0,
-            'inspectionType':[null],
-            'observationCategory':[null],
+            'inspectionType': [null],
+            'observationCategory': [null],
             'observationItem': [null],
             'severity': [null],
-            'description': [null,Validators.maxLength(250)],
+            'description': [null, Validators.maxLength(250)],
             'priority': [null],
             'fromDate': [null],
-            'thruDate' : [null]
+            'thruDate': [null]
         });
     }
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = new Date(event.value);
     }
     getAllObservationsCheckListData() {
-        const observationsCheckList : ObservationsCheckListModel[] = [];
+        const observationsCheckList: ObservationsCheckListModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST).subscribe((data) => {
             this.observationCheckList = data;
             for (let i = 0; i < this.observationCheckList.length; i++) {
-                this.observationCheckList[i].sno = i+1;
-                observationsCheckList.push(this.observationCheckList[i]);              
+                this.observationCheckList[i].sno = i + 1;
+                observationsCheckList.push(this.observationCheckList[i]);
             }
             this.observationCheckListItemDataSource = new MatTableDataSource(observationsCheckList);
             this.observationCheckListItemDataSource.paginator = this.paginator;
             this.observationCheckListItemDataSource.sort = this.sort;
 
-        } , error => {});
+        }, error => { });
 
     }
 
-    observationsCheckListItemSubmit () {
+    observationsCheckListItemSubmit() {
         let inspectionType: string = this.ObservationCheckListItemFormGroup.value.inspectionType;
         let observationCategory: string = this.ObservationCheckListItemFormGroup.value.observationCategory;
         let observationItem: string = this.ObservationCheckListItemFormGroup.value.observationItem;
@@ -110,59 +105,59 @@ export class ObservationCheckListComponent implements OnInit{
         let fromDate: Date = this.ObservationCheckListItemFormGroup.value.fromDate;
         let thruDate: Date = this.ObservationCheckListItemFormGroup.value.thruDate;
         this.addObservationCheckListItem = false;
-        
-        if (this.title ==  Constants.EVENTS.SAVE) {
-            var saveObsCheckListModel={
-                'inspectionType':inspectionType,
-                'observationCategory':observationCategory,
+
+        if (this.title == Constants.EVENTS.SAVE) {
+            var saveObsCheckListModel = {
+                'inspectionType': inspectionType,
+                'observationCategory': observationCategory,
                 'observationItem': observationItem,
-                'description' : description,
-                'priority' : priority,
+                'description': description,
+                'priority': priority,
                 'severity': severity,
-                'fromDate':fromDate,
+                'fromDate': fromDate,
                 'thruDate': thruDate
-            }          
+            }
             this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.SAVE__OBS_CHECK_LIST, saveObsCheckListModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully saved');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();
-            } , error => {});
-        }else if (this.title == Constants.EVENTS.UPDATE ) {
+            }, error => { });
+        } else if (this.title == Constants.EVENTS.UPDATE) {
             let id: number = this.editObservationCheckLisResponse.id;
-            var updateObsCheckListModel={
-                'id':id,
-                'inspectionType':inspectionType,
-                'observationCategory':observationCategory,
+            var updateObsCheckListModel = {
+                'id': id,
+                'inspectionType': inspectionType,
+                'observationCategory': observationCategory,
                 'observationItem': observationItem,
-                'description':description,
+                'description': description,
                 'priority': priority,
                 'severity': severity,
                 'fromDate': fromDate,
-                'thruDate' : thruDate
-            }        
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.UPDATE_OBS_CHECK_LIST,updateObsCheckListModel, false).subscribe(response => {
+                'thruDate': thruDate
+            }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.UPDATE_OBS_CHECK_LIST, updateObsCheckListModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
                 this.getAllObservationsCheckListData();
                 this.ObservationCheckListItemFormGroup.reset();
-                this.addObservationCheckListItem =  false;
-            } , error => {})
-            
+                this.addObservationCheckListItem = false;
+            }, error => { })
+
         }
     }
 
-    editObservationsCheckListItem (id) {
+    editObservationsCheckListItem(id) {
         this.addObservationCheckListItem = true;
         this.observationCheckListEditAction(id);
         this.title = 'Update';
     }
 
     observationCheckListEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID + '/' + id).subscribe((responseData) => {
             this.editObservationCheckLisResponse = responseData;
             this.ObservationCheckListItemFormGroup.patchValue({
                 id: this.editObservationCheckLisResponse.id,
-                inspectionType:this.editObservationCheckLisResponse.inspectionType,
-                observationCategory:this.editObservationCheckLisResponse.observationCategory,
+                inspectionType: this.editObservationCheckLisResponse.inspectionType,
+                observationCategory: this.editObservationCheckLisResponse.observationCategory,
                 observationItem: this.editObservationCheckLisResponse.observationItem,
                 description: this.editObservationCheckLisResponse.description,
                 priority: this.editObservationCheckLisResponse.priority,
@@ -171,21 +166,21 @@ export class ObservationCheckListComponent implements OnInit{
                 thruDate: !!this.editObservationCheckLisResponse.thruDate ? new Date(this.editObservationCheckLisResponse.thruDate) : '',
             });
             this.toMinDate = new Date(this.editObservationCheckLisResponse.fromDate);
-        } ,error => {})
+        }, error => { })
     }
 
 
-    deleteObservationCheckListItem (id) {
+    deleteObservationCheckListItem(id) {
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
-          });
+        });
         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Observations Check List?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
-            if(result){
+            if (result) {
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.DELETE_OBS_CHECK_LIST, id).subscribe(response => {
-                        this.commonService.showAlertMessage('Observations Check List Deleted Successfully');
-                        this.getAllObservationsCheckListData();
-                    },error => {});
+                    this.commonService.showAlertMessage('Observations Check List Deleted Successfully');
+                    this.getAllObservationsCheckListData();
+                }, error => { });
             }
         });
     }
@@ -202,29 +197,27 @@ export class ObservationCheckListComponent implements OnInit{
         this.addObservationCheckListItem = false;
         this.title = 'Save';
     }
-    observationCategories()
-        {
-               
-               this.reportService. observationCategories().subscribe((data) => {
-                 this.inspectionTypeData = data;
+    observationCategories() {
+
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CATEGORIES).subscribe((data) => {
+            this.inspectionTypeData = data;
         }
-               );
+        );
 
-       }
-       inspectionType()
-        {
-               
-               this.reportService. inspectionType().subscribe((data) => {
-                 this.inspectionTypeList = data;
+    }
+    inspectionType() {
+
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_INSPECTION_TYPE).subscribe((data) => {
+            this.inspectionTypeList = data;
         }
-               );
+        );
 
-       }
+    }
 
 
-       public priority=['Low','Medium','High'];
+    public priority = ['Low', 'Medium', 'High'];
 
-    NewObservationCheckList () {
+    NewObservationCheckList() {
         this.addObservationCheckListItem = true;
     }
 

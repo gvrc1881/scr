@@ -1,13 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { FootPatrollingInspectionService } from 'src/app/services/foot-patrolling-inspection.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { FootPatrollingInspectionModel } from 'src/app/models/foot-patrolling-inspection.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { MatDatepickerInputEvent } from '@angular/material';
-import { ReportService  } from "src/app/services/report.service";
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
@@ -36,10 +33,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
 
 
     constructor(
-       // private footPatrollingInspectionService: FootPatrollingInspectionService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        private reportService: ReportService,
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
     ){
@@ -182,9 +177,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
     depotTypeForOhe()
         {  
-               this.reportService. depotTypeForOhe().subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE).subscribe((data) => {
                  this.facilityData = data;
-                // console.log('facilityData '+JSON.stringify(data))
         }
                );
 

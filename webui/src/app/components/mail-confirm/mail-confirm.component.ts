@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AuthenticationService } from '../../services/authentication.service';
 import {AlertService } from '../../services/alert.service';
@@ -90,9 +89,7 @@ export class MailConfirmComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,    
-    private authService: AuthService, 
     private router: Router, 
-    private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
     private authenticationService: AuthenticationService,
     private alertService: AlertService,
@@ -146,13 +143,6 @@ export class MailConfirmComponent implements OnInit {
     });
     // user links form validations
     this.accountDetailsForm = this.fb.group({
-      /* username: new FormControl('', Validators.compose([
-       UsernameValidator.validUsername,
-       Validators.maxLength(25),
-       Validators.minLength(5),
-       Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-       Validators.required
-      ])), */
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -160,7 +150,6 @@ export class MailConfirmComponent implements OnInit {
        password: new FormControl('', Validators.compose([
           Validators.minLength(5),
           Validators.required
-         // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
         ])),
       terms: new FormControl(false, Validators.pattern('true'))
     })
@@ -168,8 +157,6 @@ export class MailConfirmComponent implements OnInit {
   }
 
   onSubmitAccountDetails(value){
-    console.log(value);
-    //this.router.navigate(['/dashboard']);
     this.spinnerService.show();
        let  email:string =this.accountDetailsForm.value.email;
        let password:string=this.accountDetailsForm.value.password;

@@ -9,10 +9,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AuthenticationService } from './services/authentication.service';
 import { AlertService } from './services/alert.service';
 import { AuthGuard } from './core/guards';
-import { DashboardService } from './components/dashboard/dashboard.service';
 import { CommonService } from './common/common.service';
-import { PreviousRouteService } from './services/previousRoute.service';
-import { ReportService } from './services/report.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.modules';
@@ -104,11 +101,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     AlertService,
     AuthGuard,
     MaterialModule,
-    DashboardService,
     CommonService,
     ReactiveFormsModule,
-    PreviousRouteService,
-    ReportService,
     DatePipe,
     SendAndRequestService
   ],

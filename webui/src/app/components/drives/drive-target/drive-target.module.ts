@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveTargetComponent } from './add-drive-target/add-drive-target.component';
-import { DrivesService } from 'src/app/services/drives.service';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 
 
@@ -42,7 +41,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [
-        DrivesService
+        
     ],
     exports:[
         DriveTargetComponent

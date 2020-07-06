@@ -1,6 +1,5 @@
 import { NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TPCBoardDepotAssocComponent } from './tpc-board-depot-assoc.component';
-import { TPCBoardDepotAssocService } from 'src/app/services/tpc-board-depot-assoc.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -26,7 +25,7 @@ const routes: Routes = [
         
     ],
     providers: [
-        TPCBoardDepotAssocService
+        
     ],
     exports: [
         TPCBoardDepotAssocComponent

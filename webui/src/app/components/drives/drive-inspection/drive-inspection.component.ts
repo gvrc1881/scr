@@ -3,7 +3,6 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } fr
 import { InspectionstModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesInformationDialogComponent } from '../../file-information-dialog/file-information-dialog.component';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
@@ -38,7 +37,6 @@ export class DriveInspectionComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private sendandRequestService:SendAndRequestService,
-    //private drivesService: DrivesService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,

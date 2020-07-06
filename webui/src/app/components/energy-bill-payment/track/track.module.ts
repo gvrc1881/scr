@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { TrackService } from 'src/app/services/track.service';
 import { TrackComponent } from './track.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MatMenuModule, MatGridListModule } from '@angular/material';
@@ -30,7 +29,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [
-        TrackService
+        
     ],
     exports:[
         TrackComponent

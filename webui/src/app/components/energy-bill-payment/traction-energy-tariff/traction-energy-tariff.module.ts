@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { TractionEnergyTariffService } from 'src/app/services/traction-energy-tariff.service';
 import { TractionEnergyTariffComponent } from './traction-energy-tariff.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MatMenuModule, MatGridListModule } from '@angular/material';
@@ -33,7 +32,7 @@ const routes: Routes = [
         DecimalValidationsModule,
     ],
     providers: [
-        TractionEnergyTariffService
+        
     ],
     exports:[
         TractionEnergyTariffComponent

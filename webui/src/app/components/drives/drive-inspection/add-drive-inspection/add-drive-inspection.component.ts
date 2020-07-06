@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,7 +32,6 @@ export class AddDriveInspectionComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
-   // private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
@@ -55,7 +53,6 @@ export class AddDriveInspectionComponent implements OnInit {
       attachment: {},
       station: {},
       phase: {},
-      //stipulationsId: {}
     };
   }
 
@@ -123,20 +120,7 @@ export class AddDriveInspectionComponent implements OnInit {
   findAttachedFiles(commonId){
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + commonId)
     .subscribe((resp) => {
-      console.log("files : "+JSON.stringify(resp));  
       this.attachedImages = resp;
-     // this.attachedImages.filter(ime =>{
-      //  var f = new File([""], ime.originalFileName);
-      //  f.size = ime.fileSize;
-       /*  this.addDriveInspectionFormGroup.patchValue({
-          attachment: ime.originalFileName
-        }); */
-      //  this.filesExists = true;
-        
-       // this.selectedFiles.push(f);
-      //});
-      //var f = new File([""], "filename");    
-      //this.selectedFiles.push(
     })
   }
 
@@ -210,11 +194,8 @@ export class AddDriveInspectionComponent implements OnInit {
       formdata.append('authorisationDate', save.authorisationDate);
       formdata.append('chargingDate', save.chargingDate);
       formdata.append('station', save.station);
-      //formdata.append('stipulationsId', save.stipulationsId);
       formdata.append('createdBy', save.createdBy);
       formdata.append('createdOn', save.createdOn.toLocaleDateString());
-      //formdata.append('updatedBy', save.updatedBy);
-      //formdata.append('updatedOn', save.updatedOn);
       this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.SAVE,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -263,9 +244,6 @@ export class AddDriveInspectionComponent implements OnInit {
       formdata.append('authorisationDate', update.authorisationDate);
       formdata.append('chargingDate', update.chargingDate);
       formdata.append('station', update.station);
-     // formdata.append('stipulationsId', update.stipulationsId);
-      //formdata.append('createdBy', update.createdBy);
-      //formdata.append('createdOn', update.createdOn);
       formdata.append('updatedBy', update.updatedBy);
       formdata.append('updatedOn', update.updatedOn.toLocaleDateString());
       formdata.append('attachment', update.attachment);
@@ -305,8 +283,6 @@ export class AddDriveInspectionComponent implements OnInit {
   this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
   this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('result : '+result)
-        //  this.spinnerService.show();
         var data ={
           "id":commonFileid,
           "fileName":rowid,
@@ -314,13 +290,10 @@ export class AddDriveInspectionComponent implements OnInit {
       }
           var id = localStorage.getItem('driveFileTypeId');
           this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
-             // this.spinnerService.hide();
               this.commonService.showAlertMessage("Deleted File Successfully");
-             // this.updateData(id);
              this.findAttachedFiles(commonFileid);
           }, error => {
               console.log('ERROR >>>');
-              //this.spinnerService.hide();
               this.commonService.showAlertMessage("File Deletion Failed.");
           })
            this.confirmDialogRef = null;

@@ -1,14 +1,14 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup} from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
-import { UsersService } from '../../../../services/users.service';
 import { UsersModel } from '../../../../models/users.model';
 import { Subscription } from 'rxjs';
-import { UsersComponent } from '../users.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FuseConfirmDialogComponent } from '../../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from 'src/app/common/common.service';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 
 
@@ -29,7 +29,6 @@ export class UserMenuComponent implements OnInit {
     status:boolean ;
     data: any ;
     rolePermission:boolean=true;
-  // users : UsersComponent;
     loggedDelete:boolean=true;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     ID: number = 0;
@@ -43,13 +42,12 @@ export class UserMenuComponent implements OnInit {
     @ViewChild(MatSort, {static:true}) sort: MatSort;
     @ViewChild('filter', {static:true}) filter: ElementRef;
     constructor(
-        private _userMenuService: UsersService, 
-        private actRoute: ActivatedRoute,
         public dialog: MatDialog,
         private _router: Router,
         private router:ActivatedRoute,
         private spinnerService: Ng4LoadingSpinnerService,
-        private commonService:CommonService
+        private commonService:CommonService,
+        private sendAndRequestService :SendAndRequestService
     ) { }
 
     ngOnInit() {                
@@ -62,7 +60,7 @@ export class UserMenuComponent implements OnInit {
         this.getAllUsersData();
     }
     processEditAction(id: number) {          
-        this._userMenuService.getUsersListById(id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID + id)
         this._router.navigate([id],{relativeTo: this.router});
     }
        
@@ -81,7 +79,7 @@ export class UserMenuComponent implements OnInit {
             if ( result )
             {
                 this.spinnerService.show();
-            this._userMenuService.deleteUserList(id)
+            this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.DELETE_USERS + id)
             .subscribe((data) => {
                 if(data){
                     this.status = false;
@@ -99,9 +97,8 @@ export class UserMenuComponent implements OnInit {
     getAllUsersData(){
         
        const users: UsersModel[] = [];
-        this._userMenuService.getUsersList().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS).subscribe((data) => {
             this.data = data;                    
-           // console.log(JSON.stringify(data))
             for (let i = 0; i < this.data.length; i++) {
                 if(!this.rolePermission){                                      
                      if(this.data[i].id == this.userdata.id){
@@ -134,7 +131,4 @@ export class UserMenuComponent implements OnInit {
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.dataSource.filter = filterValue;
     }
-    // ngOnDestroy() {
-    //     this.paramSubscription.unsubscribe();
-    // }
     }

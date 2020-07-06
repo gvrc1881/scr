@@ -106,11 +106,6 @@ const routes: Routes = [
     path: 'foot-patrolling-inspection',
     loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'menuMaster',
-    loadChildren: './components/masters/menu/main-menu.module#MainMenuModule',
-    canActivate: [AuthGuard]
   }, {
     path: 'masters',
     loadChildren: './components/masters/role-type/role-type.module#RoleTypeModule',

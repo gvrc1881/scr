@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
-import { getMatFormFieldDuplicatedHintError } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive',
@@ -36,7 +34,6 @@ export class AddDriveComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    //private drivesService: DrivesService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
@@ -64,10 +61,8 @@ export class AddDriveComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.findFunctionalUnits();
     this.findDepoTypeList();
-    this.findStatusItemDetails();
     this.createDriveForm();
     if (!isNaN(this.id)) {
-      //this.updateDriveForm();
       this.addDriveFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -186,13 +181,7 @@ export class AddDriveComponent implements OnInit {
         this.assetTypeList = assetTypes;
       })
   }
-  findStatusItemDetails() {
-    /* this.drivesService.findStatusItemDetails()
-      .subscribe((assetTypes) => {
-       console.log('assetTypes = '+JSON.stringify(assetTypes))
-        
-      }) */
-  }
+
   findFunctionalUnits() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {

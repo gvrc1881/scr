@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { DashboardService } from 'src/app/services/dashboard.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 declare function loadData(id:number, name:string, image:any);
@@ -42,7 +41,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
-   // private dashboardService: DashboardService,
    private sendAndRequestService:SendAndRequestService
   ) {
 
@@ -53,10 +51,8 @@ export class DashboardComponent implements OnInit {
     
     this.spinnerService.show();
     this.findDashboardData();
-    //location.reload();
     
     this.MenusList = [
-     // { ID: 6, menuName: 'Energy Bill Payments', menuUrl: 'home', icon: "fa fa-area-chart", color: "#64aeed", isSelected: true },
       { ID: 2, menuName: 'Reports', menuUrl: 'home', icon: "fa fa-area-chart", color: "#64aeed", isSelected: true },
       { ID: 3, menuName: 'Schedule Settings', menuUrl: 'settings', icon: "fa fa-cogs", color: "#efb44e", isSelected: false },
       { ID: 4, menuName: 'Schedule Tracking', menuUrl: 'schedule', icon: "fa fa-briefcase", color: "#ff5f4f", isSelected: false },
@@ -68,20 +64,14 @@ export class DashboardComponent implements OnInit {
 
 
   findLastProcessedDivisionDataSource() {
-   //console.log('data:::'+JSON.stringify(this.dashboardResponse));
     var divisionNameArray = this.dashboardResponse.lastOneWeekDetails
     .map(item => this.loggedUserData.divisionCode === 'All' ? item.divisionName : item.divisionCode)
     .filter((value, index, self) => self.indexOf(value) === index);
-
-
-    //console.log('divisionNameArray: '+JSON.stringify(divisionNameArray));
-    //console.log(JSON.stringify(this.loggedUserData.divisionCode))
     var datapoints= [];
     for(var k=0;k<divisionNameArray.length;k++){
       var sum = 0;
       this.dashboardResponse.lastProcessedDetails.filter((data) => {
         if(this.loggedUserData.divisionCode === 'All'){
-         // console.log(data)
           if(data.divisionName === divisionNameArray[k]){
               sum += data.successTables + data.failedTables;
             }
@@ -90,14 +80,12 @@ export class DashboardComponent implements OnInit {
             sum += data.successTables + data.failedTables;
           }
         }
-      //console.log("sum value::"+sum);
     });
     datapoints.push({
       label:divisionNameArray[k],
       value:sum
     })
   }
-  //console.log(JSON.stringify(datapoints));
     return {
       chart: {
         caption: 'Division Wise [' + this.dashboardResponse.lastProcessedDetails[this.dashboardResponse.lastProcessedDetails.length-1].date + ']',
@@ -106,9 +94,7 @@ export class DashboardComponent implements OnInit {
         numberSuffix: 'K',
         theme: 'fusion'
       },
-      data: datapoints/* [
-        { label: this.dashboardResponse.lastProcessedDetails[0].divisionName, value: sum }
-      ] */
+      data: datapoints
     };
   }
 
@@ -121,7 +107,6 @@ export class DashboardComponent implements OnInit {
       var divisionNameArray = this.dashboardResponse.lastOneWeekDetails
       .map(item => this.loggedUserData.divisionCode === 'All' ? item.divisionName : item.divisionCode)
       .filter((value, index, self) => self.indexOf(value) === index);
-  //console.log('divisionNameArray= '+JSON.stringify(divisionNameArray))
     var job1 = 0;
     var job2 = 0;
     this.dashboardResponse.lastProcessedDetails.filter((data) => {
@@ -139,7 +124,6 @@ export class DashboardComponent implements OnInit {
         label:divisionNameArray[i]     
       })
     };
-    //console.log('category: '+JSON.stringify(category))
     return {
       chart: {
         caption: 'Divisions Wise ',
@@ -293,16 +277,13 @@ export class DashboardComponent implements OnInit {
     var divisionNameArray = this.dashboardResponse.lastOneWeekDetails
     .map(item => item.divisionName)
     .filter((value, index, self) => self.indexOf(value) === index);
-    console.log('divisionNameArray: '+JSON.stringify(divisionNameArray));
     
     var datesArray = this.dashboardResponse.lastOneWeekDetails
       .map(item => item.date)
       .filter((value, index, self) => 
-        //console.log('value: '+JSON.stringify(self));
         self.indexOf(value) === index);
       datesArray.sort();      
       datesArray.reverse();    
-      console.log(datesArray)  
       var len = !!datesArray && datesArray.length <= 7 ? datesArray.length : 7
     var dates = [];
     for (var i = 0; i < len; i++) {
@@ -327,10 +308,8 @@ export class DashboardComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_DASHBOARD+ this.loggedUserData.divisionCode).subscribe(response => {
       this.dashboardResponse = response;      
       if(response){
-       console.log(JSON.stringify(response));
         this.startGraphs();
       }
-     // this.spinnerService.hide();
     }, error => {
       console.log("ERROR >>> " + error)
     });

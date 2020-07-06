@@ -3,7 +3,6 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import{SidingsModel} from 'src/app/models/sidings.model';
-import{SidingsService} from   "src/app/services/sidings.service";
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
@@ -45,7 +44,6 @@ export class SidingsComponent implements OnInit {
         
         private commonService: CommonService,
         private formBuilder: FormBuilder,
-        //private sidingsService:SidingsService,
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
 
@@ -104,7 +102,6 @@ export class SidingsComponent implements OnInit {
         this.toMinDate = new Date(event.value);
     }
      getAllSidingsData() {
-        console.log("get all sidings items");
         const sidingsDetails : SidingsModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS).subscribe((data) => {
             this.sidingsItemList = data;
@@ -121,7 +118,6 @@ export class SidingsComponent implements OnInit {
     }
 
      sidingsItemSubmit () {
-         console.log("slidingsItemSubmit");
         let station: string = this.sidingsItemFormGroup.value.station;
         let sidingCode: string = this.sidingsItemFormGroup.value.sidingCode;
         let section: string = this.sidingsItemFormGroup.value.section;
@@ -267,7 +263,6 @@ export class SidingsComponent implements OnInit {
         this.addSidingsItem = true;
     }
     statusChange() {
-        console.log("sidingEletrifiedStatus"+this.sidingsItemFormGroup.value.sidingEletrifiedStatus )
         if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'yes') {     
             this.onlyYes = false;
         } else {

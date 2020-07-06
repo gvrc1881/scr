@@ -1,15 +1,10 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
-import { UsersService } from '../../../services/users.service';
-import { UsersModel } from '../../../models/users.model';
-import { Subscription } from 'rxjs';
 import { RepositoryPayload } from '../../../payloads/repository.payload';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { RepositoryModel } from 'src/app/models/repository.model';
-import { RepositoryService } from 'src/app/services/repository.service';
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -46,7 +41,6 @@ export class RepositoryComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
-    //private repositoryService: RepositoryService,
     private sendAndRequestService: SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -67,7 +61,6 @@ export class RepositoryComponent implements OnInit {
   ngOnInit() {
     this.rolePermission = this.commonService.rolePermission();
     var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","REPOSITORY") ;
-  		console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -136,7 +129,6 @@ export class RepositoryComponent implements OnInit {
   }
   duplicateDivisionCode() {
     const q = new Promise((resolve, reject) => {      
-      //console.log("title: "+this.title);
       if(this.title == Constants.EVENTS.UPDATE){
         resolve(null);
       }else{
@@ -166,7 +158,6 @@ export class RepositoryComponent implements OnInit {
     if (!this.repositoryFormGroup.valid) {
       return;
     }
-   // console.log('title: ' + this.title);
     if (this.title == Constants.EVENTS.ADD || this.title == Constants.EVENTS.SAVE) {
       RepositoryPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
       RepositoryPayload.ADD_PAYLOAD.modifiedBy = this.loggedUserData.id;
@@ -177,11 +168,9 @@ export class RepositoryComponent implements OnInit {
       RepositoryPayload.ADD_PAYLOAD.repositoryDbName = dbName;
       RepositoryPayload.ADD_PAYLOAD.repositoryUser = userName;
       RepositoryPayload.ADD_PAYLOAD.repositoryPassword = password;
-      //console.log('Add Payload =' + JSON.stringify(RepositoryPayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addRepository = false;
       this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.SAVE,RepositoryPayload.ADD_PAYLOAD, false).subscribe((response) => {
-        //console.log('Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.repositoryResponse = response;
         if (!!this.repositoryResponse && this.repositoryResponse.code == 200) {
@@ -204,7 +193,6 @@ export class RepositoryComponent implements OnInit {
     else if (this.title == Constants.EVENTS.UPDATE) {
       this.spinnerService.show();
       this.saveRepository = false;
-      //console.log("repositoryResponse: " + JSON.stringify(this.repositoryResponse));
       let repositoryId: number = this.repositoryResponse.repositoryId;
       RepositoryPayload.UPDATE_PAYLOAD.repositoryId = repositoryId;
       RepositoryPayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
@@ -215,9 +203,7 @@ export class RepositoryComponent implements OnInit {
       RepositoryPayload.UPDATE_PAYLOAD.repositoryDbName = dbName;
       RepositoryPayload.UPDATE_PAYLOAD.repositoryUser = userName;
       RepositoryPayload.UPDATE_PAYLOAD.repositoryPassword = password;
-      //console.log("Update Payload =" + JSON.stringify(RepositoryPayload.UPDATE_PAYLOAD))
       this.sendAndRequestService.requestForPUT(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.UPDATE,RepositoryPayload.UPDATE_PAYLOAD, false).subscribe((response) => {
-        //console.log('Update Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.repositoryResponse = response;
         if (!!this.repositoryResponse && this.repositoryResponse.code == 200) {
@@ -311,7 +297,6 @@ export class RepositoryComponent implements OnInit {
       this.cloneUpdateRepository = false;      
       this.saveRepository = false;      
       this.repositoryResponse = response;
-      //console.log("resp: " + JSON.stringify(response));
       this.repositoryFormGroup.patchValue({
         divisionCode: this.repositoryResponse.repositoryCode,
         divisionName: this.repositoryResponse.repositoryName,

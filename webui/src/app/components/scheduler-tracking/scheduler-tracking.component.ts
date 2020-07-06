@@ -1,9 +1,7 @@
 import { Component, ViewChild, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { FuseConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from 'src/app/common/common.service';
-import { SchedulerTrackingService } from '../../services/scheduler-tracking.service';
 import { SchedulerTrackingModel } from 'src/app/models/scheduler-tracking.model';
 import { RemarkDialogComponent } from '../remark-dialog/remark-dialog.component';
 import { Router } from '@angular/router';
@@ -39,7 +37,6 @@ export class SchedulerTrackingComponent implements OnInit {
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-   // private schedulerTrackingService: SchedulerTrackingService,
    private sendAndRequestService: SendAndRequestService,
     private router: Router,
   ) {

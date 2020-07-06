@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import {RoleTypeComponent } from './role-type.component';
-import { RoleTypeService } from '../../../services/roletype.service';
 
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { MatFormFieldModule, MatInputModule, MatCheckboxModule } from '@angular/material';
@@ -37,7 +36,7 @@ const routes: Routes = [
        
     ],
     providers: [
-        RoleTypeService
+        
     ],
     exports     : [
         RoleTypeComponent

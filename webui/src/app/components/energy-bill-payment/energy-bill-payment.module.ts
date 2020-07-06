@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import { EnergyBillPaymentService } from 'src/app/services/energy-bill-payment.service';
 import { EnergyBillPaymentComponent } from './energy-bill-payment.component';
 import { Routes, RouterModule } from '@angular/router';
-import { MatMenuModule, MatGridListModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
@@ -28,7 +26,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [
-        EnergyBillPaymentService
+        
     ],
     exports:[
         EnergyBillPaymentComponent

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DrivesService } from 'src/app/services/drives.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,10 +29,8 @@ export class AddDriveTargetComponent implements OnInit {
   functionalUnitList: any;
   allFunctionalUnitsList: any;
   driveTargetList:any;
-  //stateList: any;
   constructor(
     private formBuilder: FormBuilder,    
-    //private drivesService: DrivesService,
     private sendAndRequestService: SendAndRequestService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,

@@ -1,13 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { TPCBoardDepotAssocService } from 'src/app/services/tpc-board-depot-assoc.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
-import { ReportService } from 'src/app/services/report.service';
 import { TPCBoardDepotAssocModel } from 'src/app/models/tpc-board-depot-assoc.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { FacilityModel } from 'src/app/models/facility.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
@@ -24,7 +21,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     title: string = "Save";
     tpcBoardDepotAssocFormGroup: FormGroup;
     tpcBoardDepotAssocList : any;
-    facilityData:FacilityModel;
+    facilityData:any;
     tpcBoardDepotAssocDataSource: MatTableDataSource<TPCBoardDepotAssocModel>;
     tpcBoardDepotAssocDisplayColumns = ['sno' , 'tpcBoard' ,'unitType','unitName','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -36,8 +33,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     tpcBoardData:any;
 
     constructor(
-        //private tpcBoardDepotAssocService: TPCBoardDepotAssocService,
-        private reportService:ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -50,7 +45,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllTPCBoardDepotAssocData();
         this.tpcBoardDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
@@ -65,7 +59,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
             'description':[null, Validators.maxLength(250)],
             
         });
-        this.reportService.functionalLocationTypes().subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
             this.funLocTypeData = data;
          });
 }
@@ -77,7 +71,6 @@ duplicateTpcBoard() {
       ).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicate': true });
-          console.log('tpcBoardDepotAssocFormGroup'+duplicate);
         } else {
           resolve(null);
         }
@@ -186,14 +179,14 @@ duplicateTpcBoard() {
     }
     getFacilitys(){
     	var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-    	this.reportService.getFacilitysBasedOnDepotType(unitType).subscribe((data) => {
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSETTYPE_BASED_ON_ASSETID_FACILITYID + unitType).subscribe((data) => {
                  this.facilityData = data;
         		});
     }
     tpcBoardDetails()
     {
             
-           this.reportService. tpcBoardDetails().subscribe((data) => {
+           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_DETAILS).subscribe((data) => {
              this.tpcBoardData = data;
     }
            );

@@ -1,9 +1,5 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ContentManagementService } from 'src/app/services/content-management.service';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentManagementModel } from 'src/app/models/content-management.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -37,7 +33,6 @@ export class ContentManagementComponent implements OnInit {
     GenOpsArray = [{ ID: 1, VALUE: 'Circulars' }, { ID: 2, VALUE: 'Drawing' }, { ID: 3, VALUE: 'Tech Specs' }, { ID: 4, VALUE: 'Operational Manual' }, { ID: 5, VALUE: 'User manuals' }];
 
     displayedColumns = ['sno', 'originalFileName','size', 'genOps', 'description', 'actions'];
-    // dataSource = new ExampleDataSource(initialData);
     dataSource: MatTableDataSource<ContentManagementModel>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -45,38 +40,23 @@ export class ContentManagementComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private formBuilder: FormBuilder,
-     //   private service: ContentManagementService,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
         private sendAndGetService:SendAndRequestService
     ) {
-        console.log('in constructor');
     }
     ngOnInit() {
-        // console.log(JSON.stringify(this.userdata))
         this.init();
     }
     init(){
         this.createCMForm();
         
                 var permissionName = this.commonService.getPermissionNameByLoggedData("CONTENT MANAGEMENT","CONTENT MANAGEMENT") ;
-                  console.log("permissionName = "+permissionName);
                   this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
                 this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
                 this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         
                 this.contentManagementFormGroup.get('GenOps').valueChanges.subscribe(item => {
-                   /*  let ops = this.GenOpsArray.filter(function (value) {
-                        return item == value.ID;
-                    });
-                    if (item == 2) {
-                        this.onlyDrawing = true;
-                    } else {
-                        this.onlyDrawing = false;
-                    }
-                    console.log(this.selectedGenOps) */
-                  //  this.selectedGenOps = ops[0].VALUE;
-                    //this.getUploadedFiles();
                 })
     }
     createCMForm() {
@@ -95,7 +75,6 @@ export class ContentManagementComponent implements OnInit {
         this.spinnerService.show();
         const uploadedFiles: ContentManagementModel[] = [];
         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_UPLOAD_FILES+this.userdata.id+'/'+this.selected.replace(' ','-')).subscribe(data => {
-           // console.log(JSON.stringify(data))
             this.spinnerService.hide();
 
             this.uploadedFilesList = data;
@@ -130,7 +109,6 @@ export class ContentManagementComponent implements OnInit {
         this.selectedFiles.splice(id, 1);
     }
     onContentManagementSubmit() {
-        console.log(this.contentManagementFormGroup.value.GenOps);
         if (this.onlyDrawing) {
             this.isSubmit = true;
             if (this.contentManagementFormGroup.invalid) {
@@ -184,17 +162,11 @@ export class ContentManagementComponent implements OnInit {
             formdata.append('make', saveDetails.make);
             formdata.append('model', saveDetails.model);
             formdata.append('docCategory', saveDetails.docCategory);        
-           // this.service.uploadAttachedFiles(this.selectedFiles, saveDetails).subscribe(data => {
-                //console.log(JSON.stringify(data));
             this.sendAndGetService.requestForPOST(Constants.app_urls.DOCS.UPLOAD_ATTACHED_FILE, formdata, true).subscribe(data => {
                 this.spinnerService.hide();
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
-               // window.location.href = window.location.href;
-               // window.location.reload();
-               //this.init();
-               
                 this.getUploadedFiles();
                 this.contentManagementFormGroup.reset();
             }, error => {
@@ -224,7 +196,6 @@ export class ContentManagementComponent implements OnInit {
         let selectedRow = this.dataSource.filteredData.filter(data => {
             return id == data.id;
         });
-        console.log(selectedRow);
         this.contentManagementDialogRef = this.dialog.open(ContentManagementDialogComponent, {
             disableClose: false,
             //height: '200px',
@@ -232,7 +203,6 @@ export class ContentManagementComponent implements OnInit {
             data: selectedRow
         });
         this.contentManagementDialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
             this.getUploadedFiles();
         });
     }
@@ -240,7 +210,6 @@ export class ContentManagementComponent implements OnInit {
 
     genOpsChange() {
         if(this.selectedGenOps){
-       // console.log('venkat;' + this.selectedGenOps);
         let id = this.selectedGenOps;
         let ops = this.GenOpsArray.find(function (value) {
             return id == value.ID;
@@ -250,9 +219,7 @@ export class ContentManagementComponent implements OnInit {
         } else {
             this.onlyDrawing = false;
         }
-     //  console.log(ops)
         this.selected = ops.VALUE;
-       // console.log(this.selected)
         this.getUploadedFiles();
         }
     }

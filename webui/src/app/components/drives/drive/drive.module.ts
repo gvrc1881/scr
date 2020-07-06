@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveComponent } from './add-drive/add-drive.component';
-import { DrivesService } from 'src/app/services/drives.service';
 import { AddDriveCategoryComponent } from './add-drive-category/add-drive-category.component';
 import { AddDriveCategoryAssociationComponent } from './add-drive-category-association/add-drive-category-association.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
@@ -63,7 +62,7 @@ const routes: Routes = [
         OwlNativeDateTimeModule,
     ],
     providers: [
-        DrivesService
+        
     ],
     exports: [
         DrivesComponent,

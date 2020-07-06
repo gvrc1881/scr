@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { FusionChartsModule } from 'angular-fusioncharts';
-import { DashboardService } from 'src/app/services/dashboard.service';
 
 const routes: Routes = [
     {
@@ -30,7 +29,6 @@ const routes: Routes = [
     ],
     providers   : [
         Ng4LoadingSpinnerService,
-        DashboardService
     ],
     exports     : [
         DashboardComponent

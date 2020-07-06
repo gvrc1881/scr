@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SchedulerTrackingService } from 'src/app/services/scheduler-tracking.service';
 import { CommonService } from 'src/app/common/common.service';
+import { Constants } from 'src/app/common/constants';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
     selector: 'app-remark-dialog',
@@ -19,7 +20,7 @@ export class RemarkDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<RemarkDialogComponent>,
-        private schedulerTrackingService: SchedulerTrackingService,
+        private sendAndRequestService: SendAndRequestService,
         private commonService: CommonService,
     ) {
         if (data) {
@@ -57,16 +58,13 @@ export class RemarkDialogComponent implements OnInit {
     }
     onRemarkSubmit(){
         let remark: string = this.remarkFormGroup.value.remark;
-        console.log("remark: "+remark);   
         const remarkDetails ={
             "jobId":this.response.jobId,
             "runTypeId": this.response.runTypeId,
             "remark":remark,
             "runBy":this.loggedUserData.id
         }
-        this.schedulerTrackingService.reRunByIdByType(remarkDetails).subscribe((response) => {
-           console.log("response: "+JSON.stringify(response));
-
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.RERUN_WITH_REMARK, remarkDetails, false).subscribe((response) => {
           }, error => this.commonService.showAlertMessage(error));
         this.dialogRef.close(false);
     }

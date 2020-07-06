@@ -1,6 +1,5 @@
 import { NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GuidenceItemComponent } from './guidence-item.component';
-import { GuidenceItemService } from 'src/app/services/guidence-item.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -28,7 +27,7 @@ const routes: Routes = [
         
     ],
     providers: [
-        GuidenceItemService
+        
     ],
     exports: [
         GuidenceItemComponent

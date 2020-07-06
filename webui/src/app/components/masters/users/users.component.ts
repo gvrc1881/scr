@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
-import { UsersService } from '../../../services/users.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsersModel } from '../../../models/users.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from '../../../common/common.service';
-import { RepositoryService } from 'src/app/services/repository.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 
@@ -45,13 +43,11 @@ export class UsersComponent implements OnInit {
     @ViewChild(MatSort, { static: true }) sort: MatSort;
 
     constructor(private formBuilder: FormBuilder,
-        //private _userMenuService: UsersService,
         private _router: Router,
         public dialog: MatDialog,
         private route: ActivatedRoute,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private repositoryService: RepositoryService,
         private sendAndRequestService:SendAndRequestService
 
     ) {
@@ -150,7 +146,7 @@ this.resp = resp;
            
             this.departmentList = department;
         })
-        this.repositoryService.getAllRepositories().subscribe((repository) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.REPOSITORY.GET_REPOSITORIES).subscribe((repository) => {
           
             this.repositoryList = repository;
         })      

@@ -1,10 +1,8 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { Form } from '@angular/forms';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { ModelModel } from 'src/app/models/model.model';
-import { ModelService } from 'src/app/services/model.service';
 import { Constants } from 'src/app/common/constants';
 import { ModelPayload } from 'src/app/payloads/model.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
@@ -46,7 +44,6 @@ export class ModelComponent implements OnInit{
     constructor( 
         private formBuilder: FormBuilder,
         private commonService: CommonService,
-        //private modelService:ModelService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
@@ -62,12 +59,10 @@ export class ModelComponent implements OnInit{
     ngOnInit () {
 
         var permissionName = this.commonService.getPermissionNameByLoggedData("CONFIG","Model") ;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
-        console.log('in ngOnintit method:::');
         this.getAllModelData();
         this.modelFormGroup = this.formBuilder.group({
             id: 0,
@@ -87,7 +82,6 @@ export class ModelComponent implements OnInit{
 
         
          let modelCode: string=this.modelFormGroup.value.modelCode;
-        console.log("modelCode==="+modelCode) ;
         let description: string=this.modelFormGroup.value.description;
         let brandName: string=this.modelFormGroup.value.brandName;
         let modelType: string=this.modelFormGroup.value.modelType;
@@ -103,8 +97,6 @@ export class ModelComponent implements OnInit{
             ModelPayload.ADD_PAYLOAD.brandName =brandName;
             ModelPayload.ADD_PAYLOAD.modelType =modelType;
             ModelPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
-            console.log("ADD Payload =" + JSON.stringify(ModelPayload.ADD_PAYLOAD))
-           // this.modelService.save(ModelPayload.ADD_PAYLOAD)
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.modelResponse=data;
@@ -119,7 +111,6 @@ export class ModelComponent implements OnInit{
                 this.commonService.showAlertMessage("Model data Saving Failed.");
               }
             },error => {
-        console.log('ERROR >>>');
     this.spinnerService.hide();
     this.commonService.showAlertMessage("Model Data Saving Failed.");
     })
@@ -134,8 +125,6 @@ export class ModelComponent implements OnInit{
        ModelPayload.UPDATE_PAYLOAD.brandName =brandName;
        ModelPayload.UPDATE_PAYLOAD.modelType =modelType;
        ModelPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
-        console.log("Update Payload =" + JSON.stringify(ModelPayload.UPDATE_PAYLOAD))
-       // this.modelService.update(ModelPayload.UPDATE_PAYLOAD)
        this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.MODEL.UPDATE_MODEL,ModelPayload.UPDATE_PAYLOAD, false)
           .subscribe((data) => {
             this.modelResponse = data;
@@ -165,9 +154,7 @@ export class ModelComponent implements OnInit{
     }
 
     getAllModelData() {
-        console.log("get all  Model data");
         const model : ModelModel[] = [];
-        //this.modelService.getAllModel()
         this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL)
         .subscribe((data) => {
             this.modelList = data;
@@ -191,7 +178,6 @@ export class ModelComponent implements OnInit{
 
 
     NewModel () {
-        console.log('in ngOnintit method:::'+this.addModel);
         this.addModel = true;
     }
 

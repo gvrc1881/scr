@@ -5,7 +5,6 @@ import { ScheduleJobPayload } from '../../payloads/schedule-job.payload';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FuseConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { ScheduleJobModel } from 'src/app/models/schedule-job.model';
-import { ScheduleJobService } from 'src/app/services/schedule-job.service';
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -47,7 +46,6 @@ export class SchedulerSettingsComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    //private scheduleJobService: ScheduleJobService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -62,16 +60,7 @@ export class SchedulerSettingsComponent implements OnInit {
 
   ngOnInit() {
   	
-  /*	let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
-  	let pageRolePermissions = loggerUser.menuPermissionResponses;
-	   var p= pageRolePermissions.filter(element => {
-	   console.log(element)
-          return element.menuName.toLowerCase() == "SCHEDULE SETTINGS".toLowerCase() && element.subMenuName.toLowerCase() == "SCHEDULE".toLowerCase() ;//&& element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
-        });
-  	
-  	console.log(p);*/
   	var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","SCHEDULE") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  	console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -106,31 +95,20 @@ export class SchedulerSettingsComponent implements OnInit {
   
   duplicateTimeinterval() {
     const q = new Promise((resolve, reject) => {
-     /*  if(this.title == Constants.EVENTS.UPDATE){
-        resolve(null);
-      }else{ */
       let divisionName = this.scheduleJobFormGroup.controls['repository'].value;
       let timeinterval = this.scheduleJobFormGroup.controls['timeInterval'].value;
       let jobType = this.scheduleJobFormGroup.controls['jobType'].value;
-      //console.log('jobtype: '+jobType)
-      //console.log(JSON.stringify(this.scheduleJobData))
-      console.log('divisionName='+divisionName+" timeinterval= "+timeinterval+' jobtype= '+jobType)
-      console.log('-------------------------------------------------')
        var filteredArray = !!this.scheduleJobData && this.scheduleJobData.filter(function (division) {
-        //console.log(JSON.stringify(division.interval))
-        console.log('divisionName='+division.repository.repositoryId+" timeinterval= "+division.interval.timeIntervalId+' jobtype= '+division.jobType.jobTypeId)
         return division.repository.repositoryId == divisionName && 
                 division.jobType.jobTypeId == jobType && 
                 division.interval.timeIntervalId == timeinterval;
       });
-      console.log('filteredArray.length= '+filteredArray.length)
       if (filteredArray.length !== 0) {
         resolve({ 'duplicateTimeinterval': true });
       } else {
         resolve(null);
       }
-      //}
-    });
+      });
     
     return q;
   }
@@ -277,7 +255,6 @@ export class SchedulerSettingsComponent implements OnInit {
     const scheduleJobData: ScheduleJobModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.GET_SCHEDULER_JOBS).subscribe((data) => {
       this.scheduleJobData = data;
-      //console.log(JSON.stringify(data))
       for (let i = 0; i < this.scheduleJobData.length; i++) {
         if (!this.rolePermission) {
           if (this.scheduleJobData[i].repository.repositoryCode == this.loggedUserData.divisionCode) {

@@ -9,7 +9,6 @@ import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/c
 import { Constants } from 'src/app/common/constants';
 import { CommonService } from 'src/app/common/common.service';
 import { JobTypeModel } from 'src/app/models/job-type.model';
-import { JobTypeService } from 'src/app/services/job-type.service';
 import { JobTypePayload } from 'src/app/payloads/job-type.payload';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
@@ -33,7 +32,7 @@ export class JobTypeComponent implements OnInit {
   jobTypeErrors: any;
   jobTypeResponse: any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  jobTypeNames=[{ id: 1, jobTypeName: 'Staging To Zonal' }]; //{ id: 1, jobTypeName: 'Divisions To Staging' },
+  jobTypeNames=[{ id: 1, jobTypeName: 'Staging To Zonal' }]; 
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   title: string = "Add";
   jobTypeDisplayedColumns = ['sno', 'jobTypeName', 'id'];
@@ -43,7 +42,6 @@ export class JobTypeComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
-    //private jobTypeService: JobTypeService,
     private sendAndRequestService : SendAndRequestService,
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -58,7 +56,6 @@ export class JobTypeComponent implements OnInit {
   ngOnInit() {
     this.rolePermission = this.commonService.rolePermission();
     var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","JOB TYPE") ;
-  		console.log("permissionName = "+permissionName);
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -119,11 +116,9 @@ export class JobTypeComponent implements OnInit {
       JobTypePayload.ADD_PAYLOAD.createdBy = this.loggedUserData.id;
       JobTypePayload.ADD_PAYLOAD.modifiedBy = this.loggedUserData.id;
       JobTypePayload.ADD_PAYLOAD.jobTypeName = jobTypeName;
-     // console.log('Add Payload =' + JSON.stringify(JobTypePayload.ADD_PAYLOAD));
       this.spinnerService.show();
       this.addJobType = false;
       this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.SAVE_JOB_TYE,JobTypePayload.ADD_PAYLOAD, false).subscribe((response) => {
-       // console.log('Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.jobTypeResponse = response;
         if (!!this.jobTypeResponse && this.jobTypeResponse.code == 200) {
@@ -146,14 +141,11 @@ export class JobTypeComponent implements OnInit {
     else if (this.title == Constants.EVENTS.UPDATE) {
       this.spinnerService.show();
       this.saveJobType = false;
-     // console.log("jobTypeResponse: " + JSON.stringify(this.jobTypeResponse));
       let jobTypeId: number = this.jobTypeResponse.jobTypeId;
       JobTypePayload.UPDATE_PAYLOAD.jobTypeId = jobTypeId;
       JobTypePayload.UPDATE_PAYLOAD.modifiedBy = this.loggedUserData.id;
       JobTypePayload.UPDATE_PAYLOAD.jobTypeName = jobTypeName;
-      //console.log("Update Payload =" + JSON.stringify(JobTypePayload.UPDATE_PAYLOAD))
       this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_SETTINGS.JOB_TYPE.UPDATE_JOB_TYPE,JobTypePayload.UPDATE_PAYLOAD, false).subscribe((response) => {
-       // console.log('Update Response: ' + JSON.stringify(response));
         this.spinnerService.hide();
         this.jobTypeResponse = response;
         if (!!this.jobTypeResponse && this.jobTypeResponse.code == 200) {
@@ -168,7 +160,7 @@ export class JobTypeComponent implements OnInit {
       },
         error => error => {
           this.jobTypeErrors = error
-         // console.log(' >>> ERROR ' + error);
+          console.log(' >>> ERROR ' + error);
           this.commonService.showAlertMessage("JobType Updating Failed");
           this.spinnerService.hide();
         })
@@ -239,7 +231,6 @@ export class JobTypeComponent implements OnInit {
       this.cloneUpdateJobType = false;
       this.saveJobType = false;  
       this.jobTypeResponse = response;
-      //console.log("resp: " + JSON.stringify(response));
       this.jobTypeFormGroup.patchValue({
         jobTypeName: this.jobTypeResponse.jobTypeName
       });

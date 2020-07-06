@@ -1,6 +1,4 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { StationsSectionsService } from 'src/app/services/stations-sections.service';
-import { ReportService  } from "src/app/services/report.service";
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
@@ -33,8 +31,6 @@ export class StationsSectionsComponent implements OnInit{
 
 
     constructor(
-        //private stationsSectionsService: StationsSectionsService,
-        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -121,7 +117,6 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     stationsSectionsSubmit () {
-        console.log("stationsSectionsSubmit");
         let stationCode: string = this.stationsSectionsFormGroup.value.stationCode;
         let stationName: string = this.stationsSectionsFormGroup.value.stationName;
         let majorSectionRoute: string = this.stationsSectionsFormGroup.value.majorSectionRoute;
@@ -212,7 +207,7 @@ export class StationsSectionsComponent implements OnInit{
     divisionDetails()
     {
           
-           this.reportService. divisionDetails().subscribe((data) => {
+           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_DETAILS).subscribe((data) => {
              this.divisionsList = data;
     }
            );

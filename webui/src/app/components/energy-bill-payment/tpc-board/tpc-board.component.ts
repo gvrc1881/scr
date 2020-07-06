@@ -1,12 +1,10 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { TPCBoardService } from 'src/app/services/tpc-board.service';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { TPCBoardModel } from 'src/app/models/tpc-board.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { ReportService  } from "src/app/services/report.service";
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
@@ -34,8 +32,6 @@ export class TPCBoardComponent implements OnInit{
 
 
     constructor(
-        //private tpcBoardService: TPCBoardService,
-        private reportService: ReportService,
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -45,11 +41,9 @@ export class TPCBoardComponent implements OnInit{
     }
 
     ngOnInit () {
-        console.log('in ngOnintit method:::');
         this.getAllTPCBoardData();
         this.divisionDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC BOARD") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		console.log("permissionName = "+permissionName);
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -76,7 +70,6 @@ export class TPCBoardComponent implements OnInit{
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
               resolve({ 'duplicate': true });
-              console.log('tpcBoardFormGroup'+duplicate);
 	        } else {
 	          resolve(null);
 	        }
@@ -175,7 +168,7 @@ export class TPCBoardComponent implements OnInit{
     divisionDetails()
     {
           
-           this.reportService. divisionDetails().subscribe((data) => {
+           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_DETAILS).subscribe((data) => {
              this.divisionsList = data;
     }
            );

@@ -2,12 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
 
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { CommonService } from '../../../common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-import { DepartmentService } from 'src/app/services/department.service';
 import { DepartmentModel } from 'src/app/models/department.model';
 import { Constants } from 'src/app/common/constants';
 import { DepartmentPayload } from 'src/app/payloads/department.payload';
@@ -48,7 +46,6 @@ export class DepartmentComponent implements OnInit {
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
-    //private departmentService: DepartmentService,
     private sendAndRequestService:SendAndRequestService
   ) {
 
