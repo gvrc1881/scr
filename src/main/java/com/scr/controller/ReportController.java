@@ -76,10 +76,16 @@ public class ReportController {
 	}
 	@RequestMapping(value = "/allAssetTypeReports/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<ProductCategoryMember>> findAllAssetTypes(@PathVariable("assetType") String assetType){
-		List<ProductCategoryMember> allAssetTypes= reportService.findAllAssetTypes(assetType);
-		log.info("allAssetTypes"+allAssetTypes);
-			return new ResponseEntity<List<ProductCategoryMember>>(allAssetTypes, HttpStatus.OK);		
-	}
+		log.info("assetType"+assetType);
+		List<ProductCategoryMember> assetTypes = null;
+		
+		String productCategoryId = null;
+		if("OHE_FIXED_ASSET".equals(assetType) || "PSI_FIXED_ASSET".equals(assetType) || "FP".equals(assetType)) 
+			assetTypes = reportService.findAllAssetTypes(assetType); 
+		else 
+			assetTypes= reportService.findByProductId(productCategoryId);
+		return new ResponseEntity<List<ProductCategoryMember>>(assetTypes, HttpStatus.OK);
+}
 	
 	@RequestMapping(value = "/reportParameterNames", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<ReportParameter>> findall(){
@@ -159,6 +165,8 @@ public class ReportController {
 	@RequestMapping(value = "/getscheduleCodesBasedonAssetType" ,method = RequestMethod.POST , headers= "accept=application/json")
 	public ResponseEntity<List<AssetScheduleAssoc>> getSchCodeBasedOnAssetType(@RequestBody ProductCategoryMember productCategoryMemObj){
 		List<AssetScheduleAssoc> assetSch = reportService.findAllScheduleCodes(productCategoryMemObj.getProductId());
+		log.info("scheduleCode"+assetSch);
+		log.info("scheduleCodeSize"+assetSch.size());
 		return new ResponseEntity<List<AssetScheduleAssoc>>(assetSch,HttpStatus.OK);
 		
 	}

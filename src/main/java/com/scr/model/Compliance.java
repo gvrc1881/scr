@@ -16,6 +16,7 @@ public class Compliance implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String action;
@@ -200,6 +201,17 @@ public class Compliance implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Compliance [id=" + id + ", action=" + action + ", complianceBy=" + complianceBy
+				+ ", complianceFullfilled=" + complianceFullfilled + ", complianceRemark=" + complianceRemark
+				+ ", compliedDateTime=" + compliedDateTime + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", deviceId=" + deviceId
+				+ ", deviceSeqId=" + deviceSeqId + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", obeservationSeqId=" + obeservationSeqId + ", seqId=" + seqId + ", status="
+				+ status + "]";
 	}
 
 }

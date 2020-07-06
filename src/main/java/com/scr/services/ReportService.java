@@ -155,6 +155,10 @@ public class ReportService {
 	public List<ProductCategoryMember> findAllAssetTypes(String assetType) {	
 		return productCategoryMemberRepository.findByProductCategoryId(assetType);
 	}
+	public List<ProductCategoryMember> findByProductId(String productCategoryId) {	
+		return productCategoryMemberRepository.findByProductId(productCategoryId);
+	}
+	
 	public List<ReportParameter> findall() {	
 		return reportParametersRepository.findAll();
 	}
@@ -197,6 +201,9 @@ public class ReportService {
 	
 	public List<AssetScheduleAssoc> findAllScheduleCodes(String assetType) {
 		List<AssetScheduleAssoc> assetSche = assetSchAssoRepository.findByAssetType(assetType);
+		log.info("assetSchesize"+assetSche.size());
+		log.info("assetSche"+assetSche);
+
 		return assetSche;
 	}
 	
@@ -210,7 +217,6 @@ public class ReportService {
 	}
 	public List<SubDivision> findSubDivision(Division divisionId) {
 		List<SubDivision> subDivisionCode = subDivisionRepository.findByDivisionIdOrderByCodeAsc(divisionId);
-		log.info("subDivisionCode"+subDivisionCode);
 		return subDivisionCode;
 	}
 	public List<Facility> findFacilityNames(String subDivision) {
@@ -244,14 +250,10 @@ public class ReportService {
 		}
 	public List<Facility> findByDepotTypeOrderByFacilityNameAsc() {
 		List<Facility> facilityNames = facilityRepository.findByDepotTypeOrderByFacilityNameAsc("OHE");
-		log.info("faciliNameOheDepot"+facilityNames);
 		return facilityNames;		
 	}
 	public List<Facility> findByDepotType(String depotType) {
 		List<Facility> facilityNames = facilityRepository.findByDepotType(depotType);
-		log.info("OheAndPsiDepot"+facilityNames);
-		log.info("OheAndPsiDepotSize"+facilityNames.size());
-		
 		return facilityNames;		
 	}
 	public List<CrsEigInspections>findcrsEigInspection() {	

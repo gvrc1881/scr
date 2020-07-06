@@ -16,6 +16,7 @@ public class Observation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String action;
@@ -221,6 +222,17 @@ public class Observation implements Serializable {
 
 	public void setSeqId(String seqId) {
 		this.seqId = seqId;
+	}
+
+	@Override
+	public String toString() {
+		return "Observation [id=" + id + ", action=" + action + ", actionBy=" + actionBy + ", createdBy=" + createdBy
+				+ ", createdDateTime=" + createdDateTime + ", createdStamp=" + createdStamp + ", createdTxStamp="
+				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", deviceId=" + deviceId
+				+ ", deviceSeqId=" + deviceSeqId + ", inspectionSeqId=" + inspectionSeqId + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", location=" + location
+				+ ", observation=" + observation + ", observationCategory=" + observationCategory + ", observationItem="
+				+ observationItem + ", seqId=" + seqId + "]";
 	}
 
 }
