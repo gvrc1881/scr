@@ -61,10 +61,10 @@ export class FilesInformationDialogComponent implements OnInit {
             if (!!this.response[i]) {
                 divisionHistoryData.push({
                     "sno": i + 1,
-                    "fileName": this.response[i].changeFileName,
-                    "type": this.url + this.type+'/'+this.response[i].changeFileName,
+                    "fileName": this.response[i].originalFileName,
+                    "type": this.type,
                     "rowid":this.response[i].id,
-                    "path": '.' + window.location.pathname + window.location.pathname + '/' + this.response[i].changeFileName
+                    "path": this.response[i].changeFileName
                 });
             }
         }

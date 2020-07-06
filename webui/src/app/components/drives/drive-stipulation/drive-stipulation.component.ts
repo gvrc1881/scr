@@ -130,11 +130,6 @@ export class DriveStipulationComponent implements OnInit {
     localStorage.setItem('driveFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
-      /* var data = [];
-      if (this.filesInfor.attachment != '') {
-        data = this.filesInfor.attachment.split(',');
-        console.log('data= ' + JSON.stringify(data))
-      } */
       this.spinnerService.hide();
       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,

@@ -226,7 +226,7 @@
                                                     <tbody id="uploadedFilesTBodyId">
                                                         <tr *ngFor="let file of attachedImages;let i=index">
                                                             <td>{{i+1}}</td>
-                                                            <td>{{file.originalFileName}}</td>
+                                                            <td style="cursor: pointer;"><a  href={{file.changeFileName}} target="_blank">{{file.originalFileName}}</a></td>
                                                             <td>{{file.fileSize}}</td>
                                                             <td> <button mat-icon-button matTooltip="Delete" (click)="removeEditFile(file.commonFileId, file.id)">
                                                               <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
