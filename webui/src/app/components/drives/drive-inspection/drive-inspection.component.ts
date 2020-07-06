@@ -12,7 +12,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-drive-inspection',
   templateUrl: './drive-inspection.component.html',
-  styleUrls: ['./drive-inspection.component.css']
+  styleUrls: []
 })
 export class DriveInspectionComponent implements OnInit {
 

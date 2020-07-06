@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'content-management-edit-dialog',
     templateUrl: './content-management-edit-dialog.component.html',
-    styleUrls: ['./content-management-edit-dialog.component.scss']
+    styleUrls: []
 })
 export class ContentManagementDialogComponent implements OnInit {
     public response:any=[];

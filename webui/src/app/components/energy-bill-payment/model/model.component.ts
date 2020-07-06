@@ -13,7 +13,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'model',
     templateUrl: './model.component.html',
-    styleUrls: ['./model.component.scss']
+    styleUrls: []
 })
 
 export class ModelComponent implements OnInit{

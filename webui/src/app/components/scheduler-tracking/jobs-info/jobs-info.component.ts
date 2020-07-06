@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-jobs-info',
   templateUrl: './jobs-info.component.html',
-  styleUrls: ['./jobs-info.component.css'],
+  styleUrls: [],
   
 })
 export class JobsInfoComponent implements OnInit {

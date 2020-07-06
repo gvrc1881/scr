@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-drive-progress-record',
   templateUrl: './drive-progress-record.component.html',
-  styleUrls: ['./drive-progress-record.component.css']
+  styleUrls: []
 })
 export class DriveProgressRecordComponent implements OnInit {
 

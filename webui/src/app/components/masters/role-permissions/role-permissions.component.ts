@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-role-permissions',
   templateUrl: './role-permissions.component.html',
-  styleUrls: ['./role-permissions.component.scss']
+  styleUrls: []
 })
 export class RolePermissionsComponent implements OnInit {
   editPermission:boolean=true;

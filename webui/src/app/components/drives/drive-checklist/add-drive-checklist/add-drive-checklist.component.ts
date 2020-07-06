@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-checklist',
   templateUrl: './add-drive-checklist.component.html',
-  styleUrls: ['./add-drive-checklist.component.css']
+  styleUrls: []
 })
 export class AddDriveChecklistComponent implements OnInit {
   save: boolean = true;

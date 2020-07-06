@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'observation-categories',
     templateUrl: './observation-categories.component.html',
-    styleUrls: ['./observation-categories.component.scss']
+    styleUrls: []
 })
 export class ObservationCategoriesComponent implements OnInit{
 

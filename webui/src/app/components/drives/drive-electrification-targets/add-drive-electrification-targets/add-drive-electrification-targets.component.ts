@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-electrification-targets',
   templateUrl: './add-drive-electrification-targets.component.html',
-  styleUrls: ['./add-drive-electrification-targets.component.css']
+  styleUrls: []
 })
 export class AddDriveElectrificationTargetsComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

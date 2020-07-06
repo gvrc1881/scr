@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material';
 @Component({
     selector   : 'change-password-dialog',
     templateUrl: './change-password-dialog.component.html',
-    styleUrls  : ['./change-password-dialog.component.scss']
+    styleUrls  : []
 })
 export class ChangePasswordDialogComponent implements OnInit
 {

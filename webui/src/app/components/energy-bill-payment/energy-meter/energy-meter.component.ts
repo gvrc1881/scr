@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'energy-meter',
     templateUrl: './energy-meter.component.html',
-    styleUrls: ['./energy-meter.component.scss']
+    styleUrls: []
 })
 export class EnergyMeterComponent implements OnInit{
 	

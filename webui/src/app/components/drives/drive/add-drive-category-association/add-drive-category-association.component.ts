@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-category-association',
   templateUrl: './add-drive-category-association.component.html',
-  styleUrls: ['./add-drive-category-association.component.css']
+  styleUrls: []
 })
 export class AddDriveCategoryAssociationComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

@@ -8,7 +8,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'app-remark-dialog',
     templateUrl: './remark-dialog.component.html',
-    styleUrls: ['./remark-dialog.component.scss']
+    styleUrls: []
 })
 export class RemarkDialogComponent implements OnInit {
     public confirmMessage: string;

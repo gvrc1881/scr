@@ -14,7 +14,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'traction-energy-tariff',
     templateUrl: './traction-energy-tariff.component.html',
-    styleUrls: ['./traction-energy-tariff.component.scss']
+    styleUrls: []
 })
 export class TractionEnergyTariffComponent implements OnInit{
 	

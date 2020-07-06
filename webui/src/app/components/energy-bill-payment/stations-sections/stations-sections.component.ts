@@ -10,7 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'stations-sections',
     templateUrl: './stations-sections.component.html',
-    styleUrls: ['./stations-sections.component.scss']
+    styleUrls: []
 })
 export class StationsSectionsComponent implements OnInit{
 

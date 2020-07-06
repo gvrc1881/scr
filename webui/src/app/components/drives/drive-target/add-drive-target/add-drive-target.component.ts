@@ -10,7 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-target',
   templateUrl: './add-drive-target.component.html',
-  styleUrls: ['./add-drive-target.component.css']
+  styleUrls: []
 })
 export class AddDriveTargetComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

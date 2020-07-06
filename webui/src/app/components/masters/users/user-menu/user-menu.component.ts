@@ -15,7 +15,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'app-user-menu',
     templateUrl: './user-menu.component.html',
-    styleUrls: ['./user-menu.component.scss']
+    styleUrls: []
 })
 export class UserMenuComponent implements OnInit {
     editPermission:boolean=true;

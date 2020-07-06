@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-drive-target',
   templateUrl: './drive-target.component.html',
-  styleUrls: ['./drive-target.component.css']
+  styleUrls: []
 })
 export class DriveTargetComponent implements OnInit {
   editPermission: boolean = true;

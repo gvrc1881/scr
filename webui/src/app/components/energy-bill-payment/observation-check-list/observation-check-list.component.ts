@@ -13,7 +13,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'observation-check-list',
     templateUrl: './observation-check-list.component.html',
-    styleUrls: ['./observation-check-list.component.scss']
+    styleUrls: []
 })
 export class ObservationCheckListComponent implements OnInit {
 

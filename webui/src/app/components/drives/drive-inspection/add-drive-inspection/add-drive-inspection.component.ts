@@ -10,7 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
-  styleUrls: ['./add-drive-inspection.component.css']
+  styleUrls: []
 })
 export class AddDriveInspectionComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

@@ -10,7 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-failure-analysis',
   templateUrl: './add-drive-failure-analysis.component.html',
-  styleUrls: ['./add-drive-failure-analysis.component.css']
+  styleUrls: []
 })
 export class AddDriveFailureAnalysisComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

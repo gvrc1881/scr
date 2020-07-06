@@ -12,7 +12,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'track',
     templateUrl: './track.component.html',
-    styleUrls: ['./track.component.scss']
+    styleUrls: []
 })
 export class TrackComponent implements OnInit{
 	

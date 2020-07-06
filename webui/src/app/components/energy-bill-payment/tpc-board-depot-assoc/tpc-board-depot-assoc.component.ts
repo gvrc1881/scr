@@ -10,7 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'tpc-board-depot-assoc',
     templateUrl: './tpc-board-depot-assoc.component.html',
-    styleUrls: ['./tpc-board-depot-assoc.component.scss']
+    styleUrls: []
 })
 export class TPCBoardDepotAssocComponent implements OnInit{
 

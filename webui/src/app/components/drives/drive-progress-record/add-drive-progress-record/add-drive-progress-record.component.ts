@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-progress-record',
   templateUrl: './add-drive-progress-record.component.html',
-  styleUrls: ['./add-drive-progress-record.component.css']
+  styleUrls: []
 })
 export class AddDriveProgressRecordComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

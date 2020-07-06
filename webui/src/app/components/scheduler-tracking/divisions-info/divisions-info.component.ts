@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-divisions-info',
   templateUrl: './divisions-info.component.html',
-  styleUrls: ['./divisions-info.component.css'],  
+  styleUrls: [],  
 })
 export class DivisionsInfoComponent implements OnInit {
 

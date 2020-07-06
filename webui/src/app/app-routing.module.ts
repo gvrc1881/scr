@@ -183,11 +183,6 @@ const routes: Routes = [
     loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
     canActivate: [AuthGuard]
   },
-   {
-    path: 'submenuMaster',
-    loadChildren: './components/masters/submenu/submenu.module#SubMenuModule',
-    canActivate: [AuthGuard]
-  },
   {
     path: 'users',
     loadChildren: './components/masters/users/users.module#UserModule',

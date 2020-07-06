@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'foot-patrolling-sections',
     templateUrl: './foot-patrolling-sections.component.html',
-    styleUrls: ['./foot-patrolling-sections.component.scss']
+    styleUrls: []
 })
 export class FootPatrollingSectionsComponent implements OnInit{
 

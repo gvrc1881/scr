@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-drive-failure-analysis',
   templateUrl: './drive-failure-analysis.component.html',
-  styleUrls: ['./drive-failure-analysis.component.css']
+  styleUrls: []
 })
 export class DriveFailureAnalysisComponent implements OnInit {
 

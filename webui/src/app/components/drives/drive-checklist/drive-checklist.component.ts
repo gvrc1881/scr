@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-drive-checklist',
   templateUrl: './drive-checklist.component.html',
-  styleUrls: ['./drive-checklist.component.css']
+  styleUrls: []
 })
 export class DriveChecklistComponent implements OnInit {
 

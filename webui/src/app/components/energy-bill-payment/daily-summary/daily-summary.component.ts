@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'daily-summary',
     templateUrl: './daily-summary.component.html',
-    styleUrls: ['./daily-summary.component.scss']
+    styleUrls: []
 })
 export class DailySummaryComponent implements OnInit{
 

@@ -13,7 +13,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
     selector: 'make',
     templateUrl: './make.component.html',
-    styleUrls: ['./make.component.scss']
+    styleUrls: []
 })
 
 export class MakeComponent implements OnInit{

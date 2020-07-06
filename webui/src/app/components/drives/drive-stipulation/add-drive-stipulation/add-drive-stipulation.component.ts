@@ -11,7 +11,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
   selector: 'app-add-drive-stipulation',
   templateUrl: './add-drive-stipulation.component.html',
-  styleUrls: ['./add-drive-stipulation.component.css']
+  styleUrls: []
 })
 export class AddDriveStipulationComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
