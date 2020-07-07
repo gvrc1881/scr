@@ -68,6 +68,7 @@ export class DriveInspectionComponent implements OnInit {
       }
 
       this.dataSource = new MatTableDataSource(inspections);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();

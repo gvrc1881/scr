@@ -78,6 +78,7 @@ export class DriveStipulationComponent implements OnInit {
       }
       this.filterData.gridData = stipulations;
       this.dataSource = new MatTableDataSource(stipulations);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
       this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

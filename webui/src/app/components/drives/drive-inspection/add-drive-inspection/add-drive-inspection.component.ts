@@ -96,6 +96,7 @@ export class AddDriveInspectionComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + id)
     .subscribe((resp) => {
       this.resp = resp;
+      console.log(this.resp)
       this.addDriveInspectionFormGroup.patchValue({
         id: this.resp.id,
         inspectionType: this.resp.inspectionType,

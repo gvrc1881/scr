@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatTableDataSource } from '@angular/material';
 import { Constants } from './constants';
 @Injectable()
 export class CommonService {
@@ -34,7 +34,6 @@ export class CommonService {
         return (url === '/' ||
             url === Constants.app_urls.AUTHENTICATION.LOGIN ||
             url === Constants.app_urls.AUTHENTICATION.REGISTRATION ||
-            // url === Constants.app_urls.CHANGE_PASSWORD || 
             url === Constants.app_urls.AUTHENTICATION.MAIL_CONFIRMATION ||
             url === Constants.app_urls.AUTHENTICATION.RESET_PASSWORD ||
             url === Constants.app_urls.AUTHENTICATION.FORGOT_PASSWORD) ? false : true;
@@ -44,26 +43,11 @@ export class CommonService {
         if (type == 'menu') {
             if (loggerUser) {
                 let pageRolePermissions = loggerUser.menuPermissionResponses;
-               //   console.log('pageRolePermissions= ' + JSON.stringify(pageRolePermissions)); 
                if(pageRolePermissions != null) {
                var p= pageRolePermissions.filter(element => {
-                  //  console.log(element);
-                   /*  if(element.menuName.toLowerCase() == value.toLowerCase()){
-                      //  console.log("iffff");
-                        var permission = element.permissionName;
-                        if (permission != null && !!permission && permission.includes(permissionType)) {
-                         //   console.log('sdkhfskdfhskdfsjd')
-                            return true;
-                        } else {
-                          //  console.log('else*********************************');
-                            return false;
-                        }
-                    } */
                     return element.menuName.toLowerCase() == value.toLowerCase() && element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
                 });
                 }
-              //  console.log("ppppp ="+JSON.stringify(p));
-              //  return p.length == 0 ? false : true;
               return p == 0 ? false : true;
             }
         } else if (type == 'submenu') {
@@ -92,16 +76,13 @@ export class CommonService {
     	let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
   		let pageRolePermissions = loggerUser.menuPermissionResponses;
 	   var p= !!pageRolePermissions && pageRolePermissions.filter(element => {
-	  // console.log(element)
           return element.menuName.toLowerCase() == menu.toLowerCase() && element.subMenuName.toLowerCase() == submenu.toLowerCase() ;//&& element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
         });
       var permissionName=  p == 0 ? 'No Permission' : p[0].permissionName;
         return permissionName;
     }
 
-	 getPermissionByType(permissionType, permissionName) {
-        //console.log(JSON.stringify(localStorage.getItem("loggedUser")));
-       
+	 getPermissionByType(permissionType, permissionName) {       
             let permission = permissionName;
             if (permission != null && !!permission && permission.includes(permissionType)) {
                 return true;
@@ -111,7 +92,6 @@ export class CommonService {
     }
 
     getPermission(permissionType) {
-        //console.log(JSON.stringify(localStorage.getItem("loggedUser")));
         if (!!localStorage.getItem("loggedUser") && localStorage.getItem("loggedUser") != "[object Object]") {
             let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
             let permission = !!loggedUser.roleName && loggedUser.permissionName;
@@ -124,5 +104,15 @@ export class CommonService {
         else {
             return false
         }
+    }
+
+    updateDataSource(dataSource:MatTableDataSource<any>, displayedColumns:string[]){
+        dataSource.filteredData.map((item, index) =>{
+            displayedColumns.map((col, i)=>{
+              if(col != 'sno' && (item[col] == null ||  item[col]=='null') ){
+                dataSource.filteredData[index][col] = "";
+              }
+            })
+          })
     }
 }
