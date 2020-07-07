@@ -34,9 +34,9 @@
                                                     <!-- activityId -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Activity Id"
+                                                            <input matInput placeholder="Activity Id" decimalnumber
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['activityId']"
-                                                                required>
+                                                                required >
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['activityId'].hasError('required') && addDriveDailyProgressFormGroup.controls['activityId'].touched"
                                                                 class="alert alert-danger">Enter Unit Type</mat-error>                                                           
@@ -46,19 +46,19 @@
                                                     <!-- performedDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <!-- <input matInput [matDatepicker]="picker2"
+                                                             <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose Performe Date"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']"
                                                                 >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker2></mat-datepicker> -->
-                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
+                                                            <mat-datepicker #picker2></mat-datepicker> 
+                                                           <!-- <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose Performed Date"
-                                                                [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']" >                                                                
+                                                                [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']">                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
-                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span> -->
                                                         </mat-form-field>
                                                     </div>
 
@@ -99,7 +99,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Section"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['section']"
-                                                                required>
+                                                                required >
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['section'].hasError('required') && addDriveDailyProgressFormGroup.controls['section'].touched"
                                                                 class="alert alert-danger">Enter Section
@@ -108,9 +108,10 @@
                                                     </div>
 
                                                     <!-- performedCount -->
+                                                
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Performed Count"
+                                                            <input matInput placeholder="Performed Count" decimalNumber
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['performedCount']"
                                                                 required>
                                                             <mat-error

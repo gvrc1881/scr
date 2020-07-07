@@ -80,8 +80,8 @@ export class AddDriveProgressRecordComponent implements OnInit {
         'performedDate': [null, Validators.compose([Validators.required])],
         'division': [null, Validators.required],
         'depot': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'section': [null, Validators.required],
-        'performedCount': [null, Validators.required],
+        'section': [null, Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z,\/._-]+(\s[a-zA-Z,\/._-]+)?$")])],
+        'performedCount': [null, Validators.compose([Validators.required,Validators.pattern("^[0-9,.]+(\s[0-9,.]+)?$")])],
         'supervisor': [null, Validators.required],
         'drive': [null, Validators.compose([Validators.required])],
       });

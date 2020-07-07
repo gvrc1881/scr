@@ -198,7 +198,7 @@ export class AddDriveComponent implements OnInit {
     }
   }
   getDriveDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+'/'+id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
         this.addDriveFormGroup.patchValue({
