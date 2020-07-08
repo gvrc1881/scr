@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -94,6 +96,18 @@ public class SidingDetails implements Serializable {
 
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+	
+	@Column(name = "division")
+	private String division;
+	
+	@Column(name = "depot")
+	private  int depot;
+	
+	@ManyToOne
+	@JoinColumn(name = "facility_id")
+	private Facility facilityId;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -277,6 +291,20 @@ public class SidingDetails implements Serializable {
 
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+	public Facility getFacilityId() {
+		return facilityId;
+	}
+
+	public void setFacilityId(Facility facilityId) {
+		this.facilityId = facilityId;
 	}
 
 	@Override

@@ -73,7 +73,7 @@
                                                     </div>
 
                                                     <!-- targetDate -->
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field>
                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Choose Target Date"
@@ -82,7 +82,22 @@
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker1"
+                                                                placeholder="Choose Target Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetDate']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                           
+                                                        </mat-form-field>
+                                                    </div> 
+                                                   
+                                                     
 
                                                      <!-- status -->
                                                      <div class="col-md-3">
@@ -228,7 +243,7 @@
                                                     </div>
 
                                                     <!-- dateOfCompletion -->
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field>
                                                            <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Choose Date Of Completion"
@@ -237,7 +252,19 @@
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                placeholder="Choose Date Of Completion"
+                                                                [min]="toMinDate"
+                                                                [formControl]="addDriveElectrificationTargetsFormGroup.controls['dateOfCompletion']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>  
 
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
