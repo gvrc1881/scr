@@ -21,7 +21,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   addDriveElectrificationTargetsFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-
+  toMinDate = new Date();
   electrificationTargetsFormErrors: any;
   resp: any;
   guageList:any;
@@ -120,7 +120,9 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
       }
     }
   }
-
+  addEvent($event) {
+    this.toMinDate = new Date($event.value);
+  }
   getElectrificationTargetsDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.ELECTRIFICATION_TARGETS.EDIT + id)
       .subscribe((resp) => {
