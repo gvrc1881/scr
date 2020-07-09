@@ -150,7 +150,7 @@ export const Constants = {
             }
         },
         ENERGY_BILL_PAYMENTS:{
-            GET_ENERGY_BILL_PAYMENTS:'findAllEnergyBillPayments',
+            GET_ENERGY_BILL_PAYMENTS:'/findAllEnergyBillPayments',
             SAVE:'/addEneBillPayment',
             EDIT:'/findEneBillPayment/',
             UPDATE:'/updateEneBillPayment',

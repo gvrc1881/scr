@@ -103,7 +103,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
 
 
   getDriveCategoryAssoDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID+'/'+id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID+id)
       .subscribe((resp) => {
         this.resp = resp;
         this.addDriveCategoryAssoFormGroup.patchValue({

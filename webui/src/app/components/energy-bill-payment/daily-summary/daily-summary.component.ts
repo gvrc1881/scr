@@ -220,7 +220,7 @@ export class DailySummaryComponent implements OnInit{
     }
 
     dailySummaryEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID+id).subscribe((responseData) => {
             this.editDailySummaryResponse = responseData;
             this.dailySummaryFormGroup.patchValue({
                 id: this.editDailySummaryResponse.id,

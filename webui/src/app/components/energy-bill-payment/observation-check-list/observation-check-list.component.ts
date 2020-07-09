@@ -152,7 +152,7 @@ export class ObservationCheckListComponent implements OnInit {
     }
 
     observationCheckListEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID + '/' + id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CHECK_LIST.GET_OBS_CHECK_LIST_ID+ id).subscribe((responseData) => {
             this.editObservationCheckLisResponse = responseData;
             this.ObservationCheckListItemFormGroup.patchValue({
                 id: this.editObservationCheckLisResponse.id,

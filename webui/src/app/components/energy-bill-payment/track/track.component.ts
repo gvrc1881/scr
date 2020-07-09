@@ -165,7 +165,7 @@ export class TrackComponent implements OnInit{
     }   
      
     trackEditAction(id: number) {
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID+'/'+id)
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.GET_TRACK_ID+id)
             .subscribe((responseData) => {
                 this.editTrackResponse = responseData;
                 this.trackFormGroup.patchValue({

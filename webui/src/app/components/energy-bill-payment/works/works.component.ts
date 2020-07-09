@@ -231,7 +231,7 @@ export class WorksComponent implements OnInit {
     }
     
     workEditAction(id: number) {
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+'/'+id)
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+id)
             .subscribe((responseData) => {
                 this.editWorkResponse = responseData;
                 this.workFormGroup.patchValue({

@@ -77,7 +77,7 @@ export class DepartmentComponent implements OnInit {
   }
   departmentEditAction(id: number) {
     this.addDepartment = true;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.DEPARTMENT.GET_DEPARTMENT_ID+'/'+id).subscribe((resp) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.DEPARTMENT.GET_DEPARTMENT_ID+id).subscribe((resp) => {
       this.cloneupdate = false;
       this.updatedata = false;
       this.saveDepartment = false;

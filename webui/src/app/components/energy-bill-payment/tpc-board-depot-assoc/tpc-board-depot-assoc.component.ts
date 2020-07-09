@@ -143,7 +143,7 @@ duplicateTpcBoard() {
     }
 
     tpcBoardDepotAssocEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID+id).subscribe((responseData) => {
             this.editTpcBoardDepotAssocResponse = responseData;
             this.tpcBoardDepotAssocFormGroup.patchValue({
                 id: this.editTpcBoardDepotAssocResponse.id,

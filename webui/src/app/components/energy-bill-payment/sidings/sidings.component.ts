@@ -202,7 +202,7 @@ export class SidingsComponent implements OnInit {
     }
 
     sidingsItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID+id).subscribe((responseData) => {
             this.editsidingsItemResponse = responseData;
             this.sidingsItemFormGroup.patchValue({
                 id: this.editsidingsItemResponse.id,

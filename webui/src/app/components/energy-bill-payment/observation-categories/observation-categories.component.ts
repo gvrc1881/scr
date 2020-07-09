@@ -158,7 +158,7 @@ export class ObservationCategoriesComponent implements OnInit{
     }
 
     observationCategoriesEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID+id).subscribe((responseData) => {
             this.editobservationCategoriesResponse = responseData;
             this.observationCategoriesFormGroup.patchValue({
                 id: this.editobservationCategoriesResponse.id,

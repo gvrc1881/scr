@@ -173,7 +173,7 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     stationsSectionsEditAction(id: number) {
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID+'/'+id).subscribe((responseData) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID+id).subscribe((responseData) => {
         this.editstationsSectionsResponse = responseData;
             this.stationsSectionsFormGroup.patchValue({
                 id: this.editstationsSectionsResponse.id,

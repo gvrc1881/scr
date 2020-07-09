@@ -138,7 +138,7 @@ export class TPCBoardComponent implements OnInit{
     }
 
     tpcBoardEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID+id).subscribe((responseData) => {
             this.editTpcBoardResponse = responseData;
             this.tpcBoardFormGroup.patchValue({
                 id: this.editTpcBoardResponse.id,

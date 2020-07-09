@@ -197,7 +197,7 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     energyMeterEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
       		this.energyMeterFormGroup.patchValue({

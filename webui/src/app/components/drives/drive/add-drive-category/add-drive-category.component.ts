@@ -145,7 +145,7 @@ export class AddDriveCategoryComponent implements OnInit {
 
 
   getDriveCategoryDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY_ID+'/'+id)      
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY_ID+id)      
     .subscribe((resp) => {
         this.resp = resp;
         this.addDriveCategoryFormGroup.patchValue({

@@ -223,7 +223,7 @@ export class MakeComponent implements OnInit{
       MakeEditAction(id: number) {
         this.addMake = true;
         //this.makeService.findMakeById(id)
-        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID+'/'+id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID+id)
         .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;

@@ -226,7 +226,7 @@ export class ModelComponent implements OnInit{
       ModelEditAction(id: number) {
         this.addModel = true;
        // this.modelService.findModelById(id)
-       this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID+'/'+id)
+       this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID+id)
         .subscribe((resp) => {
           this.cloneupdate = false;
           this.updatedata = false;

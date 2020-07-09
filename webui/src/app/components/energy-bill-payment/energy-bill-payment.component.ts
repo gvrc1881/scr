@@ -148,7 +148,8 @@ export class EnergyBillPaymentComponent implements OnInit{
                     amount: this.editEneBillPaymentResponse.amount,
                     division: this.editEneBillPaymentResponse.division,
                     month: this.editEneBillPaymentResponse.month,
-                    year: this.editEneBillPaymentResponse.year
+                    year: this.editEneBillPaymentResponse.year,
+                    dateOfPayment: !! this.editEneBillPaymentResponse.dateOfPayment ? new Date(this.editEneBillPaymentResponse.dateOfPayment) : ''
                 });
             } , error => {});
 

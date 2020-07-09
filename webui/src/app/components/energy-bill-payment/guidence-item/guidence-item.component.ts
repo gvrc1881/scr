@@ -167,7 +167,7 @@ export class GuidenceItemComponent implements OnInit{
     }
 
     guidenceItemEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID+'/'+id).subscribe((responseData) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID+id).subscribe((responseData) => {
             this.editguidenceItemResponse = responseData;
             this.guidenceItemFormGroup.patchValue({
                 id: this.editguidenceItemResponse.id,

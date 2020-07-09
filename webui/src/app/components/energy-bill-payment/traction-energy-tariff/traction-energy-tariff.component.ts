@@ -253,7 +253,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     
     getTractionEnergyTariffData() {
         const tractionEnergyTariff: TractionEnergyTariffModel [] = [];
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF).subscribe((data) => {
             this.tractionEnergyTariffList = data;
             for (let i = 0; i < this.tractionEnergyTariffList.length; i++) {
                 this.tractionEnergyTariffList[i].sno = i+1;
@@ -276,7 +276,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+'/'+id)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
                 this.tractionEnergyTariffFormGroup.patchValue({
