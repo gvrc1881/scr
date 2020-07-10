@@ -101,11 +101,12 @@ public class SidingDetails implements Serializable {
 	private String division;
 	
 	@Column(name = "depot")
-	private  int depot;
+	private  String depot;
 	
-	@ManyToOne
-	@JoinColumn(name = "facility_id")
-	private Facility facilityId;
+	@Column(name = "zone")
+	private String zone;
+	
+
 	
 	
 
@@ -299,13 +300,23 @@ public class SidingDetails implements Serializable {
 	public void setDivision(String division) {
 		this.division = division;
 	}
-	public Facility getFacilityId() {
-		return facilityId;
+	
+	public String getDepot() {
+		return depot;
 	}
 
-	public void setFacilityId(Facility facilityId) {
-		this.facilityId = facilityId;
+	public void setDepot(String depot) {
+		this.depot = depot;
 	}
+	
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+	
 
 	@Override
 	public String toString() {
