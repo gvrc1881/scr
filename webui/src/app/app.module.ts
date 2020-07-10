@@ -38,6 +38,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {  DecimalValidationsModule } from './modules/decimal-validations.module';
 import { NumberValidationsModule } from './modules/number-validations.module';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { PreviousRouteService } from './services/previousRoute.service';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -103,7 +104,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     CommonService,
     ReactiveFormsModule,
     DatePipe,
-    SendAndRequestService
+    SendAndRequestService,
+    PreviousRouteService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
