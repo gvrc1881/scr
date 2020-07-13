@@ -7,6 +7,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FacilityModel } from 'src/app/models/facility.model';
 
 @Component({
     selector: 'app-sidings',
@@ -24,7 +25,7 @@ export class SidingsComponent implements OnInit {
     toMinDate=new Date();
     today=new Date();
     sidingsItemDataSource: MatTableDataSource<SidingsModel>;
-    sidingsItemDisplayColumns = ['sno' , 'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
+    sidingsItemDisplayColumns = ['sno' ,'zone','division','depot' ,'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
     'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvalDate',
     'workOrderDate','workProgressPercentage','workProgressRemark','completionDate','id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -38,7 +39,19 @@ export class SidingsComponent implements OnInit {
     selected: any;
     yes: any;
     onlyNo: boolean;
+    divisionsList:any;
+    zonesList:any;
+    depotList:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    zoneList: FacilityModel [] = [];
+    divisionList:  FacilityModel [] = [];
+    subDivList:  FacilityModel [] = [];
+    facilityList: FacilityModel [] = [];
+	
+    
+    depotData: any;
+
    
     constructor(
         
@@ -51,6 +64,8 @@ export class SidingsComponent implements OnInit {
  
     ngOnInit()  {
         this.getAllSidingsData();
+      
+        console.log("usernam-----e"+this.userHierarchy.length);
         var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","Sidings") ;
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -72,10 +87,14 @@ export class SidingsComponent implements OnInit {
             'workOrderDate' : [null],
             'workProgressPercentage' : [null],
             'workProgressRemark' : [null,Validators.maxLength(250)],
-            'completionDate' : [null]
+            'completionDate' : [null],
+            'zone' : [null],
+            'division':[null],
+            'depot':[null],
+            
         });
 
-        
+        this.displayHierarchyFields();
      }
       duplicateSidingCode() {
         const q = new Promise((resolve, reject) => {
@@ -134,6 +153,9 @@ export class SidingsComponent implements OnInit {
         let workProgressPercentage: string = this.sidingsItemFormGroup.value.workProgressPercentage;
         let workProgressRemark: string = this.sidingsItemFormGroup.value.workProgressRemark;
         let completionDate: Date = this.sidingsItemFormGroup.value.completionDate;
+        let zone: string = this.sidingsItemFormGroup.value.zone;
+        let division: string = this.sidingsItemFormGroup.value.division;
+        let depot: string = this.sidingsItemFormGroup.value.depot;
         this.addSidingsItem = false;
         if (this.title ==  Constants.EVENTS.SAVE) {
             var saveSidingsModel ={
@@ -154,6 +176,9 @@ export class SidingsComponent implements OnInit {
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
                 "createdBy": this.loggedUserData.username,
+                'zone':zone,
+                'division':division,
+                'depot':depot
 
 
             }              
@@ -184,6 +209,9 @@ export class SidingsComponent implements OnInit {
                 'workProgressRemark' : workProgressRemark,
                 'completionDate' : completionDate,
                 "updatedBy": this.loggedUserData.username,
+                'zone':zone,
+                'division':division,
+                'depot':depot
             }
                 this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.UPDATE_SIDINGS, updateSidingsModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
@@ -221,7 +249,10 @@ export class SidingsComponent implements OnInit {
                 workOrderDate: !!this.editsidingsItemResponse.workOrderDate ? new Date(this.editsidingsItemResponse.workOrderDate) : '',
                 workProgressPercentage: this.editsidingsItemResponse.workProgressPercentage,
                 workProgressRemark: this.editsidingsItemResponse.workProgressRemark,
-                completionDate: this.editsidingsItemResponse.completionDate
+                completionDate: this.editsidingsItemResponse.completionDate,
+                zone: this.editsidingsItemResponse.zone,
+                division: this.editsidingsItemResponse.division,
+                depot: this.editsidingsItemResponse.depot,
             });
             this.toMinDate = new Date(this.editsidingsItemResponse.proposedDate);
         } ,error => {})
@@ -269,5 +300,49 @@ export class SidingsComponent implements OnInit {
             this.onlyYes = true;
         }
             }
+
+  displayHierarchyFields(){
+    this.zoneList = [];
+    this.divisionList = [];
+    this.facilityList = [];
+    for (let i = 0; i < this.userHierarchy.length; i++) {
+           if(this.userHierarchy[i].depotType == 'ZONE'){
+               this.zoneList.push(this.userHierarchy[i]);
+              
+           }
+        }
+   
+}
+
+
+
+findDivisions(){
+    let zone: string = this.sidingsItemFormGroup.value.zone;
+    //this.divisionList=[];
+
+    for (let i = 0; i < this.userHierarchy.length; i++) {
+        
+           if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
+           
+               this.divisionList.push(this.userHierarchy[i]);
+               
+           }
+        }
+}
+
+
+
+findDepots(){
+    let division: string = this.sidingsItemFormGroup.value.division;
+    //this.facilityList=[];
+    for (let i = 0; i < this.userHierarchy.length; i++) {
+       
+           if(this.userHierarchy[i].division == division  &&(this.userHierarchy[i].depotType =='OHE') ){
+            
+               this.facilityList.push(this.userHierarchy[i]);
+              
+           }
+        }
+}
             
     }
