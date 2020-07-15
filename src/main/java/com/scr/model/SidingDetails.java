@@ -326,7 +326,7 @@ public class SidingDetails implements Serializable {
 				+ ", remarks=" + remarks + ", sidingProposed=" + sidingProposed + ", proposedDate=" + proposedDate
 				+ ", approvalDate=" + approvalDate + ", workOrderDate=" + workOrderDate + ", workProgressPercentage="
 				+ workProgressPercentage + ", workProgressRemark=" + workProgressRemark + ", executingAgency="
-				+ executingAgency + ", estdLatestAnticCost=" + estdLatestAnticCost + ", completionDate="
+				+ executingAgency + ", estdLatestAnticCost=" + estdLatestAnticCost +",zone="+zone+",division="+division+",depot="+depot+ ", completionDate="
 				+ completionDate + ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", updatedBy=" + updatedBy
 				+ ", updatedOn=" + updatedOn + "]";
 	}

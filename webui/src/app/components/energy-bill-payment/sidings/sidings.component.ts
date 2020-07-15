@@ -48,7 +48,10 @@ export class SidingsComponent implements OnInit {
     divisionList:  FacilityModel [] = [];
     subDivList:  FacilityModel [] = [];
     facilityList: FacilityModel [] = [];
+	enableZone: boolean ;
+	enableDivision: boolean;
 	
+	enableDepot: boolean;
     
     depotData: any;
 
@@ -65,7 +68,7 @@ export class SidingsComponent implements OnInit {
     ngOnInit()  {
         this.getAllSidingsData();
       
-        console.log("usernam-----e"+this.userHierarchy.length);
+       
         var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","Sidings") ;
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -95,6 +98,7 @@ export class SidingsComponent implements OnInit {
         });
 
         this.displayHierarchyFields();
+        
      }
       duplicateSidingCode() {
         const q = new Promise((resolve, reject) => {
@@ -218,6 +222,7 @@ export class SidingsComponent implements OnInit {
                 this.getAllSidingsData();
                 this.sidingsItemFormGroup.reset();
                 this.addSidingsItem =  false;
+                this.displayHierarchyFields();
             } , error => {})
             
         }
@@ -227,6 +232,9 @@ export class SidingsComponent implements OnInit {
         this.addSidingsItem = true;
         this.sidingsItemEditAction(id);
         this.title = 'Update';
+        this.enableZone = false;
+        this.enableDivision = false;
+       this.enableDepot = false;
     }
 
     sidingsItemEditAction(id: number) {
@@ -250,11 +258,17 @@ export class SidingsComponent implements OnInit {
                 workProgressPercentage: this.editsidingsItemResponse.workProgressPercentage,
                 workProgressRemark: this.editsidingsItemResponse.workProgressRemark,
                 completionDate: this.editsidingsItemResponse.completionDate,
-                zone: this.editsidingsItemResponse.zone,
-                division: this.editsidingsItemResponse.division,
-                depot: this.editsidingsItemResponse.depot,
+                zone:this.editsidingsItemResponse.zone,
+               division:this.editsidingsItemResponse.division,               
+                depot:this.editsidingsItemResponse.depot,
+                
+                
             });
             this.toMinDate = new Date(this.editsidingsItemResponse.proposedDate);
+            this.displayHierarchyFields();
+            this.findDepots();
+            this.findDivisions();
+          
         } ,error => {})
     }
 
@@ -286,6 +300,10 @@ export class SidingsComponent implements OnInit {
         this.sidingsItemFormGroup.reset();
         this.addSidingsItem = false;
         this.title = 'Save';
+        this.enableDivision = false;
+       
+        this.enableDepot = false;
+        this.displayHierarchyFields();
     }
 
   
@@ -308,9 +326,10 @@ export class SidingsComponent implements OnInit {
     for (let i = 0; i < this.userHierarchy.length; i++) {
            if(this.userHierarchy[i].depotType == 'ZONE'){
                this.zoneList.push(this.userHierarchy[i]);
-              
+               this.enableZone = true;
            }
         }
+       
    
 }
 
@@ -318,14 +337,14 @@ export class SidingsComponent implements OnInit {
 
 findDivisions(){
     let zone: string = this.sidingsItemFormGroup.value.zone;
-    //this.divisionList=[];
+    this.divisionList=[];
 
     for (let i = 0; i < this.userHierarchy.length; i++) {
         
            if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
            
                this.divisionList.push(this.userHierarchy[i]);
-               
+               this.enableDivision = true;
            }
         }
 }
@@ -334,13 +353,13 @@ findDivisions(){
 
 findDepots(){
     let division: string = this.sidingsItemFormGroup.value.division;
-    //this.facilityList=[];
+   this.facilityList=[];
     for (let i = 0; i < this.userHierarchy.length; i++) {
        
            if(this.userHierarchy[i].division == division  &&(this.userHierarchy[i].depotType =='OHE') ){
             
                this.facilityList.push(this.userHierarchy[i]);
-              
+               this.enableDepot = true;
            }
         }
 }

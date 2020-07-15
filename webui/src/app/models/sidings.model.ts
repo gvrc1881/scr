@@ -14,5 +14,9 @@ export interface SidingsModel{
     workOrderDate :String,
     workProgresspercentage :String,
     workProgressRemark : String,
-    completionDate :String
+    completionDate :String,
+    zone:String,
+    divsion:String,
+    depot:String
+
 }
