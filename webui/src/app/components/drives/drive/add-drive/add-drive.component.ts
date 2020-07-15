@@ -30,7 +30,7 @@ export class AddDriveComponent implements OnInit {
   resp: any;
   toMinDate = new Date();
   currentDate = new Date();
-  dateFormat = 'MM-dd-yyyy hh:mm:ss';
+  dateFormat = 'MM-dd-yyyy ';
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
