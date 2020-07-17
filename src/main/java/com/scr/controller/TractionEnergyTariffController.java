@@ -176,7 +176,11 @@ public class TractionEnergyTariffController {
 			Optional<TractionEnergyTariff> tractionEneTariffObj =tractionEnergyTariffService.findById(tractionEneTariffId);
 			if (tractionEneTariffObj.isPresent()) {
 				TractionEnergyTariff tractionEneTariff = tractionEneTariffObj.get();
-				String contentManagementIds = tractionEneTariff.getContentLink();
+				if(tractionEneTariff.getContentLink() != null) {
+					contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(tractionEneTariff.getContentLink()));
+				}
+				
+				/*String contentManagementIds = tractionEneTariff.getContentLink();
 				if(contentManagementIds.contains(",")) {
 				String[] arrayIds = contentManagementIds.split(",");
 				 for(int i=0; i<arrayIds.length; i++) {
@@ -190,7 +194,7 @@ public class TractionEnergyTariffController {
 					 if(contentManagementObj.isPresent()) {
 						 contentManagementList.add(contentManagementObj.get());
 					 }
-				}
+				}*/
 				/*logger.info("before calling value"+contentManagementIds);
 				contentManagementList = contentManagementService.findByIdIn(contentManagementIds);*/	
 				logger.info("content size:::"+contentManagementList.size());

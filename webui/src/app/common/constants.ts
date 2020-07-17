@@ -186,7 +186,7 @@ export const Constants = {
                 DELETE_TARIFF:"/deleteTractionEnergyTariff/",
                 ATTACHMENT_LIST:"/attachedDocumentList/",
                 EXISTS_FROM_DATE:'/existsFromDate/',
-                TARIFF_UPLOAD_FILES:'tariffUploadFiles'
+                TARIFF_UPLOAD_FILES:'/tariffUploadFiles'
             },
             TRACK:{
                 GET_TRACK:"/findAllTrack",

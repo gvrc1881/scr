@@ -165,7 +165,7 @@ export class TractionEnergyTariffComponent implements OnInit{
           formdata.append('zonal', saveDetails.zonal);
           formdata.append('FU', saveDetails.FU);
           formdata.append('contentTopic', saveDetails.contentTopic);
-    	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.TARIFF_UPLOAD_FILES, saveDetails, true).subscribe(data => {
+    	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.TARIFF_UPLOAD_FILES, formdata, true).subscribe(data => {
                 this.spinnerService.hide();
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];

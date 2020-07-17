@@ -122,7 +122,14 @@ public class ContentManagementMapper {
 		contentManagement.setGenOps(contentCategory);
 		contentManagement.setTopic(contentTopic);
 		contentManagement.setDescription(description);
-		contentManagement.setOriginalFileName(mf.getOriginalFilename());				
+		contentManagement.setOriginalFileName(mf.getOriginalFilename());
+		double bytes = mf.getSize();
+		logger.info("bytes = "+bytes);
+		double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
+		logger.info("KB = "+kilobytes);
+		double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
+		logger.info("mega bytes = "+megabytes);
+		contentManagement.setFileSize(kilobytes+" KB");
 		contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));

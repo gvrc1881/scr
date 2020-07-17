@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,9 @@ public class TractionEnergyTariffService {
 	private ContentManagementRepository contentManagementRepository;
 	
 	static Logger logger = LogManager.getLogger(TractionEnergyTariffService.class);
+	
+	@Value("${tariff.path}")
+	private String tariffPath;
 
 	public List<TractionEnergyTariff> findAll() {
 		// TODO Auto-generated method stub
@@ -57,7 +61,7 @@ public class TractionEnergyTariffService {
 			String divisionCode, String createdBy, String zonal, String fU, String contentTopic,Integer tractionEnergyTariffId) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		try {
-			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(contentTopic, contentCategory );
+			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(tariffPath, contentCategory );
 			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
 				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 				ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();
@@ -67,6 +71,25 @@ public class TractionEnergyTariffService {
 				}else {
 					commonFileId = fileId.getCommonFileId()+1;
 				}
+				Optional<TractionEnergyTariff> traEneTariff =tractionEnergyTariffRepository.findById(tractionEnergyTariffId);
+				if (traEneTariff.isPresent()) {
+					TractionEnergyTariff tractionEnergyTariff = traEneTariff.get();
+					if (tractionEnergyTariff.getContentLink() != null) {
+						commonFileId = Long.parseLong(tractionEnergyTariff.getContentLink());
+					} else {
+						tractionEnergyTariff.setContentLink(String.valueOf(commonFileId));
+					}
+					
+					//String contentLink = tractionEnergyTariff.getContentLink();
+					/*for (ContentManagement contentManagement : liContentManagements) {
+						if (contentLink != null)
+							contentLink = contentLink+","+contentManagement.getId().toString();
+						else
+							contentLink = contentManagement.getId().toString();	
+					}*/
+					tractionEnergyTariffRepository.save(tractionEnergyTariff);
+				}
+				
 				for(MultipartFile mf: multipartFile)
 				{
 					String folderPath = folderResponse.getMessage();
@@ -74,20 +97,7 @@ public class TractionEnergyTariffService {
 				}
 				if(!liContentManagements.isEmpty()) {
 					liContentManagements = contentManagementRepository.saveAll(liContentManagements);
-					Optional<TractionEnergyTariff> traEneTariff =tractionEnergyTariffRepository.findById(tractionEnergyTariffId);
-					if (traEneTariff.isPresent()) {
-						TractionEnergyTariff tractionEnergyTariff = traEneTariff.get();
-						String contentLink = tractionEnergyTariff.getContentLink();
-						for (ContentManagement contentManagement : liContentManagements) {
-							if (contentLink != null)
-								contentLink = contentLink+","+contentManagement.getId().toString();
-							else
-								contentLink = contentManagement.getId().toString();	
-						}
-						tractionEnergyTariff.setContentLink(contentLink);
-						tractionEnergyTariffRepository.save(tractionEnergyTariff);
-					}
-					logger.info("Files Details saved in to Database Successfully.");
+										logger.info("Files Details saved in to Database Successfully.");
 				}
 			}					
 			responseStatus.setCode(Constants.SUCCESS_CODE);

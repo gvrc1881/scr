@@ -34,7 +34,7 @@
                                     <ng-container matColumnDef="name">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>file name
                                         </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.originalFileName}}</mat-cell>
+                                        <mat-cell *matCellDef="let row"><a href={{row.changeFileName}} target="_blank">  {{row.originalFileName}} </a></mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="gen/ops">
