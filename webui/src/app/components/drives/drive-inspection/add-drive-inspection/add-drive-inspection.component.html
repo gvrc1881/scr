@@ -83,6 +83,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
+                                                            (dateChange)="addEvent($event)" 
                                                                 placeholder="Choose Date Of Inspection"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['dateOfInspection']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -131,7 +132,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Authorisation Date"
+                                                                placeholder="Choose Authorisation Date" (dateChange)="addEvent($event)"  [min]="toMinDate"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
@@ -142,8 +143,8 @@
                                                     <!-- chargingDate -->
                                                     <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker3"
-                                                                placeholder="Choose Charging Date"
+                                                            <input matInput [matDatepicker]="picker3" 
+                                                                placeholder="Choose Charging Date" [min]="toMinDate"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['chargingDate']" > 
                                                             <mat-datepicker-toggle matSuffix [for]="picker3">
                                                             </mat-datepicker-toggle>

@@ -20,7 +20,9 @@ export class AddDriveCategoryComponent implements OnInit {
   addDriveCategoryFormGroup: FormGroup;
   id: number = 0;
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  toMinDate=new Date();
+  toMinDate = new Date();
+  currentDate = new Date();
+  dateFormat = 'MM-dd-yyyy ';
   driveFormErrors: any;
   resp: any;
 
@@ -67,6 +69,8 @@ export class AddDriveCategoryComponent implements OnInit {
       this.getDriveCategoryDataById(this.id);
 
     } else {
+      this.save = true;
+      this.update = false;
       this.title = 'Save';
     }
   }
@@ -156,7 +160,7 @@ export class AddDriveCategoryComponent implements OnInit {
           toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
           authority: this.resp.authority,
         });
-
+        this.toMinDate = new Date(this.resp.fromDate);
         this.spinnerService.hide();
       })
   }

@@ -83,13 +83,15 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
                                                                 placeholder="Choose From Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveCategoryFormGroup.controls['fromDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker1></mat-datepicker>
+                                                           
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div>                                       
+                                            
 
                                                     <!-- <div class="col-md-3">
                                                         <mat-form-field>
@@ -108,12 +110,14 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose To Date"
+                                                                [min]="toMinDate"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['toDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker2></mat-datepicker>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div>  
+                                                   
                                                     <!-- <div class="col-md-3">
                                                         <mat-form-field>                                                           
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
@@ -141,9 +145,11 @@
                                                             [disabled]="addDriveCategoryFormGroup.invalid" *ngIf="save">
                                                             Submit
                                                         </button>
+                                                       
                                                         <button class="mat-raised-button mat-accent  d-inline"
-                                                            color="accent" [disabled]="addDriveCategoryFormGroup.invalid"
-                                                            mat-raised-button="" *ngIf="update">
+                                                            color="accent"  mat-raised-button="" 
+                                                             [disabled]="addDriveCategoryFormGroup.invalid"
+                                                            *ngIf="update">
                                                             Update
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"

@@ -147,6 +147,15 @@ export const Constants = {
                     UPDATE:'/updateRepository',
                     DELETE:'/deleteRepository/'
                 }
+            },
+            MEASURE_ACTIVITY:{
+                GET_MEASURE:"/findAllMeasures",
+                GET_MEASURE_ID:"/findMeasure/",
+                SAVE_MEASURE:"/addMeasure",
+                UPDATE_MEASURE:"/updateMeasure",
+                DELETE_MEASURE:"/deleteMeasure/",
+                EXISTS_FEEDER_START_DATE:'/existsFeederAndStartDate/'
+
             }
         },
         ENERGY_BILL_PAYMENTS:{

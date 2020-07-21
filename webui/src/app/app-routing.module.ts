@@ -281,6 +281,11 @@ const routes: Routes = [
     path: 'model',
     loadChildren: './components/energy-bill-payment/model/model.module#ModelModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'measure-activity',
+    loadChildren: './components/measure-activity/measure-activity.module#MeasureActivityModule',
+    canActivate: [AuthGuard]
   }
 ];
 

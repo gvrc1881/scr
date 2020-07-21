@@ -22,6 +22,8 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   toMinDate = new Date();
+  currentDate = new Date();
+  dateFormat = 'MM-dd-yyyy ';
   electrificationTargetsFormErrors: any;
   resp: any;
   guageList:any;
@@ -148,6 +150,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
           yearOfSanction: this.resp.yearOfSanction,
           dateOfCompletion: !!this.resp.dateOfCompletion ? new Date(this.resp.dateOfCompletion) : '',
         });
+        this.toMinDate = new Date(this.resp.targetDate);
         this.spinnerService.hide();
       })
   }

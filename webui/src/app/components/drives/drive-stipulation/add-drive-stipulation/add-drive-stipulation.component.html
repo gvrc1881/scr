@@ -70,6 +70,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
                                                                 placeholder="Choose Date Of Stipulation"
+                                                                (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateOfStipulation']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
@@ -99,6 +100,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose Date Complied"
+                                                                [min]="minDateComplied"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateComplied']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>

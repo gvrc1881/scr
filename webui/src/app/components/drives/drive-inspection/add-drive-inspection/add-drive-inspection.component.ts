@@ -24,11 +24,14 @@ export class AddDriveInspectionComponent implements OnInit {
   filesExists: boolean = false;
   addDriveInspectionFormGroup: FormGroup;
   inspectionsList:any;
-  pattern = "[a-zA-Z][a-zA-Z ]*";
+  pattern = "[a-zA-Z][a-zA-Z]*";
   inspectionFormErrors:any;
   stateList: any;
   inspectionTypeList:any;
   attachedImages:any;
+  toMinDate = new Date();
+  currentDate = new Date();
+  dateFormat = 'MM-dd-yyyy ';
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
     private formBuilder: FormBuilder,
@@ -76,6 +79,9 @@ export class AddDriveInspectionComponent implements OnInit {
       this.title = 'Save'
     }    
   }
+  addEvent($event) {
+    this.toMinDate = new Date($event.value);
+  }
   getInspectionData() {    
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
       this.inspectionsList = data;     
@@ -115,6 +121,8 @@ export class AddDriveInspectionComponent implements OnInit {
       var commonId = !!this.resp.attachment && this.resp.attachment;
       console.log(commonId)
       this.spinnerService.hide();
+      this.toMinDate = new Date(this.resp.dateOfInspection);
+      this.toMinDate = new Date(this.resp.authorisationDate);
       this.findAttachedFiles(commonId);
     })
   }

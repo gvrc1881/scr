@@ -220,7 +220,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         permission:this.commonService.findPermission('Masters', 'menu', 'view'),
         currentTab: !!path && (path.includes("masters") || path.includes("roles") || path.includes("rolePermissions") 
         || path.includes("users") || path.includes("department")||path.includes("settings") || path.includes("repository") 
-        || path.includes("jobType") || path.includes("timeInterval")) ? "open" : "", 
+        || path.includes("jobType") || path.includes("timeInterval")||path.includes("measure-activity")) ? "open" : "", 
         subMenus: [
           { 
             subMenuName: "Roles", 
@@ -285,7 +285,15 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('Time Interval', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("timeInterval") ? "active-item" : "",
-          }
+          },
+          { 
+            subMenuName: "Activity Master", 
+            subMenuURL: "measure-activity", 
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Activity Master', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("measure-activity") ? "active-item" : "",
+          },
       
         ] 
       },

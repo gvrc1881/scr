@@ -88,7 +88,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
                                                                 placeholder="Choose Target Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>

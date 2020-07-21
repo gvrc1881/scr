@@ -28,7 +28,9 @@ export class AddDriveStipulationComponent implements OnInit {
   stipulationFormErrors: any;
   stateList: any;
   assertTypeList: any;
-  minDateComplied = new Date();
+  minDateComplied = new Date(); 
+  currentDate = new Date();
+  dateFormat = 'MM-dd-yyyy ';
   attachedImages:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   constructor(
