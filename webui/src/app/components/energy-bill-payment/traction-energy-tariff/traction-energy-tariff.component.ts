@@ -23,6 +23,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     deletePermission: boolean = true;
     tractionEnergyTariffFormGroup: FormGroup;
     addTractionEnergyTariff: boolean = false;
+    id: number = 0;
     title: string = "Save";
     tractionEnergyTariffList: any;
     editTractionEnergyTariffResponse: any;
@@ -63,15 +64,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getTractionEnergyTariffData();
-        this.tractionEnergyTariffFormGroup = this.formBuilder.group({
-             id: 0,
-            "supplier": [null],
-            "rate": [null],
-            "specification":[null, Validators.maxLength(250)],
-            "condition": [null, Validators.maxLength(250)],
-            "fromDate":[null,  Validators.required, this.duplicateFromDate.bind(this)],
-            "thruDate":[null]
-        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ENERGY_SUPPLIERS).subscribe((data) => {
         	 this.eleEnergySuppliersList = data;
         	},  error => {
@@ -98,6 +90,15 @@ export class TractionEnergyTariffComponent implements OnInit{
         
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
+        this.tractionEnergyTariffFormGroup = this.formBuilder.group({
+            id: 0,
+           "supplier": [null],
+           "rate": [null],
+           "specification":[null, Validators.maxLength(250)],
+           "condition": [null, Validators.maxLength(250)],
+           "fromDate":[null,  Validators.required, this.duplicateFromDate.bind(this)],
+           "thruDate":[null]
+       });
     }
     
     addEvent($event) {
@@ -276,6 +277,15 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
+        this.tractionEnergyTariffFormGroup = this.formBuilder.group({
+            id: 0,
+           "supplier": [null],
+           "rate": [null],
+           "specification":[null, Validators.maxLength(250)],
+           "condition": [null, Validators.maxLength(250)],
+           "fromDate":[null,  Validators.required],
+           "thruDate":[null]
+       });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
@@ -289,6 +299,12 @@ export class TractionEnergyTariffComponent implements OnInit{
                     condition: this.editTractionEnergyTariffResponse.condition
                 });
             } , error => {});
+            this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     } 
     
     

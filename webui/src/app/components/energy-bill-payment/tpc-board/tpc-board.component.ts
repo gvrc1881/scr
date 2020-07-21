@@ -18,6 +18,7 @@ export class TPCBoardComponent implements OnInit{
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addTPCBoard: boolean ;
+    id: number = 0;
     title: string = "Save";
     tpcBoardFormGroup: FormGroup;
     tpcBoardList : any;
@@ -47,13 +48,6 @@ export class TPCBoardComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.tpcBoardFormGroup = this.formBuilder.group({
-            id: 0,
-            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-            'dataDiv':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
-            'description':[null,Validators.maxLength(250)]
-            
-        });
     }
     duplicateTpcBoard() {
     	const q = new Promise((resolve, reject) => {
@@ -138,6 +132,13 @@ export class TPCBoardComponent implements OnInit{
     }
 
     tpcBoardEditAction(id: number) {
+        this.tpcBoardFormGroup = this.formBuilder.group({
+            id: 0,
+            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'dataDiv':[null,Validators.required],
+            'description':[null,Validators.maxLength(250)]
+            
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_ID+id).subscribe((responseData) => {
             this.editTpcBoardResponse = responseData;
             this.tpcBoardFormGroup.patchValue({
@@ -148,6 +149,12 @@ export class TPCBoardComponent implements OnInit{
 
             })
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -189,6 +196,13 @@ export class TPCBoardComponent implements OnInit{
 
     NewTPCBoard () {
         this.addTPCBoard = true;
+        this.tpcBoardFormGroup = this.formBuilder.group({
+            id: 0,
+            'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'dataDiv':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
+            'description':[null,Validators.maxLength(250)]
+            
+        });
     }
 
 }

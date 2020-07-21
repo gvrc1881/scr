@@ -5,7 +5,7 @@
           <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                      <li class="breadcrumb-item"><a [routerLink]="['/foot-patrolling-sections']">FP Section</a></li> 
+                      <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment</a></li>
                         <li class="breadcrumb-item active" aria-current="page">FP Sections</li>
               </ol>
           </nav>
@@ -33,13 +33,14 @@
                                                   <div class="panel-body">
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30" class="example-full-width">
-                              <mat-select placeholder="Select Depot" 
-                                [formControl]="fpSectionsItemFormGroup.controls['facilityDepot']" required>
-                                <mat-option *ngFor="let facilityData of facilityData"
-                                  [value]="facilityData.facilityName">
-                                  {{ facilityData.facilityName }}
+                              <input type="text" placeholder="Select Depot" matInput [matAutocomplete]="auto" 
+                                [formControl]="fpSectionsItemFormGroup.controls['facilityDepot']" required/>
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let facilityData of filteredOptions | async"
+                                  [value]="facilityData">
+                                  {{ facilityData }}
                                 </mat-option>
-                              </mat-select>
+                                </mat-autocomplete>
                             </mat-form-field>
                           </div>
                           <div class="col-md-3">

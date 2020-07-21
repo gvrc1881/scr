@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -9,14 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
+import com.scr.model.ContentManagement;
 import com.scr.model.FootPatrollingInspection;
 import com.scr.model.Observation;
+import com.scr.services.ContentManagementService;
 import com.scr.services.FootPatrollingInspectionService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -31,7 +38,8 @@ public class FootPatrollingInspectionController {
 	@Autowired
 	private FootPatrollingInspectionService footPatrollingInspectionService;
 	
-	
+	@Autowired
+	private ContentManagementService contentManagementService;
 	//The Below code related to Foot patrollingInspection service
 	
 	//findAllFpInspection
@@ -224,7 +232,52 @@ public class FootPatrollingInspectionController {
 			return Helper.findResponseStatus("Observation Item Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-
+	@PostMapping("/observationUploadFiles")
+	@ResponseBody
+	public ResponseStatus uploadAttachedFiles(
+			@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("observationId") Long observationId,
+			@RequestParam("contentCategory") String contentCategory,
+			@RequestParam("description") String description,
+			@RequestParam("divisionCode") String divisionCode,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("zonal") String zonal,
+			@RequestParam("FU") String FU,
+			@RequestParam("contentTopic") String contentTopic) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		try {
+			log.info("File Name: "+contentCategory);
+			responseStatus = footPatrollingInspectionService.storeUploadedFiles(file, contentCategory, description, divisionCode, createdBy, zonal, FU, contentTopic,observationId);
+			log.info("File Saved Successfully!");
+		} catch (NullPointerException e) {
+			log.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		return responseStatus;
+	}
+	@RequestMapping(value = "/attachedObservationList/{observationId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("observationId") Long observationId){
+		List<ContentManagement> contentManagementList = new ArrayList<>();
+		try {
+			log.info("Getting observation  Details  = "+observationId);	
+			Optional<Observation> obseravtionsObj =footPatrollingInspectionService.findById(observationId);
+			if (obseravtionsObj.isPresent()) {
+				Observation observation = obseravtionsObj.get();
+				if(observation.getAttachment() != null) {
+					contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(observation.getAttachment()));
+				}	
+				log.info("content size:::"+contentManagementList.size());
+			}
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("Error while getting DivisionHistory Details"+e.getMessage());
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+		}	
+	}
 	
 	//The Below code related to Compliance services
 	
@@ -322,5 +375,11 @@ public class FootPatrollingInspectionController {
 				log.error("ERROR >> While deleting Compliance Item  data"+e.getMessage());
 				return Helper.findResponseStatus("Compliance Item Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 			}
+		}
+		@RequestMapping(value = "/complianceStatus", method = RequestMethod.GET ,headers = "accept=application/json")	
+		public ResponseEntity<List<Compliance>> findByStatus(String status){
+			List<Compliance> complianceStatus= footPatrollingInspectionService.findByStatus(status);
+			return new ResponseEntity<List<Compliance>>(complianceStatus,HttpStatus.OK);	
+			
 		}
 }

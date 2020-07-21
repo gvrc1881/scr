@@ -18,6 +18,7 @@ export class StationsSectionsComponent implements OnInit{
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addStationsSections: boolean ;
+    id: number = 0;
     title: string = "Save";
     stationsSectionsFormGroup: FormGroup;
     stationsSectionsList : any;
@@ -46,17 +47,7 @@ export class StationsSectionsComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.stationsSectionsFormGroup = this.formBuilder.group({
-            id: 0,
-            'stationCode':[null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationCode.bind(this)],
-            'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationName.bind(this)],
-            'majorSectionRoute': [null,Validators.maxLength(250)],
-            'upSection': [null,Validators.maxLength(250)],
-            'upSectionName' : [null,Validators.maxLength(250)],
-            'dnSection' : [null,Validators.maxLength(250)],
-            'dnSectionName': [null,Validators.maxLength(250)],
-            'division' : [null,Validators.maxLength(250)]
-        });
+        
     }
       duplicateStationCode() {
         const q = new Promise((resolve, reject) => {
@@ -173,6 +164,17 @@ export class StationsSectionsComponent implements OnInit{
     }
 
     stationsSectionsEditAction(id: number) {
+      this.stationsSectionsFormGroup = this.formBuilder.group({
+        id: 0,
+        'stationCode':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+        'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+        'majorSectionRoute': [null,Validators.maxLength(250)],
+        'upSection': [null,Validators.maxLength(250)],
+        'upSectionName' : [null,Validators.maxLength(250)],
+        'dnSection' : [null,Validators.maxLength(250)],
+        'dnSectionName': [null,Validators.maxLength(250)],
+        'division' : [null,Validators.maxLength(250)]
+    });
       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS_ID+id).subscribe((responseData) => {
         this.editstationsSectionsResponse = responseData;
             this.stationsSectionsFormGroup.patchValue({
@@ -187,6 +189,12 @@ export class StationsSectionsComponent implements OnInit{
                 division: this.editstationsSectionsResponse.division
             })
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -229,6 +237,17 @@ export class StationsSectionsComponent implements OnInit{
 
     NewStationsSections () {
         this.addStationsSections = true;
+        this.stationsSectionsFormGroup = this.formBuilder.group({
+          id: 0,
+          'stationCode':[null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationCode.bind(this)],
+          'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateStationName.bind(this)],
+          'majorSectionRoute': [null,Validators.maxLength(250)],
+          'upSection': [null,Validators.maxLength(250)],
+          'upSectionName' : [null,Validators.maxLength(250)],
+          'dnSection' : [null,Validators.maxLength(250)],
+          'dnSectionName': [null,Validators.maxLength(250)],
+          'division' : [null,Validators.maxLength(250)]
+      });
     }
 
 }

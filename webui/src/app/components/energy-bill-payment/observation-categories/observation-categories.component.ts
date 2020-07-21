@@ -3,6 +3,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationCategoriesModel } from 'src/app/models/observation-categories.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
@@ -20,10 +21,12 @@ export class ObservationCategoriesComponent implements OnInit{
     deletePermission: boolean = true;
     addObservationCategories: boolean ;
     title: string = "Save";
+    id: number = 0;
     observationCategoriesFormGroup: FormGroup;
     observationCategoriesList : any;
     toMinDate=new Date();
     inspectionTypeData:any;
+    obsCategoriesErrors: any;
     observationCategoriesItemDataSource: MatTableDataSource<ObservationCategoriesModel>;
     observationCategoriesDisplayColumns = ['sno' ,'inspectionType','department' , 'observationCategory' , 'description' , 'remark' , 'fromDate' , 'thruDate' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -35,11 +38,16 @@ export class ObservationCategoriesComponent implements OnInit{
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
+        private route: ActivatedRoute,
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
 
     ){
-
+        this.obsCategoriesErrors = {
+            inspectionType: {},
+            observationCategory:{}
+      
+          };
     }
 
     ngOnInit () {
@@ -49,18 +57,24 @@ export class ObservationCategoriesComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.observationCategoriesFormGroup = this.formBuilder.group({
-            id: 0,
-            'inspectionType':[null],
-            'department':[null,Validators.maxLength(250)],
-            'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateObservationCategory.bind(this)],
-            'description': [null,Validators.maxLength(250)],
-            'remark': [null,Validators.maxLength(250)],
-            'fromDate' : [null],
-            'thruDate' : [null]
-        });
+        
     }
      
+    onFormValuesChanged() {
+        for (const field in this.obsCategoriesErrors) {
+          if (!this.obsCategoriesErrors.hasOwnProperty(field)) {
+            continue;
+          }
+          // Clear previous errors
+          this.obsCategoriesErrors[field] = {};
+    
+          // Get the control
+          const control = this.observationCategoriesFormGroup.get(field);
+          if (control && control.dirty && !control.valid) {
+            this.obsCategoriesErrors[field] = control.errors;
+          }
+        }
+      }
       duplicateObservationCategory() {
         const q = new Promise((resolve, reject) => {
           let observationCategories: string = this.observationCategoriesFormGroup.controls['observationCategory'].value;
@@ -158,6 +172,16 @@ export class ObservationCategoriesComponent implements OnInit{
     }
 
     observationCategoriesEditAction(id: number) {
+      this.observationCategoriesFormGroup = this.formBuilder.group({
+        id: 0,
+        'inspectionType':[null],
+        'department':[null,Validators.maxLength(250)],
+        'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+        'description': [null,Validators.maxLength(250)],
+        'remark': [null,Validators.maxLength(250)],
+        'fromDate' : [null],
+        'thruDate' : [null]
+    });
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES_ID+id).subscribe((responseData) => {
             this.editobservationCategoriesResponse = responseData;
             this.observationCategoriesFormGroup.patchValue({
@@ -168,11 +192,19 @@ export class ObservationCategoriesComponent implements OnInit{
                 description: this.editobservationCategoriesResponse.description,
                 remark: this.editobservationCategoriesResponse.remark,
                 fromDate: this.editobservationCategoriesResponse.fromDate,
-                thruDate: !!this.editobservationCategoriesResponse.thruDate ? new Date(this.editobservationCategoriesResponse.thruDate) : '',
+                thruDate: !!this.editobservationCategoriesResponse.thruDate ? new Date(this.editobservationCategoriesResponse.thruDate) : '',   
             });
             this.toMinDate = new Date(this.editobservationCategoriesResponse.fromDate);
-
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.observationCategoriesFormGroup.valueChanges.subscribe(() => {
+              this.onFormValuesChanged();
+            });
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -215,6 +247,16 @@ export class ObservationCategoriesComponent implements OnInit{
 
     NewObservationCategories () {
         this.addObservationCategories = true;
+        this.observationCategoriesFormGroup = this.formBuilder.group({
+          id: 0,
+          'inspectionType':[null],
+          'department':[null,Validators.maxLength(250)],
+          'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateObservationCategory.bind(this)],
+          'description': [null,Validators.maxLength(250)],
+          'remark': [null,Validators.maxLength(250)],
+          'fromDate' : [null],
+          'thruDate' : [null]
+      });
     }
 
 }

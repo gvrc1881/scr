@@ -67,7 +67,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.assetType = 'PSI_FIXED_ASSET'
        }
       
-       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+'/'+this.assetType).subscribe((data)=>{
+       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+this.assetType).subscribe((data)=>{
          this.assetType =data;
      })
         this.reportModel = new ReportModel();

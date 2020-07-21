@@ -347,6 +347,23 @@ export const Constants = {
                 SAVE_FP_INSPECTION:"/addFPInspection",
                 UPDATE_FP_INSPECTION:"/updateFPInspectionItem",
                 DELETE_FP_INSPECTION:"/deleteFPInspectionItem/"
+            },
+            OBSERVATION:{
+                GET_OBSERVATION:"/findAllObservationItems",
+                GET_OBSERVATION_ID:"/findObservationItemById/",
+                SAVE_OBSERVATION:"/addObservation",
+                UPDATE_OBSERVATION:"/updateObservationItem",
+                DELETE_OBSERVATION:"/deleteObservationItem/",
+                ATTACHMENT_OBSLIST:"/attachedObservationList/",
+                OBSERVATION_UPLOAD_FILES:"/observationUploadFiles"
+
+            },
+            COMPLIANCES:{
+                GET_COMPLIANCE:"/findAllComplianceItems",
+                GET_COMPLIANCE_ID:"/findComplianceItemById/",
+                SAVE_COMPLIANCE:"/addCompliance",
+                UPDATE_COMPLIANCE:"/updateComplianceItem",
+                DELETE_COMPLIANCE:"/deleteComplianceItem/"
             }
 
         },

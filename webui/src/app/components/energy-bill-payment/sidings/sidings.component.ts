@@ -20,6 +20,7 @@ export class SidingsComponent implements OnInit {
     deletePermission: boolean = true;
     addSidingsItem: boolean ;
     stationCodeData:any;
+    id: number = 0;
     title: string = "Save";
     sidingsItemList : any;
     toMinDate=new Date();
@@ -73,30 +74,6 @@ export class SidingsComponent implements OnInit {
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.sidingsItemFormGroup = this.formBuilder.group({
-            id: 0,
-            'station':[null,Validators.maxLength(250)],
-            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCode.bind(this)],
-            'section': [null,Validators.maxLength(250)],
-            'sectionEletrifiedStatus': [null],
-            'sidingEletrifiedStatus' : [null],
-            'privateRailway' : [null,Validators.maxLength(250)],
-            'status': [null,Validators.maxLength(250)],
-            'tkm' : [null],
-            'remarks' : [null, Validators.maxLength(250)],
-            'sidingProposed' : [null],
-            'proposedDate' : [null],
-            'approvalDate' : [null],
-            'workOrderDate' : [null],
-            'workProgressPercentage' : [null],
-            'workProgressRemark' : [null,Validators.maxLength(250)],
-            'completionDate' : [null],
-            'zone' : [null],
-            'division':[null],
-            'depot':[null],
-            
-        });
-
         this.displayHierarchyFields();
         
      }
@@ -238,6 +215,29 @@ export class SidingsComponent implements OnInit {
     }
 
     sidingsItemEditAction(id: number) {
+        this.sidingsItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'station':[null,Validators.maxLength(250)],
+            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'section': [null,Validators.maxLength(250)],
+            'sectionEletrifiedStatus': [null],
+            'sidingEletrifiedStatus' : [null],
+            'privateRailway' : [null,Validators.maxLength(250)],
+            'status': [null,Validators.maxLength(250)],
+            'tkm' : [null],
+            'remarks' : [null, Validators.maxLength(250)],
+            'sidingProposed' : [null],
+            'proposedDate' : [null],
+            'approvalDate' : [null],
+            'workOrderDate' : [null],
+            'workProgressPercentage' : [null],
+            'workProgressRemark' : [null,Validators.maxLength(250)],
+            'completionDate' : [null],
+            'zone' : [null],
+            'division':[null],
+            'depot':[null],
+            
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.GET_SIDINGS_ID+id).subscribe((responseData) => {
             this.editsidingsItemResponse = responseData;
             this.sidingsItemFormGroup.patchValue({
@@ -270,6 +270,12 @@ export class SidingsComponent implements OnInit {
             this.findDivisions();
           
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -310,6 +316,29 @@ export class SidingsComponent implements OnInit {
 
      NewSlidingsItem () {
         this.addSidingsItem = true;
+        this.sidingsItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'station':[null,Validators.maxLength(250)],
+            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCode.bind(this)],
+            'section': [null,Validators.maxLength(250)],
+            'sectionEletrifiedStatus': [null],
+            'sidingEletrifiedStatus' : [null],
+            'privateRailway' : [null,Validators.maxLength(250)],
+            'status': [null,Validators.maxLength(250)],
+            'tkm' : [null],
+            'remarks' : [null, Validators.maxLength(250)],
+            'sidingProposed' : [null],
+            'proposedDate' : [null],
+            'approvalDate' : [null],
+            'workOrderDate' : [null],
+            'workProgressPercentage' : [null],
+            'workProgressRemark' : [null,Validators.maxLength(250)],
+            'completionDate' : [null],
+            'zone' : [null],
+            'division':[null],
+            'depot':[null],
+            
+        });
     }
     statusChange() {
         if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'yes') {     

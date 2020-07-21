@@ -22,6 +22,7 @@ export class WorksComponent implements OnInit {
     deletePermission: boolean = true;
     workFormGroup: FormGroup;
     addWork: boolean = false;
+    id: number = 0;
     title: string = "Save";
     workList: any;
     editWorkResponse: any;
@@ -61,29 +62,6 @@ export class WorksComponent implements OnInit {
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getAllWorksData();
-        this.workFormGroup = this.formBuilder.group({
-             id: 0,
-            "allocation" : [null, Validators.maxLength(250)],
-  			"division" : [null],
-			"estdLatestAnticCost" : [null],
-			"executedBy" : [null, Validators.maxLength(250) ],
-			"executingAgency" : [null],
-			"financialProgressPercentage" : [null,Validators.max(100)],
-			"latestRevisedCost" : [null],
-			"pbLawLswp" : [null],
-			"pbLawLswpCode" : [null],
-			"physicalProgressPercentage" : [null,Validators.max(100)],
-			"presentStatus" : [null],
-			"reWorks" : [null],
-			"rkm" : [null],
-			"sanctionCost" : [null],
-			"section" : [ null, Validators.maxLength(250)],
-			"statusRemarks" : [null , Validators.maxLength(250)],
-			"targetDateOfCompletion" : [null],
-			"tkm" : [null],
-			"workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicateWorkName.bind(this)],
-			"yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
-        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'WORK_PROGRESS_STATUS').subscribe((data) => {
                  this.statusItems = data;
       		});
@@ -119,6 +97,29 @@ export class WorksComponent implements OnInit {
     
     addNewWork() {
         this.addWork = true;
+        this.workFormGroup = this.formBuilder.group({
+            id: 0,
+           "allocation" : [null, Validators.maxLength(250)],
+             "division" : [null],
+           "estdLatestAnticCost" : [null],
+           "executedBy" : [null, Validators.maxLength(250) ],
+           "executingAgency" : [null],
+           "financialProgressPercentage" : [null,Validators.max(100)],
+           "latestRevisedCost" : [null],
+           "pbLawLswp" : [null],
+           "pbLawLswpCode" : [null],
+           "physicalProgressPercentage" : [null,Validators.max(100)],
+           "presentStatus" : [null],
+           "reWorks" : [null],
+           "rkm" : [null],
+           "sanctionCost" : [null],
+           "section" : [ null, Validators.maxLength(250)],
+           "statusRemarks" : [null , Validators.maxLength(250)],
+           "targetDateOfCompletion" : [null],
+           "tkm" : [null],
+           "workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicateWorkName.bind(this)],
+           "yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
+       });
     }
     
     onTractionEneTariffSubmit() {
@@ -231,6 +232,29 @@ export class WorksComponent implements OnInit {
     }
     
     workEditAction(id: number) {
+        this.workFormGroup = this.formBuilder.group({
+            id: 0,
+           "allocation" : [null, Validators.maxLength(250)],
+             "division" : [null],
+           "estdLatestAnticCost" : [null],
+           "executedBy" : [null, Validators.maxLength(250) ],
+           "executingAgency" : [null],
+           "financialProgressPercentage" : [null,Validators.max(100)],
+           "latestRevisedCost" : [null],
+           "pbLawLswp" : [null],
+           "pbLawLswpCode" : [null],
+           "physicalProgressPercentage" : [null,Validators.max(100)],
+           "presentStatus" : [null],
+           "reWorks" : [null],
+           "rkm" : [null],
+           "sanctionCost" : [null],
+           "section" : [ null, Validators.maxLength(250)],
+           "statusRemarks" : [null , Validators.maxLength(250)],
+           "targetDateOfCompletion" : [null],
+           "tkm" : [null],
+           "workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)])],
+           "yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
+       });
     	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+id)
             .subscribe((responseData) => {
                 this.editWorkResponse = responseData;
@@ -258,6 +282,12 @@ export class WorksComponent implements OnInit {
 					yearOfSanction : this.editWorkResponse.yearOfSanction
                 });
             } , error => {});
+            this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
     
     

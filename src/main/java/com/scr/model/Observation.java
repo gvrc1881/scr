@@ -55,6 +55,9 @@ public class Observation implements Serializable {
 
 	@Column(name="last_updated_tx_stamp")
 	private Timestamp lastUpdatedTxStamp;
+	
+	@Column(name = "attachment")
+	private String attachment;
 
 	private String location;
 
@@ -224,15 +227,23 @@ public class Observation implements Serializable {
 		this.seqId = seqId;
 	}
 
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
 	@Override
 	public String toString() {
 		return "Observation [id=" + id + ", action=" + action + ", actionBy=" + actionBy + ", createdBy=" + createdBy
 				+ ", createdDateTime=" + createdDateTime + ", createdStamp=" + createdStamp + ", createdTxStamp="
 				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", deviceId=" + deviceId
 				+ ", deviceSeqId=" + deviceSeqId + ", inspectionSeqId=" + inspectionSeqId + ", lastUpdatedStamp="
-				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", location=" + location
-				+ ", observation=" + observation + ", observationCategory=" + observationCategory + ", observationItem="
-				+ observationItem + ", seqId=" + seqId + "]";
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", attachment=" + attachment
+				+ ", location=" + location + ", observation=" + observation + ", observationCategory="
+				+ observationCategory + ", observationItem=" + observationItem + ", seqId=" + seqId + "]";
 	}
 
 }

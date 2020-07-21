@@ -19,6 +19,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addFPSectionsItem: boolean ;
+    id: number = 0;
     title: string = "Save";
     fpSectionsItemFormGroup: FormGroup;
     fpSectionsList : any;
@@ -49,16 +50,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.fpSectionsItemFormGroup = this.formBuilder.group({
-            id: 0,
-            'facilityDepot':[null],
-            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicatefpSection.bind(this)],
-            'fromLocation': [null],
-            'toLocation': [null],
-            'fromDate': [null],
-            'toDate' : [null],
-            'remarks' : [null,Validators.maxLength(250)]
-        });
+        
         
     }
       duplicatefpSection() {
@@ -157,6 +149,16 @@ export class FootPatrollingSectionsComponent implements OnInit{
     }
 
     fpSectionsItemEditAction(id: number) {
+        this.fpSectionsItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'facilityDepot':[null],
+            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'fromLocation': [null],
+            'toLocation': [null],
+            'fromDate': [null],
+            'toDate' : [null],
+            'remarks' : [null,Validators.maxLength(250)]
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.GET_FP_SECTIONS_ID+id).subscribe((responseData) => {
             this.editfpSectionsItemResponse = responseData;
             this.fpSectionsItemFormGroup.patchValue({
@@ -172,6 +174,12 @@ export class FootPatrollingSectionsComponent implements OnInit{
             this.toMinDate = new Date(this.editfpSectionsItemResponse.fromDate);
 
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -213,6 +221,16 @@ export class FootPatrollingSectionsComponent implements OnInit{
 
     NewFPSectionsItem () {
         this.addFPSectionsItem = true;
+        this.fpSectionsItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'facilityDepot':[null],
+            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicatefpSection.bind(this)],
+            'fromLocation': [null],
+            'toLocation': [null],
+            'fromDate': [null],
+            'toDate' : [null],
+            'remarks' : [null,Validators.maxLength(250)]
+        });
     }
 
 }

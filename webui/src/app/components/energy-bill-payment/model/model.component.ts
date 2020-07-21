@@ -22,6 +22,7 @@ export class ModelComponent implements OnInit{
     deletePermission: boolean = true;
     addModel:boolean;
     modelFormGroup:FormGroup;
+    id: number = 0;
     title: string = "Save";
     modelList:any;
     updatedata: boolean = true;
@@ -64,16 +65,6 @@ export class ModelComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
         this.getAllModelData();
-        this.modelFormGroup = this.formBuilder.group({
-            id: 0,
-        
-            'modelCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateModelCode.bind(this)],
-            'description': [null, Validators.maxLength(255)],
-            'brandName': [null, Validators.maxLength(255)],
-            'modelType' : [null, Validators.maxLength(255)],
-            
-            
-        });
         
     }
 
@@ -179,6 +170,13 @@ export class ModelComponent implements OnInit{
 
     NewModel () {
         this.addModel = true;
+        this.modelFormGroup = this.formBuilder.group({
+          id: 0,
+          'modelCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateModelCode.bind(this)],
+          'description': [null, Validators.maxLength(255)],
+          'brandName': [null, Validators.maxLength(255)],
+          'modelType' : [null, Validators.maxLength(255)],   
+      });
     }
 
     applyFilter(filterValue: string) {
@@ -224,6 +222,13 @@ export class ModelComponent implements OnInit{
       }
 
       ModelEditAction(id: number) {
+        this.modelFormGroup = this.formBuilder.group({
+          id: 0,
+          'modelCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+          'description': [null, Validators.maxLength(255)],
+          'brandName': [null, Validators.maxLength(255)],
+          'modelType' : [null, Validators.maxLength(255)],  
+      });
         this.addModel = true;
        // this.modelService.findModelById(id)
        this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.GET_MODEL_ID+id)
@@ -244,6 +249,15 @@ export class ModelComponent implements OnInit{
           });
         }, error => this.modelErrors = error);
         this.commonService.scrollTop("forms");
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.modelFormGroup.valueChanges.subscribe(() => {
+              this.onFormValuesChanged();
+            });
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
       }
 
       onFormValuesChanged() {

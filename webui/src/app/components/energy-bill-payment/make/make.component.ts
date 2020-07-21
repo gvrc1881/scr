@@ -22,6 +22,7 @@ export class MakeComponent implements OnInit{
     deletePermission: boolean = true;
     addMake:boolean;
     makeFormGroup:FormGroup;
+    id: number = 0;
     title: string = "Save";
     makeList:any;
     updatedata: boolean = true;
@@ -61,17 +62,7 @@ export class MakeComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
-        this.getAllMakeData();
-        this.makeFormGroup = this.formBuilder.group({
-            id: 0,
-            'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateMakeCode.bind(this)],
-            'description': [null, Validators.maxLength(255)],
-            'brandName': [null, Validators.maxLength(255)],
-            'makeType' : [null, Validators.maxLength(255)],
-            
-            
-        });
-        
+        this.getAllMakeData();   
     }
     changeMakeCode($event){
       $event.taget.value.toUpperCase();
@@ -177,6 +168,15 @@ export class MakeComponent implements OnInit{
 
     NewMake () {
         this.addMake = true;
+        this.makeFormGroup = this.formBuilder.group({
+          id: 0,
+          'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateMakeCode.bind(this)],
+          'description': [null, Validators.maxLength(255)],
+          'brandName': [null, Validators.maxLength(255)],
+          'makeType' : [null, Validators.maxLength(255)],
+          
+          
+      });
     }
 
     applyFilter(filterValue: string) {
@@ -221,6 +221,15 @@ export class MakeComponent implements OnInit{
       }
 
       MakeEditAction(id: number) {
+        this.makeFormGroup = this.formBuilder.group({
+          id: 0,
+          'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+          'description': [null, Validators.maxLength(255)],
+          'brandName': [null, Validators.maxLength(255)],
+          'makeType' : [null, Validators.maxLength(255)],
+          
+          
+      });
         this.addMake = true;
         //this.makeService.findMakeById(id)
         this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID+id)
@@ -241,6 +250,16 @@ export class MakeComponent implements OnInit{
           });
         }, error => this.makeErrors = error);
         this.commonService.scrollTop("forms");
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.makeFormGroup.valueChanges.subscribe(() => {
+              this.onFormValuesChanged();
+            });
+           
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
       }
 
       onFormValuesChanged() {

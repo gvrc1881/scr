@@ -18,6 +18,7 @@ export class EnergyMeterComponent implements OnInit{
 	addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
+    id: number = 0;
     title: string = "Save";
     energyMeterFormGroup: FormGroup;
     energyMeterList : any;
@@ -49,26 +50,6 @@ export class EnergyMeterComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-    	this.energyMeterFormGroup = this.formBuilder.group({
-            id: 0,
-            'meterNo' : [null],
-            'multiplicationFac' : [null],
-            'startKvah': [null],
-            'startKwh': [null],
-            'startRkvahLag': [null],
-            'startRkvahLead': [null],
-            'endKvah' : [null],
-            'endKwh' : [null],
-            'endRkvahLag' : [null],
-            'endRkvahLead' : [null],
-            'meterMake' : [null],
-            'meterModel' : [null],
-            'cmd':[null],
-            'remarks' : [null,Validators.maxLength(250)],
-            'startDate': [null,Validators.required, this.duplicateFeederAndStartDate.bind(this)],
-            'endDate': [null],
-            'feederId': [null]
-        });
         this.getAllEnergyMeterData();
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_MASTER_DETAILS).subscribe((data) => {
             this.tssFeederMaterList = data;
@@ -197,6 +178,26 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     energyMeterEditAction(id: number) {
+        this.energyMeterFormGroup = this.formBuilder.group({
+            id: 0,
+            'meterNo' : [null],
+            'multiplicationFac' : [null],
+            'startKvah': [null],
+            'startKwh': [null],
+            'startRkvahLag': [null],
+            'startRkvahLead': [null],
+            'endKvah' : [null],
+            'endKwh' : [null],
+            'endRkvahLag' : [null],
+            'endRkvahLead' : [null],
+            'meterMake' : [null],
+            'meterModel' : [null],
+            'cmd':[null],
+            'remarks' : [null,Validators.maxLength(250)],
+            'startDate': [null,Validators.required],
+            'endDate': [null],
+            'feederId': [null]
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
@@ -222,6 +223,12 @@ export class EnergyMeterComponent implements OnInit{
             })
             
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
     
     getAllEnergyMeterData() {
@@ -281,6 +288,26 @@ export class EnergyMeterComponent implements OnInit{
     newEnergyMeter() {
         this.addEnergyMeter = true;
         this.enableEndReadings = false;
+        this.energyMeterFormGroup = this.formBuilder.group({
+            id: 0,
+            'meterNo' : [null],
+            'multiplicationFac' : [null],
+            'startKvah': [null],
+            'startKwh': [null],
+            'startRkvahLag': [null],
+            'startRkvahLead': [null],
+            'endKvah' : [null],
+            'endKwh' : [null],
+            'endRkvahLag' : [null],
+            'endRkvahLead' : [null],
+            'meterMake' : [null],
+            'meterModel' : [null],
+            'cmd':[null],
+            'remarks' : [null,Validators.maxLength(250)],
+            'startDate': [null,Validators.required, this.duplicateFeederAndStartDate.bind(this)],
+            'endDate': [null],
+            'feederId': [null]
+        });
     }
     
  }   

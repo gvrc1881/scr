@@ -8,3 +8,20 @@ export interface FootPatrollingInspectionModel{
     stopTime:Date,
     
 }
+export interface ObservationModel {
+    id:number;
+    inspectionSeqId:string;
+    location: string;
+    observationCategory: string;
+    observationItem: string;
+    description: string;
+    attachment: String;
+}
+export interface ComplianceModel {
+    id:number;
+    obeservationSeqId:string;
+    status: string,
+    action: string;
+    complianceBy: string;
+    compliedDateTime: Date;
+}
