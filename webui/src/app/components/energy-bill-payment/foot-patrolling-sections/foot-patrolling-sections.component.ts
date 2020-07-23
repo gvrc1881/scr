@@ -26,6 +26,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     toMinDate=new Date();
     currentDate = new Date();
     facilityData:any;
+    filteredOptions:any;
     fpSectionsItemDataSource: MatTableDataSource<FootPatrollingSectionsModel>;
     fpSectionsItemDisplayColumns = ['sno' ,'facilityDepot','fpSection' , 'fromLocation' , 'toLocation' , 'fromDate' , 'toDate' , 'remarks' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

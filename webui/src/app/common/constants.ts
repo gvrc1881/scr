@@ -150,11 +150,12 @@ export const Constants = {
             },
             MEASURE_ACTIVITY:{
                 GET_MEASURE:"/findAllMeasures",
-                GET_MEASURE_ID:"/findMeasure/",
-                SAVE_MEASURE:"/addMeasure",
-                UPDATE_MEASURE:"/updateMeasure",
-                DELETE_MEASURE:"/deleteMeasure/",
-                EXISTS_FEEDER_START_DATE:'/existsFeederAndStartDate/'
+                GET_MEASURE_ID:"/findMeasures/",
+                SAVE_MEASURE:"/addMeasures",
+                UPDATE_MEASURE:"/updateMeasures",
+                DELETE_MEASURE:"/deleteMeasures/",
+                EXISTS_ACTIVITY_ID:'/existsActivityId/',
+                EXISTS_ACTIVITYNAME_UNITOFMEASURE:'/existsActivityNameAndUnitOfMeasure/'
 
             }
         },

@@ -162,10 +162,10 @@ export class MeasureActivityComponent implements OnInit{
     
         this.measureActivityFormGroup = this.formBuilder.group({
             id: 0,
-            'activityId' : [null],
-            'activityName' : [null],
-            'activityType': [null],
-            'unitOfMeasure':[null]
+            'activityId' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateActivityId.bind(this)],
+            'activityName' : [null,Validators.maxLength(255)],
+            'activityType': [null,Validators.maxLength(255)],
+            'unitOfMeasure':[null,Validators.maxLength(255)]
         });
     }
         
@@ -210,14 +210,14 @@ export class MeasureActivityComponent implements OnInit{
     measureEditAction(id: number) {
         this.measureActivityFormGroup = this.formBuilder.group({
             id: 0,
-            'activityId' : [null],
-            'activityName' : [null],
-            'activityType': [null],
-            'unitOfMeasure':[null]
+            'activityId' : [null,Validators.maxLength(255)],
+            'activityName' : [null,Validators.maxLength(255)],
+            'activityType': [null,Validators.maxLength(255)],
+            'unitOfMeasure':[null,Validators.maxLength(255)]
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_MEASURE_ID+id).subscribe((responseData) => {
-            this.measureResponse = responseData;
-              
+            this.editMeasureResponse = responseData;
+             
               this.measureActivityFormGroup.patchValue
               ({
                                 id: this.editMeasureResponse.id,
@@ -250,7 +250,37 @@ export class MeasureActivityComponent implements OnInit{
           }
         }
       }
-  
+      duplicateActivityId() {
+    	const q = new Promise((resolve, reject) => {
+	       this.sendAndRequestService.requestForGET(
+                Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITY_ID +
+	            this.measureActivityFormGroup.controls['activityId'].value 
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'duplicate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}
+      duplicateActivityNameAndUnitOfMeasure() {
+    	const q = new Promise((resolve, reject) => {
+	       this.sendAndRequestService.requestForGET(
+                Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITYNAME_UNITOFMEASURE +
+	            this.measureActivityFormGroup.controls['activityName'].value + '/'+
+	            this.measureActivityFormGroup.controls['UnitOfMeasure'].value
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'duplicate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicate': true }); });
+	    });
+    	return q;
+  	}
       
      
 }
