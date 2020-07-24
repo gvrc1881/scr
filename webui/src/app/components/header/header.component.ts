@@ -707,7 +707,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('TRD CONFIG', 'menu', 'view'),
-        currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")
+        currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")||path.includes("tss-feeder")
          ? "open" : "",  
         subMenus: [
           {
@@ -736,6 +736,15 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:true,
             currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
+          },
+          {
+            subMenuName: "TSS Feeder",
+            subMenuURL: "tss-feeder",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("TSS Feeder") ? "active-item" : "",
           },
               
         ]

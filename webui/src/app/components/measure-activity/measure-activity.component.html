@@ -39,7 +39,7 @@
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
                     <input matInput placeholder="Activity Id" [formControl]="measureActivityFormGroup.controls['activityId']" required
-                   onlynumbers required/>
+                   onlynumbers />
         
                        <mat-error
                         *ngIf=" measureActivityFormGroup.controls['activityId'].hasError('required')"
@@ -68,20 +68,20 @@
                     class="alert alert-danger">
                     Max 255 characters only
                   </mat-error>
-                 
+                  <mat-error
+                        *ngIf="measureActivityFormGroup.controls['activityName'].hasError('duplicateActivityName')"
+                        class="alert alert-danger">
+                        Activityname Already Exists
+                      </mat-error> 
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                  <mat-select placeholder="Select activityType" [formControl]="measureActivityFormGroup.controls['activityType']" >
+                  <mat-select placeholder="Select activityType" [formControl]="measureActivityFormGroup.controls['activityType']" required>
                     <mat-option value="measurement">measurement</mat-option>
                     <mat-option value="activity">activity</mat-option>
                     </mat-select>               
-                    <mat-error
-                    *ngIf="measureActivityFormGroup.controls['activityType'].hasError('duplicateActivityNameAndUnitOfMeasure')"
-                    class="alert alert-danger">
-                    ActivityId Already Exists
-                  </mat-error>  
+                    
                 </mat-form-field>
             </div>   
             <div class="col-md-3">
@@ -92,6 +92,11 @@
                   class="alert alert-danger">
                   Max 255 characters only
                 </mat-error>
+                <mat-error
+                        *ngIf="measureActivityFormGroup.controls['unitOfMeasure'].hasError('duplicateActivityNameAndUnitOfMeasure')"
+                        class="alert alert-danger">
+                        Activityname and unitof measure Already Exists
+                      </mat-error> 
               </mat-form-field>
           </div>        
         <div class="col-md-3 mt-15">

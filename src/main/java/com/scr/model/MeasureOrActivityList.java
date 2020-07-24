@@ -1,6 +1,7 @@
 package com.scr.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -16,6 +17,7 @@ public class MeasureOrActivityList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="activity_id")
@@ -169,6 +171,15 @@ public class MeasureOrActivityList implements Serializable {
 
 	public void setUnitOfMeasure(String unitOfMeasure) {
 		this.unitOfMeasure = unitOfMeasure;
+	}
+	
+	@Override
+	public String toString() {
+		return "MeasureOrActivityList [id=" + id + ", activityId=" + activityId + ", activityName=" + activityName
+				+ ", activityType=" + activityType + ", createdBy=" + createdBy + ", createdOn=" + createdOn
+				+ ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv
+				+ ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", seqId=" + seqId + ", unitOfMeasure=" + unitOfMeasure + "]";
 	}
 
 }

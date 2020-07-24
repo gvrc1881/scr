@@ -155,6 +155,7 @@ export const Constants = {
                 UPDATE_MEASURE:"/updateMeasures",
                 DELETE_MEASURE:"/deleteMeasures/",
                 EXISTS_ACTIVITY_ID:'/existsActivityId/',
+                EXISTS_ACTIVITYNAME:'/existsActivityName/',
                 EXISTS_ACTIVITYNAME_UNITOFMEASURE:'/existsActivityNameAndUnitOfMeasure/'
 
             }
