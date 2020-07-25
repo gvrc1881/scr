@@ -20,10 +20,9 @@ export class GridFailComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'reported', 'reportDescription', 'repurcussion', 'date', 'div',
-    'failureSection', 'assetType', 'assetId', 'subAssetType', 'subAssetId', 'make', 'model',
-    'rootCause', 'actionPlan', 'actionStatus', 'approvedBy', 'actionTargetDate', 'actionCompletedDate',
-    'actionDescription', 'actions'];
+  displayedColumns = ['sno', 'feedOf', 'fromDateTime', 'thruDateTime', 'duration', 'extendedOf',
+    'feedExtendedFromDateTime', 'feedExtendedThruDateTime', 'feedExtendedDuration', 'maxDemand',
+     'divisionLocal', 'internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
 
 
@@ -31,7 +30,7 @@ export class GridFailComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
-  driveTargetList: any;
+  gridFailList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -49,7 +48,7 @@ export class GridFailComponent implements OnInit {
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
 
     this.spinnerService.show();
-    this.getFailureAnalysisData();
+    this.getGridFailureData();
 
   }
   applyFilter(filterValue: string) {
@@ -57,16 +56,16 @@ export class GridFailComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  getFailureAnalysisData() {
-    const driveTarget: FailureAnalysisModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES).subscribe((data) => {
-      this.driveTargetList = data;
-      for (let i = 0; i < this.driveTargetList.length; i++) {
-        this.driveTargetList[i].sno = i + 1;
-        driveTarget.push(this.driveTargetList[i]);
+  getGridFailureData() {
+    const gridFail: FailureAnalysisModel[] = [];
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GRID_FAIL.FIND_GRID_FAIL).subscribe((data) => {
+      this.gridFailList = data;
+      for (let i = 0; i < this.gridFailList.length; i++) {
+        this.gridFailList[i].sno = i + 1;
+        gridFail.push(this.gridFailList[i]);
       }
 
-      this.dataSource = new MatTableDataSource(driveTarget);
+      this.dataSource = new MatTableDataSource(gridFail);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -87,12 +86,12 @@ export class GridFailComponent implements OnInit {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Failure Analysis Successfully");
-          this.getFailureAnalysisData();
+          this.commonService.showAlertMessage("Deleted Grid Fail Record Successfully");
+          this.getGridFailureData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Failure Analysis Deletion Failed.");
+          this.commonService.showAlertMessage("Grid Fail Record Deletion Failed.");
         })
       }
       this.confirmDialogRef = null;

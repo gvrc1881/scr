@@ -387,7 +387,10 @@ export const Constants = {
             SAVE:'/saveFailureAnalysis',
             UPDATE:'/updateFailureAnalysis',
             EDIT:'/failureAnalysisById/',
-            DELETE:'/deleteFailureAnalysis/'
+            DELETE:'/deleteFailureAnalysis/',
+            GRID_FAIL:{
+                FIND_GRID_FAIL:"/findFailures"
+            }
         },
         PROGRESS_RECORD:{
             GET_PROGRESS_RECORDS:'/driveDailyProgress',
