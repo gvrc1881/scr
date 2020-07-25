@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      //   .addFilterBefore(new GenerateTokenForUserFilter ("/session", authenticationManager(), tokenUtil), UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
         .antMatchers("/scr/api/auth/*").permitAll()
-        .antMatchers("/scr/api/*").permitAll()
+        //.antMatchers("/scr/api/*").permitAll()
 		.antMatchers("/swagger-ui.html").permitAll()
         .antMatchers("/warehouse/fpApp/*").permitAll()
         .antMatchers("/scr/api/auth/download/*").permitAll() 

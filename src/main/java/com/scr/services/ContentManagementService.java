@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.controller.ContentManagementController;
+import com.scr.mapper.CommonMapper;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.message.request.ContentManagementRequest;
 import com.scr.message.response.ResponseStatus;
@@ -39,26 +40,28 @@ public class ContentManagementService {
 	@Value("${content.management.path}")
 	private String contentManagementPath;
 	
+	@Autowired
+	private CommonMapper commonMapper;
+	
 	public ResponseStatus storeUploadedFiles(List<MultipartFile> multipartFile, String genOps, String description,
 			String divisionCode, String createdBy, String zonal, String fU, String topic, String assetTypeRlyId, String make, String model, String docCategory) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		try {
 			ResponseStatus folderResponse = mapper.checkAndCreateFolderStructure(contentManagementPath, genOps );
 			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
-				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-				ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
-				Long commonFileId = (long) 0.0; 
-				if(fileId == null || fileId.getCommonFileId() == null) {
-					commonFileId = (long) 1;
-				}else {
-					commonFileId = fileId.getCommonFileId()+1;
-				}
-				for(MultipartFile mf: multipartFile)
-				{
-					String folderPath = folderResponse.getMessage();
-					liContentManagements.add(mapper.saveAndStoreDetails(mf, divisionCode, createdBy, zonal, fU, topic, description, genOps, folderPath, commonFileId, assetTypeRlyId, make, model, docCategory));									
-				}
-				if(!liContentManagements.isEmpty()) {
+				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();
+				liContentManagements = commonMapper.prepareContentManagementList(multipartFile, contentManagementPath, genOps, divisionCode, fU, genOps, topic, description, assetTypeRlyId, make, model, docCategory, Integer.parseInt(createdBy));
+				/*
+				 * ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+				 * Long commonFileId = (long) 0.0; if(fileId == null || fileId.getCommonFileId()
+				 * == null) { commonFileId = (long) 1; }else { commonFileId =
+				 * fileId.getCommonFileId()+1; } for(MultipartFile mf: multipartFile) { String
+				 * folderPath = folderResponse.getMessage();
+				 * liContentManagements.add(mapper.saveAndStoreDetails(mf, divisionCode,
+				 * createdBy, zonal, fU, topic, description, genOps, folderPath, commonFileId,
+				 * assetTypeRlyId, make, model, docCategory)); }
+				 */
+				if(liContentManagements != null && !liContentManagements.isEmpty()) {
 					repository.saveAll(liContentManagements);
 					logger.info("Files Details saved in to Database Successfully.");
 				}
