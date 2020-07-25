@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveStipulationComponent } from './add-drive-stipulation/add-drive-stipulation.component';
 import { filterDirective } from 'src/app/common/filter.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { FilterModule } from 'src/app/modules/filter.module';
 
 const routes: Routes = [
     {
@@ -28,7 +29,6 @@ const routes: Routes = [
     declarations: [
         DriveStipulationComponent,
         AddDriveStipulationComponent,
-        filterDirective
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -39,6 +39,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
+        FilterModule
     ],
     providers: [
         

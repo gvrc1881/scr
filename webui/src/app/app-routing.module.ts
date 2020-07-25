@@ -242,9 +242,14 @@ const routes: Routes = [
     loadChildren: './components/drives/drive-progress-record/drive-progress-record.module#DriveProgressRecordModule',
     canActivate: [AuthGuard]
   },
-  {
+  /* {
     path: 'failure-analysis',
     loadChildren: './components/drives/drive-failure-analysis/drive-failure-analysis.module#DriveFailureAnalysisModule',
+    canActivate: [AuthGuard]
+  }, */
+  {
+    path: 'grid-fail',
+    loadChildren: './components/failures/grid-fail/grid-fail.module#GridFailModule',
     canActivate: [AuthGuard]
   },
   {
@@ -280,6 +285,11 @@ const routes: Routes = [
   {
     path: 'model',
     loadChildren: './components/energy-bill-payment/model/model.module#ModelModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'energy-consumption',
+    loadChildren: './components/energy-consumption/energy-consumption.module#EnergyConsumptionModule',
     canActivate: [AuthGuard]
   },
   {

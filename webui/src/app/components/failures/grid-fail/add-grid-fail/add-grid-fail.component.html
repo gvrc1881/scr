@@ -1,0 +1,199 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/grid-fail']">Failures </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Grid Fail</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Grid Fail Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Grid Fail Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addGridFailFromGroup" (ngSubmit)="onAddFailureAnalysisFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Feed Off" (selectionChange)="updateDescription($event)"
+                                                                [formControl]="addGridFailFromGroup.controls['feedOff']">
+                                                                <mat-option *ngFor="let report of reportedList"
+                                                                    [value]="report.statusCode">
+                                                                    {{ report.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                  <div class="col-md-3">
+                                                        <mat-form-field>
+                                                             <input matInput [owlDateTime]="dt3" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addGridFailFromGroup.controls['ffdate']" >                                                                
+                                                                <owl-date-time #dt3 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+                                                        </mat-form-field>
+                                                    </div>  
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure To Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addGridFailFromGroup.controls['ftdate']" >                                                                
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     
+                                                    
+                                                     <!-- failureSection -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                                [formControl]="addGridFailFromGroup.controls['fduration']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Extended From" (selectionChange)="updateDescription($event)"
+                                                                [formControl]="addGridFailFromGroup.controls['extendedFrom']">
+                                                                <mat-option *ngFor="let report of reportedList"
+                                                                    [value]="report.statusCode">
+                                                                    {{ report.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                             <input matInput [owlDateTime]="dt4" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt4" placeholder="Extended From Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addGridFailFromGroup.controls['efdate']" >                                                                
+                                                                <owl-date-time #dt4 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
+                                                        </mat-form-field>
+                                                    </div>  
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                             <input matInput [owlDateTime]="dt5" style="width: 94%;"
+                                                                [owlDateTimeTrigger]="dt5" placeholder="Extended To Date"
+                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [formControl]="addGridFailFromGroup.controls['etdate']" >                                                                
+                                                                <owl-date-time #dt5 [showSecondsTimer]=true
+                                                                    ></owl-date-time>
+                                                                <span [owlDateTimeTrigger]="dt5"><i class="fa fa-calendar"></i></span>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     
+                                                    
+                                                     <!-- failureSection -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                                [formControl]="addGridFailFromGroup.controls['eduration']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- assetType -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Max Demand"
+                                                                [formControl]="addGridFailFromGroup.controls['maxDemand']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- assetId -->
+                                                     <div class="col-md-3" fxFlex="30">                                                        
+                                                            <mat-checkbox [formControl]="addGridFailFromGroup.controls['dl']">Division/Local</mat-checkbox>                                                        
+                                                    </div>
+
+                                                     <!-- subAssetType -->
+                                                     <div class="col-md-3" fxFlex="30">                                                        
+                                                        <mat-checkbox [formControl]="addGridFailFromGroup.controls['ie']">Internal/External</mat-checkbox>                                                          
+                                                      </div>
+
+                                                     <!-- actionPlan -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Remarks" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
+                                                                [formControl]="addGridFailFromGroup.controls['remarks']"
+                                                                > </textarea>                       
+                                                                <mat-error
+                                                                *ngIf="addGridFailFromGroup.controls['remarks'].hasError('pattern') && addGridFailFromGroup.controls['remarks'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>                                   
+                                                            <mat-error
+                                                                *ngIf="addGridFailFromGroup.controls['remarks'].hasError('maxlength') && addGridFailFromGroup.controls['remarks'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addGridFailFromGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            color="accent"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -433,22 +433,22 @@ export class HeaderComponent implements OnInit, DoCheck {
       { 
         ID: 11,
         menuName: 'Failures', 
-        menuUrl: 'failure-analysis', 
+        menuUrl: 'grid-fail', 
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Failures', 'menu', 'view'),
-        currentTab: !!path && path.includes("cb-tripping") || path.includes("grid-failures") ||
+        currentTab: !!path && path.includes("cb-tripping") || path.includes("grid-fail") ||
         path.includes("rc-faiures") || path.includes("unusual-occurrence") || 
         path.includes("failure-occurrence") || path.includes("actions")|| path.includes("failure-analysis")  ? "open" : "",  
         subMenus: [
           {
-            subMenuName: "Failure Analysis",
-            subMenuURL: "failure-analysis",
-            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
+            subMenuName: "Grid Fail",
+            subMenuURL: "grid-fail",
             subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("grid-fail") ? "active-item" : "",
           },
           {
             subMenuName: "CB Tripping",
@@ -458,14 +458,16 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("cb-tripping") ? "active-item" : "",
           },
-          {
-            subMenuName: "Grid Failures",
-            subMenuURL: "grid-failures",
+          /* {
+            subMenuName: "Failure Analysis",
+            subMenuURL: "failure-analysis",
+            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
             subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
             rolePermission:true,
-            currentSubMenu: !!path && path.includes("grid-failures") ? "active-item" : "",
-          },
+            currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
+          }, */
+          
+          
           {
             subMenuName: "RC Failures",
             subMenuURL: "rc-faiures",
@@ -749,7 +751,26 @@ export class HeaderComponent implements OnInit, DoCheck {
               
         ]
       },
-      
+      { 
+        ID: 17,
+        menuName: 'Energy Consumption', 
+        menuUrl: 'energy-consumption', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission: true,//this.commonService.findPermission('Energy Consumption', 'menu', 'view'),
+        currentTab: !!path && path.includes("energy-consumption") ? "open" : "",
+        subMenus: [
+        	{
+            subMenuName: "Energy Consumption",
+            subMenuURL: "energy-consumption",
+            subMenuIcon: "fa fa-file",
+            permission: true,//this.commonService.findPermission('Energy Consumption', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("energy-consumption") ? "active-item" : "",
+          }
+        ] 
+      }
     ];
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);

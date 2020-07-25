@@ -248,6 +248,10 @@ export const Constants = {
                 EXIST_FP_SECTIONS:"/existsFpSection/"
             }
         },
+        ENERGY_CONSUMPTION:{
+            FIND_ENERGY_CONSUMPTION:'/energyConsumption/',
+            FIND_TSS_FEEDER_MASTER:'/findAllTssFeederMaster'
+        },
         DOCS:{
             GET_UPLOAD_FILES:"/getUploadedFiles/",
             UPDATE_DOCS:"/updateDescription",
