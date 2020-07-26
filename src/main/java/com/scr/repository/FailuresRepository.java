@@ -13,6 +13,8 @@ import com.scr.model.Failure;
 public interface FailuresRepository extends JpaRepository<Failure, Long> {
 
 	List<Failure> findAll();
+
+	List<Failure> findByTypeOfFailureAndCurrentStatus(String typeOfFailure, String currentStatus);
 		
 	}
 	

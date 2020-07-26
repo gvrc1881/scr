@@ -1,11 +1,6 @@
 package com.scr.services;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.mapper.CommonMapper;
-import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.DriveRequest;
-import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
@@ -54,7 +47,6 @@ import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.util.Constants;
-import com.scr.util.Helper;
 
 @Service
 public class DrivesService {
@@ -117,9 +109,6 @@ public class DrivesService {
 	
 	@Autowired
 	private ContentManagementRepository repository;
-	
-	@Autowired
-	private ContentManagementMapper mapper;
 	
 	@Autowired
 	private CommonMapper commonMapper;

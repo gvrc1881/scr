@@ -18,6 +18,8 @@ public class Constants {
 	
 	public static final String ALL = "All";
 	public static final int ACTIVE_STATUS_ID = 1;
+	public static final String ACTIVE = "ACTIVE";
+	public static final String INACTIVE = "IN-ACTIVE";
 	public static final int UNACTIVE_STATUS_ID = 2;
 	public static final Integer SUCCESS_CODE = 200;
 	public static final Integer FAILURE_CODE = 500;
