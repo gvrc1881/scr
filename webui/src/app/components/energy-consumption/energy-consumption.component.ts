@@ -55,7 +55,6 @@ export class EnergyConsumptionComponent implements OnInit {
   ngOnInit() {
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption","Energy Consumption") ;
     this.spinnerService.show();
-    //this.selectedExactDate = this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd')
     var query = this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') +'/exact/'+this.selectedFeederId;
     this.findEnergyConsumptionData(query);
     this.findFeedersList();

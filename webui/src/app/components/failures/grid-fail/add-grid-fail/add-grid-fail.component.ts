@@ -25,6 +25,8 @@ export class AddGridFailComponent implements OnInit {
   driveList = [];
   reportedList=[];
   gridFailFormErrors: any;
+  feedersList:any;
+  extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
   toMinDate=new Date();
@@ -56,10 +58,8 @@ export class AddGridFailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = +this.route.snapshot.params['id'];
-  //  this.getDrivesData();
-   // this.findYesNoStatus();
-    //this.findDivisions();
+    this.findFeedersList();
+    this.id = +this.route.snapshot.params['id'];    
     this.createForm();
     if (!isNaN(this.id)) {
       this.addGridFailFromGroup.valueChanges.subscribe(() => {
@@ -69,7 +69,7 @@ export class AddGridFailComponent implements OnInit {
       this.save = false;
       this.update = true;
       this.title = 'Edit';
-      this.getFailureAnalysisDataById(this.id);
+      this.getGridFailDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
@@ -77,13 +77,16 @@ export class AddGridFailComponent implements OnInit {
     }
   }
 
-  findDivisions(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
-    .subscribe((resp) => {
-      this.divisionList = resp;
-    });
+  findFeedersList(){
+    this.spinnerService.show();
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
+      .subscribe((response) => {
+        console.log(response)
+        this.feedersList = response;
+      //  this.extendedFromList = response;
+        this.spinnerService.hide();
+      })
   }
-
   createForm() {
     this.addGridFailFromGroup
       = this.formBuilder.group({
@@ -110,56 +113,51 @@ export class AddGridFailComponent implements OnInit {
       }
       this.gridFailFormErrors[field] = {};
       const control = this.addGridFailFromGroup.get(field);
-
       if (control && control.dirty && !control.valid) {
         this.gridFailFormErrors[field] = control.errors;
       }
     }
   }
-
-  getDrivesData() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
-      this.driveList = data;
-      this.spinnerService.hide();
-    }, error => {
-      this.spinnerService.hide();
-    });
-  }
-  findYesNoStatus() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM+Constants.STATUS_ITEMS.YES_NO_TYPE).subscribe((data) => {
-      this.reportedList = data;
-      this.spinnerService.hide();
-    }, error => {
-      this.spinnerService.hide();
-    });
-  }
-  
-  updateDescription($event){
+ 
+  updateFeedOff($event){
     if ($event.value) {
-      this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
+      console.log($event.value)
+      this.extendedFromList = [];
+      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
+      this.feedersList.map(element => {
+        if(element.feederName != $event.value){
+          this.extendedFromList.push(element);
+        }
+      });
     }
   }
-  getFailureAnalysisDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EDIT+id)
+  getGridFailDataById(id) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
         this.resp = resp;
+        console.log(this.resp);
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
-         // failure_id: this.resp.failure_id,
-          feedOff: this.resp.feedOff,
-          ffdate:this.resp.ffdate,
-          ftdate: this.resp.ftdate,
-          fduration: this.resp.fduration ,
-          extendedFrom: this.resp.extendedFrom,
-          efdate: this.resp.efdate,
-          etdate: this.resp.etdate,
-          eduration: this.resp.eduration,
+          feedOff: this.resp.feedOf,
+          ffdate: new Date(this.resp.fromDateTime),
+          ftdate: new Date(this.resp.thruDateTime),
+          fduration: this.resp.duration ,
+          extendedFrom: this.resp.extendedOf,
+          efdate: this.resp.feedExtendedFromDateTime != null ? new Date(this.resp.feedExtendedFromDateTime) : null,
+          etdate: this.resp.feedExtendedThruDateTime != null ? new Date(this.resp.feedExtendedThruDateTime) : null,
+          eduration: this.resp.feedExtendedDuration,
           maxDemand: this.resp.maxDemand,
-          dl: this.resp.dl,
-          ie: this.resp.ie,
+          dl: this.resp.divisionLocal,
+          ie: this.resp.internalExternal,
           remarks: this.resp.remarks
         });
+        this.feedersList.map(element => {
+          if(element.id != this.resp.id){
+            this.extendedFromList.push(element);
+          }
+        });
         this.spinnerService.hide();
+
       })
   }
   addEvent($event) {
@@ -179,24 +177,25 @@ export class AddGridFailComponent implements OnInit {
     var failedMessage = '';
     if (this.save) {
       data = {
-        "feedOff": this.addGridFailFromGroup.value.feedOff,
-        "ffdate":this.addGridFailFromGroup.value.ffdate,
-        "ftdate": this.addGridFailFromGroup.value.ftdate,
-        "fduration": this.addGridFailFromGroup.value.fduration,
-        "extendedFrom": this.addGridFailFromGroup.value.extendedFrom,
-        "efdate": this.addGridFailFromGroup.value.efdate,
-        "etdate": this.addGridFailFromGroup.value.etdate,
-        "eduration": this.addGridFailFromGroup.value.eduration,
+        "feedOf": this.addGridFailFromGroup.value.feedOff,
+        "fromDateTime":this.addGridFailFromGroup.value.ffdate,
+        "thruDateTime": this.addGridFailFromGroup.value.ftdate,
+        "duration": this.addGridFailFromGroup.value.fduration,
+        "extendedOf": this.addGridFailFromGroup.value.extendedFrom,
+        "feedExtendedFromDateTime": this.addGridFailFromGroup.value.efdate,
+        "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
+        "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "dl": this.addGridFailFromGroup.value.dl,
-        "ie": this.addGridFailFromGroup.value.ie,
+        "divisionLocal": this.addGridFailFromGroup.value.dl,
+        "internalExternal": this.addGridFailFromGroup.value.ie,
         "remarks": this.addGridFailFromGroup.value.remarks,
+        "typeOfFailure":Constants.FAILURE_TYPES.GRID_FAILURE,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.SAVE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -213,24 +212,25 @@ export class AddGridFailComponent implements OnInit {
     }else if(this.update){
       data = {
         "id":this.id,
-        "feedOff": this.addGridFailFromGroup.value.feedOff,
-        "ffdate":this.addGridFailFromGroup.value.ffdate,
-        "ftdate": this.addGridFailFromGroup.value.ftdate,
-        "fduration": this.addGridFailFromGroup.value.fduration,
-        "extendedFrom": this.addGridFailFromGroup.value.extendedFrom,
-        "efdate": this.addGridFailFromGroup.value.efdate,
-        "etdate": this.addGridFailFromGroup.value.etdate,
-        "eduration": this.addGridFailFromGroup.value.eduration,
+        "feedOf": this.addGridFailFromGroup.value.feedOff,
+        "fromDateTime":this.addGridFailFromGroup.value.ffdate,
+        "thruDateTime": this.addGridFailFromGroup.value.ftdate,
+        "duration": this.addGridFailFromGroup.value.fduration,
+        "extendedOf": this.addGridFailFromGroup.value.extendedFrom,
+        "feedExtendedFromDateTime": this.addGridFailFromGroup.value.efdate,
+        "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
+        "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "dl": this.addGridFailFromGroup.value.dl,
-        "ie": this.addGridFailFromGroup.value.ie,
+        "divisionLocal": this.addGridFailFromGroup.value.dl,
+        "internalExternal": this.addGridFailFromGroup.value.ie,
         "remarks": this.addGridFailFromGroup.value.remarks,
+        "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

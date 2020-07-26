@@ -388,9 +388,9 @@ export const Constants = {
             UPDATE:'/updateFailureAnalysis',
             EDIT:'/failureAnalysisById/',
             DELETE:'/deleteFailureAnalysis/',
-            GRID_FAIL:{
-                FIND_GRID_FAIL:"/findFailures"
-            }
+            FAILURE_BY_TYPE:"/failuresByType/",
+            FAILURE_TYPE_BY_ID:'/failureTypeById/',     
+            FAILURE_TYPE_UPDATE:'/saveFailureByType',       
         },
         PROGRESS_RECORD:{
             GET_PROGRESS_RECORDS:'/driveDailyProgress',
@@ -439,7 +439,9 @@ export const Constants = {
         {id:5, permission:"View/Add/Edit/Delete"},
         {id:6, permission:"No Permission"}        
     ],
-
+    FAILURE_TYPES:{
+        'GRID_FAILURE':'GRID_FAILURE'
+    },
     ASSERT_TYPE:{
         'RB':'null',
         'ZONE':'null',

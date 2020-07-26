@@ -33,11 +33,11 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Feed Off" (selectionChange)="updateDescription($event)"
+                                                            <mat-select placeholder="Feed Off" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addGridFailFromGroup.controls['feedOff']">
-                                                                <mat-option *ngFor="let report of reportedList"
-                                                                    [value]="report.statusCode">
-                                                                    {{ report.statusCode }}
+                                                                <mat-option *ngFor="let feeder of feedersList"
+                                                                    [value]="feeder.feederName">
+                                                                    {{ feeder.feederName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -58,7 +58,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure To Date"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
                                                                 (dateTimeChange)="addEvent($event)" 
                                                                 [formControl]="addGridFailFromGroup.controls['ftdate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
@@ -81,11 +81,11 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Extended From" (selectionChange)="updateDescription($event)"
+                                                            <mat-select placeholder="Extended From"
                                                                 [formControl]="addGridFailFromGroup.controls['extendedFrom']">
-                                                                <mat-option *ngFor="let report of reportedList"
-                                                                    [value]="report.statusCode">
-                                                                    {{ report.statusCode }}
+                                                                <mat-option *ngFor="let extendedFrom of extendedFromList"
+                                                                    [value]="extendedFrom.feederName">
+                                                                    {{ extendedFrom.feederName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -148,7 +148,7 @@
                                                      <!-- actionPlan -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
+                                                            <textarea matInput placeholder="Remarks" 
                                                                 [formControl]="addGridFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error
