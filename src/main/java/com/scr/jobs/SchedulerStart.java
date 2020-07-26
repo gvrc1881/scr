@@ -9,8 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -74,8 +72,7 @@ public class SchedulerStart {
 	@Autowired
 	private MobileSMSRepository mobileSMSRepository;
 	
-	@Autowired
-	DataSource dataSource;
+	
 	private static final Logger logger = Logger.getLogger(SchedulerStart.class);
 
 	@Scheduled(cron = "0 22 18 * * *")

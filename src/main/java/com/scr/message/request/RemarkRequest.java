@@ -49,5 +49,12 @@ public @Data class RemarkRequest {
 	public void setRunDate(Date runDate) {
 		this.runDate = runDate;
 	}
+	public String getProcessedDate() {
+		return processedDate;
+	}
+	public void setProcessedDate(String processedDate) {
+		this.processedDate = processedDate;
+	}
+	
 	
 }
