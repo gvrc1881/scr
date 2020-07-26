@@ -91,7 +91,11 @@ export class EnergyConsumptionComponent implements OnInit {
       sort: this.sort
     };
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.filterData.dataSource.filter = filterValue;
+  }
   findFeedersList(){
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
@@ -165,6 +169,9 @@ export class EnergyConsumptionComponent implements OnInit {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
   }
+  processUpdateAction(id){
+
+  }
 
   processEditAction(row){
   //  console.log(row)
@@ -208,6 +215,9 @@ export class EnergyConsumptionComponent implements OnInit {
     if($event.value){
       this.selectedFeederId = $event.value;
     }
+  }
+  delete(id){
+    
   }
   executeQuery() {
     var query = "";

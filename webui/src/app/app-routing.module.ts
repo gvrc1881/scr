@@ -253,6 +253,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'cb-fail',
+    loadChildren: './components/failures/cb-fail/cb-fail.module#CbFailModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'rc-fail',
+    loadChildren: './components/failures/rc-fail/rc-fail.module#RcFailModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'electrification-targets',
     loadChildren: './components/drives/drive-electrification-targets/drive-electrification-targets.module#DriveElectrificationTargetsModule',
     canActivate: [AuthGuard]
