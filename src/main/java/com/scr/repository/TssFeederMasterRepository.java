@@ -11,4 +11,6 @@ import com.scr.model.TssFeederMaster;
 public interface TssFeederMasterRepository extends JpaRepository<TssFeederMaster, Long> {
 	@Query("FROM TssFeederMaster ORDER BY feederName ASC")
     List<TssFeederMaster> findAllOrderByFeederNameAsc();
+	
+	Boolean existsByFeederName(String feederName);
 }

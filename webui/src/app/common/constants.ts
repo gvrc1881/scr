@@ -246,6 +246,14 @@ export const Constants = {
                 UPDATE_FP_SECTIONS:"/updateFPSectionsItem",
                 DELETE_FP_SECTIONS:"/deleteFPSectionsItem/",
                 EXIST_FP_SECTIONS:"/existsFpSection/"
+            },
+            TSS_FEEDER:{
+                GET_FEEDERS:"/findAllTssFeederMaster",
+                GET_FEEDER_ID:"/findFeederById/",
+                SAVE_FEEDER:"/addFeeder",
+                UPDATE_FEEDER:"/updateFeeder",
+                DELETE_FEEDER:"/deleteFeeder/",
+                EXIST_FEEDER_NAME:"/existsFeederName/"
             }
         },
         ENERGY_CONSUMPTION:{

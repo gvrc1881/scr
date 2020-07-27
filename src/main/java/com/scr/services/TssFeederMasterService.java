@@ -1,10 +1,12 @@
 package com.scr.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.MeasureOrActivityList;
 import com.scr.model.TssFeederMaster;
 import com.scr.repository.TssFeederMasterRepository;
 
@@ -18,5 +20,27 @@ public class TssFeederMasterService {
 		// TODO Auto-generated method stub
 		return tssFeederMasterRepository.findAllOrderByFeederNameAsc();
 	}
+	public TssFeederMaster save(TssFeederMaster feeder) {
+		// TODO Auto-generated method stub
+		return tssFeederMasterRepository.save(feeder);
+	}
+
+	public Optional<TssFeederMaster> findById(Long id) {
+		// TODO Auto-generated method stub
+		return tssFeederMasterRepository.findById(id);
+	}
+
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		tssFeederMasterRepository.deleteById(id);
+	}
+
+	
+	public Boolean existsByFeederName(String feederName) {
+		// TODO Auto-generated method stub
+		return tssFeederMasterRepository.existsByFeederName(feederName);
+	}
+	
+
 
 }
