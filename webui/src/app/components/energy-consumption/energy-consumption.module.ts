@@ -8,7 +8,6 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { filterDirective } from 'src/app/common/filter.directive';
-import { FilterModule } from 'src/app/modules/filter.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { FormsModule } from '@angular/forms';
 
@@ -30,7 +29,6 @@ const routes: Routes = [
         FusionChartsModule,
         MaterialModule,
         FormsModule,
-        FilterModule,
         DecimalValidationsModule
     ],
     declarations: [

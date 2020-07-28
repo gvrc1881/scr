@@ -67,6 +67,7 @@ export class AddDriveChecklistComponent implements OnInit {
     }
     
   }
+  
   findYesNoStatus(){
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.YES_NO_TYPE)
     .subscribe((resp) => {

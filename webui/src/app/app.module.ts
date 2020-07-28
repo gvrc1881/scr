@@ -40,7 +40,6 @@ import {  DecimalValidationsModule } from './modules/decimal-validations.module'
 import { NumberValidationsModule } from './modules/number-validations.module';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { PreviousRouteService } from './services/previousRoute.service';
-import { FilterModule } from './modules/filter.module';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -88,7 +87,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DecimalValidationsModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
-    FilterModule
+    
     ],
   entryComponents: [
         FuseConfirmDialogComponent,

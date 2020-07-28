@@ -9,6 +9,7 @@ import { AddDriveInspectionComponent } from './add-drive-inspection/add-drive-in
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
@@ -42,6 +43,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
+        CommonDirectivesModule,
     ],
     providers: [
         

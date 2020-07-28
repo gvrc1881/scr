@@ -25,12 +25,12 @@ export class DriveInspectionComponent implements OnInit {
     'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
     'station', 'actions'];
   dataSource: MatTableDataSource<InspectionstModel>;
-
+  filterData;
   fileInformationDialogRef: MatDialogRef<FilesInformationDialogComponent>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-
+  gridData = [];
   inspectionsList: any;
 
   constructor(
@@ -50,11 +50,37 @@ export class DriveInspectionComponent implements OnInit {
 
     this.spinnerService.show();
     this.getInspectionData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'inspectionType', "Value": " " },
+        { "Key": 'section', "Value": " " },
+        { "Key": 'sectionStartLocation', "Value": " " },
+        { "Key": 'sectionEndLocation', "Value": " " },
+        { "Key": 'dateOfInspection', "Value": "" },
+        { "Key": 'RKM', "Value": " " },
+        { "Key": 'TKM', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+        { "Key": 'authorisationDate', "Value": " " },
+        { "Key": 'chargingDate', "Value": " " },
+        { "Key": 'attachment', "Value": " " },
+        { "Key": 'station', "Value": " " },
+        { "Key": 'action', "Value": " " },
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+    };
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    this.filterData.dataSource.filter = filterValue;
+  }
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
   }
   getInspectionData() {
     const inspections: InspectionstModel[] = [];
@@ -66,9 +92,10 @@ export class DriveInspectionComponent implements OnInit {
         this.inspectionsList[i].RKM = this.inspectionsList[i].rkm;
         inspections.push(this.inspectionsList[i]);
       }
-
+      this.filterData.gridData = inspections;
       this.dataSource = new MatTableDataSource(inspections);
       this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();

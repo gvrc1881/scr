@@ -438,8 +438,8 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Failures', 'menu', 'view'),
-        currentTab: !!path && path.includes("cb-tripping") || path.includes("grid-fail") ||
-        path.includes("rc-faiures") || path.includes("unusual-occurrence") || 
+        currentTab: !!path && path.includes("cb-fail") || path.includes("grid-fail") ||
+        path.includes("rc-fail") || path.includes("unusual-occurrence") || 
         path.includes("failure-occurrence") || path.includes("actions")|| path.includes("failure-analysis")  ? "open" : "",  
         subMenus: [
           {
@@ -451,12 +451,12 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("grid-fail") ? "active-item" : "",
           },
           {
-            subMenuName: "CB Tripping",
-            subMenuURL: "cb-tripping",
+            subMenuName: "CB Fail",
+            subMenuURL: "cb-fail",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission:this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("cb-tripping") ? "active-item" : "",
+            permission: true,//this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("cb-fail") ? "active-item" : "",
           },
           /* {
             subMenuName: "Failure Analysis",
@@ -470,11 +470,11 @@ export class HeaderComponent implements OnInit, DoCheck {
           
           {
             subMenuName: "RC Failures",
-            subMenuURL: "rc-faiures",
+            subMenuURL: "rc-fail",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission:this.commonService.findPermission('RC Failures', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("rc-faiures") ? "active-item" : "",
+            permission: this.commonService.findPermission('RC Failures', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("rc-fail") ? "active-item" : "",
           },
           {
             subMenuName: "Unusual Occurrence",

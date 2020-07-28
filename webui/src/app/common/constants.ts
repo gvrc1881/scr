@@ -440,7 +440,10 @@ export const Constants = {
         {id:6, permission:"No Permission"}        
     ],
     FAILURE_TYPES:{
-        'GRID_FAILURE':'GRID_FAILURE'
+        'GRID_FAILURE':'GRID_FAILURE',
+        "CB_FAILURE":"CB_FAILURE",
+        "RC_FAILURE":"RC_FAILURE",
+
     },
     ASSERT_TYPE:{
         'RB':'null',
@@ -470,6 +473,8 @@ export const Constants = {
         "GAUGE_TYPE":"GAUGE_TYPE LIST",
         "ELECTRIFICATION_EXEC_AGENCY_TYPE":"ELECTRIFICATION_EXEC_AGENCY",
         "DOUBLE_TRIPLE_TYPE":"DOUBLE_TRIPLE_ETC_ELEC",
-        "YES_NO_TYPE":"YESNO_STATUS"
+        "YES_NO_TYPE":"YESNO_STATUS",
+        "RELAY_INDICATION":"CB_RELAY_INDICATOR",
+        "NATURE_OF_CLOSE":"CB_NATURE_OF_CLOSURE",
     }
 };
