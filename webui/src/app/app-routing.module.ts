@@ -242,24 +242,9 @@ const routes: Routes = [
     loadChildren: './components/drives/drive-progress-record/drive-progress-record.module#DriveProgressRecordModule',
     canActivate: [AuthGuard]
   },
-  /* {
+  {
     path: 'failure-analysis',
     loadChildren: './components/drives/drive-failure-analysis/drive-failure-analysis.module#DriveFailureAnalysisModule',
-    canActivate: [AuthGuard]
-  }, */
-  {
-    path: 'grid-fail',
-    loadChildren: './components/failures/grid-fail/grid-fail.module#GridFailModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'cb-fail',
-    loadChildren: './components/failures/cb-fail/cb-fail.module#CbFailModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'rc-fail',
-    loadChildren: './components/failures/rc-fail/rc-fail.module#RcFailModule',
     canActivate: [AuthGuard]
   },
   {
@@ -298,13 +283,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'energy-consumption',
-    loadChildren: './components/energy-consumption/energy-consumption.module#EnergyConsumptionModule',
+    path: 'measure-activity',
+    loadChildren: './components/measure-activity/measure-activity.module#MeasureActivityModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'measure-activity',
-    loadChildren: './components/measure-activity/measure-activity.module#MeasureActivityModule',
+    path: 'tss-feeder',
+    loadChildren: './components/tss-feeder/tss-feeder.module#TssFeederModule',
     canActivate: [AuthGuard]
   }
 ];
