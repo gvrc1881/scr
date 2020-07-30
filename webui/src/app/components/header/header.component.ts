@@ -451,7 +451,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
           },           
           {
-            subMenuName: "Grid Fail",
+            subMenuName: "Grid Failure",
             subMenuURL: "grid-failure",
             subMenuIcon: "fa fa-file",
             permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
@@ -459,7 +459,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("grid-failure") ? "active-item" : "",
           },
           {
-            subMenuName: "CB Fail",
+            subMenuName: "CB Failure",
             subMenuURL: "cb-failure",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
