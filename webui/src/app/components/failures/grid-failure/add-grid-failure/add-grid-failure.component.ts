@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
-  selector: 'app-add-grid-fail',
-  templateUrl: './add-grid-fail.component.html',
-  styleUrls: ['./add-grid-fail.component.css']
+  selector: 'app-add-grid-failure',
+  templateUrl: './add-grid-failure.component.html',
+  styleUrls: ['./add-grid-failure.component.css']
 })
-export class AddGridFailComponent implements OnInit {
+export class AddGridFailureComponent implements OnInit {
 
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;

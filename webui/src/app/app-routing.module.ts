@@ -244,7 +244,37 @@ const routes: Routes = [
   },
   {
     path: 'failure-analysis',
-    loadChildren: './components/drives/drive-failure-analysis/drive-failure-analysis.module#DriveFailureAnalysisModule',
+    loadChildren: './components/failures/failure-analysis/failure-analysis.module#FailureAnalysisModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'grid-failure',
+    loadChildren: './components/failures/grid-failure/grid-failure.module#GridFailureModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'cb-failure',
+    loadChildren: './components/failures/cb-failure/cb-failure.module#CbFailureModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'rc-failure',
+    loadChildren: './components/failures/rc-failure/rc-failure.module#RcFailureModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'failure-occurrence',
+    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'unusual-occurrence',
+    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'actions',
+    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
     canActivate: [AuthGuard]
   },
   {
@@ -277,6 +307,7 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/make/make.module#MakeModule',
     canActivate: [AuthGuard]
   },
+
   {
     path: 'model',
     loadChildren: './components/energy-bill-payment/model/model.module#ModelModule',

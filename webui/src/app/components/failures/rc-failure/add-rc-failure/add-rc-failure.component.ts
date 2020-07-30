@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
-  selector: 'app-add-rc-fail',
-  templateUrl: './add-rc-fail.component.html',
-  styleUrls: ['./add-rc-fail.component.css']
+  selector: 'app-add-rc-failure',
+  templateUrl: './add-rc-failure.component.html',
+  styleUrls: ['./add-rc-failure.component.css']
 })
-export class AddRcFailComponent implements OnInit {
+export class AddRcFailureComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;

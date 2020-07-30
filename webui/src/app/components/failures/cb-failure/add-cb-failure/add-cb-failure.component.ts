@@ -7,11 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
 @Component({
-  selector: 'app-add-cb-fail',
-  templateUrl: './add-cb-fail.component.html',
-  styleUrls: ['./add-cb-fail.component.css']
+  selector: 'app-add-cb-failure',
+  templateUrl: './add-cb-failure.component.html',
+  styleUrls: ['./add-cb-failure.component.css']
 })
-export class AddCbFailComponent implements OnInit {
+export class AddCbFailureComponent implements OnInit {
 
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;

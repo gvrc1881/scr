@@ -1,32 +1,32 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RcFailComponent } from './rc-fail.component';
+import { CbFailureComponent } from './cb-failure.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { AddRcFailComponent } from './add-rc-fail/add-rc-fail.component';
+import { AddCbFailureComponent } from './add-cb-failure/add-cb-failure.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: RcFailComponent,
+        component: CbFailureComponent,
     },   
     {
         path     : ':id',
-        component: AddRcFailComponent
+        component: AddCbFailureComponent
     },
     {
-        path        : 'add-rc-fail',
-        component:   AddRcFailComponent
+        path        : 'add-cb-failure',
+        component:   AddCbFailureComponent
     },
 ];
 
 @NgModule({
     declarations: [
-        RcFailComponent,
-        AddRcFailComponent,
+        CbFailureComponent,
+        AddCbFailureComponent,
         
     ],
     imports: [
@@ -43,10 +43,10 @@ const routes: Routes = [
         
     ],
     exports:[
-        RcFailComponent
+        CbFailureComponent
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class RcFailModule {
+export class CbFailureModule {
 
 }

@@ -433,56 +433,46 @@ export class HeaderComponent implements OnInit, DoCheck {
       { 
         ID: 11,
         menuName: 'Failures', 
-        menuUrl: 'grid-fail', 
+        menuUrl: 'failure-analysis', 
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('Failures', 'menu', 'view'),
-        currentTab: !!path && path.includes("cb-fail") || path.includes("grid-fail") ||
-        path.includes("rc-fail") || path.includes("unusual-occurrence") || 
+        currentTab: !!path && path.includes("cb-failure") || path.includes("grid-failure") ||
+        path.includes("rc-failure") || path.includes("unusual-occurrence") || 
         path.includes("failure-occurrence") || path.includes("actions")|| path.includes("failure-analysis")  ? "open" : "",  
         subMenus: [
-          {
-            subMenuName: "Grid Fail",
-            subMenuURL: "grid-fail",
-            subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("grid-fail") ? "active-item" : "",
-          },
-          {
-            subMenuName: "CB Fail",
-            subMenuURL: "cb-fail",
-            subMenuIcon: "fa fa-file",
-            rolePermission:true,
-            permission: true,//this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("cb-fail") ? "active-item" : "",
-          },
-          /* {
+             {
             subMenuName: "Failure Analysis",
             subMenuURL: "failure-analysis",
-            permission:this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
+            permission: true,//this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
             subMenuIcon: "fa fa-file",
             rolePermission:true,
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
-          }, */
-          
-          
+          },           
+          {
+            subMenuName: "Grid Fail",
+            subMenuURL: "grid-failure",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Grid Failures', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("grid-failure") ? "active-item" : "",
+          },
+          {
+            subMenuName: "CB Fail",
+            subMenuURL: "cb-failure",
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission: true,//this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
+          },          
           {
             subMenuName: "RC Failures",
-            subMenuURL: "rc-fail",
+            subMenuURL: "rc-failure",
             subMenuIcon: "fa fa-file",
             rolePermission:true,
             permission: this.commonService.findPermission('RC Failures', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("rc-fail") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Unusual Occurrence",
-            subMenuURL: "unusual-occurrence",
-            subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("rc-failure") ? "active-item" : "",
           },
           {
             subMenuName: "Failure Occurrence",
@@ -491,6 +481,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             subMenuIcon: "fa fa-file",
             rolePermission:true,
             currentSubMenu: !!path && path.includes("failure-occurrence") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Unusual Occurrence",
+            subMenuURL: "unusual-occurrence",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
           },
           {
             subMenuName: "Actions",

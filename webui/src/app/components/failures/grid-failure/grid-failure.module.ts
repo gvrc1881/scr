@@ -1,32 +1,32 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { GridFailComponent } from './grid-fail.component';
+import { GridFailureComponent } from './grid-failure.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { AddGridFailComponent } from './add-grid-fail/add-grid-fail.component';
+import { AddGridFailureComponent } from './add-grid-failure/add-grid-failure.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: GridFailComponent,
+        component: GridFailureComponent,
     },   
     {
         path     : ':id',
-        component: AddGridFailComponent
+        component: AddGridFailureComponent
     },
     {
-        path        : 'add-grid-fail',
-        component:   AddGridFailComponent
+        path        : 'add-grid-failure',
+        component:   AddGridFailureComponent
     },
 ];
 
 @NgModule({
     declarations: [
-        GridFailComponent,
-        AddGridFailComponent,
+        GridFailureComponent,
+        AddGridFailureComponent,
         
     ],
     imports: [
@@ -43,10 +43,10 @@ const routes: Routes = [
         
     ],
     exports:[
-        GridFailComponent
+        GridFailureComponent
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class GridFailModule {
+export class GridFailureModule {
 
 }

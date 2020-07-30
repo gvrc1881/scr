@@ -8,11 +8,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-cb-fail',
-  templateUrl: './cb-fail.component.html',
-  styleUrls: ['./cb-fail.component.css']
+  selector: 'app-cb-failure',
+  templateUrl: './cb-failure.component.html',
+  styleUrls: ['./cb-failure.component.css']
 })
-export class CbFailComponent implements OnInit {
+export class CbFailureComponent implements OnInit {
 
   editPermission: boolean = true;
   addPermission: boolean = true;

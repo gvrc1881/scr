@@ -9,11 +9,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-grid-fail',
-  templateUrl: './grid-fail.component.html',
-  styleUrls: ['./grid-fail.component.css']
+  selector: 'app-grid-failure',
+  templateUrl: './grid-failure.component.html',
+  styleUrls: ['./grid-failure.component.css']
 })
-export class GridFailComponent implements OnInit {
+export class GridFailureComponent implements OnInit {
 
   editPermission: boolean = true;
   addPermission: boolean = true;

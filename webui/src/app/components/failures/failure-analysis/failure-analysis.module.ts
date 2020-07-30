@@ -1,32 +1,32 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CbFailComponent } from './cb-fail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { AddFailureAnalysisComponent } from './add-failure-analysis/add-failure-analysis.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { AddCbFailComponent } from './add-cb-fail/add-cb-fail.component';
+import { FailureAnalysisComponent } from './failure-analysis.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: CbFailComponent,
+        component: FailureAnalysisComponent,
     },   
     {
         path     : ':id',
-        component: AddCbFailComponent
+        component: AddFailureAnalysisComponent
     },
     {
-        path        : 'add-cb-fail',
-        component:   AddCbFailComponent
+        path        : 'add-failure-analysis',
+        component:   AddFailureAnalysisComponent
     },
 ];
 
 @NgModule({
     declarations: [
-        CbFailComponent,
-        AddCbFailComponent,
+        FailureAnalysisComponent,
+        AddFailureAnalysisComponent,
         
     ],
     imports: [
@@ -43,10 +43,10 @@ const routes: Routes = [
         
     ],
     exports:[
-        CbFailComponent
+        FailureAnalysisComponent
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class CbFailModule {
+export class FailureAnalysisModule {
 
 }

@@ -8,11 +8,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-rc-fail',
-  templateUrl: './rc-fail.component.html',
-  styleUrls: ['./rc-fail.component.css']
+  selector: 'app-rc-failure',
+  templateUrl: './rc-failure.component.html',
+  styleUrls: ['./rc-failure.component.css']
 })
-export class RcFailComponent implements OnInit {
+export class RcFailureComponent implements OnInit {
 
   editPermission: boolean = true;
   addPermission: boolean = true;
