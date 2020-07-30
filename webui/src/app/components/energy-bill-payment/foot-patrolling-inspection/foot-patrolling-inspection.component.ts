@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild } from '@angular/core';
+import { OnInit, Component, ViewChild, ElementRef} from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
@@ -33,10 +33,13 @@ export class FootPatrollingInspectionComponent implements OnInit{
     ComplianceStatus:any;
     observationCategoryData:any;
     statusTypeData:any;
+    filterData;
     fpInspectionItemDataSource: MatTableDataSource<FootPatrollingInspectionModel>;
     fpInspectionItemDisplayColumns = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id','observation'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild('filter', { static: true }) filter: ElementRef;
+    gridData = [];
     editfpInspectionItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     inspectionDocumentDialogRef: MatDialogRef<InspectionDocumentComponent>;
@@ -116,6 +119,23 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'complianceBy': [null],
             'compliedDateTime' : [null]
         });
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'facilityId', "Value": " " },
+              { "Key": 'inspectionType', "Value": " " },
+              { "Key": 'section', "Value": " " },
+              { "Key": 'inspectionBy', "Value": " " },
+              { "Key": 'startTime', "Value": " " },
+              { "Key": 'stopTime', "Value": "" }
+              
+            ],
+            gridData: this.gridData,
+            dataSource: this.fpInspectionItemDataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
+
        
     }
     
@@ -128,6 +148,10 @@ export class FootPatrollingInspectionComponent implements OnInit{
       addEvent($event) {
         this.toMinDate = new Date($event.value);
       }
+      updatePagination() {
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
+      }
     getAllFootPatrollingInspectionData() {
         const footPatrollingInspection : FootPatrollingInspectionModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION).subscribe((data) => {
@@ -136,7 +160,10 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.fpInspectionList[i].sno = i+1;
                 footPatrollingInspection.push(this.fpInspectionList[i]);              
             }
+            this.filterData.gridData = footPatrollingInspection;
             this.fpInspectionItemDataSource = new MatTableDataSource(footPatrollingInspection);
+            this.commonService.updateDataSource(this.fpInspectionItemDataSource, this.fpInspectionItemDisplayColumns);
+            this.filterData.dataSource = this.fpInspectionItemDataSource;
             this.fpInspectionItemDataSource.paginator = this.paginator;
             this.fpInspectionItemDataSource.sort = this.sort;
 
