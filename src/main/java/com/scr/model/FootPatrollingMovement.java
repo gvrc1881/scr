@@ -40,6 +40,9 @@ public class FootPatrollingMovement implements Serializable {
 	@Column(name="altitude")
 	private String altitude;
 	
+	@Column(name="seq_id")
+	private String seqId  ;
+	
 	@Column(name="data_div")
 	private String dataDiv;
 	
@@ -57,7 +60,6 @@ public class FootPatrollingMovement implements Serializable {
 	
 	public FootPatrollingMovement() {
 	}
-
 
 	public Long getId() {
 		return id;
@@ -131,6 +133,14 @@ public class FootPatrollingMovement implements Serializable {
 		this.altitude = altitude;
 	}
 
+	public String getSeqId() {
+		return seqId;
+	}
+
+	public void setSeqId(String seqId) {
+		this.seqId = seqId;
+	}
+
 	public String getDataDiv() {
 		return dataDiv;
 	}
@@ -170,6 +180,9 @@ public class FootPatrollingMovement implements Serializable {
 	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
 		this.lastUpdatedTxStamp = lastUpdatedTxStamp;
 	}
+
+
+	
 	
 
 

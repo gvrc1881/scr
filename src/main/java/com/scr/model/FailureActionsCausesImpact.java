@@ -35,13 +35,16 @@ public class FailureActionsCausesImpact implements Serializable {
 	private String by ;
 	
 	@Column(name="remarks" ,columnDefinition="TEXT")
-	private String remarks  ;
+	private String remarks;
 	
 	@Column(name="special_remarks" ,columnDefinition="TEXT")
-	private String specialRemarks   ;
+	private String specialRemarks;
 	
-	@Column(name="root_cause")
+	@Column(name="root_cause",columnDefinition="TEXT")
 	private String rootCause ;
+	
+	@Column(name="seq_id")
+	private String seqId  ;
 	
 	@Column(name="train_no")
 	private String trainNo ;
@@ -63,7 +66,6 @@ public class FailureActionsCausesImpact implements Serializable {
 	
 	public FailureActionsCausesImpact() {
 	}
-
 
 	public Long getId() {
 		return id;
@@ -145,6 +147,14 @@ public class FailureActionsCausesImpact implements Serializable {
 		this.rootCause = rootCause;
 	}
 
+	public String getSeqId() {
+		return seqId;
+	}
+
+	public void setSeqId(String seqId) {
+		this.seqId = seqId;
+	}
+
 	public String getTrainNo() {
 		return trainNo;
 	}
@@ -192,8 +202,8 @@ public class FailureActionsCausesImpact implements Serializable {
 	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
 		this.lastUpdatedTxStamp = lastUpdatedTxStamp;
 	}
-	
-	
+
+
 	
 	
 	
