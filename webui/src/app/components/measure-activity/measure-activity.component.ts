@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild } from '@angular/core';
+import { OnInit, Component, ViewChild, ElementRef} from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
@@ -28,11 +28,14 @@ export class MeasureActivityComponent implements OnInit{
     measureErrors : any;
     saveMeasure:boolean;
     value:string;
+    filterData;
+    gridData = [];
     pattern = "^[A-Z0-9]+$";
     measureActivityDataSource: MatTableDataSource<MeasureActivityModel>;
     measureDisplayColumns = ['sno','activityId','activityName','activityType','unitOfMeasure','id'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild('filter', { static: true }) filter: ElementRef;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     measureResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
@@ -59,9 +62,29 @@ export class MeasureActivityComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
-        this.getAllMeasureData();   
+        this.getAllMeasureData();  
+       
+        this.filterData = {
+          filterColumnNames: [
+            { "Key": 'sno', "Value": " " },
+            { "Key": 'activityId', "Value": " " },           
+            { "Key": 'activityName', "Value": " " },
+            { "Key": 'activityType', "Value": " " },
+            { "Key": 'unitOfMeasure', "Value": " " },
+           
+          ],
+          gridData: this.gridData,
+          dataSource: this.measureActivityDataSource,
+          paginator: this.paginator,
+          sort: this.sort
+         
+        }; 
+       
     }
-    
+    updatePagination() {
+      this.filterData.dataSource = this.filterData.dataSource;
+      this.filterData.dataSource.paginator = this.paginator;
+    }
     measureActivitySubmit(){ 
         let activityId:String=this.measureActivityFormGroup.value.activityId;
         let activityName:String=this.measureActivityFormGroup.value.activityName;
@@ -139,9 +162,15 @@ export class MeasureActivityComponent implements OnInit{
                     this.measureList[i].sno = i+1;
                     measure.push(this.measureList[i]);              
                 }
-                this.measureActivityDataSource = new MatTableDataSource(measure);
-                this.measureActivityDataSource.paginator = this.paginator;
-                this.measureActivityDataSource.sort = this.sort;
+                // this.measureActivityDataSource = new MatTableDataSource(measure);
+                // this.measureActivityDataSource.paginator = this.paginator;
+                // this.measureActivityDataSource.sort = this.sort;
+                this.filterData.gridData = measure;
+      this.measureActivityDataSource = new MatTableDataSource(measure);
+      this.commonService.updateDataSource(this.measureActivityDataSource, this.measureDisplayColumns);
+      this.filterData.dataSource = this.measureActivityDataSource;
+      this.measureActivityDataSource.paginator = this.paginator;
+      this.measureActivityDataSource.sort = this.sort;
                 this.spinnerService.hide();
             } , error => {
                 this.spinnerService.hide();
@@ -164,8 +193,8 @@ export class MeasureActivityComponent implements OnInit{
             id: 0,
             'activityId' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateActivityId.bind(this)],
             'activityName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateActivityName.bind(this)],
-            'activityType': [null,Validators.maxLength(255)],
-            'unitOfMeasure':[null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateActivityNameAndUnitOfMeasure.bind(this)]
+            'activityType': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+            'unitOfMeasure':[null,Validators.maxLength(255)]
         });
     }
         

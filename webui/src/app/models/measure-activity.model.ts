@@ -1,7 +1,9 @@
 export interface MeasureActivityModel{
     activityId: string ,
     activityName: string, 
-    activityType:string
+    activityType:string,
+    unitOfMeasure:string,
+    createdBy:string
     
       
   }
