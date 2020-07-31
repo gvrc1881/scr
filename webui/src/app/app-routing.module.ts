@@ -264,17 +264,17 @@ const routes: Routes = [
   },
   {
     path: 'failure-occurrence',
-    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    loadChildren: './components/failures/failure-occurrence/failure-occurrence-failure.module#FailureOccurrenceModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'unusual-occurrence',
-    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    loadChildren: './components/failures/unusual-occurrence/unusual-occurrence-failure.module#UnusualOccurrenceFailureModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'actions',
-    loadChildren: './components/drives/drive-inspection/drive-inspection.module#DriveInspectionModule',
+    loadChildren: './components/failures/actions/actions.module#ActionsModule',
     canActivate: [AuthGuard]
   },
   {
