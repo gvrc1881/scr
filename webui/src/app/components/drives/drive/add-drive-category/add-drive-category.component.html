@@ -46,6 +46,10 @@
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                             <mat-error
+                                                            *ngIf="addDriveCategoryFormGroup.controls['name'].hasError('maxlength') && addDriveCategoryFormGroup.controls['name'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                            <mat-error
                                                             *ngIf="addDriveCategoryFormGroup.controls['name'].hasError('duplicateName')"
                                                             class="alert alert-danger">
                                                             Name Already Exists
@@ -134,7 +138,11 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Authority"
-                                                                [formControl]="addDriveCategoryFormGroup.controls['authority']">                                                            
+                                                                [formControl]="addDriveCategoryFormGroup.controls['authority']">  
+                                                                <mat-error
+                                                                *ngIf="addDriveCategoryFormGroup.controls['authority'].hasError('maxlength') && addDriveCategoryFormGroup.controls['authority'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
                                                 <div class="clearfix"></div>

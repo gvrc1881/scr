@@ -45,6 +45,10 @@
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                             <mat-error
+                                                            *ngIf="addDriveFormGroup.controls['name'].hasError('maxlength') && addDriveFormGroup.controls['name'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                            <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('duplicateName')"
                                                                 class="alert alert-danger">
                                                                 Name Already Exists
@@ -129,7 +133,7 @@
                                                             <input matInput [matDatepicker]="picker1"
                                                                 placeholder="Choose From Date"
                                                                 (dateChange)="addEvent($event)" 
-                                                                [formControl]="addDriveFormGroup.controls['fromDate']" >
+                                                                [formControl]="addDriveFormGroup.controls['fromDate']" required>
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker1></mat-datepicker>                                                           
@@ -190,7 +194,7 @@
                                                     <!-- TARGET QUANTITY -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Quantity" numbersOnly
+                                                            <input matInput placeholder="Target Quantity" decimalNumber
                                                                 [formControl]="addDriveFormGroup.controls['targetQuantity']">
                                                         </mat-form-field>
                                                     </div>

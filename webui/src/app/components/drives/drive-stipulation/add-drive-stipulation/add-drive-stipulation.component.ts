@@ -30,9 +30,11 @@ export class AddDriveStipulationComponent implements OnInit {
   assertTypeList: any;
   minDateComplied = new Date(); 
   currentDate = new Date();
+  maxDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   attachedImages:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+
   constructor(
     private formBuilder: FormBuilder,
     private sendAndRequestService : SendAndRequestService,
@@ -176,7 +178,7 @@ export class AddDriveStipulationComponent implements OnInit {
       formdata.append('compliedBy', save.compliedBy);
       formdata.append('createdBy', save.createdBy);
       formdata.append('createdOn', save.createdOn.toLocaleDateString());
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.STIPULATION.SAVE_STIPULATION ,save, true).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.STIPULATION.SAVE_STIPULATION ,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -217,7 +219,7 @@ export class AddDriveStipulationComponent implements OnInit {
       formdata.append('updatedBy', update.updatedBy);
       formdata.append('updatedOn', update.updatedOn.toLocaleDateString());
       formdata.append('attachment',update.attachment);
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.INSPECTIONS.STIPULATION.UPDATE_STIPULATION ,update, true).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.INSPECTIONS.STIPULATION.UPDATE_STIPULATION ,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

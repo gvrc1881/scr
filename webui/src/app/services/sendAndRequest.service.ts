@@ -31,14 +31,20 @@ export class SendAndRequestService {
      //   return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     //}
     // METHOD FOR POST REQUESTS
-    requestForPOST(requestUrl, requestData, flag){
-        if(flag){
+    requestForPOST(requestUrl, requestData:any, flag){
+        console.log(flag)
+        if(flag == true){
+            
             let header = new HttpHeaders({           
                 'Authorization': `Bearer ${this.accessToken}`
             });
-            this.header = header;
+            console.log(header)
+            return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: header });
+        }else{
+            return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
         }
-        return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
+        
+        
     }
     //METHOD FOR PUT REQUESTS
     requestForPUT(requestUrl, requestData, flag){

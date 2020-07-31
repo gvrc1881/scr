@@ -57,8 +57,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.findRelayIndicationStatus();
-    this.findNatureOfCloseStatus();
+    //this.findRelayIndicationStatus();
+  //  this.findNatureOfCloseStatus();
     this.findFeedersList();
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
@@ -80,7 +80,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
 
   findFeedersList(){
     this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+Constants.ASSERT_TYPE.OHE)
       .subscribe((response) => {
         console.log(response)
         this.feedersList = response;
@@ -137,8 +137,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         this.addUnusualOccurrenceFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
-          location:this.resp.equipment,
-          causeOfFailure:this.resp.cascadeAssets,
+          location:this.resp.location,
+          causeOfFailure:this.resp.causeOfFailure,
           fromDateTime:new Date(this.resp.fromDateTime),
           thruDateTime:new Date(this.resp.thruDateTime),
           duration:this.resp.duration, 
@@ -146,11 +146,11 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
           internalExternal:this.resp.internalExternal,
           remarks: this.resp.remarks
         });
-        this.feedersList.map(element => {
+        /* this.feedersList.map(element => {
           if(element.id != this.resp.id){
             this.extendedFromList.push(element);
           }
-        });
+        }); */
         this.spinnerService.hide();
 
       })

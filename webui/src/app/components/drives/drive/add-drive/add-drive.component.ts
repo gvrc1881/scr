@@ -92,7 +92,7 @@ export class AddDriveComponent implements OnInit {
   updateDriveForm(){
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required])],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
       'fromDate': [null, Validators.required],
       'toDate': [null],
@@ -110,7 +110,7 @@ export class AddDriveComponent implements OnInit {
   createDriveForm() {
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required]), this.duplicateName.bind(this)],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateName.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],

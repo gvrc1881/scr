@@ -93,27 +93,27 @@ export class AddDriveCategoryComponent implements OnInit {
   updateDriveCategoryForm(){
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required])],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
       'fromDate': [null, Validators.required],
       'toDate': [null],
-      'authority': [null]
+      'authority': [null, Validators.maxLength(250)]
     });
   }
   createDriveCategoryForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required]), this.duplicateName.bind(this)],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateName.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
-      'authority': [null]
+      'authority': [null, Validators.maxLength(250)]
     });
   }
   duplicateName() {
     var name = this.addDriveCategoryFormGroup.controls['name'].value;
     const q = new Promise((resolve, reject) => {
-      if(this.update && name.toUppercase() == this.resp.name.toUppercase){
+      if(this.update && name.toUpperCase() == this.resp.driveCategoryName.toUpperCase()){
         resolve(null);        
       }else{
       this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.EXISTS_DRIVE_CATEGORY_NAME + name).subscribe((duplicate) => {
@@ -131,7 +131,7 @@ export class AddDriveCategoryComponent implements OnInit {
   duplicateDescription() {
     var desc = this.addDriveCategoryFormGroup.controls['description'].value;
     const q = new Promise((resolve, reject) => {
-      if(this.update && desc.toUppercase() == this.resp.description.toUppercase()){
+      if(this.update && desc.toUpperCase() == this.resp.description.toUpperCase()){
         resolve(null);
       }else{
       this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.EXISTS_DRIVE_CATEGORY_DESCRIPTION +desc).subscribe((duplicate) => {
