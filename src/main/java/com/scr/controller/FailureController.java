@@ -131,7 +131,7 @@ public class FailureController {
 		List<FailureActionsCausesImpact> failureList = null;
 		try {			
 			logger.info("Calling service for getting relevent type data");
-			failureList = failureService.findFailureByType(failureType);	
+			//failureList = failureService.findFailureByType(failureType);	
 			logger.info("Fetched data = "+failureList);
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the failure actions data = "+e.getMessage());
