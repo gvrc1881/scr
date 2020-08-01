@@ -6,6 +6,7 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { environment } from '../../../environments/environment';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'file-information-dialog',
     templateUrl: './file-information-dialog.component.html',
@@ -27,7 +28,8 @@ export class FilesInformationDialogComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
         private sendAndRequestService: SendAndRequestService,
-        public dialog: MatDialog,) {
+        public dialog: MatDialog,
+        private sanitizer:DomSanitizer) {
         if (data) {
             this.response = data;
         }
@@ -43,7 +45,7 @@ export class FilesInformationDialogComponent implements OnInit {
         this.prepareTable();
     }
     downloadFile(path, fileName) {
-          const link = document.createElement('a');
+        const link = document.createElement('a');
          link.setAttribute('target', '_blank');
          link.setAttribute('href', path);
          link.setAttribute('download', fileName);
@@ -59,7 +61,7 @@ export class FilesInformationDialogComponent implements OnInit {
                     "fileName": this.response[i].originalFileName,
                     "type": this.type,
                     "rowid":this.response[i].id,
-                    "path": this.response[i].changeFileName
+                    "path": this.sanitizer.bypassSecurityTrustUrl(this.response[i].changeFileName)
                 });
             }
         }

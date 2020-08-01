@@ -40,7 +40,7 @@ export class AddDriveInspectionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private sendAndRequestService: SendAndRequestService
+    private sendAndRequestService: SendAndRequestService,
   ) { 
      this.inspectionFormErrors = {
       inspectionType:{},

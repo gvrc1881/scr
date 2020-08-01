@@ -137,7 +137,7 @@
                                                      <div class="col-md-3">
                                                     
                                                         <input type="file" [formControl]="addDriveStipulationFormGroup.controls['attachment']"
-                                                             name="uploadFile" 
+                                                             name="uploadFile"  accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                             style="margin-top: 6%;"
                                                             id="uploadFile" multiple (change)="upload($event)" />
                                                     </div>

@@ -83,7 +83,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     });
   }
   processEditAction(id) {
-    this.router.navigate([id], { relativeTo: this.route });
+    this.router.navigate(['unusual-occurrence/'+id], { relativeTo: this.route });
   }
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {

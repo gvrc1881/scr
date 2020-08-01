@@ -40,6 +40,7 @@ import {  DecimalValidationsModule } from './modules/decimal-validations.module'
 import { NumberValidationsModule } from './modules/number-validations.module';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { PreviousRouteService } from './services/previousRoute.service';
+import { UnusualOccurrenceFailureModule } from './components/failures/unusual-occurrence/unusual-occurrence-failure.module';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -81,6 +82,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     MatTabsModule,
     SatPopoverModule,
     DriveModule,
+    UnusualOccurrenceFailureModule,
     DriveElectrificationTargetsModule,
     DriveStipulationModule,
     NumberValidationsModule,
@@ -107,7 +109,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     ReactiveFormsModule,
     DatePipe,
     SendAndRequestService,
-    PreviousRouteService
+    PreviousRouteService,
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

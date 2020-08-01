@@ -156,7 +156,7 @@
                                                      <div class="col-md-3">
                                                         <input type="file" [formControl]="addDriveInspectionFormGroup.controls['attachment']"
                                                         name="uploadFile" 
-                                                            style="margin-top: 6%;"
+                                                            style="margin-top: 6%;" accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                             id="uploadFile" multiple (change)="upload($event)" />
                                                        
                                                     </div>
