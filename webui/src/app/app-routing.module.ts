@@ -273,11 +273,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'actions',
-    loadChildren: './components/failures/actions/actions.module#ActionsModule',
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'electrification-targets',
     loadChildren: './components/drives/drive-electrification-targets/drive-electrification-targets.module#DriveElectrificationTargetsModule',
     canActivate: [AuthGuard]

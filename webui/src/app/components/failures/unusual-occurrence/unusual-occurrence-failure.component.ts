@@ -30,6 +30,14 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
 
   UnusualOccurrenceFailList: any;
 
+  displayedColumnsActions = ['sno', 'failureActivity', 'fromTime', 'thruTime','by','specialRemarks',
+    'remarks','location','trainNo', 'actions'];
+  dataSourceActions: MatTableDataSource<any>;
+  @ViewChild(MatPaginator, { static: true }) paginatorActions: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sortActions: MatSort;
+  @ViewChild('filter', { static: true }) filterActions: ElementRef;
+  ActionsFailListActions: any;
+  
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -47,6 +55,8 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
 
     this.spinnerService.show();
     this.getUnusualOccurrenceFailureData();
+
+    this.getActionsFailureData();
 
   }
   applyFilter(filterValue: string) {
@@ -96,4 +106,54 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
+
+/******* ACTIONS */
+applyFilterActions(filterValue: string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  this.dataSourceActions.filter = filterValue;
+}
+getActionsFailureData() {
+  const ActionsFail: any[] = [];
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
+    this.ActionsFailListActions = data;
+    console.log(this.ActionsFailListActions)
+    for (let i = 0; i < this.ActionsFailListActions.length; i++) {
+      this.ActionsFailListActions[i].sno = i + 1;
+      ActionsFail.push(this.ActionsFailListActions[i]);
+    }
+
+    this.dataSourceActions= new MatTableDataSource(ActionsFail);
+    this.dataSourceActions.paginator = this.paginatorActions;
+    this.dataSourceActions.sort = this.sortActions;
+    this.spinnerService.hide();
+  }, error => {
+    this.spinnerService.hide();
+  });
+}
+processEditActions(id) {
+  this.router.navigate(['actions/' + id], { relativeTo: this.route });
+}
+deleteActions(id) {
+  this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+    disableClose: false
+  });
+  this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+  this.confirmDialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.spinnerService.show();
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+        this.spinnerService.hide();
+        this.commonService.showAlertMessage("Deleted Actions Fail Record Successfully");
+        this.getActionsFailureData();
+      }, error => {
+        console.log('ERROR >>>');
+        this.spinnerService.hide();
+        this.commonService.showAlertMessage("Actions Fail Record Deletion Failed.");
+      })
+    }
+    this.confirmDialogRef = null;
+  });
+}
+
 }

@@ -489,14 +489,6 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('Unusual Occurrence', 'submenu', 'view'),
             rolePermission:true,
             currentSubMenu: !!path && path.includes("unusual-occurrence") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Actions",
-            subMenuURL: "actions",
-            subMenuIcon: "fa fa-file",
-            permission:this.commonService.findPermission('Actions', 'submenu', 'view'),
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("actions") ? "active-item" : "",
           }
         ]
       },

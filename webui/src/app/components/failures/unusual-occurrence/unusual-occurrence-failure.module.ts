@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AddUnusualOccurrenceFailureComponent } from './add-unusual-occurrence-failure/add-unusual-occurrence-failure.component';
+import { AddActionsComponent } from './add-actions/add-actions.component';
 
 const routes: Routes = [
     {
@@ -20,6 +21,14 @@ const routes: Routes = [
     {
         path        : 'add-unusual-occurrence-failure',
         component:   AddUnusualOccurrenceFailureComponent
+    },   
+    {
+        path     : 'actions/:id',
+        component: AddActionsComponent
+    },
+    {
+        path        : 'add-actions',
+        component:   AddActionsComponent
     },
 ];
 
@@ -27,7 +36,7 @@ const routes: Routes = [
     declarations: [
         UnusualOccurrenceFailureComponent,
         AddUnusualOccurrenceFailureComponent,
-        
+        AddActionsComponent
     ],
     imports: [
         RouterModule.forChild(routes),
