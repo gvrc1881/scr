@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Failure;
+import com.scr.model.FailureActionsCausesImpact;
 import com.scr.services.FailureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -121,5 +122,23 @@ public class FailureController {
 			logger.error("Error while find Failure Type Details by id");
 			return new ResponseEntity<Failure>(faOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	
+	@RequestMapping(value = "/actions", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<FailureActionsCausesImpact>> findActions() throws JSONException {
+		logger.info("Enter into failure actions function");
+		List<FailureActionsCausesImpact> failureList = null;
+		try {			
+			logger.info("Calling service for getting relevent type data");
+			failureList = failureService.findFailureByType(failureType);	
+			logger.info("Fetched data = "+failureList);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the failure actions data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the failure actions data = "+e.getMessage());
+		}
+		logger.info("Exit from energyConsumption function");
+		return ResponseEntity.ok((failureList));
 	}
 }
