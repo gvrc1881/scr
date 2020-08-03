@@ -27,8 +27,7 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        CommonDirectivesModule,
-        
+        CommonDirectivesModule,        
         DecimalValidationsModule,
         
     ],

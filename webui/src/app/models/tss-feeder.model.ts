@@ -1,7 +1,9 @@
 export interface TssFeederModel{
     
-  description :string,
+  
   feederName :string,
-  stateElectricityBoard :string
+  description :string,
+  stateElectricityBoard :string,
+  dataDiv:string
       
   }

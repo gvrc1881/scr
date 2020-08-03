@@ -141,4 +141,22 @@ public class FailureController {
 		logger.info("Exit from energyConsumption function");
 		return ResponseEntity.ok((failureList));
 	}
+	@RequestMapping(value = "/findAllFailures", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<Failure> findAllFailures() throws JSONException {
+		logger.info("Enter into findAllFailures function");
+		List<Failure> failuresList = null;
+		try {
+			logger.info("Calling service for Measures data");
+			failuresList = failureService.findAll();
+			logger.info("Fetched Measures data = "+failuresList.size());
+			return failuresList;
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the failures data = "+npe.getMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching the failures data = "+e.getMessage());
+		}
+		logger.info("Exit from findAllfailures function");
+		return failuresList;	
+	}
+
 }

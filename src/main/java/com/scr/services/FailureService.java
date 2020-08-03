@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.Failure;
+import com.scr.model.Make;
 import com.scr.repository.FailuresRepository;
 import com.scr.util.Constants;
 
@@ -47,6 +48,10 @@ public class FailureService {
 	public void updateFailureByType(@Valid Failure failureRequest) {
 		failureRequest.setCurrentStatus(Constants.ACTIVE);
 		failuresRepository.save(failureRequest);
+	}
+	public List<Failure> findAll() {
+		// TODO Auto-generated method stub
+		return failuresRepository.findAll();
 	}
 
 }

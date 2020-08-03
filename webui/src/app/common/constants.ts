@@ -399,7 +399,9 @@ export const Constants = {
             DELETE:'/deleteFailureAnalysis/',
             FAILURE_BY_TYPE:"/failuresByType/",
             FAILURE_TYPE_BY_ID:'/failureTypeById/',     
-            FAILURE_TYPE_UPDATE:'/saveFailureByType',       
+            FAILURE_TYPE_UPDATE:'/saveFailureByType', 
+            FAILURE_EQUIPMENT:'/findAllFailures'  ,
+            FAILURE_CASCADE:'/findAllFailures'    
         },
         PROGRESS_RECORD:{
             GET_PROGRESS_RECORDS:'/driveDailyProgress',
@@ -510,5 +512,6 @@ export const Constants = {
         "YES_NO_TYPE":"YESNO_STATUS",
         "RELAY_INDICATION":"CB_RELAY_INDICATOR",
         "NATURE_OF_CLOSE":"CB_NATURE_OF_CLOSURE",
+        "ACTION":"UUO_ACTIVITY"
     }
 };

@@ -78,6 +78,7 @@ export class TssFeederComponent implements OnInit{
        this.addTssFeeder=false;
        if (this.title ==  Constants.EVENTS.SAVE) {
         var saveFeederModel={
+                                
                                 'dataDiv':dataDiv,
                                 'feederName': feederName,
                                 'description':description,
@@ -123,11 +124,12 @@ export class TssFeederComponent implements OnInit{
                                         this.tssFeederFormGroup.reset();
                                         this.addTssFeeder =  false;
                                         this.title = "Save";
-                                        this.displayHierarchyFields();
+                                        
                                     }
                                     else {
                                             this.commonService.showAlertMessage("Feeders Data Updating Failed.");
                                         }
+                                        this.displayHierarchyFields();
                                 } , 
                                 error => {
             	
@@ -220,6 +222,7 @@ export class TssFeederComponent implements OnInit{
     feederEditAction(id: number) {
         this.tssFeederFormGroup = this.formBuilder.group({
             id: 0,
+            'zone' : [null],
             'dataDiv' : [null,Validators.maxLength(255)],
             'feederName' : [null,Validators.maxLength(255)],
             'description': [null,Validators.maxLength(255)],
@@ -265,7 +268,7 @@ export class TssFeederComponent implements OnInit{
        let feederName:string= this.tssFeederFormGroup.controls['feederName'].value 
     	const q = new Promise((resolve, reject) => {
 	       this.sendAndRequestService.requestForGET(
-                Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITY_ID +feederName
+                Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.EXIST_FEEDER_NAME +feederName
 	           
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
