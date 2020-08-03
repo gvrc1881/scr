@@ -57,7 +57,7 @@ public class FootPatrollingRestController {
 	
 	
 	@RequestMapping(value = "/report-execution", method = RequestMethod.POST,  produces = "application/json")
-	public ReportDto reportExecution(ReportDto reportDto) {
+	public ReportDto reportExecution(@RequestBody  ReportDto reportDto) {
 		 log.info("*** request for report execution ***");
 		 return footPatrollingRestService.reportExecution(reportDto);
 	}

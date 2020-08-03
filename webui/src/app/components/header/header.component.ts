@@ -760,7 +760,29 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("energy-consumption") ? "active-item" : "",
           }
         ] 
-      }
+      },
+      { 
+        ID: 18,
+        menuName: 'OPERATIONS', 
+        menuUrl: 'powerBlocks', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission:this.commonService.findPermission('OPERATIONS', 'menu', 'view'),
+        currentTab: !!path && path.includes("powerBlocks") ? "open" : "",  
+        subMenus: [
+          {
+            subMenuName: "Power Blocks",
+            subMenuURL: "powerBlocks",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("powerBlocks") ? "active-item" : "",
+          },
+        ]
+      },
+      
     ];
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);

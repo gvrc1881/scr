@@ -212,7 +212,8 @@ export const Constants = {
                 SAVE_ENERGY_METER:"/addEnergyMeter",
                 UPDATE_ENERGY_METER:"/updateEnergyMeter",
                 DELETE_ENERGY_METER:"/deleteEnergyMeter/",
-                EXISTS_FEEDER_START_DATE:'/existsFeederAndStartDate/'
+                EXISTS_FEEDER_START_DATE:'/existsFeederAndStartDate/',
+                EXISTS_FEEDER_HAVING_END_DATE:'/existsFeederHavingEndDate/'
             },
             STATION_SECTIONS:{
                 GET_STATION_SECTIONS:"/findAllStationSections",
@@ -424,7 +425,30 @@ export const Constants = {
                 UPDATE_MODEL:"/updateModel",
                 DELETE_MODEL_ID:"/deleteModel/"
                 },
-            }
+            },
+       OPERATIONS:{
+        	POWER_BLOCK:{
+        		GET_POWER_BLOCK:"/findAllPowerBlock",
+        		DELETE_POWER_BLOCK_BY_ID:"/deletePowerBlock/",
+        		SAVE_POWER_BLOCK:"/addPowerBlock",
+        		UPDATE_POWER_BLOCK:"/updatePowerBlock",
+        		GET_POWER_BLOCK_BY_ID:"/findPowerBlock/"
+        	},
+        },
+        ASSET_REGISTER:{
+        	ELE_SECTIONS:{
+        		GET_ELE_SECTIONS:"/findAllEleSections"
+        	},
+        	GANTARY:{
+        		GET_GANTARY:"/findAllGantrys"
+        	},
+        	SUB_SECTORS:{
+        		GET_SUB_SECTORS:"/findAllSubSector"
+        	},
+        	SECTORS:{
+        		GET_SECTORS:"/findAllSector"
+        	},
+        }          
     },
     EVENTS:{
         ADD:"Add",

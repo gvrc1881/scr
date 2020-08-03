@@ -940,11 +940,10 @@ public class FootPatrollingRestService {
 	public FpAppMasterDto getRepotNames() {
 		FpAppMasterDto FPMasterDto = new FpAppMasterDto();
 		try {
-			List<com.scr.model
-			.PsiReportRegistry> psiReportRegistries = psiReportRegistry.findByParentReportId("FootPatrollingRepo");
+			List<ReportRepository> reportRegistries = reportRepository.findByReportCategory("FootPatrolling");
 			List<String> reportNameList = new ArrayList<String>();
-			for (com.scr.model.PsiReportRegistry psiReportRegistry : psiReportRegistries) {
-				reportNameList.add(psiReportRegistry.getReportId());
+			for (ReportRepository reportRepository : reportRegistries) {
+				reportNameList.add(reportRepository.getReportId());
 			}
 			FPMasterDto.setReportNames(reportNameList);
 			log.info("*** report names list ***"+FPMasterDto.getReportNames());
@@ -962,7 +961,6 @@ public class FootPatrollingRestService {
 		String facilityName = null;
 		String jrxmlFileName = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		
 		if (reportDto.getFacilityId() != null) {
 			Optional<Facility> facilityList =facilityRepository.findByFacilityId(reportDto.getFacilityId());
 			if (facilityList.isPresent()) {
@@ -980,6 +978,7 @@ public class FootPatrollingRestService {
 		if ("FP_Summary_Rept".equals(reportDto.getReportId() ) && facilityName == null) {
 			facilityName = "All";
 		}
+		log.info("**jrxml file name**"+jrxmlFileName);
 		parameters.put("facilityName", facilityName);
 		parameters.put("subDivision", reportDto.getSubDivision());
 		parameters.put("fromDate", reportDto.getFromDate());
@@ -991,7 +990,9 @@ public class FootPatrollingRestService {
 			connection = dataSource.getConnection();
 			String path = this.getClass().getClassLoader().getResource("").getPath();
 			String reportsBasePath = reportResource.getBasePath();
+			log.info("*** report base path***"+reportsBasePath);
 			String absolutePath = reportResource.getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
+			log.info("*** report absolute path ***"+absolutePath);
 			JasperReport jasperReport = JasperCompileManager.compileReport(absolutePath);
 			log.info("*** jasper report object ***" + jasperReport);
 			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
@@ -1006,7 +1007,7 @@ public class FootPatrollingRestService {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return reportDto;
 	}
 	
 }

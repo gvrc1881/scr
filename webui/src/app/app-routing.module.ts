@@ -317,7 +317,12 @@ const routes: Routes = [
     path: 'tss-feeder',
     loadChildren: './components/tss-feeder/tss-feeder.module#TssFeederModule',
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'powerBlocks',
+    loadChildren: './components/tpc-operations/power-block/power-block.module#PowerBlockModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
