@@ -69,13 +69,11 @@ export class PowerBlockComponent implements OnInit {
   }
   
   delete(id) {
-  console.log('delete id::'+id);
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
-      console.log('result:::'+result);
       if (result) {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.OPERATIONS.POWER_BLOCK.DELETE_POWER_BLOCK_BY_ID ,id).subscribe(data => {
@@ -90,6 +88,12 @@ export class PowerBlockComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+  }
+  
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
+    this.dataSource.filter = filterValue;
   }
   	
 }
