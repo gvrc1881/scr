@@ -110,7 +110,3 @@ export class PowerBlockComponent implements OnInit {
 
 
 
-
-
-
-
