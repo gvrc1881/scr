@@ -22,9 +22,10 @@ export class AddActionsComponent implements OnInit {
   natureOfCloseList = [];
   addActionsFailFromGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  actionsList = [{ 'id': 1, "value": 'Event' }, { 'id': 2, "value": 'Repurcussion' },
-                {'id': 3, "value": 'Work Done' }, { 'id': 4, "value": 'Damage' },
-                { 'id': 5, "value": 'Availability' }];
+  //actionsList = [{ 'id': 1, "value": 'Event' }, { 'id': 2, "value": 'Repurcussion' },
+               // {'id': 3, "value": 'Work Done' }, { 'id': 4, "value": 'Damage' },
+               // { 'id': 5, "value": 'Availability' }];
+               actionsList=[];
   failureOccurrenceFailFormErrors: any;
   feedersList:any;
   extendedFromList:any=[];
@@ -40,6 +41,10 @@ export class AddActionsComponent implements OnInit {
   specialRemarks:boolean=false;
   rootCause:boolean=false;
   trainNo:boolean=false;
+  maxDate = new Date();
+  minDate=new Date();
+  dateFormat = 'MM-dd-yyyy ';
+
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -64,6 +69,7 @@ export class AddActionsComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
+    this.findActions();
     this.fromTime=true;
     this.thruTime=true;
     this.location=false;
@@ -72,6 +78,7 @@ export class AddActionsComponent implements OnInit {
     this.specialRemarks=true;
     this.rootCause=false;
     this.trainNo=false;
+    
 
     if (!isNaN(this.id)) {
       this.addActionsFailFromGroup.valueChanges.subscribe(() => {
@@ -191,12 +198,19 @@ export class AddActionsComponent implements OnInit {
       this.natureOfCloseList = resp;
     });
   }
+  findActions(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +Constants.STATUS_ITEMS.ACTION)
+    .subscribe((resp) => {
+      
+      this.actionsList = resp;
+    });
+  }
 
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addActionsFailFromGroup.invalid) {

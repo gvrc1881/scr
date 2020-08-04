@@ -29,8 +29,9 @@ export class AddGridFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
-  toMinDate=new Date();
-  completeMinDate=new Date();
+  maxDate = new Date();
+  minDate=new Date();
+  dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -161,10 +162,10 @@ export class AddGridFailureComponent implements OnInit {
       })
   }
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate  = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.minDate  = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addGridFailFromGroup.invalid) {

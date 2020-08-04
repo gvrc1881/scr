@@ -36,8 +36,8 @@
                                                             <mat-select placeholder="Actions" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addActionsFailFromGroup.controls['failureActivity']">
                                                                 <mat-option *ngFor="let actions of actionsList"
-                                                                    [value]="actions.value">
-                                                                    {{ actions.value }}
+                                                                    [value]="actions.statusCode">
+                                                                    {{ actions.statusCode }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -48,7 +48,7 @@
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                             [owlDateTimeTrigger]="dt3" placeholder="From Time"
-                                                            (dateTimeChange)="addEvent($event)" 
+                                                            (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                             [formControl]="addActionsFailFromGroup.controls['fromTime']" >                                                                
                                                             <owl-date-time #dt3 [showSecondsTimer]=true
                                                                 ></owl-date-time>
@@ -59,7 +59,7 @@
                                                 <div class="col-md-3" *ngIf="thruTime">
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                            [owlDateTimeTrigger]="dt2" placeholder="Thru Time"
+                                                            [owlDateTimeTrigger]="dt2" placeholder="Thru Time" [min]="minDate"  [max]="maxDate"
                                                             [formControl]="addActionsFailFromGroup.controls['thruTime']" >                                                                
                                                             <owl-date-time #dt2 [showSecondsTimer]=true
                                                                 ></owl-date-time>

@@ -30,8 +30,9 @@ export class AddRcFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
-  toMinDate=new Date();
-  completeMinDate=new Date();
+  maxDate = new Date();
+  minDate=new Date();
+  dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -44,6 +45,7 @@ export class AddRcFailureComponent implements OnInit {
     // Reactive form errors
     this.cbFailFormErrors = {
       subStation: {}, 
+      relayIndication:{},
       fromDateTime: {},
       thruDateTime: {},
       duration: {}, 
@@ -56,7 +58,7 @@ export class AddRcFailureComponent implements OnInit {
   ngOnInit() {
     //this.findRelayIndicationStatus();
     //this.findNatureOfCloseStatus();
-    //this.findFeedersList();
+    this.findFeedersList();
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
     if (!isNaN(this.id)) {
@@ -90,6 +92,7 @@ export class AddRcFailureComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'subStation': [null], 
+        'relayIndication':[null],
         'fromDateTime': [null],
         'thruDateTime': [null],
         'duration': [null], 
@@ -132,6 +135,7 @@ export class AddRcFailureComponent implements OnInit {
         this.addRcFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
+          relayIndication:this.resp.relayIndication,
           fromDateTime:new Date(this.resp.fromDateTime),
           thruDateTime:new Date(this.resp.thruDateTime),
           duration:this.resp.duration, 
@@ -163,10 +167,10 @@ export class AddRcFailureComponent implements OnInit {
   }
 
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addRcFailFromGroup.invalid) {
@@ -179,7 +183,8 @@ export class AddRcFailureComponent implements OnInit {
     var failedMessage = '';
     if (this.save) {
       data = {
-        'subStation': this.addRcFailFromGroup.value.subStation ,  
+        'subStation': this.addRcFailFromGroup.value.subStation , 
+        'relayIndication' :this.addRcFailFromGroup.value.relayIndication,
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 
@@ -210,6 +215,7 @@ export class AddRcFailureComponent implements OnInit {
       data = {
         "id":this.id,
         'subStation': this.addRcFailFromGroup.value.subStation , 
+        'relayIndication':this.addRcFailFromGroup.value.relayIndication,
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 

@@ -31,9 +31,13 @@ export class AddCbFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
-  toMinDate=new Date();
-  completeMinDate=new Date();
+  maxDate = new Date();
+  minDate=new Date();
+  dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
+  failureList:any;
+  failurecasList:any;
+  difference:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -71,6 +75,7 @@ export class AddCbFailureComponent implements OnInit {
     this.findRelayIndicationStatus();
     this.findNatureOfCloseStatus();
     this.findFeedersList();
+    this. findCascadeList();
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
     if (!isNaN(this.id)) {
@@ -87,6 +92,10 @@ export class AddCbFailureComponent implements OnInit {
       this.update = false;
       this.title = 'Save';
     }
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
+      this.failureList = data;
+      } 
+      , error => {});
   }
 
   findFeedersList(){
@@ -98,6 +107,18 @@ export class AddCbFailureComponent implements OnInit {
       //  this.extendedFromList = response;
         this.spinnerService.hide();
       })
+  }
+
+  findCascadeList(){
+    this.spinnerService.show();
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_CASCADE)
+      .subscribe((data) => {
+        console.log(data)
+        this.failurecasList = data;
+      //  this.extendedFromList = response;
+        this.spinnerService.hide();
+      })
+
   }
   createForm() {
     this.addCbFailFromGroup
@@ -160,9 +181,9 @@ export class AddCbFailureComponent implements OnInit {
           id: this.resp.id,
           subStation:this.resp.subStation,
           equipment:this.resp.equipment,
-          cascadeAssets:this.resp.cascadeAssets,
-          fromDateTime:new Date(this.resp.fromDateTime),
-          thruDateTime:new Date(this.resp.thruDateTime),
+          cascadeAssets:this.resp.cascadeAssets.split(","),
+          fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
           relayIndication:this.resp.relayIndication,
           natureOfClosure:this.resp.natureOfClosure, 
@@ -185,6 +206,7 @@ export class AddCbFailureComponent implements OnInit {
           }
         });
         this.spinnerService.hide();
+       
 
       })
   }
@@ -203,10 +225,18 @@ export class AddCbFailureComponent implements OnInit {
   }
 
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
+  }
+
+  duration(){
+   
+    let fromDateTime=this.addCbFailFromGroup.controls['fromDateTime'].value;
+    let thruDateTime=this.addCbFailFromGroup.controls['thruDateTime'].value;
+    
+    this.difference=thruDateTime-fromDateTime;
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addCbFailFromGroup.invalid) {
@@ -218,10 +248,11 @@ export class AddCbFailureComponent implements OnInit {
     var message = '';
     var failedMessage = '';
     if (this.save) {
+      let casc=this.addCbFailFromGroup.value.cascadeAssets;
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
-        'cascadeAssets': this.addCbFailFromGroup.value.cascadeAssets, 
+        'cascadeAssets':  casc.toString(),
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 
@@ -260,11 +291,12 @@ export class AddCbFailureComponent implements OnInit {
         this.commonService.showAlertMessage("Cb Fail Data "+failedMessage+" Failed.");
       })
     }else if(this.update){
+      let casc=this.addCbFailFromGroup.value.cascadeAssets;
       data = {
         "id":this.id,
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
-        'cascadeAssets': this.addCbFailFromGroup.value.cascadeAssets, 
+        'cascadeAssets':  casc.toString(),
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 

@@ -71,6 +71,11 @@
                                             <mat-cell *matCellDef="let row"> {{row.thruDateTime}}</mat-cell>
                                         </ng-container>
 
+                                        <ng-container matColumnDef="impact">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Impact</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.impact}}</mat-cell>
+                                        </ng-container>
+
                                         <ng-container matColumnDef="duration">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.duration}}</mat-cell>

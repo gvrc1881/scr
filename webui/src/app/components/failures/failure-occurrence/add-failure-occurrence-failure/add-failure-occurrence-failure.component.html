@@ -58,7 +58,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Trip Time"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
                                                                 (dateTimeChange)="addEvent($event)" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['fromDateTime']" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
@@ -70,7 +70,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Close Time"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['thruDateTime']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

@@ -43,12 +43,19 @@
                                                         </mat-form-field>
                                                     </div>
                                                     
-                                                  
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Indication" 
+                                                                [formControl]="addRcFailFromGroup.controls['relayIndication']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Trip Time"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Occurred Date"
+                                                                (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['fromDateTime']" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -59,7 +66,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Close Time"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Rectified Date"  [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['thruDateTime']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

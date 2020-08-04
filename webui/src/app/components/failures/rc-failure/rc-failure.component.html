@@ -50,6 +50,11 @@
                                             <mat-cell *matCellDef="let row"> {{row.subStation}}</mat-cell>
                                         </ng-container>
                                         
+                                        <ng-container matColumnDef="relayIndication">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Indication</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.relayIndication}}</mat-cell>
+                                        </ng-container>
+                                        
                                        
                                         <ng-container matColumnDef="fromDateTime">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Occurred Date</mat-header-cell>

@@ -19,7 +19,7 @@ export class RcFailureComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'subStation', 'fromDateTime', 'thruDateTime',
+  displayedColumns = ['sno', 'subStation','relayIndication', 'fromDateTime', 'thruDateTime',
     'duration','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
 

@@ -31,8 +31,9 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
-  toMinDate=new Date();
-  completeMinDate=new Date();
+  maxDate = new Date();
+  minDate=new Date();
+  dateFormat = 'MM-dd-yyyy ';
   divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -52,6 +53,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       duration: {}, 
       divisionLocal: {},
       internalExternal: {}, 
+      impact:{},
       remarks:{}
     };
   }
@@ -79,11 +81,15 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   }
 
   findFeedersList(){
+    
     this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+Constants.ASSERT_TYPE.OHE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE)
+   
       .subscribe((response) => {
-        console.log(response)
+       
+        console.log("depots======"+JSON.stringify(response));
         this.feedersList = response;
+       
       //  this.extendedFromList = response;
         this.spinnerService.hide();
       })
@@ -100,6 +106,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'duration': [null], 
         'divisionLocal': [null],
         'internalExternal': [null], 
+        'impact': [null],
         'remarks': [null, Validators.maxLength(250)]
       });
   }
@@ -139,11 +146,12 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
           subStation:this.resp.subStation,
           location:this.resp.location,
           causeOfFailure:this.resp.causeOfFailure,
-          fromDateTime:new Date(this.resp.fromDateTime),
-          thruDateTime:new Date(this.resp.thruDateTime),
+          fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
           divisionLocal:this.resp.divisionLocal,
           internalExternal:this.resp.internalExternal,
+          impact:this.resp.impact,
           remarks: this.resp.remarks
         });
         /* this.feedersList.map(element => {
@@ -170,10 +178,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   }
 
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addUnusualOccurrenceFromGroup.invalid) {
@@ -194,6 +202,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
         'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal,
         'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal, 
+        'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -226,6 +235,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
         'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal,
         'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal, 
+        'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

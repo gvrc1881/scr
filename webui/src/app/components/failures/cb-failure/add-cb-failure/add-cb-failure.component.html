@@ -45,11 +45,11 @@
                                                     
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Equipment" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="Equipment"
                                                                 [formControl]="addCbFailFromGroup.controls['equipment']">
-                                                                <mat-option *ngFor="let feeder of feedersList"
-                                                                    [value]="feeder.feederName">
-                                                                    {{ feeder.feederName }}
+                                                                <mat-option *ngFor="let failures of failureList"
+                                                                    [value]="failures.assetId">
+                                                                    {{ failures.assetId }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -57,11 +57,11 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Cas Cade Assets" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="Cas Cade Assets"  multiple="true" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addCbFailFromGroup.controls['cascadeAssets']">
-                                                                <mat-option *ngFor="let feeder of feedersList"
-                                                                    [value]="feeder.feederName">
-                                                                    {{ feeder.feederName }}
+                                                                <mat-option *ngFor="let failures of failurecasList"
+                                                                    [value]="failures.cascadeAssets">
+                                                                    {{ failures.cascadeAssets }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -70,8 +70,8 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Trip Time"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [owlDateTimeTrigger]="dt3" placeholder="Trip Time" 
+                                                                (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addCbFailFromGroup.controls['fromDateTime']" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -83,7 +83,8 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Close Time"
-                                                                [formControl]="addCbFailFromGroup.controls['thruDateTime']" >                                                                
+                                                               [min]="minDate"  [max]="maxDate"
+                                                                [formControl]="addCbFailFromGroup.controls['thruDateTime']"  (selectionChange)="duration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
@@ -96,8 +97,9 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Duration (HH:MM:SS)" readonly
-                                                                [formControl]="addCbFailFromGroup.controls['duration']"
-                                                                >                                                           
+                                                                [formControl]="addCbFailFromGroup.controls['duration']"  >
+                                                               
+                                                                                                                       
                                                         </mat-form-field>
                                                     </div>
                                                    
@@ -128,7 +130,7 @@
                                                      <!-- assetType -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="R Value"
+                                                            <input matInput placeholder="R Value" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['rValue']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -136,7 +138,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="X Value"
+                                                            <input matInput placeholder="X Value" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['xValue']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -144,7 +146,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Z Value"
+                                                            <input matInput placeholder="Z Value" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['zValue']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -152,7 +154,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Fault Distance"
+                                                            <input matInput placeholder="Fault Distance" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['faultDistance']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -160,7 +162,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Actual Fault Distance"
+                                                            <input matInput placeholder="Actual Fault Distance" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['actualFaultDistance']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -168,7 +170,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Current"
+                                                            <input matInput placeholder="Current" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['current']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -176,7 +178,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Voltage"
+                                                            <input matInput placeholder="Voltage" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['voltage']"
                                                                 >                                                           
                                                         </mat-form-field>

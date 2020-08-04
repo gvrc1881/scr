@@ -36,8 +36,8 @@
                                                             <mat-select placeholder="Depot" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['subStation']">
                                                                 <mat-option *ngFor="let feeder of feedersList"
-                                                                    [value]="feeder.feederName">
-                                                                    {{ feeder.feederName }}
+                                                                    [value]="feeder.facilityName">
+                                                                    {{ feeder.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -47,16 +47,14 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Location"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']"
-                                                                >                                                           
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']" >                                                           
                                                         </mat-form-field>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Root Cause"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['causeOfFailure']"
-                                                                >                                                           
+                                                            <textarea matInput placeholder="Root Cause" 
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['causeOfFailure']"> </textarea>                                                                                                             
                                                         </mat-form-field>
                                                     </div>
 
@@ -64,8 +62,8 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Trip Time"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                [owlDateTimeTrigger]="dt3" placeholder="From Time"
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -76,7 +74,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Close Time"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Resolve Time" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -104,6 +102,14 @@
                                                      <div class="col-md-3" fxFlex="30">                                                        
                                                         <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">Internal/External</mat-checkbox>                                                          
                                                       </div>
+
+                                                      <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Impact" 
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['impact']"
+                                                                > </textarea>                                                                                                             
+                                                        </mat-form-field>
+                                                    </div>
 
                                                      <!-- actionPlan -->
                                                      <div class="clearfix"></div>

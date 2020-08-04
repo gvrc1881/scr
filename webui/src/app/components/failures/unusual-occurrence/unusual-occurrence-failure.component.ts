@@ -20,7 +20,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
-    'duration', 'remarks','divisionLocal','internalExternal', 'actions'];
+    'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions'];
   dataSource: MatTableDataSource<any>;
 
 
@@ -115,6 +115,7 @@ applyFilterActions(filterValue: string) {
 }
 getActionsFailureData() {
   const ActionsFail: any[] = [];
+  console.log("list"+this.ActionsFailListActions);
   this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
     this.ActionsFailListActions = data;
     console.log(this.ActionsFailListActions)

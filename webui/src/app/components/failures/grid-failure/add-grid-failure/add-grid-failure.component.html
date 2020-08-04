@@ -47,7 +47,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [formControl]="addGridFailFromGroup.controls['ffdate']" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -59,7 +59,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                  [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
                                                                 [formControl]="addGridFailFromGroup.controls['ftdate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -81,7 +81,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Extended From"
+                                                            <mat-select placeholder="Extended From" 
                                                                 [formControl]="addGridFailFromGroup.controls['extendedFrom']">
                                                                 <mat-option *ngFor="let extendedFrom of extendedFromList"
                                                                     [value]="extendedFrom.feederName">
@@ -95,7 +95,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt4" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt4" placeholder="Extended From Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [formControl]="addGridFailFromGroup.controls['efdate']" >                                                                
                                                                 <owl-date-time #dt4 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -107,7 +107,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt5" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt5" placeholder="Extended To Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                 [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addGridFailFromGroup.controls['etdate']" >                                                                
                                                                 <owl-date-time #dt5 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -129,7 +129,7 @@
                                                      <!-- assetType -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Max Demand"
+                                                            <input matInput placeholder="Max Demand" decimalNumber
                                                                 [formControl]="addGridFailFromGroup.controls['maxDemand']"
                                                                 >                                                           
                                                         </mat-form-field>
