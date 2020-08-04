@@ -95,7 +95,7 @@ export class PowerBlockComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); 
     this.dataSource.filter = filterValue;
   }
-  	
+
 }
 
 
