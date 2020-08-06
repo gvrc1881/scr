@@ -13,5 +13,9 @@ public interface ProductCategoryMemberRepository extends JpaRepository<ProductCa
 	@Query(value = "select * from product_category_member where product_category_id in('OHE_FIXED_ASSET','PSI_FIXED_ASSET','RCC_FIXED_ASSET') order by product_id ASC",
             nativeQuery=true )
     public List<ProductCategoryMember> findByProductId(String productCategoryId);
+	
+
+	
+	
 
 }

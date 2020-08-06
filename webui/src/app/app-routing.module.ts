@@ -323,6 +323,11 @@ const routes: Routes = [
     loadChildren: './components/tpc-operations/power-block/power-block.module#PowerBlockModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'asset-schedule-assoc',
+    loadChildren: './components/asset-schedule-assoc/asset-schedule-assoc.module#AssetScheduleAssocModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

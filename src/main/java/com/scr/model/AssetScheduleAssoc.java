@@ -16,6 +16,7 @@ public class AssetScheduleAssoc implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="asa_seq_id")

@@ -304,6 +304,9 @@ public class ReportService {
 	public List<Division> findByOrderByCodeAsc() {	
 		   return divisionRepository.findAllOrderByCodeAsc();
 		}
+	public List<ProductCategoryMember>findAll() {	
+		   return productCategoryMemberRepository.findAll();
+		}
 	
 	
 }

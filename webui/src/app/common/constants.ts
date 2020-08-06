@@ -33,6 +33,7 @@ export const Constants = {
             GET_OBS_CHECK_LIST:"/observationCheckList",
             GET_REPORT:"/generateReport",
             GET_ASSET_TYPES:"/allAssetTypeReports/",
+            GET_ALL_ASSET_TYPES:"/findAllAssetTypes",
             GET_ASSETMASTER_DATA:"/assetMasterData",
             GET_DIVISION_DETAILS:"/divisionDetails",
             GET_DEPOTTYPE_FOR_OHE:"/depotTypeForOhe",
@@ -255,6 +256,17 @@ export const Constants = {
                 UPDATE_FEEDER:"/updateFeeder",
                 DELETE_FEEDER:"/deleteFeeder/",
                 EXIST_FEEDER_NAME:"/existsFeederName/"
+            },
+            ASSET_SCH_ASSOC:{
+                GET_SCH:"/findAllSchedule",
+                GET_ASSET_SCH_ASSOC:"/findAllAssetSchAssoc",
+                GET_ASSET_SCH_ASSOC_ID:"/findAssetSchAssocById/",
+                SAVE_ASSOC:"/addAssetSchAssoc",
+                UPDATE_ASSOC:"/updateAssetSchAssoc",
+                DELETE_ASSOC:"/deleteAssetSchAssoc/",
+                Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/"
+
+
             }
         },
         ENERGY_CONSUMPTION:{

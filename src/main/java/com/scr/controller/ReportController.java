@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -328,5 +329,13 @@ public class ReportController {
 		return new ResponseEntity<List<Facility>>(oheAndPsiDepotType,HttpStatus.OK);	
 		
 	}
+	@RequestMapping(value = "/findAllAssetTypes", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ProductCategoryMember>> findByProductId(String productCategoryId){
+		List<ProductCategoryMember> assets= reportService.findByProductId(productCategoryId);
+		return new ResponseEntity<List<ProductCategoryMember>>(assets,HttpStatus.OK);	
+		
+	}
+	
+	
   	
 }

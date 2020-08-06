@@ -294,6 +294,8 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('Activity Master', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("measure-activity") ? "active-item" : "",
           },
+         
+       
       
         ] 
       },
@@ -518,6 +520,8 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('Model', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("model") ? "active-item" : "",
           },
+         
+
         ]
       },
       { 
@@ -737,6 +741,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:true,
             currentSubMenu: !!path && path.includes("TSS Feeder") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Asset Schedule Assocation",
+            subMenuURL: "asset-schedule-assoc",
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('ASSET SCHEDULE ASSOCIATION', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("asset-schedule-assoc") ? "active-item" : "",
           },
               
         ]
