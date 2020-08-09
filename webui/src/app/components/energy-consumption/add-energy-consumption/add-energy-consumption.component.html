@@ -1,0 +1,234 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/energy-consumption']">Energy Consumption </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Energy Consumption</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+               <!--  <div class="panel panel-primary">
+                    <div class="panel-heading">energyConsumption Fail Information</div>
+                    <div class="panel-body"> -->
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Energy Consumption</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addEnergyConsumptionFailFromGroup" (ngSubmit)="onAddEnergyConsumptionFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="Feeder Name" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Feeder_Name']">                                                           
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="MF" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Multification_Factor']">                                                      
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="Joint Reading" disabled='true'
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Joint_Reading']">                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                  <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="CMD" disabled='true'
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['CMD']"> 
+                                                        </mat-form-field>
+                                                    </div>  
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="Old KWH" disabled='true'
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KWH']"> 
+                                                        </mat-form-field>
+                                                    </div>                                                    
+                                                    
+                                                     <!-- failureSection -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Current KWH"  decimalNumber
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KWH']">
+                                                        </mat-form-field>
+                                                    </div>
+                                                   
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="Consumption KWH" disabled='true'
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_KWH']">                                                         
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="Old KVAH" disabled='true'
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KVAH']">                                                        
+                                                        </mat-form-field>
+                                                    </div>
+                                                     <!-- assetType -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Current KVAH"  decimalNumber
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KVAH']">                                                         
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Consumption KVAH" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_KVAH']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Old_RKVAH Lag" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lag']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Current RKVAH Lag"  decimalNumber
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lag']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Consumption RKVAH Lag" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lag']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Old RKVAH Lead" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lead']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Current RKVAH Lead"  decimalNumber
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lead']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Consumption RKVAH Lead" disabled='true'
+                                                                [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lead']">                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- assetId -->
+                                                     <div class="col-md-3" fxFlex="30">   
+                                                        <mat-form-field fxFlex="30">                                                     
+                                                        <input matInput placeholder="PF"  decimalNumber
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['PF']">
+                                                        </mat-form-field>
+                                                </div>
+
+                                                     <!-- assetId -->
+                                                     <div class="col-md-3" fxFlex="30">    
+                                                        <mat-form-field fxFlex="30">                                                    
+                                                        <input matInput placeholder="CPF"  decimalNumber
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['CPF']">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                     <!-- subAssetType -->
+                                                     <div class="col-md-3" fxFlex="30">           
+                                                        <mat-form-field fxFlex="30">                                             
+                                                        <input matInput placeholder="RMD"  decimalNumber
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['RMD']">
+                                                        </mat-form-field>
+                                                      </div>
+
+                                                     <!-- actionPlan -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Vol Max"  decimalNumber
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Vol_Max']">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Vol Min"  decimalNumber
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Vol_Min']">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Max Load"  decimalNumber
+                                                            [formControl]="addEnergyConsumptionFailFromGroup.controls['Max_Load']">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addEnergyConsumptionFailFromGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            color="accent"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

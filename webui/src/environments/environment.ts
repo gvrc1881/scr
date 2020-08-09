@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,  
-  apiUrl: 'https://scrtrd.herokuapp.com/scr/api',
+  apiUrl: 'http://localhost:9090/scr/api',
   stipulationUrl:'file:///D:/SCR/',
   inspectionUrl:'file:///D:/SCR/'
   // apiUrl: 'http://122.175.41.15:9090/scr/api'

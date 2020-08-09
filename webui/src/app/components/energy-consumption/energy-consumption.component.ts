@@ -7,6 +7,7 @@ import { MatTableDataSource, MatDialogRef, MatPaginator, MatSort, MatRadioChange
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { DatePipe } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-energy-consumption',
@@ -49,7 +50,9 @@ export class EnergyConsumptionComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private sendAndRequestService: SendAndRequestService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -172,14 +175,14 @@ export class EnergyConsumptionComponent implements OnInit {
 
   }
 
-  processEditAction(row){
-  //  console.log(row)
-    this.dataSource.filteredData.map((item, index) =>{
-    //  console.log(item);
+  processEditAction(id){
+    console.log("edit = "+id);
+    this.router.navigate([id], { relativeTo: this.route });
+    /* this.dataSource.filteredData.map((item, index) =>{
       if(item.feeder_id == row.feeder_id){
         this.dataSource.filteredData[index]['editable'] = true;
       }     
-    })
+    }) */
   }
   processCancelAction(row){
     this.dataSource.filteredData.map((item, index) =>{

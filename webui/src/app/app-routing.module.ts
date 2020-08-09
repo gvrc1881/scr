@@ -328,6 +328,11 @@ const routes: Routes = [
     loadChildren: './components/asset-schedule-assoc/asset-schedule-assoc.module#AssetScheduleAssocModule',
     canActivate: [AuthGuard]
   },
+  {
+    path:'energy-consumption',
+    loadChildren: './components/energy-consumption/energy-consumption.module#EnergyConsumptionModule',
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

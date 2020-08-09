@@ -7,14 +7,19 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import { MaterialModule } from 'src/app/modules/material.modules';
-import { filterDirective } from 'src/app/common/filter.directive';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddEnergyConsumptionComponent } from './add-energy-consumption/add-energy-consumption.component';
 
 const routes: Routes = [
     {
         path     : '',
         component: EnergyConsumptionComponent,
+       
+    },
+    {
+        path     : ':id',
+        component: AddEnergyConsumptionComponent,
        
     }
 ];
@@ -29,10 +34,12 @@ const routes: Routes = [
         FusionChartsModule,
         MaterialModule,
         FormsModule,
-        DecimalValidationsModule
+        DecimalValidationsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         EnergyConsumptionComponent,
+        AddEnergyConsumptionComponent,
     ],
     providers   : [
         Ng4LoadingSpinnerService,

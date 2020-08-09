@@ -760,7 +760,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         icon: "fa fa-file",
         color: "#12E1EE", 
         isSelected: true, 
-        permission: true,//this.commonService.findPermission('Energy Consumption', 'menu', 'view'),
+        permission: true, //this.commonService.findPermission('Energy Consumption', 'menu', 'view'),
         currentTab: !!path && path.includes("energy-consumption") ? "open" : "",
         subMenus: [
         	{
