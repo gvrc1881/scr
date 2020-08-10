@@ -48,7 +48,7 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [formControl]="addGridFailFromGroup.controls['ffdate']" >                                                                
+                                                                [formControl]="addGridFailFromGroup.controls['ffdate']" (ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
@@ -60,7 +60,7 @@
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
                                                                   [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
-                                                                [formControl]="addGridFailFromGroup.controls['ftdate']" >                                                                
+                                                                [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()"  >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
@@ -72,9 +72,10 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['fduration']"
-                                                                >                                                           
+                                                                id="duration" required  >   
+                                                                {{duration}}                                                         
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -96,7 +97,7 @@
                                                              <input matInput [owlDateTime]="dt4" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt4" placeholder="Extended From Date"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [formControl]="addGridFailFromGroup.controls['efdate']" >                                                                
+                                                                [formControl]="addGridFailFromGroup.controls['efdate']" (ngModelChange)="timDuration()" >                                                                
                                                                 <owl-date-time #dt4 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
@@ -108,7 +109,7 @@
                                                              <input matInput [owlDateTime]="dt5" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt5" placeholder="Extended To Date"
                                                                  [min]="minDate"  [max]="maxDate"
-                                                                [formControl]="addGridFailFromGroup.controls['etdate']" >                                                                
+                                                                [formControl]="addGridFailFromGroup.controls['etdate']" (ngModelChange)="timDuration()" >                                                                
                                                                 <owl-date-time #dt5 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt5"><i class="fa fa-calendar"></i></span>
@@ -120,9 +121,10 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['eduration']"
-                                                                >                                                           
+                                                                id="dur" required  >  
+                                                                {{dur}}                                                          
                                                         </mat-form-field>
                                                     </div>
 

@@ -34,6 +34,7 @@ export class AddRcFailureComponent implements OnInit {
   minDate=new Date();
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
+  duration:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -77,6 +78,28 @@ export class AddRcFailureComponent implements OnInit {
     }
   }
 
+  timeDuration(){
+    console.log("duration")
+    var fromDateTime=this.addRcFailFromGroup.value.fromDateTime;
+    
+    var thruDateTime=this.addRcFailFromGroup.value.thruDateTime;
+   
+    if(this.addRcFailFromGroup.value.fromDateTime.getTime()!="" && this.addRcFailFromGroup.value.thruDateTime.getTime()!=""){
+   var diff=this.addRcFailFromGroup.value.thruDateTime.getTime()-this.addRcFailFromGroup.value.fromDateTime.getTime();
+   console.log("diff"+diff)
+   var days=Math.floor(diff / (60*60*24*1000));
+   console.log("days"+days)
+   var hours=Math.floor(diff / (60*60*1000))-(days*24);
+   console.log("hours"+hours)
+   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   console.log("minutes"+minutes)
+   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+   console.log("seconds"+seconds)
+   this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   console.log("duration"+this.duration)
+    }
+  }
+  
   findFeedersList(){
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )

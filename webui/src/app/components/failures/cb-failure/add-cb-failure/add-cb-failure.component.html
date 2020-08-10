@@ -47,9 +47,9 @@
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Equipment"
                                                                 [formControl]="addCbFailFromGroup.controls['equipment']">
-                                                                <mat-option *ngFor="let failures of failureList"
-                                                                    [value]="failures.assetId">
-                                                                    {{ failures.assetId }}
+                                                                <mat-option *ngFor="let master of failureList"
+                                                                    [value]="master.assetId">
+                                                                    {{ master.assetId }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
@@ -72,7 +72,7 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Trip Time" 
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
-                                                                [formControl]="addCbFailFromGroup.controls['fromDateTime']" >                                                                
+                                                                [formControl]="addCbFailFromGroup.controls['fromDateTime']"(ngModelChange)="timeDuration()"  >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
@@ -84,7 +84,7 @@
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Close Time"
                                                                [min]="minDate"  [max]="maxDate"
-                                                                [formControl]="addCbFailFromGroup.controls['thruDateTime']"  (selectionChange)="duration()">                                                                
+                                                                [formControl]="addCbFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
@@ -96,10 +96,10 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
-                                                                [formControl]="addCbFailFromGroup.controls['duration']"  >
+                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
+                                                                [formControl]="addCbFailFromGroup.controls['duration']" id="duration" required>
                                                                
-                                                                                                                       
+                                                                {{duration}}                                                         
                                                         </mat-form-field>
                                                     </div>
                                                    

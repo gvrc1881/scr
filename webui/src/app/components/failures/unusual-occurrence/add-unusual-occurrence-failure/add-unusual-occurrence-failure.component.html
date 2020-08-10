@@ -64,7 +64,7 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="From Time"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" >                                                                
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
@@ -75,7 +75,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Resolve Time" [min]="minDate"  [max]="maxDate"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" >                                                                
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
@@ -89,7 +89,8 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Duration (HH:MM:SS)" readonly
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['duration']"
-                                                                >                                                           
+                                                                id="duration" required  >  
+                                                                {{duration}}                                                          
                                                         </mat-form-field>
                                                     </div>
                                                    

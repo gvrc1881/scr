@@ -35,6 +35,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   minDate=new Date();
   dateFormat = 'MM-dd-yyyy ';
   divisionList:any;
+  duration:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -79,7 +80,27 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       this.title = 'Save';
     }
   }
-
+  timeDuration(){
+    console.log("duration")
+    var fromDateTime=this.addUnusualOccurrenceFromGroup.value.fromDateTime;
+    
+    var thruDateTime=this.addUnusualOccurrenceFromGroup.value.thruDateTime;
+   
+    if(this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime()!="" && this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()!=""){
+   var diff=this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()-this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime();
+   console.log("diff"+diff)
+   var days=Math.floor(diff / (60*60*24*1000));
+   console.log("days"+days)
+   var hours=Math.floor(diff / (60*60*1000))-(days*24);
+   console.log("hours"+hours)
+   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   console.log("minutes"+minutes)
+   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+   console.log("seconds"+seconds)
+   this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   console.log("duration"+this.duration)
+    }
+  }
   findFeedersList(){
     
     this.spinnerService.show();

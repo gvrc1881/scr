@@ -33,6 +33,9 @@ export class AddGridFailureComponent implements OnInit {
   minDate=new Date();
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
+  duration:any;
+  dur:any;
+
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -120,6 +123,49 @@ export class AddGridFailureComponent implements OnInit {
     }
   }
  
+timeDuration(){
+  console.log("duration")
+  var ffdate=this.addGridFailFromGroup.value.ffdate;
+  
+  var ftdate=this.addGridFailFromGroup.value.ftdate;
+ 
+  if(this.addGridFailFromGroup.value.ffdate.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
+ var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.ffdate.getTime();
+ console.log("diff"+diff)
+ var days=Math.floor(diff / (60*60*24*1000));
+ console.log("days"+days)
+ var hours=Math.floor(diff / (60*60*1000))-(days*24);
+ console.log("hours"+hours)
+ var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+ console.log("minutes"+minutes)
+ var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+ console.log("seconds"+seconds)
+ this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+ console.log("duration"+this.duration)
+  }
+}
+
+timDuration(){
+  
+  var efdate=this.addGridFailFromGroup.value.efdate;
+  
+  var etdate=this.addGridFailFromGroup.value.etdate;
+ 
+  if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
+ var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
+ console.log("diff"+diff)
+ var days=Math.floor(diff / (60*60*24*1000));
+ console.log("days"+days)
+ var hours=Math.floor(diff / (60*60*1000))-(days*24);
+ console.log("hours"+hours)
+ var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+ console.log("minutes"+minutes)
+ var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+ 
+ this.dur=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+
+  }
+}
   updateFeedOff($event){
     if ($event.value) {
       console.log($event.value)

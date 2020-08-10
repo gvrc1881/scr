@@ -38,6 +38,7 @@ export class AddCbFailureComponent implements OnInit {
   failureList:any;
   failurecasList:any;
   difference:any;
+  duration:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -94,6 +95,7 @@ export class AddCbFailureComponent implements OnInit {
     }
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
       this.failureList = data;
+      console.log("id===="+this.failureList);
       } 
       , error => {});
   }
@@ -231,13 +233,27 @@ export class AddCbFailureComponent implements OnInit {
     this.minDate = new Date($event.value);
   }
 
-  duration(){
-   
-    let fromDateTime=this.addCbFailFromGroup.controls['fromDateTime'].value;
-    let thruDateTime=this.addCbFailFromGroup.controls['thruDateTime'].value;
+timeDuration(){
+    console.log("duration")
+    var fromDateTime=this.addCbFailFromGroup.value.fromDateTime;
     
-    this.difference=thruDateTime-fromDateTime;
-  }
+    var thruDateTime=this.addCbFailFromGroup.value.thruDateTime;
+   
+    if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
+   var diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
+   console.log("diff"+diff)
+   var days=Math.floor(diff / (60*60*24*1000));
+   console.log("days"+days)
+   var hours=Math.floor(diff / (60*60*1000))-(days*24);
+   console.log("hours"+hours)
+   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   console.log("minutes"+minutes)
+   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+   console.log("seconds"+seconds)
+   this.duration=String(days)+":" +String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   console.log("duration"+this.duration)
+    }
+}
   onAddFailureAnalysisFormSubmit() {
     if (this.addCbFailFromGroup.invalid) {
       this.isSubmit = false;

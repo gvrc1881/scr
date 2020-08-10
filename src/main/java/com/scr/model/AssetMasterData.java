@@ -79,6 +79,7 @@ public class AssetMasterData implements Serializable {
 
 	private String implantation;
 
+	@Column(name="kilometer")
 	private double kilometer;
 
 	@Column(name="last_updated_stamp")
