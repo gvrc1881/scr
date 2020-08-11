@@ -35,7 +35,8 @@ const routes: Routes = [
         MaterialModule,
         FormsModule,
         DecimalValidationsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CommonModule
     ],
     declarations: [
         EnergyConsumptionComponent,

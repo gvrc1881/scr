@@ -22,34 +22,34 @@ export class SendAndRequestService {
     }
 
     // METHOD FOR GET REQUESTS
-    requestForGET(requestUrl) {        
+    requestForGET(requestUrl) {
         return this._http.get<any[]>(environment.apiUrl + requestUrl, { headers: this.header });
-    } 
-    
+    }
+
     //METHOD FOR GET ID REQUESTS
-   // requestForGETId(requestUrl,requestData) {        
-     //   return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    // requestForGETId(requestUrl,requestData) {        
+    //   return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     //}
     // METHOD FOR POST REQUESTS
-    requestForPOST(requestUrl, requestData:any, flag){
+    requestForPOST(requestUrl, requestData: any, flag) {
         console.log(flag)
-        if(flag == true){
-            
-            let header = new HttpHeaders({           
+        if (flag == true) {
+
+            let header = new HttpHeaders({
                 'Authorization': `Bearer ${this.accessToken}`
             });
             console.log(header)
             return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: header });
-        }else{
+        } else {
             return this._http.post(environment.apiUrl + requestUrl, requestData, { headers: this.header });
         }
-        
-        
+
+
     }
     //METHOD FOR PUT REQUESTS
-    requestForPUT(requestUrl, requestData, flag){
-        if(flag){
-            let header = new HttpHeaders({           
+    requestForPUT(requestUrl, requestData, flag) {
+        if (flag) {
+            let header = new HttpHeaders({
                 'Authorization': `Bearer ${this.accessToken}`
             });
             this.header = header;
@@ -58,13 +58,13 @@ export class SendAndRequestService {
 
     }
     //METHOD FOR DELETE
-    requestForDELETE(requestUrl, requestData){
-        return this._http.delete(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    requestForDELETE(requestUrl, requestData) {
+        return this._http.delete(environment.apiUrl + requestUrl + requestData, { headers: this.header });
     }
-      //METHOD FOR GET ID REQUESTS
+    //METHOD FOR GET ID REQUESTS
     //  requestForEXIST(requestUrl,requestData) {        
-      //  return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
+    //  return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     //}
-    
+
 }
 

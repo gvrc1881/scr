@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +39,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
   failureList:any;
   failurecasList:any;
   difference:any;
+ 
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -73,8 +74,9 @@ export class AddEnergyConsumptionComponent implements OnInit {
       Max_Load:{}
     };
   }
-
+  
   ngOnInit() {
+    console.log('parent id = '+((localStorage.getItem('ec'))))
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
     if (!isNaN(this.id)) {
@@ -93,28 +95,27 @@ export class AddEnergyConsumptionComponent implements OnInit {
     }
     
   }
-
-
+ 
   createForm() {
     this.addEnergyConsumptionFailFromGroup
       = this.formBuilder.group({
         id: 0,
-        'Feeder_Name':[null],
-        'Multification_Factor':[null],
-        'Joint_Reading':[null],
-        'CMD':[null],
-        'Old_KWH':[null],
+        'Feeder_Name':new FormControl({value: '', disabled: true}),
+        'Multification_Factor':new FormControl({value: '', disabled: true}),
+        'Joint_Reading':new FormControl({value: '', disabled: true}),
+        'CMD':new FormControl({value: '', disabled: true}),
+        'Old_KWH':new FormControl({value: '', disabled: true}),
         'Current_KWH':[null],
-        'Consumption_KWH':[null],
-        'Old_KVAH':[null],
+        'Consumption_KWH':new FormControl({value: '', disabled: true}),
+        'Old_KVAH':new FormControl({value: '', disabled: true}),
         'Current_KVAH':[null],
-        'Consumption_KVAH':[null],
-        'Old_RKVAH_Lag':[null],
+        'Consumption_KVAH':new FormControl({value: '', disabled: true}),
+        'Old_RKVAH_Lag':new FormControl({value: '', disabled: true}),
         'Current_RKVAH_Lag':[null],
-        'Consumption_RKVAH_Lag':[null],
-        'Old_RKVAH_Lead':[null],
+        'Consumption_RKVAH_Lag':new FormControl({value: '', disabled: true}),
+        'Old_RKVAH_Lead':new FormControl({value: '', disabled: true}),
         'Current_RKVAH_Lead':[null],
-        'Consumption_RKVAH_Lead':[null],
+        'Consumption_RKVAH_Lead':new FormControl({value: '', disabled: true}),
         'PF':[null],
         'CPF':[null],
         'RMD':[null],
@@ -150,16 +151,16 @@ export class AddEnergyConsumptionComponent implements OnInit {
     }
   }
   findEnergyConsumptionById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
-      .subscribe((resp) => {
-        this.resp = resp;
-        console.log(this.resp);
+   /*  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
+      .subscribe((resp) => { */
+        this.resp = JSON.parse(localStorage.getItem("ec"));
+        console.log(this.resp.feeder_name);
         this.addEnergyConsumptionFailFromGroup.patchValue({
           id: this.resp.id,
-          Feeder_Name:this.resp.Feeder_Name,
-          Multification_Factor:this.resp.Multification_Factor,
+          Feeder_Name:this.resp.feeder_name,
+          Multification_Factor:this.resp.multiplication_fac,
           Joint_Reading:this.resp.Joint_Reading,
-          CMD:this.resp.CMD,
+          CMD:this.resp.cmd,
           Old_KWH:this.resp.Old_KWH,
           Current_KWH:this.resp.Current_KWH,
           Consumption_KWH:this.resp.Consumption_KWH,
@@ -180,7 +181,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
           Max_Load:this.resp.Max_Load
         });
         this.spinnerService.hide();
-      })
+     // })
   }
   
 

@@ -46,6 +46,7 @@ export class EnergyConsumptionComponent implements OnInit {
   selectedBWTo = new Date();
   feedersList:any;
   selectedFeederId=0;
+  row:number;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -142,22 +143,8 @@ export class EnergyConsumptionComponent implements OnInit {
         this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
 
         this.energyConsumptionData[i].editable = false;
-/* 
-
-        this.energyConsumptionData[i].Energy_Reading_Date = this.energyConsumptionData[i].requested_reading_date;
-        this.energyConsumptionData[i].Joint_Meter = this.energyConsumptionData[i].first_reading_after_meter_fix;
-        this.energyConsumptionData[i].KVAH = this.energyConsumptionData[i].prev_kvah;
-        this.energyConsumptionData[i].KWH = this.energyConsumptionData[i].prev_kwh;
-        this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
-        this.energyConsumptionData[i].CMD = this.energyConsumptionData[i].cur_cmd;
-        this.energyConsumptionData[i].RKVAH_Lag = this.energyConsumptionData[i].prev_rkvah_lag;
-        this.energyConsumptionData[i].RKVAH_Lead = this.energyConsumptionData[i].prev_rkvah_lead;
-        this.energyConsumptionData[i].Sequence_Id = this.energyConsumptionData[i].feeder_id;
-       
-        this.energyConsumptionData[i].Last_Updated_Stamp = this.energyConsumptionData[i].recent_reading_date;
- */        this.stipulations.push(this.energyConsumptionData[i]);
+        this.stipulations.push(this.energyConsumptionData[i]);
       }
-   //   console.log(JSON.stringify(this.stipulations))
       this.filterData.gridData = this.stipulations;
       this.dataSource = new MatTableDataSource(this.stipulations);
       this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
@@ -177,16 +164,15 @@ export class EnergyConsumptionComponent implements OnInit {
 
   processEditAction(id){
     console.log("edit = "+id);
+    var row = this.dataSource.filteredData.find((item, index) =>{
+      return item.feeder_id == id ;
+    })
+    console.log(row);
+    localStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([id], { relativeTo: this.route });
-    /* this.dataSource.filteredData.map((item, index) =>{
-      if(item.feeder_id == row.feeder_id){
-        this.dataSource.filteredData[index]['editable'] = true;
-      }     
-    }) */
   }
   processCancelAction(row){
     this.dataSource.filteredData.map((item, index) =>{
-    //  console.log(item);
       if(item.feeder_id == row.feeder_id){
         this.dataSource.filteredData[index]['editable'] = false;
       }     

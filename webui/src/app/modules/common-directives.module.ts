@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { filterDirective } from '../common/filter.directive';
+import { InputDisabledDirective } from '../common/input-disabled.directive';
 
 
 @NgModule({
@@ -8,10 +9,12 @@ import { filterDirective } from '../common/filter.directive';
         CommonModule
     ],
     declarations: [
-        filterDirective
+        filterDirective,
+        InputDisabledDirective
     ],
     exports: [
-        filterDirective
+        filterDirective,
+        InputDisabledDirective
     ]
 })
 export class CommonDirectivesModule { }

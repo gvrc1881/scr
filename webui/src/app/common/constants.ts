@@ -412,7 +412,7 @@ export const Constants = {
             FAILURE_BY_TYPE:"/failuresByType/",
             FAILURE_TYPE_BY_ID:'/failureTypeById/',     
             FAILURE_TYPE_UPDATE:'/saveFailureByType', 
-            FAILURE_EQUIPMENT:'/findAllFailures'  ,
+            FAILURE_EQUIPMENT:'/findAllFailures',
             FAILURE_CASCADE:'/findAllFailures'    
         },
         PROGRESS_RECORD:{
