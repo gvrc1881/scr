@@ -1,0 +1,330 @@
+<div class="content">
+    <div class="">
+      <div class="col-12">
+        <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <!-- <li class="breadcrumb-item"><a [routerLink]="['/config']">Config</a></li> -->
+                          <li class="breadcrumb-item active" aria-current="page">Asset Sch Activity Assoc</li>
+                </ol>
+            </nav>
+          </div>
+      </div>
+  <div class="clear"></div>
+      <div class="row-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Asset Sch Assoc Information</div>
+            <div class="panel-body">
+                    <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                        <div class="p-24">
+  <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+  <div class="p-12" style="text-align: right;"  *ngIf="addPermission">
+    <span class="mat-raised-button mat-accent" 
+      color="accent" mat-raised-button="" (click)="NewAssetSchActAssoc()" *ngIf="!addSchActAssoc">
+       Add Asset Sch Activity Assoc
+    </span>
+  </div> 
+  <div>
+  
+  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addSchActAssoc" fxLayout="column"
+  fxLayoutAlign="start" [formGroup]="assetSchActAssocFormGroup" fxFlex="1 0 auto"
+  (ngSubmit)="assetSchActAssocSubmit();">
+  <div class="panel panel-primary">
+    <div class="panel-heading">{{title}} Asset Sch Activity Assoc</div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div *ngIf ="enableAsaSeqId">
+            </div>
+            <div *ngIf="!enableAsaSeqId; else AsaSeqIdElseBlock">
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Asset Type-Schedule Name" 
+                        [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required>
+                        <mat-option *ngFor="let assetType of assetSchList"
+                            [value]="assetType.asaSeqId" >
+                            <span>{{ assetType.assetType }}</span>-
+                        <small>{{assetType.scheduleCode}}</small>
+                           
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['asaSeqId'].hasError('duplicateasaSeqPositionActivity')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error>  
+                <mat-error
+                *ngIf="assetSchActAssocFormGroup.controls['asaSeqId'].hasError('maxlength')"
+                class="alert alert-danger"> Max 255 characters only
+        </mat-error>                                                          
+                </mat-form-field>
+            </div>
+            </div>
+            <ng-template #AsaSeqIdElseBlock>
+                <div class = "col-md-2" >
+                    <mat-form-field fxFlex="30">
+                        <input matInput placeholder = "Asset Type-Schedule Name" [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required [readonly]="true"/>
+                    </mat-form-field>
+                  </div>
+          </ng-template>
+
+          <div *ngIf ="enableActivityId">
+        </div>
+        <div *ngIf="!enableActivityId; else ActivityIdElseBlock">
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Activity Name" 
+                        [formControl]="assetSchActAssocFormGroup.controls['activityId']" required>
+                        <mat-option *ngFor="let activity of activityList"
+                            [value]="activity.activityId">
+                            {{ activity.activityName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['activityId'].hasError('duplicateasaSeqActivityDispaly')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error>  
+                <mat-error
+                *ngIf="assetSchActAssocFormGroup.controls['activityId'].hasError('maxlength')"
+                class="alert alert-danger"> Max 255 characters only
+        </mat-error>                                                                                            
+                </mat-form-field>
+            </div>
+            </div>
+            <ng-template #ActivityIdElseBlock>
+                <div class = "col-md-2" >
+                    <mat-form-field fxFlex="30">
+                        <input matInput placeholder = "Activity Name" [formControl]="assetSchActAssocFormGroup.controls['activityId']" required [readonly]="true"/>
+                    </mat-form-field>
+                  </div>
+          </ng-template>
+
+          <div *ngIf ="enablePositionId">
+        </div>
+        <div *ngIf="!enablePositionId; else PositionIdElseBlock">
+        <div class="col-md-3">
+            <mat-form-field fxFlex="30" class="example-full-width">
+                <mat-select placeholder="Activity-position seq" 
+                    [formControl]="assetSchActAssocFormGroup.controls['activityPositionId']"  required>
+                    <mat-option *ngFor="let measure of measuresList"
+                            [value]="measure.measureActivity">
+                            {{ measure.measureActivity }}
+                        </mat-option>
+                </mat-select>  
+                <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['activityPositionId'].hasError('duplicateasaSeqPosition')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error>  
+                <mat-error
+                *ngIf="assetSchActAssocFormGroup.controls['activityPositionId'].hasError('maxlength')"
+                class="alert alert-danger"> Max 255 characters only
+        </mat-error>                                                            
+            </mat-form-field>
+        </div>
+    </div>
+    <ng-template #PositionIdElseBlock>
+        <div class = "col-md-2" >
+            <mat-form-field fxFlex="30">
+                <input matInput placeholder = "Activity-position seq" [formControl]="assetSchActAssocFormGroup.controls['activityPositionId']" required [readonly]="true"/>
+            </mat-form-field>
+          </div>
+  </ng-template>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">            
+                    <mat-select placeholder="Make" 
+                        [formControl]="assetSchActAssocFormGroup.controls['makeCode']">
+                        <mat-option *ngFor="let make of makeList"
+                            [value]="make.makeCode">
+                            {{ make.makeCode }}
+                        </mat-option>
+                    </mat-select> 
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['makeCode'].hasError('maxlength')"
+                    class="alert alert-danger"> Max 255 characters only
+            </mat-error>  
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">            
+                    <mat-select placeholder="Model" 
+                        [formControl]="assetSchActAssocFormGroup.controls['modelCode']" >
+                        <mat-option *ngFor="let model of modelList"
+                            [value]="model.modelCode">
+                            {{ model.modelCode }}
+                        </mat-option>
+                    </mat-select>  
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['modelCode'].hasError('maxlength')"
+                    class="alert alert-danger"> Max 255 characters only
+            </mat-error>  
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Active/in-active" 
+                        [formControl]="assetSchActAssocFormGroup.controls['activityFlag']"required>
+                        <mat-option value="Yes">Yes</mat-option>
+                        <mat-option value="No">No</mat-option>                                 
+                    </mat-select> 
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['activityFlag'].hasError('maxlength')"
+                    class="alert alert-danger"> Max 255 characters only
+            </mat-error>                                                             
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']"/>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 255 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Measure Lower Limit" [formControl]="assetSchActAssocFormGroup.controls['lowerLimit']"/>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['lowerLimit'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Measure Upper Limit" [formControl]="assetSchActAssocFormGroup.controls['upperLimit']"/>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['upperLimit'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Description" [formControl]="assetSchActAssocFormGroup.controls['description']"/>
+                    <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['description'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+           
+            <div class="col-md-3 mt-15">
+                <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                    <button mat-raised-button color="accent" [disabled]="assetSchActAssocFormGroup.invalid"
+                    class="submit-button"   aria-label="Submit">
+                    {{title}} 
+                    </button>
+                </div>
+                <div class="p-12 d-inline">
+                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                      mat-raised-button="">
+                      Close
+                    </span>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+  </div>
+  </form>
+  </div>
+  <div class="example-header">
+  <div class="col-sm-4">
+  <mat-form-field>
+  <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  </div>
+  </div>
+  <div class="clear"></div>
+  <div class="mat-elevation-z8">
+  <mat-table [dataSource]="assetSchActAssocDataSource" matSort>
+    <ng-container matColumnDef="sno">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="asaSeqId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Schedule</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.asaSeqId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="activityId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.activityId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="activityPositionId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Position</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.activityPositionId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="makeCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>make</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.makeCode}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="modelCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>model</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.modelCode}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="activityFlag">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Flag</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.activityFlag}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="displayOrder">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Display Order</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.displayOrder}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="lowerLimit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>lower Limit</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.lowerLimit}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="upperLimit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>upper Limit</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.upperLimit}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.description}}</mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                (click)="editAssetSchActAssoc(row.id)">
+                <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+              </a>
+              <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                (click)="deleteAssetActSchAssoc(row.id)">
+                <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+              </button>
+            </mat-cell>
+    </ng-container>
+  
+  
+    <mat-header-row *matHeaderRowDef="assetSchActAssocDisplayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: assetSchActAssocDisplayColumns;">
+    </mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>  
+  </div>
+  </div>

@@ -11,6 +11,7 @@ import com.scr.model.AssetScheduleAssoc;
 
 
 
+
 @Repository
 public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc, Long>{
 	
@@ -20,5 +21,7 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
 	Boolean existsByAssetTypeAndScheduleCode(@Param("assetType")String assetType, @Param("scheduleCode") String scheduleCode);
 	
 	
-
+	@Query(value = "select CONCAT(asset_type,'-',schedule_code) as assetSchedule,* from asset_schedule_assoc",
+            nativeQuery=true )
+    public List<AssetScheduleAssoc> findAll();
 }

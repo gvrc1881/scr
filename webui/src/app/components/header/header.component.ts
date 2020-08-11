@@ -704,7 +704,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('TRD CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")||path.includes("tss-feeder")
-         ? "open" : "",  
+        ||path.includes("asset-schedule-assoc")||path.includes("asset-schedule-activity-assoc") ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Sections-stations",
@@ -749,6 +749,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('ASSET SCHEDULE ASSOCIATION', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-schedule-assoc") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Asset Schedule Activity Assocation",
+            subMenuURL: "asset-schedule-activity-assoc",
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('ASSET SCHEDULE ACTIVITY ASSOC', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("asset-schedule-activity-assoc") ? "active-item" : "",
           },
               
         ]

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 
 import com.scr.model.AssetScheduleAssoc;
+
 import com.scr.services.AssetScheduleAssocService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -101,6 +102,7 @@ public class AssetScheduleAssocController {
 		
 			   assetList = assetScheduleAssocService.findAll();
 		 logger.info("Fetched AssetScheAssoc data***"+assetList.size());
+		
 		return assetList;
 	}catch (NullPointerException npe) {
 		logger.error("ERROR >>> while fetching the AssetScheAssoc data = "+npe.getMessage());
@@ -143,4 +145,6 @@ public class AssetScheduleAssocController {
 			return false;
 		}
 	}
+	
+
 }

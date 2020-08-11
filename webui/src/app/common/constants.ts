@@ -412,8 +412,8 @@ export const Constants = {
             FAILURE_BY_TYPE:"/failuresByType/",
             FAILURE_TYPE_BY_ID:'/failureTypeById/',     
             FAILURE_TYPE_UPDATE:'/saveFailureByType', 
-            FAILURE_EQUIPMENT:'/findAllAssetId'  ,
-            FAILURE_CASCADE:'/findAllAssetId'    
+            FAILURE_EQUIPMENT:'/findAllFailures'  ,
+            FAILURE_CASCADE:'/findAllFailures'    
         },
         PROGRESS_RECORD:{
             GET_PROGRESS_RECORDS:'/driveDailyProgress',
@@ -439,6 +439,18 @@ export const Constants = {
                 UPDATE_MODEL:"/updateModel",
                 DELETE_MODEL_ID:"/deleteModel/"
                 },
+                ASSET_SCH_ACTIVITY_ASSOC:{  
+                    GET_ASSET_SCH_ACT_ASSOC:"/findAllAssetSchActAssoc",
+                    SAVE_ASSET_SCH_ACT_ASSOC:"/addAssetSchActAssoc",
+                    GET_ASSET_SCH_ACT_ASSOC_ID:"/findAssetSchActAssocById/",
+                    UPDATE_ASSET_SCH_ACT_ASSOC:"/updateAssetSchActAssoc",
+                    DELETE_ASSET_SCH_ACT_ASSOC:"/deleteAssetSchActAssoc/",
+                    GET_MEASURES:"/findAllMesures",
+                    GET_ASSET_SCH:"/findByAssetTypeAndScheduleCode",
+                    EXIST_SEQ_POSITION:"/findByAsaSeqPositionId/",
+                    EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
+                    EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
+                    },
             },
        OPERATIONS:{
         	POWER_BLOCK:{
