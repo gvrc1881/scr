@@ -64,7 +64,9 @@ export const Constants = {
             GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES:"/getAssetIdBasedOnScheduleCodesAndAssetTypes/",
             GET_DIVISION_BASED_ON_ZONE:"/getDivisionBasedOnZone/",
             GET_SUBDIVISION_BASED_ON_DIVISION:"/getSubDivisionBasedOnDivision/",
-            GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/"
+            GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/",
+            GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE:"/getObservationCheckListBasedOnObservationCate/",
+            GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE:"/getActivityNameBasedOnActivityType/",
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -382,7 +384,7 @@ export const Constants = {
                 GET_FP_INSPECTION_ID:"/findFPInspectionItemById/",
                 SAVE_FP_INSPECTION:"/addFPInspection",
                 UPDATE_FP_INSPECTION:"/updateFPInspectionItem",
-                DELETE_FP_INSPECTION:"/deleteFPInspectionItem/"
+                DELETE_FP_INSPECTION:"/deleteFPInspectionItem/",
             },
             OBSERVATION:{
                 GET_OBSERVATION:"/findAllObservationItems",
@@ -390,9 +392,7 @@ export const Constants = {
                 SAVE_OBSERVATION:"/addObservation",
                 UPDATE_OBSERVATION:"/updateObservationItem",
                 DELETE_OBSERVATION:"/deleteObservationItem/",
-                ATTACHMENT_OBSLIST:"/attachedObservationList/",
-                OBSERVATION_UPLOAD_FILES:"/observationUploadFiles"
-
+                GET_OBSERVATION_CONTENT_ID:"/observationsContentById/"
             },
             COMPLIANCES:{
                 GET_COMPLIANCE:"/findAllComplianceItems",

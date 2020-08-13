@@ -112,6 +112,7 @@ export class AddDriveCategoryComponent implements OnInit {
   }
   duplicateName() {
     var name = this.addDriveCategoryFormGroup.controls['name'].value;
+    console.log("name = "+this.resp.driveCategoryName)
     const q = new Promise((resolve, reject) => {
       if(this.update && name.toUpperCase() == this.resp.driveCategoryName.toUpperCase()){
         resolve(null);        
@@ -127,7 +128,6 @@ export class AddDriveCategoryComponent implements OnInit {
     });
     return q;
   }
-
   duplicateDescription() {
     var desc = this.addDriveCategoryFormGroup.controls['description'].value;
     const q = new Promise((resolve, reject) => {

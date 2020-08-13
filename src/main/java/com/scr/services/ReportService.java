@@ -23,6 +23,7 @@ import com.scr.model.GeographicState;
 import com.scr.model.InspectionType;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
+import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Model;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
@@ -65,6 +66,7 @@ import com.scr.repository.GeographicStateRepository;
 import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MajorSectionRepository;
 import com.scr.repository.MakeRepository;
+import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ModelRepository;
 import com.scr.repository.ObservationCategoryRepository;
 import com.scr.repository.ObservationCheckListRepository;
@@ -148,6 +150,8 @@ public class ReportService {
 	private ElectricEnergySuppliersRepository electricEnergySuppliersRepository;
 	@Autowired
 	private InspectionTypeRepository inspectionTypeRepository;
+	@Autowired
+	private MeasureOrActivityListRepository measureOrActivityListRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -308,5 +312,12 @@ public class ReportService {
 		   return productCategoryMemberRepository.findAll();
 		}
 	
-	
+	public List<ObservationsCheckList> getObservationCheckListBasedOnObservationCate(String observationCategory) {
+		// TODO Auto-generated method stub
+		return observationCheckListRepository.findByObservationCategory(observationCategory);
+	}
+	public List<MeasureOrActivityList> getActivityNameBasedOnActivityType(String activityType) {
+		// TODO Auto-generated method stub
+		return measureOrActivityListRepository.findByActivityType(activityType);
+	}
 }

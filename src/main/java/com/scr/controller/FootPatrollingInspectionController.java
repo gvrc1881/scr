@@ -7,10 +7,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.scr.message.request.InspectionRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
@@ -158,25 +161,74 @@ public class FootPatrollingInspectionController {
 		return observationItems;
 	}
 	//Add observations
-	@RequestMapping(value = "/addObservation" , method = RequestMethod.POST , headers = "Accept=application/json")
-	public ResponseStatus addObservation(@RequestBody Observation observation) {
-		log.info("Enter into addObservation function with below request parameters ");
-		log.info("Request Parameters = "+observation.toString());
+	@PostMapping(value="/addObservation",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public ResponseStatus addObservation(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("inspectionSeqId") String inspectionSeqId,
+			@RequestParam("location") String location,
+			@RequestParam("observationCategory") String observationCategory,
+			@RequestParam("observationItem") String observationItem,
+			@RequestParam("description") String description,
+			@RequestParam("actionRequired") String actionRequired,
+			@RequestParam("createdBy") String createdBy
+			) {
 		try {
-			log.info("Calling service with request parameters.");
-			footPatrollingInspectionService.save(observation);
-			log.info("Preparing the return response");
-			return Helper.findResponseStatus("observation added successfully", Constants.SUCCESS_CODE);
-		}catch(NullPointerException npe) {
-			log.error("ERROR >> While adding observation data. "+npe.getMessage());
-			return Helper.findResponseStatus("observation save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-		}
-		catch (Exception e) {
-			log.error("ERROR >> While adding observation data. "+e.getMessage());
-			return Helper.findResponseStatus("observation save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			log.info("add Observation");
+			InspectionRequest observationsRequest = new InspectionRequest();
+			observationsRequest.setInspectionSeqId(inspectionSeqId);
+			observationsRequest.setLocation(location);
+			observationsRequest.setObservationCategory(observationCategory);
+			observationsRequest.setObservationItem(observationItem);
+			observationsRequest.setDescription(description);
+			observationsRequest.setActionRequired(actionRequired);
+			observationsRequest.setCreatedBy(createdBy);
+			footPatrollingInspectionService.save(observationsRequest, file);
+			return Helper.findResponseStatus("Observations Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error("ERROR >> While adding Observations data. "+e.getMessage());
+			return Helper.findResponseStatus("Observations Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
+	//Update Observations
+	@PutMapping("/updateObservationItem")
+	@ResponseBody
+	public ResponseStatus updateObservationItem(
+			@RequestParam("file") List<MultipartFile> file, 
+			@RequestParam("id") Long id,
+			@RequestParam("inspectionSeqId") String inspectionSeqId,
+			@RequestParam("location") String location,
+			@RequestParam("observationCategory") String observationCategory,
+			@RequestParam("observationItem") String observationItem,
+			@RequestParam("description") String description,
+			@RequestParam("actionRequired") String actionRequired,
+			@RequestParam("updatedBy") String updatedBy,
+			@RequestParam("attachment") String attachment) {
+		try {
+			log.info("Update Observations");
+			InspectionRequest observationsRequest = new InspectionRequest();
+			observationsRequest.setId(id);
+			observationsRequest.setInspectionSeqId(inspectionSeqId);
+			observationsRequest.setLocation(location);
+			observationsRequest.setObservationCategory(observationCategory);
+			observationsRequest.setObservationItem(observationItem);
+			observationsRequest.setDescription(description);
+			observationsRequest.setActionRequired(actionRequired);
+			observationsRequest.setUpdatedBy(updatedBy);
+			observationsRequest.setAttachment(attachment);
+			log.info("calling update observations");
+			String status = footPatrollingInspectionService.updateObservationsData(observationsRequest, file);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Observations Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			log.error("ERROR >> While updating Observations data. "+e.getMessage());
+			return Helper.findResponseStatus("Observations Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+
 	//findObservationItemById
 	@RequestMapping(value = "/findObservationItemById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<Observation> findObservationItemById(@PathVariable Long id){
@@ -196,25 +248,7 @@ public class FootPatrollingInspectionController {
 		}
 	}
 	
-	//Update observationItem
-	@RequestMapping(value = "/updateObservationItem" ,method = RequestMethod.PUT , headers = "Accept=application/json")
-	public ResponseStatus updateObservationItem(@RequestBody Observation observation) {
-		log.info("Enter into updateObservationItem function with below request parameters ");
-		log.info("Request Parameters = "+observation.toString());
-		try {
-			log.info("Calling service with request parameters.");
-			footPatrollingInspectionService.save(observation);
-			log.info("Preparing the return response");
-			return Helper.findResponseStatus("observationItem updated successfully", Constants.SUCCESS_CODE);	
-		}catch(NullPointerException npe) {
-			log.error("ERROR >> While updating  observationItem data. "+npe.getMessage());
-			return Helper.findResponseStatus("observationItem  update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-		}
-		catch (Exception e) {
-			log.error("ERROR >> While updating  observationItem data. "+e.getMessage());
-			return Helper.findResponseStatus("observationItem update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
-		}
-	}
+	
 	
 	//Delete ObservationItem
 	@RequestMapping(value = "/deleteObservationItem/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
@@ -232,32 +266,7 @@ public class FootPatrollingInspectionController {
 			return Helper.findResponseStatus("Observation Item Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@PostMapping("/observationUploadFiles")
-	@ResponseBody
-	public ResponseStatus uploadAttachedFiles(
-			@RequestParam("file") List<MultipartFile> file,
-			@RequestParam("observationId") Long observationId,
-			@RequestParam("contentCategory") String contentCategory,
-			@RequestParam("description") String description,
-			@RequestParam("divisionCode") String divisionCode,
-			@RequestParam("createdBy") String createdBy,
-			@RequestParam("zonal") String zonal,
-			@RequestParam("FU") String FU,
-			@RequestParam("contentTopic") String contentTopic) {
-		ResponseStatus responseStatus = new ResponseStatus();
-		try {
-			log.info("File Name: "+contentCategory);
-			responseStatus = footPatrollingInspectionService.storeUploadedFiles(file, contentCategory, description, divisionCode, createdBy, zonal, FU, contentTopic,observationId);
-			log.info("File Saved Successfully!");
-		} catch (NullPointerException e) {
-			log.error(e);
-			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
-		} catch (Exception e) {
-			log.error(e);
-			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
-		}
-		return responseStatus;
-	}
+	
 	@RequestMapping(value = "/attachedObservationList/{observationId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
 	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("observationId") Long observationId){
 		List<ContentManagement> contentManagementList = new ArrayList<>();
@@ -278,7 +287,22 @@ public class FootPatrollingInspectionController {
 			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
 		}	
 	}
-	
+	@RequestMapping(value = "/observationsContentById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<List<ContentManagement>> findObservationsContentDataById(@PathVariable("id") Long commonFileId){
+		List<ContentManagement> depOptional= null;
+		try {
+			log.info("common fileid = "+commonFileId);
+			depOptional = footPatrollingInspectionService.findObservationsContentById(commonFileId);
+			if(depOptional != null)
+				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.OK);
+			else
+				return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			log.error("Error while finding the Content Management Files by id "+e.getMessage());
+			return new ResponseEntity<List<ContentManagement>>(depOptional, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	//The Below code related to Compliance services
 	
 	//findAllCompliance
@@ -299,28 +323,70 @@ public class FootPatrollingInspectionController {
 			log.info("Exit from findAllComplianceItems function");
 			return complianceItem;
 		}
-		
-		//Add Compliance
-		@RequestMapping(value = "/addCompliance" , method = RequestMethod.POST , headers = "Accept=application/json")
-		public ResponseStatus addCompliance(@RequestBody Compliance compliance) {
-			log.info("Enter into addCompliance function with below request parameters ");
-			log.info("Request Parameters = "+compliance.toString());
+		//Add Compliances
+		@PostMapping(value="/addCompliance",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+		@ResponseBody
+		public ResponseStatus addCompliance(
+				@RequestParam("file") List<MultipartFile> file, 
+				@RequestParam("obeservationSeqId") String obeservationSeqId,
+				@RequestParam("status") String status,
+				@RequestParam("action") String action,
+				@RequestParam("complianceBy") String complianceBy,
+				@RequestParam("compliedDateTime") String compliedDateTime,
+				@RequestParam("createdBy") String createdBy
+				) {
 			try {
-				log.info("Calling service with request parameters.");
-				footPatrollingInspectionService.save(compliance);
-				log.info("Preparing the return response");
-				return Helper.findResponseStatus("compliance added successfully", Constants.SUCCESS_CODE);
-			}catch(NullPointerException npe) {
-				log.error("ERROR >> While adding compliance data. "+npe.getMessage());
-				return Helper.findResponseStatus("compliance save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-			}
-			catch (Exception e) {
-				log.error("ERROR >> While adding compliance data. "+e.getMessage());
-				return Helper.findResponseStatus("compliance save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+				log.info("add Compliances");
+				InspectionRequest complianceRequest = new InspectionRequest();
+				complianceRequest.setObeservationSeqId(obeservationSeqId);
+				complianceRequest.setStatus(status);
+				complianceRequest.setAction(action);
+				complianceRequest.setComplianceBy(complianceBy);
+				complianceRequest.setCompliedDateTime(Helper.convertStringToTimestamp(compliedDateTime));
+				complianceRequest.setCreatedBy(createdBy);
+				footPatrollingInspectionService.saveCompliances(complianceRequest, file);
+				return Helper.findResponseStatus("Compliances Data Added Successfully", Constants.SUCCESS_CODE);
+			}catch (Exception e) {
+				e.printStackTrace();
+				log.error("ERROR >> While adding Compliances data. "+e.getMessage());
+				return Helper.findResponseStatus("Compliances Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 			}
 		}
-		//Add Compliance Ended
-		
+		//Update Compliances
+		@PutMapping("/updateComplianceItem")
+		@ResponseBody
+		public ResponseStatus updateComplianceItem(
+				@RequestParam("file") List<MultipartFile> file, 
+				@RequestParam("id") Long id,
+				@RequestParam("obeservationSeqId") String obeservationSeqId,
+				@RequestParam("status") String status,
+				@RequestParam("action") String action,
+				@RequestParam("complianceBy") String complianceBy,
+				@RequestParam("compliedDateTime") String compliedDateTime,
+				@RequestParam("updatedBy") String updatedBy,
+				@RequestParam("attachment") String attachment) {
+			try {
+				log.info("Update Observations");
+				InspectionRequest compliancesRequest = new InspectionRequest();
+				compliancesRequest.setId(id);
+				compliancesRequest.setObeservationSeqId(obeservationSeqId);
+				compliancesRequest.setStatus(status);
+				compliancesRequest.setAction(action);
+				compliancesRequest.setComplianceBy(complianceBy);
+				compliancesRequest.setCompliedDateTime(Helper.convertStringToTimestamp(compliedDateTime));
+				compliancesRequest.setUpdatedBy(updatedBy);
+				compliancesRequest.setAttachment(attachment);
+				log.info("calling update observations");
+				String ComStatus = footPatrollingInspectionService.updateCompliancesData(compliancesRequest, file);
+				if(ComStatus.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+					return Helper.findResponseStatus("Compliances Data Updated Successfully", Constants.SUCCESS_CODE);
+				else
+					return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+			}catch (Exception e) {
+				log.error("ERROR >> While updating Compliances data. "+e.getMessage());
+				return Helper.findResponseStatus("Compliances Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			}
+		}
 		//find complianceById
 		@RequestMapping(value = "/findComplianceItemById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 		public ResponseEntity<Compliance> findComplianceItemById(@PathVariable Long id){
@@ -340,25 +406,7 @@ public class FootPatrollingInspectionController {
 			}
 		}
 		
-		//update compliance
-		@RequestMapping(value = "/updateComplianceItem" ,method = RequestMethod.PUT , headers = "Accept=application/json")
-		public ResponseStatus updateComplianceItem(@RequestBody Compliance compliance) {
-			log.info("Enter into update ComplianceItem function with below request parameters ");
-			log.info("Request Parameters = "+compliance.toString());
-			try {
-				log.info("Calling service with request parameters.");
-				footPatrollingInspectionService.save(compliance);
-				log.info("Preparing the return response");
-				return Helper.findResponseStatus("complianceItem updated successfully", Constants.SUCCESS_CODE);	
-			}catch(NullPointerException npe) {
-				log.error("ERROR >> While updating  complianceItem data. "+npe.getMessage());
-				return Helper.findResponseStatus("complianceItem  update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-			}
-			catch (Exception e) {
-				log.error("ERROR >> While updating  complianceItem data. "+e.getMessage());
-				return Helper.findResponseStatus("complianceItem update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
-			}
-		}
+		
 		
 		//Delete Compliance
 		@RequestMapping(value = "/deleteComplianceItem/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")

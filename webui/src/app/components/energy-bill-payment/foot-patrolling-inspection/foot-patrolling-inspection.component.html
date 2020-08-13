@@ -5,7 +5,7 @@
           <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                       <li class="breadcrumb-item"><a [routerLink]="['/foot-patrolling-sections']">FP Section</a></li>
+                       <li class="breadcrumb-item"><a [routerLink]="['/foot-patrolling-sections']">FP</a></li>
                         <li class="breadcrumb-item active" aria-current="page">FP Inspection</li>
               </ol>
           </nav>
@@ -123,55 +123,45 @@
                                       </div>
                                   </div>
                                   <div class="clear"></div>
-                                  <div class="table-sort-input example-container mat-elevation-z8">
-                                    <mat-table [dataSource]="filterData.dataSource" matSort>
-                                      <ng-container matColumnDef="sno">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span> Sno</span>
-                                            <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
-                                        </mat-header-cell>                                            
-                                        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-                                    </ng-container>
-                                    <ng-container matColumnDef="facilityId">
-                                      <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                          <span>Depot</span>
-                                          <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
-                                      </mat-header-cell>
-                                      <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
-                                  </ng-container>
-                                  <ng-container matColumnDef="inspectionType">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Inspection Type</span>
-                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
-                                    </mat-header-cell>
-                                    <mat-cell *matCellDef="let row"> {{row.inspectionType}}</mat-cell>
-                                </ng-container>
-
-                                <ng-container matColumnDef="section">
-                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                      <span>Section</span>
-                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>                                 </mat-header-cell>
-                                  <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
-                              </ng-container> 
-                              <ng-container matColumnDef="inspectionBy">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Name</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.inspectionBy}}</mat-cell>
-                            </ng-container>         
-                            <ng-container matColumnDef="startTime">
-                              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                  <span>From Date</span>
-                                  <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>                                 </mat-header-cell>
-                              <mat-cell *matCellDef="let row"> {{row.startTime | date}}</mat-cell>
-                          </ng-container> 
-                          <ng-container matColumnDef="stopTime">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                <span>To Date</span>
-                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>                                 </mat-header-cell>
-                            <mat-cell *matCellDef="let row"> {{row.stopTime | date}}</mat-cell>
-                        </ng-container>  
-                            <ng-container matColumnDef="id">
+                                  <div class="mat-elevation-z8">
+                                      <mat-table [dataSource]="fpInspectionItemDataSource" matSort>
+                                          <ng-container matColumnDef="sno">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="facilityId">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.facilityId}}</mat-cell>
+                                          </ng-container>
+                                          
+                                          <ng-container matColumnDef="inspectionType">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Inspection Type</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.inspectionType}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="section">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.section}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="inspectionBy">
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                {{row.inspectionBy}}</mat-cell>
+                                          </ng-container>
+                    <ng-container matColumnDef="startTime">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                      <mat-cell *matCellDef="let row" style="cursor: pointer">
+                        {{row.startTime | date}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="stopTime">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.stopTime | date}}</mat-cell>
+                </ng-container>
+                                         
+                                          <ng-container matColumnDef="id">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                                   <mat-cell *matCellDef="let row">
                                                     <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
@@ -192,7 +182,16 @@
                                                    Add Observation
                                                 </span>
                                                 </mat-cell>
-                                        </ng-container>                           
+                                        </ng-container>
+                                        <ng-container matColumnDef="map">
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>Map</mat-header-cell>
+                                              <mat-cell *matCellDef="let row">
+                                                <span class="mat-raised-button mat-accent" (click)="NewMapItem(row.id)" *ngIf="!addMap"
+                                                color="accent" mat-raised-button="">
+                                                 map
+                                              </span>
+                                              </mat-cell>
+                                      </ng-container>                           
                                            <mat-header-row *matHeaderRowDef="fpInspectionItemDisplayColumns"></mat-header-row>
                                           <mat-row *matRowDef="let row; columns: fpInspectionItemDisplayColumns;">
                                           </mat-row>
@@ -232,7 +231,7 @@
 <div class="col-md-3">
   <mat-form-field fxFlex="30" class="example-full-width">
     <mat-select placeholder="Select Observation Category" 
-      [formControl]="observationFormGroup.controls['observationCategory']" required>
+      [formControl]="observationFormGroup.controls['observationCategory']" (selectionChange)="getObsCheckList()" required>
       <mat-option *ngFor="let observationCategoryData of observationCategoryData"
         [value]="observationCategoryData.observationCategory">
         {{ observationCategoryData.observationCategory }}
@@ -240,26 +239,79 @@
     </mat-select>
   </mat-form-field>
 </div>
+
 <div class="col-md-3">
-<mat-form-field fxFlex="30">
-<textarea matInput placeholder="observationItem" [formControl]="observationFormGroup.controls['observationItem']" required></textarea>
-</mat-form-field>
+  <mat-form-field fxFlex="30">
+      <mat-select placeholder="Select Observation Item"
+          [formControl]="observationFormGroup.controls['observationItem']" required>
+          <mat-option *ngFor="let observationItem of observationItemData"
+              [value]="observationItem.observationItem">
+              {{ observationItem.observationItem}}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
 </div>
 <div class="col-md-3">
+  <mat-form-field fxFlex="30">
+      <mat-select placeholder="Select  Severity"
+          [formControl]="observationFormGroup.controls['severity']">
+          <mat-option *ngFor="let observationItem of observationItemData"
+              [value]="observationItem.severity">
+              {{ observationItem.severity}}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+<div class="col-md-3">
+  <mat-form-field fxFlex="30">
+      <mat-select placeholder="Select  Priority"
+          [formControl]="observationFormGroup.controls['priority']">
+          <mat-option *ngFor="let observationItem of observationItemData"
+              [value]="observationItem.priority">
+              {{ observationItem.priority}}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+<div class="col-md-3">
+  
   <mat-form-field fxFlex="30">
   <textarea matInput placeholder="Remarks" [formControl]="observationFormGroup.controls['description']" required></textarea>
   </mat-form-field>
   </div>
+  <div class="col-md-3" fxFlex="30">                                                        
+    <mat-checkbox [formControl]="observationFormGroup.controls['actionRequired']">ActionBy</mat-checkbox>                                                          
+  </div>
   <!-- attachment -->
-  <div class="col-md-3">
+  <div class="col-md-3">                                           
     <input type="file" [formControl]="observationFormGroup.controls['attachment']"
+         name="uploadFile" 
     name="uploadFile"  accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         style="margin-top: 6%;"
         id="uploadFile" multiple (change)="upload($event)" />
-   
 </div>
-<div class="clearfix"></div>
 
+<div class="clear"> </div>
+                                                <div class="col-md-12">
+                                                    <table class="table" *ngIf="filesExists">
+                                                        <thead>
+                                                          <th>Sno</th>
+                                                          <th>File Name</th>
+                                                          <th>Size</th>
+                                                          <th>Action</th>
+                                                        </thead>
+                                                        <tbody id="uploadedFilesTBodyId">
+                                                            <tr *ngFor="let file of selectedFiles;let i=index">
+                                                                <td>{{i+1}}</td>
+                                                                <td><a target="_blank" href="URL.createObjectURL(file.name)">{{file.name}}</a></td>
+                                                                <td>{{(file.size/1024) | number : '1.2-2'}} KB</td>
+                                                                <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
+                                                                  <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                              </button>  </td>
+                                                            </tr>
+                                                        </tbody>
+                                                      </table>
+                                                </div>
 <div class="col-md-3 mt-15">
 <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
 <button mat-raised-button color="accent" [disabled]="observationFormGroup.invalid"
@@ -278,29 +330,7 @@ Close
 </div>
 </div>   
 
-      </form>
-      <div class="clear"></div>
-                                            <div class="col-md-12">
-                                                <table class="table" *ngIf="filesExists">
-                                                    <thead>
-                                                      <th>Sno</th>
-                                                      <th>File Name</th>
-                                                      <th>Size</th>
-                                                      <th>Action</th>
-                                                    </thead>
-                                                    <tbody id="uploadedFilesTBodyId">
-                                                        <tr *ngFor="let file of attachedImages;let i=index">
-                                                            <td>{{i+1}}</td>
-                                                            <td style="cursor: pointer;"><a  href={{file.changeFileName}} target="_blank">{{file.originalFileName}}</a></td>
-                                                            <td>{{file.fileSize}}</td>
-                                                            <td> <button mat-icon-button matTooltip="Delete" >
-                                                              <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-                                                          </button>  </td>
-                                                        </tr>
-                                                    </tbody>
-                                                  </table>
-                                            </div>
-      
+      </form>    
   </div>
   <div class="example-header">
     <div class="col-sm-4">
@@ -337,10 +367,15 @@ Close
               {{row.observationItem}}</mat-cell>
         </ng-container>
       <ng-container matColumnDef="description">
-             <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-             <mat-cell *matCellDef="let row" style="cursor: pointer">
-                  {{row.description}}</mat-cell>
-      </ng-container>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+             {{row.description}}</mat-cell>
+ </ng-container>
+ <ng-container matColumnDef="actionRequired">
+  <mat-header-cell *matHeaderCellDef mat-sort-header>Action Required</mat-header-cell>
+  <mat-cell *matCellDef="let row" style="cursor: pointer">
+       {{row.actionRequired}}</mat-cell>
+</ng-container>
       <ng-container matColumnDef="attachment">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
          <span> Documents </span>
@@ -348,7 +383,7 @@ Close
          <mat-cell *matCellDef="let row">
           <button mat-icon-button matTooltip="Document View"
           (click)="viewFilesDetails(row.id)" > 
-          <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+          <mat-icon style="color: rgb(0, 145, 234);">Visibility</mat-icon>
      </button>
         </mat-cell>
     </ng-container>
@@ -425,6 +460,34 @@ Close
             <mat-datepicker #picker  ></mat-datepicker>
     </mat-form-field>
 </div>
+<!-- attachment -->
+<div class="col-md-3">                                           
+  <input type="file" [formControl]="complianceFormGroup.controls['attachment']"
+       name="uploadFile" 
+      style="margin-top: 6%;"
+      id="uploadFile" multiple (change)="upload($event)" />
+</div>
+<div class="clear"> </div>
+                                              <div class="col-md-12">
+                                                  <table class="table" *ngIf="filesExists">
+                                                      <thead>
+                                                        <th>Sno</th>
+                                                        <th>File Name</th>
+                                                        <th>Size</th>
+                                                        <th>Action</th>
+                                                      </thead>
+                                                      <tbody id="uploadedFilesTBodyId">
+                                                          <tr *ngFor="let file of selectedFiles;let i=index">
+                                                              <td>{{i+1}}</td>
+                                                              <td><a target="_blank" href="URL.createObjectURL(file.name)">{{file.name}}</a></td>
+                                                              <td>{{(file.size/1024) | number : '1.2-2'}} KB</td>
+                                                              <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
+                                                                <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                            </button>  </td>
+                                                          </tr>
+                                                      </tbody>
+                                                    </table>
+                                              </div>
 
 
   <div class="col-md-3 mt-15">
@@ -469,6 +532,17 @@ Close
                   <mat-cell *matCellDef="let row" style="cursor: pointer">
                     {{row.status}}</mat-cell>
               </ng-container>
+              <ng-container matColumnDef="attachment">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                 <span> Documents </span>
+                 </mat-header-cell>
+                 <mat-cell *matCellDef="let row">
+                  <button mat-icon-button matTooltip="Document View"
+                  (click)="compViewFilesDetails(row.id)" > 
+                  <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+             </button>
+                </mat-cell>
+            </ng-container>
               <ng-container matColumnDef="action">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                 <mat-cell *matCellDef="let row" style="cursor: pointer">
@@ -507,3 +581,330 @@ Close
       </div>
   </div>
     
+
+  <!--Map related body content-->
+  <!doctype html>
+<html lang="en">
+  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addMap" fxLayout="column">
+<head>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+	<style>
+		.map {
+			height: 550px;
+			width: 100%;
+		}
+  
+ .ol-popup {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+      }
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+      .ol-popup-closer:after {
+        content: "✖";
+      }
+      
+	</style>
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+	<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
+	 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<title>OpenLayers example</title>
+</head>
+
+<body>
+
+	<div class="screenlet-title-bar">
+        	<h3>Asset Schedule OutStanding Map</h3>
+ 		</div>	
+	<div id="map" class="map"></div>
+	
+	<!-- Popup -->
+      
+      <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
+    
+	<input type="hidden" name="facilityId" id="facilityId" value="${facilityId}"/>
+	<input type="hidden" name="fromKm" id="fromKm" value="${fromKm}"/>
+	<input type="hidden" name="toKm" id="toKm" value="${toKm}"/>
+	
+	
+	<script type="text/javascript">
+	
+		var closer = document.getElementById('popup-closer');
+		var content = document.getElementById('popup-content');
+		
+		
+		
+		var facilityId = document.getElementById("facilityId").value;
+		var fromKm = document.getElementById("fromKm").value;
+		var toKm = document.getElementById("toKm").value;
+		
+		const url = "/warehouse/rest/out-standing";
+		
+       var json =JSON.stringify({'fromKilometer': fromKm, 'facilityId': facilityId,'toKilometer': toKm});
+		
+        const other_params = {
+            headers : { "content-type" : "application/json; charset=UTF-8"},
+            body : json,
+            method : "POST",
+            mode : "cors"
+        };
+        
+       
+       fetch(url, other_params)
+        .then(response => response.text())
+  		.then((body) => {
+  			finalData = body;
+  		
+   	 		var finalOutStandingData = JSON.parse(finalData);
+   	 		
+
+		function fromGeographic(lonlat) 
+		{
+
+			return ol.proj.transform([lonlat[0], lonlat[1]], 'EPSG:4326', 'EPSG:3857'); //coordinates in OpenLayers
+		};
+		
+		var latlonLength = finalOutStandingData.length;
+		
+		var coordArray = [];
+		
+		
+		for (var i = 0; i < latlonLength; ++i)
+		{
+			var coordinate = fromGeographic([finalOutStandingData[i].longitude, finalOutStandingData[i].latitude]);
+			coordArray.push(coordinate);
+		}
+		
+		//point features
+		var pointfeatures = [];
+		
+		for (var i = 0; i < coordArray.length; ++i) {
+				var astList= finalOutStandingData[i].allAssetTypesAtLoc;
+				var locList= finalOutStandingData[i].amdAssetId;
+				var overdue_str=finalOutStandingData[i].overdueStr;
+				var assetTypeschDate = finalOutStandingData[i].allAssetsSchDataAtLoc;
+				var pointfeature = new ol.Feature(new ol.geom.Point(coordArray[i]));
+				pointfeature.set("name_txt",locList);
+				pointfeature.set("click_txt",assetTypeschDate);//all_assets_sch_data_at_loc
+				pointfeature.set("click_txt1",overdue_str);//overdue_str
+				pointfeatures.push(pointfeature);
+		}
+		
+		var pointsource = new ol.source.Vector ({
+			features: pointfeatures
+		});
+		
+		var pointLayer = new ol.layer.Vector ({
+			source: pointsource,
+			style: function(feature) 
+			{ 
+				return new ol.style.Style
+				({
+					image: new ol.style.Icon
+							({					
+							src: '/opentaps_images/chatbubble.png',
+							fill: new ol.style.Fill({color: '#000099'}),
+							stroke: new ol.style.Stroke({color: '#000099'})
+							}),
+		
+				}); 
+			}
+		})
+			
+		var style1;
+		var pointLayer1 = new ol.layer.Vector
+		({
+			source: pointsource,
+			style: function(feature)
+			{ 
+				if(feature.get("click_txt1").includes("Yes"))
+				{
+					style1= new ol.style.Style
+					({				
+						text: new ol.style.Text
+						({
+							text: feature.get("name_txt"),
+							font: '12px Times New Roman',
+							overflow: true,
+							offsetY:0,
+							fill: new ol.style.Fill({color: '#000000'}),
+							stroke: new ol.style.Stroke({color: '#ff0000', width: 2.0 })//red color
+						})
+					});
+				}
+				else if(feature.get("click_txt1").includes("NA"))
+				{
+					style1= new ol.style.Style
+					({
+					    text: new ol.style.Text
+						({
+							text: feature.get("name_txt"),
+								  font: '12px Times New Roman',
+								  overflow: true,
+								  offsetY:0,
+							fill: new ol.style.Fill({color: '#000000'}),
+							//stroke: new ol.style.Stroke({color: '#009900',width: 2.0})//green color
+							 stroke: new ol.style.Stroke({color: '#0000ff',width: 2.0})//blue color
+						})
+					})
+			   } 
+			return style1;	
+			}
+		 });
+		 
+//line feature
+		
+		var lineFeatures = new Array();
+		var linefeature = new ol.Feature
+		({
+			geometry: new ol.geom.LineString(coordArray)
+		});
+		
+		lineFeatures.push(linefeature);
+		var linesource = new ol.source.Vector
+		({
+			features: lineFeatures
+		});
+		
+		var ext = linefeature.getGeometry().getExtent();
+		var center = ol.extent.getCenter(ext);
+
+//creating a basic map
+		var map = new ol.Map({
+							  target: 'map',
+							  layers: [new ol.layer.Tile
+										({
+										source: new ol.source.OSM()
+										 
+										}),
+										pointLayer,pointLayer1,
+									  ],
+							  view: new ol.View
+									({
+										center: [center[0], center[1]],
+										zoom:13
+									})
+							 });
+//To print the text in popup
+	var layer = new ol.layer.Tile({
+									source:new ol.source.OSM(),
+									style:function(feature) 
+									{ new ol.style.Text
+									 ({
+										text: feature.get("click_txt"),
+										offsetY:15,
+									  })
+									}
+								 });
+	var layer1 = new ol.layer.Tile({
+									source:new ol.source.OSM(),
+									style:function(feature) 
+									{ new ol.style.Text
+									 ({
+									   text: feature.get("click_txt1"),
+									   offsetY:15,
+									  })
+							        }
+						          });
+								  
+   var element=document.getElementById('popup');
+
+   var popup = new ol.Overlay
+				({
+				  element: element,
+				  positioning: 'bottom-center',
+				  stopEvent: true,
+				});
+				
+			
+closer.onclick = function() {
+  popup.setPosition(undefined);
+  closer.blur();
+  return false;
+};	
+	
+				
+				
+				
+  map.addOverlay(popup);
+
+// when we click on coordinate get popup
+	map.on('click', function(evt)
+	{ 
+		var feature = map.forEachFeatureAtPixel
+								(evt.pixel,function(feature)
+											{
+											  return feature;
+											}
+								);
+		if (feature) 
+		{ 
+			if(feature.get("click_txt1").includes("Yes"))
+			{
+				var coordinates = feature.getGeometry().getCoordinates();
+				
+				// To display the content in pop-up
+				//var html = '<div> <p><h2><span style="color:yellow">'+ ' Location ---> ' +''+feature.get('name_txt')+'</h2></p><p><h2><span style="color:yellow">'+ ' AssetType ---> ' +''+feature.get('click_txt')+'</span></h2></p></div>';
+				var html = '<p> Red Colour Means OverDue.</p><code><span style="color:red">'+feature.get('name_txt')+',<span style="color:red">'+feature.get('click_txt')+'</code>';
+				content.innerHTML = html ;
+				popup.setPosition(coordinates);
+				
+		   }
+		 else if(feature.get("click_txt1").includes("NA"))
+		 {
+		   var coordinates = feature.getGeometry().getCoordinates();
+		   // To display the content in pop-up
+		   //var html = '<div> <p><h2><span style="color:Green">'+feature.get('name_txt')+'</h2></p><p><h2><span style="color:Green">'+feature.get('click_txt')+'</span></h2></p></div>';
+		   //var html = '<p>You Clicked Here:- Green Colour Means Due.</p><code><span style="color:Green">'+feature.get('name_txt')+',<span style="color:Green">'+feature.get('click_txt')+'</code>';
+		   
+		   	var html = '<p> Blue Colour Means Schedule Not Done Or Due.</p><code><span style="color:blue">'+feature.get('name_txt')+',<span style="color:blue">'+feature.get('click_txt')+'</code>';
+		   
+		   popup.setPosition(coordinates);
+		   content.innerHTML = html ;
+		   
+		 }
+		
+        } 
+		else 
+		{
+		  $(element).popover('destroy');
+		}
+	});
+
+//chnage the pointer
+
+	map.on('pointermove', function(e) {
+						if (e.dragging)
+						{
+						  var element = popup.getElement();
+						  $(element).popover('destroy');
+						  return;
+						}
+					  var pixel = map.getEventPixel(e.originalEvent);
+					  var hit = map.hasFeatureAtPixel(pixel);
+					  map.getTargetElement().style.cursor = (hit ? 'pointer' : '');
+     });
+     });
+     
+	</script>
+  </body>
+  </form>
+</html>
+

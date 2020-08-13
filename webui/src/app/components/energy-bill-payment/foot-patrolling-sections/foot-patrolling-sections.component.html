@@ -33,12 +33,11 @@
                                                   <div class="panel-body">
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30" class="example-full-width">
-                              <input type="text" placeholder="Select Depot" matInput [matAutocomplete]="auto" 
+                              <input type="text" placeholder="Select Depot" matInput [matAutocomplete]="auto" [formControl]="facilityCtrl"
                                 [formControl]="fpSectionsItemFormGroup.controls['facilityDepot']" required/>
                                 <mat-autocomplete #auto="matAutocomplete">
-                                  <mat-option *ngFor="let facilityData of filteredOptions | async"
-                                  [value]="facilityData">
-                                  {{ facilityData }}
+                                  <mat-option  *ngFor="let facilityData of filteredFacilityData | async" [value]="facilityData.facilityName">
+                                  {{ facilityData.facilityName }}
                                 </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -53,7 +52,7 @@
                               <mat-error
                                 *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('duplicatefpSection')" 
                                 class="alert alert-danger" >
-                                FPSecion Already Exists
+                                FP Secion Already Exists
                               </mat-error>
                               <mat-error
                               *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('maxlength') && fpSectionsItemFormGroup.controls['fpSection'].touched"
@@ -61,7 +60,7 @@
                           </mat-error>
                               <mat-error
                                 *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('pattern') && fpSectionsItemFormGroup.controls['fpSection'].touched"
-                               class="alert alert-danger">Special characters are not allowed
+                               class="alert alert-danger">Special Characters are not allowed
                              </mat-error>
                             </mat-form-field>
                           </div>
@@ -71,7 +70,7 @@
                               pattern="^[a-zA-Z0-9\/]+$"/>
                               <mat-error
                                 *ngIf="fpSectionsItemFormGroup.controls['fromLocation'].hasError('pattern') && fpSectionsItemFormGroup.controls['fromLocation'].touched"
-                               class="alert alert-danger">Special characters are not allowed
+                               class="alert alert-danger">Special Characters are not allowed
                              </mat-error>
                             </mat-form-field>
                           </div>

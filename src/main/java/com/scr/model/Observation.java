@@ -23,6 +23,9 @@ public class Observation implements Serializable {
 
 	@Column(name="action_by")
 	private String actionBy;
+	
+	@Column(name="action_required")
+	private String actionRequired;
 
 	@Column(name="created_by")
 	private String createdBy;
@@ -46,6 +49,9 @@ public class Observation implements Serializable {
 
 	@Column(name="device_seq_id")
 	private String deviceSeqId;
+	
+	@Column(name = "updated_by")
+	private String updatedBy;
 
 	@Column(name="inspection_seq_id")
 	private String inspectionSeqId;
@@ -74,7 +80,6 @@ public class Observation implements Serializable {
 
 	public Observation() {
 	}
-
 	public Long getId() {
 		return this.id;
 	}
@@ -89,6 +94,14 @@ public class Observation implements Serializable {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getActionRequired() {
+		return actionRequired;
+	}
+
+	public void setActionRequired(String actionRequired) {
+		this.actionRequired = actionRequired;
 	}
 
 	public String getActionBy() {
@@ -161,6 +174,14 @@ public class Observation implements Serializable {
 
 	public void setDeviceSeqId(String deviceSeqId) {
 		this.deviceSeqId = deviceSeqId;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 
 	public String getInspectionSeqId() {
@@ -237,10 +258,11 @@ public class Observation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Observation [id=" + id + ", action=" + action + ", actionBy=" + actionBy + ", createdBy=" + createdBy
-				+ ", createdDateTime=" + createdDateTime + ", createdStamp=" + createdStamp + ", createdTxStamp="
-				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", deviceId=" + deviceId
-				+ ", deviceSeqId=" + deviceSeqId + ", inspectionSeqId=" + inspectionSeqId + ", lastUpdatedStamp="
+		return "Observation [id=" + id + ", action=" + action + ", actionBy=" + actionBy + ", actionRequired="
+				+ actionRequired + ", createdBy=" + createdBy + ", createdDateTime=" + createdDateTime
+				+ ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv
+				+ ", description=" + description + ", deviceId=" + deviceId + ", deviceSeqId=" + deviceSeqId
+				+ ", updatedBy=" + updatedBy + ", inspectionSeqId=" + inspectionSeqId + ", lastUpdatedStamp="
 				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", attachment=" + attachment
 				+ ", location=" + location + ", observation=" + observation + ", observationCategory="
 				+ observationCategory + ", observationItem=" + observationItem + ", seqId=" + seqId + "]";

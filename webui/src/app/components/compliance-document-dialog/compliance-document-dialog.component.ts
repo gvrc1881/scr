@@ -6,10 +6,10 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 @Component({
-    selector: 'inspection-document-view-dialog',
-    templateUrl: './inspection-document-dialog.component.html',
+    selector: 'compliance-document-view-dialog',
+    templateUrl: './compliance-document-dialog.component.html',
 })
-export class InspectionDocumentComponent implements OnInit {
+export class ComplianceDocumentComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     public response: any = [];
     type: string;
@@ -21,7 +21,7 @@ export class InspectionDocumentComponent implements OnInit {
     @ViewChild('filter', { static: true }) filter: ElementRef;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
-        public dialogRef: MatDialogRef<InspectionDocumentComponent>,
+        public dialogRef: MatDialogRef<ComplianceDocumentComponent>,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
         private sendAndRequestService: SendAndRequestService,
@@ -32,7 +32,7 @@ export class InspectionDocumentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.type = localStorage.getItem("observationFileType");
+        this.type = localStorage.getItem("complianceFileType");
         this.prepareTable();
     }
     downloadFile(path, fileName) {
@@ -44,10 +44,10 @@ export class InspectionDocumentComponent implements OnInit {
          link.click(); 
     }
     prepareTable() {
-        const observationData = [];
+        const complianceData = [];
         for (let i = 0; i < this.response.length; i++) {
             if (!!this.response[i]) {
-                observationData.push({
+                complianceData.push({
                     "sno": i + 1,
                     "fileName": this.response[i].originalFileName,
                     "type": this.type,
@@ -56,7 +56,7 @@ export class InspectionDocumentComponent implements OnInit {
                 });
             }
         }
-        this.schedulerDataSource = new MatTableDataSource(observationData);
+        this.schedulerDataSource = new MatTableDataSource(complianceData);
         this.schedulerDataSource.paginator = this.schedulerPaginator;
         this.schedulerDataSource.sort = this.sort;
     }
@@ -81,7 +81,7 @@ export class InspectionDocumentComponent implements OnInit {
                 }
                 this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
                     this.spinnerService.hide();
-                    this.commonService.showAlertMessage("Deleted File Successfully");
+                    this.commonService.showAlertMessage("Deleted File Sucessfully");
                 }, error => {
                     console.log('ERROR >>>');
                     this.spinnerService.hide();

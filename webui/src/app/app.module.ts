@@ -21,6 +21,7 @@ import { DivisionHistoryDialogComponent } from './components/division-history-di
 import { RemarkDialogComponent } from './components/remark-dialog/remark-dialog.component';
 import { DocumentDialogComponent } from './components/document-view-dialog/document-dialog.component';
 import { InspectionDocumentComponent } from './components/inpection-document-dialog/inspection-document-dialog.component';
+import { ComplianceDocumentComponent } from './components/compliance-document-dialog/compliance-document-dialog.component';
 // Import angular-fusioncharts
 import { FusionChartsModule } from 'angular-fusioncharts';
  
@@ -59,6 +60,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DocumentDialogComponent,
     FilesInformationDialogComponent,
     InspectionDocumentComponent,
+    ComplianceDocumentComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         DocumentDialogComponent,
         FilesInformationDialogComponent,
         InspectionDocumentComponent,
+        ComplianceDocumentComponent,
+
   ],
   providers: [
     AuthenticationService,

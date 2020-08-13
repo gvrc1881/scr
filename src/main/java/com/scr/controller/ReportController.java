@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +31,7 @@ import com.scr.model.GeographicState;
 import com.scr.model.InspectionType;
 import com.scr.model.MajorSections;
 import com.scr.model.Make;
+import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Model;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
@@ -335,7 +335,19 @@ public class ReportController {
 		return new ResponseEntity<List<ProductCategoryMember>>(assets,HttpStatus.OK);	
 		
 	}
-	
+	@RequestMapping(value = "/getObservationCheckListBasedOnObservationCate/{observationCategory}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<ObservationsCheckList>> getObservationCheckListBasedOnObservationCate(@PathVariable("observationCategory") String observationCategory){
+		List<ObservationsCheckList> obsCheckList= reportService.getObservationCheckListBasedOnObservationCate(observationCategory);
+		log.info("obsCheckListSize"+obsCheckList.size());
+		log.info("obsCheckList"+obsCheckList);
+
+			return new ResponseEntity<List<ObservationsCheckList>>(obsCheckList, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getActivityNameBasedOnActivityType/{activityType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<MeasureOrActivityList>> getActivityNameBasedOnActivityType(@PathVariable("activityType") String activityType){
+		List<MeasureOrActivityList> activityList= reportService.getActivityNameBasedOnActivityType(activityType);
+			return new ResponseEntity<List<MeasureOrActivityList>>(activityList, HttpStatus.OK);		
+	}
 	
   	
 }

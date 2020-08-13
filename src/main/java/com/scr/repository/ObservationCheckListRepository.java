@@ -9,7 +9,7 @@ import com.scr.model.ObservationsCheckList;
 
 public interface ObservationCheckListRepository extends JpaRepository<ObservationsCheckList, Long> {
 	List<ObservationsCheckList> findDistinctByObservationCategory(String observationCategory);
-
+	List<ObservationsCheckList> findByObservationCategory(String observationCategory);
 	List<ObservationsCheckList> findByCreatedStampLessThanEqualAndCreatedStampGreaterThan(Timestamp currenTimestamp,
 			Timestamp previousTimestamp);
 

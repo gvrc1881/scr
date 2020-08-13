@@ -21,6 +21,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     title: string = "Save";
     tpcBoardDepotAssocFormGroup: FormGroup;
     tpcBoardDepotAssocList : any;
+    id: number = 0;
     facilityData:any;
     tpcBoardDepotAssocDataSource: MatTableDataSource<TPCBoardDepotAssocModel>;
     tpcBoardDepotAssocDisplayColumns = ['sno' , 'tpcBoard' ,'unitType','unitName','description', 'id' ] ;
@@ -51,14 +52,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
-            id: 0,
-            'tpcBoard':[null, Validators.compose([Validators.required])],
-            'unitType':[null],
-            'unitName':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
-            'description':[null, Validators.maxLength(250)],
-            
-        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
             this.funLocTypeData = data;
          });
@@ -143,6 +136,14 @@ duplicateTpcBoard() {
     }
 
     tpcBoardDepotAssocEditAction(id: number) {
+        this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
+            id: 0,
+            'tpcBoard':[null, Validators.compose([Validators.required])],
+            'unitType':[null],
+            'unitName':[null,Validators.required],
+            'description':[null, Validators.maxLength(250)],
+            
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.GET_TPC_BOARD_ASSOC_ID+id).subscribe((responseData) => {
             this.editTpcBoardDepotAssocResponse = responseData;
             this.tpcBoardDepotAssocFormGroup.patchValue({
@@ -154,6 +155,12 @@ duplicateTpcBoard() {
 
             })
         } ,error => {})
+        this.id=id;
+        if (!isNaN(this.id)) {
+            this.title = 'Update';
+          } else {
+            this.title = 'Save';      
+          }
     }
 
 
@@ -178,8 +185,8 @@ duplicateTpcBoard() {
         this.tpcBoardDepotAssocDataSource.filter = filterValue;
     }
     getFacilitys(){
-    	var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSETTYPE_BASED_ON_ASSETID_FACILITYID + unitType).subscribe((data) => {
+        var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + unitType).subscribe((data) => {
                  this.facilityData = data;
         		});
     }
@@ -199,6 +206,14 @@ duplicateTpcBoard() {
     }
 
     NewTPCBoardDepotAssoc () {
+        this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
+            id: 0,
+            'tpcBoard':[null, Validators.compose([Validators.required])],
+            'unitType':[null],
+            'unitName':[null,Validators.required, this.duplicateTpcBoard.bind(this)],
+            'description':[null, Validators.maxLength(250)],
+            
+        });
         this.addTPCBoardDepotAssoc = true;
     }
 

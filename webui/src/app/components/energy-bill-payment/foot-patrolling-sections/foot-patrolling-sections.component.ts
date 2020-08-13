@@ -1,13 +1,15 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder,Validators } from '@angular/forms';
+import { FormGroup, FormBuilder,Validators,FormControl } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { FootPatrollingSectionsModel } from 'src/app/models/foot-patrolling-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-
+import {Observable} from 'rxjs/Observable';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
 @Component({
     selector: 'foot-patrolling-sections',
     templateUrl: './foot-patrolling-sections.component.html',
@@ -26,14 +28,14 @@ export class FootPatrollingSectionsComponent implements OnInit{
     toMinDate=new Date();
     currentDate = new Date();
     facilityData:any;
-    filteredOptions:any;
     fpSectionsItemDataSource: MatTableDataSource<FootPatrollingSectionsModel>;
     fpSectionsItemDisplayColumns = ['sno' ,'facilityDepot','fpSection' , 'fromLocation' , 'toLocation' , 'fromDate' , 'toDate' , 'remarks' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editfpSectionsItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
+    facilityCtrl: FormControl;
+    filteredFacilityData: Observable<any[]>;
 
     constructor(
         private commonService: CommonService,
@@ -41,14 +43,22 @@ export class FootPatrollingSectionsComponent implements OnInit{
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService
     ){
-
+        this.facilityCtrl = new FormControl();
+        this.filteredFacilityData = this.facilityCtrl.valueChanges
+          .pipe(
+            startWith(''),
+            map(filterData => filterData ? this.filterFacility(filterData) : this.facilityData.slice())
+          );
     }
-
+    filterFacility(facilityName: any) {
+        return this.facilityData.filter(facilityData =>
+          facilityData.facilityName.toLowerCase().includes(facilityName.toLowerCase()));
+      }
     ngOnInit () {
         this.getAllFootPatrollingSectionsData();
         this.depotTypeForOhe();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Sections") ;//p == 0 ? 'No Permission' : p[0].permissionName;
-  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); //getPermission("Add", );
+        var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Sections") ;
+  		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         

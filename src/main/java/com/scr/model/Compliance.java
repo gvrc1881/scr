@@ -5,10 +5,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 
-/**
- * The persistent class for the compliances database table.
- * 
- */
+
 @Entity
 @Table(name = "compliances" , uniqueConstraints={@UniqueConstraint(name = "old_pk_compliances_uniq", columnNames ={"seq_id", "data_div"})})
 @NamedQuery(name="Compliance.findAll", query="SELECT c FROM Compliance c")
@@ -38,6 +35,9 @@ public class Compliance implements Serializable {
 
 	@Column(name="created_tx_stamp")
 	private Timestamp createdTxStamp;
+	
+	@Column(name="created_by")
+	private String createdBy;
 
 	@Column(name="data_div")
 	private String dataDiv;
@@ -49,6 +49,9 @@ public class Compliance implements Serializable {
 
 	@Column(name="device_seq_id")
 	private String deviceSeqId;
+	
+	@Column(name = "updated_by")
+	private String updatedBy;
 
 	@Column(name="last_updated_stamp")
 	private Timestamp lastUpdatedStamp;
@@ -61,7 +64,10 @@ public class Compliance implements Serializable {
 
 	@Column(name="seq_id")
 	private String seqId;
-
+	
+	@Column(name = "attachment")
+	private String attachment;
+	
 	private String status;
 
 	public Compliance() {
@@ -203,15 +209,40 @@ public class Compliance implements Serializable {
 		this.status = status;
 	}
 
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "Compliance [id=" + id + ", action=" + action + ", complianceBy=" + complianceBy
 				+ ", complianceFullfilled=" + complianceFullfilled + ", complianceRemark=" + complianceRemark
 				+ ", compliedDateTime=" + compliedDateTime + ", createdStamp=" + createdStamp + ", createdTxStamp="
-				+ createdTxStamp + ", dataDiv=" + dataDiv + ", description=" + description + ", deviceId=" + deviceId
-				+ ", deviceSeqId=" + deviceSeqId + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
-				+ lastUpdatedTxStamp + ", obeservationSeqId=" + obeservationSeqId + ", seqId=" + seqId + ", status="
-				+ status + "]";
+				+ createdTxStamp + ", createdBy=" + createdBy + ", dataDiv=" + dataDiv + ", description=" + description
+				+ ", deviceId=" + deviceId + ", deviceSeqId=" + deviceSeqId + ", updatedBy=" + updatedBy
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", obeservationSeqId=" + obeservationSeqId + ", seqId=" + seqId + ", attachment=" + attachment
+				+ ", status=" + status + "]";
 	}
 
 }
