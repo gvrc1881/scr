@@ -144,7 +144,7 @@ public class EnergyConsumptionRepository{
 			") final" + 
 			" order by requested_reading_date";
 	
-	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId) {
+	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division) {
 		List<EnergyConsumptionResponse> list = new ArrayList<EnergyConsumptionResponse>();
 		Connection con = null;
 		PreparedStatement psPreparedStatement = null;

@@ -14,8 +14,8 @@ public class EnergyConsumptionService {
 	@Autowired
 	private EnergyConsumptionRepository repository;
 	
-	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId) {
-		return repository.findEnergyConsumption(fromDate, toDate, feederId);
+	public List<EnergyConsumptionResponse> findEnergyConsumption(String fromDate, String toDate, String feederId, String division) {
+		return repository.findEnergyConsumption(fromDate, toDate, feederId, division);
 	}
 
 }
