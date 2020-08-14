@@ -197,7 +197,7 @@ export class ReportParameterDisplayComponent implements OnInit {
         }
         divisionCode(code: any){
               var zone = JSON.stringify(code);
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone).subscribe((data) => {
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, code, false).subscribe((data) => {
                 this.divisionsData=data;   
               }    
               )

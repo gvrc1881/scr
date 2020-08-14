@@ -273,7 +273,8 @@ export const Constants = {
         },
         ENERGY_CONSUMPTION:{
             FIND_ENERGY_CONSUMPTION:'/energyConsumption/',
-            FIND_TSS_FEEDER_MASTER:'/findAllTssFeederMaster'
+            FIND_TSS_FEEDER_MASTER:'/findAllTssFeederMaster',
+            UPDATE_ENERGY_CONSUMPTION:'/updateEnergyConsumption',
         },
         DOCS:{
             GET_UPLOAD_FILES:"/getUploadedFiles/",

@@ -15,12 +15,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./energy-consumption.component.css'],
   providers: [
     {
-        provide: DateAdapter, useClass: AppDateAdapter
+      provide: DateAdapter, useClass: AppDateAdapter
     },
     {
-        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
     }
-    ]
+  ]
 })
 export class EnergyConsumptionComponent implements OnInit {
   editPermission: boolean = true;
@@ -28,25 +28,28 @@ export class EnergyConsumptionComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
-  displayedColumns = ['sno','Feeder_Name','Multification_Factor','Joint_Reading', 'CMD',
-    'Old_KWH','Current_KWH',"Consumption_KWH",'Old_KVAH','Current_KVAH','Consumption_KVAH',
-    'Old_RKVAH_Lag','Current_RKVAH_Lag','Consumption_RKVAH_Lag',
-    'Old_RKVAH_Lead','Current_RKVAH_Lead','Consumption_RKVAH_Lead','PF','CPF', 'RMD','Vol_Max','Vol_Min','Max_Load', 'actions'];
+  displayedColumns = ['sno', 'Feeder_Name','Previous_Date', 'Multification_Factor', 'Joint_Reading', 'CMD',
+    'Old_KWH', 'Current_KWH', "Consumption_KWH", 'Old_KVAH', 'Current_KVAH', 'Consumption_KVAH',
+    'Old_RKVAH_Lag', 'Current_RKVAH_Lag', 'Consumption_RKVAH_Lag',
+    'Old_RKVAH_Lead', 'Current_RKVAH_Lead', 'Consumption_RKVAH_Lead', 'PF', 'CPF', 'RMD', 'Vol_Max', 'Vol_Min', 'Max_Load', 'actions'];
   dataSource: MatTableDataSource<any>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   gridData = [];
   stipulations: any[] = [];
-  exactDate:boolean=true;
-  energyConsumptionData=[];
+  exactDate: boolean = true;
+  energyConsumptionData = [];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-  selectedExactDate=new Date();
+  selectedExactDate = new Date();
   selectedBWFrom = new Date();
   selectedBWTo = new Date();
-  feedersList:any;
-  selectedFeederId=0;
-  row:number;
+  feedersList: any;
+  feedersOriginalList:any;
+  selectedFeederId = 0;
+  row: number;
+  divisionsList: any;
+  selectedDivision:any;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -57,30 +60,32 @@ export class EnergyConsumptionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption","Energy Consumption") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
     this.spinnerService.show();
-    var query = this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') +'/exact/'+this.selectedFeederId;
+    var query = this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
     this.findEnergyConsumptionData(query);
     this.findFeedersList();
+    this.divisionDetails();
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
-        { "Key": "Feeder_Name", "Value":""},
-        { "Key": "Multification_Factor", "Value":""},
-        { "Key": "Joint_Reading", "Value":""},
+        { "Key": "Feeder_Name", "Value": "" },
+        { "Key": "Previous_Date", "Value":" "},
+        { "Key": "Multification_Factor", "Value": "" },
+        { "Key": "Joint_Reading", "Value": "" },
         { "Key": 'CMD', "Value": " " },
         { "Key": 'Old_KWH', "Value": " " },
         { "Key": 'Current_KWH', "Value": " " },
-        { "Key": "Consumption_KWH", "Value":""},
+        { "Key": "Consumption_KWH", "Value": "" },
         { "Key": 'Old_KVAH', "Value": " " },
         { "Key": 'Current_KVAH', "Value": " " },
-        { "Key": "Consumption_KVAH", "Value":""},
+        { "Key": "Consumption_KVAH", "Value": "" },
         { "Key": 'Old_RKVAH_Lag', "Value": " " },
         { "Key": 'Current_RKVAH_Lag', "Value": " " },
-        { "Key": "Consumption_RKVAH_Lag", "Value":""},
+        { "Key": "Consumption_RKVAH_Lag", "Value": "" },
         { "Key": 'Old_RKVAH_Lead', "Value": " " },
         { "Key": 'Current_RKVAH_Lead', "Value": " " },
-        { "Key": "Consumption_RKVAH_Lead", "Value":""},
+        { "Key": "Consumption_RKVAH_Lead", "Value": "" },
         { "Key": 'PF', "Value": " " },
         { "Key": 'CPF', "Value": " " },
         { "Key": 'RMD', "Value": " " },
@@ -99,117 +104,157 @@ export class EnergyConsumptionComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.filterData.dataSource.filter = filterValue;
   }
-  findFeedersList(){
+  findFeedersList() {
     this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER)
       .subscribe((response) => {
         this.feedersList = response;
+        this.feedersOriginalList = response;
         this.spinnerService.hide();
       })
   }
-
-  findEnergyConsumptionData(query){    
+  divisionDetails() {
+    var division = {
+      address_1: null,
+    address_2: null,
+    city: null,
+    code: "SC",
+    createdBy: "system",
+    createdOn: null,
+    description: "South Central",
+    district: null,
+    divisionId: null,
+    headquarters: "Secunderabad",
+    id: 14,
+    pin: null,
+    state: null,
+    updatedOn: null
+    }
+    this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, division, false).subscribe((data) => {
+      this.divisionsList = data;
+    });
+  }
+  findEnergyConsumptionData(query) {
     this.spinnerService.show();
-    this.filterData=[];
-    this.energyConsumptionData=[];
-    this.stipulations=[];
+    this.filterData = [];
+    this.energyConsumptionData = [];
+    this.stipulations = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_ENERGY_CONSUMPTION + query)
       .subscribe((response) => {
-          this.energyConsumptionData = response;
-      for (let i = 0; i < this.energyConsumptionData.length; i++) {
-        this.energyConsumptionData[i].sno = i + 1;
-        this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feeder_name;
-        this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multification_fac;
-        this.energyConsumptionData[i].CMD = this.energyConsumptionData[i].cur_cmd;
-        this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prev_kwh;
-        this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].cur_kwh;
-        this.energyConsumptionData[i].Consumption_KWH = (this.energyConsumptionData[i].cur_kwh-this.energyConsumptionData[i].prev_kwh) * this.energyConsumptionData[i].multification_fac;
+        this.energyConsumptionData = response;
+        for (let i = 0; i < this.energyConsumptionData.length; i++) {
+          var pkwh = parseFloat(this.energyConsumptionData[i].prev_kwh.split(']')[1]);
+          console.log('pkwh = '+pkwh);
+          this.energyConsumptionData[i].sno = i + 1;
+          this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feeder_name;
+          this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].prev_kwh.split(']')[0];
+          this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multiplication_fac;
+          this.energyConsumptionData[i].CMD = this.energyConsumptionData[i].cur_cmd;
+         
+          this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prev_kwh.split(']')[1];
+          this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].cur_kwh;
+          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].cur_kwh != 0 ? (this.energyConsumptionData[i].cur_kwh - parseFloat(this.energyConsumptionData[i].prev_kwh.split(']')[1])) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
+          this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].prev_kwh.split('(')[0].length+1;
+          this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].prev_kwh.split('(')[1].split(')')[0].length;
+          this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].prev_kwh.split('(')[1].split(')')[1].length;
 
-        this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prev_kvah;
-        this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].cur_kvah;
-        this.energyConsumptionData[i].Consumption_KVAH = (this.energyConsumptionData[i].cur_kvah - this.energyConsumptionData[i].prev_kvah) * this.energyConsumptionData[i].multification_fac;
+          this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prev_kvah.split(']')[1];
+          this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].cur_kvah;
+          this.energyConsumptionData[i].Consumption_KVAH = this.energyConsumptionData[i].cur_kvah != 0 ? (this.energyConsumptionData[i].cur_kvah - parseFloat(this.energyConsumptionData[i].prev_kvah.split(']')[1])) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
 
-        this.energyConsumptionData[i].Old_RKVAH_Lag = this.energyConsumptionData[i].prev_rkvah_lag;
-        this.energyConsumptionData[i].Current_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag;
-        this.energyConsumptionData[i].Consumption_RKVAH_Lag = (this.energyConsumptionData[i].cur_rkvah_lag - this.energyConsumptionData[i].prev_rkvah_lag) * this.energyConsumptionData[i].multification_fac;
+          this.energyConsumptionData[i].Old_RKVAH_Lag = this.energyConsumptionData[i].prev_rkvah_lag.split(']')[1];
+          this.energyConsumptionData[i].Current_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag != 0 ? (this.energyConsumptionData[i].cur_rkvah_lag - parseFloat(this.energyConsumptionData[i].prev_rkvah_lag.split(']')[1])) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
 
-        this.energyConsumptionData[i].Old_RKVAH_Lead = this.energyConsumptionData[i].prev_rkvah_lead;
-        this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead;
-        this.energyConsumptionData[i].Consumption_RKVAH_Lead = (this.energyConsumptionData[i].cur_rkvah_lead - this.energyConsumptionData[i].prev_rkvah_lead) * this.energyConsumptionData[i].multification_fac;
+          this.energyConsumptionData[i].Old_RKVAH_Lead = this.energyConsumptionData[i].prev_rkvah_lead.split(']')[1];
+          this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead != 0 ? (this.energyConsumptionData[i].cur_rkvah_lead - parseFloat(this.energyConsumptionData[i].prev_rkvah_lead.split(']')[1])) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
 
-        this.energyConsumptionData[i].RMD = this.energyConsumptionData[i].cur_rmd;
-        this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].cur_vol_max;
-        this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].cur_vol_min;
-        this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
+          this.energyConsumptionData[i].RMD = this.energyConsumptionData[i].cur_rmd;
+          this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].cur_vol_max;
+          this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].cur_vol_min;
+          this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
 
-        this.energyConsumptionData[i].editable = false;
-        this.stipulations.push(this.energyConsumptionData[i]);
-      }
-      this.filterData.gridData = this.stipulations;
-      this.dataSource = new MatTableDataSource(this.stipulations);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
-      this.filterData.dataSource = this.dataSource;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort; 
-      this.spinnerService.hide();
+          this.energyConsumptionData[i].editable = false;
+          this.stipulations.push(this.energyConsumptionData[i]);
+        }
+        console.log(this.energyConsumptionData);
+        this.filterData.gridData = this.stipulations;
+        this.dataSource = new MatTableDataSource(this.stipulations);
+        this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+        this.filterData.dataSource = this.dataSource;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.spinnerService.hide();
       })
   }
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
   }
-  processUpdateAction(id){
+  processUpdateAction(id) {
 
   }
 
-  processEditAction(id){
-    console.log("edit = "+id);
-    var row = this.dataSource.filteredData.find((item, index) =>{
-      return item.feeder_id == id ;
+  processEditAction(id) {
+    console.log("edit = " + id);
+    var row = this.dataSource.filteredData.find((item, index) => {
+      return item.feeder_id == id;
     })
     console.log(row);
     localStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([id], { relativeTo: this.route });
   }
-  processCancelAction(row){
-    this.dataSource.filteredData.map((item, index) =>{
-      if(item.feeder_id == row.feeder_id){
+  processCancelAction(row) {
+    this.dataSource.filteredData.map((item, index) => {
+      if (item.feeder_id == row.feeder_id) {
         this.dataSource.filteredData[index]['editable'] = false;
-      }     
+      }
     })
   }
   radioChange(event: MatRadioChange) {
-    if(event.value == 1){
+    if (event.value == 1) {
       this.exactDate = true;
       this.selectedExactDate = new Date();
-    }else{
+    } else {
       this.exactDate = false;
       this.selectedBWFrom = new Date();
       this.selectedBWTo = new Date();
       this.selectedFeederId = 0;
-    }    
+    }
   }
   exactDateEvent($event) {
     this.selectedExactDate = new Date($event.value);
   }
-  bwFromDateEvent($event){
+  bwFromDateEvent($event) {
     this.selectedBWFrom = new Date($event.value);
     this.selectedBWTo = new Date($event.value);
   }
-  bwToDateEvent($event){
+  bwToDateEvent($event) {
     this.selectedBWTo = new Date($event.value);
   }
-  updateFeederName($event){
-    if($event.value){
+  updateFeederName($event) {
+    if ($event.value) {
       this.selectedFeederId = $event.value;
     }
   }
-  delete(id){
-    
+
+  updateDivision($event) {
+    if(!this.exactDate){
+      this.feedersList = this.feedersOriginalList.filter(value =>{
+        return value.dataDiv.toLowerCase() == $event.value.toLowerCase();
+      });
+      this.selectedDivision = $event.value;
+    }else{
+      this.selectedDivision = $event.value;
+    }
+  }
+  delete(id) {
+
   }
   executeQuery() {
     var query = "";
-    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd')  +'/exact/'+this.selectedFeederId : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd')  +'/'+ this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') +'/'+this.selectedFeederId;
+    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId +'/'+ this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId+'/'+ this.selectedDivision;
     this.findEnergyConsumptionData(query);
   }
 }
