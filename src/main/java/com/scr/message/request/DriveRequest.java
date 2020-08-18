@@ -18,6 +18,7 @@ public class DriveRequest {
 
 	private String assetType;
 
+	private String frequency;
 	private String assetDescription;
 
 	private String criteria;
@@ -852,6 +853,14 @@ public class DriveRequest {
 
 	public void setReportDescription(String reportDescription) {
 		this.reportDescription = reportDescription;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
 	}
 
 	

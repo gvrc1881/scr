@@ -78,6 +78,7 @@ public class DriveMapper {
 			}
 
 			drive.setAssetType(driveRequest.getAssetType());
+			drive.setFrequency(driveRequest.getFrequency());
 			drive.setAssetDescription(driveRequest.getAssetDescription());
 			drive.setCriteria(driveRequest.getCriteria());
 			drive.setTarget_qty(driveRequest.getTarget_qty());
@@ -115,6 +116,7 @@ public class DriveMapper {
 			}
 
 			drive.setAssetType(driveRequest.getAssetType());
+			drive.setFrequency(driveRequest.getFrequency());
 			drive.setAssetDescription(driveRequest.getAssetDescription());
 			drive.setCriteria(driveRequest.getCriteria());
 			drive.setTarget_qty(driveRequest.getTarget_qty());

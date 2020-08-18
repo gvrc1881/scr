@@ -80,6 +80,10 @@ public class Drives implements Serializable {
 	
 	@Column(name = "status_id")
 	private Integer statusId;
+	
+	@Column(name="frequency")
+	private String frequency;
+	
 
 	@ManyToOne
 	@JoinColumn(name = "depot_type", foreignKey = @ForeignKey(name = "fk_drives_depot_type"))
@@ -237,6 +241,19 @@ public class Drives implements Serializable {
 
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+	
+	@Override
+	public String toString() {
+		return "Drive [id=" + id + ", frequency=" + frequency +"]";
 	}
 
 	

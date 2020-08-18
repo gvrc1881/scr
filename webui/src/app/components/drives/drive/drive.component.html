@@ -92,6 +92,11 @@
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
                                                 </ng-container>
+                                                <ng-container matColumnDef="frequency">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Frequency
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.frequency}}</mat-cell>
+                                                </ng-container>
 
                                                 <ng-container matColumnDef="assetDescription">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Description

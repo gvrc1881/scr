@@ -49,7 +49,7 @@
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Schedule Name" 
-                        [formControl]="assetSchAssocFormGroup.controls['scheduleCode']" required (ngModelChange)="duplicateAssetSchCode()">
+                        [formControl]="assetSchAssocFormGroup.controls['scheduleCode']" required >
                         <mat-option *ngFor="let schedule of scheduleList"
                             [value]="schedule.scheduleCode">
                             {{ schedule.scheduleCode }}

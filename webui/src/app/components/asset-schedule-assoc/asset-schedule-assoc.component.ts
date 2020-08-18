@@ -50,6 +50,7 @@ export class AssetScheduleAssocComponent implements OnInit{
         ){
                 this.assocErrors = {
                     assetType: {},
+                    scheduleCode:{}
             
                 };
             
@@ -194,7 +195,7 @@ export class AssetScheduleAssocComponent implements OnInit{
         this.assetSchAssocFormGroup = this.formBuilder.group({
           id: 0,
           'assetType': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
-          'scheduleCode': [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
+          'scheduleCode': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateAssetSchCode.bind(this)],
           'isDpr': [null, Validators.maxLength(255)],
           'targetPlanMonths' : [null, Validators.maxLength(255)],
           'sequenceCode' : [null, Validators.maxLength(255)],

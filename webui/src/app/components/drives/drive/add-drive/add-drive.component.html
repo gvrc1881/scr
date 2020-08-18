@@ -191,6 +191,21 @@
                                                         </mat-form-field>
                                                     </div>
 
+                                                    
+
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Frequency" 
+                                                                [formControl]="addDriveFormGroup.controls['frequency']"  >
+                                                                <mat-option *ngFor="let frequency of scheduleList"
+                                                                    [value]="frequency.scheduleCode">
+                                                                    {{ frequency.scheduleCode }}
+                                                                </mat-option>
+                                                            </mat-select>                                                         
+                                                                                                                                                       
+                                                        </mat-form-field>
+                                                    </div> 
+
                                                     <!-- TARGET QUANTITY -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

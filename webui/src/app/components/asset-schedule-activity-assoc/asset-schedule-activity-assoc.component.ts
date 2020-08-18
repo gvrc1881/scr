@@ -157,13 +157,13 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
         this.enablePositionId=false;
         this.assetSchActAssocFormGroup = this.formBuilder.group({
         id: 0,
-        'asaSeqId': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqPositionActivity.bind(this)],
-        'activityId': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqActivityDispaly.bind(this)],
+        'asaSeqId': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+        'activityId': [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
         'activityPositionId': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqPosition.bind(this)],
         'makeCode' : [null, Validators.maxLength(255)],
-        'modelCode' : [null, Validators.maxLength(255)],
+        'modelCode' : [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqPositionActivity.bind(this)],
         'activityFlag' : [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
-        'displayOrder' : [null, Validators.maxLength(255)],
+        'displayOrder' : [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqActivityDispaly.bind(this)],
         'lowerLimit' : [null, Validators.maxLength(255)],
         'upperLimit' : [null, Validators.maxLength(255)],
         'description':[null, Validators.maxLength(255)],

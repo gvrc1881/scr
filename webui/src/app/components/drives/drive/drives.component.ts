@@ -19,7 +19,7 @@ export class DrivesComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType',
+  displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType','frequency',
     'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
     'checkList', 'active', 'actions'];
   driveCategoryDisplayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'authority', 'actions'];
@@ -30,6 +30,7 @@ export class DrivesComponent implements OnInit {
   driveCategoryAssoDataSource: MatTableDataSource<DriveCategoryAssoModel>;
   depoTypeList = [];
   assetTypeList = [];
+  scheduleList=[];
 
   functionalUnitList: any;
   allFunctionalUnitsList: any;
@@ -107,6 +108,12 @@ export class DrivesComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
         this.allFunctionalUnitsList = units;
+      })
+  }
+  findScheduleList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_SCH)
+      .subscribe((schedule) => {
+        this.scheduleList = schedule;
       })
   }
   getDrivesData() {

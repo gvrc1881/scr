@@ -31,6 +31,7 @@ export class AddDriveComponent implements OnInit {
   toMinDate = new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
+  scheduleList:any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -47,6 +48,7 @@ export class AddDriveComponent implements OnInit {
       toDate: {},
       depoType: {},
       assetType: {},
+      frequency:{},
       assetDescription: {},
       criteria: {},
       targetQuantity: {},
@@ -54,6 +56,7 @@ export class AddDriveComponent implements OnInit {
       functionalUnit: {},
       checklist: {},
       status: {}
+     
     };
   }
 
@@ -62,6 +65,7 @@ export class AddDriveComponent implements OnInit {
     this.findFunctionalUnits();
     this.findDepoTypeList();
     this.createDriveForm();
+    this.findScheduleList();
     if (!isNaN(this.id)) {
       this.addDriveFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -98,6 +102,7 @@ export class AddDriveComponent implements OnInit {
       'toDate': [null],
       'depoType': [null],
       'assetType': [null],
+      'frequency':[null],
       'assetDescription': [null, Validators.maxLength(250)],
       'criteria': [null, Validators.maxLength(250)],
       'targetQuantity': [null],
@@ -105,6 +110,7 @@ export class AddDriveComponent implements OnInit {
       'functionalUnit': [null],
       'checklist': ['No'],
       'status': ['Yes']
+      
     });
   }
   createDriveForm() {
@@ -116,13 +122,15 @@ export class AddDriveComponent implements OnInit {
       'toDate': [null],
       'depoType': [null],
       'assetType': [null],
+      'frequency':[null],
       'assetDescription': [null, Validators.maxLength(250)],
       'criteria': [null, Validators.maxLength(250)],
       'targetQuantity': [null],
       'isIdRequired': ['No'],
       'functionalUnit': [null],
       'checklist': ['No'],
-      'status': ['Yes']
+      'status': ['Yes'],
+      
     });
   }
   duplicateName() {
@@ -162,7 +170,6 @@ export class AddDriveComponent implements OnInit {
     return q;
   }
 
-
    public get f() { return this.addDriveFormGroup.controls; } 
 
   findDepoTypeList() {
@@ -171,13 +178,18 @@ export class AddDriveComponent implements OnInit {
         this.depoTypeList = depoTypes;
       })
   }
+  findScheduleList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_SCH)
+      .subscribe((frequency) => {
+        this.scheduleList = frequency;
+      })
+  }
   addEvent($event) {
     this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-    var depotType = this.addDriveFormGroup.value.depoType ;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+depotType)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })
@@ -210,6 +222,7 @@ export class AddDriveComponent implements OnInit {
           toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
           depoType: !!this.resp.depotType ? this.resp.depotType['depotType'] : '',
           assetType: this.resp.assetType,
+          frequency: this.resp.frequency,
           assetDescription: this.resp.assetDescription,
           criteria: this.resp.criteria,
           targetQuantity: this.resp.target_qty,
@@ -217,6 +230,7 @@ export class AddDriveComponent implements OnInit {
           isIdRequired: this.resp.isIdRequired,
           checklist: this.resp.checklist,
           status: this.resp.active
+          
         });
       this.toMinDate = new Date(this.resp.fromDate);
         if (this.resp.depotType != null) {
@@ -246,19 +260,21 @@ export class AddDriveComponent implements OnInit {
         "toDate": this.addDriveFormGroup.value.toDate,
         "depotType": this.addDriveFormGroup.value.depoType,
         "assetType": this.addDriveFormGroup.value.assetType,
+        "frequency":this.addDriveFormGroup.value.frequency,
         "assetDescription": this.addDriveFormGroup.value.assetDescription,
         "criteria": this.addDriveFormGroup.value.criteria,
         "target_qty": this.addDriveFormGroup.value.targetQuantity,
         "isIdRequired": this.addDriveFormGroup.value.isIdRequired,
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
-        "active": this.addDriveFormGroup.value.status,
+        "active": this.addDriveFormGroup.value.status,       
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
+     
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Drive Data Saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
@@ -279,13 +295,14 @@ export class AddDriveComponent implements OnInit {
         "toDate": this.addDriveFormGroup.value.toDate,
         "depotType": this.addDriveFormGroup.value.depoType,
         "assetType": this.addDriveFormGroup.value.assetType,
+        "frequency":this.addDriveFormGroup.value.frequency,
         "assetDescription": this.addDriveFormGroup.value.assetDescription,
         "criteria": this.addDriveFormGroup.value.criteria,
         "target_qty": this.addDriveFormGroup.value.targetQuantity,
         "isIdRequired": this.addDriveFormGroup.value.isIdRequired,
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
-        "active": this.addDriveFormGroup.value.status,
+        "active": this.addDriveFormGroup.value.status,       
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
@@ -315,3 +332,5 @@ export class AddDriveComponent implements OnInit {
     }
   }
 }
+
+

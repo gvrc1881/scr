@@ -7,6 +7,7 @@ export interface DriveModel {
     toDate: string;
     depoType: number;
     assetType: string;
+    frequency:string;
     assetDescription: string;
     criteria: string;
     targetQuantity: number;
@@ -14,7 +15,7 @@ export interface DriveModel {
     functionalUnit: string;
     checkList: string;
     active: string;
-
+   
     createdBy: number;
     createdDate: string;
 

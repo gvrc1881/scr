@@ -138,10 +138,10 @@ public class AssetScheduleActivityAssocController {
 			@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
 		logger.info("Exist====="+asaSeqId+activityPositionId+makeCode+makeCode);
 		try {
-			logger.info("Request for checking exists asaSeqId and activityPositionId...");
+			logger.info("Request for checking exists asaSeqId and activityPositionId and make code and model code...");
 			return assetScheduleActivityAssocService.existsByAsaSeqIdAndActivityPositionId(asaSeqId,activityPositionId,makeCode,modelCode);
 		} catch (Exception e) {
-			logger.error("Error while checking exists asaSeqId and activityPositionId..."+e.getMessage());
+			logger.error("Error while checking exists asaSeqId and activityPositionId and make code and model code..."+e.getMessage());
 			return false;
 		}
 	}
@@ -149,12 +149,12 @@ public class AssetScheduleActivityAssocController {
 	@RequestMapping(value = "/findByAsaSeqPositionIdActivity/{asaSeqId}/{activityId}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByAsaSeqPositionIdActivity(@PathVariable("asaSeqId") String asaSeqId ,@PathVariable("activityId") String activityId,
 			@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
-		logger.info("Exist====="+asaSeqId+activityId+makeCode+makeCode);
+		logger.info("Exist====="+asaSeqId+activityId+makeCode+modelCode);
 		try {
-			logger.info("Request for checking exists asaSeqId and activityPositionId...");
+			logger.info("Request for checking exists asaSeqId and activityId and make code and model code...");
 			return assetScheduleActivityAssocService.existsByAsaSeqIdAndactivityId(asaSeqId,activityId,makeCode,modelCode);
 		} catch (Exception e) {
-			logger.error("Error while checking exists asaSeqId and activityId..."+e.getMessage());
+			logger.error("Error while checking exists asaSeqId and activityId and make code and model code..."+e.getMessage());
 			return false;
 		}
 	}
@@ -162,12 +162,12 @@ public class AssetScheduleActivityAssocController {
 	@RequestMapping(value = "/findByAsaSeqActivityDisplay/{asaSeqId}/{activityId}/{displayOrder}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByAsaSeqActivityDisplay(@PathVariable("asaSeqId") String asaSeqId ,@PathVariable("activityId") String activityId,
 			@PathVariable("displayOrder") String displayOrder,@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
-		logger.info("Exist====="+asaSeqId+activityId+makeCode+makeCode);
+		logger.info("Exist====="+asaSeqId+activityId+displayOrder+makeCode+makeCode);
 		try {
-			logger.info("Request for checking exists asaSeqId and activityPositionId...");
+			logger.info("Request for checking exists asaSeqId and activityPositionId and displayorder and make code and model code ...");
 			return assetScheduleActivityAssocService.existsByAsaSeqIdAndactivityDisplayOrder(asaSeqId,activityId,displayOrder,makeCode,modelCode);
 		} catch (Exception e) {
-			logger.error("Error while checking exists asaSeqId and activityId..."+e.getMessage());
+			logger.error("Error while checking exists asaSeqId and activityId and displayorder and make code and model code..."+e.getMessage());
 			return false;
 		}
 	}
