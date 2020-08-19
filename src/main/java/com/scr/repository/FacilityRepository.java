@@ -44,6 +44,6 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	List<Facility> findByLastUpdatedStampLessThanEqualAndLastUpdatedStampGreaterThan(Timestamp currenTimestamp,
 			Timestamp previousTimestamp);
 	
-
+	Boolean existsByFacilityName(String facilityName);
 }
 

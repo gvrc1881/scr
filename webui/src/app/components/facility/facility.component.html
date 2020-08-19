@@ -1,0 +1,302 @@
+<div class="content">
+    <div class="">
+      <div class="col-12">
+        <div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <!-- <li class="breadcrumb-item"><a [routerLink]="['/config']">Config</a></li> -->
+                          <li class="breadcrumb-item active" aria-current="page">Functional Unit</li>
+                </ol>
+            </nav>
+          </div>
+      </div>
+  <div class="clear"></div>
+      <div class="row-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Functional unit Information</div>
+            <div class="panel-body">
+                    <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                        <div class="p-24">
+  <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+  <div class="p-12" style="text-align: right;"  *ngIf="addPermission">
+    <span class="mat-raised-button mat-accent" 
+      color="accent" mat-raised-button="" (click)="NewFacility()" *ngIf="!addFacility">
+       Add FunctionalUnit
+    </span>
+  </div> 
+  <div>
+  
+  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addFacility" fxLayout="column"
+  fxLayoutAlign="start" [formGroup]="facilityFormGroup" fxFlex="1 0 auto"
+  (ngSubmit)="facilitySubmit();">
+  <div class="panel panel-primary">
+    <div class="panel-heading">{{title}} functional Unit</div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div *ngIf ="enableZone">
+            </div>
+            <div *ngIf="!enableZone; else ZoneElseBlock">
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Select Zone"
+                        [formControl]="facilityFormGroup.controls['zone']" (ngModelChange)="getDivisions()">
+                        <mat-option *ngFor="let zone of zoneList"
+                            [value]="zone">
+                            {{ zone.code }}
+                        </mat-option>
+                    </mat-select>                  
+                </mat-form-field>
+            </div>
+            </div>
+            <ng-template #ZoneElseBlock>
+                <div class = "col-md-2" >
+                    <mat-form-field fxFlex="30">
+                        <input matInput placeholder = "Zone" [formControl]="facilityFormGroup.controls['zone']" required [readonly]="true"/>
+                    </mat-form-field>
+                  </div>
+          </ng-template>
+        
+          <div *ngIf ="enableDivision">
+        </div>
+        <div *ngIf="!enableDivision; else DivisionElseBlock">
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Select Division"
+                        [formControl]="facilityFormGroup.controls['division']" (ngModelChange)="getSubDivisions()">
+                        <mat-option *ngFor="let divisions of divisionsList"
+                            [value]="divisions">
+                            {{ divisions.code }}
+                        </mat-option>
+                    </mat-select>                  
+                </mat-form-field>
+            </div>
+            </div>
+            <ng-template #DivisionElseBlock>
+                <div class = "col-md-2" >
+                    <mat-form-field fxFlex="30">
+                        <input matInput placeholder = "Division" [formControl]="facilityFormGroup.controls['division']" required [readonly]="true"/>
+                    </mat-form-field>
+                  </div>
+          </ng-template>
+
+          <div *ngIf ="enableSubDivision">
+        </div>
+        <div *ngIf="!enableSubDivision; else SubDivisionElseBlock">
+
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Select SubDivision"
+                        [formControl]="facilityFormGroup.controls['subDivision']" >
+                        <mat-option *ngFor="let subDivision of subDivisionList"
+                            [value]="subDivision">
+                            {{ subDivision.code }}
+                        </mat-option>
+                    </mat-select>                  
+                </mat-form-field>
+            </div>
+            </div>
+            <ng-template #SubDivisionElseBlock>
+                <div class = "col-md-2" >
+                    <mat-form-field fxFlex="30">
+                        <input matInput placeholder = "SubDivision" [formControl]="facilityFormGroup.controls['subDivision']" required [readonly]="true"/>
+                    </mat-form-field>
+                  </div>
+          </ng-template>
+            
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Functional Unit Type Id" 
+                        [formControl]="facilityFormGroup.controls['facilityTypeId']">
+                        <mat-option value="DIV">DIV</mat-option>
+                        <mat-option value="FP">FP</mat-option> 
+                        <mat-option value="OHE">OHE</mat-option> 
+                        <mat-option value="OTHER_OHE">OTHER_OHE</mat-option> 
+                        <mat-option value="PLANT">PLANT</mat-option> 
+                        <mat-option value="PSI">PSI</mat-option>                                 
+                        <mat-option value="RCC">RCC</mat-option> 
+                        <mat-option value="SCRAP">SCRAP</mat-option> 
+                        <mat-option value="SP">SP</mat-option>
+                        <mat-option value="SSP">SSP</mat-option>
+                        <mat-option value="TSS">TSS</mat-option>
+                        <mat-option value="SUB_DIV">SUB_DIV</mat-option>
+                        <mat-option value="WAREHOUSE">WAREHOUSE</mat-option>                        
+                    </mat-select>                                                          
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30" class="example-full-width">
+                    <mat-select placeholder="Functional Type" 
+                        [formControl]="facilityFormGroup.controls['depotType']" (ngModelChange)="depotType()">
+                        <mat-option value="CONTRACTOR_ISSUES">CONTRACTOR_ISSUES</mat-option> 
+                        <mat-option value="DIV">DIV</mat-option>
+                        <mat-option value="FP">FP</mat-option> 
+                        <mat-option value="OHE">OHE</mat-option> 
+                        <mat-option value="OTHER_OHE">OTHER_OHE</mat-option>             
+                        <mat-option value="PSI">PSI</mat-option>                                 
+                        <mat-option value="RCC">RCC</mat-option> 
+                        <mat-option value="SCRAP">SCRAP</mat-option> 
+                        <mat-option value="SP">SP</mat-option>
+                        <mat-option value="SSP">SSP</mat-option>
+                        <mat-option value="TSS">TSS</mat-option>
+                        <mat-option value="SUB_DIV">SUB_DIV</mat-option>                                               
+                    </mat-select>                                                          
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf = "enableFacilityId">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Facility Id" [formControl]="facilityFormGroup.controls['facilityId']" required/>
+        
+                       <mat-error
+                        *ngIf=" facilityFormGroup.controls['facilityId'].hasError('required')"
+                        class="alert alert-danger">
+                    Enter Facility Id </mat-error>  
+                    <mat-error
+                            *ngIf="facilityFormGroup.controls['facilityId'].hasError('maxlength') && facilityFormGroup.controls['makeCode'].hasError('pattern')"
+                            class="alert alert-danger"> Max 250 characters only
+                    </mat-error>
+                    <mat-error
+                        *ngIf="facilityFormGroup.controls['facilityId'].hasError('duplicateMakeCode')"
+                        class="alert alert-danger">
+                        Facility id Already Exists
+                      </mat-error> 
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf = "enableFacilityName">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Functional unit name" [formControl]="facilityFormGroup.controls['facilityName']"/>
+                    <mat-error
+                    *ngIf="facilityFormGroup.controls['facilityName'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Parent Fun Unit" [formControl]="facilityFormGroup.controls['parentDepot']"/>
+                    <mat-error
+                    *ngIf="facilityFormGroup.controls['parentDepot'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field fxFlex="30">
+                    <input matInput placeholder="Description" [formControl]="facilityFormGroup.controls['description']" />
+                    <mat-error
+                    *ngIf="facilityFormGroup.controls['description'].hasError('maxlength')"
+                    class="alert alert-danger">
+                    Max 250 characters only
+                  </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 mt-15">
+                <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+                    <button mat-raised-button color="accent" [disabled]="facilityFormGroup.invalid"
+                    class="submit-button"   aria-label="Submit">
+                    {{title}} 
+                    </button>
+                </div>
+                <div class="p-12 d-inline">
+                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                      mat-raised-button="">
+                      Close
+                    </span>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+  </div>
+  </form>
+  </div>
+  <div class="example-header">
+  <div class="col-sm-4">
+  <mat-form-field>
+  <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  </div>
+  </div>
+  <div class="clear"></div>
+  <div class="mat-elevation-z8">
+  <mat-table [dataSource]="facilityDataSource" matSort>
+    <ng-container matColumnDef="sno">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="zone">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>zone</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.zone}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="division">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>division</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.division}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="subDivision">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>subDivision</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.subDivision}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="facilityId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Unit Id</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.facilityId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="facilityName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Unit name</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.facilityName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="facilityTypeId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Unit Type Id</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.facilityTypeId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="depotType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Unit Type</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.depotType}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="parentDepot">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Fun</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.parentDepot}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.description}}</mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                (click)="editFacility(row.id)">
+                <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+              </a>
+              <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                (click)="deleteFacility(row.id)">
+                <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+              </button>
+            </mat-cell>
+    </ng-container>
+  
+  
+    <mat-header-row *matHeaderRowDef="facilityDisplayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: facilityDisplayColumns;">
+    </mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>  
+  </div>
+  </div>

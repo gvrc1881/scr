@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.Facility;
+import com.scr.model.Make;
 import com.scr.repository.FacilityRepository;
 
 @Service
@@ -44,5 +45,32 @@ public class FacilityService {
 		// TODO Auto-generated method stub
 		return facilityRepository.findByParentFacilityId(facilityName);
 	}
+	
+	public void save(Facility facility) {
+		// TODO Auto-generated method stub
+		facilityRepository.save(facility);
+	}
+	
+	public void deleteFacilityById(Long id) {
+		// TODO Auto-generated method stub
+		facilityRepository.deleteById(id);
+	}
+
+	public List<Facility> findAll() {
+		// TODO Auto-generated method stub
+		return facilityRepository.findAll();
+	}
+	
+	public Optional<Facility> findFacilityById(Long id) {
+		// TODO Auto-generated method stub
+		return facilityRepository.findById(id);
+	}
+	
+	public Boolean existsByFacilityName(String facilityName)
+	{
+		return facilityRepository.existsByFacilityName(facilityName);
+	}
+	
+	
 
 }

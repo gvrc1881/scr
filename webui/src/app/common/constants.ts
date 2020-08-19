@@ -452,6 +452,16 @@ export const Constants = {
                     EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
                     EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
                     },
+                    FACILITY:{  
+                        GET_FACILITY:"/findAllFacility",
+                        SAVE_FACILITY:"/addFacility",
+                        GET_FACILITY_ID:"/findFacilityById/",
+                        UPDATE_FACILITY:"/updateFacility",
+                        DELETE_FACILITY:"/deleteFacility/",
+                        EXIST_FACILITYNAME:"/findByFacilityName/",
+                        EXIST_FACILITYID:"/findByFacilityId/",
+                       
+                        },
             },
        OPERATIONS:{
         	POWER_BLOCK:{

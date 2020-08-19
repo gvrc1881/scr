@@ -338,6 +338,11 @@ const routes: Routes = [
     loadChildren: './components/asset-schedule-activity-assoc/asset-schedule-activity-assoc.module#AssetScheduleActivityAssocModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'facility',
+    loadChildren: './components/facility/facility.module#FacilityModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
