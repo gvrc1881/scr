@@ -106,7 +106,13 @@ const routes: Routes = [
     path: 'foot-patrolling-inspection',
     loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
     canActivate: [AuthGuard]
-  }, {
+  },
+  {
+    path: 'Observations',
+    loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'masters',
     loadChildren: './components/masters/role-type/role-type.module#RoleTypeModule',
     canActivate: [AuthGuard]
@@ -339,8 +345,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'facility',
-    loadChildren: './components/facility/facility.module#FacilityModule',
+    path: 'asset-master-data',
+    loadChildren: './components/asset-master-data/asset-master-data.module#AssetMasterDataModule',
     canActivate: [AuthGuard]
   },
 ];

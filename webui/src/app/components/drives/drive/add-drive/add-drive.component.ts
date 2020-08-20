@@ -189,7 +189,7 @@ export class AddDriveComponent implements OnInit {
   }
   findAssetTypeList(assertType) {
     this.assetTypeList = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+assertType)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
       })

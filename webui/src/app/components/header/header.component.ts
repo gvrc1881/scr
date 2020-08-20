@@ -648,7 +648,17 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:true,
             currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Observations",
+            subMenuURL: "Observations",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("Observations") ? "active-item" : "",
           }  
+
               
               
         ]
@@ -704,7 +714,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('TRD CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")||path.includes("tss-feeder")
-        ||path.includes("asset-schedule-assoc")||path.includes("asset-schedule-activity-assoc")||path.includes("facility")  ? "open" : "",  
+        ||path.includes("asset-schedule-assoc")||path.includes("asset-schedule-activity-assoc") ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Sections-stations",
@@ -757,14 +767,6 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('ASSET SCHEDULE ACTIVITY ASSOC', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-schedule-activity-assoc") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Functional Unit",
-            subMenuURL: "facility",
-            subMenuIcon: "fa fa-align-left",
-            rolePermission:true,
-            permission:this.commonService.findPermission('Functional Unit', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("facility") ? "active-item" : "",
           },
               
         ]

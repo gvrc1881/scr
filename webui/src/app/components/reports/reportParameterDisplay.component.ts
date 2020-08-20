@@ -181,37 +181,32 @@ export class ReportParameterDisplayComponent implements OnInit {
           console.log(' >>> ERROR ' + error);
             }) 
         }
-        schAssetType(productCategoryMemObj: Object){
-              var assetType = JSON.stringify(productCategoryMemObj);              
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + assetType).subscribe((data) => {
+        schAssetType(productCategoryMemObj: any){
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE , productCategoryMemObj,false).subscribe((data) => {
                      this.schedule = data;
               }    
               )
         }
-        schAssetIdAndType(assetsScheHistObj: Object){
-              var scheduleCode = JSON.stringify(assetsScheHistObj);
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES + scheduleCode).subscribe((data) => {
+        schAssetIdAndType(assetsScheHistObj: any){
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES,assetsScheHistObj,false).subscribe((data) => {
                  this.assetId=data;    
               }    
               )
         }
         divisionCode(code: any){
-              var zone = JSON.stringify(code);
               this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, code, false).subscribe((data) => {
                 this.divisionsData=data;   
               }    
               )
         }
         subDivision(code: any){
-              var division = JSON.stringify(code);
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + division).subscribe((data) => {
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,code, false).subscribe((data) => {
                 this.subDivisionData=data;   
               }    
               )
         }
         facility(code: any){
-             var subDivision = JSON.stringify(code);
-             this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + subDivision).subscribe((data) => {
+             this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION ,code,false).subscribe((data) => {
                this.facilityId=data;
              }    
              )

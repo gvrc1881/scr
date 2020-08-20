@@ -81,7 +81,7 @@ public class ReportController {
 		List<ProductCategoryMember> assetTypes = null;
 		
 		String productCategoryId = null;
-		if("OHE_FIXED_ASSET".equals(assetType) || "PSI_FIXED_ASSET".equals(assetType) || "FP".equals(assetType)) 
+		if("OHE_FIXED_ASSET".equals(assetType) || "PSI_FIXED_ASSET".equals(assetType) || "FP".equals(assetType)|| "TowerCar".equals(assetType)) 
 			assetTypes = reportService.findAllAssetTypes(assetType); 
 		else 
 			assetTypes= reportService.findByProductId(productCategoryId);

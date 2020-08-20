@@ -9,6 +9,7 @@ import { ComplianceDocumentComponent } from '../../compliance-document-dialog/co
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'foot-patrolling-inspection',
@@ -36,7 +37,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     observationCategoryData:any;
     statusTypeData:any;
     fpInspectionItemDataSource: MatTableDataSource<FootPatrollingInspectionModel>;
-    fpInspectionItemDisplayColumns = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id','observation','map'] ;
+    fpInspectionItemDisplayColumns = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id','observation'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editfpInspectionItemResponse: any;
@@ -68,6 +69,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
+        private router: Router, 
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
     ){
@@ -75,6 +77,9 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     ngOnInit () {
+        if(this.router.url == '/Observations'){
+             console.log("ObservationsUrl"+this.router.url)    
+          }
         this.getAllFootPatrollingInspectionData();
         this.depotTypeForOhe();
         this.categoryList();

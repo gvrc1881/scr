@@ -192,6 +192,14 @@ export const Constants = {
                 DELETE_SIDINGS:"/deleteSidingsItem/",
                 EXISTS_SIDING_CODE:'/existsSidingCode/'
             },
+            ASSETMASTERDATA:{
+                GET_ASSET_MASTER_DATA:"/findAllAssetMasterItems",
+                GET_ASSET_MASTER_DATA_ID:"/findAssetMasterItemById/",
+                SAVE_ASSET_MASTER_DATA:"/addAssetMasterItem",
+                UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
+                DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/"
+
+            },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
                 GET_TARIFF_ID:"/findTractionEnergyTariff/",
@@ -452,16 +460,6 @@ export const Constants = {
                     EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
                     EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
                     },
-                    FACILITY:{  
-                        GET_FACILITY:"/findAllFacility",
-                        SAVE_FACILITY:"/addFacility",
-                        GET_FACILITY_ID:"/findFacilityById/",
-                        UPDATE_FACILITY:"/updateFacility",
-                        DELETE_FACILITY:"/deleteFacility/",
-                        EXIST_FACILITYNAME:"/findByFacilityName/",
-                        EXIST_FACILITYID:"/findByFacilityId/",
-                       
-                        },
             },
        OPERATIONS:{
         	POWER_BLOCK:{
@@ -534,7 +532,8 @@ export const Constants = {
         'SUBDIV_OFF':'null',
         'ELS':'null',
         'DLS':'null',
-        'RDSO':'null'
+        'RDSO':'null',
+        'TOWERCAR':'TowerCar'
     },
     REGULAR_EXPRESSIONS:{
         'ALPHA_NUMARIC':'[a-zA-Z0-9\s]+',
