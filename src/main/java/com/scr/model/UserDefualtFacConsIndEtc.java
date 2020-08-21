@@ -72,6 +72,24 @@ public class UserDefualtFacConsIndEtc implements Serializable {
 
 	@Column(name="user_login_id")
 	private String userLoginId;
+	
+	@Column(name="depot_type")
+	private String depotType;
+	
+	@Column(name="division")
+	private String division;
+	
+	@Column(name="sub_division")
+	private String subDivision;
+	
+	@Column(name="station")
+	private String station;
+	
+	@Column(name="zone")
+	private String zone;
+	
+	@Column(name="parent_depot")
+	private String parentDepot;
 
 	public UserDefualtFacConsIndEtc() {
 	}
@@ -242,6 +260,54 @@ public class UserDefualtFacConsIndEtc implements Serializable {
 
 	public void setUserLoginId(String userLoginId) {
 		this.userLoginId = userLoginId;
+	}
+
+	public String getDepotType() {
+		return depotType;
+	}
+
+	public void setDepotType(String depotType) {
+		this.depotType = depotType;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getSubDivision() {
+		return subDivision;
+	}
+
+	public void setSubDivision(String subDivision) {
+		this.subDivision = subDivision;
+	}
+
+	public String getStation() {
+		return station;
+	}
+
+	public void setStation(String station) {
+		this.station = station;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public String getParentDepot() {
+		return parentDepot;
+	}
+
+	public void setParentDepot(String parentDepot) {
+		this.parentDepot = parentDepot;
 	}
 
 }

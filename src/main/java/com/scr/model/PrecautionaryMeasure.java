@@ -32,7 +32,10 @@ public class PrecautionaryMeasure implements Serializable {
 
 	@Column(name="done_by")
 	private String doneBy;
-
+	
+	@Column(name="facility_id")
+	private String facilityId;
+	
 	@Column(name="facility_name")
 	private String facilityName;
 
@@ -108,6 +111,14 @@ public class PrecautionaryMeasure implements Serializable {
 
 	public void setDoneBy(String doneBy) {
 		this.doneBy = doneBy;
+	}
+
+	public String getFacilityId() {
+		return facilityId;
+	}
+
+	public void setFacilityId(String facilityId) {
+		this.facilityId = facilityId;
 	}
 
 	public String getFacilityName() {

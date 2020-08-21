@@ -69,8 +69,11 @@ public class AssetStatusUpdate implements Serializable {
 
 	@Column(name="seq_id")
 	private String seqId;
-
+	
 	private String status;
+	
+	@Column(name="target_date_of_ready")
+	private Timestamp targetDateOfReady;
 
 	public AssetStatusUpdate() {
 	}
@@ -233,6 +236,14 @@ public class AssetStatusUpdate implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Timestamp getTargetDateOfReady() {
+		return targetDateOfReady;
+	}
+
+	public void setTargetDateOfReady(Timestamp targetDateOfReady) {
+		this.targetDateOfReady = targetDateOfReady;
 	}
 
 }

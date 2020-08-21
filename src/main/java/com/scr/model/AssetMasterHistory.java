@@ -144,6 +144,9 @@ public class AssetMasterHistory implements Serializable {
 
 	@Column(name="warranty_amc_end_date")
 	private Timestamp warrantyAmcEndDate;
+	
+	@Column(name="parent_type_id")
+	private Timestamp parentTypeId;
 
 	public AssetMasterHistory() {
 	}
@@ -530,6 +533,14 @@ public class AssetMasterHistory implements Serializable {
 
 	public void setWarrantyAmcEndDate(Timestamp warrantyAmcEndDate) {
 		this.warrantyAmcEndDate = warrantyAmcEndDate;
+	}
+
+	public Timestamp getParentTypeId() {
+		return parentTypeId;
+	}
+
+	public void setParentTypeId(Timestamp parentTypeId) {
+		this.parentTypeId = parentTypeId;
 	}
 
 }

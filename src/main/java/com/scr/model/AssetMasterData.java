@@ -277,6 +277,35 @@ public class AssetMasterData implements Serializable {
 	@Column(name="core3_insulator_batch")
 	private String core3InsulatorBatch;
 	
+	@Column(name="half_tension_length")
+	private String halfTensionLength;
+	
+	@Column(name="burden")
+	private String burden;
+	
+	@Column(name="adopted_ratio")
+	private String adoptedRatio;
+	
+	@Column(name="available_ratio")
+	private String availableRatio;
+	
+	@Column(name="core2_insulator_batch")
+	private String core2InsulatorBatch;
+	
+	@Column(name="datess_rope_replaced")
+	private String datessRopeReplaced;
+	
+	@Column(name="ts_track_separation")
+	private String tsTrackSeparation;
+	
+	@Column(name="date9ton_insulator_tested")
+	private String date9tonInsulatorTested;
+	
+	@Column(name="voltage_rating")
+	private String voltageRating;
+	
+	@Column(name="current_rating")
+	private String currentRating;
 	
 	
 	public AssetMasterData() {
@@ -1016,6 +1045,86 @@ public class AssetMasterData implements Serializable {
 
 	public void setLine(String line) {
 		this.line = line;
+	}
+
+	public String getHalfTensionLength() {
+		return halfTensionLength;
+	}
+
+	public void setHalfTensionLength(String halfTensionLength) {
+		this.halfTensionLength = halfTensionLength;
+	}
+
+	public String getBurden() {
+		return burden;
+	}
+
+	public void setBurden(String burden) {
+		this.burden = burden;
+	}
+
+	public String getAdoptedRatio() {
+		return adoptedRatio;
+	}
+
+	public void setAdoptedRatio(String adoptedRatio) {
+		this.adoptedRatio = adoptedRatio;
+	}
+
+	public String getAvailableRatio() {
+		return availableRatio;
+	}
+
+	public void setAvailableRatio(String availableRatio) {
+		this.availableRatio = availableRatio;
+	}
+
+	public String getCore2InsulatorBatch() {
+		return core2InsulatorBatch;
+	}
+
+	public void setCore2InsulatorBatch(String core2InsulatorBatch) {
+		this.core2InsulatorBatch = core2InsulatorBatch;
+	}
+
+	public String getDatessRopeReplaced() {
+		return datessRopeReplaced;
+	}
+
+	public void setDatessRopeReplaced(String datessRopeReplaced) {
+		this.datessRopeReplaced = datessRopeReplaced;
+	}
+
+	public String getTsTrackSeparation() {
+		return tsTrackSeparation;
+	}
+
+	public void setTsTrackSeparation(String tsTrackSeparation) {
+		this.tsTrackSeparation = tsTrackSeparation;
+	}
+
+	public String getDate9tonInsulatorTested() {
+		return date9tonInsulatorTested;
+	}
+
+	public void setDate9tonInsulatorTested(String date9tonInsulatorTested) {
+		this.date9tonInsulatorTested = date9tonInsulatorTested;
+	}
+
+	public String getVoltageRating() {
+		return voltageRating;
+	}
+
+	public void setVoltageRating(String voltageRating) {
+		this.voltageRating = voltageRating;
+	}
+
+	public String getCurrentRating() {
+		return currentRating;
+	}
+
+	public void setCurrentRating(String currentRating) {
+		this.currentRating = currentRating;
 	}
 
 }
