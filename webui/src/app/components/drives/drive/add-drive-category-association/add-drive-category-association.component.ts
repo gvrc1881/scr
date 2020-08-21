@@ -94,7 +94,7 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     this.addDriveCategoryAssoFormGroup = this.formBuilder.group({
       id: 0,
       'drive': [null, Validators.compose([Validators.required])],
-      'driveCategory': [null, Validators.compose([Validators.required])],
+      'driveCategory': [null, Validators.compose([Validators.required]),this.duplicateDriveCatAssoc.bind(this)],
       'active': [null, Validators.required]
     });
   }
@@ -173,7 +173,25 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
 
     }
   }
+  duplicateDriveCatAssoc() {
+    var driveId = this.addDriveCategoryAssoFormGroup.value.drive;
+    var driveCategoryId = this.addDriveCategoryAssoFormGroup.value.driveCategory;
+    const q = new Promise((resolve, reject) => {          
 
+      this.sendAndRequestService.requestForGET(
+             Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION. EXISTS_DRIVE_CATEGORY_ASSOC+this.addDriveCategoryAssoFormGroup.value.drive
+             +'/'+
+             this.addDriveCategoryAssoFormGroup.value.driveCategory).subscribe
+             ((duplicate) => {
+       if (duplicate) {
+         resolve({ 'duplicateDriveCatAssoc': true });
+       } else {
+         resolve(null);
+       }
+     }, () => { resolve({ 'duplicateDriveCatAssoc': true }); });
+   });
+   return q;
+  }
   onGoBack() {
     if(this.save){
       this.router.navigate(['../'], { relativeTo: this.route });

@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveProgressRecordComponent } from './add-drive-progress-record/add-drive-progress-record.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
+import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 const routes: Routes = [
     {
         path: '',
@@ -37,6 +38,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
+        DecimalValidationsModule,
     ],
     providers: [
         

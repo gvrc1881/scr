@@ -93,21 +93,21 @@ export class AddDriveCategoryComponent implements OnInit {
   updateDriveCategoryForm(){
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       'fromDate': [null, Validators.required],
       'toDate': [null],
-      'authority': [null, Validators.maxLength(250)]
+      'authority': [null, Validators.maxLength(255)]
     });
   }
   createDriveCategoryForm() {
     this.addDriveCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateName.bind(this)],
-      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
-      'authority': [null, Validators.maxLength(250)]
+      'authority': [null, Validators.maxLength(255)]
     });
   }
   duplicateName() {
@@ -156,7 +156,7 @@ export class AddDriveCategoryComponent implements OnInit {
           id: this.resp.id,
           name: this.resp.driveCategoryName,
           description: this.resp.description,
-          fromDate: new Date(this.resp.fromDate),
+          fromDate: !!this.resp.fromDate ? new Date(this.resp.fromDate) : '',
           toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
           authority: this.resp.authority,
         });

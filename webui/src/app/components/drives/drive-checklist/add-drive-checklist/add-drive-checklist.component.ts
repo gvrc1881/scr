@@ -130,7 +130,7 @@ export class AddDriveChecklistComponent implements OnInit {
       id: 0,
       'drive': [null, Validators.compose([Validators.required])],
       'measureActivityList': [null, Validators.compose([Validators.required])],
-      'displayOrder': [null, Validators.compose([Validators.required])],
+      'displayOrder': [null],
       'lowerLimit': [null],
       'upperLimit': [null],
       'status': ['Yes']

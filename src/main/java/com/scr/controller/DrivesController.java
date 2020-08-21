@@ -331,6 +331,16 @@ public class DrivesController {
 			}
 		}
 		
+		@RequestMapping(value = "/existsDriveCategoryAssoc/{driveId}/{driveCategoryId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+		public Boolean existsByDriveCategoryAssoc(@PathVariable("driveId") Integer driveId,@PathVariable("driveCategoryId") Integer driveCategoryId){		
+			logger.info("driveId"+driveId+"drivcatId=="+driveCategoryId);
+			try {
+				return service.existsByDriveIdAndDriveCategoryId(driveId, driveCategoryId);
+			} catch (Exception e) {
+				logger.error("Error while checking exists drive and Drive cat assoc."+e.getMessage());
+				return false;
+			}
+		}
 		// DRIVE CATEGORY ASS
 			
 	@RequestMapping(value = "/checklist", method = RequestMethod.GET , headers = "Accept=application/json")

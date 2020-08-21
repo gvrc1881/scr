@@ -163,8 +163,8 @@ export class DrivesComponent implements OnInit {
       this.driveCategoryAssoList = data;
       for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
         this.driveCategoryAssoList[i].sno = i + 1;
-        this.driveCategoryAssoList[i].drive = this.driveCategoryAssoList[i].driveCategoryId['driveCategoryName'];
-        this.driveCategoryAssoList[i].driveCategory = this.driveCategoryAssoList[i].driveId['name'];
+        this.driveCategoryAssoList[i].drive = this.driveCategoryAssoList[i].driveId['name'];
+        this.driveCategoryAssoList[i].driveCategory = this.driveCategoryAssoList[i].driveCategoryId['driveCategoryName'];
         drive.push(this.driveCategoryAssoList[i]);
       }
 
@@ -175,6 +175,7 @@ export class DrivesComponent implements OnInit {
     }, error => {
       this.spinnerService.hide();
     });
+
   }
 
   processEditAction(id) {

@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AddDriveTargetComponent } from './add-drive-target/add-drive-target.component';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 
 
 
@@ -38,6 +39,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         MaterialModule,   
         NumberValidationsModule,
+        DecimalValidationsModule,
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [

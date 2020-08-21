@@ -133,8 +133,8 @@ export class FacilityComponent implements OnInit{
                                        'division':division,
                                        'subDivision':subDivision,                                   
                                        "createdBy" : this.loggedUserData.username
-               }              
-               this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.FACILITY.SAVE_FACILITY,saveFacilityModel, false).subscribe(data => {
+               }   
+               this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.FACILITY.SAVE_FACILITY, saveFacilityModel, false).subscribe((data) =>{              
                    this.facilityResponse = data;
                    if(this.facilityResponse.code == 200 && !!this.facilityResponse) {
                        this.commonService.showAlertMessage(this.facilityResponse.message);
@@ -167,10 +167,9 @@ export class FacilityComponent implements OnInit{
                                                'division':division,
                                                'subDivision':subDivision,      
                                                
-                                            }    
-                       this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.FACILITY.UPDATE_FACILITY,updateFacilityModel, false).
-                       subscribe(data => {
-                                           this.facilityResponse = data;
+                                            }   
+                                            this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.FACILITY.UPDATE_FACILITY, updateFacilityModel, false).subscribe((data) =>{ 
+                                              this.facilityResponse = data;
                                            if(this.facilityResponse.code == 200 && !!this.facilityResponse)
                                            {
                                                this.commonService.showAlertMessage(this.facilityResponse.message);
@@ -195,9 +194,8 @@ export class FacilityComponent implements OnInit{
    
        getAllFacilityData() {
                const fac : FacilityModel[] = [];
-              
-           this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY. GET_FACILITY)
-           .subscribe((data) => {
+               this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.GET_FACILITY).subscribe((data) =>{   
+
                this.FacilityList = data;
                for (let i = 0; i < this.FacilityList.length; i++) {
                    this.FacilityList[i].sno = i+1;
@@ -253,7 +251,8 @@ export class FacilityComponent implements OnInit{
            this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Functional unit?";
            this.confirmDialogRef.afterClosed().subscribe(result => {
                if(result){
-                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.FACILITY.DELETE_FACILITY,id).subscribe(data => {
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.FACILITY.DELETE_FACILITY,id).subscribe((data) =>{
+                
                          this.facilityResponse = data;
                        
                            if(this.facilityResponse.code == 200 && !!this.facilityResponse) {
@@ -293,7 +292,8 @@ export class FacilityComponent implements OnInit{
                'division': [null, Validators.maxLength(255)],
                'subDivision': [null, Validators.maxLength(255)], 
            });
-           this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.GET_FACILITY_ID+id).subscribe((responseData) => {
+           this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.FACILITY.GET_FACILITY_ID,id).subscribe((responseData) =>{
+           
                this.editFacilityResponse = responseData;
                 
                  this.facilityFormGroup.patchValue

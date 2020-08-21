@@ -248,6 +248,9 @@ public class DrivesService {
 	public Optional<DriveCategoryAsso> findDriveCategoryAssoById(Long id) {
 		return driveCategoryAssoRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
+	public Boolean existsByDriveIdAndDriveCategoryId(Integer driveId, Integer driveCategoryId) {
+		return driveCategoryAssoRepository.existsByDriveIdAndDriveCategoryId(driveId, driveCategoryId);
+	}
 	// DRIVE CATEGORY ASS
 	public List<DriveCheckList> findAllCheckLists() {
 		return checklistRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);

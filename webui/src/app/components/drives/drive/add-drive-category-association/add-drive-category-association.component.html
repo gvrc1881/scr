@@ -58,8 +58,14 @@
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
+                                                                *ngIf="addDriveCategoryAssoFormGroup.controls['driveCategory'].hasError('duplicateDriveCatAssoc')"
+                                                                class="alert alert-danger">
+                                                                Drive and Drive Cat Assoc Combination Already Exists
+                                                            </mat-error>
+                                                            <mat-error
                                                                 *ngIf="addDriveCategoryAssoFormGroup.controls['driveCategory'].hasError('required') && addDriveCategoryAssoFormGroup.controls['drive'].touched"
-                                                                class="alert alert-danger">Select Drive Category</mat-error>
+                                                                class="alert alert-danger">Select Drive Category
+                                                            </mat-error>                                                                
                                                         </mat-form-field>
                                                     </div>
                                                     <!-- Active -->

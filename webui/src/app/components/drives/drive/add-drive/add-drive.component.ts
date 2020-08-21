@@ -96,15 +96,15 @@ export class AddDriveComponent implements OnInit {
   updateDriveForm(){
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'depoType': [null],
       'assetType': [null],
       'frequency':[null],
-      'assetDescription': [null, Validators.maxLength(250)],
-      'criteria': [null, Validators.maxLength(250)],
+      'assetDescription': [null, Validators.maxLength(255)],
+      'criteria': [null, Validators.maxLength(255)],
       'targetQuantity': [null],
       'isIdRequired': ['No'],
       'functionalUnit': [null],
@@ -116,15 +116,15 @@ export class AddDriveComponent implements OnInit {
   createDriveForm() {
     this.addDriveFormGroup = this.formBuilder.group({
       id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateName.bind(this)],
-      'description': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateDescription.bind(this)],
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateDescription.bind(this)],
       'fromDate': [null, Validators.required],
       'toDate': [null],
       'depoType': [null],
       'assetType': [null],
       'frequency':[null],
-      'assetDescription': [null, Validators.maxLength(250)],
-      'criteria': [null, Validators.maxLength(250)],
+      'assetDescription': [null, Validators.maxLength(255)],
+      'criteria': [null, Validators.maxLength(255)],
       'targetQuantity': [null],
       'isIdRequired': ['No'],
       'functionalUnit': [null],
@@ -332,5 +332,6 @@ export class AddDriveComponent implements OnInit {
     }
   }
 }
+
 
 
