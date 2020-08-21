@@ -45,6 +45,7 @@ export class AssetMasterDataComponent implements OnInit{
     onlyOHE:boolean = true;
     onlyPSI:boolean = true;
     pattern = "^[A-Z0-9]+$";
+    divisionsList:any;
     assetMasterDataSource: MatTableDataSource<AssetMasterDataModel>;
     //assetSchAssocDisplayColumns = ['sno','assetType','scheduleCode','isDpr','targetPlanMonths',
    // 'sequenceCode','duration','uomOfDuration','description','asaSeqId','id'] ;
