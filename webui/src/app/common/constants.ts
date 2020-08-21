@@ -192,6 +192,14 @@ export const Constants = {
                 DELETE_SIDINGS:"/deleteSidingsItem/",
                 EXISTS_SIDING_CODE:'/existsSidingCode/'
             },
+            ASSETMASTERDATA:{
+                GET_ASSET_MASTER_DATA:"/findAllAssetMasterItems",
+                GET_ASSET_MASTER_DATA_ID:"/findAssetMasterItemById/",
+                SAVE_ASSET_MASTER_DATA:"/addAssetMasterItem",
+                UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
+                DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/"
+
+            },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
                 GET_TARIFF_ID:"/findTractionEnergyTariff/",
