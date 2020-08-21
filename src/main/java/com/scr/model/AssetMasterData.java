@@ -244,7 +244,7 @@ public class AssetMasterData implements Serializable {
 	@Column(name="stay3_insulator_make")
 	private String stay3InsulatorMake;
 	
-	@Column(name="stay3InsulatorBatch")
+	@Column(name="stay3_insulator_batch")
 	private String stay3InsulatorBatch;
 	
 	@Column(name="bracket3_insulator_make")
