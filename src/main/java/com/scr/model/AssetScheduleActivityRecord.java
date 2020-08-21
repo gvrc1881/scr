@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "asset_schedule_activity_record" , uniqueConstraints={@UniqueConstraint(name = "old_pk_asset_schedule_activity_record_uniq", columnNames ={"data_div", "asset_id", "schedule_date", "schedule_code"})})
+@Table(name = "asset_schedule_activity_record" , uniqueConstraints={@UniqueConstraint(name = "old_pk_asset_schedule_activity_record_uniq", columnNames ={"data_div", "asset_id", "schedule_date", "schedule_code","asset_type","facility_id"})})
 @NamedQuery(name="AssetScheduleActivityRecord.findAll", query="SELECT a FROM AssetScheduleActivityRecord a")
 public class AssetScheduleActivityRecord implements Serializable {
 	private static final long serialVersionUID = 1L;
