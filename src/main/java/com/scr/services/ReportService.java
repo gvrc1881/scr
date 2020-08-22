@@ -320,4 +320,8 @@ public class ReportService {
 		// TODO Auto-generated method stub
 		return measureOrActivityListRepository.findByActivityType(activityType);
 	}
+	public List<PowerBlock> getPowerBlocksBasedOnFacilityId(String facilityId) {
+		// TODO Auto-generated method stub
+		return powerBlockRepository.findByFacilityId(facilityId);
+	}
 }

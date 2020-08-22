@@ -67,6 +67,7 @@ export const Constants = {
             GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/",
             GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE:"/getObservationCheckListBasedOnObservationCate/",
             GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE:"/getActivityNameBasedOnActivityType/",
+            GET_POWER_BLOCKS_BASED_ON_FACILITYID:"/getPowerBlocksBasedOnFacilityId/",
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -276,6 +277,7 @@ export const Constants = {
                 DELETE_ASSOC:"/deleteAssetSchAssoc/",
                 Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/"
 
+
             }
         },
         ENERGY_CONSUMPTION:{
@@ -313,8 +315,7 @@ export const Constants = {
                 GET_DRIVE_CATEGORY_ASSOC_ID:"/driveCategoryAssoById/",
                 SAVE_DRIVE_CATEGORY_ASSOC:"/saveDriveCategoryAsso",
                 UPDATE_DRIVE_CATEGORY_ASSOC:"/updateDriveCategoryAsso",
-                DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/",
-                EXISTS_DRIVE_CATEGORY_ASSOC:"/existsDriveCategoryAssoc/" 
+                DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/"
             },
             DRIVE_CHECK_LIST :{
                 GET_CHECK_LIST:'/checklist',
@@ -458,40 +459,31 @@ export const Constants = {
                     GET_ASSET_SCH:"/findByAssetTypeAndScheduleCode",
                     EXIST_SEQ_POSITION:"/findByAsaSeqPositionId/",
                     EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
-                    EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/"
+                    EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
                     },
-                    FACILITY:{  
-                        GET_FACILITY:"/findAllFacility",
-                        SAVE_FACILITY:"/addFacility",
-                        GET_FACILITY_ID:"/findFacilityById/",
-                        UPDATE_FACILITY:"/updateFacility",
-                        DELETE_FACILITY:"/deleteFacility/",
-                        EXIST_FACILITYNAME:"/findByFacilityName/",
-                        EXIST_FACILITYID:"/findByFacilityId/"                       
-                        },
             },
        OPERATIONS:{
-            POWER_BLOCK:{
-                GET_POWER_BLOCK:"/findAllPowerBlock",
-                DELETE_POWER_BLOCK_BY_ID:"/deletePowerBlock/",
-                SAVE_POWER_BLOCK:"/addPowerBlock",
-                UPDATE_POWER_BLOCK:"/updatePowerBlock",
-                GET_POWER_BLOCK_BY_ID:"/findPowerBlock/"
-            },
+        	POWER_BLOCK:{
+        		GET_POWER_BLOCK:"/findAllPowerBlock",
+        		DELETE_POWER_BLOCK_BY_ID:"/deletePowerBlock/",
+        		SAVE_POWER_BLOCK:"/addPowerBlock",
+        		UPDATE_POWER_BLOCK:"/updatePowerBlock",
+        		GET_POWER_BLOCK_BY_ID:"/findPowerBlock/"
+        	},
         },
         ASSET_REGISTER:{
-            ELE_SECTIONS:{
-                GET_ELE_SECTIONS:"/findAllEleSections"
-            },
-            GANTARY:{
-                GET_GANTARY:"/findAllGantrys"
-            },
-            SUB_SECTORS:{
-                GET_SUB_SECTORS:"/findAllSubSector"
-            },
-            SECTORS:{
-                GET_SECTORS:"/findAllSector"
-            },
+        	ELE_SECTIONS:{
+        		GET_ELE_SECTIONS:"/findAllEleSections"
+        	},
+        	GANTARY:{
+        		GET_GANTARY:"/findAllGantrys"
+        	},
+        	SUB_SECTORS:{
+        		GET_SUB_SECTORS:"/findAllSubSector"
+        	},
+        	SECTORS:{
+        		GET_SECTORS:"/findAllSector"
+        	},
         }          
     },
     EVENTS:{
@@ -541,7 +533,8 @@ export const Constants = {
         'SUBDIV_OFF':'null',
         'ELS':'null',
         'DLS':'null',
-        'RDSO':'null'
+        'RDSO':'null',
+        'TOWERCAR':'TowerCar'
     },
     REGULAR_EXPRESSIONS:{
         'ALPHA_NUMARIC':'[a-zA-Z0-9\s]+',
@@ -557,4 +550,3 @@ export const Constants = {
         "ACTION":"UUO_ACTIVITY"
     }
 };
-

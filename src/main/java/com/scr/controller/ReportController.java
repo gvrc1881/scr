@@ -348,6 +348,13 @@ public class ReportController {
 		List<MeasureOrActivityList> activityList= reportService.getActivityNameBasedOnActivityType(activityType);
 			return new ResponseEntity<List<MeasureOrActivityList>>(activityList, HttpStatus.OK);		
 	}
+	@RequestMapping(value = "/getPowerBlocksBasedOnFacilityId/{facilityId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<PowerBlock>> getPowerBlocksBasedOnFacilityId(@PathVariable("facilityId") String facilityId){
+		List<PowerBlock> powerBlocksList= reportService.getPowerBlocksBasedOnFacilityId(facilityId);
+		log.info("powerBlocksListSize"+powerBlocksList.size());
+		log.info("powerBlocksList"+powerBlocksList);
+			return new ResponseEntity<List<PowerBlock>>(powerBlocksList, HttpStatus.OK);		
+	}
 	
   	
 }

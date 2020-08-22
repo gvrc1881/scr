@@ -32,6 +32,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     funLocTypeData: any;
     tpcBoardData:any;
+    facilityNames:any
 
     constructor(
         private commonService: CommonService,
@@ -48,6 +49,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     ngOnInit () {
         this.getAllTPCBoardDepotAssocData();
         this.tpcBoardDetails();
+        this.getFacilityNames();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -186,9 +188,16 @@ duplicateTpcBoard() {
     }
     getFacilitys(){
         var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + unitType).subscribe((data) => {
+        alert("unitType"+unitType)
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_POWER_BLOCKS_BASED_ON_FACILITYID + unitType).subscribe((data) => {
                  this.facilityData = data;
+                 console.log("powerBlocks"+JSON.stringify(data));
         		});
+    }
+    getFacilityNames(){
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
+            this.facilityNames = data;
+           });
     }
     tpcBoardDetails()
     {
