@@ -33,28 +33,32 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="Feeder Name"
+                                                    <input matInput placeholder="Feeder Name" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Feeder_Name']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="MF"
+                                                    <input matInput placeholder="MF" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Multification_Factor']">
                                                 </mat-form-field>
                                             </div>
 
-                                            <div class="col-md-4">
+                                           <!--  <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
                                                     <input matInput placeholder="Joint Reading"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Joint_Reading']">
                                                 </mat-form-field>
-                                            </div>
+                                            </div> -->
 
+                                            <div class="col-md-3" fxFlex="30">                                                        
+                                                <mat-checkbox [formControl]="addEnergyConsumptionFailFromGroup.controls['Joint_Reading']">Joint Reading</mat-checkbox>                                                        
+                                        </div>
+                                        <div class="clear"></div>
                                             <div class="col-md-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Old KWH"
+                                                    <input matInput placeholder="Old KWH" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KWH']">
                                                 </mat-form-field>
                                             </div>
@@ -76,7 +80,7 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="Old KVAH"
+                                                    <input matInput placeholder="Old KVAH" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KVAH']">
                                                 </mat-form-field>
                                             </div>
@@ -90,14 +94,14 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption KVAH"
+                                                    <input matInput placeholder="Consumption KVAH" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_KVAH']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Old_RKVAH Lag"
+                                                    <input matInput placeholder="Old_RKVAH Lag" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lag']">
                                                 </mat-form-field>
                                             </div>
@@ -111,14 +115,14 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption RKVAH Lag"
+                                                    <input matInput placeholder="Consumption RKVAH Lag" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lag']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Old RKVAH Lead"
+                                                    <input matInput placeholder="Old RKVAH Lead" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lead']">
                                                 </mat-form-field>
                                             </div>
@@ -132,7 +136,7 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption RKVAH Lead"
+                                                    <input matInput placeholder="Consumption RKVAH Lead" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lead']">
                                                 </mat-form-field>
                                             </div>
@@ -140,22 +144,29 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="CMD"
+                                                    <input matInput placeholder="CMD" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['CMD']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="PF" decimalNumber
+                                                    <input matInput placeholder="PF" decimalNumber 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['PF']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="CPF" decimalNumber
+                                                    <input matInput placeholder="CPF" decimalNumber 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['CPF']">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-4" fxFlex="30">
+                                                <mat-form-field fxFlex="30">
+                                                    <input matInput placeholder="Joint Reading Date"
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['jointReadingDate']">
                                                 </mat-form-field>
                                             </div>
 
@@ -184,6 +195,33 @@
                                                 <mat-form-field fxFlex="30">
                                                     <input matInput placeholder="Max Load" decimalNumber
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Max_Load']">
+                                                </mat-form-field>
+                                            </div>
+ <!--  [min]="minDate"  [max]="maxDate" -->
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                     <input matInput [owlDateTime]="dt5" style="width: 94%;"
+                                                        [owlDateTimeTrigger]="dt5" placeholder="Max Load Time"                                                       
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['maxLoadTime']" >                                                                
+                                                        <owl-date-time #dt5 [showSecondsTimer]=true
+                                                            ></owl-date-time>
+                                                        <span [owlDateTimeTrigger]="dt5"><i class="fa fa-calendar"></i></span>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <mat-form-field fxFlex="30">
+                                                    <textarea matInput placeholder="Remarks" 
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['remarks']"
+                                                        > </textarea>                       
+                                                        <mat-error
+                                                        *ngIf="addEnergyConsumptionFailFromGroup.controls['remarks'].hasError('pattern') && addEnergyConsumptionFailFromGroup.controls['remarks'].touched"
+                                                        class="alert alert-danger">Special characters are not allowed
+                                                    </mat-error>                                   
+                                                    <mat-error
+                                                        *ngIf="addEnergyConsumptionFailFromGroup.controls['remarks'].hasError('maxlength') && addEnergyConsumptionFailFromGroup.controls['remarks'].touched"
+                                                        class="alert alert-danger">Max 250 characters only
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
 

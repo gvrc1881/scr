@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEnergyConsumptionComponent } from './add-energy-consumption/add-energy-consumption.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -36,7 +37,9 @@ const routes: Routes = [
         FormsModule,
         DecimalValidationsModule,
         ReactiveFormsModule,
-        CommonModule
+        CommonModule,
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
     ],
     declarations: [
         EnergyConsumptionComponent,

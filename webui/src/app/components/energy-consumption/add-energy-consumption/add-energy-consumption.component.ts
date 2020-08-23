@@ -71,7 +71,10 @@ export class AddEnergyConsumptionComponent implements OnInit {
       RMD: {},
       Vol_Max: {},
       Vol_Min: {},
-      Max_Load: {}
+      Max_Load: {},
+      jointReadingDate:{},
+      maxLoadTime:{},
+      remarks:{}
     };
   }
 
@@ -102,7 +105,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
         id: 0,
         'Feeder_Name': new FormControl({ value: '', disabled: true }),
         'Multification_Factor': new FormControl({ value: '', disabled: true }),
-        'Joint_Reading': new FormControl({ value: '', disabled: true }),
+        'Joint_Reading': [null],
         'CMD': new FormControl({ value: '', disabled: true }),
         'Old_KWH': new FormControl({ value: '', disabled: true }),
         'Current_KWH': [null],
@@ -116,12 +119,15 @@ export class AddEnergyConsumptionComponent implements OnInit {
         'Old_RKVAH_Lead': new FormControl({ value: '', disabled: true }),
         'Current_RKVAH_Lead': [null],
         'Consumption_RKVAH_Lead': new FormControl({ value: '', disabled: true }),
-        'PF': [null],
-        'CPF': [null],
+        'PF':  new FormControl({ value: '', disabled: true }),
+        'CPF':  new FormControl({ value: '', disabled: true }),
         'RMD': [null],
         'Vol_Max': [null],
         'Vol_Min': [null],
-        'Max_Load': [null]
+        'Max_Load': [null],
+        'maxLoadTime':[null],
+        'remarks':[null],
+        'jointReadingDate':  new FormControl({ value: '', disabled: true })
       });
   }
 
@@ -159,7 +165,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       id: this.resp.id,
       Feeder_Name: this.resp.feeder_name,
       Multification_Factor: this.resp.multiplication_fac,
-      Joint_Reading: this.resp.Joint_Reading,
+      Joint_Reading: this.resp.joint_meter == 'Y' ? this.resp.joint_meter : '',
       CMD: this.resp.CMD,
       Old_KWH: this.resp.Old_KWH,
       Current_KWH: this.resp.Current_KWH,
@@ -178,7 +184,11 @@ export class AddEnergyConsumptionComponent implements OnInit {
       RMD: this.resp.RMD,
       Vol_Max: this.resp.Vol_Max,
       Vol_Min: this.resp.Vol_Min,
-      Max_Load: this.resp.Max_Load
+      Max_Load: this.resp.Max_Load,
+      maxLoadTime:this.resp.max_load_time_hhmm != null ? new Date(this.resp.max_load_time_hhmm) : new Date(),
+      remarks:this.resp.remarks,
+      jointReadingDate:this.resp.joint_reading_date != null ? this.resp.joint_reading_date+'('+this.resp.no_of_days_lapsed_j_reading+')' : '',
+
     });
     this.spinnerService.hide();
     // })
@@ -236,7 +246,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     //let casc = this.addEnergyConsumptionFailFromGroup.value.cascadeAssets;
     console.log(this.addEnergyConsumptionFailFromGroup)
     data = {
-      "id": this.id,
+      "id": this.resp.id,
       'feeder_name': this.resp.feeder_name,
       'feeder_id':this.resp.feeder_id,
       'multiplication_fac': this.resp.multiplication_fac,
@@ -261,6 +271,8 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'cur_vol_max': this.addEnergyConsumptionFailFromGroup.value.Vol_Max,
       'cur_vol_min': this.addEnergyConsumptionFailFromGroup.value.Vol_Min,
       'cur_max_load': this.addEnergyConsumptionFailFromGroup.value.Max_Load,
+      'max_load_time_hhmm':this.addEnergyConsumptionFailFromGroup.value.maxLoadTime,
+      'remarks':this.addEnergyConsumptionFailFromGroup.value.remarks,
       "updatedBy": this.loggedUserData.username,
       "updatedOn": new Date()
     }
