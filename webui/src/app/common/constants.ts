@@ -315,7 +315,8 @@ export const Constants = {
                 GET_DRIVE_CATEGORY_ASSOC_ID:"/driveCategoryAssoById/",
                 SAVE_DRIVE_CATEGORY_ASSOC:"/saveDriveCategoryAsso",
                 UPDATE_DRIVE_CATEGORY_ASSOC:"/updateDriveCategoryAsso",
-                DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/"
+                DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/",
+                EXISTS_DRIVE_CATEGORY_ASSOC:"/existsDriveCategoryAssoc/"
             },
             DRIVE_CHECK_LIST :{
                 GET_CHECK_LIST:'/checklist',
@@ -461,6 +462,16 @@ export const Constants = {
                     EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
                     EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
                     },
+                    FACILITY:{  
+                        GET_FACILITY:"/findAllFacility",
+                        SAVE_FACILITY:"/addFacility",
+                        GET_FACILITY_ID:"/findFacilityById/",
+                        UPDATE_FACILITY:"/updateFacility",
+                        DELETE_FACILITY:"/deleteFacility/",
+                        EXIST_FACILITYNAME:"/findByFacilityName/",
+                        EXIST_FACILITYID:"/findByFacilityId/",
+                       
+                        },
             },
        OPERATIONS:{
         	POWER_BLOCK:{
