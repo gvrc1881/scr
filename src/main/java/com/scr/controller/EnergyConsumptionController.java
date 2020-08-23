@@ -36,19 +36,19 @@ public class EnergyConsumptionController{
 				@PathVariable("toDate") String toDate,
 				@PathVariable("feederId") String feederId,
 				@PathVariable("division") String division) throws JSONException {
-		logger.info("Enter into energyConsumption function");
+		logger.info("Enter into Energy Consumption function");
 		logger.info("from date = "+fromDate +" todate = "+toDate+" feederId = "+feederId+" Division = "+division);
 		List<EnergyConsumptionResponse> usersList = null;
 		try {			
-			logger.info("Calling service for energyConsumption data");
+			logger.info("Calling service for Energy Consumption data");
 			usersList = service.findEnergyConsumption(fromDate, toDate, feederId, division);	
-			logger.info("Fetched energyConsumption data = "+usersList);
+			logger.info("Fetched Energy Consumption data = "+usersList);
 		} catch (NullPointerException e) {			
-			logger.error("ERROR >>> while fetching the energyConsumption data = "+e.getMessage());
+			logger.error("ERROR >>> while fetching the Energy Consumption data = "+e.getMessage());
 		} catch (Exception e) {			
-			logger.error("ERROR >>> while fetching the energyConsumption data = "+e.getMessage());
+			logger.error("ERROR >>> while fetching the Energy Consumption data = "+e.getMessage());
 		}
-		logger.info("Exit from energyConsumption function");
+		logger.info("Exit from Energy Consumption function");
 		return ResponseEntity.ok((usersList));
 	}
 	
@@ -58,7 +58,7 @@ public class EnergyConsumptionController{
 		logger.info("Request Parameters = "+request.toString());
 		try {			
 			logger.info("Calling service with request parameters.");
-			//service.saveDriveData(driveRequest);
+			service.saveEnergyConsumption(request);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("EnergyConsumption Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {

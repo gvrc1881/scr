@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.mail.internet.AddressException;
@@ -64,7 +65,27 @@ public class Helper {
 			return null;
 		}
 	}
-
+	
+	public static Timestamp convertStringToTimestampec(String dateString) {
+		logger.info("Input : " + dateString.toString());
+		if (dateString != null && !dateString.isEmpty() && !dateString.trim().equalsIgnoreCase("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+			DateFormat destDf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("CDT"));
+			Date date = null;
+			try {
+				date = sdf.parse(dateString);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			String DateToStoreInDataBase = destDf.format(date);
+			Timestamp ts = Timestamp.valueOf(DateToStoreInDataBase);
+			return ts;
+		} else {
+			return null;
+		}
+	}
+	
 	public static Timestamp currentTimeStamp() {
 		return new Timestamp(Calendar.getInstance().getTime().getTime());
 	}
