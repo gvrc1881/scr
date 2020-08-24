@@ -481,6 +481,9 @@ export const Constants = {
         		UPDATE_POWER_BLOCK:"/updatePowerBlock",
         		GET_POWER_BLOCK_BY_ID:"/findPowerBlock/"
         	},
+        	PB_SWITCH_CONTROL:{
+        		GET_PB_SWITCH_CONTROL_BASED_ON_EXTEND_TYPE_AND_EXTEND_CODE:"/findByExtentTypeAndExtentCode"
+        	}
         },
         ASSET_REGISTER:{
         	ELE_SECTIONS:{

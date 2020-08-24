@@ -76,6 +76,12 @@
                                                         <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                                                     </button>
                                                 </a>
+                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
+                                                    <button mat-icon-button matTooltip="operation"
+                                                        [routerLink]="['switch-operation',row.id]">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">transform</mat-icon>
+                                                    </button>
+                                                </a>
                                                 <button mat-icon-button matTooltip="Delete"
                                                     (click)="delete(row.id)"
                                                    *ngIf="deletePermission">

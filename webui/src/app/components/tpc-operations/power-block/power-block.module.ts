@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { AddPowerBlockComponent } from './add-power-block/add-power-block.component';
+import { SwitchOperationComponent } from './switch-operation/switch-operation.component';
 
 const routes: Routes = [
     {
@@ -21,7 +22,11 @@ const routes: Routes = [
     {
     	path: 'add-powerBlock',
     	component: AddPowerBlockComponent,
-    },   
+    },
+    {
+    	path: 'switch-operation/:pbId',
+    	component: SwitchOperationComponent,
+    }
     
 ];
 
@@ -29,7 +34,8 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         PowerBlockComponent,
-        AddPowerBlockComponent
+        AddPowerBlockComponent,
+        SwitchOperationComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -46,7 +52,8 @@ const routes: Routes = [
         
     ],
     exports: [
-    	PowerBlockComponent
+    	PowerBlockComponent,
+    	SwitchOperationComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
