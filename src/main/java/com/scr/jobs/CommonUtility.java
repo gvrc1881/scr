@@ -92,7 +92,12 @@ public class CommonUtility {
 					+ "			 when data_type = 'timestamp without time zone' then 'timestamp'"
 					+ "			 when data_type = 'timestamp with time zone' then 'timestamp'"				
 					+ "			else data_type end, ', ') list_col_data_type , table_name     "
-					+ "	from information_schema.columns where table_schema = 'public' and column_name not in ('data_div', 'id') "
+					+ "	from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " 
+					+ " from information_schema.columns isc, div_extraction_table_columns req_col "  
+					+ " where req_col.table_name = isc.table_name " 
+					+ " and req_col.column_name = isc.column_name "  
+					+ " and isc.table_schema = 'public' ) inf "
+					+ " where table_schema = 'public' and column_name not in ('data_div', 'id') "
 					+ "	group by table_name ) a,"
 					+ "	( select  creation_order, tab_name , create_update_delete from  public.job_sch_activity_details  , public.entity_dependency"
 					+ " where upper(table_name) = upper(tab_name) "
@@ -150,11 +155,17 @@ public class CommonUtility {
 					"			 when data_type = 'time without time zone' then 'DATETIME'" + 
 					"			 when data_type = 'time with time zone' then 'DATETIME'" + 
 					"			else data_type end, ', ') list_col_data_type , table_name     " + 
-					"	from information_schema.columns  where table_schema ='public' AND column_name not in ('data_div', 'id') " + 
+					"	from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " + 
+					" from information_schema.columns isc, div_extraction_table_columns req_col " + 
+					" where req_col.table_name = isc.table_name " + 
+					" and req_col.column_name = isc.column_name " + 
+					" and isc.table_schema = 'public' ) inf"
+					+ " where table_schema ='public' AND column_name not in ('data_div', 'id') " + 
 					"	group by table_name) a,	"  
 					+ "	( select  creation_order, tab_name , create_update_delete from  public.job_sch_activity_details  , public.entity_dependency"
 					+ " where upper(table_name) = upper(tab_name) "
-					+ "and create_update_delete= '"+ operationType +"'  " + "	 ) c "
+					+ " and upper(active) = 'YES' 				"
+					+ " and create_update_delete= '"+ operationType +"'  " + "	 ) c "
 					+ "	where upper(c.tab_name) = upper(a.table_name)"
 					+ "and create_update_delete ='DELETE'  order by creation_order";
 					/*"	 (select tab_name , create_update_delete from  public.job_sch_activity_details" + 
@@ -238,7 +249,11 @@ public class CommonUtility {
 					"	(" + 
 					"	select string_agg(''''||column_name||'''', ', ') list_col1 , string_agg(column_name, ', ') list_col , " + 
 					"			table_name     " + 
-					"	 from information_schema.columns inf " + 
+					"	 from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " + 
+					" from information_schema.columns isc, div_extraction_table_columns req_col " + 
+					" where req_col.table_name = isc.table_name " + 
+					" and req_col.column_name = isc.column_name " + 
+					" and isc.table_schema = 'public' ) inf " + 
 					"	, job_sch_activity_details " + 
 					"	where table_schema= 'public' " + 
 					"	and table_scope ='DIVISION' " + 
@@ -246,6 +261,7 @@ public class CommonUtility {
 					"	and column_name not in ('data_div','id') " +
 					"	and tab_name = table_name " +
 					"   and create_update_delete = 'CREATE'"+
+					"   and upper(active) = 'YES' 				" +
 					"	group by table_name " + 
 					"	) a";
 			logger.info("********division tables query********"+divisionTablesQuery);;
@@ -603,7 +619,8 @@ public class CommonUtility {
 		ResponseStatus status = new ResponseStatus();
 		try {
 			conn = dataSource.getConnection();
-			preparedStatement = conn.prepareStatement("select deletion_order,table_name  from entity_dependency");
+			preparedStatement = conn.prepareStatement("select deletion_order,table_name ,* from entity_dependency e, ( select distinct tab_name from job_sch_activity_details where table_scope ='DIVISION' and active = 'YES' ) a " + 
+					" where tab_name = table_name order by 1");
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet != null && resultSet.next()) {
 				statement = conn.createStatement();
@@ -747,11 +764,19 @@ public class CommonUtility {
 			preparedStatement = conn.prepareStatement(createQuery);
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				User newUser = new User();
-				newUser.setUsername(resultSet.getString("user_login_id"));
-				newUser.setPassword(resultSet.getString("current_password"));
-				newUser.setCreated_date(new Date(Calendar.getInstance().getTime().getTime()));
-				userServices.saveUser(newUser);
+				Optional<User> user = userServices.findByUserName(resultSet.getString("user_login_id"));
+				if(user.isPresent()) {
+					User updateUser = user.get();
+					updateUser.setPassword(resultSet.getString("current_password"));
+					updateUser.setModified_date(new Date(Calendar.getInstance().getTime().getTime()));
+					userServices.saveUser(updateUser);
+				}else {
+					User newUser = new User();
+					newUser.setUsername(resultSet.getString("user_login_id"));
+					newUser.setPassword(resultSet.getString("current_password"));
+					newUser.setCreated_date(new Date(Calendar.getInstance().getTime().getTime()));
+					userServices.saveUser(newUser);
+				}
 			}
 			
 			preparedStatement = conn.prepareStatement(updateQuery);
@@ -780,7 +805,6 @@ public class CommonUtility {
 		}finally {
 			closeJDBCObjects.releaseResouces(conn, preparedStatement, resultSet);
 		}
-		
 		
 		
 	}
