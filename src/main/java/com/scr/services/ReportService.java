@@ -288,14 +288,7 @@ public class ReportService {
 	public List<Model>findModelDetails() {	
 		   return modelRepository.findAll();
 		}
-	public List<AssetMasterData> findAssetIdAndFacilityId(String assetId,String facilityId) {
-		List<AssetMasterData> assetType = assetMastersRepository.findByAssetIdAndFacilityId(assetId,facilityId);
-		return assetType;
-	}
-	public List<AssetMasterData> findAssetTypeAndFacilityId(String assetType,String facilityId) {
-		List<AssetMasterData> assetId = assetMastersRepository.findByAssetTypeAndFacilityId(assetType,facilityId);
-		return assetId;
-	}
+	
 	public List<AssetMasterData>findAssetMasterDetails() {	
 		   return assetMastersRepository.findAll();
 		}
@@ -320,8 +313,5 @@ public class ReportService {
 		// TODO Auto-generated method stub
 		return measureOrActivityListRepository.findByActivityType(activityType);
 	}
-	public List<PowerBlock> getPowerBlocksBasedOnFacilityId(String facilityId) {
-		// TODO Auto-generated method stub
-		return powerBlockRepository.findByFacilityId(facilityId);
-	}
+	
 }

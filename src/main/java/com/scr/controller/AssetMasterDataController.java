@@ -118,4 +118,9 @@ public class AssetMasterDataController {
 			return Helper.findResponseStatus("Asset Master Data Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
+	@RequestMapping(value = "/getAssetIdBasedonAssetTypeAndFacilityId/{assetType}/{facilityId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterData>> findAssetIdAndFacilityId(@PathVariable("assetType") String assetType ,@PathVariable("facilityId") String facilityId){
+		List<AssetMasterData> assetIdsList= assetMasterDataService.findByAssetTypeAndFacilityId(assetType, facilityId);
+			return new ResponseEntity<List<AssetMasterData>>(assetIdsList, HttpStatus.OK);		
+	}
 }

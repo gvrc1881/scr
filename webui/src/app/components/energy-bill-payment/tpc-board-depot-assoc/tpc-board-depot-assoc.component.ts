@@ -189,7 +189,7 @@ duplicateTpcBoard() {
     getFacilitys(){
         var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
         alert("unitType"+unitType)
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_POWER_BLOCKS_BASED_ON_FACILITYID + unitType).subscribe((data) => {
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + unitType).subscribe((data) => {
                  this.facilityData = data;
                  console.log("powerBlocks"+JSON.stringify(data));
         		});

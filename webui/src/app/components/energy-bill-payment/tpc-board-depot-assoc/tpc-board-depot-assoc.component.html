@@ -5,7 +5,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                         <li class="breadcrumb-item"><a [routerLink]="['/stations-sections']">Stations</a></li> 
+                        <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment</a></li>
                           <li class="breadcrumb-item active" aria-current="page">Tpc Board Assoc</li>
                 </ol>
             </nav>
@@ -50,9 +50,9 @@
                                                          <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="Select Depot Type" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" >
-                                                                    <mat-option *ngFor="let facilityNames of facilityNames"
-                                                                        [value]="facilityNames.facilityId">
-                                                                        {{ facilityNames.facilityName}}
+                                                                    <mat-option *ngFor="let depotType of funLocTypeData"
+                                                                        [value]="depotType.code">
+                                                                        {{ depotType.code}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 
@@ -64,10 +64,8 @@
                                                                 <mat-select placeholder="Select Depot"
                                                                     [formControl]="tpcBoardDepotAssocFormGroup.controls['unitName']" required>
                                                                     <mat-option *ngFor="let facilityId of facilityData"
-                                                                        [value]="facilityId.facilityId">
-                                                                        <span>{{ facilityId.facilityId }}</span>/
-                                                                       <small>{{ facilityId.elementarySectionCode}}</small>/
-                                                                       <small>{{ facilityId.createdDate}}</small>
+                                                                        [value]="facilityId.facilityName">
+                                                                        {{ facilityId.facilityName}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 <mat-error

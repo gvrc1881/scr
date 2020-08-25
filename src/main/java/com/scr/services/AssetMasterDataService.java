@@ -32,6 +32,9 @@ public class AssetMasterDataService {
 		// TODO Auto-generated method stub
 		assetMastersRepository.deleteById(id);
 	}
-	
+	public List<AssetMasterData> findByAssetTypeAndFacilityId(String assetType,String facilityId) {
+		List<AssetMasterData> assetId = assetMastersRepository.findByAssetTypeAndFacilityId(assetType,facilityId);
+		return assetId;
+	}
 
 }

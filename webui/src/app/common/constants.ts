@@ -57,8 +57,6 @@ export const Constants = {
             GET_TSS_FEEDER_MASTER_DETAILS:"/findAllTssFeederMaster",
             GET_CONTENET_TOPIC:"/existsContentTopic",
             GET_CONTENT_CATEGORY:"/existsContentCategory",
-            GET_ASSETTYPE_BASED_ON_ASSETID_FACILITYID:"/assetTypeBasedonAssetIdAndFacilityId/",
-            GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/assetIdBasedonAssetTypeAndFacilityId/",
             GET_FACILITY_BASED_ON_DEPOTTYPE:"/getFacilitysBasedOnDepotType/",
             GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE:"/getscheduleCodesBasedonAssetType/",
             GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES:"/getAssetIdBasedOnScheduleCodesAndAssetTypes/",
@@ -67,7 +65,6 @@ export const Constants = {
             GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/",
             GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE:"/getObservationCheckListBasedOnObservationCate/",
             GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE:"/getActivityNameBasedOnActivityType/",
-            GET_POWER_BLOCKS_BASED_ON_FACILITYID:"/getPowerBlocksBasedOnFacilityId/",
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -198,7 +195,8 @@ export const Constants = {
                 GET_ASSET_MASTER_DATA_ID:"/findAssetMasterItemById/",
                 SAVE_ASSET_MASTER_DATA:"/addAssetMasterItem",
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
-                DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/"
+                DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
+                GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
 
             },
             TARIFF:{
@@ -479,9 +477,10 @@ export const Constants = {
         		DELETE_POWER_BLOCK_BY_ID:"/deletePowerBlock/",
         		SAVE_POWER_BLOCK:"/addPowerBlock",
         		UPDATE_POWER_BLOCK:"/updatePowerBlock",
-        		GET_POWER_BLOCK_BY_ID:"/findPowerBlock/"
-        	},
-        	PB_SWITCH_CONTROL:{
+                GET_POWER_BLOCK_BY_ID:"/findPowerBlock/",
+                GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE:"/getPowerBlocksBasedOnFacilityIdAndCreatedDate",
+            },
+            PB_SWITCH_CONTROL:{
         		GET_PB_SWITCH_CONTROL_BASED_ON_EXTEND_TYPE_AND_EXTEND_CODE:"/findByExtentTypeAndExtentCode"
         	}
         },

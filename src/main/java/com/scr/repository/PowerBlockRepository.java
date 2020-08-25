@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public interface PowerBlockRepository extends JpaRepository<PowerBlock, Long> {
 
 	 List<PowerBlock> findAll(); 
 		
-		List<PowerBlock> findByFacilityId(String facilityId);
+		List<PowerBlock> findByFacilityIdAndCreatedDate(String facilityId,Date createdDate);
 	
 	}
 	

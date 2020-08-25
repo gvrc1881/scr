@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.PowerBlock;
 import com.scr.repository.PowerBlockRepository;
 
@@ -34,5 +36,8 @@ public class PowerBlockService {
 	public void deleteById(Long id) {
 		powerBlockRepository.deleteById(id);
 	}
-
+	public List<PowerBlock> findPowerBlocks(String facilityId,Date createdDate) {
+		List<PowerBlock> pbList = powerBlockRepository.findByFacilityIdAndCreatedDate(facilityId,createdDate);
+		return pbList;
+	}
 }

@@ -283,16 +283,6 @@ public class ReportController {
 		return new ResponseEntity<List<Model>>(modelDetails,HttpStatus.OK);	
 		
 	}
-	@RequestMapping(value = "/assetTypeBasedonAssetIdAndFacilityId/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<AssetMasterData>> findAssetIdAndFacilityId(@PathVariable("assetType") String assetType){
-		List<AssetMasterData> allAssetTypes= reportService.findAssetIdAndFacilityId(assetType, assetType);
-			return new ResponseEntity<List<AssetMasterData>>(allAssetTypes, HttpStatus.OK);		
-	}
-	@RequestMapping(value = "/assetIdBasedonAssetTypeAndFacilityId/{assetId}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<AssetMasterData>> findAssetTypeAndFacilityId(@PathVariable("assetId") String assetId){
-		List<AssetMasterData> allAssetTypes= reportService.findAssetTypeAndFacilityId(assetId, assetId);
-			return new ResponseEntity<List<AssetMasterData>>(allAssetTypes, HttpStatus.OK);		
-	}
 	@RequestMapping(value = "/assetMasterData", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<AssetMasterData>> findAssetMasterDetails(){
 		List<AssetMasterData> assetMasterData= reportService.findAssetMasterDetails();
@@ -347,13 +337,6 @@ public class ReportController {
 	public ResponseEntity<List<MeasureOrActivityList>> getActivityNameBasedOnActivityType(@PathVariable("activityType") String activityType){
 		List<MeasureOrActivityList> activityList= reportService.getActivityNameBasedOnActivityType(activityType);
 			return new ResponseEntity<List<MeasureOrActivityList>>(activityList, HttpStatus.OK);		
-	}
-	@RequestMapping(value = "/getPowerBlocksBasedOnFacilityId/{facilityId}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<PowerBlock>> getPowerBlocksBasedOnFacilityId(@PathVariable("facilityId") String facilityId){
-		List<PowerBlock> powerBlocksList= reportService.getPowerBlocksBasedOnFacilityId(facilityId);
-		log.info("powerBlocksListSize"+powerBlocksList.size());
-		log.info("powerBlocksList"+powerBlocksList);
-			return new ResponseEntity<List<PowerBlock>>(powerBlocksList, HttpStatus.OK);		
 	}
 	
   	

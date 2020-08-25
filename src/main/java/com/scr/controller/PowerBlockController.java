@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.PowerBlock;
 import com.scr.model.PowerBlock;
 import com.scr.services.PowerBlockService;
@@ -129,6 +130,13 @@ public class PowerBlockController {
 			return Helper.findResponseStatus("Power block Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	
+	@RequestMapping(value = "/getPowerBlocksBasedOnFacilityIdAndCreatedDate" ,method = RequestMethod.POST , headers= "accept=application/json")
+	public ResponseEntity<List<PowerBlock>> getPowerBlocksBasedOnFacilityIdAndCreatedDate(@RequestBody PowerBlock powerBlockObj){
+		List<PowerBlock> powerBlocksList = powerBlockService.findPowerBlocks( powerBlockObj.getFacilityId(), powerBlockObj.getCreatedDate());
+		logger.info("powerBlocksListSize"+powerBlocksList.size());
+		logger.info("powerBlocksList"+powerBlocksList);
+		return new ResponseEntity<List<PowerBlock>>(powerBlocksList,HttpStatus.OK);
+		
+	}
 
 }
