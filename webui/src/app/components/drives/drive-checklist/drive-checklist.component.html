@@ -54,6 +54,10 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Measure Activity List</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.measureActivityList}}</mat-cell>
                                         </ng-container>
+                                        <ng-container matColumnDef="activityPositionId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Position Id</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.activityPositionId}}</mat-cell>
+                                        </ng-container>
 
                                         <ng-container matColumnDef="displayOrder">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Display Order

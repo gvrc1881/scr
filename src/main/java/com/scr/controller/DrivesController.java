@@ -42,6 +42,7 @@ import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.services.DrivesService;
+import com.scr.services.MeasureOrActivityListService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
@@ -53,6 +54,11 @@ public class DrivesController {
 	
 	@Autowired
 	private DrivesService service;
+	
+	@Autowired
+	private MeasureOrActivityListService measureService;
+	
+	
 	
 	@RequestMapping(value = "/drives", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Drives>> findAllDrives() throws JSONException {
@@ -332,10 +338,10 @@ public class DrivesController {
 		}
 		
 		@RequestMapping(value = "/existsDriveCategoryAssoc/{driveId}/{driveCategoryId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-		public Boolean existsByDriveCategoryAssoc(@PathVariable("driveId") Integer driveId,@PathVariable("driveCategoryId") Integer driveCategoryId){		
+		public Boolean existsByDriveIdAndDriveCategoryId(@PathVariable("driveId") Long driveId,@PathVariable("driveCategoryId") Long driveCategoryId){		
 			logger.info("driveId"+driveId+"drivcatId=="+driveCategoryId);
 			try {
-				return service.existsByDriveIdAndDriveCategoryId(driveId, driveCategoryId);
+				return service.existsByDriveIdAndDriveCategoryId(service.findDrivesById(driveId).get(),service.findDrivesCategoryById(driveCategoryId).get());
 			} catch (Exception e) {
 				logger.error("Error while checking exists drive and Drive cat assoc."+e.getMessage());
 				return false;
@@ -429,7 +435,27 @@ public class DrivesController {
 			return new ResponseEntity<DriveCheckList>(depOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@RequestMapping(value = "/existsByDriveIdActivityId/{driveId}/{activityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsByDriveIdAndActivityId(@PathVariable("driveId") Long driveId,@PathVariable("activityId") String activityId){		
+		logger.info("driveId"+driveId+"activityId=="+activityId);
+		try {
+			return service.existsByDriveIdAndActivityId(service.findDrivesById(driveId).get(),measureService.findByActivityId(activityId).get());
+		} catch (Exception e) {
+			logger.error("Error while checking exists drive and activity id."+e.getMessage());
+			return false;
+		}
+	}
 	
+	@RequestMapping(value = "/existByDriveIdPositionId/{driveId}/{activityPositionId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existByDriveIdPositionId(@PathVariable("driveId") Long driveId,@PathVariable("activityPositionId") String activityPositionId){		
+		logger.info("driveId"+driveId+"activityPositionId=="+activityPositionId);
+		try {
+			return service.existsByDriveIdAndActivityPositionId(service.findDrivesById(driveId).get(),activityPositionId);
+		} catch (Exception e) {
+			logger.error("Error while checking exists drive and activityPositionid."+e.getMessage());
+			return false;
+		}
+	}
 	
 	@RequestMapping(value = "/driveTarget", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveTarget>> findAllDriveTargets() throws JSONException {

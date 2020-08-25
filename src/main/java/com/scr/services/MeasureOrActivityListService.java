@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.Drives;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.repository.MeasureOrActivityListRepository;
 
@@ -48,5 +49,12 @@ public class MeasureOrActivityListService {
 		 //TODO Auto-generated method stub
 		return measureRepository.existsByActivityNameAndUnitOfMeasure(activityName,unitOfMeasure);
 	}
+
+	public Optional<MeasureOrActivityList> findByActivityId(String activityId) {
+		// TODO Auto-generated method stub
+		return measureRepository.findByActivityId(activityId);
+	}
+
+	
 
 }

@@ -248,7 +248,7 @@ public class DrivesService {
 	public Optional<DriveCategoryAsso> findDriveCategoryAssoById(Long id) {
 		return driveCategoryAssoRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
-	public Boolean existsByDriveIdAndDriveCategoryId(Integer driveId, Integer driveCategoryId) {
+	public Boolean existsByDriveIdAndDriveCategoryId(Drives driveId, DriveCategory driveCategoryId) {
 		return driveCategoryAssoRepository.existsByDriveIdAndDriveCategoryId(driveId, driveCategoryId);
 	}
 	// DRIVE CATEGORY ASS
@@ -293,6 +293,12 @@ public class DrivesService {
 		return checklistRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
 	
+	public Boolean existsByDriveIdAndActivityId(Drives driveId, MeasureOrActivityList measureOrActivityList) {
+		return checklistRepository.existsByDriveIdAndActivityId(driveId, measureOrActivityList);
+	}
+	public Boolean existsByDriveIdAndActivityPositionId(Drives driveId, String activityPositionId) {
+		return checklistRepository.existsByDriveIdAndActivityPositionId(driveId, activityPositionId);
+	}
 	
 	public List<DriveTarget> findAllDriveTargets() {
 		return driveTargetRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -608,6 +614,18 @@ public class DrivesService {
 
 	public void updatefileStatus(ContentManagement contentUpdate) {
 		repository.save(contentUpdate);
+	}
+
+	public Optional<Drives> findDrivesById(Long driveId) {
+		// TODO Auto-generated method stub
+		return driveRepository.findById(driveId);
+	}
+
+	
+
+	public Optional<DriveCategory> findDrivesCategoryById(Long driveCategoryId) {
+		// TODO Auto-generated method stub
+		return driveCategoryRepository.findById(driveCategoryId);
 	}
 
 	

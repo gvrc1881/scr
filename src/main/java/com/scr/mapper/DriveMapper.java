@@ -223,7 +223,7 @@ public class DriveMapper {
 		DriveCheckList driveCheckList = null;
 		if(request != null) {
 			driveCheckList = new DriveCheckList();
-			
+			driveCheckList.setActivityPositionId(request.getActivityPositionId());
 			driveCheckList.setDisplayOrder(request.getDisplayOrder());
 			driveCheckList.setActive(request.getActive());
 			driveCheckList.setLowerLimit(request.getLowerLimit());

@@ -174,14 +174,16 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     }
   }
   duplicateDriveCatAssoc() {
-    var driveId = this.addDriveCategoryAssoFormGroup.value.drive;
-    var driveCategoryId = this.addDriveCategoryAssoFormGroup.value.driveCategory;
+    let driveId= this.addDriveCategoryAssoFormGroup.controls['drive'].value;
+    let driveCategoryId= this.addDriveCategoryAssoFormGroup.controls['driveCategory'].value;
+
+   
     const q = new Promise((resolve, reject) => {          
 
       this.sendAndRequestService.requestForGET(
-             Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION. EXISTS_DRIVE_CATEGORY_ASSOC+this.addDriveCategoryAssoFormGroup.value.drive
-             +'/'+
-             this.addDriveCategoryAssoFormGroup.value.driveCategory).subscribe
+             Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION. EXISTS_DRIVE_CATEGORY_ASSOC+driveId
+             +'/'+driveCategoryId
+            ).subscribe
              ((duplicate) => {
        if (duplicate) {
          resolve({ 'duplicateDriveCatAssoc': true });

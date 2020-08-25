@@ -24,6 +24,10 @@ export class AddDriveChecklistComponent implements OnInit {
   measureActivityList = [];
   driveList = [];
   statusList = [];
+  activityTypeList:any;
+  activityPositionList:any;
+  activityType:any;
+  
 
   checkListFormErrors: any;
   constructor(
@@ -37,7 +41,9 @@ export class AddDriveChecklistComponent implements OnInit {
     // Reactive form errors
     this.checkListFormErrors = {
       drive: {},
+      activityType:{},
       measureActivityList: {},
+      activityPositionId:{},
       displayOrder: {},
       lowerLimit: {},
       upperLimit: {},
@@ -48,9 +54,11 @@ export class AddDriveChecklistComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
-    this.findMeasureActivityList();
+    //this.findMeasureActivityList();
     this.findYesNoStatus();
     this.createCheckListForm();
+    this.findActivityPositionList();
+    
     this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
       this.onFormValuesChanged();
   });
@@ -81,7 +89,9 @@ export class AddDriveChecklistComponent implements OnInit {
         this.addDriveChecklistFormGroup.patchValue({
           id: this.resp.id,
           drive: this.resp.driveId['id'],
+          activityType:this.resp.activityType,
           measureActivityList: this.resp.activityId['activityId'],
+          activityPositionId:this.resp.activityPositionId,
           displayOrder: this.resp.displayOrder,
           lowerLimit: this.resp.lowerLimit,
           upperLimit: this.resp.upperLimit,
@@ -99,10 +109,27 @@ export class AddDriveChecklistComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
-  
 
-  findMeasureActivityList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_MEASURE_ACTIVITY_LIST).subscribe((data) => {
+  findActivityPositionList()
+  {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.GET_MEASURES)
+      .subscribe((resp) => {
+      this.activityPositionList = resp;
+      });
+  }
+
+  // findActivityTypeList()
+  // {
+  //     this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_MEASURE)
+  //     .subscribe((resp) => {
+  //     this.activityTypeList = resp;
+  //     });
+  // }
+ 
+
+  findMeasureActivityList() {    
+    this.activityType = this.addDriveChecklistFormGroup.controls['activityType'].value;   
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE+this.activityType).subscribe((data) => {
       this.measureActivityList = data;
       this.spinnerService.hide();
     }, error => {
@@ -129,7 +156,9 @@ export class AddDriveChecklistComponent implements OnInit {
     this.addDriveChecklistFormGroup = this.formBuilder.group({
       id: 0,
       'drive': [null, Validators.compose([Validators.required])],
-      'measureActivityList': [null, Validators.compose([Validators.required])],
+      'activityType':[null],
+      'measureActivityList': [null, Validators.compose([Validators.required]),this.duplicateDriveActivityList.bind(this)],
+      'activityPositionId':[null,Validators.compose([Validators.required]),this.duplicateDrivePositionId.bind(this)],
       'displayOrder': [null],
       'lowerLimit': [null],
       'upperLimit': [null],
@@ -141,11 +170,13 @@ export class AddDriveChecklistComponent implements OnInit {
       this.isSubmit = false;
       return;
     }
+    console.log("activity=="+this.addDriveChecklistFormGroup.value.activityPositionId);
     this.spinnerService.show();
     if (this.save) {
       let save = {
-        driveId: this.addDriveChecklistFormGroup.value.drive,
+        driveId: this.addDriveChecklistFormGroup.value.drive,  
         activityId: this.addDriveChecklistFormGroup.value.measureActivityList,
+        activityPositionId:this.addDriveChecklistFormGroup.value.activityPositionId,
         displayOrder: this.addDriveChecklistFormGroup.value.displayOrder,
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
@@ -156,6 +187,7 @@ export class AddDriveChecklistComponent implements OnInit {
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.SAVE_CHECK_LIST ,save, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
+      
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("CheckList Data saved Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -172,6 +204,7 @@ export class AddDriveChecklistComponent implements OnInit {
         id: this.id,
         driveId: this.addDriveChecklistFormGroup.value.drive,
         activityId: this.addDriveChecklistFormGroup.value.measureActivityList,
+        activityPositionId:this.addDriveChecklistFormGroup.value.activityPositionId,
         displayOrder: this.addDriveChecklistFormGroup.value.displayOrder,
         lowerLimit: this.addDriveChecklistFormGroup.value.lowerLimit,
         upperLimit: this.addDriveChecklistFormGroup.value.upperLimit,
@@ -197,5 +230,46 @@ export class AddDriveChecklistComponent implements OnInit {
   }
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+  
+  duplicateDriveActivityList() {
+    let driveId= this.addDriveChecklistFormGroup.controls['drive'].value;
+    let activityId = this.addDriveChecklistFormGroup.controls['measureActivityList'].value;
+    
+console.log("driveId=="+driveId+"activityId==="+activityId);
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.DRIVE.DRIVE_CHECK_LIST. EXIST_DRIVE_ACTIVITYLIST+driveId+'/'+activityId).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDriveActivityList': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDriveActivityList': true }); });
+    });
+    return q;
+  }
+
+  duplicateDrivePositionId() {
+    let driveId= this.addDriveChecklistFormGroup.controls['drive'].value;
+    let activityPositionId = this.addDriveChecklistFormGroup.controls['activityPositionId'].value;
+   
+    console.log("driveId=="+driveId+"activityPositionId==="+activityPositionId);
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.DRIVE.DRIVE_CHECK_LIST. EXIST_DRIVE_POSITION_ID+driveId+'/'+activityPositionId).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDrivePositionId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDrivePositionId': true }); });
+    });
+    return q;
   }
 }

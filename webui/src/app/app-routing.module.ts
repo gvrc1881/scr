@@ -349,6 +349,11 @@ const routes: Routes = [
     loadChildren: './components/asset-master-data/asset-master-data.module#AssetMasterDataModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'facility',
+    loadChildren: './components/facility/facility.module#FacilityModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

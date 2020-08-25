@@ -365,11 +365,11 @@ ActAssocEditAction(id: number) {
               Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. EXIST_SEQ_POSITION_ACTIVITY+asaSeqId+'/'+activityId+'/'+makeCode+'/'+modelCode).subscribe
               ((duplicate) => {
         if (duplicate) {
-          resolve({ 'duplicate': true });
+          resolve({ 'duplicateasaSeqPositionActivity': true });
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicate': true }); });
+      }, () => { resolve({ 'duplicateasaSeqPositionActivity': true }); });
     });
     return q;
   }
@@ -387,11 +387,11 @@ ActAssocEditAction(id: number) {
               Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.EXIST_SEQ_POSITION+asaSeqId+'/'+activityPositionId+'/'+makeCode+'/'+modelCode).subscribe
               ((duplicate) => {
         if (duplicate) {
-          resolve({ 'duplicate': true });
+          resolve({ 'duplicateasaSeqPosition': true });
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicate': true }); });
+      }, () => { resolve({ 'duplicateasaSeqPosition': true }); });
     });
     return q;
   }
@@ -409,11 +409,11 @@ ActAssocEditAction(id: number) {
               Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.EXIST_SEQ_ACTIVITY_DISPLAY+asaSeqId+'/'+activityId+'/'+displayOrder+'/'+makeCode+'/'+modelCode).subscribe
               ((duplicate) => {
         if (duplicate) {
-          resolve({ 'duplicate': true });
+          resolve({ 'duplicateasaSeqActivityDispaly': true });
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicate': true }); });
+      }, () => { resolve({ 'duplicateasaSeqActivityDispaly': true }); });
     });
     return q;
   }
