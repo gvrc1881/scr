@@ -71,6 +71,10 @@ public class FacilityService {
 		return facilityRepository.existsByFacilityName(facilityName);
 	}
 	
+	public Boolean existsByFacilityId(String facilityId)
+	{
+		return facilityRepository.existsByFacilityId(facilityId);
+	}
 	
 
 }

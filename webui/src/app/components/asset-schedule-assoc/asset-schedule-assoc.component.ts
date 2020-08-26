@@ -264,6 +264,7 @@ export class AssetScheduleAssocComponent implements OnInit{
               this.assetSchAssocFormGroup.patchValue
               ({
                                 id: this.editAssetSchAssocResponse.id,
+                                assetType:this.editAssetSchAssocResponse.assetType,
                                 scheduleCode:this.editAssetSchAssocResponse.scheduleCode,
                                 isDpr: this.editAssetSchAssocResponse.isDpr,
                                 targetPlanMonths: this.editAssetSchAssocResponse.targetPlanMonths,

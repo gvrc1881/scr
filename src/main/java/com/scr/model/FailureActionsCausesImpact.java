@@ -31,7 +31,7 @@ public class FailureActionsCausesImpact implements Serializable {
 	@Column(name="location")
 	private String location ;
 	
-	@Column(name="by"  )
+	@Column(name="by")
 	private String by ;
 	
 	@Column(name="remarks" ,columnDefinition="TEXT")

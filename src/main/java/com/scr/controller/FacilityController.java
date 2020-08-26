@@ -136,12 +136,22 @@ public class FacilityController {
 	}
 	
 	
-	@RequestMapping(value = "/findByFacilityName/{facilityname}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existFacilityName(@PathVariable("facilityname") String facilityname){		
+	@RequestMapping(value = "/findByFacilityName/{facilityName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existFacilityName(@PathVariable("facilityName") String facilityname){		
 		try {
 			return facilityService.existsByFacilityName(facilityname);
 		} catch (Exception e) {
 			logger.error("Error while checking exists Functional Unit code.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/findByFacilityId/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsByFacilityId(@PathVariable("facilityId") String facilityId){		
+		try {
+			return facilityService.existsByFacilityId(facilityId);
+		} catch (Exception e) {
+			logger.error("Error while checking exists Functional Unit Id.");
 			return false;
 		}
 	}
