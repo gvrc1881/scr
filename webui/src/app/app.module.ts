@@ -44,6 +44,7 @@ import { PreviousRouteService } from './services/previousRoute.service';
 import { UnusualOccurrenceFailureModule } from './components/failures/unusual-occurrence/unusual-occurrence-failure.module';
 import { PowerBlockModule } from './components/tpc-operations/power-block/power-block.module';
 
+
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
@@ -61,7 +62,6 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     FilesInformationDialogComponent,
     InspectionDocumentComponent,
     ComplianceDocumentComponent,
-
   ],
   imports: [
     BrowserModule,

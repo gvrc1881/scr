@@ -344,7 +344,11 @@ export const Constants = {
             },
             GET_DIVISIONS:'/divisions'
         },
-        
+        ASH:{
+            ASH:{
+                SAVE_ASH:'/saveAsh'
+                }
+        },
         INSPECTIONS:{
             STIPULATION:{
                 GET_STIPULATION:"/stipulations",

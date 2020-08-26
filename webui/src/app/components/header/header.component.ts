@@ -820,6 +820,27 @@ export class HeaderComponent implements OnInit, DoCheck {
           },
         ]
       },
+      { 
+        ID: 19,
+        menuName: 'ASH', 
+        menuUrl: 'ash', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission: true,//this.commonService.findPermission('ash', 'menu', 'view'),
+        currentTab: !!path && path.includes("ash") ? "open" : "",  
+        subMenus: [
+          /*{
+            subMenuName: "Ash Sub",
+            subMenuURL: "ash",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("ash") ? "active-item" : "",
+          },*/
+        ]
+      },
       
     ];
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));

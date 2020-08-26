@@ -1,5 +1,10 @@
 package com.scr.controller;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,9 +135,25 @@ public class PowerBlockController {
 			return Helper.findResponseStatus("Power block Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@RequestMapping(value = "/getPowerBlocksBasedOnFacilityIdAndCreatedDate" ,method = RequestMethod.POST , headers= "accept=application/json")
+	/*@RequestMapping(value = "/getPowerBlocksBasedOnFacilityIdAndCreatedDate" ,method = RequestMethod.POST , headers= "accept=application/json")
 	public ResponseEntity<List<PowerBlock>> getPowerBlocksBasedOnFacilityIdAndCreatedDate(@RequestBody PowerBlock powerBlockObj){
 		List<PowerBlock> powerBlocksList = powerBlockService.findPowerBlocks( powerBlockObj.getFacilityId(), powerBlockObj.getCreatedDate());
+		logger.info("powerBlocksListSize"+powerBlocksList.size());
+		logger.info("powerBlocksList"+powerBlocksList);
+		return new ResponseEntity<List<PowerBlock>>(powerBlocksList,HttpStatus.OK);
+		
+	}*/
+	@RequestMapping(value = "/getPowerBlocksBasedOnFacilityIdAndCreatedDate/{facilityId}/{createdDate}" ,method = RequestMethod.GET , headers= "accept=application/json")
+	public ResponseEntity<List<PowerBlock>> getPowerBlocksBasedOnFacilityIdAndCreatedDate(@PathVariable("facilityId") String facilityId,@PathVariable("createdDate") String createdDate) throws ParseException{
+		  System.out.println("timestmap is :::");
+		  //Date date = new Date();  
+		  System.out.println("timestmap is after xdate:::");
+		  DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+	      Date date = (Date) formatter.parse(createdDate);
+          Timestamp scheduleDate=new Timestamp(date.getTime());
+		  //Timestamp scheduleDate= Timestamp.valueOf(createdDate);
+          System.out.println("timestmap is :::"+scheduleDate);
+		List<PowerBlock> powerBlocksList = powerBlockService.findPowerBlocks( facilityId, scheduleDate);
 		logger.info("powerBlocksListSize"+powerBlocksList.size());
 		logger.info("powerBlocksList"+powerBlocksList);
 		return new ResponseEntity<List<PowerBlock>>(powerBlocksList,HttpStatus.OK);
