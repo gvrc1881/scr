@@ -223,7 +223,7 @@ export class FacilityComponent implements OnInit{
            this.enableSubDivision=false;
            this.facilityFormGroup = this.formBuilder.group({
              id: 0,
-             'facilityId': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+             'facilityId': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicatefacilityId.bind(this)],
              'facilityName': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicatefacilityName.bind(this)],
              'facilityTypeId': [null, Validators.maxLength(255)],
              'depotType' : [null, Validators.maxLength(255)],
@@ -292,10 +292,10 @@ export class FacilityComponent implements OnInit{
                'division': [null, Validators.maxLength(255)],
                'subDivision': [null, Validators.maxLength(255)], 
            });
-           this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.FACILITY.GET_FACILITY_ID,id).subscribe((responseData) =>{
+           this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.GET_FACILITY_ID+id).subscribe((responseData) =>{
            
                this.editFacilityResponse = responseData;
-                
+                console.log("fac=="+this.editFacilityResponse);
                  this.facilityFormGroup.patchValue
                  ({
                                    id: this.editFacilityResponse.id,
@@ -344,14 +344,32 @@ export class FacilityComponent implements OnInit{
                      Constants.app_urls.CONFIG.FACILITY.EXIST_FACILITYNAME+facilityName).subscribe
                      ((duplicate) => {
                if (duplicate) {
-                 resolve({ 'duplicate': true });
+                 resolve({ 'duplicatefacilityName': true });
                } else {
                  resolve(null);
                }
-             }, () => { resolve({ 'duplicate': true }); });
+             }, () => { resolve({ 'duplicatefacilityName': true }); });
            });
            return q;
          }
+
+         duplicatefacilityId() {
+          let facilityId: string = this.facilityFormGroup.controls['facilityId'].value;         
+  
+          const q = new Promise((resolve, reject) => {          
+    
+             this.sendAndRequestService.requestForGET(
+                    Constants.app_urls.CONFIG.FACILITY.EXIST_FACILITYID+facilityId).subscribe
+                    ((duplicate) => {
+              if (duplicate) {
+                resolve({ 'duplicatefacilityId': true });
+              } else {
+                resolve(null);
+              }
+            }, () => { resolve({ 'duplicatefacilityId': true }); });
+          });
+          return q;
+        }
      
       depotType()
       {

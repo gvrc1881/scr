@@ -20,8 +20,6 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
 	@Query(value = "SELECT case when count(asa)> 0 then true else false  end  FROM AssetScheduleAssoc asa WHERE asa.assetType = :assetType and asa.scheduleCode = :scheduleCode")
 	Boolean existsByAssetTypeAndScheduleCode(@Param("assetType")String assetType, @Param("scheduleCode") String scheduleCode);
 	
-	
-	@Query(value = "select CONCAT(asset_type,'-',schedule_code) as assetSchedule,* from asset_schedule_assoc",
-            nativeQuery=true )
+
     public List<AssetScheduleAssoc> findAll();
 }

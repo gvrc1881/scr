@@ -725,7 +725,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('TRD CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board")||path.includes("tss-feeder")
-        ||path.includes("asset-schedule-assoc")||path.includes("asset-schedule-activity-assoc") ? "open" : "",  
+        ||path.includes("asset-schedule-assoc")||path.includes("asset-schedule-activity-assoc")||path.includes("facility") ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Sections-stations",
@@ -779,6 +779,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('ASSET SCHEDULE ACTIVITY ASSOC', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-schedule-activity-assoc") ? "active-item" : "",
           },
+          {
+            subMenuName: "Functional Unit",
+            subMenuURL: "facility",
+            subMenuIcon: "fa fa-align-left",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Functional Unit', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("facility") ? "active-item" : "",
+          },
               
         ]
       },
@@ -821,6 +829,27 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:true,
             currentSubMenu: !!path && path.includes("powerBlocks") ? "active-item" : "",
           },
+        ]
+      },
+      { 
+        ID: 19,
+        menuName: 'ASH', 
+        menuUrl: 'ash', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission: true,//this.commonService.findPermission('ash', 'menu', 'view'),
+        currentTab: !!path && path.includes("ash") ? "open" : "",  
+        subMenus: [
+          /*{
+            subMenuName: "Ash Sub",
+            subMenuURL: "ash",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("ash") ? "active-item" : "",
+          },*/
         ]
       },
       

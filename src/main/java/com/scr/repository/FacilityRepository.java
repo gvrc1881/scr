@@ -45,5 +45,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 			Timestamp previousTimestamp);
 	
 	Boolean existsByFacilityName(String facilityName);
+	
+	Boolean existsByFacilityId(String facilityId);
 }
 

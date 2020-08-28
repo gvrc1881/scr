@@ -298,6 +298,7 @@ export const Constants = {
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/"
+               
             },
             DRIVE_CATEGORY:{
                 GET_DRIVE_CATEGORY:"/driveCategory",
@@ -323,7 +324,9 @@ export const Constants = {
                 GET_MEASURE_ACTIVITY_LIST:'/measureActivityList',
                 SAVE_CHECK_LIST:'/saveCheckList',
                 UPDATE_CHECK_LIST:'/updateCheckList',
-                DELETE_CHECK_LIST_BY_ID:'/deleteDrive/'
+                DELETE_CHECK_LIST_BY_ID:'/deleteDrive/',
+                EXIST_DRIVE_ACTIVITYLIST:'/existsByDriveIdActivityId/',
+                EXIST_DRIVE_POSITION_ID:'/existByDriveIdPositionId/'
             },
             ELECTRIFICATION_TARGETS:{
                 GET_ELECTRIFICATION_TARGETS:'/electrificationTargets',
@@ -341,7 +344,11 @@ export const Constants = {
             },
             GET_DIVISIONS:'/divisions'
         },
-        
+        ASH:{
+            ASH:{
+                SAVE_ASH:'/saveAsh'
+                }
+        },
         INSPECTIONS:{
             STIPULATION:{
                 GET_STIPULATION:"/stipulations",

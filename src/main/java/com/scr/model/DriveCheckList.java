@@ -183,5 +183,8 @@ public class DriveCheckList implements Serializable {
 		this.statusId = statusId;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Drive [id=" + id + ", activityPositionId=" + activityPositionId +"]";
+	}
 }

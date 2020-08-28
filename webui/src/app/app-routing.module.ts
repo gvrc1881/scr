@@ -343,6 +343,12 @@ const routes: Routes = [
     path:'energy-consumption',
     loadChildren: './components/energy-consumption/energy-consumption.module#EnergyConsumptionModule',
     canActivate: [AuthGuard]
+
+  },
+  {
+    path:'ash',
+    loadChildren: './components/test/test.module#TestModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'asset-schedule-activity-assoc',
@@ -352,6 +358,11 @@ const routes: Routes = [
   {
     path: 'asset-master-data',
     loadChildren: './components/asset-master-data/asset-master-data.module#AssetMasterDataModule',
+    canActivate: [AuthGuard]
+  },
+ {
+    path: 'facility',
+    loadChildren: './components/facility/facility.module#FacilityModule',
     canActivate: [AuthGuard]
   },
 ];

@@ -35,7 +35,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Drive"
-                                                                [formControl]="addDriveChecklistFormGroup.controls['drive']">
+                                                                [formControl]="addDriveChecklistFormGroup.controls['drive']" required>
                                                                 <mat-option *ngFor="let drive of driveList"
                                                                     [value]="drive.id">
                                                                     {{ drive.name }}
@@ -46,22 +46,57 @@
                                                                 class="alert alert-danger">Select Drive</mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                          <mat-select placeholder="Select activityType" [formControl]="addDriveChecklistFormGroup.controls['activityType']" (selectionChange)="findMeasureActivityList()" >
+                                                            <mat-option value="measurement">measurement</mat-option>
+                                                            <mat-option value="activity">activity</mat-option>
+                                                            </mat-select>               
+                                                            
+                                                        </mat-form-field>
+                                                    </div> 
+                                                   
 
                                                     <!-- measureActivityList -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Measure Activity List"
-                                                                [formControl]="addDriveChecklistFormGroup.controls['measureActivityList']">
+                                                                [formControl]="addDriveChecklistFormGroup.controls['measureActivityList']" required>
                                                                 <mat-option *ngFor="let measureActivity of measureActivityList"
                                                                     [value]="measureActivity.activityId">
                                                                     {{ measureActivity.activityName }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error
+                                                                        *ngIf="addDriveChecklistFormGroup.controls['measureActivityList'].hasError('duplicateDriveActivityList') && addDriveChecklistFormGroup.controls['measureActivityList'].touched"
+                                                                        class="alert alert-danger" >
+                                                                           drive And Activity Already Exists
+                                                                    </mat-error> 
+                                                            <mat-error
                                                                 *ngIf="addDriveChecklistFormGroup.controls['measureActivityList'].hasError('required') && addDriveChecklistFormGroup.controls['measureActivityList'].touched"
                                                                 class="alert alert-danger">Select Measure Activity List</mat-error>
                                                         </mat-form-field>
                                                     </div>
+
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="activityPositionId" 
+                                                                [formControl]="addDriveChecklistFormGroup.controls['activityPositionId']" required>
+                                                                <mat-option *ngFor="let measure of activityPositionList"
+                                                                        [value]="measure.measureActivity">
+                                                                        {{ measure.measureActivity }}
+                                                                    </mat-option>
+                                                            </mat-select>   
+                                                            <mat-error
+                                                                        *ngIf="addDriveChecklistFormGroup.controls['activityPositionId'].hasError('duplicateDrivePositionId')" 
+                                                                        class="alert alert-danger" >
+                                                                           drive And position Already Exists
+                                                                    </mat-error>                                                      
+                                                                                                                     
+                                                        </mat-form-field>
+                                                
+                                                </div> 
 
                                                     <!-- DISPLAY ORDER -->
                                                     <div class="col-md-3">

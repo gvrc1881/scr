@@ -1,7 +1,6 @@
-package com.scr.model;
+package com.scr.message.request;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 
 
@@ -9,84 +8,59 @@ import java.sql.Timestamp;
  * The persistent class for the assets_schedule_history database table.
  * 
  */
-@Entity
-@Table(name = "assets_schedule_history" )
-@NamedQuery(name="AssetsScheduleHistory.findAll", query="SELECT a FROM AssetsScheduleHistory a")
-public class AssetsScheduleHistory implements Serializable {
+public class AssetsScheduleHistoryRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name="asset_id")
 	private String assetId;
 
-	@Column(name="asset_type")
 	private String assetType;
 
-	@Column(name="created_by")
 	private String createdBy;
 
-	@Column(name="created_on")
 	private Timestamp createdOn;
 
-	@Column(name="created_stamp")
 	private Timestamp createdStamp;
 
-	@Column(name="created_tx_stamp")
 	private Timestamp createdTxStamp;
 
-	@Column(name="data_div")
 	private String dataDiv;
 
-	@Column(name="details_of_maint")
 	private String detailsOfMaint;
 
-	@Column(name="device_created_stamp")
 	private Timestamp deviceCreatedStamp;
 
-	@Column(name="device_id")
-	private String deviceId;
 
-	@Column(name="device_last_updated_stamp")
 	private Timestamp deviceLastUpdatedStamp;
 
-	@Column(name="device_seq_id")
 	private String deviceSeqId;
 
-	@Column(name="done_by")
 	private String doneBy;
 
-	@Column(name="facility_id")
 	private String facilityId;
 
-	@Column(name="initial_of_incharge")
 	private String initialOfIncharge;
 
-	@Column(name="last_updated_stamp")
 	private Timestamp lastUpdatedStamp;
 
-	@Column(name="last_updated_tx_stamp")
 	private Timestamp lastUpdatedTxStamp;
 
-	@Column(name="pb_operation_seq_id")
 	private String pbOperationSeqId;
 
 	private String remarks;
 
-	@Column(name="schedule_code")
 	private String scheduleCode;
 
-	@Column(name="schedule_date")
 	private Timestamp scheduleDate;
 
-	@Column(name="seq_id")
 	private String seqId;
 
 	private String status;
+	
+	private String deviceId;
 
-	public AssetsScheduleHistory() {
+	public AssetsScheduleHistoryRequest() {
 	}
 
 	public Long getId() {

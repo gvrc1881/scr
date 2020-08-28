@@ -20,7 +20,7 @@ export class DriveChecklistComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'drive', 'measureActivityList', 'displayOrder', 'lowerLimit', 'upperLimit', 'active', 'actions'];
+  displayedColumns = ['sno', 'drive', 'measureActivityList','activityPositionId', 'displayOrder', 'lowerLimit', 'upperLimit', 'active', 'actions'];
   dataSource: MatTableDataSource<DriveChecklistModel>;
 
 
@@ -62,6 +62,7 @@ export class DriveChecklistComponent implements OnInit {
         this.drivesCheckList[i].sno = i + 1;
         this.drivesCheckList[i].drive = this.drivesCheckList[i].driveId['name'];
         this.drivesCheckList[i].measureActivityList = this.drivesCheckList[i].activityId['activityName'];
+    
         drive.push(this.drivesCheckList[i]);
       }
 

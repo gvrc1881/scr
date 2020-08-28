@@ -11,12 +11,13 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "party_contact_mech_purpose" , uniqueConstraints={@UniqueConstraint(name = "old_pk_party_contact_mech_purpose_uniq", columnNames ={"contact_mech_purpose_type_id", "contact_mech_id", "party_id", "from_date"})})
+@Table(name = "party_contact_mech" , uniqueConstraints={@UniqueConstraint(name = "old_pk_party_contact_mech_uniq", columnNames ={"contact_mech_id", "party_id", "from_date","data_div"})})
 @NamedQuery(name="PartyContactMech.findAll", query="SELECT p FROM PartyContactMech p")
 public class PartyContactMech implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="allow_solicitation")

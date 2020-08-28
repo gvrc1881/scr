@@ -58,6 +58,7 @@ export interface DriveChecklistModel {
     id: number;
     drive: string;
     measureActivityList: string;
+    activityPositionId:string;
     displayOrder: number;
     lowerLimit: number;
     upperLimit: number

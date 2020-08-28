@@ -145,18 +145,18 @@
             </div>
             <div class="col-md-3" *ngIf = "enableFacilityId">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Facility Id" [formControl]="facilityFormGroup.controls['facilityId']" required/>
+                    <input matInput placeholder="Facility Id" [formControl]="facilityFormGroup.controls['facilityId']" required decimalNumber/>
         
                        <mat-error
                         *ngIf=" facilityFormGroup.controls['facilityId'].hasError('required')"
                         class="alert alert-danger">
                     Enter Facility Id </mat-error>  
                     <mat-error
-                            *ngIf="facilityFormGroup.controls['facilityId'].hasError('maxlength') && facilityFormGroup.controls['makeCode'].hasError('pattern')"
+                            *ngIf="facilityFormGroup.controls['facilityId'].hasError('maxlength') && facilityFormGroup.controls['facilityId'].hasError('pattern')"
                             class="alert alert-danger"> Max 250 characters only
                     </mat-error>
                     <mat-error
-                        *ngIf="facilityFormGroup.controls['facilityId'].hasError('duplicateMakeCode')"
+                        *ngIf="facilityFormGroup.controls['facilityId'].hasError('duplicateFacilityId')"
                         class="alert alert-danger">
                         Facility id Already Exists
                       </mat-error> 
@@ -164,7 +164,7 @@
             </div>
             <div class="col-md-3" *ngIf = "enableFacilityName">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Functional unit name" [formControl]="facilityFormGroup.controls['facilityName']"/>
+                    <input matInput placeholder="Functional unit name" [formControl]="facilityFormGroup.controls['facilityName']" oninput="this.value = this.value.toUpperCase()"/>
                     <mat-error
                     *ngIf="facilityFormGroup.controls['facilityName'].hasError('maxlength')"
                     class="alert alert-danger">
