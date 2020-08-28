@@ -51,8 +51,8 @@
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="Select Depot Type" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" >
                                                                     <mat-option *ngFor="let depotType of funLocTypeData"
-                                                                        [value]="depotType.code">
-                                                                        {{ depotType.code}}
+                                                                        [value]="depotType.facilityId">
+                                                                        {{ depotType.facilityName}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 
@@ -64,8 +64,8 @@
                                                                 <mat-select placeholder="Select Depot"
                                                                     [formControl]="tpcBoardDepotAssocFormGroup.controls['unitName']" required>
                                                                     <mat-option *ngFor="let facilityId of facilityData"
-                                                                        [value]="facilityId.facilityName">
-                                                                        {{ facilityId.facilityName}}
+                                                                        [value]="facilityId.facilityId">
+                                                                        {{ facilityId.facilityId}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 <mat-error

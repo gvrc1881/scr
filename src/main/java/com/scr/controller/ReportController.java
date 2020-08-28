@@ -127,7 +127,7 @@ public class ReportController {
 		return new ResponseEntity<List<PbSwitchControl>>(pbSwitchControl,HttpStatus.OK);	
 		
 	}
-	@RequestMapping(value = "/elementarySectionsByFacilityId", method = RequestMethod.GET ,headers = "accept=application/json")	
+	@RequestMapping(value = "/getElementarySectionsBasedOnFacilityId/{facilityId}", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<ElementarySection>> findAllElementarySection(@PathVariable("facilityId") String facilityId){
 		List<ElementarySection> elementarySections= reportService.findAllElementarySection(facilityId);
 		return new ResponseEntity<List<ElementarySection>>(elementarySections,HttpStatus.OK);	
@@ -135,8 +135,8 @@ public class ReportController {
 	}
 	@RequestMapping(value = "/observationCategories", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<ObservationCategory>> findDepartments(){
-		List<ObservationCategory> department= reportService.findDepartments();
-		return new ResponseEntity<List<ObservationCategory>>(department,HttpStatus.OK);	
+		List<ObservationCategory> observationCategory= reportService.findDepartments();
+		return new ResponseEntity<List<ObservationCategory>>(observationCategory,HttpStatus.OK);	
 		
 	}
 	@RequestMapping(value = "/observationCheckList", method = RequestMethod.GET ,headers = "accept=application/json")	
@@ -218,7 +218,7 @@ public class ReportController {
   		return new ResponseEntity<List<Section>>(sectionDetails,HttpStatus.OK);	
   		
   	}
-  	@RequestMapping(value = "/statusItemDetails/{statusTypeId}",method = RequestMethod.GET  , headers="accept=application/json" )
+  	@RequestMapping(value = "/getStatusCodeBasedOnStatusTypeId/{statusTypeId}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<StatusItem>> findAllStatusItem(@PathVariable("statusTypeId") String statusTypeId){
 		List<StatusItem> allStatusItem= reportService.findAllStatusItem(statusTypeId);
 		return new ResponseEntity<List<StatusItem>>(allStatusItem, HttpStatus.OK);		

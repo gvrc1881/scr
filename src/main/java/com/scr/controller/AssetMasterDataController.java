@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
+import com.scr.model.AssetMasterDataFormParameter;
+import com.scr.model.ReportRepository;
 import com.scr.services.AssetMasterDataService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -122,5 +124,16 @@ public class AssetMasterDataController {
 	public ResponseEntity<List<AssetMasterData>> findAssetIdAndFacilityId(@PathVariable("assetType") String assetType ,@PathVariable("facilityId") String facilityId){
 		List<AssetMasterData> assetIdsList= assetMasterDataService.findByAssetTypeAndFacilityId(assetType, facilityId);
 			return new ResponseEntity<List<AssetMasterData>>(assetIdsList, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/assetMasterParameterNames", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterDataFormParameter>> findall(){
+		List<AssetMasterDataFormParameter> amdParamNames= assetMasterDataService.findAssetMasterFormParamter();
+					return new ResponseEntity<List<AssetMasterDataFormParameter>>(amdParamNames, HttpStatus.OK);	
+		
+	}
+	@RequestMapping(value = "/getAssetParameterNamesBasedOnAssetTypes/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterDataFormParameter>> findAllAssetTypes(@PathVariable("assetType") String assetType){
+		List<AssetMasterDataFormParameter> assetTypeList= assetMasterDataService.findByAssetType(assetType);
+			return new ResponseEntity<List<AssetMasterDataFormParameter>>(assetTypeList, HttpStatus.OK);		
 	}
 }

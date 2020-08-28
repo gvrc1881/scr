@@ -23,14 +23,14 @@ export class AssetMasterDataComponent implements OnInit{
     addAssetMaster:boolean;
     assetMasterFormGroup:FormGroup;
     assetMasterDataList: any;
-    id: number = 0;
     title: string = "Save";
     AssocList:any;
-    zoneData:any;
     makeName:any;
     modelName:any;
-    divisionsData:any;
-    subDivisionData:any;
+    zoneList:any;
+    divisionsList:any;
+    subDivisionList:any;
+    parameterData:any;
     depoTypeList = [];
     assetTypeList = [];
     functionalUnitList: any;
@@ -42,13 +42,12 @@ export class AssetMasterDataComponent implements OnInit{
     saveAssetMaster:boolean;
     reportModel: ReportModel;
     value:string;
-    onlyOHE:boolean = true;
-    onlyPSI:boolean = true;
+    onlyOHE:boolean = false;
+    onlyPSI:boolean = false;
     pattern = "^[A-Z0-9]+$";
-    divisionsList:any;
     assetMasterDataSource: MatTableDataSource<AssetMasterDataModel>;
-    //assetSchAssocDisplayColumns = ['sno','assetType','scheduleCode','isDpr','targetPlanMonths',
-   // 'sequenceCode','duration','uomOfDuration','description','asaSeqId','id'] ;
+    assetMasterDisplayColumns = ['sno','type','facilityId','assetType','assetId','adeeSection','majorSection','section','locationPosition'
+    ,'kilometer','elementarySection','id'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editAssetMasterDataResponse: any;
@@ -56,8 +55,10 @@ export class AssetMasterDataComponent implements OnInit{
     assetMasterResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     assetsList:any;
+    assetTypeParametersData:any;
     scheduleList:any;
-
+    zone: any;
+    division: any;
     constructor( 
         private formBuilder: FormBuilder,
         private commonService: CommonService,
@@ -65,25 +66,115 @@ export class AssetMasterDataComponent implements OnInit{
         private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
         ){
-                this.assocErrors = {
-                    assetType: {},
-            
-                };
-            
+           
     }
 
     ngOnInit () {
       this.reportModel = new ReportModel();
       this.getAllAssetMasterData();
       this.findFunctionalUnits();
-      this.zoneList();
+      this.findZones();
       this.findDepoTypeList();
       this.findMakeDetails();
       this.findModelDetails();
+      this.assetMasterParameterNames();
       var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","OHE ASSET MASTER") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
       this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
+      this.assetMasterFormGroup = this.formBuilder.group({
+        id: 0,
+        'zone':[null],
+        'division':[null],
+        'subDivision':[null],
+        'type':[null],
+        'facilityId':[null],
+        'adeeSection':[null],
+        'majorSection':[null],
+        'assetType':[null],
+        'section':[null],
+        'locationPosition':[null],
+        'kilometer':[null],
+        'assetId':[null],
+        'part1':[null],
+        'part2':[null],
+        'part3':[null],
+        'elementarySection':[null],
+        'line':[null],
+        'parentAssetType':[null],
+        'parentAssetTypeId':[null],
+        'make':[null],
+        'model':[null],
+        'structure':[null],
+        'warrantyAmc':[null],
+        'station':[null],
+        'positionId':[null],
+        'capacityRating':[null],
+        'oemSerial':[null],
+        'rlyAssignedSerial':[null],
+        'source':[null],
+        'implantation':[null],
+        'vendor':[null],
+        'namePlateDetails':[null],
+        'end1Side1':[null],
+        'end2Side2':[null],
+        'remark1':[null],
+        'remark2':[null],
+        'codalLife':[null],
+        'voltage':[null],
+        'batch':[null],
+        'stagger1':[null],
+        'stagger2':[null],
+        'stagger3':[null],
+        'stay1InsulatorBatch':[null],
+        'stay1InsulatorMake':[null],
+        'bracket1InsulatorBatch':[null],
+        'bracket1InsulatorMake':[null],
+        'stag1Ton9InsulatorBatch':[null],
+        'stag1Ton9InsulatorMake':[null],
+        'rod1InsulatorBatch':[null],
+        'rod1InsulatorMake':[null],
+        'pedestal1InsulatorBatch':[null],
+        'pedestal1InsulatorMake':[null],
+        'core1InsulatorBatch':[null],
+        'core1InsulatorMake':[null],
+        'stay2InsulatorBatch':[null],
+        'stay2InsulatorMake':[null],
+        'bracket2InsulatorBatch':[null],
+        'bracket2InsulatorMake':[null],
+        'stag2Ton9InsulatorBatch':[null],
+        'stag2Ton9InsulatorMake':[null],
+        'rod2InsulatorBatch':[null],
+        'rod2InsulatorMake':[null],
+        'pedestal2InsulatorBatch':[null],
+        'pedestal2InsulatorMake':[null],
+        'core2InsulatorBatch':[null],
+        'core2InsulatorMake':[null],
+        'stay3InsulatorBatch':[null],
+        'stay3InsulatorMake':[null],
+        'bracket3InsulatorBatch':[null],
+        'bracket3InsulatorMake':[null],
+        'stag3Ton9InsulatorBatch':[null],
+        'stag3Ton9InsulatorMake':[null],
+        'rod3InsulatorBatch':[null],
+        'rod3InsulatorMake':[null],
+        'pedestal3InsulatorBatch':[null],
+        'pedestal3InsulatorMake':[null],
+        'core3InsulatorBatch':[null],
+        'core3InsulatorMake':[null],
+        'stagger':[null],  
+        'createdOn':[null],
+        'dateOfCommision':[null],
+        'dateOfManufacture':[null],
+        'dateOfReceived':[null],
+        'equippedDate':[null],
+        'expiryDate':[null],
+        'lugDate':[null],
+        'stripDate':[null],
+        'warrantyAmcEndDate':[null],
+
+
+    });      
     }
    
     public get f() { return this.assetMasterFormGroup.controls; } 
@@ -144,26 +235,52 @@ export class AssetMasterDataComponent implements OnInit{
         let stagger2: string = this.assetMasterFormGroup.value.stagger2;
         let stagger3: string = this.assetMasterFormGroup.value.stagger3;
         let stay1InsulatorBatch: string = this.assetMasterFormGroup.value.stay1InsulatorBatch;
+        let stay1InsulatorMake: string = this.assetMasterFormGroup.value.stay1InsulatorMake;
         let bracket1InsulatorBatch: string = this.assetMasterFormGroup.value.bracket1InsulatorBatch;
+        let bracket1InsulatorMake: string = this.assetMasterFormGroup.value.bracket1InsulatorMake;
         let stag1Ton9InsulatorBatch: string = this.assetMasterFormGroup.value.stag1Ton9InsulatorBatch;
+        let stag1Ton9InsulatorMake: string = this.assetMasterFormGroup.value.stag1Ton9InsulatorMake;
         let rod1InsulatorBatch: string = this.assetMasterFormGroup.value.rod1InsulatorBatch;
+        let rod1InsulatorMake: string = this.assetMasterFormGroup.value.rod1InsulatorMake;
         let pedestal1InsulatorBatch: string = this.assetMasterFormGroup.value.pedestal1InsulatorBatch;
+        let pedestal1InsulatorMake: string = this.assetMasterFormGroup.value.pedestal1InsulatorMake;
         let core1InsulatorBatch: string = this.assetMasterFormGroup.value.core1InsulatorBatch;
+        let core1InsulatorMake: string = this.assetMasterFormGroup.value.core1InsulatorMake;
         let stay2InsulatorBatch: string = this.assetMasterFormGroup.value.stay2InsulatorBatch;
+        let stay2InsulatorMake: string = this.assetMasterFormGroup.value.stay2InsulatorMake;
         let bracket2InsulatorBatch: string = this.assetMasterFormGroup.value.bracket2InsulatorBatch;
+        let bracket2InsulatorMake: string = this.assetMasterFormGroup.value.bracket2InsulatorMake;
         let stag2Ton9InsulatorBatch: string = this.assetMasterFormGroup.value.stag2Ton9InsulatorBatch;
+        let stag2Ton9InsulatorMake: string = this.assetMasterFormGroup.value.stag2Ton9InsulatorMake;
         let rod2InsulatorBatch: string = this.assetMasterFormGroup.value.rod2InsulatorBatch;
+        let rod2InsulatorMake: string = this.assetMasterFormGroup.value.rod2InsulatorMake;
         let pedestal2InsulatorBatch: string = this.assetMasterFormGroup.value.pedestal2InsulatorBatch;
+        let pedestal2InsulatorMake: string = this.assetMasterFormGroup.value.pedestal2InsulatorMake;
         let core2InsulatorBatch: string = this.assetMasterFormGroup.value.core2InsulatorBatch;
+        let core2InsulatorMake: string = this.assetMasterFormGroup.value.core2InsulatorMake;
         let stay3InsulatorBatch: string = this.assetMasterFormGroup.value.stay3InsulatorBatch;
+        let stay3InsulatorMake: string = this.assetMasterFormGroup.value.stay3InsulatorMake;
         let bracket3InsulatorBatch: string = this.assetMasterFormGroup.value.bracket3InsulatorBatch;
+        let bracket3InsulatorMake: string = this.assetMasterFormGroup.value.bracket3InsulatorMake;
         let stag3Ton9InsulatorBatch: string = this.assetMasterFormGroup.value.stag3Ton9InsulatorBatch;
+        let stag3Ton9InsulatorMake: string = this.assetMasterFormGroup.value.stag3Ton9InsulatorMake;
         let rod3InsulatorBatch: string = this.assetMasterFormGroup.value.rod3InsulatorBatch;
+        let rod3InsulatorMake: string = this.assetMasterFormGroup.value.rod3InsulatorMake;
         let pedestal3InsulatorBatch: string = this.assetMasterFormGroup.value.pedestal3InsulatorBatch;
+        let pedestal3InsulatorMake: string = this.assetMasterFormGroup.value.pedestal3InsulatorMake;
         let core3InsulatorBatch: string = this.assetMasterFormGroup.value.core3InsulatorBatch;
+        let core3InsulatorMake: string = this.assetMasterFormGroup.value.core3InsulatorMake;
         let stagger: string = this.assetMasterFormGroup.value.stagger;
+        let createdOn: Date = this.assetMasterFormGroup.value.createdOn;
+        let dateOfCommision: Date = this.assetMasterFormGroup.value.dateOfCommision;
+        let dateOfManufacture: Date = this.assetMasterFormGroup.value.dateOfManufacture;
+        let dateOfReceived: Date = this.assetMasterFormGroup.value.dateOfReceived;
+        let equippedDate: Date = this.assetMasterFormGroup.value.equippedDate;
+        let expiryDate: Date = this.assetMasterFormGroup.value.expiryDate;
+        let lugDate: Date = this.assetMasterFormGroup.value.lugDate;
+        let stripDate: Date = this.assetMasterFormGroup.value.stripDate;
+        let warrantyAmcEndDate: Date = this.assetMasterFormGroup.value.warrantyAmcEndDate;
 
-    
         this.addAssetMaster = false;
         if (this.title == Constants.EVENTS.SAVE) {
           var saveAmdModel = {
@@ -207,25 +324,51 @@ export class AssetMasterDataComponent implements OnInit{
             'stagger2': stagger2,
             'stagger3': stagger3,
             'stay1InsulatorBatch': stay1InsulatorBatch,
+            'stay1InsulatorMake': stay1InsulatorMake,
             'bracket1InsulatorBatch': bracket1InsulatorBatch,
+            'bracket1InsulatorMake': bracket1InsulatorMake,
             'stag1Ton9InsulatorBatch': stag1Ton9InsulatorBatch,
+            'stag1Ton9InsulatorMake': stag1Ton9InsulatorMake,
             'rod1InsulatorBatch': rod1InsulatorBatch,
+            'rod1InsulatorMake': rod1InsulatorMake,
             'pedestal1InsulatorBatch': pedestal1InsulatorBatch,
+            'pedestal1InsulatorMake': pedestal1InsulatorMake,
             'core1InsulatorBatch': core1InsulatorBatch,
+            'core1InsulatorMake': core1InsulatorMake,
             'stay2InsulatorBatch': stay2InsulatorBatch,
+            'stay2InsulatorMake': stay2InsulatorMake,
             'bracket2InsulatorBatch': bracket2InsulatorBatch,
+            'bracket2InsulatorMake': bracket2InsulatorMake,
             'stag2Ton9InsulatorBatch': stag2Ton9InsulatorBatch,
+            'stag2Ton9InsulatorMake': stag2Ton9InsulatorMake,
             'rod2InsulatorBatch': rod2InsulatorBatch,
+            'rod2InsulatorMake': rod2InsulatorMake,
             'pedestal2InsulatorBatch': pedestal2InsulatorBatch,
+            'pedestal2InsulatorMake': pedestal2InsulatorMake,
             'core2InsulatorBatch': core2InsulatorBatch,
+            'core2InsulatorMake': core2InsulatorMake,
             'stay3InsulatorBatch': stay3InsulatorBatch,
+            'stay3InsulatorMake': stay3InsulatorMake,
             'bracket3InsulatorBatch': bracket3InsulatorBatch,
+            'bracket3InsulatorMake': bracket3InsulatorMake,
             'stag3Ton9InsulatorBatch': stag3Ton9InsulatorBatch,
+            'stag3Ton9InsulatorMake': stag3Ton9InsulatorMake,
             'rod3InsulatorBatch': rod3InsulatorBatch,
+            'rod3InsulatorMake': rod3InsulatorMake,
             'pedestal3InsulatorBatch': pedestal3InsulatorBatch,
+            'pedestal3InsulatorMake': pedestal3InsulatorMake,
             'core3InsulatorBatch': core3InsulatorBatch,
+            'core3InsulatorMake': core3InsulatorMake,
             'stagger': stagger,
-           
+            'createdOn':createdOn,
+            'dateOfCommision':dateOfCommision,
+            'dateOfManufacture':dateOfManufacture,
+            'dateOfReceived':dateOfReceived,
+            'equippedDate':equippedDate,
+            'expiryDate':expiryDate,
+            'lugDate':lugDate,
+            'stripDate':stripDate,
+            'warrantyAmcEndDate':warrantyAmcEndDate,
           }
           this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.SAVE_ASSET_MASTER_DATA,saveAmdModel, false).subscribe(data => {
             this.assetMasterResponse = data;
@@ -243,9 +386,9 @@ export class AssetMasterDataComponent implements OnInit{
           this.commonService.showAlertMessage("Asset Master Data Saving Failed.");
       });
   } else if (this.title == Constants.EVENTS.UPDATE) {
-          let id: number = this.editAssetMasterDataResponse.id;
+          let id: number = this.editAssetMasterResponse.id;
           var updateAmdModel = {
-            'id': id,
+            'id':id,
             'type': type,
             'facilityId': facilityId,
             'adeeSection': adeeSection,
@@ -286,35 +429,194 @@ export class AssetMasterDataComponent implements OnInit{
             'stagger2': stagger2,
             'stagger3': stagger3,
             'stay1InsulatorBatch': stay1InsulatorBatch,
+            'stay1InsulatorMake': stay1InsulatorMake,
             'bracket1InsulatorBatch': bracket1InsulatorBatch,
+            'bracket1InsulatorMake': bracket1InsulatorMake,
             'stag1Ton9InsulatorBatch': stag1Ton9InsulatorBatch,
+            'stag1Ton9InsulatorMake': stag1Ton9InsulatorMake,
             'rod1InsulatorBatch': rod1InsulatorBatch,
+            'rod1InsulatorMake': rod1InsulatorMake,
             'pedestal1InsulatorBatch': pedestal1InsulatorBatch,
+            'pedestal1InsulatorMake': pedestal1InsulatorMake,
             'core1InsulatorBatch': core1InsulatorBatch,
+            'core1InsulatorMake': core1InsulatorMake,
             'stay2InsulatorBatch': stay2InsulatorBatch,
+            'stay2InsulatorMake': stay2InsulatorMake,
             'bracket2InsulatorBatch': bracket2InsulatorBatch,
+            'bracket2InsulatorMake': bracket2InsulatorMake,
             'stag2Ton9InsulatorBatch': stag2Ton9InsulatorBatch,
+            'stag2Ton9InsulatorMake': stag2Ton9InsulatorMake,
             'rod2InsulatorBatch': rod2InsulatorBatch,
+            'rod2InsulatorMake': rod2InsulatorMake,
             'pedestal2InsulatorBatch': pedestal2InsulatorBatch,
+            'pedestal2InsulatorMake': pedestal2InsulatorMake,
             'core2InsulatorBatch': core2InsulatorBatch,
+            'core2InsulatorMake': core2InsulatorMake,
             'stay3InsulatorBatch': stay3InsulatorBatch,
+            'stay3InsulatorMake': stay3InsulatorMake,
             'bracket3InsulatorBatch': bracket3InsulatorBatch,
+            'bracket3InsulatorMake': bracket3InsulatorMake,
             'stag3Ton9InsulatorBatch': stag3Ton9InsulatorBatch,
+            'stag3Ton9InsulatorMake': stag3Ton9InsulatorMake,
             'rod3InsulatorBatch': rod3InsulatorBatch,
+            'rod3InsulatorMake': rod3InsulatorMake,
             'pedestal3InsulatorBatch': pedestal3InsulatorBatch,
+            'pedestal3InsulatorMake': pedestal3InsulatorMake,
             'core3InsulatorBatch': core3InsulatorBatch,
+            'core3InsulatorMake': core3InsulatorMake,
             'stagger': stagger,
+            'createdOn':createdOn,
+            'dateOfCommision':dateOfCommision,
+            'dateOfManufacture':dateOfManufacture,
+            'dateOfReceived':dateOfReceived,
+            'equippedDate':equippedDate,
+            'expiryDate':expiryDate,
+            'lugDate':lugDate,
+            'stripDate':stripDate,
+            'warrantyAmcEndDate':warrantyAmcEndDate,
           }
-          this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.UPDATE_ASSET_MASTER_DATA, updateAmdModel, false).subscribe(response => {
-            this.commonService.showAlertMessage('Successfully updated');
-            this.getAllAssetMasterData();
-            this.assetMasterFormGroup.reset();
-            this.addAssetMaster = false;
-          }, error => { })
+          this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.UPDATE_ASSET_MASTER_DATA, updateAmdModel, false).subscribe(data => {
+            this.assetMasterResponse = data;
+            if(this.assetMasterResponse.code == 200 && !!this.assetMasterResponse) {
+                this.commonService.showAlertMessage(this.assetMasterResponse.message);
+                this.getAllAssetMasterData();
+                this.assetMasterFormGroup.reset();
+                this.addAssetMaster =  false;
+            }else {
+                this.commonService.showAlertMessage("Asset Master Data Updating Failed.");
+            }
+        } , error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Asset Master  Data Updating Failed.");
+        });
+        
+    }
+}
+      editAssetNasterItem (id) {
+        this.addAssetMaster = true;
+        this.assetMasterItemEditAction(id);
+        this.title = 'Update';
+    }
+
+    assetMasterItemEditAction(id: number) {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_ID+id).subscribe((responseData) => {
+            this.editAssetMasterResponse = responseData;
+            this.assetMasterFormGroup.patchValue({
+                id: this.editAssetMasterResponse.id,
+                type:this.editAssetMasterResponse.type,
+                facilityId: this.editAssetMasterResponse.facilityId,
+                adeeSection: this.editAssetMasterResponse.adeeSection,
+                majorSection: this.editAssetMasterResponse.majorSection,
+                assetType: this.editAssetMasterResponse.assetType,
+                section: this.editAssetMasterResponse.section,
+                locationPosition: this.editAssetMasterResponse.locationPosition,
+                kilometer: this.editAssetMasterResponse.kilometer,
+                assetId: this.editAssetMasterResponse.assetId,
+                part1: this.editAssetMasterResponse.part1,
+                part2: this.editAssetMasterResponse.part2,
+                part3: this.editAssetMasterResponse.part3,
+                elementarySection: this.editAssetMasterResponse.elementarySection,
+                line: this.editAssetMasterResponse.line,
+                parentAssetType:this.editAssetMasterResponse.parentAssetType,
+                parentAssetTypeId:this.editAssetMasterResponse.parentAssetTypeId,               
+                make:this.editAssetMasterResponse.make,
+                model:this.editAssetMasterResponse.model,
+                structure:this.editAssetMasterResponse.structure,
+                warrantyAmc:this.editAssetMasterResponse.warrantyAmc,
+                station:this.editAssetMasterResponse.station,
+                positionId:this.editAssetMasterResponse.positionId,
+                capacityRating:this.editAssetMasterResponse.capacityRating,
+                oemSerial:this.editAssetMasterResponse.oemSerial,
+                rlyAssignedSerial:this.editAssetMasterResponse.rlyAssignedSerial,
+                source:this.editAssetMasterResponse.source,
+                implantation:this.editAssetMasterResponse.implantation,
+                vendor:this.editAssetMasterResponse.vendor,
+                namePlateDetails:this.editAssetMasterResponse.namePlateDetails,
+                end1Side1:this.editAssetMasterResponse.end1Side1,
+                end2Side2:this.editAssetMasterResponse.end2Side2,
+                remark1:this.editAssetMasterResponse.remark1,
+                remark2:this.editAssetMasterResponse.remark2,
+                codalLife:this.editAssetMasterResponse.codalLife,
+                voltage:this.editAssetMasterResponse.voltage,
+                batch:this.editAssetMasterResponse.batch,
+                stagger1:this.editAssetMasterResponse.stagger1,
+                stagger2:this.editAssetMasterResponse.stagger2,
+                stagger3:this.editAssetMasterResponse.stagger3,
+                stay1InsulatorBatch:this.editAssetMasterResponse.stay1InsulatorBatch,
+                stay1InsulatorMake:this.editAssetMasterResponse.stay1InsulatorMake,
+                bracket1InsulatorBatch:this.editAssetMasterResponse.bracket1InsulatorBatch,
+                bracket1InsulatorMake:this.editAssetMasterResponse.bracket1InsulatorMake,
+                stag1Ton9InsulatorBatch:this.editAssetMasterResponse.stag1Ton9InsulatorBatch,
+                stag1Ton9InsulatorMake:this.editAssetMasterResponse.stag1Ton9InsulatorMake,
+                rod1InsulatorBatch:this.editAssetMasterResponse.rod1InsulatorBatch,
+                rod1InsulatorMake:this.editAssetMasterResponse.rod1InsulatorMake,
+                pedestal1InsulatorBatch:this.editAssetMasterResponse.pedestal1InsulatorBatch,
+                pedestal1InsulatorMake:this.editAssetMasterResponse.pedestal1InsulatorMake,
+                core1InsulatorBatch:this.editAssetMasterResponse.core1InsulatorBatch,
+                core1InsulatorMake:this.editAssetMasterResponse.core1InsulatorMake,
+                stay2InsulatorBatch:this.editAssetMasterResponse.stay2InsulatorBatch,
+                stay2InsulatorMake:this.editAssetMasterResponse.stay2InsulatorMake,
+                bracket2InsulatorBatch:this.editAssetMasterResponse.bracket2InsulatorBatch,
+                bracket2InsulatorMake:this.editAssetMasterResponse.bracket2InsulatorMake,
+                stag2Ton9InsulatorBatch:this.editAssetMasterResponse.stag2Ton9InsulatorBatch,
+                stag2Ton9InsulatorMake:this.editAssetMasterResponse.stag2Ton9InsulatorMake,
+                rod2InsulatorBatch:this.editAssetMasterResponse.rod2InsulatorBatch,
+                rod2InsulatorMake:this.editAssetMasterResponse.rod2InsulatorMake,
+                pedestal2InsulatorBatch:this.editAssetMasterResponse.pedestal2InsulatorBatch,
+                pedestal2InsulatorMake:this.editAssetMasterResponse.pedestal2InsulatorMake,
+                core2InsulatorBatch:this.editAssetMasterResponse.core2InsulatorBatch,
+                core2InsulatorMake:this.editAssetMasterResponse.core2InsulatorMake,
+                stay3InsulatorBatch:this.editAssetMasterResponse.stay3InsulatorBatch,
+                stay3InsulatorMake:this.editAssetMasterResponse.stay3InsulatorMake,
+                bracket3InsulatorBatch:this.editAssetMasterResponse.bracket3InsulatorBatch,
+                bracket3InsulatorMake:this.editAssetMasterResponse.bracket3InsulatorMake,
+                stag3Ton9InsulatorBatch:this.editAssetMasterResponse.stag3Ton9InsulatorBatch,
+                stag3Ton9InsulatorMake:this.editAssetMasterResponse.stag3Ton9InsulatorMake,
+                rod3InsulatorBatch:this.editAssetMasterResponse.rod3InsulatorBatch,
+                rod3InsulatorMake:this.editAssetMasterResponse.rod3InsulatorMake,
+                pedestal3InsulatorBatch:this.editAssetMasterResponse.pedestal3InsulatorBatch,
+                pedestal3InsulatorMake:this.editAssetMasterResponse.pedestal3InsulatorMake,
+                core3InsulatorBatch:this.editAssetMasterResponse.core3InsulatorBatch,
+                core3InsulatorMake:this.editAssetMasterResponse.core3InsulatorMake,
+                stagger:this.editAssetMasterResponse.stagger,
+                createdOn:this.editAssetMasterResponse.createdOn, 
+                dateOfCommision:this.editAssetMasterResponse.dateOfCommision, 
+                dateOfManufacture:this.editAssetMasterResponse.dateOfManufacture, 
+                dateOfReceived:this.editAssetMasterResponse.dateOfReceived, 
+                equippedDate:this.editAssetMasterResponse.equippedDate, 
+                expiryDate:this.editAssetMasterResponse.expiryDate,
+                lugDate:this.editAssetMasterResponse.lugDate, 
+                stripDate:this.editAssetMasterResponse.stripDate, 
+                warrantyAmcEndDate:this.editAssetMasterResponse.warrantyAmcEndDate, 
+            });
+          
+        } ,error => {})
+    }
+
+
+    deleteAssetMasterDataItem (id) {
+        this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+          });
+        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Asset Master  item?";
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if(result){
+                this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.DELETE_ASSET_MASTER_DATA, id)
+                    .subscribe((data) => {
+                        this.commonService.showAlertMessage('Asset Master Data Deleted Successfully');
+                        this.getAllAssetMasterData();
+                    },error => {});
+            }
+        });
+    }
+        
     
-        }
-      }
-    
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim();
+        filterValue = filterValue.toLowerCase();
+        this.assetMasterDataSource.filter = filterValue;
+    }
     
     
     onGoBack() {
@@ -325,75 +627,7 @@ export class AssetMasterDataComponent implements OnInit{
 
 
     NewAssetMaster(){
-        this.assetMasterFormGroup = this.formBuilder.group({
-            id: 0,
-            'zone':[null],
-            'division':[null],
-            'subDivision':[null],
-            'type':[null],
-            'facilityId':[null],
-            'adeeSection':[null],
-            'majorSection':[null],
-            'assetType':[null],
-            'section':[null],
-            'locationPosition':[null],
-            'kilometer':[null],
-            'assetId':[null],
-            'part1':[null],
-            'part2':[null],
-            'part3':[null],
-            'elementarySection':[null],
-            'line':[null],
-            'parentAssetType':[null],
-            'parentAssetTypeId':[null],
-            'make':[null],
-            'model':[null],
-            'structure':[null],
-            'warrantyAmc':[null],
-            'station':[null],
-            'positionId':[null],
-            'capacityRating':[null],
-            'oemSerial':[null],
-            'rlyAssignedSerial':[null],
-            'source':[null],
-            'implantation':[null],
-            'vendor':[null],
-            'namePlateDetails':[null],
-            'end1Side1':[null],
-            'end2Side2':[null],
-            'remark1':[null],
-            'remark2':[null],
-            'codalLife':[null],
-            'voltage':[null],
-            'batch':[null],
-            'stagger1':[null],
-            'stagger2':[null],
-            'stagger3':[null],
-            'stay1InsulatorBatch':[null],
-            'bracket1InsulatorBatch':[null],
-            'stag1Ton9InsulatorBatch':[null],
-            'rod1InsulatorBatch':[null],
-            'pedestal1InsulatorBatch':[null],
-            'core1InsulatorBatch':[null],
-            'stay2InsulatorBatch':[null],
-            'bracket2InsulatorBatch':[null],
-            'stag2Ton9InsulatorBatch':[null],
-            'rod2InsulatorBatch':[null],
-            'pedestal2InsulatorBatch':[null],
-            'core2InsulatorBatch':[null],
-            'stay3InsulatorBatch':[null],
-            'bracket3InsulatorBatch':[null],
-            'stag3Ton9InsulatorBatch':[null],
-            'rod3InsulatorBatch':[null],
-            'pedestal3InsulatorBatch':[null],
-            'core3InsulatorBatch':[null],
-            'stagger':[null],
-
-            
-            
-        });
-        this.addAssetMaster = true;
-        
+        this.addAssetMaster = true;      
     }
     statusChange() {
       if (this.assetMasterFormGroup.value.type == 'OHE') {     
@@ -414,25 +648,33 @@ export class AssetMasterDataComponent implements OnInit{
             }
                 }      
           
-    zoneList()
-    {   
-          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
-             this.zoneData = data;
-    }
-           ); }
-    
-           divisionCode(code: any){
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, code, false).subscribe((data) => {
-              this.divisionsData=data;   
-            }    
-            )
-      }
-        subDivision(code){
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,code, false).subscribe((data) => {
-                this.subDivisionData=data;   
-              }    
-              )
-        }  
+                findZones()
+                {
+                    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
+                        this.zoneList = data;
+               }
+                      ); 
+            
+                }
+                getDivisions(){
+                    this.zone =this.assetMasterFormGroup.controls['zone'].value; 
+                  this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, this.zone, false).subscribe((data) => {
+                    this.divisionsList = data;
+                             
+                            });
+                          
+                }
+                
+            
+                getSubDivisions(){
+                   
+                  this.division=this.assetMasterFormGroup.controls['division'].value; 
+                    this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,this.division, false).subscribe((data) => {
+                        this.subDivisionList = data;
+                         });
+                    
+            
+                }
     findDepoTypeList() {
       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
         .subscribe((depoTypes) => {
@@ -473,6 +715,20 @@ export class AssetMasterDataComponent implements OnInit{
           this.modelName = units;
         })
     }
+    assetMasterParameterNames()
+         {
+                this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_PARAMETERS).subscribe((data) => {
+                  this.parameterData = data;
+                           }
+                );
+
+        }
+        getAssetTypes(){
+          var assetType = this.assetMasterFormGroup.value.assetType ;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES+assetType).subscribe((data) => {
+                   this.assetTypeParametersData = data;
+              });
+      }
 }
 
     

@@ -28,7 +28,7 @@ export const Constants = {
             GET_POWER_BLOCKS:"/powerBlocks",
             GET_ZONE_LIST:"/zoneList",
             GET_PB_SWITCH_CONTROL:"/pbSwitchControl",
-            GET_ELEMENTARY_SECTIONS:"/elementarySectionsByFacilityId",
+            GET_ELEMENTARY_SECTIONS:"/getElementarySectionsBasedOnFacilityId/",
             GET_OBS_CATEGORIES:"/observationCategories",
             GET_OBS_CHECK_LIST:"/observationCheckList",
             GET_REPORT:"/generateReport",
@@ -44,7 +44,7 @@ export const Constants = {
             GET_STIPULATION_DETAILS:"/stipulationDetails",
             GET_UOM_DETAILS:"/uomDetails",
             GET_SECTION_DETAILS:"/sectionDetails",
-            GET_STATUS_DETAILS:"/statusItemDetails/",
+            GET_STATUS_DETAILS:"/getStatusCodeBasedOnStatusTypeId/",
             GET_MAKE_DETAILS:"/makeDetails",
             GET_MODEL_DETAILS:"/modelDetails",
             GET_MAJOR_SECTION_DETAILS:"/majorSectionDetails",
@@ -478,7 +478,7 @@ export const Constants = {
         		SAVE_POWER_BLOCK:"/addPowerBlock",
         		UPDATE_POWER_BLOCK:"/updatePowerBlock",
                 GET_POWER_BLOCK_BY_ID:"/findPowerBlock/",
-                GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE:"/getPowerBlocksBasedOnFacilityIdAndCreatedDate",
+                GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE:"/getPowerBlocksBasedOnFacilityIdAndCreatedDate/",
             },
             PB_SWITCH_CONTROL:{
         		GET_PB_SWITCH_CONTROL_BASED_ON_EXTEND_TYPE_AND_EXTEND_CODE:"/findByExtentTypeAndExtentCode"
