@@ -12,7 +12,7 @@ import { ScheduleModel } from 'src/app/models/schedule.model';
 import { PreviousRouteService } from 'src/app/services/previousRoute.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
-
+import {Location} from '@angular/common';
 @Component({
     selector: 'app-reportParameterDisplay',
     templateUrl: 'reportParameterDisplay.component.html',
@@ -48,6 +48,7 @@ export class ReportParameterDisplayComponent implements OnInit {
     constructor(
        private Activatedroute:ActivatedRoute,
         private formBuilder: FormBuilder ,
+        private location:Location,
         private sendAndRequestService:SendAndRequestService,
         private previousRouterUrl: PreviousRouteService) { }
      
@@ -214,7 +215,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        }
         
        onGoBack(){
-              
+             this.location.back(); 
        }
        }
         

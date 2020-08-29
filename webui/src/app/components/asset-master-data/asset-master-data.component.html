@@ -4,59 +4,71 @@
         <div class="breadcrumb-section">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">Asset Master Data</li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                     <li class="breadcrumb-item"><a [routerLink]="['/electrification-targets']">Electrification Targets </a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Asset Master Data</li>
                 </ol>
             </nav>
-          </div>
+        </div>
+  
       </div>
-  <div class="clear"></div>
-      <div class="row-fluid">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Asset Master Data Information</div>
-            <div class="panel-body">
-                    <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                        <div class="p-24">
-  <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-  <div class="p-12" style="text-align: right;"  *ngIf="addPermission">
-    <span class="mat-raised-button mat-accent" 
-      color="accent" mat-raised-button="" (click)="NewAssetMaster()" *ngIf="!addAssetMaster">
-       Add Asset Master
-    </span>
-  </div> 
-  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addAssetMaster" fxLayout="column"
-                                                fxLayoutAlign="start" [formGroup]="assetMasterFormGroup" fxFlex="1 0 auto"
-                                                (ngSubmit)="assetMasterDataSubmit();">
+        <div class="clear"></div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Asset Master Data Information</div>
+                    <div class="panel-body">
+                            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                <div class="p-24">
+                                    <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+  
+                                        <div class="p-12" style="text-align: right;" *ngIf="addPermission">
+                                            <span class="mat-raised-button mat-accent" (click)="NewAssetMaster()" *ngIf="!addAssetMaster"
+                                              color="accent" mat-raised-button="">
+                                               Add AssetMaster Item
+                                            </span>
+                                        </div>
+  
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="addAssetMaster" fxLayout="column"
+                                                  fxLayoutAlign="start" [formGroup]="assetMasterFormGroup" fxFlex="1 0 auto"
+                                                  (ngSubmit)="assetMasterDataSubmit();">
+  
                                                 <div class="panel panel-primary">
                                                     <div class="panel-heading">{{title}} Asset Master Data</div>
                                                     <div class="panel-body">
                                                         <div class="col-md-12">
-                                                          <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30" class="example-full-width">
-                                                                <mat-select placeholder="Select Zone"
-                                                                name="zone"
-                                                                [(ngModel)]="reportModel.zone"
-                                                                 (selectionChange)="divisionCode(reportModel.zone)"
-                                                                    [formControl]="assetMasterFormGroup.controls['zone']">
-                                                                    <mat-option *ngFor="let zoneData of zoneData"
-                                                                        [value]="zoneData.code">
-                                                                        {{ zoneData.code }}
-                                                                    </mat-option>
-                                                                </mat-select>
-                                                            </mat-form-field>
-                                                        </div>
-                                                          
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30" class="example-full-width">
+                                                                    <mat-select placeholder="Select Zone"
+                                                                        [formControl]="assetMasterFormGroup.controls['zone']" (ngModelChange)="getDivisions()">
+                                                                        <mat-option *ngFor="let zone of zoneList"
+                                                                            [value]="zone">
+                                                                            {{ zone.code }}
+                                                                        </mat-option>
+                                                                    </mat-select>                  
+                                                                </mat-form-field>
+                                                            </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30" class="example-full-width">
                                                                     <mat-select placeholder="Select Division"
-                                                                        [formControl]="assetMasterFormGroup.controls['division']">
-                                                                        <mat-option *ngFor="let divisionsList of divisionsList"
-                                                                            [value]="divisionsList.code">
-                                                                            {{ divisionsList.code }}
+                                                                        [formControl]="assetMasterFormGroup.controls['division']" (ngModelChange)="getSubDivisions()">
+                                                                        <mat-option *ngFor="let divisions of divisionsList"
+                                                                            [value]="divisions">
+                                                                            {{ divisions.code }}
                                                                         </mat-option>
-                                                                    </mat-select>
+                                                                    </mat-select>                  
                                                                 </mat-form-field>
                                                             </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30" class="example-full-width">
+                                                                    <mat-select placeholder="Select SubDivision"
+                                                                        [formControl]="assetMasterFormGroup.controls['subDivision']" >
+                                                                        <mat-option *ngFor="let subDivision of subDivisionList"
+                                                                            [value]="subDivision">
+                                                                            {{ subDivision.code }}
+                                                                        </mat-option>
+                                                                    </mat-select>                  
+                                                                </mat-form-field>
+                                                            </div>                                                          
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
                                                                     <mat-select placeholder="Select Depot Type" [formControl]="assetMasterFormGroup.controls['type']" required
@@ -80,20 +92,11 @@
                                                                     </mat-select>
                                                                 </mat-form-field>
                                                          </div>
-                                                         <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Adee Section" [formControl]="assetMasterFormGroup.controls['adeeSection']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Major Section" [formControl]="assetMasterFormGroup.controls['majorSection']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
+                                                        
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30" class="example-full-width">
                                                                 <mat-select placeholder="Select Asset Type"
-                                                                    [formControl]="assetMasterFormGroup.controls['assetType']" required>
+                                                                    [formControl]="assetMasterFormGroup.controls['assetType']" required (selectionChange)="getAssetTypes()">
                                                                     <mat-option *ngFor="let assetType of assetTypeList"
                                                                         [value]="assetType.productId">
                                                                         {{ assetType.productId }}
@@ -101,292 +104,479 @@
                                                                 </mat-select>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-12" *ngIf="onlyOHE && addPermission">
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Section" [formControl]="assetMasterFormGroup.controls['section']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Kilometer" decimalNumber 
-                                                                [formControl]="assetMasterFormGroup.controls['kilometer']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Location Position" [formControl]="assetMasterFormGroup.controls['locationPosition']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
                                                         
-                                                        <div class="col-md-3">
+
+                                                        <ul *ngFor="let names of assetTypeParametersData">
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='adee_section')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Adee Section" [formControl]="assetMasterFormGroup.controls['adeeSection']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='asset_id')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Asset Id" [formControl]="assetMasterFormGroup.controls['assetId']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="Batch" [formControl]="assetMasterFormGroup.controls['batch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket1_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['bracket1InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket1_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket1 Insulator Make" [formControl]="assetMasterFormGroup.controls['bracket1InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket2_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket2 Insulator Batch" [formControl]="assetMasterFormGroup.controls['bracket2InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket2_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket2 Insulator Make" [formControl]="assetMasterFormGroup.controls['bracket2InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket3_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['bracket3InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='bracket3_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Bracket3 Insulator Make" [formControl]="assetMasterFormGroup.controls['bracket3InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='capacity_rating')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="Capacity Rating" [formControl]="assetMasterFormGroup.controls['capacityRating']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='codal_life')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="CodalLife" [formControl]="assetMasterFormGroup.controls['codalLife']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core1_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core1InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core1_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core1 Insulator Make" [formControl]="assetMasterFormGroup.controls['core1InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core2_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core2InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core2_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core2 Insulator Make" [formControl]="assetMasterFormGroup.controls['core2InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core3_insulator_batch')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core3InsulatorBatch']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='core3_insulator_make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Core3InsulatorMake" [formControl]="assetMasterFormGroup.controls['core3InsulatorMake']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='created_on')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Created On"
+                                                                        [formControl]="assetMasterFormGroup.controls['createdOn']" required>
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='date_of_commision')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Date of Commision"
+                                                                        [formControl]="assetMasterFormGroup.controls['dateOfCommision']" required>
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='date_of_manufacture')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Date of Manufacture"
+                                                                        [formControl]="assetMasterFormGroup.controls['dateOfManufacture']" >
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='date_of_received')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Date of Received"
+                                                                        [formControl]="assetMasterFormGroup.controls['dateOfReceived']" >
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='elementary_section')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Elementary Section" [formControl]="assetMasterFormGroup.controls['elementarySection']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='end1_side1')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="End1Side1" [formControl]="assetMasterFormGroup.controls['end1Side1']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div> 
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='end2_side2')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="End2Side2" [formControl]="assetMasterFormGroup.controls['end2Side2']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='equipped_date')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Equipped Date"
+                                                                        [formControl]="assetMasterFormGroup.controls['equippedDate']" >
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='expiry_date')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Expiry Date"
+                                                                        [formControl]="assetMasterFormGroup.controls['expiryDate']" >
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div> 
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='implantation')">
+                                                                <mat-form-field fxFlex="30">
+                                                                     <textarea matInput placeholder="Implantation" [formControl]="assetMasterFormGroup.controls['implantation']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='kilometer')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Kilometer" decimalNumber 
+                                                                    [formControl]="assetMasterFormGroup.controls['kilometer']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='line')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Line" [formControl]="assetMasterFormGroup.controls['line']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='location_position')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Location Position" [formControl]="assetMasterFormGroup.controls['locationPosition']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='major_section')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <textarea matInput placeholder="Major Section" [formControl]="assetMasterFormGroup.controls['majorSection']" ></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='lug_date')">
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="picker1" 
+                                                                        placeholder="Lug Date"
+                                                                        [formControl]="assetMasterFormGroup.controls['lugDate']" >
+                                                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div> 
+                                                            <div class="col-md-3" *ngIf="(names.columnName=='make')">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <mat-select placeholder="Select Make"
+                                                                        [formControl]="assetMasterFormGroup.controls['make']">
+                                                                        <mat-option *ngFor="let makeName of makeName"
+                                                                            [value]="makeName.makeCode">
+                                                                            {{ makeName.makeCode}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                         </div>
+                                                         <div class="col-md-3" *ngIf="(names.columnName=='model')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Asset Id" [formControl]="assetMasterFormGroup.controls['assetId']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part1" [formControl]="assetMasterFormGroup.controls['part1']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part2" [formControl]="assetMasterFormGroup.controls['part2']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part3" [formControl]="assetMasterFormGroup.controls['part3']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Elementary Section" [formControl]="assetMasterFormGroup.controls['elementarySection']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Line" [formControl]="assetMasterFormGroup.controls['line']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                        <!--PSI FIELDS-->
-                                                        <div class="col-md-12" *ngIf="onlyPSI && addPermission">
-                                                            
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="ParentAssetType" [formControl]="assetMasterFormGroup.controls['parentAssetType']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="ParentAssetTypeId" [formControl]="assetMasterFormGroup.controls['parentAssetTypeId']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select Make"
-                                                                    [formControl]="assetMasterFormGroup.controls['make']">
-                                                                    <mat-option *ngFor="let makeName of makeName"
-                                                                        [value]="makeName.makeCode">
-                                                                        {{ makeName.makeCode}}
+                                                                <mat-select placeholder="Select Model"
+                                                                    [formControl]="assetMasterFormGroup.controls['model']">
+                                                                    <mat-option *ngFor="let modelName of modelName"
+                                                                        [value]="modelName.modelCode">
+                                                                        {{ modelName.modelCode}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                             </mat-form-field>
-                                                     </div>
-                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Select Model"
-                                                                [formControl]="assetMasterFormGroup.controls['model']">
-                                                                <mat-option *ngFor="let modelName of modelName"
-                                                                    [value]="modelName.modelCode">
-                                                                    {{ modelName.modelCode}}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
-                                                     </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Structure" [formControl]="assetMasterFormGroup.controls['structure']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="WarrantyAmc" [formControl]="assetMasterFormGroup.controls['warrantyAmc']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="station" [formControl]="assetMasterFormGroup.controls['station']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="PositionId" [formControl]="assetMasterFormGroup.controls['positionId']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="CapacityRating" [formControl]="assetMasterFormGroup.controls['capacityRating']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="OemSerial" [formControl]="assetMasterFormGroup.controls['oemSerial']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="RlyAssignedSerial" [formControl]="assetMasterFormGroup.controls['rlyAssignedSerial']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Source" [formControl]="assetMasterFormGroup.controls['source']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Implantation" [formControl]="assetMasterFormGroup.controls['implantation']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Vendor" [formControl]="assetMasterFormGroup.controls['vendor']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
+                                                         </div>
+                                                         <div class="col-md-3" *ngIf="(names.columnName=='name_plate_details')">
                                                             <mat-form-field fxFlex="30">
                                                                  <textarea matInput placeholder="NamePlateDetails" [formControl]="assetMasterFormGroup.controls['namePlateDetails']" ></textarea>
                                                             </mat-form-field>
                                                         </div> 
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='oem_serial')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="End1Side1" [formControl]="assetMasterFormGroup.controls['end1Side1']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="End2Side2" [formControl]="assetMasterFormGroup.controls['end2Side2']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Remark1" [formControl]="assetMasterFormGroup.controls['remark1']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div> 
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Remark2" [formControl]="assetMasterFormGroup.controls['remark2']" ></textarea>
+                                                                 <textarea matInput placeholder="OemSerial" [formControl]="assetMasterFormGroup.controls['oemSerial']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='parent_asset_type')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="CodalLife" [formControl]="assetMasterFormGroup.controls['codalLife']" ></textarea>
+                                                                    <textarea matInput placeholder="ParentAssetType" [formControl]="assetMasterFormGroup.controls['parentAssetType']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='parent_asset_type_id')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Voltage" [formControl]="assetMasterFormGroup.controls['voltage']" ></textarea>
+                                                                    <textarea matInput placeholder="ParentAssetTypeId" [formControl]="assetMasterFormGroup.controls['parentAssetTypeId']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='part1')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Batch" [formControl]="assetMasterFormGroup.controls['batch']" ></textarea>
+                                                                <textarea matInput placeholder="Part1" [formControl]="assetMasterFormGroup.controls['part1']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='part2')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Stagger1" [formControl]="assetMasterFormGroup.controls['stagger1']" ></textarea>
+                                                                <textarea matInput placeholder="Part2" [formControl]="assetMasterFormGroup.controls['part2']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='part3')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Stagger2" [formControl]="assetMasterFormGroup.controls['stagger2']" ></textarea>
+                                                                <textarea matInput placeholder="Part3" [formControl]="assetMasterFormGroup.controls['part3']" ></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='pedestal1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <textarea matInput placeholder="Stagger3" [formControl]="assetMasterFormGroup.controls['stagger3']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>  
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay1InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>     
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['bracket1InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>     
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag1Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>   
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod1InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>            
-                                                        <div class="col-md-3">
-                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core1InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>     
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core1InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>    
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay2InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>           
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="bracket2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['bracket2InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>    
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag2Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag2Ton9InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>    
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod2InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['pedestal2InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core2InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay3InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['bracket3InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag3Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag3Ton9InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod3InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['pedestal3InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['core3InsulatorBatch']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stagger" [formControl]="assetMasterFormGroup.controls['stagger']" ></textarea>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        </div>
+                                                               <textarea matInput placeholder="Pedestal1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['pedestal1InsulatorBatch']" ></textarea>
+                                                           </mat-form-field>
+                                                       </div> 
+                                                       <div class="col-md-3" *ngIf="(names.columnName=='pedestal1_insulator_make')">
+                                                        <mat-form-field fxFlex="30">
+                                                           <textarea matInput placeholder="Pedestal1InsulatorMake" [formControl]="assetMasterFormGroup.controls['pedestal1InsulatorMake']" ></textarea>
+                                                       </mat-form-field>
+                                                   </div> 
+                                                   <div class="col-md-3" *ngIf="(names.columnName=='pedestal2_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Pedestal2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['pedestal2InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                  </div>
+                                                  <div class="col-md-3" *ngIf="(names.columnName=='pedestal2_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="pedestal2InsulatorMake" [formControl]="assetMasterFormGroup.controls['pedestal2InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                  </div>
+                                                  <div class="col-md-3" *ngIf="(names.columnName=='pedestal3_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Pedestal3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['pedestal3InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div> 
+                                                <div class="col-md-3" *ngIf="(names.columnName=='pedestal3_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Pedestal3InsulatorMake" [formControl]="assetMasterFormGroup.controls['pedestal3InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='position_id')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="PositionId" [formControl]="assetMasterFormGroup.controls['positionId']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='remark1')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Remark1" [formControl]="assetMasterFormGroup.controls['remark1']" ></textarea>
+                                                    </mat-form-field>
+                                                </div> 
+                                                <div class="col-md-3" *ngIf="(names.columnName=='remark2')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Remark2" [formControl]="assetMasterFormGroup.controls['remark2']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rly_assigned_serial')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="RlyAssignedSerial" [formControl]="assetMasterFormGroup.controls['rlyAssignedSerial']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod1_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Rod1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod1InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod1_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="rod1InsulatorMake" [formControl]="assetMasterFormGroup.controls['rod1InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod2_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Rod2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod2InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod2_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Rod2InsulatorMake" [formControl]="assetMasterFormGroup.controls['rod2InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod3_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Rod3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['rod3InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='rod3_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Rod3InsulatorMake" [formControl]="assetMasterFormGroup.controls['rod3InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='section')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Section" [formControl]="assetMasterFormGroup.controls['section']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='source')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Source" [formControl]="assetMasterFormGroup.controls['source']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag1_ton9_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stag1Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag1_ton9_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Stag1Ton9InsulatorMake" [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>      
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag2_ton9_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stag2Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag2Ton9InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>           
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag2_ton9_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Stag2Ton9InsulatorMake" [formControl]="assetMasterFormGroup.controls['stag2Ton9InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>   
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag3_ton9_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="stag3Ton9InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stag3Ton9InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stag3_ton9_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="stag3Ton9InsulatorMake" [formControl]="assetMasterFormGroup.controls['stag3Ton9InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stagger')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stagger" [formControl]="assetMasterFormGroup.controls['stagger']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stagger1')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Stagger1" [formControl]="assetMasterFormGroup.controls['stagger1']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stagger2')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Stagger2" [formControl]="assetMasterFormGroup.controls['stagger2']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stagger3')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Stagger3" [formControl]="assetMasterFormGroup.controls['stagger3']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='station')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="station" [formControl]="assetMasterFormGroup.controls['station']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay1_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay1InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay1InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay1_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay1InsulatorMake" [formControl]="assetMasterFormGroup.controls['stay1InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay2_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay2InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay2InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay2_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay2InsulatorMake" [formControl]="assetMasterFormGroup.controls['stay2InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay3_insulator_batch')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay3InsulatorBatch" [formControl]="assetMasterFormGroup.controls['stay3InsulatorBatch']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='stay3_insulator_make')">
+                                                    <mat-form-field fxFlex="30">
+                                                        <textarea matInput placeholder="Stay3InsulatorMake" [formControl]="assetMasterFormGroup.controls['stay3InsulatorMake']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='strip_date')">
+                                                    <mat-form-field>
+                                                        <input matInput [matDatepicker]="picker1" 
+                                                            placeholder="Strip Date"
+                                                            [formControl]="assetMasterFormGroup.controls['stripDate']" >
+                                                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker1></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div> 
+                                                <div class="col-md-3" *ngIf="(names.columnName=='structure')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Structure" [formControl]="assetMasterFormGroup.controls['structure']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='vendor')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Vendor" [formControl]="assetMasterFormGroup.controls['vendor']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='voltage')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="Voltage" [formControl]="assetMasterFormGroup.controls['voltage']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='warranty_amc')">
+                                                    <mat-form-field fxFlex="30">
+                                                         <textarea matInput placeholder="WarrantyAmc" [formControl]="assetMasterFormGroup.controls['warrantyAmc']" ></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="(names.columnName=='warranty_amc_end_date')">
+                                                    <mat-form-field>
+                                                        <input matInput [matDatepicker]="picker1" 
+                                                            placeholder="Warranty Amc EndDate"
+                                                            [formControl]="assetMasterFormGroup.controls['warrantyAmcEndDate']" >
+                                                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #picker1></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>  
+                                                </ul>   
                                                             <div class="col-md-3 mt-15">
                                                                 <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
                                                                     <button mat-raised-button color="accent" [disabled]="assetMasterFormGroup.invalid"
@@ -408,13 +598,90 @@
   <div>
   </div>
   <div class="example-header">
-  <div class="col-sm-4">
-  
-  </div>
+    <div class="col-sm-4">
+        <mat-form-field>
+          <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+    </div>
   </div>
   <div class="clear"></div>
   <div class="mat-elevation-z8">
-  
+    <mat-table [dataSource]="assetMasterDataSource" matSort>
+        <ng-container matColumnDef="sno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Location Type</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.type}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="facilityId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>facility Name</mat-header-cell>
+        <mat-cell *matCellDef="let row" style="cursor: pointer">
+          {{row.facilityId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="assetType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="cursor: pointer">
+        {{row.assetType}}</mat-cell>
+  </ng-container>
+        <ng-container matColumnDef="assetId">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>assetId</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.assetId}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="adeeSection">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Adee Section</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.adeeSection}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="majorSection">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>MajorSection</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.majorSection}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="section">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>section</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.section}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="locationPosition">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Location Position</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.locationPosition}}</mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="kilometer">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Kilometer</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.kilometer}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="elementarySection">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Elementary Section</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="cursor: pointer">
+            {{row.elementarySection}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                  (click)="editAssetNasterItem(row.id)">
+                  <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                </a>
+                <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                  (click)="deleteAssetMasterDataItem(row.id)">
+                  <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                </button>
+              </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="assetMasterDisplayColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: assetMasterDisplayColumns;">
+      </mat-row>
+    </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
   </div>

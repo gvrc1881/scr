@@ -8,6 +8,7 @@ export class ReportModel{
     permission:String;
     depot:string;
     facility:any;
+    facilityId:any;
     reportId:any;
     id:any;
     productId : any;

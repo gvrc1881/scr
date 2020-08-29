@@ -611,7 +611,9 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('FP', 'menu', 'view'),
         currentTab: !!path && path.includes("foot-patrolling-sections")|| path.includes("observation-categories")
-        || path.includes("observation-check-list")|| path.includes("foot-patrolling-inspection")  ? "open" : "",  
+        || path.includes("observation-check-list")|| path.includes("foot-patrolling-inspection")
+        || path.includes("Observations")
+        || path.includes("Compliances")  ? "open" : "",  
         subMenus: [
           {
             subMenuName: "FP Sections",
@@ -657,7 +659,16 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:true,
             currentSubMenu: !!path && path.includes("Observations") ? "active-item" : "",
-          }  
+          },
+          {
+            subMenuName: "Compliances",
+            subMenuURL: "Compliances",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("Compliances") ? "active-item" : "",
+          }   
 
               
               

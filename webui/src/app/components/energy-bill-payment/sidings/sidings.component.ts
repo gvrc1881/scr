@@ -36,7 +36,7 @@ export class SidingsComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     public status=['yes','No'];
     sidingEletrifiedStatus: any;
-    onlyYes:boolean = true;
+    onlyYes:boolean = false;
     selected: any;
     yes: any;
     onlyNo: boolean;

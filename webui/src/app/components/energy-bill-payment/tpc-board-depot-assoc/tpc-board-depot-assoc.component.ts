@@ -33,6 +33,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     funLocTypeData: any;
     tpcBoardData:any;
     facilityNames:any
+    unitType: any;
 
     constructor(
         private commonService: CommonService,
@@ -54,7 +55,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
             this.funLocTypeData = data;
          });
 }
@@ -189,7 +190,7 @@ duplicateTpcBoard() {
     getFacilitys(){
         var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
         alert("unitType"+unitType)
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + unitType).subscribe((data) => {
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+unitType).subscribe((data) => {
                  this.facilityData = data;
                  console.log("powerBlocks"+JSON.stringify(data));
         		});

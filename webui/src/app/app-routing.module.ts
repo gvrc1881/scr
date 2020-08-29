@@ -109,7 +109,12 @@ const routes: Routes = [
   },
   {
     path: 'Observations',
-    loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
+    loadChildren: './components/energy-bill-payment/observations/observations.module#ObservationsModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'Compliances',
+    loadChildren: './components/energy-bill-payment/compliances/compliances.module#CompliancesModule',
     canActivate: [AuthGuard]
   },
   {
