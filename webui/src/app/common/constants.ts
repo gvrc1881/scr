@@ -197,6 +197,8 @@ export const Constants = {
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
+                GET_ASSET_MASTER_DATA_PARAMETERS:"/assetMasterParameterNames",
+                GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/"
 
             },
             TARIFF:{
@@ -298,7 +300,6 @@ export const Constants = {
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/"
-               
             },
             DRIVE_CATEGORY:{
                 GET_DRIVE_CATEGORY:"/driveCategory",
@@ -349,6 +350,7 @@ export const Constants = {
                 SAVE_ASH:'/saveAsh'
                 }
         },
+
         INSPECTIONS:{
             STIPULATION:{
                 GET_STIPULATION:"/stipulations",
