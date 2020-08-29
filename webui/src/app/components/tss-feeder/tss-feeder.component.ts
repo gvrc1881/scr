@@ -224,7 +224,7 @@ export class TssFeederComponent implements OnInit{
             id: 0,
             'zone' : [null],
             'dataDiv' : [null,Validators.maxLength(255)],
-            'feederName' : [null,Validators.maxLength(255)],
+            'feederName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateFeederNameAndId.bind(this)],
             'description': [null,Validators.maxLength(255)],
             'stateElectricityBoard':[null]
         });
@@ -281,6 +281,25 @@ export class TssFeederComponent implements OnInit{
       return q;
       
     }
+
+    duplicateFeederNameAndId() {
+        let id=this.id;
+        let feederName:string= this.tssFeederFormGroup.controls['feederName'].value 
+         const q = new Promise((resolve, reject) => {
+            this.sendAndRequestService.requestForGET(
+                 Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.EXIST_FEEDER_NAME_AND_ID+id+'/' +feederName
+                
+           ).subscribe((duplicate) => {
+             if (duplicate) {
+               resolve({ 'duplicateFeederNameAndId': true });
+             } else {
+               resolve(null);
+             }
+           }, () => { resolve({ 'duplicateFeederNameAndId': true }); });
+         });
+       return q;
+       
+     }
 
     displayHierarchyFields(){
         this.zoneList = [];

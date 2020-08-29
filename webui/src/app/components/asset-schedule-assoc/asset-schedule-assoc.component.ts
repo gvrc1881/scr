@@ -248,8 +248,8 @@ export class AssetScheduleAssocComponent implements OnInit{
     AssocEditAction(id: number) {
         this.assetSchAssocFormGroup = this.formBuilder.group({
             id: 0,
-            'assetType': [null],
-          'scheduleCode': [null, Validators.maxLength(255)],
+            'assetType': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+          'scheduleCode': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateAssetSchCodeAndId.bind(this)],
           'isDpr': [null, Validators.maxLength(255)],
           'targetPlanMonths' : [null, Validators.maxLength(255)],
           'sequenceCode' : [null, Validators.maxLength(255)],
@@ -318,7 +318,25 @@ export class AssetScheduleAssocComponent implements OnInit{
         return q;
       }
   
-     
+      duplicateAssetSchCodeAndId() {
+        let id=this.id;
+        let assetType: string = this.assetSchAssocFormGroup.controls['assetType'].value;
+        let scheduleCode: string = this.assetSchAssocFormGroup.controls['scheduleCode'].value;
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.Exist_ASSETTYPE_SCH_AND_ID+id+'/'+assetType+'/'+scheduleCode).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateAssetSchCodeAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duduplicateAssetSchCodeAndIdplicate': true }); });
+        });
+        return q;
+      }
      
      
 }

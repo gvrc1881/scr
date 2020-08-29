@@ -60,6 +60,11 @@
                             class="alert alert-danger">
                             Asset Type and Schedule Code combination already exists
                   </mat-error> 
+                  <mat-error
+                          *ngIf="assetSchAssocFormGroup.controls['scheduleCode'].hasError('duplicateAssetSchCodeAndId')"
+                            class="alert alert-danger">
+                            Asset Type and Schedule Code combination already exists
+                  </mat-error> 
                                                                                                                
                 </mat-form-field>
             </div>

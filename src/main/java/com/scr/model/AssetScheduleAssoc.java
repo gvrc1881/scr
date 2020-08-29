@@ -42,6 +42,7 @@ public class AssetScheduleAssoc implements Serializable {
 
 	private String description;
 
+	@Column(name="duration")
 	private double duration;
 
 	@Column(name="is_dpr")

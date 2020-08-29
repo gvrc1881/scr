@@ -74,7 +74,12 @@
                         *ngIf="tssFeederFormGroup.controls['feederName'].hasError('duplicateFeederName')"
                         class="alert alert-danger">
                         Feeder Name Already Exists
-                      </mat-error>  
+                      </mat-error> 
+                      <mat-error
+                        *ngIf="tssFeederFormGroup.controls['feederName'].hasError('duplicateFeederNameAndId')"
+                        class="alert alert-danger">
+                        Feeder Name Already Exists
+                      </mat-error> 
                 </mat-form-field>
             </div>
             <div class="col-md-3">

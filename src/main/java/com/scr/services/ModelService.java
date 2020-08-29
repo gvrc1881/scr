@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.scr.model.Make;
 import com.scr.model.Model;
 import com.scr.repository.ModelRepository;
 
@@ -45,6 +45,10 @@ public class ModelService {
 	public Boolean existsByModelCode(String modelCode)
 	{
 		return modelRepository.existsByModelCode(modelCode);
+	}
+	public Optional<Model> findByModelCode(String modelCode) {
+		// TODO Auto-generated method stub
+		return modelRepository.findByModelCode(modelCode);
 	}
 
 }

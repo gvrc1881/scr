@@ -146,5 +146,28 @@ public class AssetScheduleAssocController {
 		}
 	}
 	
-
+	@RequestMapping(value = "/existAssetTypeScheduleAndId/{id}/{assetType}/{scheduleCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existAssetTypeScheduleAndId(@PathVariable("id") Long id,@PathVariable("assetType") String assetType,@PathVariable("scheduleCode") String scheduleCode){
+		
+		logger.info("id=="+id+"scheduleCode=="+scheduleCode);
+		Boolean result;
+		try {
+			Optional<AssetScheduleAssoc> asaData = assetScheduleAssocService.findByAssetTypeAndScheduleCode(assetType,scheduleCode);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(asaData.isPresent()) {
+				AssetScheduleAssoc asa = asaData.get();
+				logger.info("***id ***"+asa.getId());
+				if (id.equals(asa.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and assetType..."+e.getMessage());
+			return false;
+		}
+	}
 }

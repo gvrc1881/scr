@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
-
+import com.scr.model.Make;
 import com.scr.model.TssFeederMaster;
 import com.scr.services.TssFeederMasterService;
 import com.scr.util.Constants;
@@ -134,6 +134,31 @@ public class TssFeederMasterController {
 			return tssFeederMasterService.existsByFeederName(feederName);
 		} catch (Exception e) {
 			log.error("Error while checking exists feeder name..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsFeederNameAndId/{id}/{feederName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFeederNameAndId(@PathVariable("id") Long id,@PathVariable("feederName") String feederName){
+		
+		log.info("id=="+id+"feederName=="+feederName);
+		Boolean result;
+		try {
+			Optional<TssFeederMaster> tssData = tssFeederMasterService.findByFeederName(feederName);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(tssData.isPresent()) {
+				TssFeederMaster tss = tssData.get();
+				log.info("***id ***"+tss.getId());
+				if (id.equals(tss.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and feederName..."+e.getMessage());
 			return false;
 		}
 	}

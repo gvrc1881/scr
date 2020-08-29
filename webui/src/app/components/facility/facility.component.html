@@ -160,6 +160,11 @@
                         class="alert alert-danger">
                         Facility id Already Exists
                       </mat-error> 
+                      <mat-error
+                        *ngIf="facilityFormGroup.controls['facilityId'].hasError('duplicatefacilityIdAndId')"
+                        class="alert alert-danger">
+                        Facility id Already Exists
+                      </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-3" *ngIf = "enableFacilityName">
@@ -170,6 +175,16 @@
                     class="alert alert-danger">
                     Max 250 characters only
                   </mat-error>
+                  <mat-error
+                  *ngIf="facilityFormGroup.controls['facilityName'].hasError('duplicatefacilityNameAndId')"
+                  class="alert alert-danger">
+                  Facility id Already Exists
+                </mat-error>
+                <mat-error
+                  *ngIf="facilityFormGroup.controls['facilityName'].hasError('duplicatefacilityName')"
+                  class="alert alert-danger">
+                  Facility id Already Exists
+                </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-3">

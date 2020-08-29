@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.TssFeederMaster;
 import com.scr.repository.TssFeederMasterRepository;
@@ -40,7 +41,10 @@ public class TssFeederMasterService {
 		// TODO Auto-generated method stub
 		return tssFeederMasterRepository.existsByFeederName(feederName);
 	}
-	
+	public Optional<TssFeederMaster> findByFeederName(String feederName) {
+		// TODO Auto-generated method stub
+		return tssFeederMasterRepository.findByFeederName(feederName);
+	}
 
 
 }

@@ -282,8 +282,8 @@ export class FacilityComponent implements OnInit{
        FacilityEditAction(id: number) {
            this.facilityFormGroup = this.formBuilder.group({
                id: 0,
-               'facilityId': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
-               'facilityName': [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
+               'facilityId': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicatefacilityIdAndId.bind(this)],
+               'facilityName': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicatefacilityNameAndId.bind(this)],
                'facilityTypeId': [null, Validators.maxLength(255)],
                'depotType' : [null, Validators.maxLength(255)],
                'parentDepot' : [null, Validators.maxLength(255)],
@@ -370,6 +370,45 @@ export class FacilityComponent implements OnInit{
           });
           return q;
         }
+
+        duplicatefacilityNameAndId() {
+          let id=this.id;
+          let facilityName: string = this.facilityFormGroup.controls['facilityName'].value;         
+  
+          const q = new Promise((resolve, reject) => {          
+    
+             this.sendAndRequestService.requestForGET(
+                    Constants.app_urls.CONFIG.FACILITY.EXIST_FACILITYNAME_AND_ID+id+'/'+facilityName).subscribe
+                    ((duplicate) => {
+              if (duplicate) {
+                resolve({ 'duplicatefacilityNameAndId': true });
+              } else {
+                resolve(null);
+              }
+            }, () => { resolve({ 'duplicatefacilityNameAndId': true }); });
+          });
+          return q;
+        }
+
+        duplicatefacilityIdAndId() {
+
+          let id=this.id;
+         let facilityId: string = this.facilityFormGroup.controls['facilityId'].value;         
+ 
+         const q = new Promise((resolve, reject) => {          
+   
+            this.sendAndRequestService.requestForGET(
+                   Constants.app_urls.CONFIG.FACILITY.EXIST_FACILITYID_AND_ID+id+'/'+facilityId).subscribe
+                   ((duplicate) => {
+             if (duplicate) {
+               resolve({ 'duplicatefacilityIdAndId': true });
+             } else {
+               resolve(null);
+             }
+           }, () => { resolve({ 'duplicatefacilityIdAndId': true }); });
+         });
+         return q;
+       }
      
       depotType()
       {

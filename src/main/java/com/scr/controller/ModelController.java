@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
-
+import com.scr.model.Make;
 import com.scr.model.Model;
 import com.scr.services.ModelService;
 import com.scr.util.Constants;
@@ -145,6 +145,30 @@ public class ModelController {
 			return modelService.existsByModelCode(modelCode.toUpperCase());
 		} catch (Exception e) {
 			logger.error("Error while checking exists model code.");
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existsModelCodeAndId/{id}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsModelCodeAndId(@PathVariable("id") Long id,@PathVariable("modelCode") String modelCode){
+		
+		logger.info("id=="+id+"modelCode=="+modelCode);
+		Boolean result;
+		try {
+			Optional<Model> modelData = modelService.findByModelCode(modelCode);
+			
+			if(modelData.isPresent()) {
+				Model model = modelData.get();
+				logger.info("***id ***"+model.getId());
+				if (id.equals(model.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and modelcode..."+e.getMessage());
 			return false;
 		}
 	}

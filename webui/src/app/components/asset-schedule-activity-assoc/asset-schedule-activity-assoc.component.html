@@ -152,6 +152,11 @@
                     class="alert alert-danger" >
                         Already Exists
                 </mat-error>  
+                <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['modelCode'].hasError('duplicateasaSeqPositionActivityAndId')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error> 
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['modelCode'].hasError('maxlength')"
                     class="alert alert-danger"> Max 255 characters only
@@ -176,6 +181,11 @@
                     <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']"/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('duplicateasaSeqActivityDispaly')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error> 
+                <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('duplicateasaSeqActivityDispalyAndId')" 
                     class="alert alert-danger" >
                         Already Exists
                 </mat-error> 

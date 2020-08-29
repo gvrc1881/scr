@@ -28,7 +28,7 @@ export const Constants = {
             GET_POWER_BLOCKS:"/powerBlocks",
             GET_ZONE_LIST:"/zoneList",
             GET_PB_SWITCH_CONTROL:"/pbSwitchControl",
-            GET_ELEMENTARY_SECTIONS:"/getElementarySectionsBasedOnFacilityId/",
+            GET_ELEMENTARY_SECTIONS:"/elementarySectionsByFacilityId",
             GET_OBS_CATEGORIES:"/observationCategories",
             GET_OBS_CHECK_LIST:"/observationCheckList",
             GET_REPORT:"/generateReport",
@@ -44,7 +44,7 @@ export const Constants = {
             GET_STIPULATION_DETAILS:"/stipulationDetails",
             GET_UOM_DETAILS:"/uomDetails",
             GET_SECTION_DETAILS:"/sectionDetails",
-            GET_STATUS_DETAILS:"/getStatusCodeBasedOnStatusTypeId/",
+            GET_STATUS_DETAILS:"/statusItemDetails/",
             GET_MAKE_DETAILS:"/makeDetails",
             GET_MODEL_DETAILS:"/modelDetails",
             GET_MAJOR_SECTION_DETAILS:"/majorSectionDetails",
@@ -157,7 +157,10 @@ export const Constants = {
                 DELETE_MEASURE:"/deleteMeasures/",
                 EXISTS_ACTIVITY_ID:'/existsActivityId/',
                 EXISTS_ACTIVITYNAME:'/existsActivityName/',
-                EXISTS_ACTIVITYNAME_UNITOFMEASURE:'/existsActivityNameAndUnitOfMeasure/'
+                EXISTS_ACTIVITYNAME_UNITOFMEASURE:'/existsActivityNameAndUnitOfMeasure/',
+                EXISTS_ACTIVITY_ID_AND_ID:'/existsActivityIdAndId/',
+                EXISTS_ACTIVITYNAME_AND_ID:'/existsActivityNameAndId/',
+                EXISTS_ACTIVITYNAME_UNITOFMEASURE_AND_ID:'/existsActivityNameAndUnitOfMeasureAndId/'
 
             }
         },
@@ -197,7 +200,6 @@ export const Constants = {
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
-                GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/"
 
             },
             TARIFF:{
@@ -265,7 +267,8 @@ export const Constants = {
                 SAVE_FEEDER:"/addFeeder",
                 UPDATE_FEEDER:"/updateFeeder",
                 DELETE_FEEDER:"/deleteFeeder/",
-                EXIST_FEEDER_NAME:"/existsFeederName/"
+                EXIST_FEEDER_NAME:"/existsFeederName/",
+                EXIST_FEEDER_NAME_AND_ID:"/existsFeederNameAndId/"
             },
             ASSET_SCH_ASSOC:{
                 GET_SCH:"/findAllSchedule",
@@ -274,7 +277,8 @@ export const Constants = {
                 SAVE_ASSOC:"/addAssetSchAssoc",
                 UPDATE_ASSOC:"/updateAssetSchAssoc",
                 DELETE_ASSOC:"/deleteAssetSchAssoc/",
-                Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/"
+                Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/",
+                Exist_ASSETTYPE_SCH_AND_ID:"/existAssetTypeScheduleAndId/"
 
 
             }
@@ -299,6 +303,7 @@ export const Constants = {
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/"
+               
             },
             DRIVE_CATEGORY:{
                 GET_DRIVE_CATEGORY:"/driveCategory",
@@ -349,7 +354,6 @@ export const Constants = {
                 SAVE_ASH:'/saveAsh'
                 }
         },
-
         INSPECTIONS:{
             STIPULATION:{
                 GET_STIPULATION:"/stipulations",
@@ -455,7 +459,8 @@ export const Constants = {
                 GET_MODEL_ID:"/findModelById/",
                 EXIST_MODEL_CODE:"/existsModelCode/",
                 UPDATE_MODEL:"/updateModel",
-                DELETE_MODEL_ID:"/deleteModel/"
+                DELETE_MODEL_ID:"/deleteModel/",
+                EXIST_MODEL_CODE_AND_ID:"/existsModelCodeAndId/",
                 },
                 ASSET_SCH_ACTIVITY_ASSOC:{  
                     GET_ASSET_SCH_ACT_ASSOC:"/findAllAssetSchActAssoc",
@@ -468,6 +473,9 @@ export const Constants = {
                     EXIST_SEQ_POSITION:"/findByAsaSeqPositionId/",
                     EXIST_SEQ_POSITION_ACTIVITY:"/findByAsaSeqPositionIdActivity/",
                     EXIST_SEQ_ACTIVITY_DISPLAY:"/findByAsaSeqActivityDisplay/",
+                    EXIST_SEQ_POSITION_AND_ID:"/findByAsaSeqPositionIdAndId/",
+                    EXIST_SEQ_POSITION_ACTIVITY_AND_ID:"/findByAsaSeqPositionIdActivityAndId/",
+                    EXIST_SEQ_ACTIVITY_DISPLAY_AND_ID:"/findByAsaSeqActivityDisplayAndId/",
                     },
                     FACILITY:{  
                         GET_FACILITY:"/findAllFacility",
@@ -477,6 +485,8 @@ export const Constants = {
                         DELETE_FACILITY:"/deleteFacility/",
                         EXIST_FACILITYNAME:"/findByFacilityName/",
                         EXIST_FACILITYID:"/findByFacilityId/",
+                        EXIST_FACILITYNAME_AND_ID:"/findByFacilityNameAndId/",
+                        EXIST_FACILITYID_AND_ID:"/findByFacilityIdAndId/",
                        
                         },
             },
@@ -487,7 +497,7 @@ export const Constants = {
         		SAVE_POWER_BLOCK:"/addPowerBlock",
         		UPDATE_POWER_BLOCK:"/updatePowerBlock",
                 GET_POWER_BLOCK_BY_ID:"/findPowerBlock/",
-                GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE:"/getPowerBlocksBasedOnFacilityIdAndCreatedDate/",
+                GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE:"/getPowerBlocksBasedOnFacilityIdAndCreatedDate",
             },
             PB_SWITCH_CONTROL:{
         		GET_PB_SWITCH_CONTROL_BASED_ON_EXTEND_TYPE_AND_EXTEND_CODE:"/findByExtentTypeAndExtentCode"

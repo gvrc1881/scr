@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 
 import com.scr.model.Facility;
-
+import com.scr.model.Make;
 import com.scr.services.FacilityService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -156,5 +156,53 @@ public class FacilityController {
 		}
 	}
 	
+	@RequestMapping(value = "/findByFacilityNameAndId/{id}/{facilityName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityNameAndId(@PathVariable("id") Long id,@PathVariable("facilityName") String facilityName){
+		
+		logger.info("id=="+id+"facilityName=="+facilityName);
+		Boolean result;
+		try {
+			Optional<Facility> facilityData = facilityService.findByFacilityName(facilityName);
+			
+			if(facilityData.isPresent()) {
+				Facility facility = facilityData.get();
+				logger.info("***id ***"+facility.getId());
+				if (id.equals(facility.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and facilityname..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findByFacilityIdAndId/{id}/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityIdAndId(@PathVariable("id") Long id,@PathVariable("facilityId") String facilityId){
+		
+		logger.info("id=="+id+"facilityId=="+facilityId);
+		Boolean result;
+		try {
+			Optional<Facility> facData = facilityService.findByFacilityId(facilityId);
+			
+			if(facData.isPresent()) {
+				Facility facility = facData.get();
+				logger.info("***id ***"+facility.getId());
+				if (id.equals(facility.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and facilityid..."+e.getMessage());
+			return false;
+		}
+	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 
 import com.scr.model.AssetScheduleActivityAssoc;
+import com.scr.model.Make;
 import com.scr.services.AssetScheduleActivityAssocService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -172,4 +173,81 @@ public class AssetScheduleActivityAssocController {
 		}
 	}
 	
+	// @RequestMapping(value = "/findByAsaSeqPositionIdAndId/{id}/{asaSeqId}/{activityPositionId}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	//public Boolean findByAsaSeqPositionIdAndId(@PathVariable("id") Long id,@PathVariable("asaSeqId") String asaSeqId,
+	//		@PathVariable("activityPositionId") String activityPositionId,@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
+		
+	//	logger.info("id=="+id+"asaSeqId=="+asaSeqId+"activityPositionId=="+activityPositionId+"makeCode"+makeCode+"modelCode=="+modelCode);
+	//	Boolean result;
+	//	try {
+		//	Optional<AssetScheduleActivityAssoc> asaaData = assetScheduleActivityAssocService.findByAsaSeqAndPositionIdAndMakeCodeAndModelCode(asaSeqId,activityPositionId,makeCode,modelCode);
+			
+		//	if(asaaData.isPresent()) {
+			//	AssetScheduleActivityAssoc asaa = asaaData.get();
+			//	logger.info("***id ***"+asaa.getId());
+			//	if (id.equals(asaa.getId())) {
+			//		return result = false;
+			//	} else {
+			//		return result = true;
+			//	}
+		//	}
+		//	else 
+			//	return  result = false;
+		//} catch (Exception e) {
+		//	logger.error("Error while checking exists id and makecode and modelCode..."+e.getMessage());
+		//	return false;
+	//	}
+//	}
+	
+	//@RequestMapping(value = "/findByAsaSeqPositionIdActivityAndId/{id}/{asaSeqId}/{activityId}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	//public Boolean findByAsaSeqPositionIdActivityAndId(@PathVariable("id") Long id,@PathVariable("asaSeqId") String asaSeqId,
+		//	@PathVariable("activityId") String activityId,@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
+		
+		//logger.info("id=="+id+"asaSeqId=="+asaSeqId+"activityId=="+activityId+"makeCode"+makeCode+"modelCode=="+modelCode);
+		//Boolean result;
+		//try {
+			//Optional<AssetScheduleActivityAssoc> asaaData = assetScheduleActivityAssocService.findByAsaSeqIdAndActivityIdAndmakeCodeAndModelCode(asaSeqId,activityId,makeCode,modelCode);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			//if(asaaData.isPresent()) {
+			//	AssetScheduleActivityAssoc asaa = asaaData.get();
+				//logger.info("***id ***"+asaa.getId());
+				//if (id.equals(asaa.getId())) {
+				//	return result = false;
+				//} else {
+				//	return result = true;
+				//}
+			//}
+		//	else 
+			//	return  result = false;
+	//	} catch (Exception e) {
+		//	logger.error("Error while checking exists id and makecode and modelCode..."+e.getMessage());
+		//	return false;
+	//	}
+	//}
+	
+	//@RequestMapping(value = "/findByAsaSeqActivityDisplayAndId/{id}/{asaSeqId}/{activityId}/{displayOrder}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	//public Boolean findByAsaSeqActivityDisplayAndId(@PathVariable("id") Long id,@PathVariable("asaSeqId") String asaSeqId,
+	//		@PathVariable("activityId") String activityId,@PathVariable("displayOrder") String displayOrder,@PathVariable("makeCode") String makeCode,@PathVariable("modelCode") String modelCode){
+		
+	//	logger.info("id=="+id+"asaSeqId=="+asaSeqId+"activityId=="+activityId+"makeCode"+makeCode+"modelCode=="+modelCode);
+		//Boolean result;
+	//	try {
+		//	Optional<AssetScheduleActivityAssoc> asaaData = assetScheduleActivityAssocService.findByasaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(asaSeqId,activityId,displayOrder,makeCode,modelCode);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+		//	if(asaaData.isPresent()) {
+			//	AssetScheduleActivityAssoc asaa = asaaData.get();
+			//	logger.info("***id ***"+asaa.getId());
+			//	if (id.equals(asaa.getId())) {
+				//	return result = false;
+			//	} else {
+			//		return result = true;
+			//	}
+			//}
+		//	else 
+			//	return  result = false;
+	//	} catch (Exception e) {
+		//	logger.error("Error while checking exists id and makecode and modelCode..."+e.getMessage());
+		//	return false;
+	//	}
+	//}-->
 }

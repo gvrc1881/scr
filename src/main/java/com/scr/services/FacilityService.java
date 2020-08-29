@@ -75,6 +75,9 @@ public class FacilityService {
 	{
 		return facilityRepository.existsByFacilityId(facilityId);
 	}
-	
+	public Optional<Facility> findByFacilityName(String facilityName) {
+		// TODO Auto-generated method stub
+		return facilityRepository.findByFacilityName(facilityName);
+	}
 
 }

@@ -22,6 +22,8 @@ public interface MeasureOrActivityListRepository extends JpaRepository<MeasureOr
 	@Query(value = "SELECT case when count(mral)> 0 then true else false  end  FROM MeasureOrActivityList mral WHERE mral.activityName = :activityName and mral.unitOfMeasure = :unitOfMeasure")
 	Boolean existsByActivityNameAndUnitOfMeasure(@Param("activityName")String activityName, @Param("unitOfMeasure") String unitOfMeasure);
 	
+	Optional<MeasureOrActivityList> findByActivityName(String activityName);
 	
+	Optional<MeasureOrActivityList> findByActivityNameAndId(String activityName,String unitOfMeasure);
 
 }

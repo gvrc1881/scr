@@ -1,6 +1,7 @@
 package com.scr.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.AssetScheduleActivityAssoc;
+import com.scr.model.Make;
 
 @Repository
 
@@ -27,4 +29,9 @@ public interface AssetScheduleActivityAssocRepository extends JpaRepository<Asse
 	Boolean existsByAsaSeqIdAndactivityDisplayOrder(@Param("asaSeqId")String asaSeqId, @Param("activityId") String activityId,@Param("displayOrder") String displayOrder,
 			@Param("makeCode") String makeCode,@Param("modelCode") String modelCode);
 	
+	//Optional<AssetScheduleActivityAssoc> findByAsaSeqAndPositionIdAndMakeCodeAndModelCode(String asaSeqId,String activityPositionId,String makeCode,String modelCode);
+	
+	//Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndmakeCodeAndModelCode(String asaSeqId,String activityId,String makeCode,String modelCode);
+	
+	//Optional<AssetScheduleActivityAssoc> findByasaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(String asaSeqId,String activityId,String displayOrder,String makeCode,String modelCode);
 }

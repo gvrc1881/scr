@@ -44,4 +44,8 @@ public class AssetScheduleAssocService {
 		return assetSchAssocRepository.existsByAssetTypeAndScheduleCode(assetType,scheduleCode);
 	}
 	
+	public Optional<AssetScheduleAssoc> findByAssetTypeAndScheduleCode(String assetType,String scheduleCode) {
+		// TODO Auto-generated method stub
+		return assetSchAssocRepository.findByAssetTypeAndScheduleCode(assetType,scheduleCode);
+	}
 }

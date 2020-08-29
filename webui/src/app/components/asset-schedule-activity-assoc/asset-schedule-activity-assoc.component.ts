@@ -418,6 +418,74 @@ ActAssocEditAction(id: number) {
     return q;
   }
 
+  duplicateasaSeqPositionActivityAndId() {
+    let id=this.id;
+    let asaSeqId: string = this.assetSchActAssocFormGroup.controls['asaSeqId'].value;
+    let activityId: string = this.assetSchActAssocFormGroup.controls['activityId'].value;
+    let makeCode: string = this.assetSchActAssocFormGroup.controls['makeCode'].value;
+    let modelCode: string = this.assetSchActAssocFormGroup.controls['modelCode'].value;
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. EXIST_SEQ_POSITION_ACTIVITY_AND_ID+id+'/'+asaSeqId+'/'+activityId+'/'+makeCode+'/'+modelCode).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateasaSeqPositionActivityAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateasaSeqPositionActivityAndId': true }); });
+    });
+    return q;
+  }
+
+  duplicateasaSeqPositionAndId() {
+    let id=this.id;
+    let asaSeqId: string = this.assetSchActAssocFormGroup.controls['asaSeqId'].value;
+    let activityPositionId: string = this.assetSchActAssocFormGroup.controls['activityPositionId'].value;
+    let makeCode: string = this.assetSchActAssocFormGroup.controls['makeCode'].value;
+    let modelCode: string = this.assetSchActAssocFormGroup.controls['modelCode'].value;
+   
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.EXIST_SEQ_POSITION_AND_ID+id+'/'+asaSeqId+'/'+activityPositionId+'/'+makeCode+'/'+modelCode).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateasaSeqPositionAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateasaSeqPositionAndId': true }); });
+    });
+    return q;
+  }
+
+  duplicateasaSeqActivityDispalyAndId() {
+    let id=this.id;
+    let asaSeqId: string = this.assetSchActAssocFormGroup.controls['asaSeqId'].value;
+    let activityId: string = this.assetSchActAssocFormGroup.controls['activityId'].value;
+    let displayOrder: string = this.assetSchActAssocFormGroup.controls['displayOrder'].value;
+    let makeCode: string = this.assetSchActAssocFormGroup.controls['makeCode'].value;
+    let modelCode: string = this.assetSchActAssocFormGroup.controls['modelCode'].value;
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.EXIST_SEQ_ACTIVITY_DISPLAY_AND_ID+id+'/'+asaSeqId+'/'+activityId+'/'+displayOrder+'/'+makeCode+'/'+modelCode).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateasaSeqActivityDispalyAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateasaSeqActivityDispalyAndId': true }); });
+    });
+    return q;
+  }
+
 
 
 }

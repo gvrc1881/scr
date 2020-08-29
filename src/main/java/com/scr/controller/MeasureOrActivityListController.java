@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
-
+import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.services.MeasureOrActivityListService;
 
@@ -164,4 +164,76 @@ public class MeasureOrActivityListController {
 		}
 	}
 
+@RequestMapping(value = "/existsActivityIdAndId/{id}/{activityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean existsActivityIdAndId(@PathVariable("id") Long id,@PathVariable("activityId") String activityId){
+	
+	log.info("id=="+id+"activityId=="+activityId);
+	Boolean result;
+	try {
+		Optional<MeasureOrActivityList> measureData = measureService.findByActivityId(activityId);
+		//return makeService.existsByIdAndMakeCode(id,makeCode);
+		if(measureData.isPresent()) {
+			MeasureOrActivityList measure = measureData.get();
+			log.info("***id ***"+measure.getId());
+			if (id.equals(measure.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		log.error("Error while checking exists id and activityid..."+e.getMessage());
+		return false;
+	}
+}
+@RequestMapping(value = "/existsActivityNameAndId/{id}/{activityName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean existsActivityNameAndId(@PathVariable("id") Long id,@PathVariable("activityName") String activityName){
+	
+	log.info("id=="+id+"activityName=="+activityName);
+	Boolean result;
+	try {
+		Optional<MeasureOrActivityList> measureData = measureService.findByActivityName(activityName);
+		//return makeService.existsByIdAndMakeCode(id,makeCode);
+		if(measureData.isPresent()) {
+			MeasureOrActivityList measure = measureData.get();
+			log.info("***id ***"+measure.getId());
+			if (id.equals(measure.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		log.error("Error while checking exists id and activityid..."+e.getMessage());
+		return false;
+	}
+}
+@RequestMapping(value = "/existsActivityNameAndUnitOfMeasureAndId/{id}/{activityName}/{unitOfMeasure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean existsActivityNameAndUnitOfMeasureAndId(@PathVariable("id") Long id,@PathVariable("activityName") String activityName,@PathVariable("unitOfMeasure") String unitOfMeasure){
+	
+	log.info("id=="+id+"activityName=="+activityName+"unitOfMeasure=="+unitOfMeasure);
+	Boolean result;
+	try {
+		Optional<MeasureOrActivityList> measureData = measureService.findByActivityNameAndId(activityName,unitOfMeasure);
+		//return makeService.existsByIdAndMakeCode(id,makeCode);
+		if(measureData.isPresent()) {
+			MeasureOrActivityList measure = measureData.get();
+			log.info("***id ***"+measure.getId());
+			if (id.equals(measure.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		log.error("Error while checking exists id and activityid..."+e.getMessage());
+		return false;
+	}
+}
 }

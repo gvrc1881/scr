@@ -239,9 +239,9 @@ export class MeasureActivityComponent implements OnInit{
     measureEditAction(id: number) {
         this.measureActivityFormGroup = this.formBuilder.group({
             id: 0,
-            'activityId' : [null,Validators.maxLength(255)],
-            'activityName' : [null,Validators.maxLength(255)],
-            'activityType': [null,Validators.maxLength(255)],
+            'activityId' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateActivityIdAndId.bind(this)],
+            'activityName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateActivityNameAndId.bind(this)],
+            'activityType': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
             'unitOfMeasure':[null,Validators.maxLength(255)]
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_MEASURE_ID+id).subscribe((responseData) => {
@@ -342,6 +342,74 @@ export class MeasureActivityComponent implements OnInit{
       return q;
        
      }
+
+}
+duplicateActivityIdAndId() {
+  let id=this.id;
+  let activityId:string= this.measureActivityFormGroup.controls['activityId'].value 
+ const q = new Promise((resolve, reject) => {
+    this.sendAndRequestService.requestForGET(
+           Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITY_ID_AND_ID+id+'/' +activityId
+        
+   ).subscribe((duplicate) => {
+     if (duplicate) {
+       resolve({ 'duplicateActivityIdAndId': true });
+     } else {
+       resolve(null);
+     }
+   }, () => { resolve({ 'duplicateActivityIdAndId': true }); });
+ });
+ return q;
+ 
+}
+
+duplicateActivityNameAndId() {
+  let id=this.id;
+ let activityName: string = this.measureActivityFormGroup.controls['activityName'].value;
+ const q = new Promise((resolve, reject) => {
+   
+
+    this.sendAndRequestService.requestForGET(
+           Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITYNAME_AND_ID +id+'/'+
+           activityName
+           ).subscribe
+           ((duplicate) => {
+     if (duplicate) {
+       resolve({ 'duplicateActivityNameAndId': true });
+     } else {
+       resolve(null);
+     }
+   }, () => { resolve({ 'duplicateActivityNameAndId': true }); });
+ });
+ return q;
+}
+
+
+duplicateActivityNameAndUnitOfMeasureAndId() {
+  let id=this.id;
+ let activityName: string = this.measureActivityFormGroup.controls['activityName'].value;     
+ let unitOfMeasure: string = this.measureActivityFormGroup.controls['unitOfMeasure'].value;
+
+if (unitOfMeasure==null) {
+   this.duplicateActivityName();
+  
+} else {
+ const q = new Promise((resolve, reject) => {
+
+
+    this.sendAndRequestService.requestForGET(
+           Constants.app_urls.MASTERS.MEASURE_ACTIVITY.EXISTS_ACTIVITYNAME_UNITOFMEASURE_AND_ID+id+'/' +activityName+'/'+unitOfMeasure).subscribe
+           ((duplicate) => {
+     if (duplicate) {
+       resolve({ 'duplicateActivityNameAndUnitOfMeasureAndId': true });
+     } else {
+       resolve(null);
+     }
+   }, () => { resolve({ 'duplicateActivityNameAndUnitOfMeasureAndId': true }); });
+ });
+ return q;
+  
+}
 
 }
 
