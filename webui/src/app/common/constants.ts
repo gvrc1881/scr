@@ -197,7 +197,6 @@ export const Constants = {
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
-                GET_ASSET_MASTER_DATA_PARAMETERS:"/assetMasterParameterNames",
                 GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/"
 
             },
