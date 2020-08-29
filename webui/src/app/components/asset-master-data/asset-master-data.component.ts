@@ -77,7 +77,6 @@ export class AssetMasterDataComponent implements OnInit{
       this.findDepoTypeList();
       this.findMakeDetails();
       this.findModelDetails();
-      this.assetMasterParameterNames();
       var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","OHE ASSET MASTER") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -715,14 +714,6 @@ export class AssetMasterDataComponent implements OnInit{
           this.modelName = units;
         })
     }
-    assetMasterParameterNames()
-         {
-                this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_PARAMETERS).subscribe((data) => {
-                  this.parameterData = data;
-                           }
-                );
-
-        }
         getAssetTypes(){
           var assetType = this.assetMasterFormGroup.value.assetType ;
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES+assetType).subscribe((data) => {
