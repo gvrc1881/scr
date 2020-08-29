@@ -445,7 +445,8 @@ export const Constants = {
             GET_MAKE_ID:"/findMakeById/",
             EXIST_MAKE_CODE:"/existsMakeCode/",
             UPDATE_MAKE:"/updateMake",
-            DELETE_MAKE_ID:"/deleteMake/"
+            DELETE_MAKE_ID:"/deleteMake/",
+            EXIST_MAKE_CODE_AND_ID:"/existsMakeCodeAndId/",
             },
             MODEL:{  
                 GET_MODEL:"/findAllModel",

@@ -50,5 +50,15 @@ public class MakeService {
 	{
 		return makeRepository.existsByMakeCode(makeCode);
 	}
+	
+	public Boolean existsByIdAndMakeCode(Long id,String makeCode)
+	{
+		return false;
+	}
+
+	public Optional<Make> findByMakeCode(String makeCode) {
+		// TODO Auto-generated method stub
+		return makeRepository.findByMakeCode(makeCode);
+	}
 
 }

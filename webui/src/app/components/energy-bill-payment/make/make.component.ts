@@ -106,8 +106,8 @@ export class MakeComponent implements OnInit{
        else if (this.title == "Update") {
         
         this.saveMake = false;
-        let id: number = this.editMakeResponse.id;
-       MakePayload.UPDATE_PAYLOAD.id =id;
+        
+       MakePayload.UPDATE_PAYLOAD.id =this.id;
        MakePayload.UPDATE_PAYLOAD.makeCode =makeCode;
        MakePayload.UPDATE_PAYLOAD.description =description;
        MakePayload.UPDATE_PAYLOAD.brandName =brandName;
@@ -170,7 +170,7 @@ export class MakeComponent implements OnInit{
         this.addMake = true;
         this.makeFormGroup = this.formBuilder.group({
           id: 0,
-          'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateMakeCode.bind(this)],
+          'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateMakeCode.bind(this)],
           'description': [null, Validators.maxLength(255)],
           'brandName': [null, Validators.maxLength(255)],
           'makeType' : [null, Validators.maxLength(255)],
@@ -215,6 +215,7 @@ export class MakeComponent implements OnInit{
         this.spinnerService.show();
         this.addMake = true;
         this.cloneupdate = false;
+       
         this.MakeEditAction(id);
         this.title = "Update";
        this.spinnerService.hide();
@@ -222,21 +223,24 @@ export class MakeComponent implements OnInit{
 
       MakeEditAction(id: number) {
         this.makeFormGroup = this.formBuilder.group({
+      
           id: 0,
-          'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
-          'description': [null, Validators.maxLength(255)],
-          'brandName': [null, Validators.maxLength(255)],
-          'makeType' : [null, Validators.maxLength(255)],
-          
-          
-      });
+         'makeCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),
+         this.duplicateMakeCodeAndId.bind(this)],
+         'description': [null, Validators.maxLength(255)],
+         'brandName': [null, Validators.maxLength(255)],
+         'makeType' : [null, Validators.maxLength(255)],
+         
+         
+    });
+       
         this.addMake = true;
         //this.makeService.findMakeById(id)
         this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.GET_MAKE_ID+id)
         .subscribe((resp) => {
-          this.cloneupdate = false;
-          this.updatedata = false;
-          this.saveMake = false;
+           this.cloneupdate = false;
+           this.updatedata = false;
+           this.saveMake = false;
           this.editMakeResponse = resp;
           this.responseStatus = resp;
           this.makeFormGroup.patchValue({
@@ -250,7 +254,7 @@ export class MakeComponent implements OnInit{
           });
         }, error => this.makeErrors = error);
         this.commonService.scrollTop("forms");
-        this.id=id;
+        this.id=+id;
         if (!isNaN(this.id)) {
             this.makeFormGroup.valueChanges.subscribe(() => {
               this.onFormValuesChanged();
@@ -298,7 +302,7 @@ export class MakeComponent implements OnInit{
 
       duplicateMakeCode() {
         const q = new Promise((resolve, reject) => {
-         
+                  
           let makeCode: string = this.makeFormGroup.controls['makeCode'].value;
         
          
@@ -311,6 +315,25 @@ export class MakeComponent implements OnInit{
               resolve(null);
             }
           }, () => { resolve({ 'duplicateMakeCode': true }); });
+        });
+        return q;
+      }
+
+      duplicateMakeCodeAndId() {
+        const q = new Promise((resolve, reject) => {
+        
+          let id=this.id;
+          let makeCode: string = this.makeFormGroup.controls['makeCode'].value;        
+         console.log("id=="+id+"makecode=="+this.makeFormGroup.controls['makeCode'].value);
+          //this.makeService.existsMakeCode(makeCode)
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MAKE.EXIST_MAKE_CODE_AND_ID+id+'/'+makeCode)
+          .subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateMakeCodeAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateMakeCodeAndId': true }); });
         });
         return q;
       }

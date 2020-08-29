@@ -75,6 +75,11 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
                       class="alert alert-danger">
                       Make Code Already Exists
                     </mat-error> 
+                    <mat-error
+                      *ngIf="makeFormGroup.controls['makeCode'].hasError('duplicateMakeCodeAndId')"
+                      class="alert alert-danger">
+                      Make Code Already Exists
+                    </mat-error> 
               </mat-form-field>
           </div>
           <div class="col-md-3">

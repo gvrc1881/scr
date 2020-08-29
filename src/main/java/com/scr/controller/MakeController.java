@@ -156,4 +156,28 @@ public class MakeController {
 			return false;
 		}
 	}
+	@RequestMapping(value = "/existsMakeCodeAndId/{id}/{makeCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsMakeCodeAndId(@PathVariable("id") Long id,@PathVariable("makeCode") String makeCode){
+		
+		logger.info("id=="+id+"makecode=="+makeCode);
+		Boolean result;
+		try {
+			Optional<Make> makeData = makeService.findByMakeCode(makeCode);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(makeData.isPresent()) {
+				Make make = makeData.get();
+				logger.info("***id ***"+make.getId());
+				if (id.equals(make.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and makecode..."+e.getMessage());
+			return false;
+		}
+	}
 }
