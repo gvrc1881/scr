@@ -4,6 +4,11 @@ export interface MakeModel{
     description:string,
     makeCode :string,
     makeName :string,
-    makeType :string
+    makeType :string,
+    createdOn :string,
+  createdStamp: string,
+  createdTxStamp :string, 
+  lastUpdatedStamp :string,
+  lastUpdatedTxStamp: string
       
   }

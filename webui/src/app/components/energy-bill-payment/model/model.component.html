@@ -53,6 +53,11 @@
                         *ngIf="modelFormGroup.controls['modelCode'].hasError('duplicateModelCode')"
                         class="alert alert-danger">
                         Model Code Already Exists
+                      </mat-error>
+                      <mat-error
+                        *ngIf="modelFormGroup.controls['modelCode'].hasError('duplicateModelCodeAndId')"
+                        class="alert alert-danger">
+                        Model Code Already Exists
                       </mat-error> 
                 </mat-form-field>
             </div>

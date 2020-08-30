@@ -88,6 +88,7 @@ export class ModelComponent implements OnInit{
             ModelPayload.ADD_PAYLOAD.brandName =brandName;
             ModelPayload.ADD_PAYLOAD.modelType =modelType;
             ModelPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
+            
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MODEL.SAVE_MODEL,ModelPayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.modelResponse=data;
@@ -224,7 +225,7 @@ export class ModelComponent implements OnInit{
       ModelEditAction(id: number) {
         this.modelFormGroup = this.formBuilder.group({
           id: 0,
-          'modelCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+          'modelCode': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateModelCodeAndId.bind(this)],
           'description': [null, Validators.maxLength(255)],
           'brandName': [null, Validators.maxLength(255)],
           'modelType' : [null, Validators.maxLength(255)],  
@@ -292,6 +293,25 @@ export class ModelComponent implements OnInit{
               resolve(null);
             }
           }, () => { resolve({ 'duplicateModelCode': true }); });
+        });
+        return q;
+      }
+      duplicateModelCodeAndId() {
+        const q = new Promise((resolve, reject) => {
+
+          let id=this.id;
+          let modelCode: string = this.modelFormGroup.controls['modelCode'].value;
+        
+         
+         // this.modelService.existsModelCode( modelCode )
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.MODEL.EXIST_MODEL_CODE_AND_ID+id+'/'+modelCode)
+          .subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateModelCodeAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateModelCodeAndId': true }); });
         });
         return q;
       }

@@ -223,7 +223,7 @@ export class TssFeederComponent implements OnInit{
         this.tssFeederFormGroup = this.formBuilder.group({
             id: 0,
             'zone' : [null],
-            'dataDiv' : [null,Validators.maxLength(255)],
+            'dataDiv' : [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
             'feederName' : [null,Validators.compose([Validators.required,Validators.maxLength(255)]) , this.duplicateFeederNameAndId.bind(this)],
             'description': [null,Validators.maxLength(255)],
             'stateElectricityBoard':[null]
@@ -272,11 +272,11 @@ export class TssFeederComponent implements OnInit{
 	           
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
-	          resolve({ 'duplicate': true });
+	          resolve({ 'duplicateFeederName': true });
 	        } else {
 	          resolve(null);
 	        }
-	      }, () => { resolve({ 'duplicate': true }); });
+	      }, () => { resolve({ 'duplicateFeederName': true }); });
 	    });
       return q;
       

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { InlineEditComponent } from '../inline-edit/inline-edit.component';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,        
-        Ng4LoadingSpinnerModule.forRoot()
+        Ng4LoadingSpinnerModule.forRoot(),
+        CommonDirectivesModule,
     ],
     providers: [
         

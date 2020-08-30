@@ -5,7 +5,10 @@ export const MakePayload = {
       "description":"",
       "brandName":"",
       "makeType":"",
-      "createdBy":""
+      "createdBy":"",
+      "createdOn":"",
+      "createdStamp": "",
+      "createdTxStamp ":"", 
       
     },
     UPDATE_PAYLOAD: {
@@ -15,6 +18,8 @@ export const MakePayload = {
       "description":"",
       "brandName":"",
       "makeType":"",
-      "updatedBy":""
+      "updatedBy":"",
+      "lastUpdatedStamp" :"",
+      "lastUpdatedTxStamp": ""
     },
 };

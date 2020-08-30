@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild } from '@angular/core';
+import { OnInit, Component, ViewChild,ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentManagementModel } from 'src/app/models/content-management.model';
@@ -26,17 +26,21 @@ export class ContentManagementComponent implements OnInit {
     uploadedFilesList: any;
     selectedGenOps;
     selected:string;
+    filterData;
+    visible:boolean;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     contentManagementFormGroup: FormGroup;
     progress: { percentage: number } = { percentage: 0 }
     pattern = "[a-zA-Z][a-zA-Z ]*";
     GenOpsArray = [{ ID: 1, VALUE: 'Circulars' }, { ID: 2, VALUE: 'Drawing' }, { ID: 3, VALUE: 'Tech Specs' }, { ID: 4, VALUE: 'Operational Manual' }, { ID: 5, VALUE: 'User manuals' }];
 
-    displayedColumns = ['sno', 'originalFileName','size', 'genOps', 'description', 'actions'];
+    displayedColumns = ['sno', 'originalFileName','size', 'genOps','assetTypeRlyId','make','model', 'description', 'actions'];
     dataSource: MatTableDataSource<ContentManagementModel>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild('filter', { static: true }) filter: ElementRef;
     contentManagementDialogRef: MatDialogRef<ContentManagementDialogComponent>;
+    gridData = [];
     constructor(
         public dialog: MatDialog,
         private formBuilder: FormBuilder,
@@ -47,7 +51,28 @@ export class ContentManagementComponent implements OnInit {
     }
     ngOnInit() {
         this.init();
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'originalFileName', "Value": " " },
+              { "Key": 'size', "Value": " " },
+              { "Key": 'genOps', "Value": " " },
+              { "Key": 'assetTypeRlyId', "Value": " " },
+              { "Key": 'make', "Value": " "},
+              { "Key": 'model', "Value": " " },
+              { "Key": 'description', "Value": " " },
+             
+            ],
+            gridData: this.gridData,
+            dataSource: this.dataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
     }
+    updatePagination() {
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
+      }
     init(){
         this.createCMForm();
         
@@ -82,7 +107,10 @@ export class ContentManagementComponent implements OnInit {
                 this.uploadedFilesList[i].sno = i + 1;
                 uploadedFiles.push(this.uploadedFilesList[i]);
             }
+            this.filterData.gridData = uploadedFiles;
             this.dataSource = new MatTableDataSource(uploadedFiles);
+            this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+            this.filterData.dataSource = this.dataSource;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
         }, error => {
@@ -224,4 +252,17 @@ export class ContentManagementComponent implements OnInit {
         }
     }
 
+    gen(){
+        let opsId = this.contentManagementFormGroup.controls['GenOps'].value;        
+        let ops = this.GenOpsArray.filter(function (value) {
+            return opsId == value.ID;
+        });
+        if(opsId==2)
+        {
+            this.visible=true;
+        }
+        else{
+            this.visible=false;
+        }
+    }
 }

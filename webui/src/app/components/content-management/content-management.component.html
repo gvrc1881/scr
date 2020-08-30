@@ -139,16 +139,16 @@
             </div>
             </div>
             <div class="clear"> </div>
-            <div class="example-container mat-elevation-z8">
+            <!-- <div class="example-container mat-elevation-z8">
               <mat-table #table [dataSource]="dataSource" matSort>
           
-                 <!-- Name Column -->
+                
                  <ng-container matColumnDef="sno">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Sno </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.sno}} </mat-cell>
                 </ng-container>
 
-                <!-- Name Column -->
+                
                 <ng-container matColumnDef="originalFileName">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
                   
@@ -156,19 +156,18 @@
                 
                 </ng-container>
 
-                <!-- Size -->
                 <ng-container matColumnDef="size">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Size </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.fileSize}} </mat-cell>
                 </ng-container>
           
-                <!-- Symbol Column -->
+               
                 <ng-container matColumnDef="genOps">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Gen/Ops </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.genOps}} </mat-cell>
                 </ng-container>
           
-                <!-- Comment Column -->
+                
                 <ng-container matColumnDef="description">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
                   <mat-cell *matCellDef="let element">                   
@@ -194,8 +193,91 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
               <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-            </div>
+            </div> -->
+            <div class="example-container mat-elevation-z8">
 
+              <mat-table [dataSource]="filterData.dataSource" matSort>
+
+                  <ng-container matColumnDef="sno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <span>Sno</span>
+                          <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.sno}}</mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="originalFileName">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <span>Name</span>
+                          <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let element"><a href={{element.changeFileName}} target="_blank"> {{element.originalFileName}} </a></mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="size">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <span>Size</span>
+                          <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.fileSize}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="genOps">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <span>Gen/Ops</span>
+                          <input matInput type="text" (ngModelChange)="gen()" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.genOps}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="assetTypeRlyId">                 
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <span>AssetType/Rly Id</span>
+                        <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.assetTypeRlyId}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="make">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <span>Make</span>
+                      <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.make}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="model">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span>Model</span>
+                    <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.model}} </mat-cell>
+            </ng-container>
+                 
+                  <ng-container matColumnDef="description">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <span>Description</span>
+                          <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let element">{{element.description}}</mat-cell> 
+                  </ng-container>
+
+                  <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <a mat-icon-button matTooltip="Edit"  *ngIf="editPermission"
+                        (click)="editDescription(row.id)">
+                        <mat-icon style="color: #0091ea;">edit</mat-icon>
+                      </a> 
+                      <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                        (click)="deleteFile(row.id)">
+                        <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+  
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div> 
             
           </div>
         </div>
