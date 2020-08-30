@@ -45,6 +45,10 @@ export class ReportNamesComponent implements OnInit {
       this.reportType = 'Asset_Master_Reports';
       this.breadcrumb = 'Asset Master Reports';
     }
+    else if(this.router.url == '/zmms-reports'){
+      this.reportType = 'Zmms_Reports';
+      this.breadcrumb = 'Zmms Reports';
+    }
     console.log("reportType"+this.reportType)  
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_NAMES+this.reportType)
     .subscribe((data)=>{

@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         currentTab: !!path && (path.includes("report-names") || path.includes("daily-progress-reports") || 
         path.includes("asset-reports") || path.includes("asset-master-reports")) ||
         path.includes("inventory-reports") || path.includes("psi-reports") ||
-        path.includes("zonal-reports") || path.includes("zonal") ? "open" : "", 
+        path.includes("zonal-reports") || path.includes("zmms-reports") ? "open" : "", 
         subMenus: [          
                     { 
             subMenuName: "Daily Progress Reports", 
@@ -120,13 +120,13 @@ export class HeaderComponent implements OnInit, DoCheck {
 
           },
           {
-            subMenuName:"Zonal ",
-            subMenuURL:"zonal",
+            subMenuName:"ZMMS Reports",
+            subMenuURL:"zmms-reports",
             color:"#1285EE",
             subMenuIcon:"fa fa-file",
             rolePermission:true,
-            permission:this.commonService.findPermission('Zonal', 'submenu', 'view'),
-            currentSubMenu:!!path && path.includes("zonal") ? "active-item":"",
+            permission:this.commonService.findPermission('ZMMS Reports', 'submenu', 'view'),
+            currentSubMenu:!!path && path.includes("zmms-reports") ? "active-item":"",
 
           },
         ] 

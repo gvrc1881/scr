@@ -195,6 +195,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'zmms-reports',
+    loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'users',
     loadChildren: './components/masters/users/users.module#UserModule',
     canActivate: [AuthGuard]
