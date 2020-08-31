@@ -526,7 +526,7 @@ public class FootPatrollingRestService {
 			functionalLocationHierarchyDto.setGroupId(functionalLocationHierarchy.getGroupId());
 			functionalLocationHierarchyDto.setHeadDesignation(functionalLocationHierarchy.getHeadDesignation());
 			functionalLocationHierarchyDto.setHeadLoginId(functionalLocationHierarchy.getHeadLoginId());
-			functionalLocationHierarchyDto.setId(functionalLocationHierarchy.getId());
+			functionalLocationHierarchyDto.setId(functionalLocationHierarchy.getId().toString());
 			functionalLocationHierarchyDto.setOrgLevel(functionalLocationHierarchy.getOrgLevel());
 			functionalLocationHierarchyDto.setPartyId(functionalLocationHierarchy.getPartyId());
 			functionalLocationHierarchyDto.setReportManager(functionalLocationHierarchy.getReportManager());

@@ -16,6 +16,7 @@ public class AssetMasterHistory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="aoh_date")
@@ -146,7 +147,7 @@ public class AssetMasterHistory implements Serializable {
 	private Timestamp warrantyAmcEndDate;
 	
 	@Column(name="parent_type_id")
-	private Timestamp parentTypeId;
+	private String parentTypeId;
 
 	public AssetMasterHistory() {
 	}
@@ -534,13 +535,12 @@ public class AssetMasterHistory implements Serializable {
 	public void setWarrantyAmcEndDate(Timestamp warrantyAmcEndDate) {
 		this.warrantyAmcEndDate = warrantyAmcEndDate;
 	}
-
-	public Timestamp getParentTypeId() {
+	
+	public String getParentTypeId() {
 		return parentTypeId;
 	}
 
-	public void setParentTypeId(Timestamp parentTypeId) {
+	public void setParentTypeId(String parentTypeId) {
 		this.parentTypeId = parentTypeId;
 	}
-
 }

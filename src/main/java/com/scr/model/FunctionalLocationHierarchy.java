@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the functional_location_hierarchy database table.
  * 
@@ -12,74 +11,77 @@ import java.sql.Timestamp;
 @Entity
 // @Table(name="functional_location_hierarchy")
 
-@Table(name = "functional_location_hierarchy" , uniqueConstraints={@UniqueConstraint(name = "old_pk_functional_location_hierarchy_uniq", columnNames ={"party_id", "data_div"})})
+@Table(name = "functional_location_hierarchy", uniqueConstraints = {
+		@UniqueConstraint(name = "old_pk_functional_location_hierarchy_uniq", columnNames = { "party_id",
+				"data_div" }) })
 //
-@NamedQuery(name="FunctionalLocationHierarchy.findAll", query="SELECT f FROM FunctionalLocationHierarchy f")
+@NamedQuery(name = "FunctionalLocationHierarchy.findAll", query = "SELECT f FROM FunctionalLocationHierarchy f")
 public class FunctionalLocationHierarchy implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	@Column(name="created_stamp")
+	@Column(name = "created_stamp")
 	private Timestamp createdStamp;
 
-	@Column(name="created_tx_stamp")
+	@Column(name = "created_tx_stamp")
 	private Timestamp createdTxStamp;
 
-	@Column(name="data_div")
+	@Column(name = "data_div")
 	private String dataDiv;
 
-	@Column(name="group_id")
+	@Column(name = "group_id")
 	private String groupId;
 
-	@Column(name="head_designation")
+	@Column(name = "head_designation")
 	private String headDesignation;
 
-	@Column(name="head_login_id")
+	@Column(name = "head_login_id")
 	private String headLoginId;
 
-	@Column(name="last_updated_stamp")
+	@Column(name = "last_updated_stamp")
 	private Timestamp lastUpdatedStamp;
 
-	@Column(name="last_updated_tx_stamp")
+	@Column(name = "last_updated_tx_stamp")
 	private Timestamp lastUpdatedTxStamp;
 
-	@Column(name="org_level")
+	@Column(name = "org_level")
 	private String orgLevel;
 
-	@Column(name="party_id")
+	@Column(name = "party_id")
 	private String partyId;
 
-	@Column(name="report_manager")
+	@Column(name = "report_manager")
 	private String reportManager;
 
-	@Column(name="rm_login_id")
+	@Column(name = "rm_login_id")
 	private String rmLoginId;
 
-	@Column(name="rm_seq_id")
+	@Column(name = "rm_seq_id")
 	private String rmSeqId;
 
-	@Column(name="unit_code")
+	@Column(name = "unit_code")
 	private String unitCode;
 
-	@Column(name="unit_name")
+	@Column(name = "unit_name")
 	private String unitName;
 
-	@Column(name="unit_station")
+	@Column(name = "unit_station")
 	private String unitStation;
 
-	@Column(name="unit_type")
+	@Column(name = "unit_type")
 	private String unitType;
 
 	public FunctionalLocationHierarchy() {
 	}
 
-	public String getId() {
-		return this.id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
