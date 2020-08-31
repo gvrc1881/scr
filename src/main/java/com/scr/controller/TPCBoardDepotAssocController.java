@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.services.TPCBoardDepotAssocService;
 import com.scr.util.Constants;
@@ -127,6 +128,30 @@ public class TPCBoardDepotAssocController {
 			return tpcBoardDepotAssocService.existsByTpcBoardAndUnitName(tpcBoard,unitName);	
 		} catch (Exception e) {
 			log.error("Error while checking exists tpcBoard and unitName..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existTpcBoardUnitNameAndId/{id}/{tpcBoard}/{unitName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existTpcBoardUnitNameAndId(@PathVariable("id") Long id,@PathVariable("tpcBoard") String tpcBoard,@PathVariable("unitName") String unitName){
+		
+		log.info("id=="+id+"tpcBoard=="+tpcBoard);
+		Boolean result;
+		try {
+			Optional<TpcBoardReportingFacility> tpcBoardDepotAssoc = tpcBoardDepotAssocService.findByTpcBoardAndUnitName(tpcBoard,unitName);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(tpcBoardDepotAssoc.isPresent()) {
+				TpcBoardReportingFacility tpcBoardAssocDetails = tpcBoardDepotAssoc.get();
+				log.info("***id ***"+tpcBoardAssocDetails.getId());
+				if (id.equals(tpcBoardAssocDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and unitName..."+e.getMessage());
 			return false;
 		}
 	}

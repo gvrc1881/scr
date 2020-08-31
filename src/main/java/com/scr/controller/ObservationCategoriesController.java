@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ObservationCategory;
+import com.scr.model.TpcBoard;
 import com.scr.services.ObservationCategoriesService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -128,6 +129,29 @@ public class ObservationCategoriesController {
 			return false;
 		}
 	}
-	
+	@RequestMapping(value = "/existInspectionTypeObservationCategoryAndId/{id}/{inspectionType}/{observationCategory}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existInspectionTypeObservationCategoryAndId(@PathVariable("id") Long id,@PathVariable("inspectionType") String inspectionType,@PathVariable("observationCategory") String observationCategory){
+		
+		log.info("id=="+id+"inspectionType=="+inspectionType);
+		Boolean result;
+		try {
+			Optional<ObservationCategory> obsCateData = observationCategoriesService.findByInspectionTypeAndObservationCategory(inspectionType,observationCategory);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(obsCateData.isPresent()) {
+				ObservationCategory obsCateDetails = obsCateData.get();
+				log.info("***id ***"+obsCateDetails.getId());
+				if (id.equals(obsCateDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and inspectionType..."+e.getMessage());
+			return false;
+		}
+	}
 	
 }

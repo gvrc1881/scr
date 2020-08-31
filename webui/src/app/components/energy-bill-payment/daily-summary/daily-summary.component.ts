@@ -21,6 +21,7 @@ export class DailySummaryComponent implements OnInit{
     addDailySummary: boolean ;
     title: string = "Save";
     dailySummaryFormGroup: FormGroup;
+    id: number = 0;
     dailySummaryList : any;
     facilityData: any;
     today=new Date();
@@ -60,27 +61,7 @@ export class DailySummaryComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.dailySummaryFormGroup = this.formBuilder.group({
-            id: 0,
-            'createdDate':[null, Validators.required, this.duplicateFromDate.bind(this)],
-            'facilityId':[null, Validators.required],
-            'nameOfStaff':[null,Validators.maxLength(250)],
-            'dayProgress': [null],
-            'npbProgress': [null],
-            'psiProgress': [null],
-            'tomorrowForecast' : [null],
-            'footPatrolling' : [null],
-            'footInspection' : [null],
-            'footPlateInspection' : [null],
-            'supervisor' : [null],
-            'staffStrength' : [null],
-            'powerBlock' : [null],
-            'nonPowerBlock' : [null],
-            'remarks' : [null,Validators.maxLength(250)],
-            'zone' : [null],
-            'division' : [null],
-            'subDiv' : [null],
-        });
+        
         this.displayHierarchyFields();
     }
     
@@ -116,7 +97,26 @@ export class DailySummaryComponent implements OnInit{
 	      }, () => { resolve({ 'duplicate': true }); });
 	    });
     	return q;
-  	}    
+      }    
+      duplicateFacilityCreatedDateAndId() {
+        let id=this.id;
+        let facilityId: string = this.dailySummaryFormGroup.controls['facilityId'].value;
+        let createdDate: string = this.dailySummaryFormGroup.controls['createdDate'].value;
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.EXISTS_FACILITY_ID_CREATED_DATE_AND_ID+id+'/'+facilityId+'/'+createdDate).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateFacilityCreatedDateAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateFacilityCreatedDateAndId': true }); });
+        });
+        return q;
+      }
       public get f() { return this.dailySummaryFormGroup.controls; }
 
     getAllDailySummaryData() {
@@ -220,6 +220,27 @@ export class DailySummaryComponent implements OnInit{
     }
 
     dailySummaryEditAction(id: number) {
+        this.dailySummaryFormGroup = this.formBuilder.group({
+            id: 0,
+            'createdDate':[null, Validators.required, this.duplicateFacilityCreatedDateAndId.bind(this)],
+            'facilityId':[null, Validators.required],
+            'nameOfStaff':[null,Validators.maxLength(250)],
+            'dayProgress': [null],
+            'npbProgress': [null],
+            'psiProgress': [null],
+            'tomorrowForecast' : [null],
+            'footPatrolling' : [null],
+            'footInspection' : [null],
+            'footPlateInspection' : [null],
+            'supervisor' : [null],
+            'staffStrength' : [null],
+            'powerBlock' : [null],
+            'nonPowerBlock' : [null],
+            'remarks' : [null,Validators.maxLength(250)],
+            'zone' : [null],
+            'division' : [null],
+            'subDiv' : [null],
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.DAILY_SUMMARY.GET_DAILY_SUMMARY_ID+id).subscribe((responseData) => {
             this.editDailySummaryResponse = responseData;
             this.dailySummaryFormGroup.patchValue({
@@ -286,6 +307,27 @@ export class DailySummaryComponent implements OnInit{
        }
 
        NewDailySummary () {
+        this.dailySummaryFormGroup = this.formBuilder.group({
+            id: 0,
+            'createdDate':[null, Validators.required, this.duplicateFromDate.bind(this)],
+            'facilityId':[null, Validators.required],
+            'nameOfStaff':[null,Validators.maxLength(250)],
+            'dayProgress': [null],
+            'npbProgress': [null],
+            'psiProgress': [null],
+            'tomorrowForecast' : [null],
+            'footPatrolling' : [null],
+            'footInspection' : [null],
+            'footPlateInspection' : [null],
+            'supervisor' : [null],
+            'staffStrength' : [null],
+            'powerBlock' : [null],
+            'nonPowerBlock' : [null],
+            'remarks' : [null,Validators.maxLength(250)],
+            'zone' : [null],
+            'division' : [null],
+            'subDiv' : [null],
+        });
         this.addDailySummary = true;
         this.disableFacility = false;
     }

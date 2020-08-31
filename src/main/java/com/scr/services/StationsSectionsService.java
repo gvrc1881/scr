@@ -7,6 +7,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.model.Facility;
 import com.scr.model.StationsSection;
 import com.scr.repository.StationsSectionsRepository;
 
@@ -40,5 +42,13 @@ public class StationsSectionsService {
 	//exist condition
 	public Boolean existsByStationName(String stationName) {
 		return stationsSectionsRepository.existsByStationName(stationName);
+	}
+	public Optional<StationsSection> findByStationCode(String stationCode) {
+		// TODO Auto-generated method stub
+		return stationsSectionsRepository.findByStationCode(stationCode);
+	}
+	public Optional<StationsSection> findByStationName(String stationName) {
+		// TODO Auto-generated method stub
+		return stationsSectionsRepository.findByStationName(stationName);
 	}
 }

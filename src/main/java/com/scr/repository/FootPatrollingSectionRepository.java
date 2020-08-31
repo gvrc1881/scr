@@ -2,9 +2,8 @@ package com.scr.repository;
 
 import java.sql.Timestamp;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.scr.model.FootPatrollingSection;
 
 public interface FootPatrollingSectionRepository extends JpaRepository<FootPatrollingSection, Long> {
@@ -18,5 +17,8 @@ public interface FootPatrollingSectionRepository extends JpaRepository<FootPatro
 
 	List<FootPatrollingSection> findByLastUpdatedStampLessThanEqualAndLastUpdatedStampGreaterThan(
 			Timestamp currenTimestamp, Timestamp previousTimestamp);
+	
+	Optional<FootPatrollingSection> findByFpSection(String fpSection);
+
 
 }

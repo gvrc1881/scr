@@ -61,7 +61,12 @@
                           <mat-error
                                   *ngIf="observationCategoriesFormGroup.controls['observationCategory'].hasError('duplicateObservationCategory')"
                                      class="alert alert-danger">
-                                     observation Category Already Exists
+                                     Inspection Type and Observation Category combination already exists
+                            </mat-error>
+                            <mat-error
+                                  *ngIf="observationCategoriesFormGroup.controls['observationCategory'].hasError('duplicateObservationCategoryAndId')"
+                                     class="alert alert-danger">
+                                     Asset Type and Observation Category combination already exists
                             </mat-error>
                             </mat-form-field>
                           </div>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.DailyProgressSummery;
 import com.scr.services.DailySummaryService;
 import com.scr.util.Constants;
@@ -120,7 +121,7 @@ public class DailySummaryController {
 			return Helper.findResponseStatus("Daily Summary Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	
+
 	@RequestMapping(value = "/existsFacilityIdAndCreatedDate/{facilityId}/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsFacilityIdAndCreatedDate(@PathVariable("facilityId") String facilityId ,@PathVariable("createdDate") String createdDate){
 		
@@ -129,6 +130,30 @@ public class DailySummaryController {
 			return dailySummaryService.existsByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));
 		} catch (Exception e) {
 			log.error("Error while checking exists facilityId "+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existFacilityIdCreatedDateAndId/{id}/{facilityId}/{createdDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFacilityIdCreatedDateAndId(@PathVariable("id") Long id,@PathVariable("facilityId") String facilityId,@PathVariable("createdDate") String createdDate){
+		
+		log.info("id=="+id+"createdDate=="+createdDate);
+		Boolean result;
+		try {
+			Optional<DailyProgressSummery> dsData = dailySummaryService.findByFacilityIdAndCreatedDate(facilityId,Helper.convertStringToTimestamp(createdDate));
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(dsData.isPresent()) {
+				DailyProgressSummery ds = dsData.get();
+				log.info("***id ***"+ds.getId());
+				if (id.equals(ds.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and facilityId..."+e.getMessage());
 			return false;
 		}
 	}

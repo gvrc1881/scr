@@ -98,6 +98,24 @@ export class SidingsComponent implements OnInit {
         });
         return q;
       }
+      duplicateSidingCodeAndId() {
+        let id=this.id;
+        let sidingCode: string = this.sidingsItemFormGroup.controls['sidingCode'].value;         
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.EXIST_SIDING_CODE_AND_ID+id+'/'+sidingCode).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateSidingCodeAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateSidingCodeAndId': true }); });
+        });
+        return q;
+      }
       addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         this.toMinDate = new Date(event.value);
     }
@@ -218,7 +236,7 @@ export class SidingsComponent implements OnInit {
         this.sidingsItemFormGroup = this.formBuilder.group({
             id: 0,
             'station':[null,Validators.maxLength(250)],
-            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCodeAndId.bind(this)],
             'section': [null,Validators.maxLength(250)],
             'sectionEletrifiedStatus': [null],
             'sidingEletrifiedStatus' : [null],

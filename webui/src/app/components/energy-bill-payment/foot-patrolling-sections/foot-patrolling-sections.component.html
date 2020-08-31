@@ -55,6 +55,11 @@
                                 FP Secion Already Exists
                               </mat-error>
                               <mat-error
+                                *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('duplicatefpSectionAndId')" 
+                                class="alert alert-danger" >
+                                FP Secion Already Exists
+                              </mat-error>
+                              <mat-error
                               *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('maxlength') && fpSectionsItemFormGroup.controls['fpSection'].touched"
                               class="alert alert-danger">Max 250 characters only
                           </mat-error>

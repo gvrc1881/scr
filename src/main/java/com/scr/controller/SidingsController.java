@@ -2,7 +2,6 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.SidingDetails;
-import com.scr.model.StationsSection;
 import com.scr.services.SidingsService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -127,6 +125,30 @@ public class SidingsController {
 			return sidingsService.existsBySidingCode(sidingCode);
 		} catch (Exception e) {
 			log.error("Error while checking exists sidingCode.");
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findBySidingCodeAndId/{id}/{sidingCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findBySidingCodeAndId(@PathVariable("id") Long id,@PathVariable("sidingCode") String sidingCode){
+		
+		log.info("id=="+id+"sidingCode=="+sidingCode);
+		Boolean result;
+		try {
+			Optional<SidingDetails> sidingsData = sidingsService.findBySidingCode(sidingCode);
+			
+			if(sidingsData.isPresent()) {
+				SidingDetails sidingDetails = sidingsData.get();
+				log.info("***id ***"+sidingDetails.getId());
+				if (id.equals(sidingDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and sidingCode..."+e.getMessage());
 			return false;
 		}
 	}

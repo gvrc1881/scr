@@ -2,7 +2,6 @@ package com.scr.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +38,9 @@ public class TPCBoardDepotAssocService {
 	}
 	public Boolean existsByTpcBoardAndUnitName(String tpcBoard, String unitName) {
 		return tpcBoardDepotAssocRepository.existsByTpcBoardAndUnitName(tpcBoard,unitName);
+	}
+	public Optional<TpcBoardReportingFacility> findByTpcBoardAndUnitName(String tpcBoard,String unitName) {
+		// TODO Auto-generated method stub
+		return tpcBoardDepotAssocRepository.findByTpcBoardAndUnitName(tpcBoard,unitName);
 	}
 }

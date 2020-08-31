@@ -1,5 +1,5 @@
 export interface FootPatrollingSectionsModel{
-    facilityDepot:any,
+    facilityDepot:string,
     fpSection: string,
     fromLocation: string,
     toLocation: string,

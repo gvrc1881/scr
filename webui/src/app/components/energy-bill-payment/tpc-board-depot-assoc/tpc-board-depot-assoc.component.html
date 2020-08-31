@@ -51,8 +51,8 @@
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="Select Depot Type" [formControl]="tpcBoardDepotAssocFormGroup.controls['unitType']" (selectionChange)="getFacilitys()" >
                                                                     <mat-option *ngFor="let depotType of funLocTypeData"
-                                                                        [value]="depotType.facilityId">
-                                                                        {{ depotType.facilityName}}
+                                                                        [value]="depotType.code">
+                                                                        {{ depotType.code}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 
@@ -64,12 +64,17 @@
                                                                 <mat-select placeholder="Select Depot"
                                                                     [formControl]="tpcBoardDepotAssocFormGroup.controls['unitName']" required>
                                                                     <mat-option *ngFor="let facilityId of facilityData"
-                                                                        [value]="facilityId.facilityId">
-                                                                        {{ facilityId.facilityId}}
+                                                                        [value]="facilityId.facilityName">
+                                                                        {{ facilityId.facilityName}}
                                                                     </mat-option>
                                                                 </mat-select>
                                                                 <mat-error
                                                                     *ngIf="tpcBoardDepotAssocFormGroup.controls['unitName'].hasError('duplicateTpcBoard')"
+                                                                    class="alert alert-danger">
+                                                                    Depot combination Already Exists
+                                                                </mat-error>
+                                                                <mat-error
+                                                                    *ngIf="tpcBoardDepotAssocFormGroup.controls['unitName'].hasError('duplicateTpcBoardUnitNameAndId')"
                                                                     class="alert alert-danger">
                                                                     Depot combination Already Exists
                                                                 </mat-error>

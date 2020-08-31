@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Facility;
 import com.scr.model.StationsSection;
 import com.scr.services.StationsSectionsService;
 import com.scr.util.Constants;
@@ -76,6 +77,54 @@ public class StationsSectionsController {
 			return stationsSectionsService.existsByStationName(stationName);
 		} catch (Exception e) {
 			logger.error("Error while checking exists stationName.");
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findByStationCodeAndId/{id}/{stationCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityNameAndId(@PathVariable("id") Long id,@PathVariable("stationCode") String stationCode){
+		
+		logger.info("id=="+id+"stationCode=="+stationCode);
+		Boolean result;
+		try {
+			Optional<StationsSection> ssData = stationsSectionsService.findByStationCode(stationCode);
+			
+			if(ssData.isPresent()) {
+				StationsSection stationsSection = ssData.get();
+				logger.info("***id ***"+stationsSection.getId());
+				if (id.equals(stationsSection.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and stationCode..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findByStationNameAndId/{id}/{stationName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityIdAndId(@PathVariable("id") Long id,@PathVariable("stationName") String stationName){
+		
+		logger.info("id=="+id+"stationName=="+stationName);
+		Boolean result;
+		try {
+			Optional<StationsSection> statData = stationsSectionsService.findByStationName(stationName);
+			
+			if(statData.isPresent()) {
+				StationsSection stationsSection = statData.get();
+				logger.info("***id ***"+stationsSection.getId());
+				if (id.equals(stationsSection.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and stationName..."+e.getMessage());
 			return false;
 		}
 	}

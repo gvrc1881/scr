@@ -1,3 +1,5 @@
+
+
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
@@ -45,6 +47,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
 
    
 
+
     }
 
     ngOnInit () {
@@ -55,7 +58,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
             this.funLocTypeData = data;
          });
 }
@@ -71,6 +74,25 @@ duplicateTpcBoard() {
           resolve(null);
         }
       }, () => { resolve({ 'duplicate': true }); });
+    });
+    return q;
+  } 
+  duplicateTpcBoardUnitNameAndId() {
+    let id=this.id;
+    let tpcBoard: string = this.tpcBoardDepotAssocFormGroup.controls['tpcBoard'].value;
+    let unitName: string = this.tpcBoardDepotAssocFormGroup.controls['unitName'].value;
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD_ASSOC.EXISTS_TPC_BOARD_UNIT_NAME_AND_ID+id+'/'+tpcBoard+'/'+unitName).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateTpcBoardUnitNameAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateTpcBoardUnitNameAndId': true }); });
     });
     return q;
   }    
@@ -143,7 +165,7 @@ duplicateTpcBoard() {
             id: 0,
             'tpcBoard':[null, Validators.compose([Validators.required])],
             'unitType':[null],
-            'unitName':[null,Validators.required],
+            'unitName':[null,Validators.required,this.duplicateTpcBoardUnitNameAndId.bind(this)],
             'description':[null, Validators.maxLength(250)],
             
         });
@@ -189,10 +211,8 @@ duplicateTpcBoard() {
     }
     getFacilitys(){
         var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-        alert("unitType"+unitType)
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+unitType).subscribe((data) => {
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+unitType).subscribe((data) => {
                  this.facilityData = data;
-                 console.log("powerBlocks"+JSON.stringify(data));
         		});
     }
     getFacilityNames(){

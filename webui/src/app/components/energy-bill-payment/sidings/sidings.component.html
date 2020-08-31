@@ -58,6 +58,11 @@
                                                                 class="alert alert-danger">
                                                                 siding Code Already Exist
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('duplicateSidingCodeAndId')"
+                                                            class="alert alert-danger">
+                                                            siding Code Already Exists
+                                                          </mat-error>
                                                             <mat-error 
                                                                     *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('maxlength') && sidingsItemFormGroup.controls['sidingCode'].touched"
                                                                      class="alert alert-danger">Max 250 characters only

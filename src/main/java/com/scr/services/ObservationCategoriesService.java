@@ -36,4 +36,8 @@ public class ObservationCategoriesService {
 	public Boolean existsByInspectionTypeAndObservationCategory(String inspectionType, String observationCategory) {
 		return observationCategoryRepository.existsByInspectionTypeAndObservationCategory(inspectionType,observationCategory);
 	}
+	public Optional<ObservationCategory> findByInspectionTypeAndObservationCategory(String inspectionType,String observationCategory) {
+		// TODO Auto-generated method stub
+		return observationCategoryRepository.findByInspectionTypeAndObservationCategory(inspectionType,observationCategory);
+	}
 }

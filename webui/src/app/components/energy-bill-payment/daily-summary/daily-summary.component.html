@@ -111,6 +111,11 @@
                                                                 class="alert alert-danger">
                                                                 Date combination Already Exists
                                                             </mat-error>
+                                                            <mat-error
+                                                                *ngIf="dailySummaryFormGroup.controls['createdDate'].hasError('duplicateFacilityCreatedDateAndId')"
+                                                                class="alert alert-danger">
+                                                                Date combination Already Exists
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
                             

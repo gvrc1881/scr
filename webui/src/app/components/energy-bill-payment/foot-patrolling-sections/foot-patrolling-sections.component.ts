@@ -85,6 +85,25 @@ export class FootPatrollingSectionsComponent implements OnInit{
         });
         return q;
       }
+      duplicatefpSectionAndId() {
+        let id=this.id;
+        let fpSection: string = this.fpSectionsItemFormGroup.controls['fpSection'].value;         
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.EXIST_FP_SECTIONS_AND_ID+id+'/'+fpSection).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicatefpSectionAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicatefpSectionAndId': true }); });
+        });
+        return q;
+      }
+
       public get f() { return this.fpSectionsItemFormGroup.controls; }
 
       addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -163,7 +182,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         this.fpSectionsItemFormGroup = this.formBuilder.group({
             id: 0,
             'facilityDepot':[null],
-            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+            'fpSection':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicatefpSectionAndId.bind(this)],
             'fromLocation': [null],
             'toLocation': [null],
             'fromDate': [null],

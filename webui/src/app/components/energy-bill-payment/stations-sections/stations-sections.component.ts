@@ -91,6 +91,44 @@ export class StationsSectionsComponent implements OnInit {
     });
     return q;
   }
+  duplicateStationCodeAndId() {
+    let id=this.id;
+    let stationCode: string = this.stationsSectionsFormGroup.controls['stationCode'].value;         
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.EXISTS_STATION_CODE_AND_ID+id+'/'+stationCode).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateStationCodeAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateStationCodeAndId': true }); });
+    });
+    return q;
+  }
+
+  duplicateStationNameAndId() {
+
+    let id=this.id;
+   let stationName: string = this.stationsSectionsFormGroup.controls['stationName'].value;         
+
+   const q = new Promise((resolve, reject) => {          
+
+      this.sendAndRequestService.requestForGET(
+             Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.EXISTS_STATION_NAME_AND_ID+id+'/'+stationName).subscribe
+             ((duplicate) => {
+       if (duplicate) {
+         resolve({ 'duplicateStationNameAndId': true });
+       } else {
+         resolve(null);
+       }
+     }, () => { resolve({ 'duplicateStationNameAndId': true }); });
+   });
+   return q;
+ }
   getAllStationsSectionsData() {
     const stationsSections: StationsSectionsModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.STATION_SECTIONS.GET_STATION_SECTIONS).subscribe((data) => {
@@ -166,8 +204,8 @@ export class StationsSectionsComponent implements OnInit {
   stationsSectionsEditAction(id: number) {
     this.stationsSectionsFormGroup = this.formBuilder.group({
       id: 0,
-      'stationCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'stationCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateStationCodeAndId.bind(this)],
+      'stationName': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateStationNameAndId.bind(this)],
       'majorSectionRoute': [null, Validators.maxLength(250)],
       'upSection': [null, Validators.maxLength(250)],
       'upSectionName': [null, Validators.maxLength(250)],

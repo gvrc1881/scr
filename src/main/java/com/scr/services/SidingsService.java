@@ -8,9 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.SidingDetails;
-import com.scr.model.StationsSection;
 import com.scr.repository.SidingsRepository;
-import com.scr.repository.StationsSectionsRepository;
 
 @Service
 public class SidingsService {
@@ -37,6 +35,10 @@ public class SidingsService {
 	}
 	public boolean existsBySidingCode(String sidingCode) {
 		return sidingsRepository.existsBySidingCode(sidingCode);
+	}
+	public Optional<SidingDetails> findBySidingCode(String sidingCode) {
+		// TODO Auto-generated method stub
+		return sidingsRepository.findBySidingCode(sidingCode);
 	}
 	
 }

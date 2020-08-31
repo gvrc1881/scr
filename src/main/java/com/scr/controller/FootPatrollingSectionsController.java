@@ -2,7 +2,6 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +127,30 @@ public class FootPatrollingSectionsController {
 			return footPatrollingSectionsService.existsByFpSection(fpSection);
 		} catch (Exception e) {
 			log.error("Error while checking exists fpSections.");
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findByFpSectionAndId/{id}/{fpSection}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFpSectionAndId(@PathVariable("id") Long id,@PathVariable("fpSection") String fpSection){
+		
+		log.info("id=="+id+"fpSection=="+fpSection);
+		Boolean result;
+		try {
+			Optional<FootPatrollingSection> fpSectionsData = footPatrollingSectionsService.findByFpSection(fpSection);
+			
+			if(fpSectionsData.isPresent()) {
+				FootPatrollingSection footPatrollingSection = fpSectionsData.get();
+				log.info("***id ***"+footPatrollingSection.getId());
+				if (id.equals(footPatrollingSection.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and fpSection..."+e.getMessage());
 			return false;
 		}
 	}

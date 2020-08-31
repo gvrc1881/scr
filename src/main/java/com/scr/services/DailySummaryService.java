@@ -8,6 +8,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.DailyProgressSummery;
 import com.scr.repository.DailySummaryRepository;
 
@@ -40,6 +42,10 @@ public class DailySummaryService {
 	public Boolean existsByFacilityIdAndCreatedDate(String facilityId, Timestamp createdDate) {
 		// TODO Auto-generated method stub
 		return dailySummaryRepository.existsByFacilityIdAndCreatedDate(facilityId,createdDate);
+	}
+	public Optional<DailyProgressSummery> findByFacilityIdAndCreatedDate(String facilityId,Timestamp createdDate) {
+		// TODO Auto-generated method stub
+		return dailySummaryRepository.findByFacilityIdAndCreatedDate(facilityId,createdDate);
 	}
 	
 }

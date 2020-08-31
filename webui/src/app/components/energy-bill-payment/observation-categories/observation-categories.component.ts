@@ -98,6 +98,25 @@ export class ObservationCategoriesComponent implements OnInit{
         });
         return q;
       }
+      duplicateObservationCategoryAndId() {
+        let id=this.id;
+        let inspectionType: string = this.observationCategoriesFormGroup.controls['inspectionType'].value;
+        let observationCategory: string = this.observationCategoriesFormGroup.controls['observationCategory'].value;
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.EXISTS_INPECTION_TYPE_OBJ_CATG_AND_ID+id+'/'+inspectionType+'/'+observationCategory).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateObservationCategoryAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateObservationCategoryAndId': true }); });
+        });
+        return q;
+      } 
       public get f() { return this.observationCategoriesFormGroup.controls; }
      
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -176,7 +195,7 @@ export class ObservationCategoriesComponent implements OnInit{
         id: 0,
         'inspectionType':[null],
         'department':[null,Validators.maxLength(250)],
-        'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+        'observationCategory':[null, Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateObservationCategoryAndId.bind(this)],
         'description': [null,Validators.maxLength(250)],
         'remark': [null,Validators.maxLength(250)],
         'fromDate' : [null],

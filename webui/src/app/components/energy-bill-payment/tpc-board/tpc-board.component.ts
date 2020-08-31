@@ -6,6 +6,7 @@ import { TPCBoardModel } from 'src/app/models/tpc-board.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'tpc-board',
@@ -23,6 +24,7 @@ export class TPCBoardComponent implements OnInit{
     tpcBoardFormGroup: FormGroup;
     tpcBoardList : any;
     divisionsList:any;
+    tpcBoardResponse:any;
     tpcBoardDataSource: MatTableDataSource<TPCBoardModel>;
     tpcBoardDisplayColumns = ['sno' , 'tpcBoard' ,'dataDiv','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -36,6 +38,7 @@ export class TPCBoardComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
+        private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
     ){
 
@@ -70,7 +73,26 @@ export class TPCBoardComponent implements OnInit{
 	      }, () => { resolve({ 'duplicate': true }); });
 	    });
     	return q;
-      }    
+      }  
+      duplicateTpcBoardDataDivAndId() {
+        let id=this.id;
+        let tpcBoard: string = this.tpcBoardFormGroup.controls['tpcBoard'].value;
+        let dataDiv: string = this.tpcBoardFormGroup.controls['dataDiv'].value;
+
+        const q = new Promise((resolve, reject) => {          
+  
+           this.sendAndRequestService.requestForGET(
+                  Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.EXISTS_TPC_BOARD_DATADIV_AND_ID+id+'/'+tpcBoard+'/'+dataDiv).subscribe
+                  ((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateTpcBoardDataDivAndId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateTpcBoardDataDivAndId': true }); });
+        });
+        return q;
+      }  
      
       public get f() { return this.tpcBoardFormGroup.controls; }
     getAllTPCBoardData() {
@@ -102,12 +124,22 @@ export class TPCBoardComponent implements OnInit{
                 'dataDiv':dataDiv,
                 'description':description
             }
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.SAVE_TPC_BOARD, saveTPCBoardModel, false).subscribe(response => {
-                this.commonService.showAlertMessage('Successfully saved');
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.SAVE_TPC_BOARD, saveTPCBoardModel, false).subscribe(data => {
+              this.tpcBoardResponse = data;
+              if(this.tpcBoardResponse.code == 200 && !!this.tpcBoardResponse) {
+                this.commonService.showAlertMessage(this.tpcBoardResponse.message);
                 this.getAllTPCBoardData();
                 this.tpcBoardFormGroup.reset();
-            } , error => {});
-        }else if (this.title == Constants.EVENTS.UPDATE ) {
+            }else {
+                this.commonService.showAlertMessage("tpc Board Data Saving Failed.");
+            }
+            this.spinnerService.hide();
+        } , error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("tpc Board Data Saving Failed.");
+        });
+    }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editTpcBoardResponse.id;
             var updateTPCBoardModel ={
                 'id':id,
@@ -115,15 +147,24 @@ export class TPCBoardComponent implements OnInit{
                 'dataDiv':dataDiv,
                 'description':description,
             }
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel, false).subscribe(response => {
-                this.commonService.showAlertMessage('Successfully updated');
-                this.getAllTPCBoardData();
-                this.tpcBoardFormGroup.reset();
-                this.addTPCBoard =  false;
-            } , error => {})
-            
-        }
-    }
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel, false).subscribe(data => {
+              this.tpcBoardResponse = data;
+              if(this.tpcBoardResponse.code == 200 && !!this.tpcBoardResponse) {
+                  this.commonService.showAlertMessage(this.tpcBoardResponse.message);
+                  this.getAllTPCBoardData();
+                  this.tpcBoardFormGroup.reset();
+                  this.addTPCBoard =  false;
+              }else {
+                  this.commonService.showAlertMessage("tpc Board Data Updating Failed.");
+              }
+          } , error => {
+              console.log('ERROR >>>');
+              this.spinnerService.hide();
+              this.commonService.showAlertMessage("tpc Board  Data Updating Failed.");
+          });
+          
+      }
+  }
 
     editTPCBoard (id) {
         this.addTPCBoard = true;
@@ -135,7 +176,7 @@ export class TPCBoardComponent implements OnInit{
         this.tpcBoardFormGroup = this.formBuilder.group({
             id: 0,
             'tpcBoard':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-            'dataDiv':[null,Validators.required],
+            'dataDiv':[null,Validators.required, this.duplicateTpcBoardDataDivAndId.bind(this)],
             'description':[null,Validators.maxLength(250)]
             
         });

@@ -2,11 +2,10 @@ package com.scr.repository;
 
 import java.sql.Timestamp;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import com.scr.model.ObservationCategory;
 
 public interface ObservationCategoryRepository extends JpaRepository<ObservationCategory, Long> {
@@ -24,5 +23,8 @@ public interface ObservationCategoryRepository extends JpaRepository<Observation
 
 	List<ObservationCategory> findByLastUpdatedStampLessThanEqualAndLastUpdatedStampGreaterThan(
 			Timestamp currenTimestamp, Timestamp previousTimestamp);
+	
+    Optional<ObservationCategory>findByInspectionTypeAndObservationCategory(String inspectionType,String observationCategory);
+
 
 }

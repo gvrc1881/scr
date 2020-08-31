@@ -36,4 +36,8 @@ public class FootPatrollingSectionsService {
 		// TODO Auto-generated method stub
 		return footPatrollingSectionRepository.existsByFpSection(fpSection);
 	}
+	public Optional<FootPatrollingSection> findByFpSection(String fpSection) {
+		// TODO Auto-generated method stub
+		return footPatrollingSectionRepository.findByFpSection(fpSection);
+	}
 }

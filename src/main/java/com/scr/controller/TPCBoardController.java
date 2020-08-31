@@ -130,4 +130,29 @@ public class TPCBoardController {
 			return false;
 		}
 	}
+	@RequestMapping(value = "/existTpcBoardDataDivAndId/{id}/{tpcBoard}/{dataDiv}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existTpcBoardDataDivAndId(@PathVariable("id") Long id,@PathVariable("tpcBoard") String tpcBoard,@PathVariable("dataDiv") String dataDiv){
+		
+		log.info("id=="+id+"tpcBoard=="+tpcBoard);
+		Boolean result;
+		try {
+			Optional<TpcBoard> tpcBoardData = tpcBoardService.findByTpcBoardAndDataDiv(tpcBoard,dataDiv);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(tpcBoardData.isPresent()) {
+				TpcBoard tpcBoardDetails = tpcBoardData.get();
+				log.info("***id ***"+tpcBoardDetails.getId());
+				if (id.equals(tpcBoardDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and tpcBoard..."+e.getMessage());
+			return false;
+		}
+	}
+	
 }
