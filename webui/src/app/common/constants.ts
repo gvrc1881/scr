@@ -191,7 +191,8 @@ export const Constants = {
                 SAVE_SIDINGS:"/addSlidingsItem",
                 UPDATE_SIDINGS:"/updateSlidingsItem",
                 DELETE_SIDINGS:"/deleteSidingsItem/",
-                EXISTS_SIDING_CODE:'/existsSidingCode/'
+                EXISTS_SIDING_CODE:'/existsSidingCode/',
+                EXIST_SIDING_CODE_AND_ID:"/findBySidingCodeAndId/"
             },
             ASSETMASTERDATA:{
                 GET_ASSET_MASTER_DATA:"/findAllAssetMasterItems",
@@ -200,6 +201,7 @@ export const Constants = {
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
+                GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/"
 
             },
             TARIFF:{
@@ -235,7 +237,10 @@ export const Constants = {
                 UPDATE_STATION_SECTIONS:"/updateStationSections",
                 DELETE_STATION_SECTIONS:"/deleteStationSections/",
                 EXISTS_STATION_CODE:"/existsStationCode/",
-                EXISTS_STATION_NAME:'existsStationName'
+                EXISTS_STATION_NAME:'existsStationName',
+                EXISTS_STATION_CODE_AND_ID:"/findByStationCodeAndId/",
+                EXISTS_STATION_NAME_AND_ID:"/findByStationNameAndId/",
+
             },
             TPC_BOARD:{
                 GET_TPC_BOARD:"/findAllTPCBoard",
@@ -243,7 +248,8 @@ export const Constants = {
                 SAVE_TPC_BOARD:"/addTPCBoard",
                 UPDATE_TPC_BOARD:"/updateTPCBoard",
                 DELETE_TPC_BOARD:"/deleteTPCBoard/",
-                EXISTS_TPC_BOARD_DATADIV:"/existsTpcBoardAndDataDiv/"
+                EXISTS_TPC_BOARD_DATADIV:"/existsTpcBoardAndDataDiv/",
+                EXISTS_TPC_BOARD_DATADIV_AND_ID:"/existTpcBoardDataDivAndId/"
             },
             TPC_BOARD_ASSOC:{
                 GET_TPC_BOARD_ASSOC:"/findAllTPCBoardDepotAssoc",
@@ -251,7 +257,8 @@ export const Constants = {
                 SAVE_TPC_BOARD_ASSOC:"/addTPCBoardDeotAssoc",
                 UPDATE_TPC_BOARD_ASSOC:"/updateTPCBoardDepotAssoc",
                 DELETE_TPC_BOARD_ASSOC:"/deleteTPCBoardDepotAssoc/",
-                EXISTS_TPC_BOARD_UNIT_NAME:'/existsTpcBoardAndUnitName/'
+                EXISTS_TPC_BOARD_UNIT_NAME:'/existsTpcBoardAndUnitName/',
+                EXISTS_TPC_BOARD_UNIT_NAME_AND_ID:'/existTpcBoardUnitNameAndId/'
             },
             FP_SECTIONS:{
                 GET_FP_SECTIONS:"/findAllFPSectionsItems",
@@ -259,7 +266,8 @@ export const Constants = {
                 SAVE_FP_SECTIONS:"/addFPSectionsItem",
                 UPDATE_FP_SECTIONS:"/updateFPSectionsItem",
                 DELETE_FP_SECTIONS:"/deleteFPSectionsItem/",
-                EXIST_FP_SECTIONS:"/existsFpSection/"
+                EXIST_FP_SECTIONS:"/existsFpSection/",
+                EXIST_FP_SECTIONS_AND_ID:"/findByFpSectionAndId/"
             },
             TSS_FEEDER:{
                 GET_FEEDERS:"/findAllTssFeederMaster",
@@ -382,7 +390,9 @@ export const Constants = {
                 SAVE_DAILY_SUMMARY:"/addDailySummary",
                 UPDATE_DAILY_SUMMARY:"/updateDailySummary",
                 DELETE_DAILY_SUMMARY:"/deleteDailySummary/",
-                EXISTS_FACILITY_ID_CREATED_DATE:'/existsFacilityIdAndCreatedDate/'
+                EXISTS_FACILITY_ID_CREATED_DATE:'/existsFacilityIdAndCreatedDate/',
+                EXISTS_FACILITY_ID_CREATED_DATE_AND_ID:'/existFacilityIdCreatedDateAndId/'
+
             },
             OBSERVATION_CATEGORIES:{
                 GET_OBS_CATEGORIES:"/findAllObservationCategory",
@@ -390,7 +400,8 @@ export const Constants = {
                 SAVE_OBS_CATEGORIES:"/addObservationCategories",
                 UPDATE_OBS_CATEGORIES:"/updateObservationCategories",
                 DELETE_OBS_CATEGORIES:"/deleteObservationCategories/",
-                EXISTS_INPECTION_TYPE_OBJ_CATG:'/existsInspectionTypeAndObservationCategory/'
+                EXISTS_INPECTION_TYPE_OBJ_CATG:'/existsInspectionTypeAndObservationCategory/',
+                EXISTS_INPECTION_TYPE_OBJ_CATG_AND_ID:'/existInspectionTypeObservationCategoryAndId/'
             },
             OBSERVATION_CHECK_LIST:{
                 GET_OBS_CHECK_LIST:"/findAllObservationCheckList",
