@@ -19,9 +19,13 @@ export interface AssetMasterDataModel {
     core3InsulatorBatch:string,
     core3InsulatorMake:string,
     createdBy:string,
-    createdOn:Date;
-    dateOfCommision:Date,
-    dateOfManufacture:Date,
+    createdOn:string;
+    createdStamp:any;
+    createdTxStamp: any;
+    lastUpdatedStamp:any;
+    lastUpdatedTxStamp:any;
+    dateOfCommision:string,
+    dateOfManufacture:string,
     dateOfReceived:Date,
     elementarySection:string,
     end1Side1:string,

@@ -60,7 +60,6 @@ export class CompliancesComponent implements OnInit{
         this.getAllCompliancesData();
         this.complianceFormGroup = this.formBuilder.group({
             id: 0,
-            'obeservationSeqId':[null],
             'status':[null],
             'action':[null],
             'complianceBy': [null],
@@ -142,7 +141,7 @@ getAllCompliancesData() {
     } , error => {});
 
 }
-NewComplianceItem (id) {
+NewComplianceItem () {
     this.addComplianceItem = true;
 }
 complianceItemSubmit () {

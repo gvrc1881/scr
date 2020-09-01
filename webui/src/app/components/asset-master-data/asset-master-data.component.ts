@@ -59,6 +59,7 @@ export class AssetMasterDataComponent implements OnInit{
     scheduleList:any;
     zone: any;
     division: any;
+    amdErrors:any;
     constructor( 
         private formBuilder: FormBuilder,
         private commonService: CommonService,
@@ -66,6 +67,18 @@ export class AssetMasterDataComponent implements OnInit{
         private sendAndRequestService:SendAndRequestService,
         public dialog: MatDialog
         ){
+
+          this.amdErrors = {
+            createdOn: {},
+            dateOfCommision: {},
+            dateOfManufacture: {},
+            dateOfReceived: {},
+            equippedDate: {},
+            expiryDate: {},
+            lugDate: {},
+            stripDate: {},
+            warrantyAmcEndDate: {},
+          };
            
     }
 
@@ -175,7 +188,21 @@ export class AssetMasterDataComponent implements OnInit{
 
     });      
     }
-   
+    onFormValuesChanged() {
+      for (const field in this.amdErrors) {
+        if (!this.amdErrors.hasOwnProperty(field)) {
+          continue;
+        }
+        // Clear previous errors
+        this.amdErrors[field] = {};
+  
+        // Get the control
+        const control = this.assetMasterFormGroup.get(field);
+        if (control && control.dirty && !control.valid) {
+          this.amdErrors[field] = control.errors;
+        }
+      }
+    }
     public get f() { return this.assetMasterFormGroup.controls; } 
     getAllAssetMasterData() {
         const assetMasterData: AssetMasterDataModel[] = [];
@@ -368,6 +395,11 @@ export class AssetMasterDataComponent implements OnInit{
             'lugDate':lugDate,
             'stripDate':stripDate,
             'warrantyAmcEndDate':warrantyAmcEndDate,
+            "createdBy": this.loggedUserData.username,
+            "createdStamp": new Date(),
+            "createdTxStamp": new Date(),
+            "lastUpdatedStamp": new Date(),
+            "lastUpdatedTxStamp": new Date(),
           }
           this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.SAVE_ASSET_MASTER_DATA,saveAmdModel, false).subscribe(data => {
             this.assetMasterResponse = data;
@@ -473,6 +505,8 @@ export class AssetMasterDataComponent implements OnInit{
             'lugDate':lugDate,
             'stripDate':stripDate,
             'warrantyAmcEndDate':warrantyAmcEndDate,
+            "lastUpdatedStamp": new Date(),
+            "lastUpdatedTxStamp": new Date(),
           }
           this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.UPDATE_ASSET_MASTER_DATA, updateAmdModel, false).subscribe(data => {
             this.assetMasterResponse = data;
@@ -579,17 +613,17 @@ export class AssetMasterDataComponent implements OnInit{
                 core3InsulatorBatch:this.editAssetMasterResponse.core3InsulatorBatch,
                 core3InsulatorMake:this.editAssetMasterResponse.core3InsulatorMake,
                 stagger:this.editAssetMasterResponse.stagger,
-                createdOn:this.editAssetMasterResponse.createdOn, 
-                dateOfCommision:this.editAssetMasterResponse.dateOfCommision, 
-                dateOfManufacture:this.editAssetMasterResponse.dateOfManufacture, 
-                dateOfReceived:this.editAssetMasterResponse.dateOfReceived, 
-                equippedDate:this.editAssetMasterResponse.equippedDate, 
-                expiryDate:this.editAssetMasterResponse.expiryDate,
-                lugDate:this.editAssetMasterResponse.lugDate, 
-                stripDate:this.editAssetMasterResponse.stripDate, 
-                warrantyAmcEndDate:this.editAssetMasterResponse.warrantyAmcEndDate, 
+                createdOn:new Date(this.editAssetMasterResponse.createdOn), 
+                dateOfCommision:new Date(this.editAssetMasterResponse.dateOfCommision), 
+                dateOfManufacture:new Date(this.editAssetMasterResponse.dateOfManufacture), 
+                dateOfReceived:new Date(this.editAssetMasterResponse.dateOfReceived), 
+                equippedDate:new Date(this.editAssetMasterResponse.equippedDate), 
+                expiryDate:new Date(this.editAssetMasterResponse.expiryDate),
+                lugDate:new Date(this.editAssetMasterResponse.lugDate), 
+                stripDate:new Date(this.editAssetMasterResponse.stripDate), 
+                warrantyAmcEndDate:new Date(this.editAssetMasterResponse.warrantyAmcEndDate), 
             });
-          
+            this.onFormValuesChanged();
         } ,error => {})
     }
 

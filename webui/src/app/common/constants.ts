@@ -237,7 +237,7 @@ export const Constants = {
                 UPDATE_STATION_SECTIONS:"/updateStationSections",
                 DELETE_STATION_SECTIONS:"/deleteStationSections/",
                 EXISTS_STATION_CODE:"/existsStationCode/",
-                EXISTS_STATION_NAME:'existsStationName',
+                EXISTS_STATION_NAME:"/existsStationName/",
                 EXISTS_STATION_CODE_AND_ID:"/findByStationCodeAndId/",
                 EXISTS_STATION_NAME_AND_ID:"/findByStationNameAndId/",
 

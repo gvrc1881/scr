@@ -74,7 +74,7 @@ export class StationsSectionsComponent implements OnInit {
     const q = new Promise((resolve, reject) => {
       let stationSection: string = this.stationsSectionsFormGroup.controls['stationName'].value;
       var filter = !!this.stationsSectionsList && this.stationsSectionsList.filter(stationSections => {
-        return stationSections.stationName.toLowerCase() == stationSection.trim().toLowerCase();
+        return stationSections.stationCode.toLowerCase() == stationSection.trim().toLowerCase();
       });
       if (filter.length > 0) {
         resolve({ 'duplicateStationName': true });
@@ -91,6 +91,7 @@ export class StationsSectionsComponent implements OnInit {
     });
     return q;
   }
+  
   duplicateStationCodeAndId() {
     let id=this.id;
     let stationCode: string = this.stationsSectionsFormGroup.controls['stationCode'].value;         
