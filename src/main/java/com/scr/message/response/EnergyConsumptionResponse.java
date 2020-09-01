@@ -18,6 +18,8 @@ public class EnergyConsumptionResponse {
 	private String no_of_days_lapsed_reading;
 	private String reading_gap_days;
 	
+	private String data_div;
+	
 	private String prev_kwh;
 	private Double cur_kwh;
 	private Double consumption_kwh;
@@ -315,6 +317,12 @@ public class EnergyConsumptionResponse {
 	public void setJoint_meter(String joint_meter) {
 		this.joint_meter = joint_meter;
 	}
+	public String getData_div() {
+		return data_div;
+	}
+	public void setData_div(String data_div) {
+		this.data_div = data_div;
+	}
 	@Override
 	public String toString() {
 		return "EnergyConsumptionResponse [id=" + id + ", req_date=" + req_date + ", feeder_id=" + feeder_id
@@ -322,20 +330,20 @@ public class EnergyConsumptionResponse {
 				+ ", requested_reading_date=" + requested_reading_date + ", first_reading_after_meter_fix="
 				+ first_reading_after_meter_fix + ", meter_start_date=" + meter_start_date + ", recent_reading_date="
 				+ recent_reading_date + ", no_of_days_lapsed_reading=" + no_of_days_lapsed_reading
-				+ ", reading_gap_days=" + reading_gap_days + ", prev_kwh=" + prev_kwh + ", cur_kwh=" + cur_kwh
-				+ ", consumption_kwh=" + consumption_kwh + ", prev_kvah=" + prev_kvah + ", cur_kvah=" + cur_kvah
-				+ ", consumption_kvah=" + consumption_kvah + ", prev_rkvah_lag=" + prev_rkvah_lag + ", cur_rkvah_lag="
-				+ cur_rkvah_lag + ", consumption_rkvah_lag=" + consumption_rkvah_lag + ", prev_rkvah_lead="
-				+ prev_rkvah_lead + ", cur_rkvah_lead=" + cur_rkvah_lead + ", consumption_rkvah_lead="
-				+ consumption_rkvah_lead + ", cur_cmd=" + cur_cmd + ", cur_rmd=" + cur_rmd + ", cur_vol_max="
-				+ cur_vol_max + ", cur_vol_min=" + cur_vol_min + ", cur_max_load=" + cur_max_load + ", RMD=" + RMD
-				+ ", CPF=" + CPF + ", PF=" + PF + ", updatedOn=" + updatedOn + ", updatedBy=" + updatedBy
-				+ ", joint_reading_date=" + joint_reading_date + ", no_of_days_lapsed_j_reading="
+				+ ", reading_gap_days=" + reading_gap_days + ", data_div=" + data_div + ", prev_kwh=" + prev_kwh
+				+ ", cur_kwh=" + cur_kwh + ", consumption_kwh=" + consumption_kwh + ", prev_kvah=" + prev_kvah
+				+ ", cur_kvah=" + cur_kvah + ", consumption_kvah=" + consumption_kvah + ", prev_rkvah_lag="
+				+ prev_rkvah_lag + ", cur_rkvah_lag=" + cur_rkvah_lag + ", consumption_rkvah_lag="
+				+ consumption_rkvah_lag + ", prev_rkvah_lead=" + prev_rkvah_lead + ", cur_rkvah_lead=" + cur_rkvah_lead
+				+ ", consumption_rkvah_lead=" + consumption_rkvah_lead + ", cur_cmd=" + cur_cmd + ", cur_rmd=" + cur_rmd
+				+ ", cur_vol_max=" + cur_vol_max + ", cur_vol_min=" + cur_vol_min + ", cur_max_load=" + cur_max_load
+				+ ", RMD=" + RMD + ", CPF=" + CPF + ", PF=" + PF + ", updatedOn=" + updatedOn + ", updatedBy="
+				+ updatedBy + ", joint_reading_date=" + joint_reading_date + ", no_of_days_lapsed_j_reading="
 				+ no_of_days_lapsed_j_reading + ", jr_kwh=" + jr_kwh + ", jr_kvah=" + jr_kvah + ", jr_rkvah_lag="
 				+ jr_rkvah_lag + ", jr_rkvah_lead=" + jr_rkvah_lead + ", max_load_time_hhmm=" + max_load_time_hhmm
 				+ ", remarks=" + remarks + ", joint_meter=" + joint_meter + "]";
 	}
-
+	
 	
 	
 }

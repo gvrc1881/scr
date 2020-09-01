@@ -541,6 +541,8 @@ public class EnergyConsumptionUtilRepository{
 				response.setMax_load_time_hhmm(resultSet.getString("max_load_time_hhmm"));
 				response.setRemarks(resultSet.getString("remarks"));
 				
+				response.setData_div(division);
+				
 				list.add(response);
 			}
 		}
