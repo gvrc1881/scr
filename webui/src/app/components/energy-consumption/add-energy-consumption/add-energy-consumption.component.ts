@@ -273,6 +273,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'cur_max_load': this.addEnergyConsumptionFailFromGroup.value.Max_Load,
       'max_load_time_hhmm':this.addEnergyConsumptionFailFromGroup.value.maxLoadTime,
       'remarks':this.addEnergyConsumptionFailFromGroup.value.remarks,
+      'data_div':this.resp.data_div,
       "updatedBy": this.loggedUserData.username,
       "updatedOn": new Date()
     }

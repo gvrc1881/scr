@@ -28,10 +28,10 @@ export class EnergyConsumptionComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
-  displayedColumns = ['sno', 'Feeder_Name','Previous_Date', 'Multification_Factor', 'Joint_Reading', 'CMD',
+  displayedColumns = ['sno', 'Feeder_Name','Previous_Date', 'Multification_Factor', 'Joint_Reading',/*  'CMD', */
     'Old_KWH', 'Current_KWH', "Consumption_KWH", 'Old_KVAH', 'Current_KVAH', 'Consumption_KVAH',
     'Old_RKVAH_Lag', 'Current_RKVAH_Lag', 'Consumption_RKVAH_Lag',
-    'Old_RKVAH_Lead', 'Current_RKVAH_Lead', 'Consumption_RKVAH_Lead', 'PF', 'CPF', 'RMD', 'Vol_Max', 'Vol_Min', 'Max_Load', 'actions'];
+    'Old_RKVAH_Lead', 'Current_RKVAH_Lead', 'Consumption_RKVAH_Lead'/* , 'PF', 'CPF', 'RMD', 'Vol_Max', 'Vol_Min', 'Max_Load' */, 'actions'];
   dataSource: MatTableDataSource<any>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   gridData = [];
@@ -73,7 +73,7 @@ export class EnergyConsumptionComponent implements OnInit {
         { "Key": "Previous_Date", "Value":" "},
         { "Key": "Multification_Factor", "Value": "" },
         { "Key": "Joint_Reading", "Value": "" },
-        { "Key": 'CMD', "Value": " " },
+      //  { "Key": 'CMD', "Value": " " },
         { "Key": 'Old_KWH', "Value": " " },
         { "Key": 'Current_KWH', "Value": " " },
         { "Key": "Consumption_KWH", "Value": "" },
@@ -85,13 +85,13 @@ export class EnergyConsumptionComponent implements OnInit {
         { "Key": "Consumption_RKVAH_Lag", "Value": "" },
         { "Key": 'Old_RKVAH_Lead', "Value": " " },
         { "Key": 'Current_RKVAH_Lead', "Value": " " },
-        { "Key": "Consumption_RKVAH_Lead", "Value": "" },
-        { "Key": 'PF', "Value": " " },
+        { "Key": "Consumption_RKVAH_Lead", "Value": "" }
+      /*  { "Key": 'PF', "Value": " " },
         { "Key": 'CPF', "Value": " " },
         { "Key": 'RMD', "Value": " " },
         { "Key": 'Vol_Max', "Value": " " },
         { "Key": 'Vol_Min', "Value": " " },
-        { "Key": 'Max_Load', "Value": " " }
+        { "Key": 'Max_Load', "Value": " " }*/
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
