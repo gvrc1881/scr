@@ -95,7 +95,8 @@ public class CommonUtility {
 					+ "	from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " 
 					+ " from information_schema.columns isc, div_extraction_table_columns req_col "  
 					+ " where req_col.table_name = isc.table_name " 
-					+ " and req_col.column_name = isc.column_name "  
+					+ " and req_col.column_name = isc.column_name "
+					+ " and upper(req_col.active) = 'YES' "
 					+ " and isc.table_schema = 'public' ) inf "
 					+ " where table_schema = 'public' and column_name not in ('data_div', 'id') "
 					+ "	group by table_name ) a,"
@@ -158,7 +159,8 @@ public class CommonUtility {
 					"	from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " + 
 					" from information_schema.columns isc, div_extraction_table_columns req_col " + 
 					" where req_col.table_name = isc.table_name " + 
-					" and req_col.column_name = isc.column_name " + 
+					" and req_col.column_name = isc.column_name " +
+					" and upper(req_col.active) = 'YES' " +
 					" and isc.table_schema = 'public' ) inf"
 					+ " where table_schema ='public' AND column_name not in ('data_div', 'id') " + 
 					"	group by table_name) a,	"  
@@ -252,7 +254,8 @@ public class CommonUtility {
 					"	 from ( select isc.table_schema, isc.table_name, isc.column_name, isc.data_type " + 
 					" from information_schema.columns isc, div_extraction_table_columns req_col " + 
 					" where req_col.table_name = isc.table_name " + 
-					" and req_col.column_name = isc.column_name " + 
+					" and req_col.column_name = isc.column_name " +
+					" and upper(req_col.active) = 'YES' " +
 					" and isc.table_schema = 'public' ) inf " + 
 					"	, job_sch_activity_details " + 
 					"	where table_schema= 'public' " + 
