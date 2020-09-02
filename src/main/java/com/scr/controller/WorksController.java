@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Make;
 import com.scr.model.Works;
 import com.scr.services.WorksServices;
 import com.scr.util.Constants;
@@ -140,6 +141,33 @@ public class WorksController {
 			log.error("Error while checking exists work name.");
 			return false;
 		}
+	}
+	
+	
+	@RequestMapping(value = "/existsWorkNameAndId/{id}/{workName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsWorkNameAndId(@PathVariable("id") Integer workId,@PathVariable("workName") String workName){
+		log.info("Entered into existsWorkNameAndId function");
+		Boolean result;
+		try {
+			Optional<Works> worksDetails = worksServices.findByWorkName(workName);
+			
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(worksDetails.isPresent()) {
+				Works works = worksDetails.get();
+				log.info("comparing with id's");
+				if (workId.equals(works.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and makecode..."+e.getMessage());
+			return false;
+		}
+		
 	}
 
 }

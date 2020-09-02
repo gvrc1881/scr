@@ -76,21 +76,22 @@ export class WorksComponent implements OnInit {
     duplicateWorkName() {
     const q = new Promise((resolve, reject) => {
       let work: string = this.workFormGroup.controls['workName'].value;
+      /*
       var filter = !!this.workList && this.workList.filter(works => {
         return works.workName.toLowerCase() == work.trim().toLowerCase();
       });
       if (filter.length > 0) {
         resolve({ 'duplicateWork': true });
-      }
+      } */
       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.EXISTS_WORK_NAME +
         this.workFormGroup.controls['workName'].value
       ).subscribe((duplicate) => {
         if (duplicate) {
-          resolve({ 'duplicateWork': true });
+          resolve({ 'duplicateWorkName': true });
         } else {
           resolve(null);
         }
-      }, () => { resolve({ 'duplicateWork': true }); });
+      }, () => { resolve({ 'duplicateWorkName': true }); });
     });
     return q;
   }
@@ -185,9 +186,11 @@ export class WorksComponent implements OnInit {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
                 	this.commonService.showAlertMessage(this.workResponse.message);
+                	this.id = 0;
                 	this.getAllWorksData();
                 	this.workFormGroup.reset();
                 	this.addWork = false;
+                	this.title = "Save";
                 }else {
                 	this.commonService.showAlertMessage("Work Data Updating Failed.");
                 }	
@@ -252,7 +255,7 @@ export class WorksComponent implements OnInit {
            "statusRemarks" : [null , Validators.maxLength(250)],
            "targetDateOfCompletion" : [null],
            "tkm" : [null],
-           "workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)])],
+           "workName" : [null,  Validators.compose([Validators.required, Validators.maxLength(250)]),this.duplicateWorkNameAndId.bind(this)],
            "yearOfSanction" : [null, Validators.compose([Validators.min(2000), Validators.max(this.currentYear)]) ],
        });
     	this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+id)
@@ -289,6 +292,23 @@ export class WorksComponent implements OnInit {
             this.title = 'Save';      
           }
     }
+    
+    duplicateWorkNameAndId() {
+    const q = new Promise((resolve, reject) => {
+      let work: string = this.workFormGroup.controls['workName'].value;
+
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.EXISTS_WORK_NAME_AND_ID +this.id+'/'+
+        this.workFormGroup.controls['workName'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateWorkNameAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateWorkNameAndId': true }); });
+    });
+    return q;
+  }
     
     
     deleteWork(id) {

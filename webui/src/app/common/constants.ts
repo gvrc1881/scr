@@ -183,7 +183,8 @@ export const Constants = {
                 SAVE_WORK:"/addWork",
                 UPDATE_WORK:"/updateWork",
                 DELETE_WORK:"/deleteWork/",
-                EXISTS_WORK_NAME:'/existsWorkName/'
+                EXISTS_WORK_NAME:'/existsWorkName/',
+                EXISTS_WORK_NAME_AND_ID: '/existsWorkNameAndId/'
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",

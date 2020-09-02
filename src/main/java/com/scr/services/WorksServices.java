@@ -45,4 +45,9 @@ public class WorksServices {
 		return worksRepository.existsByWorkName(workName);
 	}
 
+	public Optional<Works> findByWorkName(String workName) {
+		// TODO Auto-generated method stub
+		return worksRepository.findByWorkName(workName);
+	}
+
 }
