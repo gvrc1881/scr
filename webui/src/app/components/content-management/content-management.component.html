@@ -239,7 +239,7 @@
                 <ng-container matColumnDef="make">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
                       <span>Make</span>
-                        <mat-select id="make.id" *ngIf="visible" (ngModelChange) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
+                        <mat-select  *ngIf="visible" (ngModelChange) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
                       <mat-option *ngFor="let make of makeList"
                             [value]="make.make">
                             {{ make.make }}
@@ -252,7 +252,7 @@
               <ng-container matColumnDef="model">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span>Model</span>
-                    <mat-select  *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
+                    <mat-select  *ngIf="visible" (ngModelChange) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
                       <mat-option *ngFor="let model of modelList"
                             [value]="model.model">
                             {{ model.model }}

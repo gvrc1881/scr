@@ -281,22 +281,5 @@ export class ContentManagementComponent implements OnInit {
         }
     }
 
-//     makeChanges()
-//     {
-//         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
-//             this.makeList = data;
-//    }
-//           ); 
 
-
-//     }
-
-//     modelChanges()
-//     {
-//         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
-//             this.modelList = data;
-//    }
-//           ); 
-
-//     }
 }
