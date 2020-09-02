@@ -163,7 +163,7 @@ public class FootPatrollingRestService {
 			if (regWithPhoneNumber.isPresent()) {
 				log.info("** registration  completed ***");
 				AppDevice appDevice = regWithPhoneNumber.get();
-				if (appDevice.getDeviceId() == "null") {
+				if (appDevice.getDeviceId() == null) {
 					appDevice.setDeviceId(fpMasterDto.getImeiNo());
 					appDeviceRepository.save(appDevice);
 				} else {
@@ -495,6 +495,7 @@ public class FootPatrollingRestService {
 			if(oheLocation.getLongitude() != null){
 			oheLocationDto.setLongitude(oheLocation.getLongitude());
 			}
+			oheLocationDto.setKilometer(Double.toString((oheLocation.getKilometer())));
 			oheLocationDto.setOheMast(oheLocation.getOheMast());
 			oheLocationDto.setSeqId(oheLocation.getSeqId());
 			oheLocationDto.setFacilityId(oheLocation.getFacilityId());
@@ -755,17 +756,26 @@ public class FootPatrollingRestService {
 			//productDto.setPriceDetailText(product.getString("priceDetailText"));
 			productDto.setPrimaryProductCategoryId(product.getPrimaryProductCategoryId());
 			productDto.setProductCodeTypeId(product.getProductCodeTypeId());
+			if(product.getProductDepth() != null) {
 			productDto.setProductDepth(product.getProductDepth().toString());
+			}
+			if(product.getProductDiameter() != null) {
 			productDto.setProductDiameter(product.getProductDiameter().toString());
+			}
+			if(product.getProductHeight() != null) {
 			productDto.setProductHeight(product.getProductHeight().toString());
+			}
 			productDto.setProductId(product.getProductId());
 			//productDto.setProductMakeDetails(product.getString("productMakeDetails"));
 			productDto.setProductName(product.getProductName());
 			//productDto.setProductRating(product.getString("productRating"));
 			productDto.setProductTypeId(product.getProductTypeId());
+			if(product.getProductWeight() != null) {
 			productDto.setProductWeight(product.getProductWeight().toString());
-			productDto.setProductWidth(product.getProductWidth().toString());
+			}
+			if(product.getQuantityIncluded() != null) {
 			productDto.setQuantityIncluded(product.getQuantityIncluded().toString());
+			}
 			productDto.setQuantityUomId(product.getQuantityUomId());
 			//productDto.setRatingTypeEnum(product.getString("ratingTypeEnum"));
 			//productDto.setReleaseDate(product.getString("releaseDate"));
@@ -787,7 +797,9 @@ public class FootPatrollingRestService {
 			//productDto.setTaxable(product.getString("taxable"));
 			productDto.setTrdDivId(product.getTrdDivId());
 			//productDto.setVirtualVariantMethodEnum(product.getString("virtualVariantMethodEnum"));
+			if(product.getWeight() != null) {
 			productDto.setWeight(product.getWeight().toString());
+			}
 			productDto.setWeightUomId(product.getWeightUomId());
 			productDto.setWidthUomId(product.getWidthUomId());
 			productDtos.add(productDto);
