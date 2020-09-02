@@ -159,7 +159,7 @@
                                             <span> KWH Old</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> 
-                                            {{row.Old_KWH}}          
+                                          <span style="color:#FF7F50">  {{row.Old_KWH}} </span>          
                                         </td>
                                     </ng-container>
 
@@ -168,9 +168,8 @@
                                             <span> KWH Current</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
-                                            <span *ngIf="!row.editable">{{row.Current_KWH}}</span>
-                                            <input mat-input *ngIf="row.editable" type="number" decimalNumber
-                                                [value]="row.Current_KWH" />
+                                            <span style="color: blue;">{{row.Current_KWH}}</span>
+                                           
                                         </td>
                                     </ng-container>
 
@@ -178,14 +177,18 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>KWH Consumption</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Consumption_KWH}}</td>
+                                        <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50">
+                                         {{row.Consumption_KWH}} </span></td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="Old_KVAH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span> KVAH Old</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Old_KVAH}}</td>
+                                        <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50;">
+                                            {{row.Old_KVAH}}
+                                            </span>
+                                        </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="Current_KVAH">
@@ -193,11 +196,9 @@
                                             <span>KVAH Current</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
-                                            <span *ngIf="!row.editable">
+                                            <span style="color: blue;">
                                                 {{row.Current_KVAH}}
                                             </span>
-                                            <input mat-input *ngIf="row.editable" type="number" decimalNumber
-                                                [value]="row.Current_KVAH" />
                                         </td>
                                     </ng-container>
 
@@ -205,14 +206,17 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>KVAH Consumption</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Consumption_KVAH}}</td>
+                                        <td mat-cell *matCellDef="let row"> 
+                                            <span style="color:#FF7F50"> {{row.Consumption_KVAH}}
+                                            </span></td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="Old_RKVAH_Lag">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>RKVAH Lag Old</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Old_RKVAH_Lag}}
+                                        <td mat-cell *matCellDef="let row">  <span style="color:#FF7F50">
+                                        {{row.Old_RKVAH_Lag}}</span>
                                         <td>
                                     </ng-container>
 
@@ -221,7 +225,7 @@
                                             <span>RKVAH Lag Current</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
-                                            <span *ngIf="!row.editable">
+                                            <span style="color: blue;">
                                                 {{row.Current_RKVAH_Lag}}
                                             </span>
                                             <input mat-input *ngIf="row.editable" type="number" decimalNumber
@@ -233,7 +237,9 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>RKVAH Lag Consumption</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Consumption_RKVAH_Lag}}
+                                        <td mat-cell *matCellDef="let row">
+                                            <span style="color:#FF7F50"> {{row.Consumption_RKVAH_Lag}}
+                                                </span>
                                         <td>
                                     </ng-container>
 
@@ -241,7 +247,8 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>RKVAH Lead Old</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Old_RKVAH_Lead}}
+                                        <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50">
+                                         {{row.Old_RKVAH_Lead}} </span>
                                         <td>
                                     </ng-container>
 
@@ -250,11 +257,10 @@
                                             <span>RKVAH Lead Current</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
-                                            <span *ngIf="!row.editable">
+                                            <span style="color: blue;">
                                                 {{row.Current_RKVAH_Lead}}
                                             </span>
-                                            <input mat-input *ngIf="row.editable" type="number" decimalNumber
-                                                [value]="row.Current_RKVAH_Lead" />
+                                          
                                         <td>
                                     </ng-container>
 
@@ -262,7 +268,10 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                             <span>RKVAH Lead Consumption</span>
                                         </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.Consumption_RKVAH_Lead}}
+                                        <td mat-cell *matCellDef="let row">
+                                            <span style="color:#FF7F50">
+                                                 {{row.Consumption_RKVAH_Lead}}
+                                                 </span>
                                         <td>
                                     </ng-container>
 
