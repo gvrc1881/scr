@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,20 +19,22 @@ public interface AssetScheduleActivityAssocRepository extends JpaRepository<Asse
 	List<AssetScheduleActivityAssoc> findAll();
 	
 	@Query(value = "SELECT case when count(asaa)> 0 then true else false  end  FROM AssetScheduleActivityAssoc asaa WHERE asaa.asaSeqId = :asaSeqId and asaa.activityPositionId = :activityPositionId and asaa.makeCode = :makeCode and asaa.modelCode = :modelCode")
-	Boolean existsByAsaSeqIdAndActivityPositionId(@Param("asaSeqId")String asaSeqId, @Param("activityPositionId") String activityPositionId,
+	Boolean existsByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(@Param("asaSeqId")String asaSeqId, @Param("activityPositionId") String activityPositionId,
 			@Param("makeCode") String makeCode,@Param("modelCode") String modelCode);
 	
 	@Query(value = "SELECT case when count(asaa)> 0 then true else false  end  FROM AssetScheduleActivityAssoc asaa WHERE asaa.asaSeqId = :asaSeqId and asaa.activityId = :activityId and asaa.makeCode = :makeCode and asaa.modelCode = :modelCode")
-	Boolean existsByAsaSeqIdAndactivityId(@Param("asaSeqId")String asaSeqId, @Param("activityId") String activityId,
+	Boolean existsByAsaSeqIdAndactivityIdAndMakeCodeAndModelCode(@Param("asaSeqId")String asaSeqId, @Param("activityId") String activityId,
 			@Param("makeCode") String makeCode,@Param("modelCode") String modelCode);
 	
 	@Query(value = "SELECT case when count(asaa)> 0 then true else false  end  FROM AssetScheduleActivityAssoc asaa WHERE asaa.asaSeqId = :asaSeqId and asaa.activityId = :activityId and asaa.displayOrder = :displayOrder and asaa.makeCode = :makeCode and asaa.modelCode = :modelCode")
-	Boolean existsByAsaSeqIdAndactivityDisplayOrder(@Param("asaSeqId")String asaSeqId, @Param("activityId") String activityId,@Param("displayOrder") String displayOrder,
+	Boolean existsByAsaSeqIdAndactivityIdAndDisplayOrderAndMakeCodeAndModelCode(@Param("asaSeqId")String asaSeqId, @Param("activityId") String activityId,@Param("displayOrder") BigDecimal displayOrder,
 			@Param("makeCode") String makeCode,@Param("modelCode") String modelCode);
 	
-	//Optional<AssetScheduleActivityAssoc> findByAsaSeqAndPositionIdAndMakeCodeAndModelCode(String asaSeqId,String activityPositionId,String makeCode,String modelCode);
+	Optional<AssetScheduleActivityAssoc>findByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(String asaSeqId,String activityPositionId,String makeCode,String modelCode);
 	
-	//Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndmakeCodeAndModelCode(String asaSeqId,String activityId,String makeCode,String modelCode);
+	Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndMakeCodeAndModelCode(String asaSeqId,String activityId,String makeCode,String modelCode);
 	
-	//Optional<AssetScheduleActivityAssoc> findByasaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(String asaSeqId,String activityId,String displayOrder,String makeCode,String modelCode);
+
+	Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(
+			String asaSeqId, String activityId, BigDecimal displayOrder, String makeCode, String modelCode);
 }

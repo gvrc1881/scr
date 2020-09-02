@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.request.ContentManagementRequest;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.services.ContentManagementService;
 import com.scr.util.Constants;
@@ -119,6 +120,23 @@ public class ContentManagementController {
 			return Helper.findResponseStatus(e.getLocalizedMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
+	@RequestMapping(value = "/findAll" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<ContentManagement> findAll() throws JSONException {
+		 List<ContentManagement> cntmngmnt = null;
+		 try {
+			   logger.info("Calling service for contentmanagemnt data");	
+		
+			   cntmngmnt = service.findAll();
+		 logger.info("Fetched contentmanagemnt data***"+cntmngmnt.size());
+		return cntmngmnt;
+	}catch (NullPointerException npe) {
+		logger.error("ERROR >>> while fetching the contentmanagemnt data = "+npe.getMessage());
+	}
+	catch (Exception e) {
+		logger.error("ERROR >>> while fetching the contentmanagemnt data = "+e.getMessage());
+	}
+		 logger.info("Exit from contentmanagemnt function");
+	return cntmngmnt;	
+}
 	
 }

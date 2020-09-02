@@ -19,6 +19,7 @@ import com.scr.mapper.CommonMapper;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.message.request.ContentManagementRequest;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.util.Constants;
@@ -113,6 +114,9 @@ public class ContentManagementService {
 	public List<ContentManagement> findByCreatedByAndGenOps(Integer createdBy, String GenOps) {
 		return repository.findByCreatedByAndGenOps(createdBy, GenOps);
 	}
-
+	public List<ContentManagement> findAll() {
+		// TODO Auto-generated method stub
+		return repository.findAll();
+	}
 
 }

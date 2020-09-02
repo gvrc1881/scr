@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 
 /**
@@ -31,5 +32,7 @@ public interface ContentManagementRepository extends JpaRepository<ContentManage
 	List<ContentManagement> findByCommonFileIdAndStatusId(Long commonFileId, Integer statusId);
 
 	//Optional<ContentManagement> findByIdAndCommonFileId(Long Id, Long commonFileId);
+	
+	List<ContentManagement> findAll();
 
 }

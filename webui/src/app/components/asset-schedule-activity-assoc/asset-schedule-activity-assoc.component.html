@@ -110,6 +110,11 @@
                         Already Exists
                 </mat-error>  
                 <mat-error
+                    *ngIf="assetSchActAssocFormGroup.controls['activityPositionId'].hasError('duplicateasaSeqPositionAndId')" 
+                    class="alert alert-danger" >
+                        Already Exists
+                </mat-error> 
+                <mat-error
                 *ngIf="assetSchActAssocFormGroup.controls['activityPositionId'].hasError('maxlength')"
                 class="alert alert-danger"> Max 255 characters only
         </mat-error>                                                            

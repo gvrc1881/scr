@@ -8,6 +8,7 @@ import { ContentManagementDialogComponent } from '../content-management-edit-dia
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 
+
 @Component({
     selector: 'content-management',
     templateUrl: './content-management.component.html',
@@ -22,11 +23,13 @@ export class ContentManagementComponent implements OnInit {
     isReadOnly: boolean = true;
     onlyDrawing: boolean = false;
     update: boolean = false;
+    makeList:any;
     selectedFiles: File[] = [];
     uploadedFilesList: any;
     selectedGenOps;
     selected:string;
     filterData;
+    modelList:any;
     visible:boolean;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     contentManagementFormGroup: FormGroup;
@@ -46,11 +49,14 @@ export class ContentManagementComponent implements OnInit {
         private formBuilder: FormBuilder,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private sendAndGetService:SendAndRequestService
+        private sendAndGetService:SendAndRequestService        
     ) {
     }
     ngOnInit() {
         this.init();
+       
+        //this.makeChanges();
+        //this.modelChanges();
         this.filterData = {
             filterColumnNames: [
               { "Key": 'sno', "Value": " " },
@@ -70,6 +76,8 @@ export class ContentManagementComponent implements OnInit {
           };
     }
     updatePagination() {
+        console.log("value=="+JSON.stringify(this.filterData.filterColumnNames[5].Value));
+        console.log("model=="+JSON.stringify(this.filterData.filterColumnNames[6].Value));
         this.filterData.dataSource = this.filterData.dataSource;
         this.filterData.dataSource.paginator = this.paginator;
       }
@@ -99,6 +107,7 @@ export class ContentManagementComponent implements OnInit {
     getUploadedFiles() {
         this.spinnerService.show();
         const uploadedFiles: ContentManagementModel[] = [];
+        console.log("list==="+this.uploadedFilesList)
         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_UPLOAD_FILES+this.userdata.id+'/'+this.selected.replace(' ','-')).subscribe(data => {
             this.spinnerService.hide();
 
@@ -260,9 +269,34 @@ export class ContentManagementComponent implements OnInit {
         if(opsId==2)
         {
             this.visible=true;
-        }
+            this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
+                this.makeList = data;
+       }); 
+              this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
+                this.modelList = data;
+        });
+    }
         else{
             this.visible=false;
         }
     }
+
+//     makeChanges()
+//     {
+//         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
+//             this.makeList = data;
+//    }
+//           ); 
+
+
+//     }
+
+//     modelChanges()
+//     {
+//         this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
+//             this.modelList = data;
+//    }
+//           ); 
+
+//     }
 }

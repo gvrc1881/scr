@@ -1,6 +1,7 @@
 package com.scr.services;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.AssetScheduleActivityAssoc;
-import com.scr.model.Make;
 import com.scr.repository.AssetScheduleActivityAssocRepository;
 
 @Service
@@ -37,31 +37,31 @@ public class AssetScheduleActivityAssocService {
 		assetSchActivityAssocRepository.deleteById(id);
 	}
 
-	public Boolean existsByAsaSeqIdAndActivityPositionId(String asaSeqId, String activityPositionId,String makeCode,String modelCode) {
+	public Boolean existsByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(String asaSeqId, String activityPositionId,String makeCode,String modelCode) {
 		 //TODO Auto-generated method stub
-		return assetSchActivityAssocRepository.existsByAsaSeqIdAndActivityPositionId(asaSeqId,activityPositionId,makeCode,modelCode);
+		return assetSchActivityAssocRepository.existsByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(asaSeqId,activityPositionId,makeCode,modelCode);
 	}
 	
-	public Boolean existsByAsaSeqIdAndactivityId(String asaSeqId, String activityId,String makeCode,String modelCode) {
+	public Boolean existsByAsaSeqIdAndactivityIdAndMakeCodeAndModelCode(String asaSeqId, String activityId,String makeCode,String modelCode) {
 		 //TODO Auto-generated method stub
-		return assetSchActivityAssocRepository.existsByAsaSeqIdAndactivityId(asaSeqId,activityId,makeCode,modelCode);
+		return assetSchActivityAssocRepository.existsByAsaSeqIdAndactivityIdAndMakeCodeAndModelCode(asaSeqId,activityId,makeCode,modelCode);
 	}
 	
-	public Boolean existsByAsaSeqIdAndactivityDisplayOrder(String asaSeqId, String activityId,String displayOrder,String makeCode,String modelCode) {
+	public Boolean existsByAsaSeqIdAndactivityIdAndDisplayOrderAndMakeCodeAndModelCode(String asaSeqId, String activityId,BigDecimal displayOrder,String makeCode,String modelCode) {
 		 //TODO Auto-generated method stub
-		return assetSchActivityAssocRepository.existsByAsaSeqIdAndactivityDisplayOrder(asaSeqId,activityId,displayOrder,makeCode,modelCode);
+		return assetSchActivityAssocRepository.existsByAsaSeqIdAndactivityIdAndDisplayOrderAndMakeCodeAndModelCode(asaSeqId,activityId,displayOrder,makeCode,modelCode);
 	}
 
-	//public Optional<AssetScheduleActivityAssoc> findByAsaSeqAndPositionIdAndMakeCodeAndModelCode(String asaSeqId,String activityPositionId,String makeCode,String modelCode) {
+	public Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(String asaSeqId,String activityPositionId,String makeCode,String modelCode) {
 		// TODO Auto-generated method stub
-		//return assetSchActivityAssocRepository.findByAsaSeqAndPositionIdAndMakeCodeAndModelCode(asaSeqId,activityPositionId,makeCode,modelCode);
-	//}
-//	public Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndmakeCodeAndModelCode(String asaSeqId,String activityId,String makeCode,String modelCode) {
-//		// TODO Auto-generated method stub
-//		return assetSchActivityAssocRepository.findByAsaSeqIdAndActivityIdAndmakeCodeAndModelCode(asaSeqId,activityId,makeCode,modelCode);
-//	}
-//	public Optional<AssetScheduleActivityAssoc> findByasaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(String asaSeqId,String activityId,String displayOrder,String makeCode,String modelCode) {
+		return assetSchActivityAssocRepository.findByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(asaSeqId,activityPositionId,makeCode,modelCode);
+	}
+	public Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndMakeCodeAndModelCode(String asaSeqId,String activityId,String makeCode,String modelCode) {
 		// TODO Auto-generated method stub
-	//	return assetSchActivityAssocRepository.findByasaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(asaSeqId,activityId,displayOrder,makeCode,modelCode);
-	//}
+		return assetSchActivityAssocRepository.findByAsaSeqIdAndActivityIdAndMakeCodeAndModelCode(asaSeqId,activityId,makeCode,modelCode);
+	}
+	public Optional<AssetScheduleActivityAssoc> findByAsaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(String asaSeqId,String activityId,BigDecimal displayOrder,String makeCode,String modelCode) {
+		// TODO Auto-generated method stub
+		return assetSchActivityAssocRepository.findByAsaSeqIdAndActivityIdAndDisplayOrderAndMakeCodeAndModelCode(asaSeqId,activityId,displayOrder,makeCode,modelCode);
+	}
 }

@@ -298,19 +298,21 @@ editAssetSchActAssoc(id) {
 
 }
 ActAssocEditAction(id: number) {
+ 
     this.assetSchActAssocFormGroup = this.formBuilder.group({
-        id: 0,
-        'asaSeqId': [null],
-        'activityId': [null], 
-        'activityPositionId': [null],
-        'makeCode' : [null, Validators.maxLength(255)],
-        'modelCode' : [null, Validators.maxLength(255)],
-        'activityFlag' : [null, Validators.maxLength(255)],
-        'displayOrder' : [null, Validators.maxLength(255)],
-        'lowerLimit' : [null, Validators.maxLength(255)],
-        'upperLimit' : [null, Validators.maxLength(255)],
-        'description':[null, Validators.maxLength(255)],
-    });
+    id: 0,
+    'asaSeqId': [null,Validators.compose([Validators.required,Validators.maxLength(255)])],
+    'activityId': [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
+    'activityPositionId': [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqPositionAndId.bind(this)],
+    'makeCode' : [null, Validators.maxLength(255)],
+    'modelCode' : [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqPositionActivityAndId.bind(this)],
+    'activityFlag' : [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
+    'displayOrder' : [null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateasaSeqActivityDispalyAndId.bind(this)],
+    'lowerLimit' : [null, Validators.maxLength(255)],
+    'upperLimit' : [null, Validators.maxLength(255)],
+    'description':[null, Validators.maxLength(255)],
+    
+});
     this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.GET_ASSET_SCH_ACT_ASSOC_ID+id).subscribe((responseData) => {
         this.editAssetSchActAssocResponse = responseData;
          
