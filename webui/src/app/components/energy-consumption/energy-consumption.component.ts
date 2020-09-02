@@ -50,6 +50,12 @@ export class EnergyConsumptionComponent implements OnInit {
   row: number;
   divisionsList: any;
   selectedDivision:any;
+  radioList =  [
+      {"name": "Date", ID: "D1", "checked": true},
+      {"name": "Station", ID: "D2", "checked": false}
+    ]
+    divisionCode:string;
+    feederId:string;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -62,10 +68,38 @@ export class EnergyConsumptionComponent implements OnInit {
   ngOnInit() {
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
     this.spinnerService.show();
-    var query = this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
-    this.findEnergyConsumptionData(query);
     this.findFeedersList();
     this.divisionDetails();
+
+    console.log("lll = "+localStorage.getItem('query'))
+    var query = !!localStorage.getItem('query') ? localStorage.getItem('query') :  this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
+    console.log('query = '+query);
+    this.findEnergyConsumptionData(query);
+    if(localStorage.getItem('query')){
+      var values = localStorage.getItem('query').split('/');
+      console.log(values);
+      if(values[1] == 'exact'){
+        //for(var i=0;i<this.radioChange.length;i++){
+          this.exactDate = true;
+          this.radioList[0].checked=true;
+          this.radioList[1].checked=false;
+          this.selectedExactDate = new Date(values[0]);
+          this.divisionCode = values[3];
+          console.log('sdfsdf= '+this.divisionCode)
+        //}
+      }else{
+        this.exactDate = false;
+          this.radioList[0].checked=false;
+          this.radioList[1].checked=true;
+          this.selectedBWFrom = new Date(values[0]);
+          this.selectedBWTo = new Date(values[1]);
+          this.divisionCode = values[3];
+          this.feederId = values[2]
+      }
+    }
+
+    localStorage.setItem('query','');
+    
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
@@ -142,6 +176,7 @@ export class EnergyConsumptionComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_ENERGY_CONSUMPTION + query)
       .subscribe((response) => {
         this.energyConsumptionData = response;
+        console.log(response)
         for (let i = 0; i < this.energyConsumptionData.length; i++) {
           //var pkwh = parseFloat(this.energyConsumptionData[i].prev_kwh.split(']')[1]);
           //console.log('pkwh = '+pkwh);
@@ -181,7 +216,7 @@ export class EnergyConsumptionComponent implements OnInit {
           this.energyConsumptionData[i].editable = false;
           this.stipulations.push(this.energyConsumptionData[i]);
         }
-        console.log(this.energyConsumptionData);
+        //console.log(this.energyConsumptionData);
         this.filterData.gridData = this.stipulations;
         this.dataSource = new MatTableDataSource(this.stipulations);
         this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
@@ -200,11 +235,11 @@ export class EnergyConsumptionComponent implements OnInit {
   }
 
   processEditAction(id) {
-    console.log("edit = " + id);
+  //  console.log("edit = " + id);
     var row = this.dataSource.filteredData.find((item, index) => {
       return item.feeder_id == id;
     })
-    console.log(row);
+    //console.log(row);
     localStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([id], { relativeTo: this.route });
   }
@@ -217,7 +252,7 @@ export class EnergyConsumptionComponent implements OnInit {
   }
   radioChange(event: MatRadioChange) {
     this.filterData.dataSource=[];
-    if (event.value == 1) {
+    if (event.value == 'Date') {
       this.exactDate = true;
       this.selectedExactDate = new Date();
     } else {
@@ -244,6 +279,7 @@ export class EnergyConsumptionComponent implements OnInit {
   }
 
   updateDivision($event) {
+   // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if(!this.exactDate){
       this.feedersList = this.feedersOriginalList.filter(value =>{
         return value.dataDiv.toLowerCase() == $event.value.toLowerCase();
@@ -259,6 +295,7 @@ export class EnergyConsumptionComponent implements OnInit {
   executeQuery() {
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId +'/'+ this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId+'/'+ this.selectedDivision;
+    localStorage.setItem('query', query);
     this.findEnergyConsumptionData(query);
   }
 }

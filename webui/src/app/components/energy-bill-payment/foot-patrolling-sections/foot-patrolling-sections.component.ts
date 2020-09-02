@@ -90,7 +90,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         let fpSection: string = this.fpSectionsItemFormGroup.controls['fpSection'].value;         
 
         const q = new Promise((resolve, reject) => {          
-  
+  /* 
            this.sendAndRequestService.requestForGET(
                   Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.EXIST_FP_SECTIONS_AND_ID+id+'/'+fpSection).subscribe
                   ((duplicate) => {
@@ -99,7 +99,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
             } else {
               resolve(null);
             }
-          }, () => { resolve({ 'duplicatefpSectionAndId': true }); });
+          }, () => { resolve({ 'duplicatefpSectionAndId': true }); }); */
         });
         return q;
       }

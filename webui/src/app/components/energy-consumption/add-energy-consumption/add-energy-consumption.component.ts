@@ -79,7 +79,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('parent id = ' + ((localStorage.getItem('ec'))))
+    //console.log('parent id = ' + ((localStorage.getItem('ec'))))
     this.id = +this.route.snapshot.params['id'];
     this.createForm();
     if (!isNaN(this.id)) {
@@ -160,7 +160,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     /*  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
        .subscribe((resp) => { */
     this.resp = JSON.parse(localStorage.getItem("ec"));
-    console.log(this.resp.feeder_name);
+    console.log(this.resp);
     this.addEnergyConsumptionFailFromGroup.patchValue({
       id: this.resp.id,
       Feeder_Name: this.resp.feeder_name,
@@ -179,6 +179,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       Old_RKVAH_Lead: this.resp.Old_RKVAH_Lead,
       Current_RKVAH_Lead: this.resp.Current_RKVAH_Lead,
       Consumption_RKVAH_Lead: this.resp.Consumption_RKVAH_Lead,
+      requested_reading_date:this.resp.requested_reading_date,
       PF: this.resp.PF,
       CPF: this.resp.CPF,
       RMD: this.resp.RMD,
@@ -188,7 +189,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       maxLoadTime:this.resp.max_load_time_hhmm != null ? new Date(this.resp.max_load_time_hhmm) : new Date(),
       remarks:this.resp.remarks,
       jointReadingDate:this.resp.joint_reading_date != null ? this.resp.joint_reading_date+'('+this.resp.no_of_days_lapsed_j_reading+')' : '',
-
+      
     });
     this.spinnerService.hide();
     // })
@@ -280,7 +281,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     message = 'Updated';
     failedMessage = "Updating";
 
-    console.log(data);
+    //console.log(data);
     //return;
 
     this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_CONSUMPTION.UPDATE_ENERGY_CONSUMPTION, data, false).subscribe(response => {
