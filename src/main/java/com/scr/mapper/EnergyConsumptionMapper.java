@@ -1,15 +1,15 @@
 package com.scr.mapper;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
 import com.scr.message.response.EnergyConsumptionResponse;
 import com.scr.model.EnergyConsumption;
 import com.scr.util.Helper;
-
-import sun.util.logging.resources.logging;
 
 @Component
 public class EnergyConsumptionMapper {
@@ -63,7 +63,17 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
 			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
-			energyConsumption.setDataDiv(request.getData_div());
+			energyConsumption.setDataDiv(request.getData_div().toLowerCase());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy");
+			Date date = formatter.parse(request.getRequested_reading_date());
+			
+			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+			String dateString = formatter1.format(date);
+			
+			System.out.println("dateString = "+dateString);
+			energyConsumption.setEnergyReadingDate(formatter1.parse(dateString));
+			
 			energyConsumption.setCreatedBy(request.getUpdatedBy());
 			energyConsumption.setCreatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			energyConsumption.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -71,6 +81,7 @@ public class EnergyConsumptionMapper {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(energyConsumption);
 		return energyConsumption;
 	}
 
