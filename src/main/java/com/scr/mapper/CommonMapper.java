@@ -68,8 +68,8 @@ public class CommonMapper {
 				contentManagement.setCommonFileId(commonFileId);
 				contentManagement.setDivision("");
 				contentManagement.setFunUnit("");
-				contentManagement.setGenOps("");
-				contentManagement.setTopic("Inspections");
+				contentManagement.setGenOps(genops);
+				contentManagement.setTopic(topic);
 				contentManagement.setDescription("");
 				contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 				contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);

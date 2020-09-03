@@ -75,8 +75,8 @@ public class ContentManagementController {
 		List<ContentManagement> conList = new ArrayList<>();
 		try {
 			logger.info("Fetch Content Management Started");
-			conList = service.findByCreatedByAndGenOps(createdBy, GenOps.replace("-", " "));
-			logger.info("Fetch Content Management Ended");
+			conList = service.findByCreatedByAndGenOps(createdBy, GenOps.replace(" ", "-"));
+			logger.info("Fetch Content Management Ended"+conList.size());
 			return conList;
 		} catch (NullPointerException e) {
 			logger.error(e);
