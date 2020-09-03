@@ -1,7 +1,7 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
@@ -10,13 +10,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.ContentManagement;
 import com.scr.model.GuidenceItem;
+import com.scr.services.ContentManagementService;
 import com.scr.services.GuidenceItemService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -31,6 +37,8 @@ public class GuidenceItemController {
 	@Autowired
 	private GuidenceItemService guidenceItemService;
 	
+	@Autowired
+	private ContentManagementService contentManagementService;
 	
 	@RequestMapping(value = "/findAllGuidenceItems" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<GuidenceItem> findAllGuidenceItems(){
@@ -121,6 +129,54 @@ public class GuidenceItemController {
 			log.error("ERROR >> While deleting Guidence Item data"+e.getMessage());
 			return Helper.findResponseStatus("Guidence Item Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
+	}
+	
+	@PostMapping("/guidenceItemUploadFiles")
+	@ResponseBody
+	public ResponseStatus uploadAttachedFiles(
+			@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("guidenceItemId") Integer guidenceItemId,
+			@RequestParam("contentCategory") String contentCategory,
+			@RequestParam("description") String description,
+			@RequestParam("divisionCode") String divisionCode,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("zonal") String zonal,
+			@RequestParam("FU") String FU,
+			@RequestParam("contentTopic") String contentTopic) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		try {
+			log.info("File Name: "+contentCategory);
+			responseStatus = guidenceItemService.storeUploadedFiles(file, contentCategory, description, divisionCode, createdBy, zonal, FU, contentTopic,guidenceItemId);
+			log.info("File Saved Successfully!");
+		} catch (NullPointerException e) {
+			log.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		return responseStatus;
+	}
+	
+	@RequestMapping(value = "/guidenceItemAttachedDocumentList/{guidenceItemId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("guidenceItemId") Integer guidenceItemId){
+		List<ContentManagement> contentManagementList = new ArrayList<>();
+		try {
+			log.info("Getting guidence item  id  = "+guidenceItemId);	
+			Optional<GuidenceItem> guidenceItem = guidenceItemService.findGuidenceItemById(guidenceItemId);
+			if (guidenceItem.isPresent()) {
+				GuidenceItem guidenceItemDetails = guidenceItem.get();
+				if(guidenceItemDetails.getContentLink() != null) {
+					contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(guidenceItemDetails.getContentLink()));
+				}
+				log.info("content size:::"+contentManagementList.size());
+			}
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("Error while getting DivisionHistory Details"+e.getMessage());
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+		}	
 	}
 
 }

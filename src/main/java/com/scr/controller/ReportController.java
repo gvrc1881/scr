@@ -2,6 +2,8 @@ package com.scr.controller;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -339,5 +341,24 @@ public class ReportController {
 			return new ResponseEntity<List<MeasureOrActivityList>>(activityList, HttpStatus.OK);		
 	}
 	
+	@RequestMapping(value = "/getFacility/{facilityId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<Facility> getFacility(@PathVariable("facilityId") String facilityId){
+		log.info("Enter into getFacility function");
+		Optional<Facility> facility = null;
+				facilityId = facilityId.replace("\"", "");
+				log.info("*** facility Id**"+facilityId);
+				try {
+					facility = reportService.findByFacilityId(facilityId);
+					if(facility.isPresent()) {
+						log.info("facility  Data = "+facility.get());
+						return new ResponseEntity<Facility>(facility.get(), HttpStatus.OK);
+					}
+					else
+						return new ResponseEntity<Facility>(facility.get(), HttpStatus.CONFLICT);
+				} catch (Exception e) {
+					log.error("Error >>  while find facility Details by facilityId, "+e.getMessage());
+					return new ResponseEntity<Facility>(facility.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+	}
   	
 }

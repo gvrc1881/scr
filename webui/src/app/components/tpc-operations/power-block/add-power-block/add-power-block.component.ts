@@ -104,7 +104,8 @@ export class AddPowerBlockComponent implements OnInit {
 	          elementarySectionCode: this.resp.elementarySectionCode,
 	          supervisorIncharge: this.resp.supervisorIncharge,
 	          betweenTrains: this.resp.betweenTrains,
-	          reqPeriod: this.resp.reqPeriod
+	          reqPeriod: this.resp.reqPeriod,
+	          facilityId: this.resp.facilityId
 	        });
 	        this.spinnerService.hide();
 	      })

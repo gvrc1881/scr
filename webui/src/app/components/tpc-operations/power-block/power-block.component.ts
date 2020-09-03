@@ -22,6 +22,7 @@ export class PowerBlockComponent implements OnInit {
   	dataSource: MatTableDataSource<PowerBlockModel>;
   	displayedColumns = ['sno', 'depot', 'elementarySectionCode', 'grantPeriod',  'actions'];
   	confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  	facilityData: any;
   	
   	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   	@ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -52,6 +53,13 @@ export class PowerBlockComponent implements OnInit {
       this.powerBlockList = data;
       for (let i = 0; i < this.powerBlockList.length; i++) {
         this.powerBlockList[i].sno = i + 1;
+	        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.powerBlockList[i].facilityId)).subscribe((data) => {
+		        this.spinnerService.hide();
+	    	    this.facilityData = data;
+	        	this.powerBlockList[i].facilityId = this.facilityData.facilityName;
+	        }, error => {
+	      		this.spinnerService.hide();
+	    	});
         powerBlock.push(this.powerBlockList[i]);
       }
 

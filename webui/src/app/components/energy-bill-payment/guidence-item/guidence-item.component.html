@@ -160,6 +160,63 @@
                                                </div>     
                                         </form>
                                     </div>
+                                    <div class = "p-24">
+											<form [formGroup]="contentManagementFormGroup" novalidate
+						                        (ngSubmit)="onContentManagementSubmit()" *ngIf="uploadFile">
+						                        <div class="col-md-12">
+						                          <div class="col-md-3">
+						                            <mat-form-field fxFlex="30">
+						                              <!-- <input matInput placeholder="Description" formControlName="description"
+						                                required /> -->
+						                              <textarea matInput placeholder="Description" [formControl]="contentManagementFormGroup.controls['description']" required></textarea>
+						                              <mat-error *ngIf="f.description.errors && f.description.errors.required"
+						                                class="alert alert-danger">Description required</mat-error>
+						                              <mat-error *ngIf="f.description.errors && f.description.errors.pattern"
+						                                class="alert alert-danger">Only alphabets allowed
+						                              </mat-error>
+						                            </mat-form-field>
+						                          </div>
+						                      </div>
+						                      <div class="clear"> </div>
+						                        <div class="col-md-12">
+													<input type="file"  formControlName="uploadFiles" name="uploadFile" id="uploadFile" 
+													accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+													multiple (change)="upload($event)" />
+						                            <mat-error *ngIf="f.uploadFiles.errors && f.uploadFiles.errors.required"
+						                                class="alert alert-danger">File required</mat-error>
+						                      	</div>
+						                      	<div>
+					                              <table class="table" *ngIf="filesExists">
+					                                <thead>
+					                                  <th>Sno</th>
+					                                  <th>File Name</th>
+					                                  <th>Size</th>
+					                                  <th>Action</th>
+					                                </thead>
+					                                <tbody id="uploadedFilesTBodyId">
+					                                    <tr *ngFor="let file of selectedFiles;let i=index">
+					                                        <td>{{i+1}}</td>
+					                                        <td>{{file.name}}</td>
+					                                        <td>{{(file.size/1024) | number : '1.2-2'}} MB</td>
+					                                        <td> <button mat-icon-button matTooltip="Delete" (click)="removeFile(i)">
+					                                          <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+					                                      </button>  </td>
+					                                    </tr>
+					                                </tbody>
+					                              </table>
+					                            </div>
+						                      <button *ngIf="uploadFile" class="mat-raised-button mat-accent" color="accent" class="d-inline"
+							                        mat-raised-button="" type="submit">
+							                        Submit
+							                    </button>
+							                    <div class="p-12 d-inline">
+	                                                                    <span class="mat-raised-button mat-warn" (click)="close()" color="warn"
+	                                                                      mat-raised-button="">
+	                                                                      Close
+	                                                                    </span>
+	                                                                  </div>      
+						                    </form>      
+										</div> 
                                     <div class="example-header">
                                         <div class="col-sm-4">
                                             <mat-form-field>
@@ -216,6 +273,14 @@
                                                         (click)="editGuidenceItem(row.id)">
                                                         <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                                                       </a>
+                                                      <a mat-icon-button matTooltip="attach file" *ngIf="editPermission"
+	                                                        (click)="fileUpload(row.id)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">attach_file</mat-icon>
+	                                                   </a>
+	                                                  <button mat-icon-button matTooltip="Document View"
+			                                                    (click)="viewDocumentDetails(row.id)" > <!--*ngIf="row.contentLink ; else elseBlock"-->
+			                                                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+			                                          </button>
                                                       <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
                                                         (click)="deleteGuidenceItem(row.id)">
                                                         <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>

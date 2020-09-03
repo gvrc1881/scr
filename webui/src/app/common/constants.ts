@@ -65,6 +65,7 @@ export const Constants = {
             GET_FACILITY_BASED_ON_SUBDIVISION:"/getFacilityBasedOnSubDivision/",
             GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE:"/getObservationCheckListBasedOnObservationCate/",
             GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE:"/getActivityNameBasedOnActivityType/",
+            GET_FACILITY:"/getFacility/",
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -176,7 +177,9 @@ export const Constants = {
                 GET_GUIDENCE_ITEM_ID:"/findGuidenceItemById/",
                 SAVE_GUIDENCE_ITEM:"/addGuidenceItem",
                 UPDATE_GUIDENCE_ITEM:"/updateGuidenceItem",
-                DELETE_GUIDENCE_ITEM:"/deleteGuidenceItem/"
+                DELETE_GUIDENCE_ITEM:"/deleteGuidenceItem/",
+                GUIDENCE_ITEM_UPLOAD_FILES:"/guidenceItemUploadFiles",
+                ATTACHMENT_LIST:"/guidenceItemAttachedDocumentList/"
             },
             WORK:{
                 GET_WORK:"/findAllWorks",

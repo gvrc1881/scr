@@ -7,6 +7,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 
 @Component({
     selector: 'guidence-item',
@@ -31,6 +32,16 @@ export class GuidenceItemComponent implements OnInit{
     statusItems: any;
     maxDate=new Date();
     guidenceItemResponse: any;
+    contentCategoryList: any;
+    contentTopicList: any;
+    uploadFile: boolean = false;
+    contentManagementFormGroup: FormGroup;
+    selectedFiles: File[] = [];
+    filesExists: boolean = false;
+    guidenceItemId: any;
+    documentDialogRef:MatDialogRef<DocumentDialogComponent>;
+    pattern = "[a-zA-Z][a-zA-Z ]*";
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 
 
     constructor(
@@ -67,6 +78,96 @@ export class GuidenceItemComponent implements OnInit{
                  this.statusItems = data;
       		});
     }
+    
+    fileUpload(id) {
+    	this.uploadFile = true;
+    	this.addPermission = false;
+    	this.guidenceItemId = id;
+    	this.contentManagementFormGroup = this.formBuilder.group({
+            contentCategory: ['', Validators.required],
+            description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            uploadFiles: ['', Validators.required],
+            contentTopic: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        });
+    }
+    
+    public get f() { return this.contentManagementFormGroup.controls; }
+    
+    onContentManagementSubmit () {
+    	console.log('*** guidence item id ***'+this.guidenceItemId);
+    	let category = this.contentManagementFormGroup.value.contentCategory;
+    	let saveDetails = {
+    		'guidenceItemId': this.guidenceItemId,
+                'description': this.contentManagementFormGroup.value.description,
+                'divisionCode': this.loggedUserData.divisionCode,
+                'createdBy': this.loggedUserData.id,
+                'createdDate': new Date(),
+                'contentCategory': 'OPERATIONS',
+                'zonal': 'zonal',
+                'FU': 'PSI',
+                'contentTopic': 'GUIDENCEITEM',
+          }
+          let formdata: FormData = new FormData();
+          for(var i=0;i<this.selectedFiles.length;i++){
+              formdata.append('file', this.selectedFiles[i]);
+          }
+          formdata.append('guidenceItemId', saveDetails.guidenceItemId);
+          formdata.append('contentCategory', saveDetails.contentCategory);
+          formdata.append('description', saveDetails.description);
+          formdata.append('divisionCode', saveDetails.divisionCode);
+          formdata.append('createdBy', saveDetails.createdBy);
+          formdata.append('zonal', saveDetails.zonal);
+          formdata.append('FU', saveDetails.FU);
+          formdata.append('contentTopic', saveDetails.contentTopic);
+    	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GUIDENCE_ITEM_UPLOAD_FILES, formdata, true).subscribe(data => {
+                this.spinnerService.hide();
+                this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
+                this.selectedFiles = [];
+                this.filesExists = false;
+                //window.location.reload();
+            }, error => {
+                console.log('ERROR >>>');
+                this.spinnerService.hide();
+                this.commonService.showAlertMessage("Files Uploading Failed.");
+            })
+            
+    }
+    
+    upload(event) {
+        if (event.target.files.length > 0) { this.filesExists = true; }
+        for (var i = 0; i < event.target.files.length; i++) {
+            this.selectedFiles.push(event.target.files[i]);
+        }
+    }
+    
+    removeFile(id) {
+        this.selectedFiles.splice(id, 1);
+        if(this.selectedFiles.length === 0) {
+        	this.filesExists = false;
+        }
+    }
+    
+    close() {
+    	this.contentManagementFormGroup.reset();
+        this.uploadFile = false;
+        this.selectedFiles = [];
+        this.filesExists = false;
+        this.addPermission = true;
+    }
+    
+    
+    viewDocumentDetails(id){
+	    this.spinnerService.show();    
+	    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.ATTACHMENT_LIST + id).subscribe((response) => {     
+	      this.spinnerService.hide(); 
+	      this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
+	        	disableClose: false,
+	        	height: '600px',
+	        	width: '80%',       
+	        	data:response,       
+	      	});            
+	    }, error => this.commonService.showAlertMessage(error));
+	}    
 
     getAllGuidenceItemData() {
         const guidenceItem : GuidenceItemModel[] = [];

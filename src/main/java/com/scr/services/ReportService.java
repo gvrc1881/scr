@@ -1,10 +1,12 @@
 package com.scr.services;
 
 import java.util.List;
+import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetMasterData;
@@ -312,6 +314,10 @@ public class ReportService {
 	public List<MeasureOrActivityList> getActivityNameBasedOnActivityType(String activityType) {
 		// TODO Auto-generated method stub
 		return measureOrActivityListRepository.findByActivityType(activityType);
+	}
+	public Optional<Facility> findByFacilityId(String facilityId) {
+		// TODO Auto-generated method stub
+		return facilityRepository.findByFacilityId(facilityId);
 	}
 	
 }

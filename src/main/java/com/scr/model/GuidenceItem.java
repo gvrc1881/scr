@@ -48,6 +48,8 @@ public class GuidenceItem implements Serializable {
 	private String shortDescription;
 
 	private String status;
+	
+	private String contentLink;
 
 	public GuidenceItem() {
 	}
@@ -146,6 +148,14 @@ public class GuidenceItem implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
 	}
 
 	@Override

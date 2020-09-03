@@ -83,20 +83,20 @@ public class PowerBlockController {
 	
 	@RequestMapping(value = "/findPowerBlock/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<PowerBlock> findById(@PathVariable("id") Long id){
-		Optional<PowerBlock> eleMeter = null;
+		Optional<PowerBlock> powerBlock = null;
 		try {
 			logger.info("Selected power block Id = "+id);
-			eleMeter = powerBlockService.findById(id);
-			if(eleMeter.isPresent()) {
-				logger.info("Power block Data = "+eleMeter.get());
-				return new ResponseEntity<PowerBlock>(eleMeter.get(), HttpStatus.OK);
+			powerBlock = powerBlockService.findById(id);
+			if(powerBlock.isPresent()) {
+				logger.info("Power block Data = "+powerBlock.get());
+				return new ResponseEntity<PowerBlock>(powerBlock.get(), HttpStatus.OK);
 			}
 			else
-				return new ResponseEntity<PowerBlock>(eleMeter.get(), HttpStatus.CONFLICT);
+				return new ResponseEntity<PowerBlock>(powerBlock.get(), HttpStatus.CONFLICT);
 				
 		} catch (Exception e) {
 			logger.error("Error >>  while find Power Block Details by id, "+e.getMessage());
-			return new ResponseEntity<PowerBlock>(eleMeter.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<PowerBlock>(powerBlock.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
