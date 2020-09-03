@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-energy-consumption',
@@ -39,13 +40,15 @@ export class AddEnergyConsumptionComponent implements OnInit {
   failureList: any;
   failurecasList: any;
   difference: any;
-
+  maxDateMax=new Date();
+  minDateMax=new Date();
   constructor(
     private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
+    private datePipe: DatePipe,
     private sendAndRequestService: SendAndRequestService
   ) {
     // Reactive form errors
@@ -81,6 +84,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
   ngOnInit() {
     //console.log('parent id = ' + ((localStorage.getItem('ec'))))
     this.id = +this.route.snapshot.params['id'];
+    
     this.createForm();
     if (!isNaN(this.id)) {
       this.addEnergyConsumptionFailFromGroup.valueChanges.subscribe(() => {
@@ -96,7 +100,10 @@ export class AddEnergyConsumptionComponent implements OnInit {
       this.update = false;
       this.title = 'Save';
     }
-
+    //this.maxDateMax = this.datePipe.transform(new Date(), 'yyyy-MM-dd') +" 00:00:00";
+    let dte = new Date();
+   // this.minDateMax = dte.getDate() - 1;//, 'yyyy-MM-dd') +" 00:00:00";
+   this.minDateMax.setDate(dte.getDate() - 1)
   }
 
   createForm() {
@@ -252,7 +259,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'feeder_id':this.resp.feeder_id,
       'multiplication_fac': this.resp.multiplication_fac,
       'requested_reading_date':this.resp.requested_reading_date,
-      'first_reading_after_meter_fix': this.addEnergyConsumptionFailFromGroup.value.Joint_Reading,
+      'joint_meter': this.addEnergyConsumptionFailFromGroup.value.Joint_Reading == true ? 'Yes' : 'No',
       'cur_cmd': this.resp.CMD,
       'prev_kwh': this.resp.Old_KWH,
       'cur_kwh': this.addEnergyConsumptionFailFromGroup.value.Current_KWH,
@@ -274,6 +281,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'cur_max_load': this.addEnergyConsumptionFailFromGroup.value.Max_Load,
       'max_load_time_hhmm':this.addEnergyConsumptionFailFromGroup.value.maxLoadTime,
       'remarks':this.addEnergyConsumptionFailFromGroup.value.remarks,
+      'energyReadingDate':this.resp.energyReadingDate,
       'data_div':this.resp.data_div,
       "updatedBy": this.loggedUserData.username,
       "updatedOn": new Date()
@@ -281,7 +289,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     message = 'Updated';
     failedMessage = "Updating";
 
-    //console.log(data);
+    console.log(data);
     //return;
 
     this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_CONSUMPTION.UPDATE_ENERGY_CONSUMPTION, data, false).subscribe(response => {

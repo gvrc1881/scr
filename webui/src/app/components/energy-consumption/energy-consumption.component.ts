@@ -44,6 +44,8 @@ export class EnergyConsumptionComponent implements OnInit {
   selectedExactDate = new Date();
   selectedBWFrom = new Date();
   selectedBWTo = new Date();
+  minDate: Date;
+  maxDate: Date;
   feedersList: any;
   feedersOriginalList:any;
   selectedFeederId = 0;
@@ -66,6 +68,10 @@ export class EnergyConsumptionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 1, 0, 1);
+    this.maxDate = new Date();
+    this.selectedBWTo = this.maxDate;
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
     this.spinnerService.show();
     this.findFeedersList();
@@ -213,6 +219,8 @@ export class EnergyConsumptionComponent implements OnInit {
           this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].cur_vol_min;
           this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
 
+          this.energyConsumptionData[i].energyReadingDate = this.exactDate == true ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') : this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') ;
+
           this.energyConsumptionData[i].editable = false;
           this.stipulations.push(this.energyConsumptionData[i]);
         }
@@ -258,7 +266,7 @@ export class EnergyConsumptionComponent implements OnInit {
     } else {
       this.exactDate = false;
       this.selectedBWFrom = new Date();
-      this.selectedBWTo = new Date();
+      this.selectedBWTo = this.maxDate;
       this.selectedFeederId = 0;
     }
   }
@@ -267,7 +275,8 @@ export class EnergyConsumptionComponent implements OnInit {
   }
   bwFromDateEvent($event) {
     this.selectedBWFrom = new Date($event.value);
-    this.selectedBWTo = new Date($event.value);
+    this.selectedBWTo = this.maxDate;
+    console.log(this.selectedBWTo);
   }
   bwToDateEvent($event) {
     this.selectedBWTo = new Date($event.value);

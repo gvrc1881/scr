@@ -202,7 +202,9 @@
                                                 <mat-form-field>
                                                      <input matInput [owlDateTime]="dt5" style="width: 94%;"
                                                         [owlDateTimeTrigger]="dt5" placeholder="Max Load Time"                                                       
-                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['maxLoadTime']" >                                                                
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['maxLoadTime']" 
+                                                        [min]="minDateMax"
+                                                        [max]="maxDateMax">                                                                
                                                         <owl-date-time #dt5 [showSecondsTimer]=true
                                                             ></owl-date-time>
                                                         <span [owlDateTimeTrigger]="dt5"><i class="fa fa-calendar"></i></span>
