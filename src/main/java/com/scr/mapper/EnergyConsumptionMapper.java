@@ -29,7 +29,7 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
 			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
-
+			energyConsumption.setJointMeter(request.getJoint_meter());
 			// energyConsumption.set
 			energyConsumption.setLastUpdatedStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			energyConsumption.setLastUpdatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -64,15 +64,19 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
 			energyConsumption.setDataDiv(request.getData_div().toLowerCase());
-			
-			SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy");
-			Date date = formatter.parse(request.getRequested_reading_date());
-			
-			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-			String dateString = formatter1.format(date);
-			
-			System.out.println("dateString = "+dateString);
-			energyConsumption.setEnergyReadingDate(formatter1.parse(dateString));
+			energyConsumption.setJointMeter(request.getJoint_meter());
+				/*
+				 * SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy"); Date date =
+				 * formatter.parse(request.getRequested_reading_date());
+				 * 
+				 * SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd"); String
+				 * dateString = formatter1.format(date);
+				 * 
+				 * System.out.println("dateString = "+dateString);
+				 */
+			System.out.println("energy reading date = "+request.getEnergyReadingDate());
+			 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+			energyConsumption.setEnergyReadingDate(formatter1.parse(request.getEnergyReadingDate()));
 			
 			energyConsumption.setCreatedBy(request.getUpdatedBy());
 			energyConsumption.setCreatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));

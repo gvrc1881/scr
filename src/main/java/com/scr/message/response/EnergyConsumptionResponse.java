@@ -61,6 +61,8 @@ public class EnergyConsumptionResponse {
 	
 	private String joint_meter;
 	
+	private String energyReadingDate;
+	
 	public Date getReq_date() {
 		return req_date;
 	}
@@ -323,6 +325,12 @@ public class EnergyConsumptionResponse {
 	public void setData_div(String data_div) {
 		this.data_div = data_div;
 	}
+	public String getEnergyReadingDate() {
+		return energyReadingDate;
+	}
+	public void setEnergyReadingDate(String energyReadingDate) {
+		this.energyReadingDate = energyReadingDate;
+	}
 	@Override
 	public String toString() {
 		return "EnergyConsumptionResponse [id=" + id + ", req_date=" + req_date + ", feeder_id=" + feeder_id
@@ -341,8 +349,11 @@ public class EnergyConsumptionResponse {
 				+ updatedBy + ", joint_reading_date=" + joint_reading_date + ", no_of_days_lapsed_j_reading="
 				+ no_of_days_lapsed_j_reading + ", jr_kwh=" + jr_kwh + ", jr_kvah=" + jr_kvah + ", jr_rkvah_lag="
 				+ jr_rkvah_lag + ", jr_rkvah_lead=" + jr_rkvah_lead + ", max_load_time_hhmm=" + max_load_time_hhmm
-				+ ", remarks=" + remarks + ", joint_meter=" + joint_meter + "]";
+				+ ", remarks=" + remarks + ", joint_meter=" + joint_meter + ", energyReadingDate=" + energyReadingDate
+				+ "]";
 	}
+	
+	
 	
 	
 	
