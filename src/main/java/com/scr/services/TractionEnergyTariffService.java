@@ -116,4 +116,10 @@ public class TractionEnergyTariffService {
 		return tractionEnergyTariffRepository.existsBySupplierAndFromDate(supplier,fromDate);
 	}
 
+	public Optional<TractionEnergyTariff> findBySupplierAndFromDate(String supplier,
+			Timestamp fromDate) {
+		// TODO Auto-generated method stub
+		return tractionEnergyTariffRepository.findBySupplierAndFromDate(supplier,fromDate);
+	}
+
 }

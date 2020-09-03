@@ -64,7 +64,12 @@
                                                                 <mat-error
 										                            *ngIf="tractionEnergyTariffFormGroup.controls['fromDate'].hasError('duplicateFromDate')" 
 										                            class="alert alert-danger" >
-										                                Already Exists
+										                                Supplier And Date Combination Already Exists
+										                        </mat-error>
+										                        <mat-error
+										                            *ngIf="tractionEnergyTariffFormGroup.controls['fromDate'].hasError('duplicateFromDateAndId')" 
+										                            class="alert alert-danger" >
+										                                Supplier And Date Combination Already Exists
 										                        </mat-error>
 	                                                                <!-- <input matInput [matDatepicker]="fromDate" placeholder="Choose From Date" [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']">
 	                                                                    <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>

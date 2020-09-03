@@ -1,7 +1,7 @@
 package com.scr.repository;
 
 import java.sql.Timestamp;
-
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +15,8 @@ public interface TractionEnergyTariffRepository extends JpaRepository<TractionEn
 
 	@Query(value = "SELECT case when count(tet)> 0 then true else false  end  FROM TractionEnergyTariff tet WHERE tet.supplier = :supplier and CAST(tet.fromDate AS date ) = :fromDate")
 	Boolean existsBySupplierAndFromDate(@Param("supplier") String supplier,@Param("fromDate") Timestamp fromDate);
+
+	@Query(value = "SELECT tet FROM TractionEnergyTariff tet WHERE tet.supplier = :supplier and CAST(tet.fromDate AS date ) = :fromDate")
+	Optional<TractionEnergyTariff> findBySupplierAndFromDate(@Param("supplier")String supplier,@Param("fromDate") Timestamp fromDate);
 
 }

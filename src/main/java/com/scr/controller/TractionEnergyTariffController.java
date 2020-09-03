@@ -2,6 +2,7 @@ package com.scr.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
-import com.scr.model.EnergyMeter;
 import com.scr.model.TractionEnergyTariff;
 import com.scr.services.ContentManagementService;
 import com.scr.services.TractionEnergyTariffService;
@@ -219,5 +219,27 @@ public class TractionEnergyTariffController {
 		}
 	}
 	
+	@RequestMapping(value = "/existsFromDateAndId/{supplier}/{fromDate}/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsTariffFromDateAndId(@PathVariable("supplier") String supplier ,@PathVariable("fromDate") String fromDate, @PathVariable("id") Integer id){
+		logger.info("Request for checking exists supplier and from date and id..."+supplier+"from date:"+fromDate+"id:"+id);
+		Boolean result;
+		try {
+			Optional<TractionEnergyTariff> tractionEnergyTariff = tractionEnergyTariffService.findBySupplierAndFromDate(supplier,Helper.convertStringToTimestamp(fromDate));
+			if(tractionEnergyTariff.isPresent()) {
+				TractionEnergyTariff tractionEnergyTariffDetails = tractionEnergyTariff.get();
+				logger.info("comparing with id's"+id+"other id"+tractionEnergyTariffDetails.getId());
+				if (id.equals(tractionEnergyTariffDetails.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and Tariff..."+e.getMessage());
+			return false;
+		}
+	}
 	
 }

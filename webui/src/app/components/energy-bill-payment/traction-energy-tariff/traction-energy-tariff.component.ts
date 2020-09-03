@@ -79,11 +79,11 @@ export class TractionEnergyTariffComponent implements OnInit{
 	        this.tractionEnergyTariffFormGroup.controls['fromDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
-	          resolve({ 'duplicate': true });
+	          resolve({ 'duplicateFromDate': true });
 	        } else {
 	          resolve(null);
 	        }
-	      }, () => { resolve({ 'duplicate': true }); });
+	      }, () => { resolve({ 'duplicateFromDate': true }); });
 	    });
     	return q;
   	}    
@@ -277,15 +277,6 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
-        this.tractionEnergyTariffFormGroup = this.formBuilder.group({
-            id: 0,
-           "supplier": [null],
-           "rate": [null],
-           "specification":[null, Validators.maxLength(250)],
-           "condition": [null, Validators.maxLength(250)],
-           "fromDate":[null,  Validators.required],
-           "thruDate":[null]
-       });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
@@ -300,12 +291,38 @@ export class TractionEnergyTariffComponent implements OnInit{
                 });
             } , error => {});
             this.id=id;
+            this.tractionEnergyTariffFormGroup = this.formBuilder.group({
+	            id: 0,
+	           "supplier": [null],
+	           "rate": [null],
+	           "specification":[null, Validators.maxLength(250)],
+	           "condition": [null, Validators.maxLength(250)],
+	           "fromDate":[null,  Validators.required, this.duplicateFromDateAndId.bind(this)],
+	           "thruDate":[null]
+	       });
+	       
         if (!isNaN(this.id)) {
             this.title = 'Update';
           } else {
             this.title = 'Save';      
-          }
-    } 
+        }
+    }
+    
+    duplicateFromDateAndId () {
+    	const q = new Promise((resolve, reject) => {
+	       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.EXISTS_FROM_DATE_AND_ID +
+	        this.tractionEnergyTariffFormGroup.controls['supplier'].value + '/'+
+	        this.tractionEnergyTariffFormGroup.controls['fromDate'].value + '/'+ this.id
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'duplicateFromDateAndId': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'duplicateFromDateAndId': true }); });
+	    });
+    	return q;
+  	} 
     
     
     deleteTractionEneTariff (id) {
