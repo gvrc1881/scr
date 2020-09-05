@@ -42,7 +42,10 @@ export class AddEnergyConsumptionComponent implements OnInit {
   difference: any;
   maxDateMax=new Date();
   minDateMax=new Date();
-  kvalValidation:boolean=false;
+  kvahValidation:boolean=false;
+  kwhValidation:boolean=false;
+  rkvahLeadValidation:boolean=false;
+  rkvahLangValidation:boolean=false;
   constructor(
     private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -206,17 +209,19 @@ export class AddEnergyConsumptionComponent implements OnInit {
   updateKWH($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >=  parseFloat(this.resp.Old_KWH)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KWH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KWH)) * parseFloat(this.resp.multiplication_fac) });
+      this.kwhValidation = false;
     } else {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KWH: 0 });
+      this.kwhValidation = true;
     }
   }
 
   updateKVAH($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_KVAH)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KVAH)) * parseFloat(this.resp.multiplication_fac) });
-      this.kvalValidation = false;
+      this.kvahValidation = false;
     } else {
-      this.kvalValidation =true;
+      this.kvahValidation =true;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: 0 });
     }
   }
@@ -224,7 +229,9 @@ export class AddEnergyConsumptionComponent implements OnInit {
   updateRKVAHLag($event ) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lag)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lag: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lag)) * parseFloat(this.resp.multiplication_fac) });
+      this.rkvahLangValidation = false;
     } else {
+      this.rkvahLangValidation = true;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lag: 0 });
     }
   }
@@ -232,7 +239,9 @@ export class AddEnergyConsumptionComponent implements OnInit {
   updateRKVAHLead($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lead)) * parseFloat(this.resp.multiplication_fac) });
+      this.rkvahLeadValidation = false;
     } else {
+      this.rkvahLeadValidation = true;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: 0 });
     }
   }

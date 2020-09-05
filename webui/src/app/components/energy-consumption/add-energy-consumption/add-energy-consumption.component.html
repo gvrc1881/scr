@@ -68,6 +68,10 @@
                                                     <input matInput placeholder="Current KWH" decimalNumber (keyup)="updateKWH($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KWH']">
                                                 </mat-form-field>
+                                                <mat-error
+                                                *ngIf="kwhValidation" style="margin-top: -5%;font-size: 11px;"
+                                                class="alert alert-danger">Current value should not be less than old value
+                                            </mat-error>
                                             </div>
 
 
@@ -92,7 +96,7 @@
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KVAH']">
                                                 </mat-form-field>
                                                 <mat-error
-                                                *ngIf="kvalValidation" style="margin-top: -5%;font-size: 11px;"
+                                                *ngIf="kvahValidation" style="margin-top: -5%;font-size: 11px;"
                                                 class="alert alert-danger">Current value should not be less than old value
                                             </mat-error>
                                                
@@ -117,6 +121,10 @@
                                                     <input matInput placeholder="Current RKVAH Lag" decimalNumber (keyup)="updateRKVAHLag($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lag']">
                                                 </mat-form-field>
+                                                <mat-error
+                                                *ngIf="rkvahLangValidation" style="margin-top: -5%;font-size: 11px;"
+                                                class="alert alert-danger">Current value should not be less than old value
+                                            </mat-error>
                                             </div>
 
                                             <div class="col-md-4">
@@ -138,6 +146,10 @@
                                                     <input matInput placeholder="Current RKVAH Lead" decimalNumber (keyup)="updateRKVAHLead($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lead']">
                                                 </mat-form-field>
+                                                <mat-error
+                                                *ngIf="kvahLeagValidation" style="margin-top: -5%;font-size: 11px;"
+                                                class="alert alert-danger">Current value should not be less than old value
+                                            </mat-error>
                                             </div>
 
                                             <div class="col-md-4">
