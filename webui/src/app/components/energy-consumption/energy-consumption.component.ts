@@ -73,6 +73,7 @@ export class EnergyConsumptionComponent implements OnInit {
     this.maxDate = new Date();
     this.selectedBWTo = this.maxDate;
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
+    var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY", "ENERGY CONSUMPTION");
     this.spinnerService.show();
     this.findFeedersList();
     this.divisionDetails();
@@ -154,23 +155,25 @@ export class EnergyConsumptionComponent implements OnInit {
       })
   }
   divisionDetails() {
-    var division = {
-      address_1: null,
-    address_2: null,
-    city: null,
-    code: "SC",
-    createdBy: "system",
-    createdOn: null,
-    description: "South Central",
-    district: null,
-    divisionId: null,
-    headquarters: "Secunderabad",
-    id: 14,
-    pin: null,
-    state: null,
-    updatedOn: null
-    }
-    this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, division, false).subscribe((data) => {
+    // var division = {
+    //   address_1: null,
+    // address_2: null,
+    // city: null,
+    // code: "SC",
+    // createdBy: "system",
+    // createdOn: null,
+    // description: "South Central",
+    // district: null,
+    // divisionId: null,
+    // headquarters: "Secunderabad",
+    // id: 10,
+    // pin: null,
+    // state: null,
+    // updatedOn: null
+    // }
+    //this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE,).subscribe((data) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
+      .subscribe((data) => {
       this.divisionsList = data;
     });
   }

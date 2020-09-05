@@ -683,7 +683,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('ENERGY', 'menu', 'view'),
         currentTab: !!path &&  path.includes("energyMeter")
-        || path.includes("tractionEneTariff")||path.includes("energyBillPayment")
+        || path.includes("tractionEneTariff")||path.includes("energyBillPayment")||path.includes("energy-consumption")
          ? "open" : "",  
         subMenus: [
           {
@@ -712,6 +712,15 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:this.commonService.findPermission('Energy Bill Payment', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("energyBillPayment") ? "active-item" : "",
+          },  
+          {
+            subMenuName: "Energy Consumption",
+            subMenuURL: "energy-consumption",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission:true,
+            permission:this.commonService.findPermission('Energy Consumption', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("energy-consumption") ? "active-item" : "",
           },  
               
         ]
