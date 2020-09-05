@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CloseJDBCObjects {
 	static Logger logger = Logger.getLogger(CloseJDBCObjects.class);
 	

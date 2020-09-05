@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +30,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import com.scr.message.request.ReportRequest;
 import com.scr.util.CloseJDBCObjects;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -56,9 +56,12 @@ public class ReportResource {
 
 	@Autowired
 	private Environment environment;
-
+	
+	@Autowired
+	private CloseJDBCObjects closeJDBCObjects ;
+	
 	public String getBasePath() {
-		// TODO Auto-generated method stub
+		
 		String os = System.getProperty("os.name").toLowerCase();
 		String basePath = null;
 		if ("linux".equals(os)) {
@@ -72,7 +75,7 @@ public class ReportResource {
 
 	public String getAbsolutePath(String path, String jrxmlFileName, Map<String, Object> parameters,
 			String reportsBasePath) {
-		// TODO Auto-generated method stub
+		
 		String absolutePath = null;
 		String urlPath = null;
 		File outputFileDir = new File(reportsBasePath + "/output");
@@ -85,7 +88,7 @@ public class ReportResource {
 			urlPath = URLDecoder.decode(path, "UTF-8");
 
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		if (urlPath.contains("/WEB-INF/classes/")) {
@@ -108,14 +111,12 @@ public class ReportResource {
 		log.info("in report resource:6::" + report.getReportId());
 		String jrxmlFileName = null;
 		Connection con = null;
-		Connection con1 = null;
 		ResultSet resultSet = null;
-		// ResultSet resultSet1 = null;
 		PreparedStatement ps = null;
 		String query = ("select * from report_repository");
 		try {
-			con1 = dataSource.getConnection();
-			ps = con1.prepareStatement(query);
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
 				String rname = resultSet.getString("report_id");
@@ -129,6 +130,8 @@ public class ReportResource {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.releaseResouces(con,ps, resultSet);
 		}
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -183,7 +186,7 @@ public class ReportResource {
 		
 		UUID uniqueId = null;
 		try {
-			con = dataSource.getConnection();
+			//con = dataSource.getConnection();
 			String path = this.getClass().getClassLoader().getResource("").getPath();
 			String reportsBasePath = getBasePath();
 			String absolutePath = getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
@@ -216,20 +219,17 @@ public class ReportResource {
 				report.setOutputData(outPutString);
 				is.close();
 			} catch (JRException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (JRException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return report;
