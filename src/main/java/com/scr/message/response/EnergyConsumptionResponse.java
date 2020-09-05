@@ -42,9 +42,9 @@ public class EnergyConsumptionResponse {
 	private Double cur_vol_min;
 	private Double cur_max_load;
 	
-	private Double RMD;
-	private Double CPF;
-	private Double PF;
+	private Double rmd;
+	private Double cpf;
+	private Double pf;
 	
 	private Date updatedOn;
 	private String updatedBy;
@@ -247,18 +247,7 @@ public class EnergyConsumptionResponse {
 	public void setReading_gap_days(String reading_gap_days) {
 		this.reading_gap_days = reading_gap_days;
 	}
-	public Double getCPF() {
-		return CPF;
-	}
-	public void setCPF(Double cPF) {
-		CPF = cPF;
-	}
-	public Double getPF() {
-		return PF;
-	}
-	public void setPF(Double pF) {
-		PF = pF;
-	}
+	
 	public Date getJoint_reading_date() {
 		return joint_reading_date;
 	}
@@ -307,12 +296,7 @@ public class EnergyConsumptionResponse {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public Double getRMD() {
-		return RMD;
-	}
-	public void setRMD(Double rMD) {
-		RMD = rMD;
-	}
+	
 	public String getJoint_meter() {
 		return joint_meter;
 	}
@@ -331,6 +315,24 @@ public class EnergyConsumptionResponse {
 	public void setEnergyReadingDate(String energyReadingDate) {
 		this.energyReadingDate = energyReadingDate;
 	}
+	public Double getRmd() {
+		return rmd;
+	}
+	public void setRmd(Double rmd) {
+		this.rmd = rmd;
+	}
+	public Double getCpf() {
+		return cpf;
+	}
+	public void setCpf(Double cpf) {
+		this.cpf = cpf;
+	}
+	public Double getPf() {
+		return pf;
+	}
+	public void setPf(Double pf) {
+		this.pf = pf;
+	}
 	@Override
 	public String toString() {
 		return "EnergyConsumptionResponse [id=" + id + ", req_date=" + req_date + ", feeder_id=" + feeder_id
@@ -345,16 +347,13 @@ public class EnergyConsumptionResponse {
 				+ consumption_rkvah_lag + ", prev_rkvah_lead=" + prev_rkvah_lead + ", cur_rkvah_lead=" + cur_rkvah_lead
 				+ ", consumption_rkvah_lead=" + consumption_rkvah_lead + ", cur_cmd=" + cur_cmd + ", cur_rmd=" + cur_rmd
 				+ ", cur_vol_max=" + cur_vol_max + ", cur_vol_min=" + cur_vol_min + ", cur_max_load=" + cur_max_load
-				+ ", RMD=" + RMD + ", CPF=" + CPF + ", PF=" + PF + ", updatedOn=" + updatedOn + ", updatedBy="
+				+ ", rmd=" + rmd + ", cpf=" + cpf + ", pf=" + pf + ", updatedOn=" + updatedOn + ", updatedBy="
 				+ updatedBy + ", joint_reading_date=" + joint_reading_date + ", no_of_days_lapsed_j_reading="
 				+ no_of_days_lapsed_j_reading + ", jr_kwh=" + jr_kwh + ", jr_kvah=" + jr_kvah + ", jr_rkvah_lag="
 				+ jr_rkvah_lag + ", jr_rkvah_lead=" + jr_rkvah_lead + ", max_load_time_hhmm=" + max_load_time_hhmm
 				+ ", remarks=" + remarks + ", joint_meter=" + joint_meter + ", energyReadingDate=" + energyReadingDate
 				+ "]";
 	}
-	
-	
-	
 	
 	
 }

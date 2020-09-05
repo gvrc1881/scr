@@ -23,13 +23,16 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setRkvahLag(request.getCur_rkvah_lag() != null ? String.valueOf(request.getCur_rkvah_lag()) : "0");
 			energyConsumption.setRkvahLead(request.getCur_rkvah_lead() != null ? String.valueOf(request.getCur_rkvah_lead()) : "0");
 
-			energyConsumption.setRmd(request.getCur_rmd() != null ? String.valueOf(request.getRMD()) : "0");
+			energyConsumption.setRmd(request.getRmd() != null ? String.valueOf(request.getRmd()) : "0");
 			energyConsumption.setVolMin(request.getCur_vol_min() != null ? String.valueOf(request.getCur_vol_min()) : "0");
 			energyConsumption.setVolMax(request.getCur_vol_max() != null ? String.valueOf(request.getCur_vol_max()) : "0");
 			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
 			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
 			energyConsumption.setJointMeter(request.getJoint_meter());
+			energyConsumption.setPf(String.valueOf(request.getPf()));
+			energyConsumption.setCpf(String.valueOf(request.getCpf()));
+			
 			// energyConsumption.set
 			energyConsumption.setLastUpdatedStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			energyConsumption.setLastUpdatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -57,7 +60,7 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setRkvahLag(request.getCur_rkvah_lag() != null ? String.valueOf(request.getCur_rkvah_lag()) : "0");
 			energyConsumption.setRkvahLead(request.getCur_rkvah_lead() != null ? String.valueOf(request.getCur_rkvah_lead()) : "0");
 			energyConsumption.setLocation(request.getFeeder_name());
-			energyConsumption.setRmd(request.getCur_rmd() != null ? String.valueOf(request.getRMD()) : "0");
+			energyConsumption.setRmd(request.getRmd() != null ? String.valueOf(request.getRmd()) : "0");
 			energyConsumption.setVolMin(request.getCur_vol_min() != null ? String.valueOf(request.getCur_vol_min()) : "0");
 			energyConsumption.setVolMax(request.getCur_vol_max() != null ? String.valueOf(request.getCur_vol_max()) : "0");
 			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
@@ -65,6 +68,8 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setRemarks(request.getRemarks());
 			energyConsumption.setDataDiv(request.getData_div().toLowerCase());
 			energyConsumption.setJointMeter(request.getJoint_meter());
+			energyConsumption.setPf(String.valueOf(request.getPf()));
+			energyConsumption.setCpf(String.valueOf(request.getCpf()));
 				/*
 				 * SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy"); Date date =
 				 * formatter.parse(request.getRequested_reading_date());
