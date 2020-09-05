@@ -1,0 +1,1388 @@
+"id","data_type","data_wizard","parameter_name","prompt_label","report_id","services","short_name"
+1,"string","drop_down","zone",NULL,"Asset Status Report",NULL,NULL
+12,"string","drop_down","zone",NULL,"CB Trippings Report without SubDiv",NULL,NULL
+13,"string","drop_down","division",NULL,"CB Trippings Report without SubDiv",NULL,NULL
+14,"string","drop_down","subDivision",NULL,"CB Trippings Report without SubDiv",NULL,NULL
+15,"timestamp with time zone","date_wizard","failureFromDate",NULL,"CB Trippings Report without SubDiv",NULL,NULL
+16,"timestamp with time zone","date_wizard","failureToDate",NULL,"CB Trippings Report without SubDiv",NULL,NULL
+17,"string","drop_down","zone",NULL,"CB Trippings subDivision Report",NULL,NULL
+18,"string","drop_down","division",NULL,"CB Trippings subDivision Report",NULL,NULL
+19,"string","drop_down","subDivision",NULL,"CB Trippings subDivision Report",NULL,NULL
+20,"timestamp with time zone","date_wizard","failureFromDate",NULL,"CB Trippings subDivision Report",NULL,NULL
+21,"timestamp with time zone","data_wizard","failureToDate",NULL,"CB Trippings subDivision Report",NULL,NULL
+22,"string","drop_down","zone",NULL,"Daily Progress ForeCast Report",NULL,NULL
+23,"string","drop_down","division",NULL,"Daily Progress ForeCast Report",NULL,NULL
+24,"string","drop_down","subDivision",NULL,"Daily Progress ForeCast Report",NULL,NULL
+25,"timestamp with time zone","date_wizard","date",NULL,"Daily Progress ForeCast Report",NULL,NULL
+26,"string","drop_down","zone",NULL,"Daily Progress Report",NULL,NULL
+27,"string","drop_down","division",NULL,"Daily Progress Report",NULL,NULL
+28,"string","drop_down","subDivision",NULL,"Daily Progress Report",NULL,NULL
+29,"timestamp with time zone","date_wizard","date",NULL,"Daily Progress Report",NULL,NULL
+30,"string","drop_down","zone",NULL,"Day Readings And Consumption Report",NULL,NULL
+31,"string","drop_down","division",NULL,"Day Readings And Consumption Report",NULL,NULL
+32,"string","drop_down","subDivision",NULL,"Day Readings And Consumption Report",NULL,NULL
+33,"timestamp with time zone","date_wizard","DayReadingsAndConsumptionDate",NULL,"Day Readings And Consumption Report",NULL,NULL
+34,"string","drop_down","zone",NULL,"Energy Day Consumption Report",NULL,NULL
+35,"string","drop_down","division",NULL,"Energy Day Consumption Report",NULL,NULL
+36,"string","drop_down","subDivision",NULL,"Energy Day Consumption Report",NULL,NULL
+37,"timestamp with time zone","date_wizard","Date",NULL,"Energy Day Consumption Report",NULL,NULL
+38,"string","drop_down","zone",NULL,"FP Summary SubDivision",NULL,NULL
+39,"string","drop_down","division",NULL,"FP Summary SubDivision",NULL,NULL
+40,"string","drop_down","subDivision",NULL,"FP Summary SubDivision",NULL,NULL
+42,"timestamp with time zone","date_wizard","fromDate",NULL,"FP Summary SubDivision",NULL,NULL
+43,"timestamp with time zone","date_wizard","toDate",NULL,"FP Summary SubDivision",NULL,NULL
+44,"string","drop_down","zone",NULL,"Foot Patroling inspection",NULL,NULL
+45,"string","drop_down","division",NULL,"Foot Patroling inspection",NULL,NULL
+46,"string","drop_down","subDivision",NULL,"Foot Patroling inspection",NULL,NULL
+48,"timestamp with time zone","date_wizard","fromDate",NULL,"Foot Patroling inspection",NULL,NULL
+49,"timestamp with time zone","date_wizard","toDate",NULL,"Foot Patroling inspection",NULL,NULL
+50,"string","drop_down","zone",NULL,"Foot Patrolling Sections",NULL,NULL
+51,"string","drop_down","division",NULL,"Foot Patrolling Sections",NULL,NULL
+52,"string","drop_down","subDivision",NULL,"Foot Patrolling Sections",NULL,NULL
+54,"timestamp with time zone","date_wizard","fromDate",NULL,"Foot Patrolling Sections",NULL,NULL
+55,"timestamp with time zone","date_wizard","toDate",NULL,"Foot Patrolling Sections",NULL,NULL
+56,"string","drop_down","zone",NULL,"FP_List_From_Too",NULL,NULL
+57,"string","drop_down","division",NULL,"FP_List_From_Too",NULL,NULL
+58,"string","drop_down","subDivision",NULL,"FP_List_From_Too",NULL,NULL
+60,"string","date_wizard","fromDate",NULL,"FP_List_From_Too",NULL,NULL
+61,"timestamp with time zone","date_wizard","toDate",NULL,"FP_List_From_Too",NULL,NULL
+62,"string","drop_down","zone",NULL,"subDivision inspection Summary",NULL,NULL
+63,"string","drop_down","division",NULL,"subDivision inspection Summary",NULL,NULL
+64,"string","drop_down","subDivision",NULL,"subDivision inspection Summary",NULL,NULL
+66,"timestamp with time zone","date_wizard","fromDate",NULL,"subDivision inspection Summary",NULL,NULL
+67,"timestamp with time zone","date_wizard","toDate",NULL,"subDivision inspection Summary",NULL,NULL
+68,"string","drop_down","zone",NULL,"Failure Occurence Report",NULL,NULL
+69,"string","drop_down","division",NULL,"Failure Occurence Report",NULL,NULL
+70,"string","drop_down","subDivision",NULL,"Failure Occurence Report",NULL,NULL
+71,"timestamp with time zone","date_wizard","date",NULL,"Failure Occurence Report",NULL,NULL
+72,"string","drop_down","zone",NULL,"Field Officer Report",NULL,NULL
+73,"string","drop_down","division",NULL,"Field Officer Report",NULL,NULL
+74,"string","drop_down","subDivision",NULL,"Field Officer Report",NULL,NULL
+75,"timestamp with time zone","date_wizard","date",NULL,"Field Officer Report",NULL,NULL
+76,"string","drop_down","zone",NULL,"Gantry Report",NULL,NULL
+77,"string","drop_down","division",NULL,"Gantry Report",NULL,NULL
+78,"string","drop_down","subDivision",NULL,"Gantry Report",NULL,NULL
+80,"string","drop_down","zone",NULL,"Grid Supply Failures",NULL,NULL
+81,"string","drop_down","division",NULL,"Grid Supply Failures",NULL,NULL
+41,"string","drop_down","depot",NULL,"FP Summary SubDivision",NULL,NULL
+47,"string","drop_down","depot",NULL,"Foot Patroling inspection",NULL,NULL
+53,"string","drop_down","depot",NULL,"Foot Patrolling Sections",NULL,NULL
+59,"string","drop_down","depot",NULL,"FP_List_From_Too",NULL,NULL
+65,"string","drop_down","depot",NULL,"subDivision inspection Summary",NULL,NULL
+82,"string","drop_down","subDivision",NULL,"Grid Supply Failures",NULL,NULL
+83,"timestamp with time zone","date_wizard","FromDate",NULL,"Grid Supply Failures",NULL,NULL
+84,"timestamp with time zone","date_wizard","thruDate",NULL,"Grid Supply Failures",NULL,NULL
+86,"string","drop_down","division",NULL,"HT Consumption",NULL,NULL
+87,"string","drop_down","subDivision",NULL,"HT Consumption",NULL,NULL
+88,"timestamp with time zone","date_wizard","date",NULL,"HT Consumption",NULL,NULL
+89,"string","drop_down","zone",NULL,"HT Failure",NULL,NULL
+90,"string","drop_down","division",NULL,"HT Failure",NULL,NULL
+91,"string","drop_down","subDivision",NULL,"HT Failure",NULL,NULL
+92,"timestamp with time zone","date_wizard","failureFromDate",NULL,"HT Failure",NULL,NULL
+85,"string","drop_down","zone",NULL,"HT Consumption",NULL,NULL
+93,"timestamp with time zone","date_wizard","failureToDate",NULL,"HT Failure",NULL,NULL
+94,"string","drop_down","zone",NULL,"Incharge Report",NULL,NULL
+95,"string","drop_down","division",NULL,"Incharge Report",NULL,NULL
+96,"string","drop_down","subDivision",NULL,"Incharge Report",NULL,NULL
+97,"timestamp with time zone","date_wizard","date",NULL,"Incharge Report",NULL,NULL
+98,"string","drop_down","zone",NULL,"lossOfPunCasesReport",NULL,NULL
+99,"string","drop_down","division",NULL,"lossOfPunCasesReport",NULL,NULL
+100,"string","drop_down","subDivision",NULL,"lossOfPunCasesReport",NULL,NULL
+101,"timestamp with time zone","date_wizard","fromDate",NULL,"lossOfPunCasesReport",NULL,NULL
+102,"string","drop_down","zone",NULL,"MonthWisFCBTriReport",NULL,NULL
+103,"string","drop_down","division",NULL,"MonthWisFCBTriReport",NULL,NULL
+104,"string","drop_down","subDivision",NULL,"MonthWisFCBTriReport",NULL,NULL
+105,"timestamp with time zone","date_wizard","Date",NULL,"MonthWisFCBTriReport",NULL,NULL
+106,"string","drop_down","zone",NULL,"OHE Power BlockReport",NULL,NULL
+107,"string","drop_down","division",NULL,"OHE Power BlockReport",NULL,NULL
+108,"string","drop_down","subDivision",NULL,"OHE Power BlockReport",NULL,NULL
+109,"timestamp with time zone","date_wizard","date",NULL,"OHE Power BlockReport",NULL,NULL
+110,"string","drop_down","zone",NULL,"Observation Category Report",NULL,NULL
+111,"string","drop_down","division",NULL,"Observation Category Report",NULL,NULL
+112,"string","drop_down","subDivision",NULL,"Observation Category Report",NULL,NULL
+113,"string","drop_down","department",NULL,"Observation Category Report",NULL,NULL
+114,"string","drop_down","zone",NULL,"ObservaCheckList Report",NULL,NULL
+115,"string","drop_down","division",NULL,"ObservaCheckList Report",NULL,NULL
+116,"string","drop_down","subDivision",NULL,"ObservaCheckList Report",NULL,NULL
+117,"string","drop_down","observationCategory",NULL,"ObservaCheckList Report",NULL,NULL
+118,"string","drop_down","zone",NULL,"PB Monthly In Min",NULL,NULL
+119,"string","drop_down","division",NULL,"PB Monthly In Min",NULL,NULL
+120,"string","drop_down","subDivision",NULL,"PB Monthly In Min",NULL,NULL
+121,"timestamp with time zone","date_wizard","date",NULL,"PB Monthly In Min",NULL,NULL
+122,"string","drop_down","zone",NULL,"PowerBlockNotGrant Report",NULL,NULL
+123,"string","drop_down","division",NULL,"PowerBlockNotGrant Report",NULL,NULL
+124,"string","drop_down","subDivision",NULL,"PowerBlockNotGrant Report",NULL,NULL
+125,"timestamp with time zone","date_wizard","date",NULL,"PowerBlockNotGrant Report",NULL,NULL
+126,"string","drop_down","zone",NULL,"POWER Block Position",NULL,NULL
+127,"string","drop_down","division",NULL,"POWER Block Position",NULL,NULL
+128,"string","drop_down","subDivision",NULL,"POWER Block Position",NULL,NULL
+129,"timestamp with time zone","date_wizard","date",NULL,"POWER Block Position",NULL,NULL
+130,"string","drop_down","zone",NULL,"PSI PowerBlock Report",NULL,NULL
+131,"string","drop_down","division",NULL,"PSI PowerBlock Report",NULL,NULL
+132,"string","drop_down","subDivision",NULL,"PSI PowerBlock Report",NULL,NULL
+133,"timestamp with time zone","date_wizard","date",NULL,"PSI PowerBlock Report",NULL,NULL
+134,"string","drop_down","zone",NULL,"PTW Message Report",NULL,NULL
+135,"string","drop_down","division",NULL,"PTW Message Report",NULL,NULL
+136,"string","drop_down","subDivision",NULL,"PTW Message Report",NULL,NULL
+137,"string","drop_down","tpc_Board",NULL,"PTW Message Report",NULL,NULL
+138,"timestamp with time zone","date_wizard","fromDate",NULL,"PTW Message Report",NULL,NULL
+139,"timestamp with time zone","date_wizard","thruDate",NULL,"PTW Message Report",NULL,NULL
+140,"string","drop_down","zone",NULL,"Power Block In Minutes",NULL,NULL
+141,"string","drop_down","division",NULL,"Power Block In Minutes",NULL,NULL
+142,"string","drop_down","subDivision",NULL,"Power Block In Minutes",NULL,NULL
+143,"timestamp with time zone","date_wizard","date",NULL,"Power Block In Minutes",NULL,NULL
+144,"string","drop_down","zone",NULL,"Power Block Line Block Requ",NULL,NULL
+145,"string","drop_down","division",NULL,"Power Block Line Block Requ",NULL,NULL
+146,"string","drop_down","subDivision",NULL,"Power Block Line Block Requ",NULL,NULL
+147,"timestamp with time zone","date_wizard","date",NULL,"Power Block Line Block Requ",NULL,NULL
+148,"string","drop_down","zone",NULL,"Power Blocks Group Report",NULL,NULL
+149,"string","drop_down","division",NULL,"Power Blocks Group Report",NULL,NULL
+150,"string","drop_down","subDivision",NULL,"Power Blocks Group Report",NULL,NULL
+151,"timestamp with time zone","date_wizard","date",NULL,"Power Blocks Group Report",NULL,NULL
+152,"string","drop_down","zone",NULL,"Precautionary Measures",NULL,NULL
+153,"string","drop_down","division",NULL,"Precautionary Measures",NULL,NULL
+154,"string","drop_down","subDivision",NULL,"Precautionary Measures",NULL,NULL
+155,"string","drop_down","depot",NULL,"Precautionary Measures",NULL,NULL
+156,"timestamp with time zone","date_wizard","fromDate",NULL,"Precautionary Measures",NULL,NULL
+157,"timestamp with time zone","date_wizard","toDate",NULL,"Precautionary Measures",NULL,NULL
+158,"string","drop_down","zone",NULL,"Sectors Report",NULL,NULL
+159,"string","drop_down","division",NULL,"Sectors Report",NULL,NULL
+160,"string","drop_down","subDivision",NULL,"Sectors Report",NULL,NULL
+161,"string","drop_down","depot",NULL,"Sectors Report",NULL,NULL
+162,"string","drop_down","zone",NULL,"Sub Sectors Report",NULL,NULL
+163,"string","drop_down","division",NULL,"Sub Sectors Report",NULL,NULL
+164,"string","drop_down","subDivision",NULL,"Sub Sectors Report",NULL,NULL
+165,"string","drop_down","depot",NULL,"Sub Sectors Report",NULL,NULL
+166,"string","drop_down","zone",NULL,"Tower cars Report",NULL,NULL
+167,"string","drop_down","division",NULL,"Tower cars Report",NULL,NULL
+168,"string","drop_down","subDivision",NULL,"Tower cars Report",NULL,NULL
+169,"string","drop_down","assetType",NULL,"Tower cars Report",NULL,NULL
+170,"string","drop_down","zone",NULL,"UnUsual Occurrence Report",NULL,NULL
+171,"string","drop_down","division",NULL,"UnUsual Occurrence Report",NULL,NULL
+172,"string","drop_down","subDivision",NULL,"UnUsual Occurrence Report",NULL,NULL
+173,"string","drop_down","failureSeqId",NULL,"UnUsual Occurrence Report",NULL,NULL
+174,"string","drop_down","zone",NULL,"Unusual Occurrences On TRD AC. Report",NULL,NULL
+175,"string","drop_down","division",NULL,"Unusual Occurrences On TRD AC. Report",NULL,NULL
+176,"string","drop_down","subDivision",NULL,"Unusual Occurrences On TRD AC. Report",NULL,NULL
+177,"timestamp with time zone","date_wizard","Date",NULL,"Unusual Occurrences On TRD AC. Report",NULL,NULL
+178,"string","drop_down","zone",NULL,"AssetAtd",NULL,NULL
+179,"string","drop_down","division",NULL,"AssetAtd",NULL,NULL
+180,"string","drop_down","subDivision",NULL,"AssetAtd",NULL,NULL
+181,"string","drop_down","depot",NULL,"AssetAtd",NULL,NULL
+182,"string","drop_down","assetType",NULL,"AssetAtd",NULL,NULL
+183,"string","drop_down","scheduleType",NULL,"AssetAtd",NULL,NULL
+184,"string","drop_down","assetId",NULL,"AssetAtd",NULL,NULL
+185,"string","drop_down","scheduleDate",NULL,"AssetAtd",NULL,NULL
+186,"string","drop_down","zone",NULL,"AssetCrossover",NULL,NULL
+187,"string","drop_down","division",NULL,"AssetCrossover",NULL,NULL
+188,"string","drop_down","subDivision",NULL,"AssetCrossover",NULL,NULL
+190,"string","drop_down","assetType",NULL,"AssetCrossover",NULL,NULL
+191,"string","drop_down","scheduleType",NULL,"AssetCrossover",NULL,NULL
+192,"string","drop_down","assetId",NULL,"AssetCrossover",NULL,NULL
+193,"string","drop_down","scheduleDate",NULL,"AssetCrossover",NULL,NULL
+194,"string","drop_down","zone",NULL,"AssetEr",NULL,NULL
+195,"string","drop_down","division",NULL,"AssetEr",NULL,NULL
+196,"string","drop_down","subDivision",NULL,"AssetEr",NULL,NULL
+197,"string","drop_down","depot",NULL,"AssetEr",NULL,NULL
+198,"string","drop_down","assetType",NULL,"AssetEr",NULL,NULL
+199,"string","drop_down","scheduleType",NULL,"AssetEr",NULL,NULL
+200,"string","drop_down","assetId",NULL,"AssetEr",NULL,NULL
+201,"string","drop_down","scheduleDate",NULL,"AssetEr",NULL,NULL
+202,"string","drop_down","zone",NULL,"AssetFOB",NULL,NULL
+203,"string","drop_down","division",NULL,"AssetFOB",NULL,NULL
+204,"string","drop_down","subDivision",NULL,"AssetFOB",NULL,NULL
+205,"string","drop_down","depot",NULL,"AssetFOB",NULL,NULL
+206,"string","drop_down","assetType",NULL,"AssetFOB",NULL,NULL
+207,"string","drop_down","scheduleType",NULL,"AssetFOB",NULL,NULL
+208,"string","drop_down","assetId",NULL,"AssetFOB",NULL,NULL
+209,"string","drop_down","scheduleDate",NULL,"AssetFOB",NULL,NULL
+210,"string","drop_down","zone",NULL,"AssetGantry",NULL,NULL
+211,"string","drop_down","division",NULL,"AssetGantry",NULL,NULL
+212,"string","drop_down","subDivision",NULL,"AssetGantry",NULL,NULL
+213,"string","drop_down","depot",NULL,"AssetGantry",NULL,NULL
+214,"string","drop_down","assetType",NULL,"AssetGantry",NULL,NULL
+215,"string","drop_down","scheduleType",NULL,"AssetGantry",NULL,NULL
+216,"string","drop_down","assetId",NULL,"AssetGantry",NULL,NULL
+217,"string","drop_down","scheduleDate",NULL,"AssetGantry",NULL,NULL
+218,"string","drop_down","zone",NULL,"AssetIsolator",NULL,NULL
+219,"string","drop_down","division",NULL,"AssetIsolator",NULL,NULL
+220,"string","drop_down","subDivision",NULL,"AssetIsolator",NULL,NULL
+221,"string","drop_down","depot",NULL,"AssetIsolator",NULL,NULL
+222,"string","drop_down","assetType",NULL,"AssetIsolator",NULL,NULL
+223,"string","drop_down","scheduleType",NULL,"AssetIsolator",NULL,NULL
+224,"string","drop_down","assetId",NULL,"AssetIsolator",NULL,NULL
+225,"string","drop_down","scheduleDate",NULL,"AssetIsolator",NULL,NULL
+226,"string","drop_down","zone",NULL,"AssetLcGates",NULL,NULL
+227,"string","drop_down","division",NULL,"AssetLcGates",NULL,NULL
+228,"string","drop_down","subDivision",NULL,"AssetLcGates",NULL,NULL
+229,"string","drop_down","depot",NULL,"AssetLcGates",NULL,NULL
+230,"string","drop_down","assetType",NULL,"AssetLcGates",NULL,NULL
+231,"string","drop_down","scheduleType",NULL,"AssetLcGates",NULL,NULL
+232,"string","drop_down","assetId",NULL,"AssetLcGates",NULL,NULL
+233,"string","drop_down","scheduleDate",NULL,"AssetLcGates",NULL,NULL
+234,"string","drop_down","zone",NULL,"Maintenance Progress",NULL,NULL
+235,"string","drop_down","division",NULL,"Maintenance Progress",NULL,NULL
+236,"string","drop_down","subDivision",NULL,"Maintenance Progress",NULL,NULL
+237,"string","drop_down","depot",NULL,"Maintenance Progress",NULL,NULL
+238,"string","drop_down","zone",NULL,"OutstandingSchReport",NULL,NULL
+239,"string","drop_down","division",NULL,"OutstandingSchReport",NULL,NULL
+240,"string","drop_down","subDivision",NULL,"OutstandingSchReport",NULL,NULL
+241,"string","drop_down","depot",NULL,"OutstandingSchReport",NULL,NULL
+242,"string","drop_down","assetType",NULL,"OutstandingSchReport",NULL,NULL
+243,"string","drop_down","scheduleType",NULL,"OutstandingSchReport",NULL,NULL
+244,"timestamp with time zone","date_wizard","fromDate",NULL,"OutstandingSchReport",NULL,NULL
+245,"timestamp with time zone","date_wizard","thruDate",NULL,"OutstandingSchReport",NULL,NULL
+246,"string","drop_down","zone",NULL,"AssetOverlaps",NULL,NULL
+247,"string","drop_down","division",NULL,"AssetOverlaps",NULL,NULL
+248,"string","drop_down","depot",NULL,"AssetOverlaps",NULL,NULL
+249,"string","drop_down","subDivision",NULL,"AssetOverlaps",NULL,NULL
+250,"string","drop_down","assetType",NULL,"AssetOverlaps",NULL,NULL
+251,"string","drop_down","scheduleType",NULL,"AssetOverlaps",NULL,NULL
+252,"string","drop_down","assetId",NULL,"AssetOverlaps",NULL,NULL
+253,"string","drop_down","scheduleDate",NULL,"AssetOverlaps",NULL,NULL
+254,"string","drop_down","zone",NULL,"AssetPlXING",NULL,NULL
+255,"string","drop_down","division",NULL,"AssetPlXING",NULL,NULL
+256,"string","drop_down","depot",NULL,"AssetPlXING",NULL,NULL
+257,"string","drop_down","subDivision",NULL,"AssetPlXING",NULL,NULL
+258,"string","drop_down","assetType",NULL,"AssetPlXING",NULL,NULL
+259,"string","drop_down","scheduleType",NULL,"AssetPlXING",NULL,NULL
+260,"string","drop_down","assetId",NULL,"AssetPlXING",NULL,NULL
+261,"string","drop_down","scheduleDate",NULL,"AssetPlXING",NULL,NULL
+262,"string","drop_down","zone",NULL,"AssetSi",NULL,NULL
+263,"string","drop_down","division",NULL,"AssetSi",NULL,NULL
+264,"string","drop_down","depot",NULL,"AssetSi",NULL,NULL
+265,"string","drop_down","subDivision",NULL,"AssetSi",NULL,NULL
+266,"string","drop_down","assetType",NULL,"AssetSi",NULL,NULL
+267,"string","drop_down","scheduleType",NULL,"AssetSi",NULL,NULL
+268,"string","drop_down","assetId",NULL,"AssetSi",NULL,NULL
+269,"string","drop_down","scheduleDate",NULL,"AssetSi",NULL,NULL
+270,"string","drop_down","zone",NULL,"schedule History",NULL,NULL
+271,"string","drop_down","division",NULL,"schedule History",NULL,NULL
+272,"string","drop_down","subDivision",NULL,"schedule History",NULL,NULL
+273,"string","drop_down","depot",NULL,"schedule History",NULL,NULL
+274,"string","drop_down","assetType",NULL,"schedule History",NULL,NULL
+275,"string","drop_down","scheduleType",NULL,"schedule History",NULL,NULL
+276,"string","drop_down","assetId",NULL,"schedule History",NULL,NULL
+277,"string","drop_down","zone",NULL,"Asset Turnout",NULL,NULL
+278,"string","drop_down","division",NULL,"Asset Turnout",NULL,NULL
+279,"string","drop_down","subDivision",NULL,"Asset Turnout",NULL,NULL
+280,"string","drop_down","depot",NULL,"Asset Turnout",NULL,NULL
+281,"string","drop_down","assetType",NULL,"Asset Turnout",NULL,NULL
+282,"string","drop_down","scheduleType",NULL,"Asset Turnout",NULL,NULL
+283,"string","drop_down","assetId",NULL,"Asset Turnout",NULL,NULL
+284,"string","drop_down","scheduleDate",NULL,"Asset Turnout",NULL,NULL
+285,"string","pop_up","OrderId",NULL,"consigneeCertificate",NULL,NULL
+286,"string","pop_up","SHIPMENT_ID",NULL,"consigneeCertificate",NULL,NULL
+287,"string","drop_down","DepotName",NULL,"dmtr",NULL,NULL
+288,"string","date_wizard","from_date",NULL,"dmtr",NULL,NULL
+289,"string","date_wizard","to_date",NULL,"dmtr",NULL,NULL
+290,"string","drop_down","DepotName",NULL,"QOHF",NULL,NULL
+291,"string","pop_up","productId",NULL,"QOHF",NULL,NULL
+292,"string","drop_down","DepotName",NULL,"Depot Materials By Category",NULL,NULL
+293,"string","drop_down","ProductCategory",NULL,"Depot Materials By Category",NULL,NULL
+294,"string","pop_up","ChallanNo",NULL,"interTransfer",NULL,NULL
+295,"string","pop_up","productId",NULL,"LEDGER",NULL,NULL
+296,"string","drop_down","DepotName",NULL,"LEDGER",NULL,NULL
+297,"timestamp with time zone","date_wizard","from_date",NULL,"LEDGER",NULL,NULL
+298,"timestamp with time zone","date_wizard","to_date",NULL,"LEDGER",NULL,NULL
+299,"string","pop_up","productId",NULL,"QOHP",NULL,NULL
+300,"string","drop_down","DepotName",NULL,"Newdmtr",NULL,NULL
+301,"string","date_wizard","CommonFromDate",NULL,"Newdmtr",NULL,NULL
+302,"string","date_wizard","CommonThruDate",NULL,"Newdmtr",NULL,NULL
+303,"string","pop_up","productId",NULL,"NewLedger",NULL,NULL
+304,"string","drop_down","DepotName",NULL,"NewLedger",NULL,NULL
+305,"timestamp with time zone","date_wizard","CommonFromDate",NULL,"NewLedger",NULL,NULL
+306,"timestamp with time zone","date_wizard","CommonThruDate",NULL,"NewLedger",NULL,NULL
+307,"string","pop_up","AdviceNoteNo",NULL,"scrapTransfer",NULL,NULL
+308,"string","free_text","FromYear",NULL,"scrapTransfer",NULL,NULL
+309,"string","free_text","ToYear",NULL,"scrapTransfer",NULL,NULL
+310,"string","drop_down","zone",NULL,"110KVCTHY",NULL,NULL
+311,"string","drop_down","division",NULL,"110KVCTHY",NULL,NULL
+312,"string","drop_down","subDivision",NULL,"110KVCTHY",NULL,NULL
+313,"string","drop_down","depot",NULL,"110KVCTHY",NULL,NULL
+314,"string","drop_down","assetType",NULL,"110KVCTHY",NULL,NULL
+315,"string","drop_down","scheduleType",NULL,"110KVCTHY",NULL,NULL
+316,"string","drop_down","assetId",NULL,"110KVCTHY",NULL,NULL
+317,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCTHY",NULL,NULL
+318,"string","drop_down","zone",NULL,"110KVCTAOH",NULL,NULL
+319,"string","drop_down","division",NULL,"110KVCTAOH",NULL,NULL
+320,"string","drop_down","subDivision",NULL,"110KVCTAOH",NULL,NULL
+321,"string","drop_down","depot",NULL,"110KVCTAOH",NULL,NULL
+322,"string","drop_down","assetType",NULL,"110KVCTAOH",NULL,NULL
+323,"string","drop_down","scheduleType",NULL,"110KVCTAOH",NULL,NULL
+324,"string","drop_down","assetId",NULL,"110KVCTAOH",NULL,NULL
+325,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCTAOH",NULL,NULL
+326,"string","drop_down","zone",NULL,"132KVCTHY",NULL,NULL
+327,"string","drop_down","division",NULL,"132KVCTHY",NULL,NULL
+328,"string","drop_down","subDivision",NULL,"132KVCTHY",NULL,NULL
+329,"string","drop_down","depot",NULL,"132KVCTHY",NULL,NULL
+330,"string","drop_down","assetType",NULL,"132KVCTHY",NULL,NULL
+331,"string","drop_down","scheduleType",NULL,"132KVCTHY",NULL,NULL
+332,"string","drop_down","assetId",NULL,"132KVCTHY",NULL,NULL
+333,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCTHY",NULL,NULL
+334,"string","drop_down","zone",NULL,"132KVCTAOH",NULL,NULL
+335,"string","drop_down","division",NULL,"132KVCTAOH",NULL,NULL
+336,"string","drop_down","subDivision",NULL,"132KVCTAOH",NULL,NULL
+337,"string","drop_down","depot",NULL,"132KVCTAOH",NULL,NULL
+338,"string","drop_down","assetType",NULL,"132KVCTAOH",NULL,NULL
+339,"string","drop_down","scheduleType",NULL,"132KVCTAOH",NULL,NULL
+340,"string","drop_down","assetId",NULL,"132KVCTAOH",NULL,NULL
+341,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCTAOH",NULL,NULL
+342,"string","drop_down","zone",NULL,"220KVCTHY",NULL,NULL
+343,"string","drop_down","division",NULL,"220KVCTHY",NULL,NULL
+344,"string","drop_down","subDivision",NULL,"220KVCTHY",NULL,NULL
+345,"string","drop_down","depot",NULL,"220KVCTHY",NULL,NULL
+346,"string","drop_down","assetType",NULL,"220KVCTHY",NULL,NULL
+347,"string","drop_down","scheduleType",NULL,"220KVCTHY",NULL,NULL
+348,"string","drop_down","assetId",NULL,"220KVCTHY",NULL,NULL
+349,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCTHY",NULL,NULL
+350,"string","drop_down","zone",NULL,"220KVCTAOH",NULL,NULL
+351,"string","drop_down","division",NULL,"220KVCTAOH",NULL,NULL
+352,"string","drop_down","subDivision",NULL,"220KVCTAOH",NULL,NULL
+353,"string","drop_down","depot",NULL,"220KVCTAOH",NULL,NULL
+354,"string","drop_down","assetType",NULL,"220KVCTAOH",NULL,NULL
+355,"string","drop_down","scheduleType",NULL,"220KVCTAOH",NULL,NULL
+356,"string","drop_down","assetId",NULL,"220KVCTAOH",NULL,NULL
+357,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCTAOH",NULL,NULL
+358,"string","drop_down","zone",NULL,"25KVSPIHY",NULL,NULL
+359,"string","drop_down","division",NULL,"25KVSPIHY",NULL,NULL
+360,"string","drop_down","subDivision",NULL,"25KVSPIHY",NULL,NULL
+361,"string","drop_down","depot",NULL,"25KVSPIHY",NULL,NULL
+362,"string","drop_down","assetType",NULL,"25KVSPIHY",NULL,NULL
+363,"string","drop_down","scheduleType",NULL,"25KVSPIHY",NULL,NULL
+364,"string","drop_down","assetId",NULL,"25KVSPIHY",NULL,NULL
+365,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVSPIHY",NULL,NULL
+366,"string","drop_down","zone",NULL,"25KVSPIAOH",NULL,NULL
+367,"string","drop_down","division",NULL,"25KVSPIAOH",NULL,NULL
+368,"string","drop_down","subDivision",NULL,"25KVSPIAOH",NULL,NULL
+369,"string","drop_down","depot",NULL,"25KVSPIAOH",NULL,NULL
+370,"string","drop_down","assetType",NULL,"25KVSPIAOH",NULL,NULL
+371,"string","drop_down","scheduleType",NULL,"25KVSPIAOH",NULL,NULL
+372,"string","drop_down","assetId",NULL,"25KVSPIAOH",NULL,NULL
+373,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVSPIAOH",NULL,NULL
+374,"string","drop_down","zone",NULL,"25KVSPIAOH",NULL,NULL
+375,"string","drop_down","division",NULL,"25KVSPIAOH",NULL,NULL
+376,"string","drop_down","subDivision",NULL,"25KVSPIAOH",NULL,NULL
+377,"string","drop_down","depot",NULL,"25KVSPIAOH",NULL,NULL
+378,"string","drop_down","assetType",NULL,"25KVBPIHY",NULL,NULL
+379,"string","drop_down","scheduleType",NULL,"25KVBPIHY",NULL,NULL
+380,"string","drop_down","assetId",NULL,"25KVBPIHY",NULL,NULL
+381,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBPIHY",NULL,NULL
+382,"string","drop_down","zone",NULL,"25KVSPIAOH",NULL,NULL
+383,"string","drop_down","division",NULL,"25KVSPIAOH",NULL,NULL
+384,"string","drop_down","subDivision",NULL,"25KVSPIAOH",NULL,NULL
+385,"string","drop_down","depot",NULL,"25KVSPIAOH",NULL,NULL
+386,"string","drop_down","assetType",NULL,"25KVBPIAOH",NULL,NULL
+387,"string","drop_down","scheduleType",NULL,"25KVBPIAOH",NULL,NULL
+388,"string","drop_down","assetId",NULL,"25KVBPIAOH",NULL,NULL
+389,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBPIAOH",NULL,NULL
+390,"string","drop_down","zone",NULL,"132KVDPIHY",NULL,NULL
+391,"string","drop_down","division",NULL,"132KVDPIHY",NULL,NULL
+392,"string","drop_down","subDivision",NULL,"132KVDPIHY",NULL,NULL
+393,"string","drop_down","depot",NULL,"132KVDPIHY",NULL,NULL
+394,"string","drop_down","assetType",NULL,"132KVDPIHY",NULL,NULL
+395,"string","drop_down","scheduleType",NULL,"132KVDPIHY",NULL,NULL
+396,"string","drop_down","assetId",NULL,"132KVDPIHY",NULL,NULL
+397,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVDPIHY",NULL,NULL
+398,"string","drop_down","zone",NULL,"132KVDPIAOH",NULL,NULL
+399,"string","drop_down","division",NULL,"132KVDPIAOH",NULL,NULL
+400,"string","drop_down","subDivision",NULL,"132KVDPIAOH",NULL,NULL
+401,"string","drop_down","depot",NULL,"132KVDPIAOH",NULL,NULL
+402,"string","drop_down","assetType",NULL,"132KVDPIAOH",NULL,NULL
+403,"string","drop_down","scheduleType",NULL,"132KVDPIAOH",NULL,NULL
+404,"string","drop_down","assetId",NULL,"132KVDPIAOH",NULL,NULL
+405,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVDPIAOH",NULL,NULL
+406,"string","drop_down","zone",NULL,"110KVDPIHY",NULL,NULL
+407,"string","drop_down","division",NULL,"110KVDPIHY",NULL,NULL
+408,"string","drop_down","subDivision",NULL,"110KVDPIHY",NULL,NULL
+409,"string","drop_down","depot",NULL,"110KVDPIHY",NULL,NULL
+410,"string","drop_down","assetType",NULL,"110KVDPIHY",NULL,NULL
+411,"string","drop_down","scheduleType",NULL,"110KVDPIHY",NULL,NULL
+412,"string","drop_down","assetId",NULL,"110KVDPIHY",NULL,NULL
+413,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVDPIHY",NULL,NULL
+414,"string","drop_down","make",NULL,"110KVDPIHY",NULL,NULL
+415,"string","drop_down","model",NULL,"111KVDPIHY",NULL,NULL
+416,"string","drop_down","zone",NULL,"110KVDPIAOH",NULL,NULL
+417,"string","drop_down","division",NULL,"110KVDPIAOH",NULL,NULL
+418,"string","drop_down","subDivision",NULL,"110KVDPIAOH",NULL,NULL
+419,"string","drop_down","depot",NULL,"110KVDPIAOH",NULL,NULL
+420,"string","drop_down","assetType",NULL,"110KVDPIAOH",NULL,NULL
+421,"string","drop_down","scheduleType",NULL,"110KVDPIAOH",NULL,NULL
+422,"string","drop_down","assetId",NULL,"110KVDPIAOH",NULL,NULL
+423,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVDPIAOH",NULL,NULL
+424,"string","drop_down","zone",NULL,"220KVDPIHY",NULL,NULL
+425,"string","drop_down","division",NULL,"220KVDPIHY",NULL,NULL
+426,"string","drop_down","subDivision",NULL,"220KVDPIHY",NULL,NULL
+427,"string","drop_down","depot",NULL,"220KVDPIHY",NULL,NULL
+428,"string","drop_down","assetType",NULL,"220KVDPIHY",NULL,NULL
+429,"string","drop_down","scheduleType",NULL,"220KVDPIHY",NULL,NULL
+430,"string","drop_down","assetId",NULL,"220KVDPIHY",NULL,NULL
+431,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVDPIHY",NULL,NULL
+432,"string","drop_down","zone",NULL,"220KVDPIAOH",NULL,NULL
+433,"string","drop_down","division",NULL,"220KVDPIAOH",NULL,NULL
+434,"string","drop_down","subDivision",NULL,"220KVDPIAOH",NULL,NULL
+435,"string","drop_down","depot",NULL,"220KVDPIAOH",NULL,NULL
+436,"string","drop_down","assetType",NULL,"220KVDPIAOH",NULL,NULL
+437,"string","drop_down","scheduleType",NULL,"220KVDPIAOH",NULL,NULL
+438,"string","drop_down","assetId",NULL,"220KVDPIAOH",NULL,NULL
+439,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVDPIAOH",NULL,NULL
+440,"string","drop_down","zone",NULL,"25KVCTHY",NULL,NULL
+441,"string","drop_down","division",NULL,"25KVCTHY",NULL,NULL
+442,"string","drop_down","subDivision",NULL,"25KVCTHY",NULL,NULL
+443,"string","drop_down","depot",NULL,"25KVCTHY",NULL,NULL
+444,"string","drop_down","assetType",NULL,"25KVCTHY",NULL,NULL
+445,"string","drop_down","scheduleType",NULL,"25KVCTHY",NULL,NULL
+446,"string","drop_down","assetId",NULL,"25KVCTHY",NULL,NULL
+447,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCTHY",NULL,NULL
+448,"string","drop_down","zone",NULL,"25KVCTAOH",NULL,NULL
+449,"string","drop_down","division",NULL,"25KVCTAOH",NULL,NULL
+450,"string","drop_down","subDivision",NULL,"25KVCTAOH",NULL,NULL
+451,"string","drop_down","depot",NULL,"25KVCTAOH",NULL,NULL
+452,"string","drop_down","assetType",NULL,"25KVCTAOH",NULL,NULL
+453,"string","drop_down","scheduleType",NULL,"25KVCTAOH",NULL,NULL
+454,"string","drop_down","assetId",NULL,"25KVCTAOH",NULL,NULL
+455,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCTAOH",NULL,NULL
+456,"string","drop_down","zone",NULL,"42KVLAHY",NULL,NULL
+457,"string","drop_down","division",NULL,"42KVLAHY",NULL,NULL
+458,"string","drop_down","subDivision",NULL,"42KVLAHY",NULL,NULL
+459,"string","drop_down","depot",NULL,"42KVLAHY",NULL,NULL
+460,"string","drop_down","assetType",NULL,"42KVLAHY",NULL,NULL
+461,"string","drop_down","scheduleType",NULL,"42KVLAHY",NULL,NULL
+462,"string","drop_down","assetId",NULL,"42KVLAHY",NULL,NULL
+463,"timestamp with time zone","drop_down","scheduleDate",NULL,"42KVLAHY",NULL,NULL
+464,"string","drop_down","zone",NULL,"42KVLAAOH",NULL,NULL
+465,"string","drop_down","division",NULL,"42KVLAAOH",NULL,NULL
+466,"string","drop_down","subDivision",NULL,"42KVLAAOH",NULL,NULL
+467,"string","drop_down","depot",NULL,"42KVLAAOH",NULL,NULL
+468,"string","drop_down","assetType",NULL,"42KVLAAOH",NULL,NULL
+469,"string","drop_down","scheduleType",NULL,"42KVLAAOH",NULL,NULL
+470,"string","drop_down","assetId",NULL,"42KVLAAOH",NULL,NULL
+471,"timestamp with time zone","drop_down","scheduleDate",NULL,"42KVLAAOH",NULL,NULL
+472,"string","drop_down","zone",NULL,"120KVLAHY",NULL,NULL
+473,"string","drop_down","division",NULL,"120KVLAHY",NULL,NULL
+474,"string","drop_down","subDivision",NULL,"120KVLAHY",NULL,NULL
+475,"string","drop_down","depot",NULL,"120KVLAHY",NULL,NULL
+476,"string","drop_down","assetType",NULL,"120KVLAHY",NULL,NULL
+477,"string","drop_down","scheduleType",NULL,"120KVLAHY",NULL,NULL
+478,"string","drop_down","assetId",NULL,"120KVLAHY",NULL,NULL
+479,"timestamp with time zone","drop_down","scheduleDate",NULL,"120KVLAHY",NULL,NULL
+480,"string","drop_down","zone",NULL,"120KVLAAOH",NULL,NULL
+481,"string","drop_down","division",NULL,"120KVLAAOH",NULL,NULL
+482,"string","drop_down","subDivision",NULL,"120KVLAAOH",NULL,NULL
+483,"string","drop_down","depot",NULL,"120KVLAAOH",NULL,NULL
+484,"string","drop_down","assetType",NULL,"120KVLAAOH",NULL,NULL
+485,"string","drop_down","scheduleType",NULL,"120KVLAAOH",NULL,NULL
+486,"string","drop_down","assetId",NULL,"120KVLAAOH",NULL,NULL
+487,"timestamp with time zone","drop_down","scheduleDate",NULL,"120KVLAAOH",NULL,NULL
+488,"string","drop_down","zone",NULL,"198KVLAHY",NULL,NULL
+489,"string","drop_down","division",NULL,"198KVLAHY",NULL,NULL
+490,"string","drop_down","subDivision",NULL,"198KVLAHY",NULL,NULL
+491,"string","drop_down","depot",NULL,"198KVLAHY",NULL,NULL
+492,"string","drop_down","assetType",NULL,"198KVLAHY",NULL,NULL
+493,"string","drop_down","scheduleType",NULL,"198KVLAHY",NULL,NULL
+494,"string","drop_down","assetId",NULL,"198KVLAHY",NULL,NULL
+495,"timestamp with time zone","drop_down","scheduleDate",NULL,"198KVLAHY",NULL,NULL
+496,"string","drop_down","zone",NULL,"198KVLAAOH",NULL,NULL
+497,"string","drop_down","division",NULL,"198KVLAAOH",NULL,NULL
+498,"string","drop_down","subDivision",NULL,"198KVLAAOH",NULL,NULL
+499,"string","drop_down","depot",NULL,"198KVLAAOH",NULL,NULL
+500,"string","drop_down","assetType",NULL,"198KVLAAOH",NULL,NULL
+501,"string","drop_down","scheduleType",NULL,"198KVLAAOH",NULL,NULL
+502,"string","drop_down","assetId",NULL,"198KVLAAOH",NULL,NULL
+503,"timestamp with time zone","drop_down","scheduleDate",NULL,"198KVLAAOH",NULL,NULL
+504,"string","drop_down","zone",NULL,"POWERTRAFORMERMON",NULL,NULL
+505,"string","drop_down","division",NULL,"POWERTRAFORMERMON",NULL,NULL
+506,"string","drop_down","subDivision",NULL,"POWERTRAFORMERMON",NULL,NULL
+507,"string","drop_down","depot",NULL,"POWERTRAFORMERMON",NULL,NULL
+508,"string","drop_down","assetType",NULL,"POWERTRAFORMERMON",NULL,NULL
+509,"string","drop_down","scheduleType",NULL,"POWERTRAFORMERMON",NULL,NULL
+510,"string","drop_down","assetId",NULL,"POWERTRAFORMERMON",NULL,NULL
+511,"timestamp with time zone","drop_down","scheduleDate",NULL,"POWERTRAFORMERMON",NULL,NULL
+512,"string","drop_down","zone",NULL,"POWERTRANSFORMERHY",NULL,NULL
+513,"string","drop_down","division",NULL,"POWERTRANSFORMERHY",NULL,NULL
+514,"string","drop_down","subDivision",NULL,"POWERTRANSFORMERHY",NULL,NULL
+515,"string","drop_down","depot",NULL,"POWERTRANSFORMERHY",NULL,NULL
+516,"string","drop_down","assetType",NULL,"POWERTRANSFORMERHY",NULL,NULL
+517,"string","drop_down","scheduleType",NULL,"POWERTRANSFORMERHY",NULL,NULL
+518,"string","drop_down","assetId",NULL,"POWERTRANSFORMERHY",NULL,NULL
+519,"timestamp with time zone","drop_down","scheduleDate",NULL,"POWERTRANSFORMERHY",NULL,NULL
+520,"string","drop_down","zone",NULL,"25KVPTTYPE-IHY",NULL,NULL
+521,"string","drop_down","division",NULL,"25KVPTTYPE-IHY",NULL,NULL
+522,"string","drop_down","subDivision",NULL,"25KVPTTYPE-IHY",NULL,NULL
+523,"string","drop_down","depot",NULL,"25KVPTTYPE-IHY",NULL,NULL
+524,"string","drop_down","assetType",NULL,"25KVPTTYPE-IHY",NULL,NULL
+525,"string","drop_down","scheduleType",NULL,"25KVPTTYPE-IHY",NULL,NULL
+526,"string","drop_down","assetId",NULL,"25KVPTTYPE-IHY",NULL,NULL
+527,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVPTTYPE-IHY",NULL,NULL
+528,"string","drop_down","zone",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+529,"string","drop_down","division",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+530,"string","drop_down","subDivision",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+531,"string","drop_down","depot",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+532,"string","drop_down","assetType",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+533,"string","drop_down","scheduleType",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+534,"string","drop_down","assetId",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+535,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVPTTYPE-IAOH",NULL,NULL
+536,"string","drop_down","zone",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+537,"string","drop_down","division",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+538,"string","drop_down","subDivision",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+539,"string","drop_down","depot",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+540,"string","drop_down","assetType",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+541,"string","drop_down","scheduleType",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+542,"string","drop_down","assetId",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+543,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVPTTYPE-IIHY",NULL,NULL
+544,"string","drop_down","zone",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+545,"string","drop_down","division",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+546,"string","drop_down","subDivision",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+547,"string","drop_down","depot",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+548,"string","drop_down","assetType",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+549,"string","drop_down","scheduleType",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+550,"string","drop_down","assetId",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+551,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVPTTYPE-IIAOH",NULL,NULL
+552,"string","drop_down","zone",NULL,"25KVATHY",NULL,NULL
+553,"string","drop_down","division",NULL,"25KVATHY",NULL,NULL
+554,"string","drop_down","subDivision",NULL,"25KVATHY",NULL,NULL
+556,"string","drop_down","assetType",NULL,"25KVATHY",NULL,NULL
+557,"string","drop_down","scheduleType",NULL,"25KVATHY",NULL,NULL
+558,"string","drop_down","assetId",NULL,"25KVATHY",NULL,NULL
+559,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVATHY",NULL,NULL
+560,"string","drop_down","zone",NULL,"25KVATAOH",NULL,NULL
+561,"string","drop_down","division",NULL,"25KVATAOH",NULL,NULL
+562,"string","drop_down","subDivision",NULL,"25KVATAOH",NULL,NULL
+563,"string","drop_down","depot",NULL,"25KVATAOH",NULL,NULL
+564,"string","drop_down","assetType",NULL,"25KVATAOH",NULL,NULL
+565,"string","drop_down","scheduleType",NULL,"25KVATAOH",NULL,NULL
+566,"string","drop_down","assetId",NULL,"25KVATAOH",NULL,NULL
+555,"string","drop_down","depot",NULL,"25KVATHY",NULL,NULL
+567,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVATAOH",NULL,NULL
+568,"string","drop_down","zone",NULL,"25KVCAPBANKQTR",NULL,NULL
+569,"string","drop_down","division",NULL,"25KVCAPBANKQTR",NULL,NULL
+570,"string","drop_down","subDivision",NULL,"25KVCAPBANKQTR",NULL,NULL
+571,"string","drop_down","depot",NULL,"25KVCAPBANKQTR",NULL,NULL
+572,"string","drop_down","assetType",NULL,"25KVCAPBANKQTR",NULL,NULL
+573,"string","drop_down","scheduleType",NULL,"25KVCAPBANKQTR",NULL,NULL
+574,"string","drop_down","assetId",NULL,"25KVCAPBANKQTR",NULL,NULL
+575,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCAPBANKQTR",NULL,NULL
+576,"string","drop_down","zone",NULL,"25KVCAPBANKHY",NULL,NULL
+577,"string","drop_down","division",NULL,"25KVCAPBANKHY",NULL,NULL
+578,"string","drop_down","subDivision",NULL,"25KVCAPBANKHY",NULL,NULL
+579,"string","drop_down","depot",NULL,"25KVCAPBANKHY",NULL,NULL
+580,"string","drop_down","assetType",NULL,"25KVCAPBANKHY",NULL,NULL
+581,"string","drop_down","scheduleType",NULL,"25KVCAPBANKHY",NULL,NULL
+582,"string","drop_down","assetId",NULL,"25KVCAPBANKHY",NULL,NULL
+583,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCAPBANKHY",NULL,NULL
+584,"string","drop_down","zone",NULL,"25KVCAPBANKAOH",NULL,NULL
+585,"string","drop_down","division",NULL,"25KVCAPBANKAOH",NULL,NULL
+586,"string","drop_down","subDivision",NULL,"25KVCAPBANKAOH",NULL,NULL
+587,"string","drop_down","depot",NULL,"25KVCAPBANKAOH",NULL,NULL
+588,"string","drop_down","assetType",NULL,"25KVCAPBANKAOH",NULL,NULL
+589,"string","drop_down","scheduleType",NULL,"25KVCAPBANKAOH",NULL,NULL
+590,"string","drop_down","assetId",NULL,"25KVCAPBANKAOH",NULL,NULL
+591,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCAPBANKAOH",NULL,NULL
+592,"string","drop_down","zone",NULL,"25KVSERIREACTORHY",NULL,NULL
+593,"string","drop_down","division",NULL,"25KVSERIREACTORHY",NULL,NULL
+594,"string","drop_down","subDivision",NULL,"25KVSERIREACTORHY",NULL,NULL
+595,"string","drop_down","depot",NULL,"25KVSERIREACTORHY",NULL,NULL
+596,"string","drop_down","assetType",NULL,"25KVSERIREACTORHY",NULL,NULL
+597,"string","drop_down","scheduleType",NULL,"25KVSERIREACTORHY",NULL,NULL
+598,"string","drop_down","assetId",NULL,"25KVSERIREACTORHY",NULL,NULL
+599,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVSERIREACTORHY",NULL,NULL
+600,"string","drop_down","zone",NULL,"25KVSERIREACTORAOH",NULL,NULL
+601,"string","drop_down","division",NULL,"25KVSERIREACTORAOH",NULL,NULL
+602,"string","drop_down","subDivision",NULL,"25KVSERIREACTORAOH",NULL,NULL
+603,"string","drop_down","depot",NULL,"25KVSERIREACTORAOH",NULL,NULL
+604,"string","drop_down","assetType",NULL,"25KVSERIREACTORAOH",NULL,NULL
+605,"string","drop_down","scheduleType",NULL,"25KVSERIREACTORAOH",NULL,NULL
+606,"string","date_wizard","assetId",NULL,"25KVSERIREACTORAOH",NULL,NULL
+607,"timestamp with time zone","date_wizard","scheduleDate",NULL,"25KVSERIREACTORAOH",NULL,NULL
+608,"string","drop_down","zone",NULL,"C&RPANELMON",NULL,NULL
+609,"string","drop_down","division",NULL,"C&RPANELMON",NULL,NULL
+610,"string","drop_down","subDivision",NULL,"C&RPANELMON",NULL,NULL
+611,"string","drop_down","depot",NULL,"C&RPANELMON",NULL,NULL
+612,"string","drop_down","assetType",NULL,"C&RPANELMON",NULL,NULL
+613,"string","drop_down","scheduleType",NULL,"C&RPANELMON",NULL,NULL
+614,"string","drop_down","assetId",NULL,"C&RPANELMON",NULL,NULL
+615,"timestamp with time zone","drop_down","scheduleDate",NULL,"C&RPANELMON",NULL,NULL
+616,"string","drop_down","zone",NULL,"C&RPANELHY",NULL,NULL
+617,"string","drop_down","division",NULL,"C&RPANELHY",NULL,NULL
+618,"string","drop_down","subDivision",NULL,"C&RPANELHY",NULL,NULL
+619,"string","drop_down","depot",NULL,"C&RPANELHY",NULL,NULL
+620,"string","drop_down","assetType",NULL,"C&RPANELHY",NULL,NULL
+621,"string","drop_down","scheduleType",NULL,"C&RPANELHY",NULL,NULL
+622,"string","drop_down","assetId",NULL,"C&RPANELHY",NULL,NULL
+623,"timestamp with time zone","drop_down","scheduleDate",NULL,"C&RPANELHY",NULL,NULL
+624,"string","drop_down","zone",NULL,"C&RPANELAOH",NULL,NULL
+625,"string","drop_down","division",NULL,"C&RPANELAOH",NULL,NULL
+626,"string","drop_down","subDivision",NULL,"C&RPANELAOH",NULL,NULL
+627,"string","drop_down","depot",NULL,"C&RPANELAOH",NULL,NULL
+628,"string","drop_down","assetType",NULL,"C&RPANELAOH",NULL,NULL
+629,"string","drop_down","scheduleType",NULL,"C&RPANELAOH",NULL,NULL
+630,"string","drop_down","assetId",NULL,"C&RPANELAOH",NULL,NULL
+631,"timestamp with time zone","drop_down","scheduleDate",NULL,"C&RPANELAOH",NULL,NULL
+632,"string","drop_down","zone",NULL,"120AHBATTERYSETMON",NULL,NULL
+633,"string","drop_down","division",NULL,"120AHBATTERYSETMON",NULL,NULL
+634,"string","drop_down","subDivision",NULL,"120AHBATTERYSETMON",NULL,NULL
+635,"string","drop_down","depot",NULL,"120AHBATTERYSETMON",NULL,NULL
+636,"string","drop_down","assetType",NULL,"120AHBATTERYSETMON",NULL,NULL
+637,"string","drop_down","scheduleType",NULL,"120AHBATTERYSETMON",NULL,NULL
+638,"string","drop_down","assetId",NULL,"120AHBATTERYSETMON",NULL,NULL
+639,"timestamp with time zone","drop_down","scheduleDate",NULL,"120AHBATTERYSETMON",NULL,NULL
+640,"string","drop_down","zone",NULL,"200AHBATTERYSETMON",NULL,NULL
+641,"string","drop_down","division",NULL,"200AHBATTERYSETMON",NULL,NULL
+642,"string","drop_down","subDivision",NULL,"200AHBATTERYSETMON",NULL,NULL
+643,"string","drop_down","depot",NULL,"200AHBATTERYSETMON",NULL,NULL
+644,"string","drop_down","assetType",NULL,"200AHBATTERYSETMON",NULL,NULL
+645,"string","drop_down","scheduleType",NULL,"200AHBATTERYSETMON",NULL,NULL
+646,"string","drop_down","assetId",NULL,"200AHBATTERYSETMON",NULL,NULL
+647,"timestamp with time zone","drop_down","scheduleDate",NULL,"200AHBATTERYSETMON",NULL,NULL
+648,"string","drop_down","zone",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+649,"string","drop_down","division",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+650,"string","drop_down","subDivision",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+651,"string","drop_down","depot",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+652,"string","drop_down","assetType",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+653,"string","drop_down","assetId",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+654,"string","drop_down","scheduleType",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+655,"timestamp with time zone","drop_down","scheduleDate",NULL,"RTUBIMONTHLYASHIDA",NULL,NULL
+656,"string","drop_down","zone",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+657,"string","drop_down","division",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+658,"string","drop_down","subDivision",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+659,"string","drop_down","depot",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+660,"string","drop_down","assetType",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+661,"string","drop_down","assetId",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+662,"string","drop_down","scheduleType",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+663,"timestamp with time zone","drop_down","scheduleDate",NULL,"RTUBIMONTHLYCMC0990",NULL,NULL
+664,"string","drop_down","zone",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+665,"string","drop_down","division",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+666,"string","drop_down","subDivision",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+667,"string","drop_down","depot",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+668,"string","drop_down","assetType",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+669,"string","drop_down","assetId",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+670,"string","drop_down","scheduleType",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+671,"timestamp with time zone","drop_down","scheduleDate",NULL,"RTUBIMONTHLYMERIT990",NULL,NULL
+672,"string","drop_down","zone",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+673,"string","drop_down","division",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+674,"string","drop_down","subDivision",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+675,"string","drop_down","depot",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+676,"string","drop_down","assetType",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+677,"string","drop_down","assetId",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+678,"string","drop_down","scheduleType",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+679,"timestamp with time zone","drop_down","scheduleDate",NULL,"RTUBIMONTHLYSYNERGY",NULL,NULL
+680,"string","drop_down","zone",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+681,"string","drop_down","division",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+682,"string","drop_down","subDivision",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+683,"string","drop_down","depot",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+684,"string","drop_down","assetType",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+685,"string","drop_down","scheduleType",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+686,"string","drop_down","assetId",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+687,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+688,"string","drop_down","make",NULL,"132KVCBQTRBHELSF6",NULL,NULL
+689,"string","drop_down","model",NULL,"132KVCBQTRBHELSF7",NULL,NULL
+690,"string","drop_down","zone",NULL,"132KVCBHYBHELSF6",NULL,NULL
+691,"string","drop_down","division",NULL,"132KVCBHYBHELSF6",NULL,NULL
+692,"string","drop_down","subDivision",NULL,"132KVCBHYBHELSF6",NULL,NULL
+693,"string","drop_down","depot",NULL,"132KVCBHYBHELSF6",NULL,NULL
+694,"string","drop_down","assetType",NULL,"132KVCBHYBHELSF6",NULL,NULL
+695,"string","drop_down","scheduleType",NULL,"132KVCBHYBHELSF6",NULL,NULL
+696,"string","drop_down","assetId",NULL,"132KVCBHYBHELSF6",NULL,NULL
+697,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBHYBHELSF6",NULL,NULL
+698,"string","drop_down","make",NULL,"132KVCBHYBHELSF6",NULL,NULL
+699,"string","drop_down","model",NULL,"132KVCBHYBHELSF6",NULL,NULL
+700,"string","drop_down","zone",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+701,"string","drop_down","division",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+702,"string","drop_down","subDivision",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+703,"string","drop_down","depot",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+704,"string","drop_down","assetType",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+705,"string","drop_down","scheduleType",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+706,"string","drop_down","assetId",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+707,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+708,"string","drop_down","make",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+709,"string","drop_down","model",NULL,"132KVCBAOHBHELSF6",NULL,NULL
+710,"string","drop_down","zone",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+711,"string","drop_down","division",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+712,"string","drop_down","subDivision",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+713,"string","drop_down","depot",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+714,"string","drop_down","assetType",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+715,"string","drop_down","scheduleType",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+716,"string","drop_down","assetId",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+717,"timestamp with time zone","date_wizard","scheduleDate",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+718,"string","drop_down","make",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+719,"string","drop_down","model",NULL,"132KVCBQTRCGLSF6",NULL,NULL
+720,"string","drop_down","zone",NULL,"132KVCBHYCGLSF6",NULL,NULL
+721,"string","drop_down","division",NULL,"132KVCBHYCGLSF6",NULL,NULL
+722,"string","drop_down","subDivision",NULL,"132KVCBHYCGLSF6",NULL,NULL
+723,"string","drop_down","depot",NULL,"132KVCBHYCGLSF6",NULL,NULL
+724,"string","drop_down","assetType",NULL,"132KVCBHYCGLSF6",NULL,NULL
+725,"string","drop_down","assetId",NULL,"132KVCBHYCGLSF6",NULL,NULL
+726,"string","drop_down","scheduleType",NULL,"132KVCBHYCGLSF6",NULL,NULL
+727,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBHYCGLSF6",NULL,NULL
+728,"string","drop_down","zone",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+729,"string","drop_down","division",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+730,"string","drop_down","subDivision",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+731,"string","drop_down","depot",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+732,"string","drop_down","assetType",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+733,"string","drop_down","scheduleType",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+734,"string","drop_down","assetId",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+735,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+736,"string","drop_down","make",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+737,"string","drop_down","model",NULL,"132KVCBAOHCGLSF6",NULL,NULL
+738,"string","drop_down","zone",NULL,"132KVCBQTRABBSF6",NULL,NULL
+739,"string","drop_down","division",NULL,"132KVCBQTRABBSF6",NULL,NULL
+740,"string","drop_down","subDivision",NULL,"132KVCBQTRABBSF6",NULL,NULL
+741,"string","drop_down","depot",NULL,"132KVCBQTRABBSF6",NULL,NULL
+742,"string","drop_down","assetType",NULL,"132KVCBQTRABBSF6",NULL,NULL
+743,"string","drop_down","scheduleType",NULL,"132KVCBQTRABBSF6",NULL,NULL
+744,"string","drop_down","assetId",NULL,"132KVCBQTRABBSF6",NULL,NULL
+745,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBQTRABBSF6",NULL,NULL
+746,"string","drop_down","zone",NULL,"132KVCBHYABBSF6",NULL,NULL
+747,"string","drop_down","division",NULL,"132KVCBHYABBSF6",NULL,NULL
+748,"string","drop_down","subDivision",NULL,"132KVCBHYABBSF6",NULL,NULL
+749,"string","drop_down","depot",NULL,"132KVCBHYABBSF6",NULL,NULL
+750,"string","drop_down","assetType",NULL,"132KVCBHYABBSF6",NULL,NULL
+751,"string","drop_down","scheduleType",NULL,"132KVCBHYABBSF6",NULL,NULL
+752,"string","drop_down","assetId",NULL,"132KVCBHYABBSF6",NULL,NULL
+753,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBHYABBSF6",NULL,NULL
+754,"string","drop_down","make",NULL,"132KVCBHYABBSF6",NULL,NULL
+755,"string","drop_down","model",NULL,"132KVCBHYABBSF6",NULL,NULL
+756,"string","drop_down","zone",NULL,"132KVCBAOHABBSF6",NULL,NULL
+757,"string","drop_down","division",NULL,"132KVCBAOHABBSF6",NULL,NULL
+758,"string","drop_down","subDivision",NULL,"132KVCBAOHABBSF6",NULL,NULL
+759,"string","drop_down","depot",NULL,"132KVCBAOHABBSF6",NULL,NULL
+760,"string","drop_down","assetType",NULL,"132KVCBAOHABBSF6",NULL,NULL
+761,"string","drop_down","scheduleType",NULL,"132KVCBAOHABBSF6",NULL,NULL
+762,"string","drop_down","assetId",NULL,"132KVCBAOHABBSF6",NULL,NULL
+763,"timestamp with time zone","drop_down","scheduleDate",NULL,"132KVCBAOHABBSF6",NULL,NULL
+764,"string","drop_down","make",NULL,"132KVCBAOHABBSF6",NULL,NULL
+765,"string","drop_down","model",NULL,"132KVCBAOHABBSF6",NULL,NULL
+766,"string","drop_down","zone",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+767,"string","drop_down","division",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+768,"string","drop_down","subDivision",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+769,"string","drop_down","depot",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+770,"string","drop_down","assetType",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+771,"string","drop_down","scheduleType",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+772,"string","drop_down","assetId",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+773,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+774,"string","drop_down","make",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+775,"string","drop_down","model",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+776,"string","drop_down","zone",NULL,"110KVCBHYBHELSF6",NULL,NULL
+777,"string","drop_down","division",NULL,"110KVCBHYBHELSF6",NULL,NULL
+778,"string","drop_down","subDivision",NULL,"110KVCBHYBHELSF6",NULL,NULL
+779,"string","drop_down","depot",NULL,"110KVCBHYBHELSF6",NULL,NULL
+780,"string","drop_down","assetType",NULL,"110KVCBHYBHELSF6",NULL,NULL
+781,"string","drop_down","scheduleType",NULL,"110KVCBHYBHELSF6",NULL,NULL
+782,"string","drop_down","assetId",NULL,"110KVCBHYBHELSF6",NULL,NULL
+783,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBHYBHELSF6",NULL,NULL
+784,"string","drop_down","make",NULL,"110KVCBHYBHELSF6",NULL,NULL
+785,"string","drop_down","model",NULL,"110KVCBHYBHELSF6",NULL,NULL
+786,"string","drop_down","zone",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+787,"string","drop_down","division",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+788,"string","drop_down","subDivision",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+789,"string","drop_down","depot",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+790,"string","drop_down","assetType",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+791,"string","drop_down","scheduleType",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+792,"string","drop_down","assetId",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+793,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+794,"string","drop_down","make",NULL,"110KVCBAOHBHELSF6",NULL,NULL
+795,"string","drop_down","model",NULL,"110KVCBQTRBHELSF6",NULL,NULL
+796,"string","drop_down","zone",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+797,"string","drop_down","division",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+798,"string","drop_down","subDivision",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+799,"string","drop_down","depot",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+800,"string","drop_down","assetType",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+801,"string","drop_down","assetId",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+802,"string","drop_down","scheduleType",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+803,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBQTRCGLSF6",NULL,NULL
+804,"string","drop_down","zone",NULL,"110KVCBHYCGLSF6",NULL,NULL
+805,"string","drop_down","division",NULL,"110KVCBHYCGLSF6",NULL,NULL
+806,"string","drop_down","subDivision",NULL,"110KVCBHYCGLSF6",NULL,NULL
+807,"string","drop_down","depot",NULL,"110KVCBHYCGLSF6",NULL,NULL
+808,"string","drop_down","assetType",NULL,"110KVCBHYCGLSF6",NULL,NULL
+809,"string","drop_down","scheduleType",NULL,"110KVCBHYCGLSF6",NULL,NULL
+810,"string","drop_down","assetId",NULL,"110KVCBHYCGLSF6",NULL,NULL
+811,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBHYCGLSF6",NULL,NULL
+812,"string","drop_down","zone",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+813,"string","drop_down","division",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+814,"string","drop_down","subDivision",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+815,"string","drop_down","depot",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+816,"string","drop_down","assetType",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+817,"string","drop_down","scheduleType",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+818,"string","drop_down","assetId",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+819,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBAOHCGLSF6",NULL,NULL
+820,"string","drop_down","zone",NULL,"110KVCBQTRABBSF6",NULL,NULL
+821,"string","drop_down","division",NULL,"110KVCBQTRABBSF6",NULL,NULL
+822,"string","drop_down","subDivision",NULL,"110KVCBQTRABBSF6",NULL,NULL
+823,"string","drop_down","depot",NULL,"110KVCBQTRABBSF6",NULL,NULL
+824,"string","drop_down","assetType",NULL,"110KVCBQTRABBSF6",NULL,NULL
+825,"string","drop_down","scheduleType",NULL,"110KVCBQTRABBSF6",NULL,NULL
+826,"string","drop_down","assetId",NULL,"110KVCBQTRABBSF6",NULL,NULL
+827,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBQTRABBSF6",NULL,NULL
+828,"string","drop_down","make",NULL,"110KVCBQTRABBSF6",NULL,NULL
+829,"string","drop_down","model",NULL,"110KVCBQTRABBSF6",NULL,NULL
+830,"string","drop_down","zone",NULL,"110KVCBHYABBSF6",NULL,NULL
+831,"string","drop_down","division",NULL,"110KVCBHYABBSF6",NULL,NULL
+832,"string","drop_down","subDivision",NULL,"110KVCBHYABBSF6",NULL,NULL
+833,"string","drop_down","depot",NULL,"110KVCBHYABBSF6",NULL,NULL
+834,"string","drop_down","assetType",NULL,"110KVCBHYABBSF6",NULL,NULL
+835,"string","drop_down","scheduleType",NULL,"110KVCBHYABBSF6",NULL,NULL
+836,"string","drop_down","assetId",NULL,"110KVCBHYABBSF6",NULL,NULL
+837,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBHYABBSF6",NULL,NULL
+838,"string","drop_down","make",NULL,"110KVCBHYABBSF6",NULL,NULL
+839,"string","drop_down","model",NULL,"110KVCBHYABBSF6",NULL,NULL
+840,"string","drop_down","zone",NULL,"110KVCBAOHABBSF6",NULL,NULL
+841,"string","drop_down","division",NULL,"110KVCBAOHABBSF6",NULL,NULL
+842,"string","drop_down","subDivision",NULL,"110KVCBAOHABBSF6",NULL,NULL
+843,"string","drop_down","depot",NULL,"110KVCBAOHABBSF6",NULL,NULL
+844,"string","drop_down","assetType",NULL,"110KVCBAOHABBSF6",NULL,NULL
+845,"string","drop_down","scheduleType",NULL,"110KVCBAOHABBSF6",NULL,NULL
+846,"string","drop_down","assetId",NULL,"110KVCBAOHABBSF6",NULL,NULL
+847,"timestamp with time zone","drop_down","scheduleDate",NULL,"110KVCBAOHABBSF6",NULL,NULL
+848,"string","drop_down","make",NULL,"110KVCBAOHABBSF6",NULL,NULL
+849,"string","drop_down","model",NULL,"110KVCBQTRABBSF6",NULL,NULL
+850,"string","drop_down","zone",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+851,"string","drop_down","division",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+852,"string","drop_down","subDivision",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+853,"string","drop_down","depot",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+854,"string","drop_down","assetType",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+855,"string","drop_down","scheduleType",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+856,"string","drop_down","assetId",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+857,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+858,"string","drop_down","make",NULL,"220KVCBQTRBHELSF6",NULL,NULL
+859,"string","drop_down","model",NULL,"110KVCBQTRABBSF6",NULL,NULL
+860,"string","drop_down","zone",NULL,"220KVCBHYBHELSF6",NULL,NULL
+861,"string","drop_down","division",NULL,"220KVCBHYBHELSF6",NULL,NULL
+862,"string","drop_down","subDivision",NULL,"220KVCBHYBHELSF6",NULL,NULL
+863,"string","drop_down","depot",NULL,"220KVCBHYBHELSF6",NULL,NULL
+864,"string","drop_down","assetType",NULL,"220KVCBHYBHELSF6",NULL,NULL
+865,"string","drop_down","scheduleType",NULL,"220KVCBHYBHELSF6",NULL,NULL
+866,"string","drop_down","assetId",NULL,"220KVCBHYBHELSF6",NULL,NULL
+867,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBHYBHELSF6",NULL,NULL
+868,"string","drop_down","zone",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+869,"string","drop_down","division",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+870,"string","drop_down","subDivision",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+871,"string","drop_down","depot",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+872,"string","drop_down","assetType",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+873,"string","drop_down","scheduleType",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+874,"string","drop_down","assetId",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+875,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBAOHBHELSF6",NULL,NULL
+876,"string","drop_down","zone",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+877,"string","drop_down","division",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+878,"string","drop_down","subDivision",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+879,"string","drop_down","depot",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+880,"string","drop_down","assetType",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+881,"string","drop_down","scheduleType",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+882,"string","drop_down","assetId",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+883,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBQTRCGLSF6",NULL,NULL
+884,"string","drop_down","zone",NULL,"220KVCBHYCGLSF6",NULL,NULL
+885,"string","drop_down","division",NULL,"220KVCBHYCGLSF6",NULL,NULL
+886,"string","drop_down","subDivision",NULL,"220KVCBHYCGLSF6",NULL,NULL
+887,"string","drop_down","depot",NULL,"220KVCBHYCGLSF6",NULL,NULL
+888,"string","drop_down","assetType",NULL,"220KVCBHYCGLSF6",NULL,NULL
+889,"string","drop_down","scheduleType",NULL,"220KVCBHYCGLSF6",NULL,NULL
+890,"string","drop_down","assetId",NULL,"220KVCBHYCGLSF6",NULL,NULL
+891,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBHYCGLSF6",NULL,NULL
+892,"string","drop_down","zone",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+893,"string","drop_down","division",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+894,"string","drop_down","subDivision",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+895,"string","drop_down","depot",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+896,"string","drop_down","assetType",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+897,"string","drop_down","scheduleType",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+898,"string","drop_down","assetId",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+899,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBAOHCGLSF6",NULL,NULL
+900,"string","drop_down","zone",NULL,"220KVCBQTRABBSF6",NULL,NULL
+901,"string","drop_down","division",NULL,"220KVCBQTRABBSF6",NULL,NULL
+902,"string","drop_down","subDivision",NULL,"220KVCBQTRABBSF6",NULL,NULL
+903,"string","drop_down","depot",NULL,"220KVCBQTRABBSF6",NULL,NULL
+904,"string","drop_down","assetType",NULL,"220KVCBQTRABBSF6",NULL,NULL
+905,"string","drop_down","scheduleType",NULL,"220KVCBQTRABBSF6",NULL,NULL
+906,"string","drop_down","assetId",NULL,"220KVCBQTRABBSF6",NULL,NULL
+907,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBQTRABBSF6",NULL,NULL
+908,"string","drop_down","zone",NULL,"220KVCBHYABBSF6",NULL,NULL
+909,"string","drop_down","division",NULL,"220KVCBHYABBSF6",NULL,NULL
+910,"string","drop_down","subDivision",NULL,"220KVCBHYABBSF6",NULL,NULL
+911,"string","drop_down","depot",NULL,"220KVCBHYABBSF6",NULL,NULL
+912,"string","drop_down","assetType",NULL,"220KVCBHYABBSF6",NULL,NULL
+913,"string","drop_down","scheduleType",NULL,"220KVCBHYABBSF6",NULL,NULL
+914,"string","drop_down","assetId",NULL,"220KVCBHYABBSF6",NULL,NULL
+915,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBHYABBSF6",NULL,NULL
+916,"string","drop_down","zone",NULL,"220KVCBAOHABBSF6",NULL,NULL
+917,"string","drop_down","division",NULL,"220KVCBAOHABBSF6",NULL,NULL
+918,"string","drop_down","subDivision",NULL,"220KVCBAOHABBSF6",NULL,NULL
+919,"string","drop_down","depot",NULL,"220KVCBAOHABBSF6",NULL,NULL
+920,"string","drop_down","assetType",NULL,"220KVCBAOHABBSF6",NULL,NULL
+921,"string","drop_down","scheduleType",NULL,"220KVCBAOHABBSF6",NULL,NULL
+922,"string","drop_down","assetId",NULL,"220KVCBAOHABBSF6",NULL,NULL
+923,"timestamp with time zone","drop_down","scheduleDate",NULL,"220KVCBAOHABBSF6",NULL,NULL
+924,"string","drop_down","zone",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+925,"string","drop_down","division",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+926,"string","drop_down","subDivision",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+927,"string","drop_down","depot",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+928,"string","drop_down","assetType",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+929,"string","drop_down","scheduleType",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+930,"string","drop_down","assetId",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+931,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBQTRALNDVACUM",NULL,NULL
+932,"string","drop_down","zone",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+933,"string","drop_down","division",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+934,"string","drop_down","subDivision",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+935,"string","drop_down","depot",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+936,"string","drop_down","assetType",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+937,"string","drop_down","scheduleType",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+938,"string","drop_down","assetId",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+939,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBHYALNDVACUM",NULL,NULL
+940,"string","drop_down","zone",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+941,"string","drop_down","division",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+942,"string","drop_down","subDivision",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+943,"string","drop_down","depot",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+944,"string","drop_down","assetType",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+945,"string","drop_down","scheduleType",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+946,"string","drop_down","assetId",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+947,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+948,"string","drop_down","make",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+949,"string","drop_down","model",NULL,"25KVCBAOHALNDVACUM",NULL,NULL
+950,"string","drop_down","zone",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+951,"string","drop_down","division",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+952,"string","drop_down","subDivision",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+953,"string","drop_down","depot",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+954,"string","drop_down","assetType",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+955,"string","drop_down","scheduleType",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+956,"string","drop_down","assetId",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+957,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBQTRCGLSF-6",NULL,NULL
+958,"string","drop_down","zone",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+959,"string","drop_down","division",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+960,"string","drop_down","subDivision",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+961,"string","drop_down","depot",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+962,"string","drop_down","assetType",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+963,"string","drop_down","scheduleType",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+964,"string","drop_down","assetId",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+965,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBHYCGLSF-6",NULL,NULL
+966,"string","drop_down","zone",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+967,"string","drop_down","division",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+968,"string","drop_down","subDivision",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+969,"string","drop_down","depot",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+970,"string","drop_down","assetType",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+971,"string","drop_down","scheduleType",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+972,"string","drop_down","assetId",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+973,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBAOHCGLSF-6",NULL,NULL
+974,"string","drop_down","zone",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+975,"string","drop_down","division",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+976,"string","drop_down","subDivision",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+977,"string","drop_down","depot",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+978,"string","drop_down","assetType",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+979,"string","drop_down","scheduleType",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+980,"string","drop_down","assetId",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+981,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBQTRBHELVACUM",NULL,NULL
+982,"string","drop_down","zone",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+983,"string","drop_down","division",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+984,"string","drop_down","subDivision",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+985,"string","drop_down","depot",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+986,"string","drop_down","assetType",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+987,"string","drop_down","scheduleType",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+988,"string","drop_down","assetId",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+989,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBHYBHELVACUM",NULL,NULL
+990,"string","drop_down","zone",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+991,"string","drop_down","division",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+992,"string","drop_down","subDivision",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+993,"string","drop_down","depot",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+994,"string","drop_down","assetType",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+995,"string","drop_down","scheduleType",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+996,"string","drop_down","assetId",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+997,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBAOHBHELVACUM",NULL,NULL
+998,"string","drop_down","zone",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+999,"string","drop_down","division",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1000,"string","drop_down","subDivision",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1001,"string","drop_down","depot",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1002,"string","drop_down","assetType",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1003,"string","drop_down","scheduleType",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1004,"string","drop_down","assetId",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1005,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1006,"string","drop_down","make",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1008,"string","drop_down","zone",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1009,"string","drop_down","division",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1010,"string","drop_down","subDivision",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1011,"string","drop_down","depot",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1012,"string","drop_down","assetType",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1013,"string","drop_down","scheduleType",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1014,"string","drop_down","assetId",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1015,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBHYCGLSF6",NULL,NULL
+1016,"string","drop_down","zone",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1017,"string","drop_down","division",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1018,"string","drop_down","subDivision",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1019,"string","drop_down","depot",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1020,"string","drop_down","assetType",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1021,"string","drop_down","scheduleType",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1022,"string","drop_down","assetId",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1023,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1024,"string","drop_down","make",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1025,"string","drop_down","model",NULL,"25KVCBAOHCGLSF6",NULL,NULL
+1026,"string","drop_down","zone",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1027,"string","drop_down","division",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1028,"string","drop_down","subDivision",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1029,"string","drop_down","depot",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1030,"string","drop_down","assetType",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1031,"string","drop_down","assetId",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1032,"string","drop_down","scheduleType",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1033,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVINRTRSF-6HYABB",NULL,NULL
+1034,"string","drop_down","zone",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1035,"string","drop_down","division",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1036,"string","drop_down","subDivision",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1037,"string","drop_down","depot",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1038,"string","drop_down","assetType",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1039,"string","drop_down","assetId",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1040,"string","drop_down","scheduleType",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1041,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVIRTRSF-6QTRABB",NULL,NULL
+1042,"string","drop_down","zone",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1043,"string","drop_down","division",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1044,"string","drop_down","subDivision",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1045,"string","drop_down","depot",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1046,"string","drop_down","assetType",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1047,"string","drop_down","assetId",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1048,"string","drop_down","scheduleType",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1049,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVIRTRSF-6AOHABB",NULL,NULL
+1050,"string","drop_down","zone",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1051,"string","drop_down","division",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1052,"string","drop_down","subDivision",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1053,"string","drop_down","depot",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1054,"string","drop_down","assetType",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1055,"string","drop_down","scheduleType",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1056,"string","drop_down","assetId",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1057,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVINTPTRSF6HYCGL",NULL,NULL
+1058,"string","drop_down","zone",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1059,"string","drop_down","division",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1060,"string","drop_down","subDivision",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1061,"string","drop_down","depot",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1062,"string","drop_down","assetType",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1063,"string","drop_down","scheduleType",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1064,"string","drop_down","assetId",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1065,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1066,"string","drop_down","make",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1067,"string","drop_down","model",NULL,"25KVINTSF6QTRCGL",NULL,NULL
+1068,"string","drop_down","zone",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1069,"string","drop_down","division",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1070,"string","drop_down","subDivision",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1071,"string","drop_down","depot",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1072,"string","drop_down","assetType",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1073,"string","drop_down","scheduleType",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1074,"string","drop_down","assetId",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1075,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVINPTRSF6AOHCGL",NULL,NULL
+1076,"string","drop_down","zone",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1077,"string","drop_down","division",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1078,"string","drop_down","subDivision",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1079,"string","drop_down","depot",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1080,"string","drop_down","assetType",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1081,"string","drop_down","scheduleType",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1082,"string","drop_down","assetId",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1083,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRBHELVACUM",NULL,NULL
+1084,"string","drop_down","zone",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1085,"string","drop_down","division",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1086,"string","drop_down","subDivision",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1087,"string","drop_down","depot",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1088,"string","drop_down","assetType",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1089,"string","drop_down","scheduleType",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1090,"string","drop_down","assetId",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1091,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYBHELVACUM",NULL,NULL
+1092,"string","drop_down","zone",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1093,"string","drop_down","division",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1094,"string","drop_down","subDivision",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1095,"string","drop_down","depot",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1096,"string","drop_down","assetType",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1098,"string","drop_down","assetId",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1099,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1100,"string","drop_down","zone",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1101,"string","drop_down","division",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1102,"string","drop_down","subDivision",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1103,"string","drop_down","depot",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1104,"string","drop_down","assetType",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1105,"string","drop_down","scheduleType",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1106,"string","drop_down","assetId",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1107,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRALNDVACUM",NULL,NULL
+1108,"string","drop_down","zone",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1109,"string","drop_down","division",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1110,"string","drop_down","subDivision",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1111,"string","drop_down","depot",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1112,"string","drop_down","assetType",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1113,"string","drop_down","scheduleType",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1114,"string","drop_down","assetId",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1115,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYALNDVACUM",NULL,NULL
+1116,"string","drop_down","zone",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1117,"string","drop_down","division",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1118,"string","drop_down","subDivision",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1119,"string","drop_down","depot",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1120,"string","drop_down","assetType",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1121,"string","drop_down","scheduleType",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1122,"string","drop_down","assetId",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1123,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHALNDVACUM",NULL,NULL
+1124,"string","drop_down","zone",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1125,"string","drop_down","division",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1126,"string","drop_down","subDivision",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1127,"string","drop_down","depot",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1128,"string","drop_down","assetType",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1129,"string","drop_down","scheduleType",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1130,"string","drop_down","assetId",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1131,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRCGLPNMSRG",NULL,NULL
+1132,"string","drop_down","zone",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1133,"string","drop_down","division",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1134,"string","drop_down","subDivision",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1135,"string","drop_down","depot",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1136,"string","drop_down","assetType",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1137,"string","drop_down","scheduleType",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1138,"string","drop_down","assetId",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1139,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYCGLPNMSRG",NULL,NULL
+1140,"string","drop_down","zone",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1141,"string","drop_down","division",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1142,"string","drop_down","subDivision",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1143,"string","drop_down","depot",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1144,"string","drop_down","assetType",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1145,"string","drop_down","scheduleType",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1146,"string","drop_down","assetId",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1147,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHCGLPNMSRG",NULL,NULL
+1148,"string","drop_down","zone",NULL,"25KVBMHYABBSF6",NULL,NULL
+1149,"string","drop_down","division",NULL,"25KVBMHYABBSF6",NULL,NULL
+1150,"string","drop_down","subDivision",NULL,"25KVBMHYABBSF6",NULL,NULL
+1151,"string","drop_down","depot",NULL,"25KVBMHYABBSF6",NULL,NULL
+1152,"string","drop_down","assetType",NULL,"25KVBMHYABBSF6",NULL,NULL
+1153,"string","drop_down","scheduleType",NULL,"25KVBMHYABBSF6",NULL,NULL
+1154,"string","drop_down","assetId",NULL,"25KVBMHYABBSF6",NULL,NULL
+1155,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYABBSF6",NULL,NULL
+1156,"string","drop_down","zone",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1157,"string","drop_down","division",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1158,"string","drop_down","subDivision",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1159,"string","drop_down","depot",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1160,"string","drop_down","assetType",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1161,"string","drop_down","scheduleType",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1162,"string","drop_down","assetId",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1163,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRABBSF6",NULL,NULL
+1164,"string","drop_down","zone",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1165,"string","drop_down","division",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1166,"string","drop_down","subDivision",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1167,"string","drop_down","depot",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1168,"string","drop_down","assetType",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1169,"string","drop_down","scheduleType",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1170,"string","drop_down","assetId",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1171,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHABBSF6",NULL,NULL
+1172,"string","drop_down","zone",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1173,"string","drop_down","division",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1174,"string","drop_down","subDivision",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1175,"string","drop_down","depot",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1176,"string","drop_down","assetType",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1177,"string","drop_down","assetId",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1178,"string","drop_down","scheduleType",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1179,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRCGLSF6",NULL,NULL
+1180,"string","drop_down","zone",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1181,"string","drop_down","division",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1182,"string","drop_down","subDivision",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1183,"string","drop_down","depot",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1184,"string","drop_down","assetType",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1185,"string","drop_down","scheduleType",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1186,"string","drop_down","assetId",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1187,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYCGLSF6",NULL,NULL
+1188,"string","drop_down","zone",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1189,"string","drop_down","division",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1190,"string","drop_down","subDivision",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1191,"string","drop_down","depot",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1192,"string","drop_down","assetType",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1193,"string","drop_down","scheduleType",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1194,"string","drop_down","assetId",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1195,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHCGLSF6",NULL,NULL
+1196,"string","drop_down","zone",NULL,"BATTERYCHARGERMON",NULL,NULL
+1197,"string","drop_down","division",NULL,"BATTERYCHARGERMON",NULL,NULL
+1198,"string","drop_down","subDivision",NULL,"BATTERYCHARGERMON",NULL,NULL
+1199,"string","drop_down","depot",NULL,"BATTERYCHARGERMON",NULL,NULL
+1200,"string","drop_down","assetType",NULL,"BATTERYCHARGERMON",NULL,NULL
+1201,"string","drop_down","scheduleType",NULL,"BATTERYCHARGERMON",NULL,NULL
+1202,"string","drop_down","assetId",NULL,"BATTERYCHARGERMON",NULL,NULL
+1203,"timestamp with time zone","drop_down","scheduleDate",NULL,"BATTERYCHARGERMON",NULL,NULL
+1204,"string","drop_down","zone",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1205,"string","drop_down","division",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1206,"string","drop_down","subDivision",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1207,"string","drop_down","depot",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1208,"string","drop_down","assetType",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1209,"string","drop_down","scheduleType",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1210,"string","drop_down","assetId",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1211,"timestamp with time zone","drop_down","scheduleDate",NULL,"BATTERYCHARGERAOH",NULL,NULL
+1212,"string","drop_down","zone",NULL,"40AHBATTERYSETMON",NULL,NULL
+1213,"string","drop_down","division",NULL,"40AHBATTERYSETMON",NULL,NULL
+1214,"string","drop_down","subDivision",NULL,"40AHBATTERYSETMON",NULL,NULL
+1215,"string","drop_down","depot",NULL,"40AHBATTERYSETMON",NULL,NULL
+1216,"string","drop_down","assetType",NULL,"40AHBATTERYSETMON",NULL,NULL
+1217,"string","drop_down","scheduleType",NULL,"40AHBATTERYSETMON",NULL,NULL
+1218,"string","drop_down","assetId",NULL,"40AHBATTERYSETMON",NULL,NULL
+1219,"timestamp with time zone","drop_down","scheduleDate",NULL,"40AHBATTERYSETMON",NULL,NULL
+1220,"string","drop_down","zone",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1221,"string","drop_down","division",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1222,"string","drop_down","subDivision",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1223,"string","drop_down","depot",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1224,"string","drop_down","assetType",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1225,"string","drop_down","scheduleType",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1226,"string","drop_down","assetId",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1227,"timestamp with time zone","drop_down","scheduleDate",NULL,"40AHBATTERYSETAOH",NULL,NULL
+1228,"string","drop_down","zone",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1229,"string","drop_down","division",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1230,"string","drop_down","subDivision",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1231,"string","drop_down","depot",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1232,"string","drop_down","assetType",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1233,"string","drop_down","scheduleType",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1234,"string","drop_down","assetId",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1235,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHABMAGACT",NULL,NULL
+1236,"string","drop_down","zone",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1237,"string","drop_down","division",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1238,"string","drop_down","subDivision",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1239,"string","drop_down","depot",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1240,"string","drop_down","assetType",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1241,"string","drop_down","scheduleType",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1242,"string","drop_down","assetId",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1243,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMAOHBLVCMINTR",NULL,NULL
+1244,"string","drop_down","zone",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1245,"string","drop_down","division",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1246,"string","drop_down","subDivision",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1247,"string","drop_down","depot",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1248,"string","drop_down","assetType",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1249,"string","drop_down","scheduleType",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1250,"string","drop_down","assetId",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1251,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMHYABMAGACT",NULL,NULL
+1252,"string","drop_down","zone",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1253,"string","drop_down","division",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1254,"string","drop_down","subDivision",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1255,"string","drop_down","depot",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1256,"string","drop_down","assetType",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1257,"string","drop_down","scheduleType",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1258,"string","drop_down","assetId",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1259,"timestamp with time zone","drop_down","scheduleDate",NULL,"25KVBMQTRABMAGACT",NULL,NULL
+1260,"string","drop_down","zone",NULL,"ActivityMasterReport",NULL,NULL
+1261,"string","drop_down","division",NULL,"ActivityMasterReport",NULL,NULL
+1262,"string","drop_down","subDivision",NULL,"ActivityMasterReport",NULL,NULL
+1263,"string","drop_down","ActivityType",NULL,"ActivityMasterReport",NULL,NULL
+1264,"string","drop_down","zone",NULL,"AssetMasterData",NULL,NULL
+1265,"string","drop_down","division",NULL,"AssetMasterData",NULL,NULL
+1266,NULL,"drop_down","subDivision",NULL,"AssetMasterData",NULL,NULL
+1267,"string","drop_down","depot",NULL,"AssetMasterData",NULL,NULL
+1268,"string","drop_down","subDivision",NULL,"AssetMasterData",NULL,NULL
+1269,"string","drop_down","assetType",NULL,"AssetMasterData",NULL,NULL
+1270,"string","drop_down","zone",NULL,"AssetMonthlTarReport",NULL,NULL
+1271,"string","drop_down","division",NULL,"AssetMonthlTarReport",NULL,NULL
+1272,"string","drop_down","subDivision",NULL,"AssetMonthlTarReport",NULL,NULL
+1273,"string","drop_down","depot",NULL,"AssetMonthlTarReport",NULL,NULL
+1274,"string","drop_down","assetType",NULL,"AssetMonthlTarReport",NULL,NULL
+1275,"string","drop_down","scheduleType",NULL,"AssetMonthlTarReport",NULL,NULL
+1276,"string","free_text","year",NULL,"AssetMonthlTarReport",NULL,NULL
+1277,"string","date_wizard","zone",NULL,"ElemeSectiContReport",NULL,NULL
+1278,"string","drop_down","division",NULL,"ElemeSectiContReport",NULL,NULL
+1279,"string","drop_down","subDivision",NULL,"ElemeSectiContReport",NULL,NULL
+1280,"string","drop_down","SwitchType",NULL,"ElemeSectiContReport",NULL,NULL
+1281,"string","drop_down","elementarySection",NULL,"ElemeSectiContReport",NULL,NULL
+1282,"string","drop_down","zone",NULL,"ElementarSectiReport",NULL,NULL
+1283,"string","drop_down","division",NULL,"ElementarSectiReport",NULL,NULL
+1284,"string","drop_down","subDivision",NULL,"ElementarSectiReport",NULL,NULL
+1285,"string","drop_down","depot",NULL,"ElementarSectiReport",NULL,NULL
+1286,"string","drop_down","elementarySectionCode",NULL,"ElementarSectiReport",NULL,NULL
+1287,"string","drop_down","zone",NULL,"OheAssetMasterReport",NULL,NULL
+1288,"string","drop_down","division",NULL,"OheAssetMasterReport",NULL,NULL
+1289,"string","drop_down","subDivision",NULL,"OheAssetMasterReport",NULL,NULL
+1290,"string","drop_down","depot",NULL,"OheAssetMasterReport",NULL,NULL
+1291,"string","drop_down","elementarySectionCode",NULL,"OheAssetMasterReport",NULL,NULL
+1292,"string","drop_down","zone",NULL,"OheLocationReport",NULL,NULL
+1293,"string","drop_down","division",NULL,"OheLocationReport",NULL,NULL
+1294,"string","drop_down","subDivision",NULL,"OheLocationReport",NULL,NULL
+1295,"string","drop_down","section",NULL,"OheLocationReport",NULL,NULL
+1296,"string","free_text","fromkm",NULL,"OheLocationReport",NULL,NULL
+1297,"string","free_text","tokm",NULL,"OheLocationReport",NULL,NULL
+1298,"string","drop_down","zone",NULL,"AssetSchActAssReport",NULL,NULL
+1299,"string","drop_down","division",NULL,"AssetSchActAssReport",NULL,NULL
+1300,"string","drop_down","subDivision",NULL,"AssetSchActAssReport",NULL,NULL
+1301,"string","drop_down","assetType",NULL,"AssetSchActAssReport",NULL,NULL
+1302,"string","drop_down","scheduleType",NULL,"AssetSchActAssReport",NULL,NULL
+1303,"string","drop_down","zone",NULL,"T_WAGONAOH_AOH_POH",NULL,NULL
+1304,"string","drop_down","division",NULL,"T_WAGONAOH_AOH_POH",NULL,NULL
+1305,"string","drop_down","subDivision",NULL,"T_WAGONAOH_AOH_POH",NULL,NULL
+1306,"timestamp with time zone","date_wizard","fromDate",NULL,"T_WAGONAOH_AOH_POH",NULL,NULL
+1307,"string","drop_down","zone",NULL,"Check_CB_TRIP",NULL,NULL
+1308,"string","drop_down","division",NULL,"Check_CB_TRIP",NULL,NULL
+1309,"string","drop_down","subDivision",NULL,"Check_CB_TRIP",NULL,NULL
+1310,"timestamp with time zone","date_wizard","failureFromDate",NULL,"Check_CB_TRIP",NULL,NULL
+1311,"timestamp with time zone","date_wizard","failureToDate",NULL,"Check_CB_TRIP",NULL,NULL
+1312,"string","drop_down","zone",NULL,"CB_Tripping position",NULL,NULL
+1313,"string","drop_down","division",NULL,"CB_Tripping position",NULL,NULL
+1314,"string","drop_down","subDivision",NULL,"CB_Tripping position",NULL,NULL
+1315,"timestamp with time zone","date_wizard","failureFromDate",NULL,"CB_Tripping position",NULL,NULL
+1316,"timestamp with time zone","date_wizard","failureToDate",NULL,"CB_Tripping position",NULL,NULL
+1317,"string","drop_down","zone",NULL,"powerSupplyFailure",NULL,NULL
+1318,"string","drop_down","division",NULL,"powerSupplyFailure",NULL,NULL
+1319,"string","drop_down","subDivision",NULL,"powerSupplyFailure",NULL,NULL
+1320,"timestamp with time zone","date_wizard","failureFromDate",NULL,"powerSupplyFailure",NULL,NULL
+1321,"timestamp with time zone","date_wizard","failureToDate",NULL,"powerSupplyFailure",NULL,NULL
+1322,"string","drop_down","zone",NULL,"Energy Jun",NULL,NULL
+1323,"string","drop_down","division",NULL,"Energy Jun",NULL,NULL
+1324,"string","drop_down","subDivision",NULL,"Energy Jun",NULL,NULL
+1325,"timestamp with time zone","date_wizard","date",NULL,"Energy Jun",NULL,NULL
+1326,"string","drop_down","zone",NULL,"CBTrippings Report",NULL,NULL
+1327,"string","drop_down","division",NULL,"CBTrippings Report",NULL,NULL
+1328,"string","drop_down","subDivision",NULL,"CBTrippings Report",NULL,NULL
+1329,"timestamp with time zone","date_wizard","fromDate",NULL,"CBTrippings Report",NULL,NULL
+1330,"string","drop_down","zone",NULL,"T_WAGONAOH_AOH_POH with dues",NULL,NULL
+1331,"string","drop_down","division",NULL,"T_WAGONAOH_AOH_POH with dues",NULL,NULL
+1332,"string","drop_down","subDivision",NULL,"T_WAGONAOH_AOH_POH with dues",NULL,NULL
+1333,"timestamp with time zone","date_wizard","fromDate",NULL,"T_WAGONAOH_AOH_POH with dues",NULL,NULL
+1334,"string","drop_down","zone",NULL,"FailuresReport",NULL,NULL
+1335,"string","drop_down","division",NULL,"FailuresReport",NULL,NULL
+1336,"string","drop_down","subDivision",NULL,"FailuresReport",NULL,NULL
+1337,"timestamp with time zone","date_wizard","failureFromDate",NULL,"FailuresReport",NULL,NULL
+1338,"timestamp with time zone","date_wizard","failureToDate",NULL,"FailuresReport",NULL,NULL
+1339,"string","drop_down","zone",NULL,"DailyProgress TopPage",NULL,NULL
+1340,"string","drop_down","division",NULL,"DailyProgress TopPage",NULL,NULL
+1341,"string","date_wizard","subDivision",NULL,"DailyProgress TopPage",NULL,NULL
+1342,"timestamp with time zone","date_wizard","fromDate",NULL,"DailyProgress TopPage",NULL,NULL
+1343,"string","drop_down","zone",NULL,"DailyProgressCumulativeOfLastYear",NULL,NULL
+1344,"string","drop_down","division",NULL,"DailyProgressCumulativeOfLastYear",NULL,NULL
+1345,"string","drop_down","subDivision",NULL,"DailyProgressCumulativeOfLastYear",NULL,NULL
+1346,"timestamp with time zone","date_wizard","failureFromDate",NULL,"DailyProgressCumulativeOfLastYear",NULL,NULL
+1347,"timestamp with time zone","date_wizard","failureToDate",NULL,"DailyProgressCumulativeOfLastYear",NULL,NULL
+1348,"string","drop_down","zone",NULL,"DailyProgressCumulativeOfCurrentYear",NULL,NULL
+1349,"string","drop_down","division",NULL,"DailyProgressCumulativeOfCurrentYear",NULL,NULL
+1350,"string","drop_down","subDivision",NULL,"DailyProgressCumulativeOfCurrentYear",NULL,NULL
+1351,"timestamp with time zone","date_wizard","failureFromDate",NULL,"DailyProgressCumulativeOfCurrentYear",NULL,NULL
+1352,"timestamp with time zone","date_wizard","failureToDate",NULL,"DailyProgressCumulativeOfCurrentYear",NULL,NULL
+1353,"string","drop_down","zone",NULL,"DailyProgressCumulativeOfTotalYear",NULL,NULL
+1354,"string","drop_down","division",NULL,"DailyProgressCumulativeOfTotalYear",NULL,NULL
+1355,"string","drop_down","subDivision",NULL,"DailyProgressCumulativeOfTotalYear",NULL,NULL
+1356,"timestamp with time zone","date_wizard","failureFromDate",NULL,"DailyProgressCumulativeOfTotalYear",NULL,NULL
+1357,"timestamp with time zone","date_wizard","failureToDate",NULL,"DailyProgressCumulativeOfTotalYear",NULL,NULL
+1358,"string","drop_down","zone",NULL,"towercarSubreport",NULL,NULL
+1359,"string","drop_down","division",NULL,"towercarSubreport",NULL,NULL
+1360,"string","drop_down","subDivision",NULL,"towercarSubreport",NULL,NULL
+1361,"timestamp with time zone","date_wizard","fromDate",NULL,"towercarSubreport",NULL,NULL
+2,"string","drop_down","division",NULL,"Asset Status Report",NULL,NULL
+3,"string","drop_down","subDivision",NULL,"Asset Status Report",NULL,NULL
+4,"string","drop_down","depot",NULL,"Asset Status Report",NULL,NULL
+5,"string","drop_down","assetType",NULL,"Asset Status Report",NULL,NULL
+6,"string","drop_down","zone",NULL,"CB Trippings Report",NULL,NULL
+7,"string","drop_down","division",NULL,"CB Trippings Report",NULL,NULL
+8,"string","drop_down","subDivision",NULL,"CB Trippings Report",NULL,NULL
+9,"string","drop_down","depot",NULL,"CB Trippings Report",NULL,NULL
+10,"timestamp with time zone","date_wizard","failureFromDate",NULL,"CB Trippings Report",NULL,NULL
+11,"timestamp with time zone","date_wizard","failureToDate",NULL,"CB Trippings Report",NULL,NULL
+1007,"string","drop_down","model",NULL,"25KVCBQTRCGLSF6",NULL,NULL
+1097,"string","drop_down","scheduleType",NULL,"25KVBMAOHBHELVACUM",NULL,NULL
+1362,"string","drop_down","zone",NULL,"towercarpositionbreakdown_subreport",NULL,NULL
+1363,"string","drop_down","division",NULL,"towercarpositionbreakdown_subreport",NULL,NULL
+1364,"string","drop_down","subDivision",NULL,"towercarpositionbreakdown_subreport",NULL,NULL
+1365,"timestamp with time zone","date_wizard","fromDate",NULL,"towercarpositionbreakdown_subreport",NULL,NULL
+1366,"string","drop_down","zone",NULL,"Powerfailure_subreport",NULL,NULL
+1367,"string","drop_down","division",NULL,"Powerfailure_subreport",NULL,NULL
+1368,"string","drop_down","subDivision",NULL,"Powerfailure_subreport",NULL,NULL
+1369,"timestamp with time zone","date_wizard","failureFromDate",NULL,"Powerfailure_subreport",NULL,NULL
+1370,"timestamp with time zone","date_wizard","failureToDate",NULL,"Powerfailure_subreport",NULL,NULL
+1371,"string","drop_down","zone",NULL,"unUsualOcuurense_SubReport",NULL,NULL
+1372,"string","drop_down","division",NULL,"unUsualOcuurense_SubReport",NULL,NULL
+1373,"string","drop_down","subDivision",NULL,"unUsualOcuurense_SubReport",NULL,NULL
+1374,"timestamp with time zone","date_wizard","failureFromDate",NULL,"unUsualOcuurense_SubReport",NULL,NULL
+79,"string","drop_down","depot",NULL,"Gantry Report",NULL,NULL
+1375,"string","drop_down","zone",NULL,"MaterialQtyreceivedandConsumedingivenperiodbyDepot",NULL,NULL
+1376,"string","drop_down","division",NULL,"MaterialQtyreceivedandConsumedingivenperiodbyDepot",NULL,NULL
+1377,"string","drop_down","subDivision",NULL,"MaterialQtyreceivedandConsumedingivenperiodbyDepot",NULL,NULL
+1378,"string","drop_down","productId",NULL,"MaterialQtyreceivedandConsumedingivenperiodbyDepot",NULL,NULL
+1379,"string","drop_down","depot",NULL,"MaterialQtyreceivedandConsumedingivenperiodbyDepot",NULL,NULL
+1380,"string","drop_down","zone",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_SubDiv",NULL,NULL
+1381,"string","drop_down","division",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_SubDiv",NULL,NULL
+1382,"string","drop_down","subDivision",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_SubDiv",NULL,NULL
+1383,"string","drop_down","productId",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_SubDiv",NULL,NULL
+1384,"string","drop_down","zone",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_Div",NULL,NULL
+1385,"string","drop_down","division",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_Div",NULL,NULL
+1386,"string","drop_down","subDivision",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_Div",NULL,NULL
+1387,"string","drop_down","productId",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_Div",NULL,NULL
+1388,"string","drop_down","depot",NULL,"MaterialQtyreceivedandConsumedingivenperiodby_Div",NULL,NULL
