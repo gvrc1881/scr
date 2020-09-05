@@ -59,7 +59,8 @@ public class CommonUtility {
 	@Autowired
 	private FacilityService facilityService;
 
-	private CloseJDBCObjects closeJDBCObjects = new CloseJDBCObjects();
+	@Autowired
+	private CloseJDBCObjects closeJDBCObjects ;
 	
 	public InsertQueriesResponse getTableNamesWithInsertionQuery(String host, String port, String dbname,
 			String user, String password, String fromDate, String tempSchema, String divisionSchema, String schema, String timestamp, String operationType) {

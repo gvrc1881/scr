@@ -1,7 +1,6 @@
 package com.scr.services;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,6 @@ import com.scr.app.dto.ResponseCompliancesDto;
 import com.scr.app.dto.ResponseFacilityDto;
 import com.scr.app.dto.ResponseFootPatrollingInspectionDto;
 import com.scr.app.dto.ResponseFootPatrollingSectionsDto;
-import com.scr.app.dto.ResponseFpMovementDto;
 import com.scr.app.dto.ResponseFunctionalLocationHierarchyDto;
 import com.scr.app.dto.ResponseInspectionTypeDto;
 import com.scr.app.dto.ResponseObservationCategoriesDto;
@@ -76,10 +72,8 @@ import com.scr.repository.ObservationCheckListRepository;
 import com.scr.repository.ObservationsRepository;
 import com.scr.repository.OheLocationRepository;
 import com.scr.repository.ProductRepository;
-import com.scr.repository.PsiReportRegistry;
 import com.scr.repository.ReportRepositoryRepository;
 import com.scr.repository.UserLoginRepository;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -135,13 +129,7 @@ public class FootPatrollingRestService {
 	private ObservationsRepository observationsRepository;
 	
 	@Autowired
-	private PsiReportRegistry psiReportRegistry;
-	
-	@Autowired
 	private ComplianceRepository complianceRepository;
-	
-	@Autowired
-	private DataSource dataSource;
 	
 	@Autowired
 	private ReportResource reportResource;
@@ -220,7 +208,7 @@ public class FootPatrollingRestService {
 			ResponseFootPatrollingInspectionDto responseFootPatrollingInspectionDto = fpMasterDto.getAppToServerCreatedFootPatrollingInspectionDto();
 			ResponseObservationsDto responseObservationsDto = fpMasterDto.getAppToServerCreatedResponseObservationsDto();
 			ResponseCompliancesDto responseCompliancesDto = fpMasterDto.getAppToServerCreatedResponseCompliancesDto();
-			ResponseFpMovementDto responseFpMovementDto = fpMasterDto.getAppToServerCreatedResponseFpMovementDto();
+			fpMasterDto.getAppToServerCreatedResponseFpMovementDto();
 			
 			// user login
 			log.info("preparing user login unsynch data");
@@ -288,7 +276,7 @@ public class FootPatrollingRestService {
 							try {
 								startTime = new Timestamp(dateFormat.parse(fpInspectionDto.getStartTime()).getTime());
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
+								
 								e.printStackTrace();
 							}
 						}
@@ -297,7 +285,7 @@ public class FootPatrollingRestService {
 							try {
 								stopTime = new Timestamp(dateFormat.parse(fpInspectionDto.getStopTime()).getTime());
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
+								
 								e.printStackTrace();
 							}
 							
@@ -969,7 +957,6 @@ public class FootPatrollingRestService {
 	public ReportDto reportExecution(ReportDto reportDto) {
 		Connection connection = null;
 		JasperPrint jasperPrint = null;
-		String location = null;
 		String facilityName = null;
 		String jrxmlFileName = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -996,10 +983,8 @@ public class FootPatrollingRestService {
 		parameters.put("fromDate", reportDto.getFromDate());
 		parameters.put("toDate", reportDto.getThruDate());
 		log.info("map object values:::"+parameters.values());
-		ReportDto repResult= new ReportDto();
-		
 		try {
-			connection = dataSource.getConnection();
+			//connection = dataSource.getConnection();
 			String path = this.getClass().getClassLoader().getResource("").getPath();
 			String reportsBasePath = reportResource.getBasePath();
 			log.info("*** report base path***"+reportsBasePath);
@@ -1011,14 +996,9 @@ public class FootPatrollingRestService {
 			byte[] reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
 			log.info("*** report result length ***"+reportResult.length);
 			reportDto.setReportResult(reportResult);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (JRException e) {			
 			e.printStackTrace();
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		}		
 		return reportDto;
 	}
 	

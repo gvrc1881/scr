@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -14,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.scr.message.response.EnergyConsumptionResponse;
-import com.scr.model.EnergyConsumption;
+import com.scr.util.CloseJDBCObjects;
 @Component
 public class EnergyConsumptionUtilRepository{
 
@@ -22,6 +21,9 @@ public class EnergyConsumptionUtilRepository{
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	private CloseJDBCObjects closeJDBCObjects;
 	
 	/*
 	 * String exactDateQuery =
@@ -548,35 +550,9 @@ public class EnergyConsumptionUtilRepository{
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			 if (resultSet != null) {
-        try {
-            if (!resultSet.isClosed()) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    if (psPreparedStatement != null) {
-        try {
-            if (!psPreparedStatement.isClosed()) {
-                psPreparedStatement.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    if (con != null) {
-        try {
-            if (!con.isClosed()) {
-                con.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		} 
+		finally {
+			closeJDBCObjects.releaseResouces(con, psPreparedStatement, resultSet);
 		}
 		return list;
 	}
