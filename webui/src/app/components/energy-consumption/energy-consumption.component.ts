@@ -31,9 +31,9 @@ export class EnergyConsumptionComponent implements OnInit {
   displayedColumns = ['sno', 'Feeder_Name','Previous_Date', 'Multification_Factor', 'Joint_Reading',/*  'CMD', */
     'Old_KWH', 'Current_KWH', "Consumption_KWH", 'Old_KVAH', 'Current_KVAH', 'Consumption_KVAH',
     'Old_RKVAH_Lag', 'Current_RKVAH_Lag', 'Consumption_RKVAH_Lag',
-    'Old_RKVAH_Lead', 'Current_RKVAH_Lead', 'Consumption_RKVAH_Lead'/* , 'PF', 'CPF', 'RMD', 'Vol_Max', 'Vol_Min', 'Max_Load' */, 'actions'];
+    'Old_RKVAH_Lead', 'Current_RKVAH_Lead', 'Consumption_RKVAH_Lead'/* , 'PF', 'CPF', 'rmd', 'Vol_Max', 'Vol_Min', 'Max_Load' */, 'actions'];
   dataSource: MatTableDataSource<any>;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  confirmdialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   gridData = [];
   stipulations: any[] = [];
   exactDate: boolean = true;
@@ -128,7 +128,7 @@ export class EnergyConsumptionComponent implements OnInit {
         { "Key": "Consumption_RKVAH_Lead", "Value": "" }
       /*  { "Key": 'PF', "Value": " " },
         { "Key": 'CPF', "Value": " " },
-        { "Key": 'RMD', "Value": " " },
+        { "Key": 'rmd', "Value": " " },
         { "Key": 'Vol_Max', "Value": " " },
         { "Key": 'Vol_Min', "Value": " " },
         { "Key": 'Max_Load', "Value": " " }*/
@@ -190,7 +190,7 @@ export class EnergyConsumptionComponent implements OnInit {
           this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feeder_name;
           this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].reading_gap_days.replace('days','').trim();
           this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multiplication_fac;
-          this.energyConsumptionData[i].CMD = this.energyConsumptionData[i].cur_cmd;
+          this.energyConsumptionData[i].cmd = this.energyConsumptionData[i].cur_cmd;
          
           this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prev_kwh;
           this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].cur_kwh;
@@ -211,10 +211,10 @@ export class EnergyConsumptionComponent implements OnInit {
           this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead;
           this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead != 0 ? (this.energyConsumptionData[i].cur_rkvah_lead - parseFloat(this.energyConsumptionData[i].prev_rkvah_lead)) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
 
-          this.energyConsumptionData[i].PF = this.energyConsumptionData[i].Consumption_KVAH != 0 && this.energyConsumptionData[i].Consumption_KWH != 0 ? this.energyConsumptionData[i].Consumption_KWH / this.energyConsumptionData[i].Consumption_KVAH : 0;
-          this.energyConsumptionData[i].CPF = this.energyConsumptionData[i].jr_kvah != 0 ? this.energyConsumptionData[i].jr_kwh / this.energyConsumptionData[i].jr_kvah : 0;
+          this.energyConsumptionData[i].pf = this.energyConsumptionData[i].Consumption_KVAH != 0 && this.energyConsumptionData[i].Consumption_KWH != 0 ? this.energyConsumptionData[i].Consumption_KWH / this.energyConsumptionData[i].Consumption_KVAH : 0;
+          this.energyConsumptionData[i].cpf = this.energyConsumptionData[i].jr_kvah != 0 ? this.energyConsumptionData[i].jr_kwh / this.energyConsumptionData[i].jr_kvah : 0;
           
-          this.energyConsumptionData[i].RMD = this.energyConsumptionData[i].cur_rmd;
+          this.energyConsumptionData[i].rmd = this.energyConsumptionData[i].cur_rmd;
           this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].cur_vol_max;
           this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].cur_vol_min;
           this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
