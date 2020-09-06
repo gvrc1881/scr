@@ -1,4 +1,3 @@
-
 package com.scr.repository;
 
 import java.util.List;
@@ -13,6 +12,8 @@ import com.scr.model.ReportParameter;
 public interface ReportParametersRepository extends JpaRepository<ReportParameter, Long> {
 	
 	List<ReportParameter> findAll();
+	
+	List<ReportParameter> findByReportId(String reportId);
 	
 
 }

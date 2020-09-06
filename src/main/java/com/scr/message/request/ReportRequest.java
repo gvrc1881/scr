@@ -5,14 +5,11 @@ package com.scr.message.request;
 
 import java.time.LocalDate;
 import com.scr.model.AssetsScheduleHistory;
-import com.scr.model.Division;
 import com.scr.model.ElementarySection;
 import com.scr.model.Facility;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
-import com.scr.model.ProductCategoryMember;
-import com.scr.model.Zone;
 
 //import java.util.ArrayList;
 
@@ -24,15 +21,15 @@ public class ReportRequest {
 	
 	private String outputData;
 	private String reportId;
-	private Zone zone;
+	private Long zone;
 	private Facility facilityName;
    private Facility facilityId;
 	private String reportHeader;
-	private Division division;
+	private Long division;
 	private ObservationCategory department;
 	private Facility facility;
 	private LocalDate toDate;
-	private ProductCategoryMember productId;
+	private String productId;
 	private LocalDate fromDate;
 	private LocalDate failureFromDate;
 	private LocalDate failureToDate;
@@ -40,7 +37,7 @@ public class ReportRequest {
 	private AssetsScheduleHistory assetType;
 	private AssetsScheduleHistory scheduleCode;
 	private AssetsScheduleHistory assetId;
-	private String scheduleDate;
+	private AssetsScheduleHistory scheduleDate;
 	private String year;
 	private String activityType;
 	private String pbSwitchType;
@@ -48,6 +45,8 @@ public class ReportRequest {
 	private ElementarySection elementarySectionCode;
 	private String fromkm;
 	private String tokm;
+	private String subDivision;
+	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
 	}
@@ -120,11 +119,13 @@ public class ReportRequest {
 
 	
 
-	public Zone getZone() {
+	
+
+	public Long getZone() {
 		return zone;
 	}
 
-	public void setZone(Zone zone) {
+	public void setZone(Long zone) {
 		this.zone = zone;
 	}
 
@@ -138,11 +139,11 @@ public class ReportRequest {
 
 	
 	
-	public Division getDivision() {
+	public Long getDivision() {
 		return division;
 	}
 
-	public void setDivision(Division division) {
+	public void setDivision(Long division) {
 		this.division = division;
 	}
 
@@ -156,11 +157,11 @@ public class ReportRequest {
 
 	
 	
-	public ProductCategoryMember getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(ProductCategoryMember productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
@@ -265,11 +266,14 @@ public class ReportRequest {
 		this.assetType = assetType;
 	}
 
-	public String getScheduleDate() {
+	
+
+	
+	public AssetsScheduleHistory getScheduleDate() {
 		return scheduleDate;
 	}
 
-	public void setScheduleDate(String scheduleDate) {
+	public void setScheduleDate(AssetsScheduleHistory scheduleDate) {
 		this.scheduleDate = scheduleDate;
 	}
 
@@ -279,6 +283,14 @@ public class ReportRequest {
 
 	public void setActivityType(String activityType) {
 		this.activityType = activityType;
+	}
+
+	public String getSubDivision() {
+		return subDivision;
+	}
+
+	public void setSubDivision(String subDivision) {
+		this.subDivision = subDivision;
 	}
 
 	

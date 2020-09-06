@@ -1,11 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ActivatedRoute } from '@angular/router';
-import{Router} from '@angular/router';
 import { FormBuilder} from '@angular/forms';
 import {ReportParameterModel} from 'src/app/models/reportParameter.model';
 import { ReportPayload } from 'src/app/payloads/report.payload';
 import { ReportModel } from 'src/app/models/report.model';
-import { FacilityModel } from 'src/app/models/facility.model';
 import {FailuresTableModel}from 'src/app/models/failures-table.model';
 import { ProductModel } from 'src/app/models/product.model';
 import { ScheduleModel } from 'src/app/models/schedule.model';
@@ -32,6 +30,7 @@ export class ReportParameterDisplayComponent implements OnInit {
      subDivisionData:any;
      divisionsData:any;
      parameterData:any;
+     parameterNamesData:any;
      observationCategory:any;
      facilityData:any;
      failuresModel:any;
@@ -43,7 +42,7 @@ export class ReportParameterDisplayComponent implements OnInit {
      formValuses: any;
      pbSwitchControlData:any;
      sub;/*It defines to store router map of subscribe*/
-     id;  /* Its used to store the getting name on the report page  */
+     id:any;  /* Its used to store the getting name on the report page  */
      otyp=["Adobe portable Document Format(pdf)","Comma Separated Value Text","HTML Text","Microsoft Excel","Plain Text","XML Text"]
     constructor(
        private Activatedroute:ActivatedRoute,
@@ -90,14 +89,10 @@ export class ReportParameterDisplayComponent implements OnInit {
       ReportPayload.GET.reportId = this.id;
        
     }
-   reportParameterNames()
-         {
-                const parameterData : FacilityModel[] = [];
-                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_PARAMETER).subscribe((data) => {
-                  this.parameterData = data;
-                           }
-                );
-
+        reportParameterNames(){
+               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_PARAMETER_BASED_ON_REPORT_ID+this.id).subscribe((data)=>{
+                      this.parameterData=data;
+               })
         }
         facilityNames()
         {
@@ -184,25 +179,26 @@ export class ReportParameterDisplayComponent implements OnInit {
             }) 
         }
         schAssetType(productCategoryMemObj: any){
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE , productCategoryMemObj,false).subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE+productCategoryMemObj).subscribe((data) => {
                      this.schedule = data;
               }    
               )
         }
-        schAssetIdAndType(assetsScheHistObj: any){
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES,assetsScheHistObj,false).subscribe((data) => {
+        schAssetIdAndType(scheduleCode:any){
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_ASSETID_BASED_ON_SCHEDULE_CODES_AND_ASSETTYPES,scheduleCode,false).subscribe((data) => {
                  this.assetId=data;    
+
               }    
               )
         }
         divisionCode(code: any){
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, code, false).subscribe((data) => {
-                this.divisionsData=data;   
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE+code).subscribe((data) => {
+                this.divisionsData=data;
               }    
               )
         }
         subDivision(code: any){
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,code, false).subscribe((data) => {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION+code).subscribe((data) => {
                 this.subDivisionData=data;   
               }    
               )
@@ -213,9 +209,7 @@ export class ReportParameterDisplayComponent implements OnInit {
              }    
              )
        }
-        
        onGoBack(){
              this.location.back(); 
        }
        }
-        

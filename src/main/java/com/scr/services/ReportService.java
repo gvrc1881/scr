@@ -6,7 +6,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetMasterData;
@@ -168,6 +167,9 @@ public class ReportService {
 	public List<ReportParameter> findall() {	
 		return reportParametersRepository.findAll();
 	}
+	public List<ReportParameter> findByReportId(String reportId) {	
+		return reportParametersRepository.findByReportId(reportId);
+	}
 	public List<Facility> findAllOrderByFacilityNameAsc() {	
 	   return facilityRepository.findAllOrderByFacilityNameAsc();
 	}
@@ -211,6 +213,10 @@ public class ReportService {
 		log.info("assetSche"+assetSche);
 
 		return assetSche;
+	}
+	public List<AssetScheduleAssoc> findByAssetType(String assetType) {
+		List<AssetScheduleAssoc> scheduleCodes = assetSchAssoRepository.findByAssetType(assetType);
+		return scheduleCodes;
 	}
 	
 	public List<AssetsScheduleHistory> findAssetIdScheduleCodes(String assetType,String scheduleCode) {
@@ -319,5 +325,4 @@ public class ReportService {
 		// TODO Auto-generated method stub
 		return facilityRepository.findByFacilityId(facilityId);
 	}
-	
 }
