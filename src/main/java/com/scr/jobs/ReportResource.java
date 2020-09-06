@@ -30,7 +30,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import com.scr.message.request.ReportRequest;
 import com.scr.util.CloseJDBCObjects;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -59,9 +58,9 @@ public class ReportResource {
 	
 	@Autowired
 	private CloseJDBCObjects closeJDBCObjects ;
-	
+
 	public String getBasePath() {
-		
+		// TODO Auto-generated method stub
 		String os = System.getProperty("os.name").toLowerCase();
 		String basePath = null;
 		if ("linux".equals(os)) {
@@ -75,7 +74,7 @@ public class ReportResource {
 
 	public String getAbsolutePath(String path, String jrxmlFileName, Map<String, Object> parameters,
 			String reportsBasePath) {
-		
+		// TODO Auto-generated method stub
 		String absolutePath = null;
 		String urlPath = null;
 		File outputFileDir = new File(reportsBasePath + "/output");
@@ -88,7 +87,7 @@ public class ReportResource {
 			urlPath = URLDecoder.decode(path, "UTF-8");
 
 		} catch (UnsupportedEncodingException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (urlPath.contains("/WEB-INF/classes/")) {
@@ -112,6 +111,7 @@ public class ReportResource {
 		String jrxmlFileName = null;
 		Connection con = null;
 		ResultSet resultSet = null;
+		// ResultSet resultSet1 = null;
 		PreparedStatement ps = null;
 		String query = ("select * from report_repository");
 		try {
@@ -149,9 +149,17 @@ public class ReportResource {
 		parameters.put("date", report.getFromDate());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
-		parameters.put("division", "gtl");
+		if(report.getZone()!=null) {
+		parameters.put("zone", report.getZone());
+		}
+		if(report.getDivision()!=null) {
+		parameters.put("division",report.getDivision());
+		}
+		if(report.getSubDivision()!=null) {
+			parameters.put("subDivision", report.getSubDivision());
+		}
 		if(report.getProductId()!=null) {
-		parameters.put("productId", report.getProductId().getProductId());
+		parameters.put("productId", report.getProductId());
 		}
 		if (report.getDepartment() != null) {
 			parameters.put("department", report.getDepartment().getDepartment());
@@ -172,21 +180,21 @@ public class ReportResource {
 		parameters.put("fromKm", report.getFromkm());
 		parameters.put("toKm", report.getTokm());
 		if(report.getProductId()!=null) {
-			parameters.put("assetType", report.getProductId().getProductId());
+			parameters.put("assetType", report.getProductId());
 		}
 		parameters.put("assetId", report.getAssetId());
 		if (report.getScheduleCode() != null) {
 			parameters.put("scheduleType", report.getScheduleCode().getScheduleCode());
 		}
 		if (report.getScheduleDate() != null) {
-			parameters.put("scheduleDate", report.getScheduleDate());
+			parameters.put("scheduleDate", report.getScheduleDate().getScheduleDate());
 		}
 		
 		parameters.put("ActivityType", report.getActivityType());
 		
 		UUID uniqueId = null;
 		try {
-			//con = dataSource.getConnection();
+			con = dataSource.getConnection();
 			String path = this.getClass().getClassLoader().getResource("").getPath();
 			String reportsBasePath = getBasePath();
 			String absolutePath = getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
@@ -219,17 +227,20 @@ public class ReportResource {
 				report.setOutputData(outPutString);
 				is.close();
 			} catch (JRException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (JRException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return report;
