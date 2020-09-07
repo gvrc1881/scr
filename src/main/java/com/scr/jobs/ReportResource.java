@@ -1,6 +1,6 @@
-/**
+/** 
  * 
- */
+ */ 
 package com.scr.jobs;
 
 import java.io.ByteArrayOutputStream;
@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,9 +56,6 @@ public class ReportResource {
 
 	@Autowired
 	private Environment environment;
-	
-	@Autowired
-	private CloseJDBCObjects closeJDBCObjects ;
 
 	public String getBasePath() {
 		// TODO Auto-generated method stub
@@ -110,13 +108,14 @@ public class ReportResource {
 		log.info("in report resource:6::" + report.getReportId());
 		String jrxmlFileName = null;
 		Connection con = null;
+		Connection con1 = null;
 		ResultSet resultSet = null;
 		// ResultSet resultSet1 = null;
 		PreparedStatement ps = null;
 		String query = ("select * from report_repository");
 		try {
-			con = dataSource.getConnection();
-			ps = con.prepareStatement(query);
+			con1 = dataSource.getConnection();
+			ps = con1.prepareStatement(query);
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
 				String rname = resultSet.getString("report_id");
@@ -130,8 +129,6 @@ public class ReportResource {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			closeJDBCObjects.releaseResouces(con,ps, resultSet);
 		}
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -147,19 +144,15 @@ public class ReportResource {
 		parameters.put("failureFromDate", report.getFailureFromDate());
 		parameters.put("failureToDate", report.getFailureToDate());
 		parameters.put("date", report.getFromDate());
+		parameters.put("Date", report.getDate());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
-		if(report.getZone()!=null) {
-		parameters.put("zone", report.getZone());
-		}
-		if(report.getDivision()!=null) {
-		parameters.put("division",report.getDivision());
-		}
-		if(report.getSubDivision()!=null) {
-			parameters.put("subDivision", report.getSubDivision());
-		}
+		parameters.put("division", report.getDivision().getCode());
+		parameters.put("Material_Item", report.getMaterial_Item());
+		parameters.put("start_date_of_period", report.getFromDate());
+		parameters.put("end_date_of_period", report.getToDate());
 		if(report.getProductId()!=null) {
-		parameters.put("productId", report.getProductId());
+		parameters.put("productId", report.getProductId().getProductId());
 		}
 		if (report.getDepartment() != null) {
 			parameters.put("department", report.getDepartment().getDepartment());
@@ -180,14 +173,14 @@ public class ReportResource {
 		parameters.put("fromKm", report.getFromkm());
 		parameters.put("toKm", report.getTokm());
 		if(report.getProductId()!=null) {
-			parameters.put("assetType", report.getProductId());
+			parameters.put("assetType", report.getProductId().getProductId());
 		}
 		parameters.put("assetId", report.getAssetId());
 		if (report.getScheduleCode() != null) {
 			parameters.put("scheduleType", report.getScheduleCode().getScheduleCode());
 		}
 		if (report.getScheduleDate() != null) {
-			parameters.put("scheduleDate", report.getScheduleDate().getScheduleDate());
+			parameters.put("scheduleDate", report.getScheduleDate());
 		}
 		
 		parameters.put("ActivityType", report.getActivityType());

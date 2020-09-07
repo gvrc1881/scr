@@ -19,7 +19,7 @@
                               <div class="panel-body">
                                    <table border="2">
                                         <ul *ngFor="let names of parameterData">
-                                             <div *ngIf="(names.reportId==id)" >
+                                             <div *ngIf="(names.reportId==id)">
                                                   <tr>
                                                        <td width=250px>{{names.parameterName}} :</td>
                                                        <td *ngIf="(names.parameterName=='date')"><input type="Date"
@@ -52,7 +52,7 @@
                                                        <td *ngIf="(names.parameterName=='zone')">
                                                             <select name="zone" id="zone" [(ngModel)]="reportModel.zone"
                                                                  (change)="divisionCode(reportModel.zone)">
-                                                                 <option *ngFor="let item of zoneData" [ngValue]="item.id">
+                                                                 <option *ngFor="let item of zoneData" [ngValue]="item">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -63,7 +63,7 @@
                                                                  [(ngModel)]="reportModel.division"
                                                                  (change)="subDivision(reportModel.division)">
                                                                  <option *ngFor="let item of divisionsData"
-                                                                      [ngValue]="item.id">
+                                                                      [ngValue]="item">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -73,7 +73,7 @@
                                                                  [(ngModel)]="reportModel.subDivision"
                                                                  (change)="facility(reportModel.subDivision)">
                                                                  <option *ngFor="let item of subDivisionData"
-                                                                      [ngValue]="item.code">
+                                                                      [ngValue]="item">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -120,7 +120,7 @@
                                                                  [(ngModel)]="reportModel.productId"
                                                                  (change)="schAssetType(reportModel.productId)">
                                                                  <option *ngFor="let item of assetType"
-                                                                      [ngValue]="item.productId">
+                                                                      [ngValue]="item">
                                                                       {{item.productId}}</option>
                                                             </select>
 
@@ -137,7 +137,7 @@
                                                             <select name="scheduleDate" id="scheduleDate"
                                                                  [(ngModel)]="reportModel.scheduleDate">
                                                                  <option *ngFor="let item of assetId"
-                                                                      [ngValue]="item">
+                                                                      [ngValue]="item.scheduleDate">
                                                                       {{item.scheduleDate}}
                                                                  </option>
                                                             </select>
@@ -185,6 +185,9 @@
                                                        <td *ngIf="(names.parameterName=='tokm')"><input type="text"
                                                                  name="tokm" id="tokm" size="10"
                                                                  [(ngModel)]="reportModel.tokm" /></td>
+                                                      <td *ngIf="(names.parameterName=='Material_Item')"><input type="text"
+                                                                 name="Material_Item" id="Material_Item" size="10"
+                                                                 [(ngModel)]="reportModel.Material_Item" /></td>
                                                   </tr>
 
                                              </div>
@@ -212,4 +215,4 @@
                </div>
           </div>
      </div>
-</div>
+</div> 

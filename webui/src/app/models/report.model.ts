@@ -33,4 +33,5 @@ export class ReportModel{
     tokm:any;
     locationTypes:any;
     depotType:any;
+    Material_Item:any;  
 }
