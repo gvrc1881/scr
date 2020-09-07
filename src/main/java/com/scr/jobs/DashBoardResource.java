@@ -108,6 +108,81 @@ public class DashBoardResource {
 		log.info(totalCount);
 		return response;
 	}
+
+	public DashboardResponse prepareSubDivisionWiseProductDashboard() {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement pStatement = null;
+		ResultSet resultSet = null;
+		DashboardResponse dashboardResponse = new DashboardResponse();
+		List<DashboardDetailsResponse> subdivWiseProductList = new ArrayList<>();
+		
+		String query =  
+				"select div.zone , div, subdiv , product_id as material_desc , " + 
+				" case when sum(QOH) is null then 0 else sum(QOH) end QOH ," + 
+				"  abbreviation uom  " + 
+				"from " + 
+				" ( select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
+				" left outer join " + 
+				"( " + 
+				" SELECT " + 
+				"        II.PRODUCT_ID AS PRODUCT_ID, II.FACILITY_ID AS FACILITY_ID,  " + 
+				"        uom.abbreviation, " + 
+				"	ROUND(SUM((II.QUANTITY_ON_HAND_TOTAL)),3) as QOH, " + 
+				"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div " + 
+				"               FROM " + 
+				"        INVENTORY_ITEM II , " + 
+				"       PRODUCT P, " + 
+				"        FACILITY F, uom " + 
+				"        WHERE    " + 
+				"         P.PRODUCT_ID = II.PRODUCT_ID " + 
+				"        AND F.FACILITY_ID = II.FACILITY_ID " + 
+				"	and p.quantity_uom_id = uom.uom_id " + 
+				"	and p.product_id = '0076-1' " + 
+				"        GROUP BY II.PRODUCT_ID,II.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division " + 
+				") q " + 
+				" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID ) "  + 
+				"group by div.zone , div, subdiv , product_id ,  abbreviation   " + 
+				"        ORDER BY div.zone , div, subdiv , product_id";
+		log.info("**** query ***"+query);
+		try {
+			con = dataSource.getConnection();
+			pStatement = con.prepareStatement(query);
+			resultSet = pStatement.executeQuery();
+			// log.info("result set:::"+resultSet);
+			String assetType = null;;
+			Integer value = null;
+			while (resultSet.next()) {
+				 //assetType = (String) resultSet.getString("label");
+				 //value = (Integer) resultSet.getInt("value");
+			/*	assetType = "ATD";
+				value = 30;*/
+				 subdivWiseProductList.add(getDetails(resultSet.getString("zone"),resultSet.getString("div"),resultSet.getString("subdiv"),resultSet.getString("material_desc"),resultSet.getInt("qoh"),resultSet.getString("uom")));
+			}
+			dashboardResponse.setSubdivWiseProductList(subdivWiseProductList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.releaseResouces(con,pStatement, resultSet);
+		}
+		
+		return dashboardResponse;
+	}
+
+	private DashboardDetailsResponse getDetails(String string, String string2, String string3, String string4, int int1,
+			String string5) {
+		// TODO Auto-generated method stub
+		DashboardDetailsResponse response = new DashboardDetailsResponse();
+		response.setZone(string);
+		response.setDiv(string2);
+		response.setSubdiv(string3);
+		response.setMaterialDesc(string4);
+		response.setQoh((Integer)int1);
+		response.setUom(string5);
+		return response;
+	}
 	
 	
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.DashBoardResource;
 import com.scr.mapper.SchedulerTrackingMapper;
 import com.scr.message.response.DashboardResponse;
 import com.scr.model.DivisionsHistory;
@@ -47,6 +48,9 @@ public class SchedulerTrackingController {
 	
 	@Autowired
 	private SchedulerTrackingMapper schedulerTrackingMapper;
+	
+	@Autowired
+	private DashBoardResource dashBoardResource;
 	
 	@RequestMapping(value = "/findJobsHistoryInfo/{operationId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
 	public ResponseEntity<List<JobsHistory>> getAllJobTypesDetails(@PathVariable("operationId") Integer operationId){
@@ -117,6 +121,24 @@ public class SchedulerTrackingController {
 				schedulerJobsTrackingsList = schedulerJobTrackingService.findSchedulerJobTrackingByDivisionCodeOrderByProcessedDateAsc(divisionCode);
 			logger.info(schedulerJobsTrackingsList.size());
 			response = schedulerTrackingMapper.prepareDashboardResponse(divisionCode, schedulerJobsTrackingsList);			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/subDivisionWiseProductDashboard", method = RequestMethod.GET ,headers = "Accept=application/json")
+	public DashboardResponse getSubDivisionWiseProductDashboard() {
+		DashboardResponse response = new DashboardResponse();
+		try {
+			/*logger.info(" Entered getSubDivisionWiseProductDashboard function:  ");
+			List<SchedulerJobsTracking> schedulerJobsTrackingsList = null;
+			if(divisionCode.equalsIgnoreCase(Constants.ALL))
+				schedulerJobsTrackingsList = schedulerJobTrackingService.findSchedulerJobTrackingOrderByProcessedDateAsc();
+			else
+				schedulerJobsTrackingsList = schedulerJobTrackingService.findSchedulerJobTrackingByDivisionCodeOrderByProcessedDateAsc(divisionCode);
+			logger.info(schedulerJobsTrackingsList.size());*/
+			response = dashBoardResource.prepareSubDivisionWiseProductDashboard();			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

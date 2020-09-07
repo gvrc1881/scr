@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit {
 
   operationTypesDataSet: any = [];
   dashboardResponse: any;
+  subDivProductReponse: any;
+  subDivProductDataSource: any = {};
 
   barDataSource: Object;
   jobsDataSource: Object;
@@ -51,6 +53,20 @@ export class DashboardComponent implements OnInit {
     
     this.spinnerService.show();
     this.findDashboardData();
+    console.log('logged user data:::'+JSON.stringify(this.loggedUserData));
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_SUBDIV_WISE_PROD).subscribe(response => {
+      console.log('**sub div data****');
+      this.subDivProductReponse = response;
+      console.log('**sub div data****'+JSON.stringify(this.subDivProductReponse));
+      this.subDivProductDataSource = this.findSubDivWiseProdutDataSource();
+      console.log('data::'+this.subDivProductDataSource);
+      console.log('data::'+JSON.stringify(this.subDivProductDataSource));      
+      if(response){
+        this.startGraphs();
+      }
+    }, error => {
+      console.log("ERROR >>> " + error)
+    });
     
     this.MenusList = [
       { ID: 2, menuName: 'Reports', menuUrl: 'home', icon: "fa fa-area-chart", color: "#64aeed", isSelected: true },
@@ -86,6 +102,7 @@ export class DashboardComponent implements OnInit {
       value:sum
     })
   }
+  console.log('**job wise***'+JSON.stringify(datapoints));
     return {
       chart: {
         caption: 'Division Wise [' + this.dashboardResponse.lastProcessedDetails[this.dashboardResponse.lastProcessedDetails.length-1].date + ']',
@@ -95,6 +112,29 @@ export class DashboardComponent implements OnInit {
         theme: 'fusion'
       },
       data: datapoints
+    };
+  }
+  
+  findSubDivWiseProdutDataSource() {
+  		var subDivNameArray = this.subDivProductReponse.subdivWiseProductList;
+  		console.log('**tength**'+subDivNameArray.length);
+  		var datapoints = [];
+  		for(var i = 0 ; i<subDivNameArray.length;i++ ) {
+  			datapoints.push({
+  				lebel:subDivNameArray[i].subdiv,
+  				value:subDivNameArray[i].qoh
+  			})
+  		}
+  		console.log('log::::'+JSON.stringify(datapoints));
+  		return {
+	      chart: {
+	        caption: ' sub division wise product details',
+	        xAxisName: 'sub Div',
+	        yAxisName: 'product count',
+	        numberSuffix: 'K',
+	        theme: 'fusion'
+	      },
+	      data: datapoints
     };
   }
 

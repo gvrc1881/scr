@@ -18,7 +18,9 @@ export const Constants = {
             MAIL_CONFIRMATION:"/mailConfirmation",
         }, 
         DASHBOARD:{
-            GET_DASHBOARD:"/dashboard/"
+            GET_DASHBOARD:"/dashboard/",
+            GET_SUBDIV_WISE_PROD:"/subDivisionWiseProductDashboard"
+            
         },    
         REPORTS:{
             GET_REPORT_PARAMETER:"/reportParameterNames",

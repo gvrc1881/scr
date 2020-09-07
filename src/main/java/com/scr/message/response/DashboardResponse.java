@@ -16,6 +16,7 @@ public  class DashboardResponse {
 	private List<DashboardDetailsResponse> lastProcessedDetails;
 	private List<DashboardDetailsResponse> assetTypeList;
 	private List<DashboardDetailsResponse> schDoneList;
+	private List<DashboardDetailsResponse> subdivWiseProductList;
 	
 	public List<DashboardDetailsResponse> getLastOneWeekDetails() {
 		return lastOneWeekDetails;
@@ -40,6 +41,12 @@ public  class DashboardResponse {
 	}
 	public void setSchDoneList(List<DashboardDetailsResponse> schDoneList) {
 		this.schDoneList = schDoneList;
+	}
+	public List<DashboardDetailsResponse> getSubdivWiseProductList() {
+		return subdivWiseProductList;
+	}
+	public void setSubdivWiseProductList(List<DashboardDetailsResponse> subdivWiseProductList) {
+		this.subdivWiseProductList = subdivWiseProductList;
 	}
 	
 	
