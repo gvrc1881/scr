@@ -22,25 +22,18 @@ import com.scr.model.Zone;
  */
 public class ReportRequest {
 	
-	public LocalDate getDate() {
-		return Date;
-	}
-
-	public void setDate(LocalDate date) {
-		Date = date;
-	}
-
 	private String outputData;
 	private String reportId;
-	private Zone zone;
+	private String zone;
 	private Facility facilityName;
     private Facility facilityId;
 	private String reportHeader;
-	private Division division;
+	private String division;
+	private String subDivision;
 	private ObservationCategory department;
 	private Facility facility;
 	private LocalDate toDate;
-	private ProductCategoryMember productId;
+	private String productId;
 	private LocalDate fromDate;
 	private LocalDate failureFromDate;
 	private LocalDate failureToDate;
@@ -129,16 +122,6 @@ public class ReportRequest {
 		this.reportId = reportId;
 	}
 
-	
-
-	public Zone getZone() {
-		return zone;
-	}
-
-	public void setZone(Zone zone) {
-		this.zone = zone;
-	}
-
 	public String getReportHeader() {
 		return reportHeader;
 	}
@@ -147,15 +130,6 @@ public class ReportRequest {
 		this.reportHeader = reportHeader;
 	}
 
-	
-	
-	public Division getDivision() {
-		return division;
-	}
-
-	public void setDivision(Division division) {
-		this.division = division;
-	}
 
 	public String getPermission() {
 		return permission;
@@ -167,11 +141,11 @@ public class ReportRequest {
 
 	
 	
-	public ProductCategoryMember getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(ProductCategoryMember productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
@@ -298,6 +272,38 @@ public class ReportRequest {
 
 	public String getMaterial_Item() {
 		return Material_Item;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getSubDivision() {
+		return subDivision;
+	}
+
+	public void setSubDivision(String subDivision) {
+		this.subDivision = subDivision;
+	}
+
+	public LocalDate getDate() {
+		return Date;
+	}
+
+	public void setDate(LocalDate date) {
+		Date = date;
 	}
 	
 }
