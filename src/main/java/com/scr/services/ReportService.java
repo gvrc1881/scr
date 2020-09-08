@@ -220,7 +220,7 @@ public class ReportService {
 	}
 	
 	public List<AssetsScheduleHistory> findAssetIdScheduleCodes(String assetType,String scheduleCode) {
-		List<AssetsScheduleHistory> assetId = assetsScheduleHistoryRepository.findByAssetTypeAndScheduleCodeOrderByScheduleCodeAsc(assetType,scheduleCode);
+		List<AssetsScheduleHistory> assetId = assetsScheduleHistoryRepository.findDistinctScheduleCodeByAssetTypeAndScheduleCodeOrderByScheduleCodeAsc(assetType,scheduleCode);
 		return assetId;
 	}
 	public List<Division> findDivision(Zone zoneId) {

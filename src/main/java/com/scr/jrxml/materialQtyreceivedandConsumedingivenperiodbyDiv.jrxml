@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MaterialQtyreceivedandConsumedingivenperiodbyDiv" pageWidth="700" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e84a3a8c-0e3e-433d-930d-f73877a323ce">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MaterialQtyreceivedandConsumedingivenperiodbyDiv" pageWidth="800" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e84a3a8c-0e3e-433d-930d-f73877a323ce">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -56,7 +56,7 @@ SELECT
 ) q
 
 on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )
-Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_division
+Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone
         ORDER BY div.zone , div,  PRODUCT_ID]]>
 	</queryString>
 	<field name="zone" class="java.lang.String"/>
@@ -72,25 +72,18 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 	<title>
 		<band height="29" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="0" width="487" height="29" uuid="87cc7e3b-b6db-4b3f-ba7c-340f5f419a0a"/>
+				<reportElement x="1" y="0" width="759" height="29" uuid="87cc7e3b-b6db-4b3f-ba7c-340f5f419a0a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Material Qty received and Consumed in given period by Div :-]]></text>
+				<text><![CDATA[Material Qty received and Consumed in given period by Div ]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="488" y="0" width="172" height="29" uuid="fb6bef5a-11db-4f1f-a532-5b6513526a92"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{division}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="1" y="0" width="50" height="20" uuid="98972396-31a1-4871-9915-fd58059159c5"/>
+				<reportElement x="0" y="0" width="50" height="20" uuid="98972396-31a1-4871-9915-fd58059159c5"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -104,7 +97,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<text><![CDATA[Sl.No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="255" y="0" width="146" height="20" uuid="d92c1154-f3bb-42d4-8e8d-1ebadb193c0e"/>
+				<reportElement x="254" y="0" width="146" height="20" uuid="d92c1154-f3bb-42d4-8e8d-1ebadb193c0e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -118,7 +111,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<text><![CDATA[Quatity Received]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="540" y="0" width="121" height="20" uuid="39f53e7b-feff-4701-8a06-de6c0f0150e8"/>
+				<reportElement x="639" y="0" width="121" height="20" uuid="39f53e7b-feff-4701-8a06-de6c0f0150e8"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -132,7 +125,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<text><![CDATA[Units]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="151" y="0" width="104" height="20" uuid="68971dd1-7122-4d19-a266-7537d3025300"/>
+				<reportElement x="150" y="0" width="104" height="20" uuid="68971dd1-7122-4d19-a266-7537d3025300"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -146,7 +139,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<text><![CDATA[Division]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="401" y="0" width="139" height="20" uuid="1920c3aa-4abd-433f-a99a-5dec5e28251a"/>
+				<reportElement x="400" y="0" width="139" height="20" uuid="1920c3aa-4abd-433f-a99a-5dec5e28251a"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -160,7 +153,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<text><![CDATA[Quatity Consumed]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="51" y="0" width="100" height="20" uuid="a0ca34ef-41c1-4210-9bcd-65cd1dbe23e5"/>
+				<reportElement x="50" y="0" width="100" height="20" uuid="a0ca34ef-41c1-4210-9bcd-65cd1dbe23e5"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -172,6 +165,20 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Zone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="539" y="0" width="100" height="20" uuid="1ecedf74-7ba5-4c50-b6e5-f669ff8cc585"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[material_desc]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -238,7 +245,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<textFieldExpression><![CDATA[$F{consumed_qty}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="539" y="0" width="121" height="20" uuid="b5323931-b35d-4bd8-8731-90cf64c3e12d"/>
+				<reportElement x="639" y="0" width="121" height="20" uuid="b5323931-b35d-4bd8-8731-90cf64c3e12d"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -248,6 +255,18 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{uom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="539" y="0" width="100" height="20" uuid="ec6c6249-ae55-4c6f-9e8d-dd624dcf5fe8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{material_desc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -269,7 +288,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="539" y="0" width="121" height="20" uuid="40ced5c7-9370-41c7-b812-d75e59f19a6e"/>
+				<reportElement x="539" y="0" width="221" height="20" uuid="40ced5c7-9370-41c7-b812-d75e59f19a6e"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -278,7 +297,7 @@ Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_di
 	<noData>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="660" height="20" forecolor="#EF0320" uuid="aaccc37a-c102-40f4-b96a-24bb6ae6c716"/>
+				<reportElement x="0" y="0" width="760" height="20" forecolor="#EF0320" uuid="aaccc37a-c102-40f4-b96a-24bb6ae6c716"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>

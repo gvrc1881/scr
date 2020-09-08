@@ -13,7 +13,7 @@ import com.scr.model.AssetsScheduleHistory;
 public interface AssetsScheduleHistoryRepository extends JpaRepository<AssetsScheduleHistory, Long>{
 	
 	//schedule code in asscending order
-	List<AssetsScheduleHistory> findByAssetTypeAndScheduleCodeOrderByScheduleCodeAsc(String assetType,String scheduleCode);
+	List<AssetsScheduleHistory> findDistinctScheduleCodeByAssetTypeAndScheduleCodeOrderByScheduleCodeAsc(String assetType,String scheduleCode);
 
 		
 

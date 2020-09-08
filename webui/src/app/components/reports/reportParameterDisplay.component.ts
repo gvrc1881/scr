@@ -11,6 +11,8 @@ import { PreviousRouteService } from 'src/app/services/previousRoute.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import {Location} from '@angular/common';
+import { FacilityModel } from 'src/app/models/facility.model';
+
 @Component({
     selector: 'app-reportParameterDisplay',
     templateUrl: 'reportParameterDisplay.component.html',
@@ -38,8 +40,13 @@ export class ReportParameterDisplayComponent implements OnInit {
      scheduleData:ScheduleModel;
      submitedForm:any;
      facilityId:any;
+     userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
      reportModel: ReportModel;
      formValuses: any;
+     zoneList: FacilityModel [] = [];
+     divisionList:  FacilityModel [] = [];
+     subDivList:  FacilityModel [] = [];
+     facilityList: FacilityModel [] = [];
      pbSwitchControlData:any;
      sub;/*It defines to store router map of subscribe*/
      id:any;  /* Its used to store the getting name on the report page  */
@@ -78,7 +85,7 @@ export class ReportParameterDisplayComponent implements OnInit {
         this.observationCategories();
         this.powerBlocks();
         this.pbSwitchControl();
-        this.zoneList();
+        this.zoneCodeList();
         this.sub=this.Activatedroute.paramMap.subscribe(params => { 
              this.id = params.get('id'); 
          });
@@ -87,6 +94,21 @@ export class ReportParameterDisplayComponent implements OnInit {
          this.reportParameterNames();
         
       ReportPayload.GET.reportId = this.id;
+      for (let i = 0; i < this.userHierarchy.length; i++) {
+       if(this.userHierarchy[i].depotType == 'ZONE'){
+              this.zoneList.push(this.userHierarchy[i]);
+       }
+    }
+    for (let i = 0; i < this.userHierarchy.length; i++) {
+       if(this.userHierarchy[i].depotType == 'DIV'){
+              this.divisionList.push(this.userHierarchy[i]);
+       }
+    }
+    for (let i = 0; i < this.userHierarchy.length; i++) {
+       if(this.userHierarchy[i].depotType == 'SUBDIV'){
+              this.subDivList.push(this.userHierarchy[i]);
+       }
+    }
        
     }
         reportParameterNames(){
@@ -120,7 +142,7 @@ export class ReportParameterDisplayComponent implements OnInit {
                );
 
        }
-       zoneList()
+       zoneCodeList()
         {   
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
                  this.zoneData = data;
@@ -204,7 +226,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               )
         }
         facility(code: any){
-             this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION ,code,false).subscribe((data) => {
+             this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION+code).subscribe((data) => {
                this.facilityId=data;
              }    
              )

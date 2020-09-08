@@ -82,7 +82,7 @@ public class ReportController {
 		List<ProductCategoryMember> assetTypes = null;
 		
 		String productCategoryId = null;
-		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType) || "DASH_BOARD_CATEGORY".equals(depotType)) 
+		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType)) 
 			assetTypes = reportService.findAllAssetTypes(depotType); 
 		else 
 			assetTypes= reportService.findByProductId(productCategoryId);
@@ -223,6 +223,7 @@ public class ReportController {
 	@RequestMapping(value = "/getFacilityBasedOnSubDivision/{subDivision}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<Facility>> findFacility(@PathVariable("subDivision") String subDivision){
 		List<Facility> facilityNames= reportService.findFacilityNames(subDivision);
+		log.info("facilityNames"+facilityNames.size());
 			return new ResponseEntity<List<Facility>>(facilityNames, HttpStatus.OK);		
 	}
    @RequestMapping(value = "/getAllFunctionalLocationsTypes", method = RequestMethod.GET ,headers = "accept=application/json")	

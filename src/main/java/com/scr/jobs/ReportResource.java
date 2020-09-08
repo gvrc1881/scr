@@ -147,12 +147,14 @@ public class ReportResource {
 		parameters.put("Date", report.getDate());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
-		parameters.put("division", report.getDivision().getCode());
+		parameters.put("zone", report.getZone());
+		parameters.put("division", report.getDivision());
+		parameters.put("subDivision", report.getSubDivision());
 		parameters.put("Material_Item", report.getMaterial_Item());
 		parameters.put("start_date_of_period", report.getFromDate());
 		parameters.put("end_date_of_period", report.getToDate());
 		if(report.getProductId()!=null) {
-		parameters.put("productId", report.getProductId().getProductId());
+		parameters.put("productId", report.getProductId());
 		}
 		if (report.getDepartment() != null) {
 			parameters.put("department", report.getDepartment().getDepartment());
@@ -173,7 +175,7 @@ public class ReportResource {
 		parameters.put("fromKm", report.getFromkm());
 		parameters.put("toKm", report.getTokm());
 		if(report.getProductId()!=null) {
-			parameters.put("assetType", report.getProductId().getProductId());
+			parameters.put("assetType", report.getProductId());
 		}
 		parameters.put("assetId", report.getAssetId());
 		if (report.getScheduleCode() != null) {
