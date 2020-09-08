@@ -55,8 +55,7 @@ export class AddDriveComponent implements OnInit {
       isIdRequired: {},
       functionalUnit: {},
       checklist: {},
-      status: {}
-     
+      status: {}     
     };
   }
 

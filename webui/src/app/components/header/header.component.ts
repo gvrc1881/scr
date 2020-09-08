@@ -49,7 +49,27 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "",       
         isSelected: true,
         permission:this.commonService.findPermission('Dashboard', 'menu', 'view'),
-        currentTab: !!path && path.includes("dashboard") ? "open" : "" 
+        currentTab: !!path && path.includes("dashboard") || path.includes('stock-quantities') ? "open" : "" ,
+        subMenus:[
+          { 
+            subMenuName: "Dashboard", 
+            subMenuURL: "dashboard",
+            color: "#1285EE", 
+            subMenuIcon: "fa fa-home",
+            rolePermission:true,
+            permission: true,//this.commonService.findPermission('Dashboard', 'submenu', 'view'),
+            currentSubMenu: !!path && ( path.includes("dashboard")) ? "active-item" : "",
+          },
+          { 
+            subMenuName: "Stock Quantities", 
+            subMenuURL: "stock-quantities",
+            color: "#1285EE", 
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission: true,//this.commonService.findPermission('Asset Reports', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
+          }
+        ]
       },
       { 
         ID: 2,

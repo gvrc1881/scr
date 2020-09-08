@@ -30,7 +30,7 @@ const routes: Routes = [
         ReactiveFormsModule
     ],
     declarations: [
-        DashboardComponent
+        DashboardComponent,
     ],
     providers   : [
         Ng4LoadingSpinnerService,

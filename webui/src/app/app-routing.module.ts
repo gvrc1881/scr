@@ -28,6 +28,11 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: './components/dashboard/dashboard.module#DashboardModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'stock-quantities',
+    loadChildren: './components/dashboard/stock-quantities/stock-quantities.module#StockQuantitiesModule',
+    canActivate: [AuthGuard]
   },{
     path: 'energyBillPayment',
     loadChildren: './components/energy-bill-payment/energy-bill-payment.module#EnergyBillPaymentModule',
