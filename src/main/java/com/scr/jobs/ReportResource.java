@@ -26,6 +26,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import com.scr.message.request.ReportRequest;
@@ -40,6 +42,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import sun.util.logging.resources.logging;
 
 /**
  * @author winfocus
@@ -58,9 +61,12 @@ public class ReportResource {
 	private Environment environment;
 	
 	private CloseJDBCObjects closeJDBCObjects = new CloseJDBCObjects();
-
+	
+	@Autowired
+	ResourceLoader resourceLoader;
+		
 	public String getBasePath() {
-		// TODO Auto-generated method stub
+		
 		String os = System.getProperty("os.name").toLowerCase();
 		String basePath = null;
 		if ("linux".equals(os)) {
@@ -74,7 +80,7 @@ public class ReportResource {
 
 	public String getAbsolutePath(String path, String jrxmlFileName, Map<String, Object> parameters,
 			String reportsBasePath) {
-		// TODO Auto-generated method stub
+		
 		String absolutePath = null;
 		String urlPath = null;
 		File outputFileDir = new File(reportsBasePath + "/output");
@@ -87,7 +93,7 @@ public class ReportResource {
 			urlPath = URLDecoder.decode(path, "UTF-8");
 
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		if (urlPath.contains("/WEB-INF/classes/")) {
@@ -197,11 +203,19 @@ public class ReportResource {
 		UUID uniqueId = null;
 		try {
 			con = dataSource.getConnection();
-			String path = this.getClass().getClassLoader().getResource("").getPath();
+		//	String path = this.getClass().getClassLoader().getResource("").getPath();
 			String reportsBasePath = getBasePath();
-			String absolutePath = getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
-			log.info("String absolutePath" + absolutePath);
-			JasperReport jasperReport = JasperCompileManager.compileReport(absolutePath);
+		//	String absolutePath = getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
+			 Resource resource = resourceLoader.getResource("classpath:jrxml/"+jrxmlFileName);
+			 File file = null;
+			try {
+				file = resource.getFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			 log.info("resource File Path = "+file.getAbsolutePath());
+		//	log.info("String absolutePath" + absolutePath);
+			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			log.info("jasperReport6-1-2020" + jasperReport);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
 			JRPdfExporter jrPdfExporter = new JRPdfExporter();
@@ -229,21 +243,19 @@ public class ReportResource {
 				report.setOutputData(outPutString);
 				is.close();
 			} catch (JRException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+			} catch (FileNotFoundException e) {				
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e) {				
 				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (SQLException e) {			
 			e.printStackTrace();
 		} catch (JRException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.closeConnection(con);
 		}
 		return report;
 
