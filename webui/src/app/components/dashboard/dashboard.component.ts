@@ -3,6 +3,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 declare function loadData(id:number, name:string, image:any);
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,10 @@ export class DashboardComponent implements OnInit {
   dashboardResponse: any;
   subDivProductReponse: any;
   subDivProductDataSource: any = {};
+  productCategoryMember: any = [];
+  productId: any ;
+  dashboardFormGroup: FormGroup;
+  showSubDivGraph: boolean = false;
 
   barDataSource: Object;
   jobsDataSource: Object;
@@ -43,7 +48,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
-   private sendAndRequestService:SendAndRequestService
+   private sendAndRequestService:SendAndRequestService,
+   private formBuilder: FormBuilder
   ) {
 
 
@@ -53,20 +59,15 @@ export class DashboardComponent implements OnInit {
     
     this.spinnerService.show();
     this.findDashboardData();
-    console.log('logged user data:::'+JSON.stringify(this.loggedUserData));
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_SUBDIV_WISE_PROD).subscribe(response => {
-      console.log('**sub div data****');
-      this.subDivProductReponse = response;
-      console.log('**sub div data****'+JSON.stringify(this.subDivProductReponse));
-      this.subDivProductDataSource = this.findSubDivWiseProdutDataSource();
-      console.log('data::'+this.subDivProductDataSource);
-      console.log('data::'+JSON.stringify(this.subDivProductDataSource));      
-      if(response){
-        this.startGraphs();
-      }
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+'DASH_BOARD_CATEGORY').subscribe(response => {
+      this.productCategoryMember = response;
     }, error => {
       console.log("ERROR >>> " + error)
     });
+    
+    this.dashboardFormGroup = this.formBuilder.group({
+            'productId': [null],
+        })
     
     this.MenusList = [
       { ID: 2, menuName: 'Reports', menuUrl: 'home', icon: "fa fa-area-chart", color: "#64aeed", isSelected: true },
@@ -102,7 +103,6 @@ export class DashboardComponent implements OnInit {
       value:sum
     })
   }
-  console.log('**job wise***'+JSON.stringify(datapoints));
     return {
       chart: {
         caption: 'Division Wise [' + this.dashboardResponse.lastProcessedDetails[this.dashboardResponse.lastProcessedDetails.length-1].date + ']',
@@ -115,9 +115,20 @@ export class DashboardComponent implements OnInit {
     };
   }
   
+  getSubDivProductGraph() {
+  	this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_SUBDIV_WISE_PROD+'/'+this.dashboardFormGroup.value.productId).subscribe(response => {
+      if(response){
+	      this.subDivProductReponse = response;
+	      this.subDivProductDataSource = this.findSubDivWiseProdutDataSource();
+	      this.showSubDivGraph = true ;
+      }      
+    }, error => {
+      console.log("ERROR IN SUB DIV WISE PRODUCT LIST >>> " + error)
+    });
+  }
+  
   findSubDivWiseProdutDataSource() {
   		var subDivNameArray = this.subDivProductReponse.subdivWiseProductList;
-  		console.log('**tength**'+subDivNameArray.length);
   		var datapoints = [];
   		for(var i = 0 ; i<subDivNameArray.length;i++ ) {
   			datapoints.push({
@@ -125,7 +136,6 @@ export class DashboardComponent implements OnInit {
   				value:subDivNameArray[i].qoh
   			})
   		}
-  		console.log('log::::'+JSON.stringify(datapoints));
   		return {
 	      chart: {
 	        caption: ' sub division wise product details',

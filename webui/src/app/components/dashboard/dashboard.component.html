@@ -35,6 +35,12 @@
   <div class="row" style="margin-top: 5%;">
     <div class="col-12">
       <div class="row-fluid">
+      <!-- <div>
+      	<select  name="productId" ng-model="productId" (change)="ChangingValue($event)"> 
+    <option *ngFor="let productCategoryMember of productCategoryMember" [value]="productCategoryMember.productId">{{productCategoryMember.productId}}</option> 
+</select> 
+      </div> -->
+      
         <!--        <div class="panel panel-primary">
           <div class="panel-heading">Graphs</div>
           <div class="panel-body"> -->
@@ -44,6 +50,38 @@
           <div class="panel panel-primary">
             <div class="panel-heading">Tracking Info Graphs</div>
             <div class="panel-body">
+            <div class="col-md-3" >
+		      	<mat-form-field fxFlex="30">
+					<mat-select placeholder="Select Product " [formControl]="dashboardFormGroup.controls['productId']" (ngModelChange)="getSubDivProductGraph()" >
+							<mat-option *ngFor="let productCategoryMemberList of productCategoryMember"
+					        	[value]="productCategoryMemberList.productId">
+					            	{{ productCategoryMemberList.productId}}
+					        </mat-option>
+					</mat-select>
+				</mat-form-field>
+			  </div>
+			  <div class="col-md-6 col-lg-6" *ngIf= "showSubDivGraph else hideSubDivGraph">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">sub Div</div>
+                  <div class="panel-body">
+                    <fusioncharts [width]="width" [height]="height" type="Column3D" dataFormat="JSON"
+                      [dataSource]="subDivProductDataSource">
+                    </fusioncharts>
+                  </div>
+                </div>
+              </div>
+              <ng-template #hideSubDivGraph>
+				<div class="col-md-6 col-lg-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">sub Div</div>
+                  <div class="panel-body">
+                    <fusioncharts [width]="width" [height]="height" type="Column3D" dataFormat="JSON"
+                      [dataSource]="subDivProductDataSource">
+                    </fusioncharts>
+                  </div>
+                </div>
+              </div>				
+			  </ng-template>
               <div class="col-md-4 col-lg-4" style="display: none">
                 <div class="panel panel-primary">
                   <div class="panel-heading">Division Wise</div>
@@ -87,16 +125,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-6">
-                <div class="panel panel-primary">
-                  <div class="panel-heading">sub Div</div>
-                  <div class="panel-body">
-                    <fusioncharts [width]="width" [height]="height" type="Column3D" dataFormat="JSON"
-                      [dataSource]="subDivProductDataSource">
-                    </fusioncharts>
-                  </div>
-                </div>
-              </div>
+              
             </div>
             <!--  </div>
             </div> -->

@@ -127,8 +127,8 @@ public class SchedulerTrackingController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/subDivisionWiseProductDashboard", method = RequestMethod.GET ,headers = "Accept=application/json")
-	public DashboardResponse getSubDivisionWiseProductDashboard() {
+	@RequestMapping(value = "/subDivisionWiseProductDashboard/{productId}", method = RequestMethod.GET ,headers = "Accept=application/json")
+	public DashboardResponse getSubDivisionWiseProductDashboard(@PathVariable("productId") String productId) {
 		DashboardResponse response = new DashboardResponse();
 		try {
 			/*logger.info(" Entered getSubDivisionWiseProductDashboard function:  ");
@@ -138,7 +138,7 @@ public class SchedulerTrackingController {
 			else
 				schedulerJobsTrackingsList = schedulerJobTrackingService.findSchedulerJobTrackingByDivisionCodeOrderByProcessedDateAsc(divisionCode);
 			logger.info(schedulerJobsTrackingsList.size());*/
-			response = dashBoardResource.prepareSubDivisionWiseProductDashboard();			
+			response = dashBoardResource.prepareSubDivisionWiseProductDashboard(productId);			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

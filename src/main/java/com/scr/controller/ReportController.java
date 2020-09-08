@@ -82,7 +82,7 @@ public class ReportController {
 		List<ProductCategoryMember> assetTypes = null;
 		
 		String productCategoryId = null;
-		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType)) 
+		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType) || "DASH_BOARD_CATEGORY".equals(depotType)) 
 			assetTypes = reportService.findAllAssetTypes(depotType); 
 		else 
 			assetTypes= reportService.findByProductId(productCategoryId);

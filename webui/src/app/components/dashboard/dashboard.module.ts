@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { FusionChartsModule } from 'angular-fusioncharts';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/modules/material.modules';
 
 const routes: Routes = [
     {
@@ -22,7 +24,10 @@ const routes: Routes = [
         MatMenuModule,
         MatGridListModule,
         CommonModule,
-        FusionChartsModule
+        FusionChartsModule,
+        FormsModule,
+        MaterialModule,
+        ReactiveFormsModule
     ],
     declarations: [
         DashboardComponent

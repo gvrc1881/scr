@@ -109,7 +109,7 @@ public class DashBoardResource {
 		return response;
 	}
 
-	public DashboardResponse prepareSubDivisionWiseProductDashboard() {
+	public DashboardResponse prepareSubDivisionWiseProductDashboard(String productId) {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
@@ -139,7 +139,7 @@ public class DashBoardResource {
 				"         P.PRODUCT_ID = II.PRODUCT_ID " + 
 				"        AND F.FACILITY_ID = II.FACILITY_ID " + 
 				"	and p.quantity_uom_id = uom.uom_id " + 
-				"	and p.product_id = '0076-1' " + 
+				"	and p.product_id = '"+productId+"' " + 
 				"        GROUP BY II.PRODUCT_ID,II.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division " + 
 				") q " + 
 				" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID ) "  + 
