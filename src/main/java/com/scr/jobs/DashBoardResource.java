@@ -124,7 +124,7 @@ public class DashBoardResource {
 				"  abbreviation uom  " + 
 				"from " + 
 				" ( select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
-				" left outer join " + 
+				" inner  join " + 
 				"( " + 
 				" SELECT " + 
 				"        II.PRODUCT_ID AS PRODUCT_ID, II.FACILITY_ID AS FACILITY_ID,  " + 
