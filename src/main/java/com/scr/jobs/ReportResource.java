@@ -4,7 +4,6 @@
 package com.scr.jobs;
 
 import java.io.ByteArrayOutputStream;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +27,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
 import com.scr.message.request.ReportRequest;
 import com.scr.util.CloseJDBCObjects;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -56,6 +56,8 @@ public class ReportResource {
 
 	@Autowired
 	private Environment environment;
+	
+	private CloseJDBCObjects closeJDBCObjects = new CloseJDBCObjects();
 
 	public String getBasePath() {
 		// TODO Auto-generated method stub
@@ -108,14 +110,14 @@ public class ReportResource {
 		log.info("in report resource:6::" + report.getReportId());
 		String jrxmlFileName = null;
 		Connection con = null;
-		Connection con1 = null;
+		//Connection con1 = null;
 		ResultSet resultSet = null;
 		// ResultSet resultSet1 = null;
 		PreparedStatement ps = null;
 		String query = ("select * from report_repository");
 		try {
-			con1 = dataSource.getConnection();
-			ps = con1.prepareStatement(query);
+			con = dataSource.getConnection();
+			ps = con.prepareStatement(query);
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
 				String rname = resultSet.getString("report_id");
@@ -129,6 +131,8 @@ public class ReportResource {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.releaseResouces(con,ps, resultSet);
 		}
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -147,12 +151,13 @@ public class ReportResource {
 		parameters.put("Date", report.getDate());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
-		parameters.put("zone", report.getZone());
-		parameters.put("division", report.getDivision());
+		parameters.put("zone", report.getZone().getCode());
+		parameters.put("division", report.getDivision().getCode());
 		parameters.put("subDivision", report.getSubDivision());
-		parameters.put("Material_Item", report.getMaterial_Item());
+		parameters.put("Material_Item", report.getMaterialItem());
 		parameters.put("start_date_of_period", report.getFromDate());
 		parameters.put("end_date_of_period", report.getToDate());
+		
 		if(report.getProductId()!=null) {
 		parameters.put("productId", report.getProductId());
 		}
@@ -186,6 +191,8 @@ public class ReportResource {
 		}
 		
 		parameters.put("ActivityType", report.getActivityType());
+		
+		log.info(" ****** PARAMETERS BODY ***** " + parameters);
 		
 		UUID uniqueId = null;
 		try {

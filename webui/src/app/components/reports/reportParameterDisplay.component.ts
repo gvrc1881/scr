@@ -186,6 +186,7 @@ export class ReportParameterDisplayComponent implements OnInit {
 
           this.reportModel.reportId=this.id;
           console.log("generateReport"+this.id)
+          console.log("generateReport"+JSON.stringify(this.reportModel));
           this.submitedForm = "";
           this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT,this.reportModel,false)
              .subscribe((response) => {
@@ -213,14 +214,14 @@ export class ReportParameterDisplayComponent implements OnInit {
               }    
               )
         }
-        divisionCode(code: any){
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE+code).subscribe((data) => {
+        divisionCode(zone: any){
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE+zone.id).subscribe((data) => {
                 this.divisionsData=data;
               }    
               )
         }
-        subDivision(code: any){
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION+code).subscribe((data) => {
+        subDivision(division: any){
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION+division.id).subscribe((data) => {
                 this.subDivisionData=data;   
               }    
               )

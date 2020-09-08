@@ -52,7 +52,7 @@
                                                        <td *ngIf="(names.parameterName=='zone')">
                                                             <select name="zone" id="zone" [(ngModel)]="reportModel.zone"
                                                                  (change)="divisionCode(reportModel.zone)">
-                                                                 <option *ngFor="let item of zoneData" [ngValue]="item.id">
+                                                                 <option *ngFor="let item of zoneData" [ngValue]="item">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -63,7 +63,7 @@
                                                                  [(ngModel)]="reportModel.division"
                                                                  (change)="subDivision(reportModel.division)">
                                                                  <option *ngFor="let item of divisionsData"
-                                                                      [ngValue]="item.id">
+                                                                      [ngValue]="item">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -187,7 +187,7 @@
                                                                  [(ngModel)]="reportModel.tokm" /></td>
                                                         <td *ngIf="(names.parameterName=='Material_Item')"><input type="text"
                                                                       name="Material_Item" id="Material_Item" size="10"
-                                                                 [(ngModel)]="reportModel.Material_Item" /></td>         
+                                                                 [(ngModel)]="reportModel.materialItem" /></td>         
                                                   </tr>
 
                                              </div>

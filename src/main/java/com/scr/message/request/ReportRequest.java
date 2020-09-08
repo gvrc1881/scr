@@ -4,6 +4,7 @@
 package com.scr.message.request;
 
 import java.time.LocalDate;
+
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.Division;
 import com.scr.model.ElementarySection;
@@ -11,7 +12,6 @@ import com.scr.model.Facility;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
-import com.scr.model.ProductCategoryMember;
 import com.scr.model.Zone;
 
 //import java.util.ArrayList;
@@ -24,11 +24,11 @@ public class ReportRequest {
 	
 	private String outputData;
 	private String reportId;
-	private String zone;
+	private Zone zone;
 	private Facility facilityName;
     private Facility facilityId;
 	private String reportHeader;
-	private String division;
+	private Division division;
 	private String subDivision;
 	private ObservationCategory department;
 	private Facility facility;
@@ -50,7 +50,7 @@ public class ReportRequest {
 	private String fromkm;
 	private String tokm;
 	private LocalDate Date;
-	private String Material_Item;
+	private String materialItem;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -266,29 +266,7 @@ public class ReportRequest {
 		this.activityType = activityType;
 	}
 
-	public void setMaterial_Item(String Material_Item) {
-		this.Material_Item = Material_Item;
-	}
-
-	public String getMaterial_Item() {
-		return Material_Item;
-	}
-
-	public String getZone() {
-		return zone;
-	}
-
-	public void setZone(String zone) {
-		this.zone = zone;
-	}
-
-	public String getDivision() {
-		return division;
-	}
-
-	public void setDivision(String division) {
-		this.division = division;
-	}
+	
 
 	public String getSubDivision() {
 		return subDivision;
@@ -305,5 +283,32 @@ public class ReportRequest {
 	public void setDate(LocalDate date) {
 		Date = date;
 	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
+	}
+
+	public Division getDivision() {
+		return division;
+	}
+
+	public void setDivision(Division division) {
+		this.division = division;
+	}
+
+	public String getMaterialItem() {
+		return materialItem;
+	}
+
+	public void setMaterialItem(String materialItem) {
+		this.materialItem = materialItem;
+	}
+
+	
+	
 	
 }
