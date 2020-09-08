@@ -209,7 +209,8 @@ export const Constants = {
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
-                GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/"
+                GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/",
+                GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM:"/assetIdsByAssetTypeAndFacilityId/"
 
             },
             TARIFF:{
@@ -507,7 +508,7 @@ export const Constants = {
                         EXIST_FACILITYID:"/findByFacilityId/",
                         EXIST_FACILITYNAME_AND_ID:"/findByFacilityNameAndId/",
                         EXIST_FACILITYID_AND_ID:"/findByFacilityIdAndId/",
-                       
+                        FIND_FACILITY_BY_FACILITYID:"/findFacilityByFacilityId/",
                         },
             },
        OPERATIONS:{

@@ -23,11 +23,16 @@ export class TestComponent implements OnInit {
   resp: any;
   addAssetDailyScheduleReportGroup: FormGroup;
   facilityId:any;
+  facility:any;
+  fromKm:any;
+  toKm:any;
   facilityList: FacilityModel[]  = [];
   depoNameList: any;
   powerBlockList: any;
   assetTypeList: any;
   scheduleDate: any;
+  assetIdList: any;
+  scheduleCodeList:any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -48,7 +53,9 @@ export class TestComponent implements OnInit {
 	      this.facilityList = data;
 	      }, error => {
 		      this.spinnerService.hide();
-		    });
+        });
+      
+      
   }
   createAssetDailyScheduleReportGroup() {
     this.addAssetDailyScheduleReportGroup = this.formBuilder.group({
@@ -93,6 +100,49 @@ export class TestComponent implements OnInit {
         this.spinnerService.hide();
       });
   }
+  getAssetTypes($event){
+    console.log("getAssetTypes for facilityId::"+this.facilityId);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID+"30000").subscribe((data) => {
+      this.facility = data;
+      console.log("getAssetTypes for facility::::"+this.facility);
+      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+this.facility.depotType).subscribe((data) => {
+        this.assetTypeList = data;
+        }, error => {
+          this.spinnerService.hide();
+        });
+      }, error => {
+        this.spinnerService.hide();
+      });
+      
+  }
+  getAssetIds($event){
+    console.log("selected asset type block"+$event.value);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM+ 'ATD'+'/30015'+'/121'+'/131').subscribe((data) => {
+      this.assetIdList = data;
+      }, error => {
+        this.spinnerService.hide();
+      });
+  }
+  getScheduleCodes($event){
+    console.log("selected asset type block"+$event.value);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE+ 'SCL').subscribe((data) => {
+      this.scheduleCodeList = data;
+      }, error => {
+        this.spinnerService.hide();
+      });
+  }
+
+  selectedFromKm($event){
+    console.log("selectedFromKm"+$event.value);
+    this.fromKm=$event.value;
+      
+  }
+  selectedToKm($event){
+    console.log("selectedToKm"+$event.value);
+    this.toKm=$event.value;
+    
+  }
+  
   onAssetDailyScheduleReportSubmit(){
     this.isSubmit = true;
     if (this.addAssetDailyScheduleReportGroup.invalid) {

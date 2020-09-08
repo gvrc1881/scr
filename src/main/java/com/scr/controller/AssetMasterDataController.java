@@ -136,4 +136,11 @@ public class AssetMasterDataController {
 		List<AssetMasterDataFormParameter> assetTypeList= assetMasterDataService.findByAssetType(assetType);
 			return new ResponseEntity<List<AssetMasterDataFormParameter>>(assetTypeList, HttpStatus.OK);		
 	}
+	
+	@RequestMapping(value = "/assetIdsByAssetTypeAndFacilityId/{assetType}/{facilityId}/{fromKm}/{toKm}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterData>> findAssetIds(@PathVariable("assetType") String assetType ,@PathVariable("facilityId") String facilityId,@PathVariable("fromKm") String fromKm ,@PathVariable("toKm") String toKm){
+		
+		List<AssetMasterData> assetIdsList= assetMasterDataService.findByAssetTypeAndFacilityId(assetType, facilityId,Double.valueOf(fromKm),Double.valueOf(toKm));
+			return new ResponseEntity<List<AssetMasterData>>(assetIdsList, HttpStatus.OK);		
+	}
 }

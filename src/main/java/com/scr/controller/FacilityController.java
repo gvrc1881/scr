@@ -204,5 +204,25 @@ public class FacilityController {
 			return false;
 		}
 	}
+	@RequestMapping(value = "/findFacilityByFacilityId/{facilityId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<Facility> findByFacilityId(@PathVariable("facilityId") String facilityId){
+
+		Optional<Facility> fac = null;
+		try {
+			logger.info("Selected facilityId Id = "+facilityId);
+			
+			fac = facilityService.findByFacilityId(facilityId);
+			if(fac.isPresent()) {
+				logger.info("facility Data = "+fac.get());
+				return new ResponseEntity<Facility>(fac.get(), HttpStatus.OK);
+				
+			}
+			else
+				return new ResponseEntity<Facility>(fac.get(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			logger.error("Error >>  while find Functional Unit Details by id, "+e.getMessage());
+			return new ResponseEntity<Facility>(fac.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }
