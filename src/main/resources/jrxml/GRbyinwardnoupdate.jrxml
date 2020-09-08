@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GR Report" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="inwardNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT row_number() over(order by ORDER_ID) AS SNO,
+     ORDER_ID AS ORDER_ID,
+     INWARD_NO AS INWARD_NO,
+    DELIVERY_CHALLAN_NO AS DELIVERY_CHALLAN_NO,
+     to_char(date_received, 'yyyy-mm-dd') as DATE_RECEIVED,
+     RECEIVED_BY AS RECEIVED_BY,
+     TRIM(TRAILING '.000000' FROM NO_OF_ITEMS_RECEIVED) AS NO_OF_ITEMS_RECEIVED,
+ invoice_no,
+      gpi_no
+FROM
+     incoming_consignment
+where  inward_no=$P{inwardNo}]]>
+	</queryString>
+	<field name="sno" class="java.lang.Long"/>
+	<field name="order_id" class="java.lang.String"/>
+	<field name="inward_no" class="java.lang.String"/>
+	<field name="delivery_challan_no" class="java.lang.String"/>
+	<field name="date_received" class="java.lang.String"/>
+	<field name="received_by" class="java.lang.String"/>
+	<field name="no_of_items_received" class="java.lang.String"/>
+	<field name="invoice_no" class="java.lang.String"/>
+	<field name="gpi_no" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="632" y="16" width="100" height="13"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="579" y="75" width="34" height="13"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="16" width="271" height="31"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIC Electronics Limited, Hyderabad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="57" width="114" height="18"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Goods   Receipt]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="97" width="752" height="1"/>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="618" y="75" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="38" y="3" width="67" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="4" width="66" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inward No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="3" width="65" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Challan No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="3" width="87" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="3" width="77" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Received By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="581" y="4" width="115" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Packets Received]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="3" width="51" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="343" y="4" width="45" height="14"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GPI No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="3" width="39" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.NO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="-3" width="752" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="20" width="752" height="3"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="4" width="39" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{sno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="3" width="66" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="2" width="67" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inward_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="2" width="61" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{delivery_challan_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="0" width="67" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{invoice_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="2" width="28" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{gpi_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="4" width="90" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{date_received}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="3" width="77" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{received_by}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="585" y="0" width="124" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_of_items_received}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="579" y="15" width="61" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="646" y="15" width="40" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

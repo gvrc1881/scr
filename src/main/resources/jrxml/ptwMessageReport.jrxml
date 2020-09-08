@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PTWMessageReport" pageWidth="1300" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1260" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="479"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tpc_Board" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ptwfromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ptwthruDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select $P{division} || ' ' || 'Division' as division, pb1.elementary_section_code, t.tpc_board, t.created_date, t.field_operated_switch_list, t.facility_name, t.Pb_over_es_sec_subsec,t.seq_id,
+t.pb_operation_seq_id, t.io_location , io_type, io_opened_by, sno,Opearation_type,op_time,op_date,
+op_remark,io_closed_by,  tpc_pin,  field_code,
+swf_io_opened_date_time, swf_tpc_no_io_open , swf_field_no_io_open ,swf_io_opened_date_time_done,
+swf_tpc_no_io_open_done  ,swf_field_no_io_open_done ,swf_io_closed_date_time,swf_tpc_no_io_close,
+swf_field_no_io_close,swf_io_closed_date_time_done,swf_tpc_no_io_close_done, swf_field_no_io_close_done,
+is_field_operated,null::timestamp ptw_availed_thru_date_time ,null::timestamp ptw_availed_from_date_time ,
+''  tpc_no_ptw_issue  ,'' field_no_ptw_issue ,'' tpc_no_ptw_return, '' field_no_ptw_return , null line,null line2 ,''  PB_SECTION_LINES from
+(
+--Open AT part
+select
+tpc_board, '' as field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec,swa.seq_id, swa.pb_operation_seq_id, swa.io_location , swa.io_type, swa.io_opened_by, 1 sno, 'OPEN_AT ' Opearation_type,
+--to_char(swf_io_opened_date_time, 'HH24:MI') op_time,
+case when io_opened_date_time_amended = 'true' then to_char(swf_io_opened_date_time, 'HH24:MI') || '*'  else to_char(swf_io_opened_date_time, 'HH24:MI') end op_time,
+
+to_char(swf_io_opened_date_time, 'dd-mm-yyyy') op_date,
+case when io_type= 'MANUAL' then
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' OPEN ('''||swa.io_location||''') Lock And Report' end
+else
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' OPEN ('''||swa.io_location||''')' end
+end as op_remark,
+swf_tpc_no_io_open  tpc_pin, swf_field_no_io_open field_code,
+ swf_io_opened_date_time, swf_tpc_no_io_open  , swf_field_no_io_open ,
+ swf_io_opened_date_time_done , swf_tpc_no_io_open_done  ,swf_field_no_io_open_done ,
+ swf_io_closed_date_time , swf_tpc_no_io_close  , swf_field_no_io_close ,
+ swf_io_closed_date_time_done , swf_tpc_no_io_close_done  ,  swf_field_no_io_close_done ,
+ swa.io_closed_by, swa.is_field_operated,
+  null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+  null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return , null line,  null line2 , ''  PB_SECTION_LINES ,created_date
+from v_switch_maintenence_history_message_final swa
+where  type_of_operation = 'OHE_POWER_BLOCK'
+and io_type = 'MANUAL'
+and tpc_board =$P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <=$P{ptwthruDate}::date
+and is_field_operated != 'true'
+and current_status = 'ACTIVE'
+
+--2 open  done
+union
+select
+tpc_board, '' field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec, swa.seq_id, swa.pb_operation_seq_id,  swa.io_location ,swa.io_type, swa.io_opened_by, 2 sno, 'OPEN_DONE' Opearation_type ,
+--to_char(swf_io_opened_date_time_done, 'HH24:MI') op_time,
+case when io_opened_date_time_done_amended = 'true' then to_char(swf_io_opened_date_time_done, 'HH24:MI') || '*'  else to_char(swf_io_opened_date_time_done, 'HH24:MI') end op_time,
+to_char(swf_io_opened_date_time_done, 'dd-mm-yyyy') op_date,
+case when io_type= 'MANUAL' then
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' OPENED ('''||swa.io_location||''') And Locked' end
+else
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' OPENED ('''||swa.io_location||''')' end
+end as op_remark,
+swf_tpc_no_io_open_done  tpc_pin, swf_field_no_io_open_done field_code,
+ swf_io_opened_date_time, swf_tpc_no_io_open  , swf_field_no_io_open ,
+ swf_io_opened_date_time_done , swf_tpc_no_io_open_done  ,swf_field_no_io_open_done ,
+ swf_io_closed_date_time , swf_tpc_no_io_close  , swf_field_no_io_close ,
+ swf_io_closed_date_time_done , swf_tpc_no_io_close_done  ,  swf_field_no_io_close_done ,
+ swa.io_closed_by, swa.is_field_operated ,
+  null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+  null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return, null line,  null line2 , ''  PB_SECTION_LINES, created_date
+from v_switch_maintenence_history_message_final swa
+where type_of_operation = 'OHE_POWER_BLOCK'
+and tpc_board = $P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >=$P{ptwfromDate}::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <=$P{ptwthruDate}::date
+and is_field_operated != 'true'
+and current_status = 'ACTIVE'
+
+---3 ptw issue
+union
+select tpc_board,  field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec, '' swa_seq_id, pb_operation_seq_id swa_pb_operation_seq_id, '' swa_io_location ,'' swa_io_type,'' swa_io_opened_by, 3 sno, 'PTW_ISSUE' Opearation_type,
+--to_char(ptw_availed_from_date_time, 'HH24:MI')op_time
+case when ptw_availed_from_date_time_amended = 'true' then to_char(ptw_availed_from_date_time, 'HH24:MI') || '*'  else to_char(ptw_availed_from_date_time, 'HH24:MI') end op_time,
+
+to_char(ptw_availed_from_date_time, 'dd-mm-yyyy') op_date,
+case
+  when ptw_availed_from_date_time is null then 'Operation pending' else
+    case
+        when field_operated_switch_list is  null  then
+           ''|| ' You are PTW on ' || PB_SECTION_LINES ||'PB over '|| section||' --> ('''||elementary_section_code||''') upto - ' ||to_char(ptw_availed_from_date_time, 'HH24:MI') ||' hrs after taking necessary safety precautions.'
+          else
+         ''||' After opening   ' || field_operated_switch_list  ||' You are PTW on '||   'PB over '|| section||' --> ('''||elementary_section_code||''') upto ' ||to_char(ptw_availed_till_date_time, 'HH24:MI') ||' hrs after taking necessary safety precautions.'
+         end
+  end as op_remark,
+tpc_no_ptw_issue  tpc_pin, field_no_ptw_issue field_code,
+  null swf_io_opened_date_time,'' swf_tpc_no_io_open  , '' swf_field_no_io_open ,
+   null swf_io_opened_date_time_done , null swf_tpc_no_io_open_done  , '' swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , '' swf_tpc_no_io_close  , '' swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , '' swf_tpc_no_io_close_done  , '' swf_field_no_io_close_done ,
+ '' swa_io_closed_by, '' swa_is_field_operated ,
+   ptw_availed_from_date_time , tpc_no_ptw_issue , field_no_ptw_issue ,
+  ptw_availed_thru_date_time , tpc_no_ptw_return, field_no_ptw_return, line,  line2 ,  PB_SECTION_LINES, null created_date
+from v_power_blocks_amendment_message_final
+where type_of_operation = 'OHE_POWER_BLOCK'
+and tpc_board =$P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <=$P{ptwthruDate} ::date
+and current_status = 'ACTIVE'
+
+--4  ptw return
+union
+select tpc_board, field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec,  '' swa_seq_id, pb_operation_seq_id swa_pb_operation_seq_id, '' swa_io_location ,'' swa_io_type,'' swa_io_opened_by, 4 sno, 'PTW_RETURN' Opearation_type ,
+--to_char(ptw_availed_thru_date_time, 'HH24:MI') op_time,
+case when ptw_availed_thru_date_time_amended = 'true' then to_char(ptw_availed_thru_date_time, 'HH24:MI') ||'*'  else to_char(ptw_availed_thru_date_time, 'HH24:MI') end op_time,
+
+to_char(ptw_availed_thru_date_time, 'dd-mm-yyyy') op_date,
+case when ptw_availed_thru_date_time is null then 'Operation pending'
+else
+ 'PTW CANCEL: '|| 'Work completed on ' ||    PB_SECTION_LINES || ' '||section||'  '''  || elementary_section_code ||  ''' ' || '(Only '
+ || case when field_operated_switch_list is null then ' '
+ else  field_operated_switch_list ||'  Closed )'   end
+  ||''' All men, materials and temporary earths has been removed and the same OHE may be charged.'
+ end  as op_remark,
+tpc_no_ptw_return  tpc_pin, field_no_ptw_return field_code,
+ null swf_io_opened_date_time, '' swf_tpc_no_io_open  , '' swf_field_no_io_open ,
+ null swf_io_opened_date_time_done , null swf_tpc_no_io_open_done  , '' swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , '' swf_tpc_no_io_close  , '' swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , '' swf_tpc_no_io_close_done  , '' swf_field_no_io_close_done ,
+ '' swa_io_closed_by, '' swa_is_field_operated,
+    ptw_availed_from_date_time ,    tpc_no_ptw_issue  ,   field_no_ptw_issue ,
+  ptw_availed_thru_date_time ,  tpc_no_ptw_return,   field_no_ptw_return ,  line,   line2,   PB_SECTION_LINES , null created_date
+  from v_power_blocks_amendment_message_final
+  where type_of_operation = 'OHE_POWER_BLOCK'
+and tpc_board = $P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <= $P{ptwthruDate}::date
+and current_status = 'ACTIVE'
+
+--5  close at
+union
+select tpc_board, '' field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec, swa.seq_id, swa.pb_operation_seq_id, swa.io_location , swa.io_type, swa.io_opened_by, 5 sno, 'CLOSE_AT ' Opearation_type,
+--to_char(swf_io_closed_date_time, 'HH24:MI') op_time,
+case when io_closed_date_time_amended = 'true' then to_char(swf_io_closed_date_time, 'HH24:MI') || '*'  else to_char(swf_io_closed_date_time, 'HH24:MI') end op_time,
+
+to_char(swf_io_closed_date_time, 'dd-mm-yyyy') op_date,
+case when io_type= 'MANUAL' then
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' CLOSE ('''||swa.io_location||''') Lock And Report' end
+else
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' CLOSE ('''||swa.io_location||''')' end
+end as op_remark,
+swf_tpc_no_io_close  tpc_pin, swf_field_no_io_close field_code,
+ swf_io_opened_date_time, swf_tpc_no_io_open  , swf_field_no_io_open ,
+ swf_io_opened_date_time_done , swf_tpc_no_io_open_done  ,swf_field_no_io_open_done ,
+ swf_io_closed_date_time , swf_tpc_no_io_close  , swf_field_no_io_close ,
+ swf_io_closed_date_time_done , swf_tpc_no_io_close_done  ,  swf_field_no_io_close_done ,
+ swa.io_closed_by swa_io_closed_by, swa.is_field_operated swa_is_field_operated,
+ null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+ null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return , null line,  null line2 , ''  PB_SECTION_LINES , created_date
+  from v_switch_maintenence_history_message_final swa
+  where type_of_operation = 'OHE_POWER_BLOCK'
+  and io_type = 'MANUAL'
+and tpc_board = $P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <= $P{ptwthruDate}::date
+and is_field_operated != 'true'
+and current_status = 'ACTIVE'
+
+--6 close done
+union
+select tpc_board, '' field_operated_switch_list, facility_name,
+case when section='ELEMENTARY_SECTION' then'ES'
+when section='SUB_SECTOR' then'SS'
+when section='SECTOR' then 'S'
+when section='GANTRY' then 'G'
+end as Pb_over_es_sec_subsec, swa.seq_id, swa.pb_operation_seq_id, swa.io_location , swa.io_type, swa.io_opened_by, 6 sno, 'CLOSE DONE' Opearation_type,
+--to_char(swf_io_closed_date_time_done,'HH24:MI') op_time,
+case when io_closed_date_time_done_amended = 'true' then to_char(swf_io_closed_date_time_done,'HH24:MI') || '*'  else to_char(swf_io_closed_date_time_done,'HH24:MI') end op_time,
+
+to_char(swf_io_closed_date_time_done,'dd-mm-yyyy') op_date,
+case when io_type= 'MANUAL' then
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' CLOSED ('''||swa.io_location||''') And Locked' end
+else
+	case when swf_io_opened_date_time_done is null then 'Operation pending' else ' CLOSED ('''||swa.io_location||''')' end
+end as op_remark,
+swf_tpc_no_io_close_done  tpc_pin, swf_field_no_io_close_done field_code,
+ null swf_io_opened_date_time, swf_tpc_no_io_open  , swf_field_no_io_open ,
+ null swf_io_opened_date_time_done , swf_tpc_no_io_open_done  ,swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , swf_tpc_no_io_close  , swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , swf_tpc_no_io_close_done  ,  swf_field_no_io_close_done ,
+ swa.io_closed_by swa_io_closed_by, swa.is_field_operated swa_is_field_operated,
+ null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+ null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return , null line,  null line2 , ''  PB_SECTION_LINES , created_date
+  from v_switch_maintenence_history_message_final swa
+ where type_of_operation = 'OHE_POWER_BLOCK'
+and tpc_board = $P{tpc_Board}
+and to_char(created_date, 'yyyy-mm-dd')::date  >=$P{ptwfromDate} ::date
+and to_char(created_date, 'yyyy-mm-dd')::date  <= $P{ptwthruDate}::date
+and is_field_operated != 'true'
+and current_status = 'ACTIVE'
+
+--7 psi ptw request
+union
+select tpc_board,  field_operated_switch_list, facility_name,
+section Pb_over_es_sec_subsec, '' seq_id, '' pb_operation_seq_id,'' io_location , '' io_type,'' io_opened_by, 7 sno, 'PSI_OPERATION_REQUEST' Opearation_type,
+-- '' op_time,
+case when ptw_availed_thru_date_time_amended = 'true' then to_char(ptw_availed_from_date_time, 'HH24:MI') || '*'  else to_char(ptw_availed_from_date_time, 'HH24:MI') end,
+
+ '' op_date,
+ ' Please issue me PTW on ' || equipment_to_work ||' for a period of ' || 'grant time' || ' minutes to carry out (Schedule) maintenance of the same. ' op_remark,
+ ''  tpc_pin, '' field_code,  -- PB REQUEST FROM
+ null swf_io_opened_date_time, '' swf_tpc_no_io_open  , '' swf_field_no_io_open ,
+ null swf_io_opened_date_time_done , '' swf_tpc_no_io_open_done  , '' swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , '' swf_tpc_no_io_close  , '' swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , '' swf_tpc_no_io_close_done  ,  '' swf_field_no_io_close_done ,
+ '' swa_io_closed_by, ''  swa_is_field_operated ,
+ null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+ null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return ,   line,    line2,  PB_SECTION_LINES , null created_date
+ from v_power_blocks_amendment_message_final pb
+ where  type_of_operation = 'PSI_OPERATION'
+and tpc_board = $P{tpc_Board}
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  <=$P{ptwthruDate}::date
+and current_status = 'ACTIVE'
+
+--8 psi ptw issue
+union
+select  tpc_board,  field_operated_switch_list, facility_name,
+section Pb_over_es_sec_subsec, '' seq_id, '' pb_operation_seq_id,'' io_location , '' io_type,'' io_opened_by,  8 sno, 'PSI_OPERATION_PTW_ISSUE' Opearation_type,
+--to_char(ptw_availed_from_date_time, 'HH24:MI') op_time,
+case when ptw_availed_thru_date_time_amended = 'true' then to_char(ptw_availed_from_date_time, 'HH24:MI') || '*'  else to_char(ptw_availed_from_date_time, 'HH24:MI') end,
+
+to_char(ptw_availed_from_date_time, 'dd-mm-yyyy') op_date,
+' After opening ' || field_operated_switch_list || 'you are PTW on' || equipment_to_work ||'upto - '|| ' .....'||'hrs after taking necessary safety precautions.'   op_remark,
+tpc_no_ptw_issue  tpcc_pin, field_no_ptw_issue field_code,
+null swf_io_opened_date_time, '' swf_tpc_no_io_open  , '' swf_field_no_io_open ,
+ null swf_io_opened_date_time_done , '' swf_tpc_no_io_open_done  , '' swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , '' swf_tpc_no_io_close  , '' swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , '' swf_tpc_no_io_close_done  ,  '' swf_field_no_io_close_done ,
+ '' swa_io_closed_by, ''  swa_is_field_operated ,
+ null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+ null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return ,  line,    line2,  PB_SECTION_LINES , null created_date
+ from v_power_blocks_amendment_message_final pb
+  where  type_of_operation = 'PSI_OPERATION'
+and tpc_board = $P{tpc_Board}
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  <= $P{ptwthruDate}::date
+and current_status = 'ACTIVE'
+
+--9 psi ptw cancel
+union
+select  tpc_board,  field_operated_switch_list, facility_name,
+section Pb_over_es_sec_subsec, '' seq_id, '' pb_operation_seq_id,'' io_location , '' io_type,'' io_opened_by,  9 sno, 'PSI_OPERATION_PTW_CANCEL' Opearation_type ,
+--to_char(ptw_availed_thru_date_time, 'HH24:MI') op_time,
+case when ptw_availed_thru_date_time_amended = 'true' then to_char(ptw_availed_from_date_time, 'HH24:MI') || '*'  else to_char(ptw_availed_from_date_time, 'HH24:MI') end,
+
+to_char(ptw_availed_thru_date_time, 'dd-mm-yyyy') op_date,
+ 'Work completed on ' || field_operated_switch_list || ' & closed '|| equipment_to_work ||' all men, materials and temporary earths have been removed and the same (Working equipment) is ready for service.' op_remark,
+ tpc_no_ptw_return  tpc_pin, field_no_ptw_return field_code,
+null swf_io_opened_date_time, '' swf_tpc_no_io_open  , '' swf_field_no_io_open ,
+ null swf_io_opened_date_time_done , '' swf_tpc_no_io_open_done  , '' swf_field_no_io_open_done ,
+ null swf_io_closed_date_time , '' swf_tpc_no_io_close  , '' swf_field_no_io_close ,
+ null swf_io_closed_date_time_done , '' swf_tpc_no_io_close_done  ,  '' swf_field_no_io_close_done ,
+ '' swa_io_closed_by, ''  swa_is_field_operated ,
+ null::timestamp ptw_availed_from_date_time , ''  tpc_no_ptw_issue  , '' field_no_ptw_issue ,
+ null::timestamp ptw_availed_thru_date_time , '' tpc_no_ptw_return,  '' field_no_ptw_return ,  line,    line2,  PB_SECTION_LINES , null created_date
+ from v_power_blocks_amendment_message_final pb
+ where type_of_operation = 'PSI_OPERATION'
+and tpc_board = $P{tpc_Board}
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  >= $P{ptwfromDate}::date
+and to_char(pb.created_date, 'yyyy-mm-dd')::date  <= $P{ptwthruDate}::date
+and current_status = 'ACTIVE'
+)as t , power_blocks pb1
+where  op_time IS NOT NULL
+and pb1.pb_operation_seq_id=t.pb_operation_seq_id
+order  by op_time,sno]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="elementary_section_code" class="java.lang.String"/>
+	<field name="tpc_board" class="java.lang.String"/>
+	<field name="created_date" class="java.sql.Timestamp"/>
+	<field name="field_operated_switch_list" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="pb_over_es_sec_subsec" class="java.lang.String"/>
+	<field name="seq_id" class="java.lang.String"/>
+	<field name="pb_operation_seq_id" class="java.lang.String"/>
+	<field name="io_location" class="java.lang.String"/>
+	<field name="io_type" class="java.lang.String"/>
+	<field name="io_opened_by" class="java.lang.String"/>
+	<field name="sno" class="java.lang.Integer"/>
+	<field name="opearation_type" class="java.lang.String"/>
+	<field name="op_time" class="java.lang.String"/>
+	<field name="op_date" class="java.lang.String"/>
+	<field name="op_remark" class="java.lang.String"/>
+	<field name="io_closed_by" class="java.lang.String"/>
+	<field name="tpc_pin" class="java.lang.String"/>
+	<field name="field_code" class="java.lang.String"/>
+	<field name="swf_io_opened_date_time" class="java.sql.Timestamp"/>
+	<field name="swf_tpc_no_io_open" class="java.lang.String"/>
+	<field name="swf_field_no_io_open" class="java.lang.String"/>
+	<field name="swf_io_opened_date_time_done" class="java.sql.Timestamp"/>
+	<field name="swf_tpc_no_io_open_done" class="java.lang.String"/>
+	<field name="swf_field_no_io_open_done" class="java.lang.String"/>
+	<field name="swf_io_closed_date_time" class="java.sql.Timestamp"/>
+	<field name="swf_tpc_no_io_close" class="java.lang.String"/>
+	<field name="swf_field_no_io_close" class="java.lang.String"/>
+	<field name="swf_io_closed_date_time_done" class="java.sql.Timestamp"/>
+	<field name="swf_tpc_no_io_close_done" class="java.lang.String"/>
+	<field name="swf_field_no_io_close_done" class="java.lang.String"/>
+	<field name="is_field_operated" class="java.lang.String"/>
+	<field name="ptw_availed_thru_date_time" class="java.sql.Timestamp"/>
+	<field name="ptw_availed_from_date_time" class="java.sql.Timestamp"/>
+	<field name="tpc_no_ptw_issue" class="java.lang.String"/>
+	<field name="field_no_ptw_issue" class="java.lang.String"/>
+	<field name="tpc_no_ptw_return" class="java.lang.String"/>
+	<field name="field_no_ptw_return" class="java.lang.String"/>
+	<field name="line" class="java.lang.String"/>
+	<field name="line2" class="java.lang.String"/>
+	<field name="pb_section_lines" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="802" y="58" width="353" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created Date:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="1155" y="58" width="105" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{created_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="1260" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="58" width="1260" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="1260" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="50" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="702" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TPC PN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1155" y="0" width="105" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Field PN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="802" y="0" width="353" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Message]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Depot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PB Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="110" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ES/S/SS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="0" width="142" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Operation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl.No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="802" y="0" width="353" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{op_remark}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="150" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{op_time}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="50" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{op_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="250" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="560" y="0" width="142" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{opearation_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="450" y="0" width="110" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pb_over_es_sec_subsec}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="702" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tpc_pin}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1155" y="0" width="105" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{field_code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="350" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{elementary_section_code}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="1260" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"+" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="1260" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="styled"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["<b>Generated On : </b>"+ new SimpleDateFormat("dd-MMM-yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="350" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note:-  *  (Star) Indicates Old Value is Replaced With New Value.]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="1260" height="30" forecolor="#E91616"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

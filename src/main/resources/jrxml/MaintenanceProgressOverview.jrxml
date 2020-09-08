@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MaintenanceProgressOverview" pageWidth="1274" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1234" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="facilityId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select $P{division} || ' ' || 'Division' as division, row_number() OVER (ORDER BY (Asset_type ,Schedule_code) ) S_No,REPLACE (f.facility_name,RIGHT(facility_name,4),'') facility_name ,AT_ST_description  description , Total_Population, frequency,month_target,
+Asset_type , Schedule_code,apr_cnt::INTEGER, may_cnt::INTEGER, juN_cnt::INTEGER, jul_cnt::INTEGER, aug_cnt::INTEGER, sep_cnt::INTEGER,
+oct_cnt::INTEGER, nov_cnt::INTEGER, dec_cnt::INTEGER, jan_cnt::INTEGER, feb_cnt::INTEGER, mar_cnt::INTEGER,
+(apr_cnt+may_cnt+jun_cnt+jul_cnt+aug_cnt+sep_cnt+oct_cnt+ nov_cnt+dec_cnt+ jan_cnt +feb_cnt+mar_cnt)::INTEGER as Total,
+
+avg_cum_month_target_till_month target_till_month ,
+tprog::integer  progres,
+
+CASE when (avg_cum_month_target_till_month is null or avg_cum_month_target_till_month = 0 )
+then 0 else ROUND((tprog/avg_cum_month_target_till_month*100)::numeric,2) end as PErcentage_of_progress
+
+from
+(
+
+Select  AT_ST_description, Total_Population, frequency, Asset_type , Schedule_code, month_target, avg(cum_month_target_till_month) avg_cum_month_target_till_month,
+case when sum(apr_cnt) is null THEN 0 else sum(apr_cnt)/12  end as  apr_cnt ,
+case when sum(may_cnt) is null THEN 0 else sum(may_cnt)/12  end as  may_cnt ,
+case when sum(jun_cnt) is null THEN 0 else sum(jun_cnt)/12  end as  jun_cnt ,
+case when sum(jul_cnt) is null THEN 0 else sum(jul_cnt)/12  end as  jul_cnt ,
+case when sum(aug_cnt) is null THEN 0 else sum(aug_cnt)/12  end as  aug_cnt ,
+case when sum(sep_cnt) is null THEN 0 else sum(sep_cnt)/12  end as  sep_cnt ,
+case when sum(oct_cnt) is null THEN 0 else sum(oct_cnt)/12  end as  oct_cnt ,
+case when sum(nov_cnt) is null THEN 0 else sum(nov_cnt)/12  end as  nov_cnt ,
+case when sum(dec_cnt) is null THEN 0 else sum(dec_cnt)/12  end as  dec_cnt ,
+case when sum(jan_cnt) is null THEN 0 else sum(jan_cnt)/12  end as  jan_cnt ,
+case when sum(feb_cnt) is null THEN 0 else sum(feb_cnt)/12 end as  feb_cnt ,
+case when sum(mar_cnt) is null THEN 0 else sum(mar_cnt)/12 end as  mar_cnt ,
+(sum(apr_cnt)+sum(may_cnt)+sum(jun_cnt)+sum(jul_cnt)+sum(aug_cnt)+sum(sep_cnt)+sum(oct_cnt)+sum(nov_cnt)+sum(dec_cnt)+sum(jan_cnt)+sum(feb_cnt)+sum(mar_cnt))/12::integer tprog
+From
+(
+               -- To get the details of
+               select row_number() OVER (ORDER BY (as12m.Asset_type , as12m.Schedule_code) ),   as12m.Asset_type||' - '|| as12m.Schedule_code AT_ST_description,
+               Case when Total_Population is null THEN 0 else Total_Population end as Total_Population,
+               as12m.Asset_type , as12m.Schedule_code,
+               case when month_target is null then 0 else month_target end month_target,
+               case when cum_month_target_till_month is null then 0 else cum_month_target_till_month end cum_month_target_till_month,
+               case when Mon_cnt is null then 0 else Mon_cnt end Mon_cnt, frequency ,
+
+ prog_of_year, prog_of_month, prog_of_year||'-'||prog_of_month,
+                    case when prog_of_month != 4  then  0 else   mon_cnt end as apr_cnt  ,
+                    case when prog_of_month != 5  then  0 else   mon_cnt end as may_cnt  ,
+                    case when prog_of_month != 6  then  0 else   mon_cnt end as jun_cnt  ,
+                    case when prog_of_month != 7  then  0 else   mon_cnt end as jul_cnt  ,
+                    case when prog_of_month != 8  then  0 else   mon_cnt end as aug_cnt  ,
+                    case when prog_of_month != 8  then  0 else   mon_cnt end as sep_cnt  ,
+                    case when prog_of_month != 10 then  0 else   mon_cnt end as oct_cnt  ,
+                    case when prog_of_month != 11 then  0 else   mon_cnt end as nov_cnt  ,
+                    case when prog_of_month != 12 then  0 else   mon_cnt end as dec_cnt  ,
+                    case when prog_of_month != 1  then  0 else   mon_cnt end as jan_cnt  ,
+                    case when prog_of_month != 2  then  0 else   mon_cnt end as feb_cnt  ,
+                    case when prog_of_month != 3  then  0 else   mon_cnt end as mar_cnt
+
+               from (
+                              -- to get all asset types and scehdule types (other than UNSCHED and COMM for month wise
+                              select extract(year from dd2) y1, extract(month from dd2) m1 , fy, asa1.Asset_type||' - '|| asa1.Schedule_code AT_ST_description ,
+                              asa1.Asset_type , asa1.schedule_code,
+                              asa1.duration,
+                              case when Schedule_code = 'AOH' then 'Yearly'
+                              when Schedule_code = 'QTR' then 'Quarterly'
+                              when Schedule_code = 'HY' then 'Half Yearly '
+                              when Schedule_code = 'MON' then 'Monthly'
+                              when Schedule_code = 'Monthly' then 'Monthly'
+                              when Schedule_code = 'WEEK' then 'Weekly'
+                              when Schedule_code = 'POH' then  case when duration is null then 'Duration not defined' else duration::text||' Years' end  end frequency
+                              from
+                              (
+                                             -- to get the 1st date of 12 months of a current FY from  now()
+                                             SELECT generate_series(  (dd1+ interval '3 months') ,(dd1+ interval '14 months'), interval '1 month') dd2 , fy
+                                             from
+                                             (
+                                             select extract(MONTH from now())::integer month1 , extract(year from now())::integer yy1,
+                                             case when extract(MONTH from now())::integer  < 4 then (extract(year from now())::integer -1)::text||'-'||mod(extract(year from now())::integer ,100)::text
+                                              else extract(year from now())::integer ||'-'|| mod((extract(year from now() )::integer+1), 100)::text  end FY,
+                                             case when extract(MONTH from now())::integer  < 4 then to_date( (extract(year from now())::integer-1)::text||'04-01', 'YYYY-MM-DD') else
+                                                  to_date (( (extract(year from now())::integer)::text), 'YYYY-MM-DD') end dd1
+                                             )a
+                                             --End to get the 1st date of 12 months of a current FY from  now()
+                              ) b , asset_schedule_assoc asa1, product_category_member pcm1
+                              where asa1.asset_type = pcm1.Product_id
+                              and pcm1.product_category_id = 'OHE_FIXED_ASSET'
+                              and asa1.Schedule_code not in ('UNSCHD' , 'COMM' )
+                              order by asset_type, Schedule_code, y1, m1
+               ) as12m
+               -- end to get all asset types and scehdule types (other than UNSCHED and COMM for month wise
+
+               left Outer join
+
+               -- get all total count or population of each aset type in a depot and to link AT_ST for corresponding month
+               (
+               select count(*) Total_Population , Asset_type
+               from Asset_master_data
+               where Facility_id = $P{facilityId}
+               Group by Asset_type
+               ) AP on AP.asset_type = as12m.Asset_type
+               -- End to get all total count or population of each aset type in a depot and to link AT_ST for corresponding month
+
+               left Outer join
+
+               -- get all monthly target and cumulative target upto end of month from start of FY of each aset type & Schedule of a depot
+               (
+               Select asset_type, schedule_type, fy,
+                  CASE
+                  -- WHEN ash.month1 = 1::integer case when vmct.target_jan is null then 0 else vmct.target_jan end as
+                   WHEN ash.month1 = 1::integer THEN vmct.target_jan
+                   WHEN ash.month1 = 2::integer THEN vmct.target_feb
+                   WHEN ash.month1 = 3::integer THEN vmct.target_mar
+                   WHEN ash.month1 = 4::integer THEN vmct.target_apr
+                   WHEN ash.month1 = 5::integer THEN vmct.target_may
+                   WHEN ash.month1 = 6::integer THEN vmct.target_jun
+                   WHEN ash.month1 = 7::integer THEN vmct.target_jul
+                   WHEN ash.month1 = 8::integer THEN vmct.target_aug
+                   WHEN ash.month1 = 9::integer THEN vmct.target_sep
+                   WHEN ash.month1 = 10::integer THEN vmct.target_oct
+                   WHEN ash.month1 = 11::integer THEN vmct.target_nov
+                   WHEN ash.month1 = 12::integer THEN vmct.target_dec
+                   ELSE NULL::integer
+               END AS month_target,
+               CASE
+                   WHEN ash.month1 = 1::integer THEN vmct.cum_target_jan
+                   WHEN ash.month1 = 2::integer THEN vmct.cum_target_feb
+                   WHEN ash.month1 = 3::integer THEN vmct.cum_target_mar
+                   WHEN ash.month1 = 4::integer THEN vmct.cum_target_apr
+                   WHEN ash.month1 = 5::integer THEN vmct.cum_target_may
+                   WHEN ash.month1 = 6::integer THEN vmct.cum_target_jun
+                   WHEN ash.month1 = 7::integer THEN vmct.cum_target_jul
+                   WHEN ash.month1 = 8::integer THEN vmct.cum_target_aug
+                   WHEN ash.month1 = 9::integer THEN vmct.cum_target_sep
+                   WHEN ash.month1 = 10::integer THEN vmct.cum_target_oct
+                   WHEN ash.month1 = 11::integer THEN vmct.cum_target_nov
+                   WHEN ash.month1 = 12::integer THEN vmct.cum_target_dec
+                   ELSE NULL::integer
+               END AS cum_month_target_till_month
+               from v_monthly_cum_targets vmct,
+                              (select extract(MONTH from now()) month1 , extract(year from now()) yy1 )ash
+               where facility_id= $P{facilityId}
+               ) tar on as12m.Asset_type = tar.Asset_type  and  as12m.Schedule_code = tar.schedule_type and as12m.fy= tar.fy
+               -- End get all monthly target and cumulative target upto end of month from start of FY of each aset type & Schedule of a depot
+               left outer join
+               -- get Schedules done count till this month from start of FY of each aset type & Schedule of a depot
+               (
+               Select count(*) Mon_cnt , Asset_type  , Schedule_code , extract(MONTH from schedule_date) prog_of_month, extract(year from schedule_date) prog_of_year, fy
+               from v_assets_schedule_history
+               where facility_id= $P{facilityId}
+               --and FY =  as12m.fy
+               group by Asset_type  , Schedule_code , extract(MONTH from schedule_date) , extract(year from schedule_date) , fy
+               order by prog_of_year, prog_of_month
+               ) mp -- mp monthly progress of at and st for each month and year
+               on as12m.Asset_type = mp.Asset_type  and  as12m.Schedule_code = mp.schedule_code and as12m.fy= mp.fy
+               -- End of get Schedules done count till this month from start of FY of each aset type & Schedule of a depot
+
+               order by 1 , 2
+               ) mgrp
+
+group by AT_ST_description, Total_Population, Asset_type , Schedule_code, month_target , frequency
+
+order by AT_ST_description,   Asset_type , Schedule_code
+) final, facility f
+where facility_id =$P{facilityId}]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="s_no" class="java.lang.Long"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="total_population" class="java.lang.Long"/>
+	<field name="frequency" class="java.lang.String"/>
+	<field name="month_target" class="java.lang.Double"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="schedule_code" class="java.lang.String"/>
+	<field name="apr_cnt" class="java.lang.Integer"/>
+	<field name="may_cnt" class="java.lang.Integer"/>
+	<field name="jun_cnt" class="java.lang.Integer"/>
+	<field name="jul_cnt" class="java.lang.Integer"/>
+	<field name="aug_cnt" class="java.lang.Integer"/>
+	<field name="sep_cnt" class="java.lang.Integer"/>
+	<field name="oct_cnt" class="java.lang.Integer"/>
+	<field name="nov_cnt" class="java.lang.Integer"/>
+	<field name="dec_cnt" class="java.lang.Integer"/>
+	<field name="jan_cnt" class="java.lang.Integer"/>
+	<field name="feb_cnt" class="java.lang.Integer"/>
+	<field name="mar_cnt" class="java.lang.Integer"/>
+	<field name="total" class="java.lang.Integer"/>
+	<field name="target_till_month" class="java.lang.Double"/>
+	<field name="progres" class="java.lang.Integer"/>
+	<field name="percentage_of_progress" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="58" width="1234" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Progress of Maintenance Schedules of OHE/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="787" y="58" width="447" height="24"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="1234" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="1234" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{division}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="0" width="105" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="0" width="79" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Population]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="0" width="90" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frequency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="0" width="60" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Month Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[May]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jun]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jul]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="534" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aug]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="574" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="614" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="654" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nov]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="694" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dec]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="734" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="774" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Feb]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="814" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="854" y="0" width="80" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="934" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cum.target upto this month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1034" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cum.Progress upto this month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1134" y="0" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cum. % of Schedules done.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="105" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="145" y="0" width="79" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{total_population}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="224" y="0" width="90" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{frequency}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="374" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{apr_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="414" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{may_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="454" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jun_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="494" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jul_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="534" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{aug_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="574" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{sep_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="614" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{oct_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="654" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{nov_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="694" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{dec_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="734" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{jan_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="774" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{feb_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="814" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{mar_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="854" y="0" width="80" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="934" y="0" width="100" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{target_till_month}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1034" y="0" width="100" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{progres}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1134" y="0" width="100" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{percentage_of_progress}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="314" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{month_target}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="12" width="1234" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note : Monthly Target is Total annual target divided by 10
+]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="16" width="534" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="534" y="16" width="700" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM-yy">
+				<reportElement x="1120" y="0" width="114" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1020" y="0" width="100" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On: ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="37">
+			<staticText>
+				<reportElement x="0" y="17" width="1234" height="20" forecolor="#F30C0C"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="unUsualOcuurense_SubReport" pageWidth="370" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="330" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2bed8e6a-3efb-43c5-8737-5b3eb9bab8d3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="failureFromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select d.type_of_failure, d.FY, d.month1, d.week1, d.date1, Cum_delay_time_daily, Cum_delay_time_weekly, Cum_delay_time_monthly, Cum_delay_time_fy,
+daily_count,w_count,m_count,fy_count
+from (
+select  type_of_failure, FY, Sum(delay_time) Cum_delay_time_fy, sum(daily_count) fy_count
+ from v_failures_count_duration_daily
+ group by type_of_failure, FY
+) fy,
+(select type_of_failure, FY, month1, Sum(delay_time) Cum_delay_time_monthly, sum(daily_count) m_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1,   FY
+) m,
+(select type_of_failure, FY, month1, week1 , Sum(delay_time)    Cum_delay_time_weekly, sum(daily_count) w_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1, week1 ,   FY
+) w,
+(
+select type_of_failure, FY, month1, week1 , date1,  Sum(delay_time) Cum_delay_time_daily, sum(daily_count) daily_count
+ from v_failures_count_duration_daily
+ group by   type_of_failure, month1, week1, date1, FY
+) d
+where fy.type_of_failure= 'UNUSUAL_OCCURRENCE'
+and D.FY= w.FY
+and  D.FY= m.FY
+and  D.FY= fy.FY
+and D.type_of_failure= fy.type_of_failure
+and  D.month1= m.month1
+and  D.month1= w.month1
+and D.type_of_failure= m.type_of_failure
+and  D.week1= w.week1
+and D.type_of_failure= w.type_of_failure
+and date1 ::date =  $P{failureFromDate}::date]]>
+	</queryString>
+	<field name="type_of_failure" class="java.lang.String"/>
+	<field name="fy" class="java.lang.String"/>
+	<field name="month1" class="java.lang.Double"/>
+	<field name="week1" class="java.lang.Double"/>
+	<field name="date1" class="java.lang.String"/>
+	<field name="cum_delay_time_daily" class="java.lang.Double"/>
+	<field name="cum_delay_time_weekly" class="java.lang.Double"/>
+	<field name="cum_delay_time_monthly" class="java.lang.Double"/>
+	<field name="cum_delay_time_fy" class="java.lang.Double"/>
+	<field name="daily_count" class="java.math.BigDecimal"/>
+	<field name="w_count" class="java.math.BigDecimal"/>
+	<field name="m_count" class="java.math.BigDecimal"/>
+	<field name="fy_count" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="41" width="100" height="20" uuid="1745c1fb-f728-4dde-b61d-166a63e4b680"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[YEAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="127" height="20" uuid="161f8972-e69f-4861-8e82-c1accca83c2c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type of Failure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="41" width="103" height="20" uuid="d8c0d60f-1b9e-4334-9ca6-1d655f3126ee"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="243" height="20" uuid="5c8afe9f-1b20-4a99-b972-c51fdf78c6fc"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[   Unusual: ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="127" height="29" uuid="b27e87de-113d-47a5-96c2-a9d8b6982bcc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{type_of_failure}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="127" y="0" width="100" height="29" uuid="9ea13948-7246-4cc6-a501-9bfab6281a39"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="227" y="0" width="103" height="29" uuid="5a7d0514-6053-45e7-9bcf-94e08a5c8787"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy_count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<noData>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="330" height="25" uuid="8214da84-dc75-440d-96c6-bf72940a15d9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NILL]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

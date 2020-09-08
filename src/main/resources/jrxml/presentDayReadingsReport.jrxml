@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GRIDSUPPLYFAILURES" pageWidth="700" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+  cur.seq_id  ,
+  cur.location  ,
+  -- current day reading and date
+  cur.energy_reading_date  cuurent_reading_date,
+  cur.kwh cur_kwh ,
+  cur.kvah  cur_kvah  ,
+  cur.rkvah_lag    cur_rkvah_lag   ,
+  cur.rkvah_lead   cur_rkvah_lead ,
+  cur.cmd,
+  cur.rmd,
+  cur.vol_max   ,
+  cur.vol_min    ,
+  cur.max_load   ,
+  cur.max_load_time_HHMM,
+  cur.max_load_time_date,
+  cur.multiplication_fac ,
+   -- Previous day reading and date
+  pre.energy_reading_date  Previous_reading_date,
+  cur.energy_reading_date-pre.energy_reading_date no_of_days_lapsed_pre_reading,
+  pre.kwh pre_kwh ,
+  pre.kvah  pre_kvah  ,
+  pre.rkvah_lag    pre_rkvah_lag   ,
+  pre.rkvah_lead   pre_rkvah_lead,
+
+   -- joint meter reading and date
+  jr.energy_reading_date  joint_reading_date,
+  cur.energy_reading_date-jr.energy_reading_date no_of_days_lapsed_j_reading,
+  jr.kwh jr_kwh ,
+  jr.kvah  jr_kvah  ,
+  jr.rkvah_lag    jr_rkvah_lag   ,
+  jr.rkvah_lead   jr_rkvah_lead,
+
+  -- consumption between two consequtive readings -- mostly every day - this can be verified with no_of_days_lapsed_pre_reading
+  case when pre.energy_reading_date is null then (cur.kwh - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.kwh - pre.kwh) * cur.multiplication_fac  End as kwh_consumption ,
+  case when pre.energy_reading_date is null then (cur.kvah - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.kwh - pre.kwh) * cur.multiplication_fac   end as kvah_consumption ,
+  case when pre.energy_reading_date is null then (cur.rkvah_lag - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.rkvah_lag - pre.rkvah_lag) * cur.multiplication_fac end as rkvah_lag_consumption ,
+  case when pre.energy_reading_date is null then (cur.rkvah_lead - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.rkvah_lead - pre.rkvah_lead) * cur.multiplication_fac end as rkvah_lead_consumption,
+  -- PF
+  -- case when (cur.kvah - pre.kvah) = 0 then 0 else (  ((cur.kwh - pre.kwh) * cur.multiplication_fac)/((cur.kvah - pre.kvah) * cur.multiplication_fac) ) end PF ,
+   case when (   case when pre.energy_reading_date is null then (cur.kwh - cur.m_start_reading) * cur.multiplication_fac
+			else (cur.kwh - pre.kwh) * cur.multiplication_fac  End ) = 0 then 0
+	else (
+	(  case when pre.energy_reading_date is null then (cur.kvah - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.kwh - pre.kwh) * cur.multiplication_fac   end ) / (   case when pre.energy_reading_date is null then (cur.kwh - cur.m_start_reading) * cur.multiplication_fac
+			else (cur.kwh - pre.kwh) * cur.multiplication_fac  End )
+		) end as pf1,
+   -- cpf
+   -- case when (cur.kvah - jr.kvah) = 0 then 0 else ( ((cur.kwh - jr.kwh) * cur.multiplication_fac)/((cur.kvah - jr.kvah) * cur.multiplication_fac) ) end cPF ,
+
+   case when (   case when jr.energy_reading_date is null then (cur.kwh - cur.m_start_reading) * cur.multiplication_fac
+			else (cur.kwh - jr.kwh) * cur.multiplication_fac  End ) = 0 then 0
+	else (
+	(  case when jr.energy_reading_date is null then (cur.kvah - cur.m_start_reading) * cur.multiplication_fac
+	else (cur.kwh - jr.kwh) * cur.multiplication_fac   end ) / (   case when jr.energy_reading_date is null then (cur.kwh - cur.m_start_reading) * cur.multiplication_fac
+			else (cur.kwh - jr.kwh) * cur.multiplication_fac  End )
+		) end as cpf1
+from v_energy_consumption cur
+LEFT OUTER JOIN v_energy_consumption pre ON (Pre.energy_reading_date = ( select max(energy_reading_date) from v_energy_consumption cur1
+									where cur1.energy_reading_date < cur.energy_reading_date
+									and cur1.location = cur.location ) )
+LEFT OUTER JOIN v_energy_consumption jr ON (jr.energy_reading_date = ( select max(energy_reading_date) from v_energy_consumption jr1
+									where jr1.energy_reading_date < cur.energy_reading_date
+									and jr1.location = cur.location
+									and (jr1.joint_meter ='y' or jr1.joint_meter ='Y' ) )
+					     )]]>
+	</queryString>
+	<field name="seq_id" class="java.lang.String"/>
+	<field name="location" class="java.lang.String"/>
+	<field name="cuurent_reading_date" class="java.sql.Date"/>
+	<field name="cur_kwh" class="java.math.BigDecimal"/>
+	<field name="cur_kvah" class="java.math.BigDecimal"/>
+	<field name="cur_rkvah_lag" class="java.math.BigDecimal"/>
+	<field name="cur_rkvah_lead" class="java.math.BigDecimal"/>
+	<field name="cmd" class="java.math.BigDecimal"/>
+	<field name="rmd" class="java.math.BigDecimal"/>
+	<field name="vol_max" class="java.math.BigDecimal"/>
+	<field name="vol_min" class="java.math.BigDecimal"/>
+	<field name="max_load" class="java.math.BigDecimal"/>
+	<field name="max_load_time_hhmm" class="java.lang.String"/>
+	<field name="max_load_time_date" class="java.lang.String"/>
+	<field name="multiplication_fac" class="java.math.BigDecimal"/>
+	<field name="previous_reading_date" class="java.sql.Date"/>
+	<field name="no_of_days_lapsed_pre_reading" class="java.lang.Integer"/>
+	<field name="pre_kwh" class="java.math.BigDecimal"/>
+	<field name="pre_kvah" class="java.math.BigDecimal"/>
+	<field name="pre_rkvah_lag" class="java.math.BigDecimal"/>
+	<field name="pre_rkvah_lead" class="java.math.BigDecimal"/>
+	<field name="joint_reading_date" class="java.sql.Date"/>
+	<field name="no_of_days_lapsed_j_reading" class="java.lang.Integer"/>
+	<field name="jr_kwh" class="java.math.BigDecimal"/>
+	<field name="jr_kvah" class="java.math.BigDecimal"/>
+	<field name="jr_rkvah_lag" class="java.math.BigDecimal"/>
+	<field name="jr_rkvah_lead" class="java.math.BigDecimal"/>
+	<field name="kwh_consumption" class="java.math.BigDecimal"/>
+	<field name="kvah_consumption" class="java.math.BigDecimal"/>
+	<field name="rkvah_lag_consumption" class="java.math.BigDecimal"/>
+	<field name="rkvah_lead_consumption" class="java.math.BigDecimal"/>
+	<field name="pf1" class="java.math.BigDecimal"/>
+	<field name="cpf1" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="660" height="33"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Day Readings]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="35" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sl.No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="0" width="130" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Kwh]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="165" y="0" width="130" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Kvah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="130" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Rkvah-LAG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="130" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Present Rkvah-LEAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="555" y="0" width="105" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MD]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="35" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="35" y="0" width="130" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cur_kwh}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="0" width="130" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cur_kvah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="130" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cur_rkvah_lag}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="0" width="130" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cur_rkvah_lead}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="555" y="0" width="105" height="25"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="425" y="0" width="130" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="555" y="0" width="105" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="0" width="130" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="295" y="0" width="130" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="165" height="20" forecolor="#FF0033"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

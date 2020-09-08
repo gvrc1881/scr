@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="interTransfer" pageWidth="595" pageHeight="400" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ChallanNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select   $P{division}|| ' ' || 'Division' as division, it.challan_no as challan_no,
+it.send_date as date,
+it.facility_id as forward_from,
+(select distinct consignee from user_defualt_fac_cons_ind_etc where is_warehouse_manager ='Y' and facility_id in(select distinct facility_id from inventory_transfer it where  it.challan_no =$P{ChallanNo} )) as forwardFrom,
+it.facility_id_to as forward_to,
+
+(select
+case when fto.facility_name  = 'OTHER_DEPOT' then ( select ' Ext. Stores (DIVISION/Unit/Depot )'||division||'/'|| functional_unit ||'/'|| external_depot from  inventory_transfer it where challan_no =  it1.challan_no)
+
+ when fto.facility_name = 'CONTRACTOR_ISSUES'  then (select '(Work Order/contractor/ bill adjustment or return basis)' || work_order||' '|| contractor_name from  inventory_transfer it where challan_no =  it1.challan_no )
+ else
+' Stores ' ||fto.facility_name
+ end
+ from  inventory_transfer it1 , facility ff, facility fto
+ where challan_no = $P{ChallanNo}
+ --and fto.facility_name = 'OTHER_DEPOT'
+ and it1.facility_id_to =fto.facility_id
+ and it1.facility_id =ff.facility_id),
+
+(select distinct consignee from user_defualt_fac_cons_ind_etc where is_warehouse_manager ='Y' and facility_id in(select distinct facility_id_to from inventory_transfer it where  it.challan_no =$P{ChallanNo}  )) as forwardTo,
+it.comments as remarks,
+(case when II.additional_specifications is null then
+(select  internal_name from  product where product_id in (select  ii.product_id from inventory_item ii where ii.inventory_item_id = it.inventory_item_id and it.challan_no =$P{ChallanNo}  ))
+			else
+(select  internal_name from  product where product_id in (select  ii.product_id from inventory_item ii where ii.inventory_item_id = it.inventory_item_id and it.challan_no =$P{ChallanNo}))||' : '|| ii.additional_specifications  end)   as description
+,round(ii.quantity_on_hand_total,3) as quantity
+from
+inventory_item ii,
+inventory_transfer it
+--inventory_item_detail iid
+where
+--ii.inventory_item_id = iid.inventory_item_id and
+ii.inventory_item_id = it.inventory_item_id  and
+case when  $P{ChallanNo}!= '' then it.challan_no = $P{ChallanNo}
+else it.challan_no is not null
+end]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="challan_no" class="java.lang.String"/>
+	<field name="date" class="java.sql.Timestamp"/>
+	<field name="forward_from" class="java.lang.String"/>
+	<field name="forwardfrom" class="java.lang.String"/>
+	<field name="forward_to" class="java.lang.String"/>
+	<field name="case" class="java.lang.String"/>
+	<field name="forwardto" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="quantity" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="143">
+			<staticText>
+				<reportElement x="14" y="39" width="65" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Challan No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="40" width="37" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dated]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="0" width="40" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.T.47]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="19" width="39" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SC/A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="88" width="210" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[by]]></text>
+			</staticText>
+			<line>
+				<reportElement x="343" y="96" width="194" height="1"/>
+			</line>
+			<line>
+				<reportElement x="15" y="97" width="301" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="120" y="68" width="140" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forwarded to the following]]></text>
+			</staticText>
+			<line>
+				<reportElement x="260" y="78" width="275" height="1"/>
+			</line>
+			<line>
+				<reportElement x="14" y="122" width="523" height="1"/>
+			</line>
+			<line>
+				<reportElement x="537" y="122" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="14" y="122" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="231" y="123" width="1" height="19"/>
+			</line>
+			<line>
+				<reportElement x="290" y="122" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="374" y="122" width="1" height="20"/>
+			</line>
+			<staticText>
+				<reportElement x="15" y="123" width="216" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="123" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="122" width="163" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="122" width="84" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Weight]]></text>
+			</staticText>
+			<line>
+				<reportElement x="14" y="142" width="523" height="1"/>
+			</line>
+			<line>
+				<reportElement x="79" y="58" width="283" height="1"/>
+			</line>
+			<line>
+				<reportElement x="400" y="58" width="137" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="79" y="39" width="283" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{challan_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="362" y="76" width="175" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{forwardfrom}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="411" y="40" width="126" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="17" y="79" width="100" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="260" y="59" width="277" height="19"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="0" width="160" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="14" y="40" width="523" height="1"/>
+			</line>
+			<line>
+				<reportElement x="290" y="0" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement x="374" y="0" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement x="319" y="0" width="1" height="40"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="0" width="163" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{remarks}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="0" width="216" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="231" y="0" width="59" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="537" y="0" width="1" height="41"/>
+			</line>
+			<line>
+				<reportElement x="231" y="0" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement x="14" y="0" width="1" height="40"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="6" width="535" height="25"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Please return this Challan duly certified immediately on receipt of the materials received in                                         good condition]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="51" width="111" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date ..........................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="31" width="163" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[...................Signature ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="51" width="163" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[.................Designation]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" forecolor="#FF0033"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

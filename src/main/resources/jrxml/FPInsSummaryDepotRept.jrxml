@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fp Ins summary" pageWidth="917" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="877" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="report_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subDivision" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="toDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="zone" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="division" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportHeader" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="facilityName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select $P{division}  ||' '|| 'Division' as division, $P{reportHeader}  as reportHeader,
+ case when schd_count is null then 0 else  schd_count end as schd_count,
+ case when unschd_count is null then 0 else  unschd_count end as unschd_count,
+ case when count_sch_has_stop_time is null then 0 else  count_sch_has_stop_time end +
+ case when count_unsch_has_stop_time is null then 0 else  count_unsch_has_stop_time end as total_ins_has_stop_time,
+ case when count_sch_no_stop_time is null then 0 else  count_sch_no_stop_time end +
+ case when count_unsch_no_stop_time is null then 0 else  count_unsch_no_stop_time end as total_ins_no_stop_time,
+ case when schd_count is null then 0 else  schd_count end +
+ case when unschd_count is null then 0 else  unschd_count end as total_insp,
+ case when  sch_total_duration_sec is null then 0 else sch_total_duration_sec end  as sch_total_duration_sec ,
+ case when  unsch_total_duration_sec is null then 0 else unsch_total_duration_sec end as unsch_total_duration_sec ,
+ (case when  sch_total_duration_sec is null then 0 else sch_total_duration_sec end +
+ case when  unsch_total_duration_sec is null then 0 else unsch_total_duration_sec end)  as total_duration_sec ,
+ case when  sch_avg_duration_sec is null then 0 else sch_avg_duration_sec end as sch_avg_duration_sec ,
+ case when  unsch_avg_duration_sec is null then 0 else unsch_avg_duration_sec end as unsch_avg_duration_sec,
+ (
+  (case when  sch_avg_duration_sec is null then 0 else sch_avg_duration_sec end *count_sch_has_stop_time ) +
+ (case when  unsch_avg_duration_sec is null then 0 else unsch_avg_duration_sec end * count_unsch_has_stop_time)
+ )/
+ (case when count_sch_has_stop_time is null then 0 else  count_sch_has_stop_time end +
+ case when count_unsch_has_stop_time is null then 0 else  count_unsch_has_stop_time end ) as avg_duration_sec ,
+
+
+Observations_count, Compli_count , sch.facility_name,  sch.Sub_division
+-- from date , to_date parameters
+From
+(
+--Sch counts
+select count(*) schd_count, facility_name,  Sub_division , inspection_type,
+sum(case  when stop_time is null then 0  else 1 end)  count_sch_has_stop_time,
+sum(case  when stop_time is null then 1  else 0 end)  count_sch_no_stop_time,
+--sum(EXTRACT(EPOCH From( case when stop_time is not null then (stop_time - start_time else 0 end ))/3600*60*60) as sch_total_duration_sec,
+sum (case when stop_time is not null then (EXTRACT(EPOCH From(stop_time - start_time ))/3600*60*60) else 0 end) as sch_total_duration_sec,
+avg(EXTRACT(EPOCH From( stop_time - start_time ))/3600*60*60) as sch_avg_duration_sec
+from foot_patrolling_inspection ins , facility f --, observations obs , compliances com
+where f.facility_id = ins.facility_id
+and inspection_type ='Scheduled'
+and f.sub_division = $P{subDivision}
+and f.facility_name=$P{facilityName}
+and to_char(ins.start_time,'yyyy-mm-dd') >=$P{fromDate}
+and to_char(ins.start_time,'yyyy-mm-dd') <= $P{toDate}
+Group by facility_name,  Sub_division, inspection_type
+) Sch
+left outer join
+(
+-- unsch inspections count
+select count(*) unschd_count, facility_name,  Sub_division,
+sum(case  when stop_time is null then 0  else 1 end)  count_unsch_has_stop_time,
+sum(case  when stop_time is null then 1  else 0 end)  count_unsch_no_stop_time,
+sum(EXTRACT(EPOCH From(stop_time - start_time ))/3600*60*60) as unsch_total_duration_sec,
+avg(EXTRACT(EPOCH From(stop_time - start_time ))/3600*60*60) as unsch_avg_duration_sec
+from foot_patrolling_inspection ins , facility f --, observations obs , compliances com
+where f.facility_id = ins.facility_id
+and inspection_type ='UnScheduled'
+
+and f.sub_division =$P{subDivision}
+and f.facility_name=$P{facilityName}
+and to_char(ins.start_time,'yyyy-mm-dd') >=$P{fromDate}
+and to_char(ins.start_time,'yyyy-mm-dd') <=$P{toDate}
+Group by facility_name,  Sub_division
+
+) Unsch on (sch.facility_name = unsch.facility_name and sch.Sub_division = unsch.Sub_division)
+left outer join
+(
+--  observations Count
+select count(*) Observations_count, facility_name,   Sub_division --,  obs.inspection_seq_id
+from foot_patrolling_inspection ins , facility f , observations obs , compliances com
+where f.facility_id = ins.facility_id
+and ins.seq_id = obs.inspection_seq_id
+and obs.seq_id = com.obeservation_seq_id
+
+and f.sub_division = $P{subDivision}
+and f.facility_name=$P{facilityName}
+and to_char(ins.start_time,'yyyy-mm-dd') >= $P{fromDate}
+and to_char(ins.start_time,'yyyy-mm-dd') <= $P{toDate}
+Group by facility_name,  Sub_division --, obs.inspection_seq_id
+
+)obs on (sch.facility_name = obs.facility_name and sch.Sub_division = obs.Sub_division)
+left outer join
+
+(
+
+select count(*) Compli_count,  facility_name,    Sub_division --, obs.inspection_seq_id , com.obeservation_seq_id
+from foot_patrolling_inspection ins , facility f , observations obs , compliances com
+where f.facility_id = ins.facility_id
+and ins.seq_id = obs.inspection_seq_id
+and obs.seq_id = com.obeservation_seq_id
+
+and f.sub_division = $P{subDivision}
+and f.facility_name=$P{facilityName}
+and to_char(ins.start_time,'yyyy-mm-dd') >=$P{fromDate}
+and to_char(ins.start_time,'yyyy-mm-dd') <=$P{toDate}
+
+
+Group by facility_name,  Sub_division --, obs.inspection_seq_id , com.obeservation_seq_id
+) com on (sch.facility_name = com.facility_name and sch.Sub_division = com.Sub_division)
+where
+sch.facility_name = unsch.facility_name
+and sch.facility_name = obs.facility_name
+and sch.facility_name = com.facility_name
+and sch.Sub_division = unsch.Sub_division
+and sch.Sub_division = obs.Sub_division
+and sch.Sub_division = com.Sub_division
+and
+case when 'All' = 'All' then sch.facility_name in (select facility_name from facility where depot_type
+in ('OHE'))
+else sch.facility_name = 'All'
+end
+order by Sub_division,facility_name]]>
+	</queryString>
+	<field name="division" class="java.lang.String"/>
+	<field name="reportheader" class="java.lang.Boolean"/>
+	<field name="schd_count" class="java.lang.Long"/>
+	<field name="unschd_count" class="java.lang.Long"/>
+	<field name="total_ins_has_stop_time" class="java.lang.Long"/>
+	<field name="total_ins_no_stop_time" class="java.lang.Long"/>
+	<field name="total_insp" class="java.lang.Long"/>
+	<field name="total_duration_sec" class="java.lang.Double"/>
+	<field name="avg_duration_sec" class="java.lang.Double"/>
+	<field name="observations_count" class="java.lang.Long"/>
+	<field name="compli_count" class="java.lang.Long"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="sub_division" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="46" width="877" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportHeader}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="877" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="26" width="877" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{division}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SL.NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="74" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Depot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of Sch ins]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="99" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of Unsch ins]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="0" width="109" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No inspections]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="0" width="111" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Duration of time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="539" y="0" width="128" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Average Ins Duration
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="667" y="0" width="106" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Observations
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="773" y="0" width="104" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of Compliances
+]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="773" y="0" width="104" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{compli_count}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="667" y="0" width="106" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{observations_count}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0" isBlankWhenNull="true">
+				<reportElement x="539" y="0" width="128" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{avg_duration_sec}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="428" y="0" width="111" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_duration_sec}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="220" y="0" width="99" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{unschd_count}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="319" y="0" width="109" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{total_insp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="74" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="124" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{schd_count}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{COLUMN_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="428" y="0" width="109" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="0" width="128" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="877" height="30" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
