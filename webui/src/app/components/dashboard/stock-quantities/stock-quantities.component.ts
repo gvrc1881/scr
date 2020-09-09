@@ -78,4 +78,7 @@ export class StockQuantitiesComponent implements OnInit {
       this.findDivisionCodeByZone($event.target.value);
     }
   }
+  
+  submitStockQuantities () {
+  }
 }
