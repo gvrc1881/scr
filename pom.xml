@@ -59,21 +59,20 @@
 										<exclude>*.gz</exclude>
 									</excludes>
 								</resource>
+								<resource>
+									<directory>src/main/resources/jrxml</directory>
+									<includes>
+										<include>*.jrxml</include>
+									</includes>
+									<targetPath>jrxml</targetPath>
+								</resource>
 							</resources>
+							
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources/jrxml</directory>
-				<includes>
-					<include>*.jrxml</include>
-				</includes>
-				<targetPath>jrxml</targetPath>
-			</resource>			
-		</resources>
 		
 	</build>
 	<dependencies>
@@ -242,9 +241,17 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-support</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>net.sf.jasperreports</groupId> <artifactId>jasperreports</artifactId> 
+			<version>6.4.3</version> </dependency> -->
+		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.4.3</version>
+			<version>6.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.codahale.metrics</groupId>
