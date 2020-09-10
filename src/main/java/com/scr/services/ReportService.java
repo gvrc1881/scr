@@ -51,6 +51,7 @@ import com.scr.repository.SubDivisionRepository;
 import com.scr.repository.TPCBoardRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.ZoneRepository;
+
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
@@ -257,7 +258,7 @@ public class ReportService {
 	
 
 	public List<Facility> getFacilitysBasedOnDepotType(String depotType) {
-			// TODO Auto-generated method stub
+			
 			return facilityRepository.findByDepotTypeOrderByFacilityNameAsc(depotType);
 		}
 	public List<Facility> findByDepotTypeOrderByFacilityNameAsc() {
@@ -314,15 +315,15 @@ public class ReportService {
 		}
 	
 	public List<ObservationsCheckList> getObservationCheckListBasedOnObservationCate(String observationCategory) {
-		// TODO Auto-generated method stub
+		
 		return observationCheckListRepository.findByObservationCategory(observationCategory);
 	}
 	public List<MeasureOrActivityList> getActivityNameBasedOnActivityType(String activityType) {
-		// TODO Auto-generated method stub
+		
 		return measureOrActivityListRepository.findByActivityType(activityType);
 	}
 	public Optional<Facility> findByFacilityId(String facilityId) {
-		// TODO Auto-generated method stub
+		
 		return facilityRepository.findByFacilityId(facilityId);
 	}
 }

@@ -1,6 +1,10 @@
 package com.scr.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,8 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import com.scr.app.dto.CompliancesDto;
@@ -41,7 +51,6 @@ import com.scr.app.dto.ResponseOheLocationDto;
 import com.scr.app.dto.ResponseProductDto;
 import com.scr.app.dto.ResponseUserLoginDto;
 import com.scr.app.dto.UserLoginDto;
-import com.scr.jobs.ReportResource;
 import com.scr.model.AppDevice;
 import com.scr.model.AppDeviceLogin;
 import com.scr.model.AppDeviceUnit;
@@ -74,6 +83,8 @@ import com.scr.repository.OheLocationRepository;
 import com.scr.repository.ProductRepository;
 import com.scr.repository.ReportRepositoryRepository;
 import com.scr.repository.UserLoginRepository;
+import com.scr.util.CloseJDBCObjects;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -132,10 +143,16 @@ public class FootPatrollingRestService {
 	private ComplianceRepository complianceRepository;
 	
 	@Autowired
-	private ReportResource reportResource;
+	private ReportRepositoryRepository reportRepository;
 	
 	@Autowired
-	private ReportRepositoryRepository reportRepository;
+	CloseJDBCObjects closeJDBCObjects;
+	
+	@Autowired
+	ResourceLoader resourceLoader;
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	public FpAppMasterDto getMasterData(FpAppMasterDto fpMasterDto, Timestamp previousTimestamp, Timestamp currenTimestamp) {
 		log.info("*** app name ***"+fpMasterDto.getAppName());
@@ -984,13 +1001,32 @@ public class FootPatrollingRestService {
 		parameters.put("toDate", reportDto.getThruDate());
 		log.info("map object values:::"+parameters.values());
 		try {
-			//connection = dataSource.getConnection();
-			String path = this.getClass().getClassLoader().getResource("").getPath();
-			String reportsBasePath = reportResource.getBasePath();
-			log.info("*** report base path***"+reportsBasePath);
-			String absolutePath = reportResource.getAbsolutePath(path, jrxmlFileName, parameters, reportsBasePath);
-			log.info("*** report absolute path ***"+absolutePath);
-			JasperReport jasperReport = JasperCompileManager.compileReport(absolutePath);
+			connection = dataSource.getConnection();
+			Resource resource = resourceLoader.getResource("classpath:jrxml/" + jrxmlFileName);
+			String tempFilePath = null;
+			try {
+				InputStream inputStream = resource.getInputStream();
+				File somethingFile = File.createTempFile(resource.getFilename(), ".jrxml");
+				try {
+					FileUtils.copyInputStreamToFile(inputStream, somethingFile);
+				} finally {
+					IOUtils.closeQuietly(inputStream);
+				}
+				log.info("File Path is " + somethingFile.getAbsolutePath());
+				tempFilePath = somethingFile.getAbsolutePath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			log.info("Resource File Path = " + tempFilePath);
+			
+			/*
+			 * String path = this.getClass().getClassLoader().getResource("").getPath();
+			 * String reportsBasePath = reportResource.getBasePath();
+			 * log.info("*** report base path***"+reportsBasePath); String absolutePath =
+			 * reportResource.getAbsolutePath(path, jrxmlFileName, parameters,
+			 * reportsBasePath); log.info("*** report absolute path ***"+absolutePath);
+			 */
+			JasperReport jasperReport = JasperCompileManager.compileReport(tempFilePath);
 			log.info("*** jasper report object ***" + jasperReport);
 			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
 			byte[] reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
@@ -998,33 +1034,12 @@ public class FootPatrollingRestService {
 			reportDto.setReportResult(reportResult);
 		} catch (JRException e) {			
 			e.printStackTrace();
-		}		
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.closeConnection(connection);
+		}
 		return reportDto;
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
