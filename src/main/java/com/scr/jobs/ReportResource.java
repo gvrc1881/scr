@@ -35,6 +35,7 @@ import com.scr.util.CloseJDBCObjects;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -218,7 +219,12 @@ public class ReportResource {
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			log.info("jasperReport6-1-2020" + jasperReport);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
-			JRPdfExporter jrPdfExporter = new JRPdfExporter();
+			byte[] reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
+			log.info("*** report result length ***"+reportResult.length);
+			report.setOutputData(Base64.getEncoder().encodeToString(reportResult));
+			
+			
+			/*JRPdfExporter jrPdfExporter = new JRPdfExporter();
 			uniqueId = UUID.randomUUID();
 			log.info("uniqyeId28-12-19" + uniqueId);
 			log.info("from generate report to pdfFile :::::" + reportsBasePath);
@@ -226,8 +232,8 @@ public class ReportResource {
 			jrPdfExporter.setExporterOutput(
 					new SimpleOutputStreamExporterOutput(reportsBasePath + "/output/" + "report_" + uniqueId + ".pdf"));
 			SimplePdfExporterConfiguration simplePdfExporterConfiguration = new SimplePdfExporterConfiguration();
-			jrPdfExporter.setConfiguration(simplePdfExporterConfiguration);
-			try {
+			jrPdfExporter.setConfiguration(simplePdfExporterConfiguration);*/
+			/*try {
 				jrPdfExporter.exportReport();
 				File f = new File(reportsBasePath + "/output/" + "report_" + uniqueId + ".pdf");
 				log.info("reportBasePath" + f);
@@ -248,7 +254,7 @@ public class ReportResource {
 				e.printStackTrace();
 			} catch (IOException e) {				
 				e.printStackTrace();
-			}
+			}*/
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		} catch (JRException e) {
