@@ -145,7 +145,7 @@ public class ReportResource {
 			String tempFilePath = null;
 			try {
 				InputStream inputStream = resource.getInputStream();
-				File somethingFile = File.createTempFile(resource.getFilename(), ".jrxml");
+				File somethingFile = File.createTempFile(resource.getFilename().replace(".jrxml","").trim(), ".jrxml");
 				try {
 					FileUtils.copyInputStreamToFile(inputStream, somethingFile);
 				} finally {
@@ -156,7 +156,6 @@ public class ReportResource {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			log.info("Resource File Path = " + tempFilePath);
 			JasperReport jasperReport = JasperCompileManager.compileReport(tempFilePath);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
 			byte[] reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
