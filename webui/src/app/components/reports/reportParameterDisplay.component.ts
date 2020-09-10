@@ -180,7 +180,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               console.log("generateReport" + this.id)
               console.log("generateReport" + JSON.stringify(this.reportModel));
               this.submitedForm = "";
-              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, false)
+              this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)
                      .subscribe((response) => {
                             this.submitedForm = response;
                             let pdfWindow = window.open("download", "");
