@@ -10,6 +10,7 @@ import com.scr.model.Zone;
 
 public interface DivisionRepository extends JpaRepository<Division, Long>{
 	List<Division> findByZoneIdOrderByCodeAsc(Zone zoneId);
+	
 	@Query("FROM Division ORDER BY code ASC")
     List<Division> findAllOrderByCodeAsc();
 	

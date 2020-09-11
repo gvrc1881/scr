@@ -172,7 +172,9 @@ export class EnergyConsumptionComponent implements OnInit {
     // updatedOn: null
     // }
     //this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE,).subscribe((data) => {
-      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
+     
+    console.log("div==="+JSON.stringify(this.divisionsList));
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
       .subscribe((data) => {
       this.divisionsList = data;
     });

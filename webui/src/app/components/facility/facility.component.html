@@ -34,75 +34,75 @@
     <div class="panel-heading">{{title}} functional Unit</div>
     <div class="panel-body">
         <div class="col-md-12">
-            <div *ngIf ="enableZone">
-            </div>
-            <div *ngIf="!enableZone; else ZoneElseBlock">
-            <div class="col-md-3">
+             <!-- <div *ngIf ="enableZone">
+            </div> 
+            <div *ngIf="!enableZone; else ZoneElseBlock"> -->
+            <div class="col-md-3" *ngIf ="enableZone">
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Select Zone"
-                        [formControl]="facilityFormGroup.controls['zone']" (ngModelChange)="getDivisions()">
+                        [formControl]="facilityFormGroup.controls['zone']"  (ngModelChange)="findDivisions()">
                         <mat-option *ngFor="let zone of zoneList"
-                            [value]="zone">
-                            {{ zone.code }}
+                            [value]="zone.facilityName">
+                            {{ zone.facilityName }}
                         </mat-option>
                     </mat-select>                  
                 </mat-form-field>
+            <!-- </div> -->
             </div>
-            </div>
-            <ng-template #ZoneElseBlock>
+            <!-- <ng-template #ZoneElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
                         <input matInput placeholder = "Zone" [formControl]="facilityFormGroup.controls['zone']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
-          </ng-template>
+          </ng-template> -->
         
-          <div *ngIf ="enableDivision">
-        </div>
-        <div *ngIf="!enableDivision; else DivisionElseBlock">
-            <div class="col-md-3">
+           <!-- <div *ngIf ="enableDivision">
+        </div> 
+        <div *ngIf="!enableDivision; else DivisionElseBlock"> -->
+            <div class="col-md-3" *ngIf ="enableDivision">
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Select Division"
-                        [formControl]="facilityFormGroup.controls['division']" (ngModelChange)="getSubDivisions()">
+                        [formControl]="facilityFormGroup.controls['division']" (ngModelChange)="findSubDivisions()">
                         <mat-option *ngFor="let divisions of divisionsList"
-                            [value]="divisions">
-                            {{ divisions.code }}
+                            [value]="divisions.facilityName">
+                            {{ divisions.facilityName }}
                         </mat-option>
                     </mat-select>                  
                 </mat-form-field>
+            <!-- </div> -->
             </div>
-            </div>
-            <ng-template #DivisionElseBlock>
+            <!-- <ng-template #DivisionElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
                         <input matInput placeholder = "Division" [formControl]="facilityFormGroup.controls['division']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
-          </ng-template>
+          </ng-template> -->
 
-          <div *ngIf ="enableSubDivision">
-        </div>
-        <div *ngIf="!enableSubDivision; else SubDivisionElseBlock">
+           <!-- <div *ngIf ="enableSubDivision">
+        </div> 
+        <div *ngIf="!enableSubDivision; else SubDivisionElseBlock"> -->
 
-            <div class="col-md-3">
+            <div class="col-md-3"*ngIf ="enableSubDivision" >
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Select SubDivision"
-                        [formControl]="facilityFormGroup.controls['subDivision']" >
+                        [formControl]="facilityFormGroup.controls['subDivision']"  >
                         <mat-option *ngFor="let subDivision of subDivisionList"
-                            [value]="subDivision">
-                            {{ subDivision.code }}
+                            [value]="subDivision.facilityName">
+                            {{ subDivision.facilityName }}
                         </mat-option>
                     </mat-select>                  
                 </mat-form-field>
+            <!-- </div> -->
             </div>
-            </div>
-            <ng-template #SubDivisionElseBlock>
+            <!-- <ng-template #SubDivisionElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
                         <input matInput placeholder = "SubDivision" [formControl]="facilityFormGroup.controls['subDivision']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
-          </ng-template>
+          </ng-template> -->
             
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">

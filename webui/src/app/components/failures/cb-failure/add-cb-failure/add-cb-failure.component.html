@@ -59,9 +59,9 @@
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Cas Cade Assets"  multiple="true" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addCbFailFromGroup.controls['cascadeAssets']">
-                                                                <mat-option *ngFor="let failures of failurecasList"
-                                                                    [value]="failures.cascadeAssets">
-                                                                    {{ failures.cascadeAssets }}
+                                                                <mat-option *ngFor="let master of failurecasList"
+                                                                    [value]="master.assetId">
+                                                                    {{ master.assetId }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>

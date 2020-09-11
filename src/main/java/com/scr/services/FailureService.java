@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.Failure;
-import com.scr.model.Make;
+import com.scr.model.AssetMasterData;
 import com.scr.repository.FailuresRepository;
+import com.scr.repository.AssetMastersRepository;
 import com.scr.util.Constants;
 
 
@@ -19,6 +20,9 @@ public class FailureService {
 	
 	@Autowired
 	private FailuresRepository failuresRepository;
+	
+	@Autowired
+	private AssetMastersRepository assetMasterdataRepository;
 	
 	public List<Failure> findFailureByType(String typeOfFailure) {
 		return failuresRepository.findByTypeOfFailureAndCurrentStatus(typeOfFailure, Constants.ACTIVE);
@@ -53,5 +57,8 @@ public class FailureService {
 		// TODO Auto-generated method stub
 		return failuresRepository.findAll();
 	}
-
+	public List<AssetMasterData> findByAssetId(String productId) {
+		// TODO Auto-generated method stub
+		return assetMasterdataRepository.findByAssetId(productId);
+	}
 }

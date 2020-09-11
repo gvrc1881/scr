@@ -596,8 +596,8 @@ public class DrivesService {
 		driveStipulationRepository.save(stipulationsUpdate);
 	}
 
-	public List<Division> findAllDivisions() {
-		return divisionRepository.findAll();
+	public List<Division> findAllOrderByCodeAsc() {
+		return divisionRepository.findAllOrderByCodeAsc();
 	}
 
 	public List<InspectionType> findAllInspectionType() {

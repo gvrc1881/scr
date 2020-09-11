@@ -751,7 +751,7 @@ public class DrivesController {
 	public ResponseEntity<List<Division>> findAllDivisions() throws JSONException {
 		List<Division> divisionList = null;
 		try {			
-			divisionList = service.findAllDivisions();			
+			divisionList = service.findAllOrderByCodeAsc();			
 		} catch (NullPointerException e) {			
 			logger.error(e);
 		} catch (Exception e) {			

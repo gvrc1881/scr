@@ -95,16 +95,24 @@ export class AddCbFailureComponent implements OnInit {
     }
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
       this.failureList = data;
-      console.log("id===="+this.failureList);
+      
       } 
       , error => {});
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
+      .subscribe((data) => {
+        console.log("id===="+JSON.stringify(this.failurecasList));
+        this.failurecasList = data;
+      //  this.extendedFromList = response;
+        this.spinnerService.hide();
+      })
+
   }
 
   findFeedersList(){
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
       .subscribe((response) => {
-        console.log(response)
+        
         this.feedersList = response;
       //  this.extendedFromList = response;
         this.spinnerService.hide();
@@ -113,7 +121,7 @@ export class AddCbFailureComponent implements OnInit {
 
   findCascadeList(){
     this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_CASCADE)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
       .subscribe((data) => {
         console.log(data)
         this.failurecasList = data;

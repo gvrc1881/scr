@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Failure;
 import com.scr.model.FailureActionsCausesImpact;
+import com.scr.model.ProductCategoryMember;
 import com.scr.services.FailureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
+import com.scr.model.AssetMasterData;
 
 @RestController
 @RequestMapping("/scr/api")
@@ -158,5 +160,13 @@ public class FailureController {
 		logger.info("Exit from findAllfailures function");
 		return failuresList;	
 	}
-
+	
+	
+	@RequestMapping(value = "/getEquipments", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterData>> findByAssetId(String productId){
+		List<AssetMasterData> assetId= failureService.findByAssetId(productId);
+		logger.info("Fetched assets data = "+assetId.size());
+		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
+		
+	}
 }

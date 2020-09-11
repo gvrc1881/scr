@@ -38,6 +38,7 @@ export class FacilityComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     facilityResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
     zoneList:any;
     divisionsList:any;
     subDivisionList:any;
@@ -45,9 +46,10 @@ export class FacilityComponent implements OnInit{
     enableFacilityName:any;
     zone: any;
     division:any;
-    enableZone:any;
-    enableDivision:any;
-    enableSubDivision:any;
+    enableZone:boolean;
+    enableDivision:boolean;
+    enableSubDivision:boolean;   
+   
 
     constructor( 
         private formBuilder: FormBuilder,
@@ -68,45 +70,49 @@ export class FacilityComponent implements OnInit{
     }
 
     ngOnInit () {
-                this.findZones();
+               // this.findZones();
+               
+              
                
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","FUNCTIONAL UNIT") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
-        this.getAllFacilityData();   
+        this.getAllFacilityData(); 
+        this.displayHierarchyFields();  
+        
     }
    
-    findZones()
-    {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
-            this.zoneList = data;
-   }
-          ); 
+  //   findZones()
+  //   {
+  //       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
+  //           this.zoneList = data;
+  //  }
+  //         ); 
 
-    }
-    getDivisions(){
-        this.zone =this.facilityFormGroup.controls['zone'].value; 
+  //   }
+  //   getDivisions(){
+  //       this.zone =this.facilityFormGroup.controls['zone'].value; 
             
-    	this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, this.zone, false).subscribe((data) => {
+  //   	this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE, this.zone, false).subscribe((data) => {
            
-        this.divisionsList = data;
+  //       this.divisionsList = data;
                  
-                });
+  //               });
               
-    }
+  //   }
     
 
-    getSubDivisions(){
+  //   getSubDivisions(){
        
-      this.division=this.facilityFormGroup.controls['division'].value; 
-        this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,this.division, false).subscribe((data) => {
-            this.subDivisionList = data;
-             });
+  //     this.division=this.facilityFormGroup.controls['division'].value; 
+  //       this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION ,this.division, false).subscribe((data) => {
+  //           this.subDivisionList = data;
+  //            });
         
 
-    }
+  //   }
     facilitySubmit(){     
 
             let facilityId: string=this.facilityFormGroup.value.facilityId;
@@ -115,9 +121,9 @@ export class FacilityComponent implements OnInit{
            let depotType: string=this.facilityFormGroup.value.depotType;
            let parentDepot: string=this.facilityFormGroup.value.parentDepot;
            let description: string=this.facilityFormGroup.value.description;
-           let zone: string=this.facilityFormGroup.value.zone.code;
-           let division: string=this.facilityFormGroup.value.division.code;
-           let subDivision: string=this.facilityFormGroup.value.subDivision.code;
+           let zone: string=this.facilityFormGroup.value.zone;
+           let division: string=this.facilityFormGroup.value.division;
+           let subDivision: string=this.facilityFormGroup.value.subDivision;
 
           
    
@@ -177,6 +183,7 @@ export class FacilityComponent implements OnInit{
                                                this.facilityFormGroup.reset();
                                                this.addFacility=  false;
                                                this.title = "Save";
+                                               this.displayHierarchyFields();
                                                
                                            }
                                            else {
@@ -213,14 +220,16 @@ export class FacilityComponent implements OnInit{
            this.facilityFormGroup.reset();
            this.addFacility= false;
            this.title = 'Save';
+           this.enableDivision = false;
+        this.enableSubDivision = false;
+        
+           this.displayHierarchyFields();
        }
    
    
        NewFacility(){
            this.addFacility = true;
-           this.enableZone=false;
-           this.enableDivision=false;
-           this.enableSubDivision=false;
+          
            this.facilityFormGroup = this.formBuilder.group({
              id: 0,
              'facilityId': [null,Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicatefacilityId.bind(this)],
@@ -274,9 +283,9 @@ export class FacilityComponent implements OnInit{
            this.addFacility = true;
            this.FacilityEditAction(id);
            this.title = 'Update';
-           this.enableZone=true;
-           this.enableDivision=true;
-           this.enableSubDivision=true;
+           this.enableZone=false;
+           this.enableDivision=false;
+           this.enableSubDivision=false;
        
        }
        FacilityEditAction(id: number) {
@@ -313,6 +322,9 @@ export class FacilityComponent implements OnInit{
                
            } ,error => {})
            this.id=id;
+           this.displayHierarchyFields();
+           this.findDivisions();
+           this.findSubDivisions();
            if (!isNaN(this.id)) {
                this.title = 'Update';
              } else {
@@ -427,7 +439,51 @@ export class FacilityComponent implements OnInit{
 
 
       }  
+
+      displayHierarchyFields(){
+        this.zoneList = [];
+        this.divisionsList = [];
+        this.subDivisionList = [];
         
+        for (let i = 0; i < this.userHierarchy.length; i++) {
+                 if(this.userHierarchy[i].depotType == 'ZONE'){
+                   this.zoneList.push(this.userHierarchy[i]);
+                   this.enableZone = true;
+                 }
+              }
+            }
+
+       findDivisions(){
+        let zone: string = this.facilityFormGroup.value.zone;
+        for (let i = 0; i < this.userHierarchy.length; i++) {
+                 if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
+                   this.divisionsList.push(this.userHierarchy[i]);
+                   this.enableDivision = true;
+                 }
+                //  else if(this.userHierarchy[i].depotType == 'DIV'){
+                //   this.divisionsList.push(this.userHierarchy[i]);
+                //   this.enableDivision = true;
+
+                //  }
+              }
+      }
+      
+      findSubDivisions(){
+        let division: string = this.facilityFormGroup.value.division;
+        for (let i = 0; i < this.userHierarchy.length; i++) {
+                 if(this.userHierarchy[i].division == division && this.userHierarchy[i].depotType == 'SUB_DIV'){
+                   this.subDivisionList.push(this.userHierarchy[i]);
+                   this.enableSubDivision = true;
+                 }
+                //  else if(this.userHierarchy[i].depotType == 'SUB_DIV'){
+                //   this.subDivisionList.push(this.userHierarchy[i]);
+                //   this.enableSubDivision = true;
+
+                //  }
+              }
+      }
+        
+      
         
    }
    
