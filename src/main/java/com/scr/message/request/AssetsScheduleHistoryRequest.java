@@ -255,4 +255,17 @@ public class AssetsScheduleHistoryRequest implements Serializable {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "AssetsScheduleHistoryRequest [id=" + id + ", assetId=" + assetId + ", assetType=" + assetType
+				+ ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", createdStamp=" + createdStamp
+				+ ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv + ", detailsOfMaint=" + detailsOfMaint
+				+ ", deviceCreatedStamp=" + deviceCreatedStamp + ", deviceLastUpdatedStamp=" + deviceLastUpdatedStamp
+				+ ", deviceSeqId=" + deviceSeqId + ", doneBy=" + doneBy + ", facilityId=" + facilityId
+				+ ", initialOfIncharge=" + initialOfIncharge + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", pbOperationSeqId=" + pbOperationSeqId + ", remarks="
+				+ remarks + ", scheduleCode=" + scheduleCode + ", scheduleDate=" + scheduleDate + ", seqId=" + seqId
+				+ ", status=" + status + ", deviceId=" + deviceId + "]";
+	}
+
 }

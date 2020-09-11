@@ -48,9 +48,15 @@ public class AssetScheduleHistoryController {
 	public ResponseStatus saveAshData(@Valid @RequestBody AssetsScheduleHistoryRequest ashRequest) throws JSONException {	
 		logger.info("Enter into saveAshData function with below request parameters ");
 		logger.info("Request Parameters = "+ashRequest.toString());
-		try {			
+		try {
 			logger.info("Calling service with request parameters.");
-			service.saveAshData(ashRequest);
+			String assetIds = ashRequest.getAssetId();
+			if (assetIds != null && !assetIds.isEmpty()) {
+				for (String assetId : assetIds.split(",")) {
+					ashRequest.setAssetId(assetId);
+					service.saveAshData(ashRequest);
+				}
+			}
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Ash Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {

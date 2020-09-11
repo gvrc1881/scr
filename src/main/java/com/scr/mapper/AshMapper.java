@@ -44,7 +44,8 @@ public class AshMapper {
 			ash.setCreatedBy(ashRequest.getCreatedBy());
 			ash.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			ash.setInitialOfIncharge(ashRequest.getInitialOfIncharge());
-			ash.setStatus("Entry Pending");
+			ash.setStatus(ashRequest.getStatus());
+			ash.setDataDiv(ashRequest.getDataDiv());
 		}
 		logger.info("Prepared ASH model object = "+ash);
 		}catch (Exception e) {

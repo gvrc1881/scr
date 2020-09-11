@@ -370,7 +370,8 @@ export const Constants = {
         },
         ASH:{
             ASH:{
-                SAVE_ASH:'/saveAsh'
+                SAVE_ASH:'/saveAsh',
+                STATUS_ON_STATUS_TYPE:'/getStatusCodeBasedOnStatusTypeId/'
                 }
         },
         INSPECTIONS:{

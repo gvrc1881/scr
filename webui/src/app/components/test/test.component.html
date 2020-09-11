@@ -7,6 +7,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                                    <li class="breadcrumb-item"><a [routerLink]="['/ash']">ASH</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">ASH</li>
                             </ol>
                         </nav>
@@ -33,7 +34,7 @@
                                                                     <!-- Schedule Date -->
                                                                     <div class="col-md-3">
                                                                             <mat-form-field fxFlex="30">
-                                                                                <input matInput [matDatepicker]="picker" placeholder="Schedule date" [max]="today"
+                                                                                <input #schDate matInput [matDatepicker]="picker" placeholder="Schedule date" [max]="today"
                                                                                     [formControl]="addAssetDailyScheduleReportGroup.controls['Schedule_date']"
                                                                                     (dateChange)="selectedScheduleDate($event)">
                                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -45,7 +46,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                            <mat-select placeholder="Depot Name" 
+                                                                            <mat-select #depoName placeholder="Depot Name" 
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Depot_Name']"
                                                                                 (selectionChange)="selectedDepoName($event)" >
                                                                                 <mat-option *ngFor="let depoName of depoNameList"
@@ -58,6 +59,7 @@
                                                                 
                                                                 <!--Power Block
                                                                     (selectionChange)="selectedPowerBlock($event)"
+                                                                    {{ powerblock.pbOperationSeqId}}+"-"+
                                                                 -->
                                                                 
                                                                     <div class="col-md-3">
@@ -67,7 +69,7 @@
                                                                                 (selectionChange)="getAssetTypes($event)">
                                                                                 <mat-option *ngFor="let powerblock of powerBlockList"
                                                                                     [value]="powerblock.pbOperationSeqId">
-                                                                                    {{ powerblock.pbOperationSeqId}}
+                                                                                    {{depoName.value}}_{{schDate.value}}_{{powerblock.elementarySectionCode}}
                                                                                 </mat-option>                                                                               
                                                                             </mat-select>
                                                                         </mat-form-field>
@@ -92,8 +94,9 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="From Kilometer" [formControl]="addAssetDailyScheduleReportGroup.controls['From_Kilometer']" 
-                                                                                (selectionChange)="selectedFromKm($event)"/>
+                                                                                <input #fromKm matInput placeholder="From Kilometer" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['From_Kilometer']" 
+                                                                                (selectionChange)="selectedFromKm($event)" decimalNumber/>
                                                                         </mat-form-field>
                                                                     </div>
                                                                  
@@ -101,8 +104,13 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="To Kilometer" [formControl]="addAssetDailyScheduleReportGroup.controls['To_Kilometer']" 
-                                                                                (selectionChange)="selectedToKm($event)"/>
+                                                                                <input [errorStateMatcher]="matcher" #toKm matInput placeholder="To Kilometer" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['To_Kilometer']" 
+                                                                                (selectionChange)="selectedToKm($event)" decimalNumber/>
+                                                                                <!--<mat-error *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid">To km is greater than from km</mat-error>-->
+                                                                                <span style="color:red" *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid" >
+                                                                                    To km is greater than From km
+                                                                                </span>
                                                                         </mat-form-field>
                                                                     </div>
                                                                
@@ -114,7 +122,7 @@
                                                                             <mat-select [formControl]="addAssetDailyScheduleReportGroup.controls['Asset_Id']" multiple
                                                                             (selectionChange)="getScheduleCodes($event)">
                                                                               <mat-option *ngFor="let assetIdObj of assetIdList" 
-                                                                              [value]="assetIdObj.assetId">{{assetIdObj.assetId}}</mat-option>
+                                                                              [value]="assetIdObj.assetId">{{assetIdObj.assetId}}-{{assetIdObj.assetType}}</mat-option>
                                                                             </mat-select>
                                                                           </mat-form-field>
                                                                     </div>            

@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,ValidatorFn,FormControl, FormGroupDirective,NgForm,AbstractControl } from '@angular/forms';
 import {FacilityModel} from 'src/app/models/facility.model';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DatePipe } from '@angular/common';
+import {ErrorStateMatcher} from '@angular/material/core';
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
+
+
 export class TestComponent implements OnInit {
 
   id: number = 0;
@@ -33,6 +36,8 @@ export class TestComponent implements OnInit {
   scheduleDate: any;
   assetIdList: any;
   scheduleCodeList:any;
+  statusItems:any;
+  matcher = new MyErrorStateMatcher();
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -65,16 +70,22 @@ export class TestComponent implements OnInit {
       'Power_Block': [null, Validators.compose([Validators.required])],
       'Asset_Type': [null, Validators.compose([Validators.required])],
       'From_Kilometer':[null, Validators.compose([Validators.required])],
-      'To_Kilometer':[null, Validators.compose([Validators.required])],
+      'To_Kilometer':[null, Validators.compose([Validators.required,])],
       'Schedule':[null, Validators.compose([Validators.required])],
       'Details_Of_Maint':[null, Validators.compose([Validators.required])],
       'Done_By': [null, Validators.compose([Validators.required])],
       'Remarks' : [null, Validators.compose([Validators.required])],
       'Incharge' : [null, Validators.compose([Validators.required])],
       'Asset_Id' : [null, Validators.compose([Validators.required])]
-    });
+    },{ validator: this.checkKms });
 
   }
+
+  checkKms(c: AbstractControl): { invalid: boolean } {
+    if (c.get('From_Kilometer').value > c.get('To_Kilometer').value) {
+        return {invalid: true};
+    }
+}
 
   selectedScheduleDate($event){
     console.log("selectedScheduleDate"+$event.value);
@@ -86,11 +97,26 @@ export class TestComponent implements OnInit {
   selectedDepoName($event){
     console.log("selected Depo names"+$event.value);
     this.facilityId=$event.value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+ '/30000/2019-03-04').subscribe((data) => {
-      this.powerBlockList = data;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.STATUS_ON_STATUS_TYPE+'PB_STATIC_STATUS').subscribe((data) => {
+      this.statusItems = data;
+
+      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+ '/30000/2019-03-04').subscribe((data) => {
+        this.powerBlockList = [...data,  {"pbOperationSeqId":"To be filled Power Bolck"},
+        {"pbOperationSeqId":"No Power Bolck"},
+        {"pbOperationSeqId":"Off the Block"}
+         ];
+         console.log("this.powerBlockList"+this.powerBlockList);
+         
+        }, error => {
+          this.spinnerService.hide();
+        });
+
       }, error => {
         this.spinnerService.hide();
       });
+    
+
+      
   }
   selectedPowerBlock($event){
     console.log("selected power block"+$event.value);
@@ -165,7 +191,9 @@ export class TestComponent implements OnInit {
       'initialOfIncharge' : this.addAssetDailyScheduleReportGroup.value.Incharge,
       'assetId' : ele.toString(),       
       "createdBy": this.loggedUserData.username,      
-      "createdOn": new Date()
+      "createdOn": new Date(),
+      "status":'EntryPending',
+      "dataDiv": this.facility.division
       }
       console.log(" model for save ash:::"+saveAshModel);
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH.SAVE_ASH, saveAshModel, false).subscribe(response => {
@@ -4306,5 +4334,12 @@ export class TestComponent implements OnInit {
       }
     ]
     return depoNames;
+  }
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return (control && control.invalid);
   }
 }
