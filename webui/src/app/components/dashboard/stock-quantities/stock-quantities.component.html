@@ -25,9 +25,12 @@
                                 <div class="col-md-12">
                                     <div class="col-md-3">
                                         <mat-form-field>
-                                            <input matInput [matDatepicker]="picker1" placeholder="Choose From Date"
+                                            <input matInput [matDatepicker]="picker1" 
+                                            placeholder="Choose From Date"
                                                 (dateChange)="addEvent($event)"
-                                                [formControl]="addStockQuantities.controls['fromDate']" required>
+                                                [formControl]="addStockQuantities.controls['fromDate']" 
+                                                required
+                                                [max]="maxDate">
                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
@@ -37,7 +40,9 @@
                                     <div class="col-md-3">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
-                                                [min]="toMinDate" [formControl]="addStockQuantities.controls['toDate']">
+                                                [min]="toMinDate" 
+                                                [max]="maxDate"
+                                                [formControl]="addStockQuantities.controls['toDate']">
                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #picker2></mat-datepicker>
@@ -50,7 +55,7 @@
                                                 [formControl]="addStockQuantities.controls['zone']"
                                                 (selectionChange)="selectedZone($event)">
                                                 <mat-option *ngFor="let zone of zoneList"
-                                                    [value]="zone.id">
+                                                    [value]="zone">
                                                     {{ zone.code}}
                                                 </mat-option>
                                             </mat-select>
@@ -63,7 +68,7 @@
                                                 [formControl]="addStockQuantities.controls['division']"
                                                 (selectionChange)="selectedDivision($event)">
                                                 <mat-option *ngFor="let division of divisionList"
-                                                    [value]="division.id">
+                                                    [value]="division">
                                                     {{ division.code}}
                                                 </mat-option>
                                             </mat-select>
@@ -76,7 +81,7 @@
                                                 [formControl]="addStockQuantities.controls['subDivision']"
                                                 (selectionChange)="selectedSubDivision($event)">
                                                 <mat-option *ngFor="let subDivision of subDivisionList"
-                                                    [value]="subDivision.id">
+                                                    [value]="subDivision">
                                                     {{ subDivision.code}}
                                                 </mat-option>
                                             </mat-select>
@@ -88,9 +93,9 @@
                                             <mat-select placeholder="Depot"
                                                 [formControl]="addStockQuantities.controls['depot']"
                                                 (selectionChange)="selectedDepot($event)">
-                                                <mat-option *ngFor="let depot of divisionList"
-                                                    [value]="depot.id">
-                                                    {{ depot.code}}
+                                                <mat-option *ngFor="let depot of depotList"
+                                                    [value]="depot">
+                                                    {{ depot.facilityName}}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
@@ -101,8 +106,8 @@
                                             <mat-select placeholder="Product"
                                                 [formControl]="addStockQuantities.controls['product']">
                                                 <mat-option *ngFor="let product of productList"
-                                                    [value]="product.id">
-                                                    {{ product.code}}
+                                                    [value]="product.productId">
+                                                    {{ product.productId}}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>

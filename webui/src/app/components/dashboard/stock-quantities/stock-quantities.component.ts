@@ -24,6 +24,8 @@ export class StockQuantitiesComponent implements OnInit {
   subDivisionList: any;
   depotList: any;
   productList: any;
+  maxDate=new Date();
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -88,7 +90,7 @@ export class StockQuantitiesComponent implements OnInit {
   }
 
   findProductsByDepot(depot) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + depot).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + depot).subscribe((data) => {
       console.log(data)
       this.productList = data;
     })
@@ -98,28 +100,28 @@ export class StockQuantitiesComponent implements OnInit {
     console.log($event.value)
     if ($event.value) {
       this.divisionList = [];
-      this.findDivisionCodeByZone($event.value);
+      this.findDivisionCodeByZone($event.value.id);
     }
   }
 
   selectedDivision($event){
     if($event.value){
       this.subDivisionList = [];
-      this.findSubDivisionByDivision($event.value);
+      this.findSubDivisionByDivision($event.value.id);
     }
   }
 
   selectedSubDivision($event){
     if($event.value){
       this.depotList = [];
-      this.findDepotBySubDivision($event.value);
+      this.findDepotBySubDivision($event.value.code);
     }
   }
 
   selectedDepot($event){
     if($event.value){
       this.productList = [];
-      this.findProductsByDepot($event.value);
+      this.findProductsByDepot($event.value.facilityId);
     }
   }
   
@@ -128,11 +130,12 @@ export class StockQuantitiesComponent implements OnInit {
       let request = {
         fromDate:this.addStockQuantities.controls.fromDate.value,
         toDate:this.addStockQuantities.controls.toDate.value,
-        zone:this.addStockQuantities.controls.zone.value,
-        division:this.addStockQuantities.controls.division.value,
-        subDivision:this.addStockQuantities.controls.subDivision.value,
-        depot:this.addStockQuantities.controls.depot.value,
-        product:this.addStockQuantities.controls.product.value
+        zone:this.addStockQuantities.controls.zone.value.code,
+        division:this.addStockQuantities.controls.division.value.code,
+        subDivision:this.addStockQuantities.controls.subDivision.value.headquarters,
+        depot:this.addStockQuantities.controls.depot.value.facilityName,
+        facility:this.addStockQuantities.controls.product.value,
+        queryType:'MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT'
       };
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, request , false).subscribe((data) => {
         console.log(data)
