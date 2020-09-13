@@ -47,6 +47,10 @@ public class Helper {
 		return status;
 	}
 
+	public static String convertDateToString(Date date) {
+		return date == null ? dateFormatNoTime.format(new Date()) : dateFormatNoTime.format(date);
+	}
+
 	public static String currentTimeStampWithString() {
 		Date date = new Date();
 		return dateFormat.format(date);
@@ -282,4 +286,5 @@ public class Helper {
 		}
 		return 0;
 	}
+
 }

@@ -16,12 +16,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.scr.controller.DashboardController;
 import com.scr.message.request.DashboardParametersRequest;
 import com.scr.message.response.DashboardGraphsResponse;
 import com.scr.util.CloseJDBCObjects;
 import com.scr.util.Constants;
 import com.scr.util.DashboardQueries;
+import com.scr.util.Helper;
 
 @Component
 public class DashboardUtility {
@@ -79,18 +79,19 @@ public class DashboardUtility {
 		try {
 			connection = dataSource.getConnection();
 			preparedStatement = connection.prepareStatement(DashboardQueries.MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT);
-			resultSet = preparedStatement.executeQuery();
 			preparedStatement.setString(1, request.getDepot());
 			preparedStatement.setString(2, request.getDivision());
 			preparedStatement.setString(3, request.getFacility());
 			preparedStatement.setString(4, request.getSubDivision());
 			preparedStatement.setString(5, request.getZone());
-			preparedStatement.setDate(6, (Date) request.getFromDate());
-			preparedStatement.setDate(7, (Date) request.getToDate());
+			preparedStatement.setString(6, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(7, Helper.convertDateToString(request.getToDate()));
+			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
 				return prepareListFromResultSet(resultSet);
 			}
 		}catch (SQLException e) {
+			e.printStackTrace();
 			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
 		}catch (Exception e) {
 			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());

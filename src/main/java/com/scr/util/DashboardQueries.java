@@ -10,10 +10,10 @@ public class DashboardQueries {
 			"case when sum(consumed_qty) is null then 0 else sum(consumed_qty) end consumed_qty ," + 
 			"case when sum(qty_net_period_net_qty) is null then 0 else sum(qty_net_period_net_qty) end qty_net_period_net_qty ," + 
 			"  abbreviation uom" + 
-			"from" + 
+			" from " + 
 			" (select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
-			"left outer join" + 
-			" (" + 
+			" left outer join" + 
+			" ( " + 
 			" SELECT " + 
 			"        d.PRODUCT_ID AS PRODUCT_ID, d.FACILITY_ID AS FACILITY_ID," + 
 			"        uom.abbreviation," + 
@@ -25,20 +25,19 @@ public class DashboardQueries {
 			"        dmtr d ," + 
 			"       PRODUCT P," + 
 			"        FACILITY F, uom" + 
-			"        WHERE   F.FACILITY_NAME= ? AND" + 
+			"        WHERE   F.FACILITY_NAME = ? AND" + 
 			"         P.PRODUCT_ID = d.PRODUCT_ID" + 
 			"        AND F.FACILITY_ID = d.FACILITY_ID" + 
-			" and p.quantity_uom_id = uom.uom_id" + 
+			" and p.quantity_uom_id = uom.uom_id " + 
 			" and f.division = ? " + 
 			" and p.product_id = ? " + 
 			" and f.sub_division = ? " + 
 			" and zone = ? " + 
-			" and transaction_date ::date >= ? ::date" + 
-			" and transaction_date :: date <= ? ::date" + 
+			" and transaction_date ::date >= ? ::date "+
+			" and transaction_date :: date <= ? ::date  "+
 			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division" + 
-			") q" + 
-			"" + 
-			"on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
+			") q " + 
+			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
 			"Group by  PRODUCT_ID, abbreviation , division , subdiv, div, data_div , div.zone, sub_division" + 
 			"        ORDER BY div.zone , div, subdiv , PRODUCT_ID";
 	
@@ -48,9 +47,8 @@ public class DashboardQueries {
 			"from" + 
 			" (select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
 			"left outer join" + 
-			"(" + 
-			"" + 
-			"SELECT" + 
+			"( " + 
+			" SELECT " + 
 			"        II.PRODUCT_ID AS PRODUCT_ID, II.FACILITY_ID AS FACILITY_ID, " + 
 			"        uom.abbreviation," + 
 			" ROUND(SUM((II.QUANTITY_ON_HAND_TOTAL)),3) as QOH," + 
