@@ -19,8 +19,8 @@ export const Constants = {
         }, 
         DASHBOARD:{
             GET_DASHBOARD:"/dashboard/",
-            GET_SUBDIV_WISE_PROD:"/subDivisionWiseProductDashboard"
-            
+            GET_SUBDIV_WISE_PROD:"/subDivisionWiseProductDashboard",
+            GET_GRAPHS_DATA:'/findGraphsData'
         },    
         REPORTS:{
             GET_REPORT_PARAMETER:"/reportParameterNames",

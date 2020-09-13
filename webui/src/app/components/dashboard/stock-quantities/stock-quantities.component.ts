@@ -66,19 +66,77 @@ export class StockQuantitiesComponent implements OnInit {
       this.zoneList = data;
     });
   }
-  findDivisionCodeByZone(zone: any) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone.id).subscribe((data) => {
+  findDivisionCodeByZone(zone) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone).subscribe((data) => {
+      console.log(data)
       this.divisionList = data;
     })
   }
 
+  findSubDivisionByDivision(division) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + division).subscribe((data) => {
+      console.log(data)
+      this.subDivisionList = data;
+    })
+  }
+
+  findDepotBySubDivision(subSivision) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + subSivision).subscribe((data) => {
+      console.log(data)
+      this.depotList = data;
+    })
+  }
+
+  findProductsByDepot(depot) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + depot).subscribe((data) => {
+      console.log(data)
+      this.productList = data;
+    })
+  }
+
   selectedZone($event) {
+    console.log($event.value)
     if ($event.value) {
       this.divisionList = [];
-      this.findDivisionCodeByZone($event.target.value);
+      this.findDivisionCodeByZone($event.value);
+    }
+  }
+
+  selectedDivision($event){
+    if($event.value){
+      this.subDivisionList = [];
+      this.findSubDivisionByDivision($event.value);
+    }
+  }
+
+  selectedSubDivision($event){
+    if($event.value){
+      this.depotList = [];
+      this.findDepotBySubDivision($event.value);
+    }
+  }
+
+  selectedDepot($event){
+    if($event.value){
+      this.productList = [];
+      this.findProductsByDepot($event.value);
     }
   }
   
   submitStockQuantities () {
+      console.log(this.addStockQuantities.controls);
+      let request = {
+        fromDate:this.addStockQuantities.controls.fromDate.value,
+        toDate:this.addStockQuantities.controls.toDate.value,
+        zone:this.addStockQuantities.controls.zone.value,
+        division:this.addStockQuantities.controls.division.value,
+        subDivision:this.addStockQuantities.controls.subDivision.value,
+        depot:this.addStockQuantities.controls.depot.value,
+        product:this.addStockQuantities.controls.product.value
+      };
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, request , false).subscribe((data) => {
+        console.log(data)
+      })
+
   }
 }
