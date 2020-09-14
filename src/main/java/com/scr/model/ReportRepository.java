@@ -26,7 +26,10 @@ public class ReportRepository implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
-
+	
+	@Column(name = "active")
+	private String active;
+	
 	@Column(name = "report_Id")
 	private String reportId;
 
@@ -71,13 +74,27 @@ public class ReportRepository implements Serializable {
 		this.jrxmlName = jrxmlName;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
-		return "ReportRepository [id=" + id + ", reportId=" + reportId + ", reportCategory=" + reportCategory
-				+ ", jrxmlVersion=" + jrxmlVersion + ", jrxmlName=" + jrxmlName + "]";
+		return "ReportRepository [id=" + id + ", active=" + active + ", reportId=" + reportId + ", reportCategory="
+				+ reportCategory + ", jrxmlVersion=" + jrxmlVersion + ", jrxmlName=" + jrxmlName + "]";
 	}
 
 	
