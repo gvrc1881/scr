@@ -8,6 +8,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,9 +49,11 @@ import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
+import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
 import com.scr.model.Zone;
 import com.scr.services.ReportService;
+import com.scr.util.Helper;
 
 
 
@@ -388,6 +391,71 @@ public class ReportController {
 					return new ResponseEntity<Facility>(facility.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 	}
-  	
-  	
+	@RequestMapping(value = "/getFacilityNameBasedOnZone/{zone}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Facility>> getFacilityNameBasedOnZone(@PathVariable("zone") String zone){
+		List<Facility> fnByZone= reportService.getFacilityNameBasedOnZone(zone);
+		log.info("fnByZone"+fnByZone.size());
+		log.info("fnByZone"+fnByZone);
+			return new ResponseEntity<List<Facility>>(fnByZone, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFacilityNameBasedOnZoneAndDepotType/{zone}/{depotType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Facility>> findFacilityNameBasedOnZoneAndDepotType(@PathVariable("zone") String zone ,@PathVariable("depotType") String depotType){
+		List<Facility> fnByZoneAndDepotType= reportService.findFacilityNameBasedOnZoneAndDepotType(zone, depotType);
+			return new ResponseEntity<List<Facility>>(fnByZoneAndDepotType, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFacilityNameBasedOnDivisionAndDepotType/{division}/{depotType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Facility>> findFacilityNameBasedOnDivisionAndDepotType(@PathVariable("division") String division ,@PathVariable("depotType") String depotType){
+		List<Facility> fnByDivisionAndDepotType= reportService.findFacilityNameBasedOnDivisionAndDepotType(division, depotType);
+			return new ResponseEntity<List<Facility>>(fnByDivisionAndDepotType, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFacilityNameBasedOnSubDivisionAndDepotType/{subDivision}/{depotType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Facility>> findFacilityNameBasedOnSubDivisionAndDepotType(@PathVariable("subDivision") String subDivision ,@PathVariable("depotType") String depotType){
+		List<Facility> fnBySubDivisionAndDepotType= reportService.findFacilityNameBasedOnSubDivisionAndDepotType(subDivision, depotType);
+			return new ResponseEntity<List<Facility>>(fnBySubDivisionAndDepotType, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFacilityNameBasedOnTpcBoard/{tpcBoard}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<TpcBoardReportingFacility>> getFacilityNameBasedOnTpcBoard(@PathVariable("tpcBoard") String tpcBoard){
+		List<TpcBoardReportingFacility> fnByTpcBoard= reportService.getFacilityNameBasedOnTpcBoard(tpcBoard);
+			return new ResponseEntity<List<TpcBoardReportingFacility>>(fnByTpcBoard, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFacilityNameBasedOnTpcBoardAndUnitType/{tpcBoard}/{unitType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<TpcBoardReportingFacility>> findFacilityNameBasedOnTpcBoardAndUnitType(@PathVariable("tpcBoard") String tpcBoard ,@PathVariable("unitType") String unitType){
+		List<TpcBoardReportingFacility> fnByTpcBoardAndDepotType= reportService.findFacilityNameBasedOnTpcBoardAndUnitType(tpcBoard, unitType);
+			return new ResponseEntity<List<TpcBoardReportingFacility>>(fnByTpcBoardAndDepotType, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTime/{typeOfFailure}/{fromDateTime}/{thruDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<List<Failure>> getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTime(@PathVariable("typeOfFailure") String typeOfFailure,@PathVariable("fromDateTime") String fromDateTime,@PathVariable("thruDateTime") String thruDateTime){
+		List<Failure> failuresData = reportService.findByTypeOfFailureAndFromDateTimeAndThruDateTime(typeOfFailure,Helper.convertStringToTimestamp(fromDateTime),Helper.convertStringToTimestamp(thruDateTime));
+		return new ResponseEntity<List<Failure>>(failuresData, HttpStatus.OK);		
+
+}
+	@RequestMapping(value = "/getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTimeAndFacilityId/{typeOfFailure}/{fromDateTime}/{thruDateTime}/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<List<Failure>> getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTimeAndFacilityId(@PathVariable("typeOfFailure") String typeOfFailure,@PathVariable("fromDateTime") String fromDateTime,
+			@PathVariable("thruDateTime") String thruDateTime,@PathVariable("facilityId") String facilityId){
+		List<Failure> failuresRespData = reportService.findByTypeOfFailureAndFromDateTimeAndThruDateTimeAndFacilityId(typeOfFailure,Helper.convertStringToTimestamp(fromDateTime),Helper.convertStringToTimestamp(thruDateTime),facilityId);
+		return new ResponseEntity<List<Failure>>(failuresRespData, HttpStatus.OK);		
+
+}
+	@RequestMapping(value = "/getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTimeAndDataDiv/{typeOfFailure}/{fromDateTime}/{thruDateTime}/{dataDiv}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<List<Failure>> getFailuresBasedOnTypeOfFailureFromDateTimeAndThruDateTimeAndDataDiv(@PathVariable("typeOfFailure") String typeOfFailure,@PathVariable("fromDateTime") String fromDateTime,
+			@PathVariable("thruDateTime") String thruDateTime,@PathVariable("dataDiv") String dataDiv){
+		List<Failure> failuresRespData = reportService.findByTypeOfFailureAndFromDateTimeAndThruDateTimeAndDataDiv(typeOfFailure,Helper.convertStringToTimestamp(fromDateTime),Helper.convertStringToTimestamp(thruDateTime),dataDiv);
+		return new ResponseEntity<List<Failure>>(failuresRespData, HttpStatus.OK);		
+
+}
+	@RequestMapping(value = "/getElectricEnergySuppliersBasesOnStateId/{stateId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<ElectricEnergySuppliers>> findByStateId(@PathVariable("stateId") String stateId){
+		List<ElectricEnergySuppliers> eesItem= reportService.findByStateId(stateId);
+		return new ResponseEntity<List<ElectricEnergySuppliers>>(eesItem, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getPbSwitchControlBasedOnSwitchType/{switchType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<PbSwitchControl>> findBySwitchType(@PathVariable("switchType") String switchType){
+		List<PbSwitchControl> switchTypeItem= reportService.findBySwitchType(switchType);
+		return new ResponseEntity<List<PbSwitchControl>>(switchTypeItem, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getStipulationsBasedOnInspectionIdAndAssetType/{inspectionId}/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Stipulations>> getStipulationsBasedOnInspectionIdAndAssetType(@PathVariable("inspectionId") String inspectionId ,@PathVariable("assetType") String assetType){
+		List<Stipulations> stipulationDetails= reportService.findStipulationsBasedOnInspectionIdAndAssetType(inspectionId, assetType);
+			return new ResponseEntity<List<Stipulations>>(stipulationDetails, HttpStatus.OK);		
+	}
 }

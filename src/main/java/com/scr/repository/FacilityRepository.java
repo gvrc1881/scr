@@ -32,7 +32,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 
 	List<Facility> findByDivision(String facilityName);
 
-	List<Facility> findByZone(String facilityName);
+	List<Facility> findByZone(String zone);
 
 	List<Facility> findByParentFacilityId(String facilityName);
 	@Query(value = "select * from facility where depot_type in('OHE','PSI') order by facility_name ASC",
@@ -47,5 +47,10 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	Boolean existsByFacilityName(String facilityName);
 	
 	Boolean existsByFacilityId(String facilityId);
+	
+	List<Facility> findByZoneAndDepotType(String zone,String depotType);
+	List<Facility> findByDivisionAndDepotType(String division, String depotType);
+	List<Facility> findBySubDivisionAndDepotType(String subDivision, String depotType);
+
 }
 

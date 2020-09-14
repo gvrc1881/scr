@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -40,6 +41,7 @@ import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
+import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
 import com.scr.model.Zone;
 import com.scr.repository.ReportParametersRepository;
@@ -48,6 +50,7 @@ import com.scr.repository.SectionRepository;
 import com.scr.repository.StatusItemRepository;
 import com.scr.repository.StipulationRepository;
 import com.scr.repository.SubDivisionRepository;
+import com.scr.repository.TPCBoardDepotAssocRepository;
 import com.scr.repository.TPCBoardRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.ZoneRepository;
@@ -154,6 +157,8 @@ public class ReportService {
 	private InspectionTypeRepository inspectionTypeRepository;
 	@Autowired
 	private MeasureOrActivityListRepository measureOrActivityListRepository;
+	@Autowired
+	private TPCBoardDepotAssocRepository tpcBoardDepotAssocRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -326,4 +331,53 @@ public class ReportService {
 		
 		return facilityRepository.findByFacilityId(facilityId);
 	}
+	public List<Facility> getFacilityNameBasedOnZone(String zone) {
+		List<Facility> facilityNames = facilityRepository.findByZone(zone);
+		return facilityNames;
+	}
+	public List<Facility> findFacilityNameBasedOnZoneAndDepotType(String zone,String depotType) {
+		List<Facility> fnZoneAndDepotType = facilityRepository.findByZoneAndDepotType(zone,depotType);
+		return fnZoneAndDepotType;
+	}
+	public List<Facility> findFacilityNameBasedOnDivisionAndDepotType(String division,String depotType) {
+		List<Facility> fnDivisionAndDepotType = facilityRepository.findByDivisionAndDepotType(division,depotType);
+		return fnDivisionAndDepotType;
+	}
+	public List<Facility> findFacilityNameBasedOnSubDivisionAndDepotType(String subDivision,String depotType) {
+		List<Facility> fnSubDivisionAndDepotType = facilityRepository.findBySubDivisionAndDepotType(subDivision,depotType);
+		return fnSubDivisionAndDepotType;
+	}
+	public List<TpcBoardReportingFacility> getFacilityNameBasedOnTpcBoard(String tpcBoard) {
+		List<TpcBoardReportingFacility> facilityNames = tpcBoardDepotAssocRepository.findByTpcBoard(tpcBoard);
+		return facilityNames;
+	}
+	public List<TpcBoardReportingFacility> findFacilityNameBasedOnTpcBoardAndUnitType(String tpcBoard,String unitType) {
+		List<TpcBoardReportingFacility> fnByTpcBoardAndUnitType = tpcBoardDepotAssocRepository.findByTpcBoardAndUnitType(tpcBoard,unitType);
+		return fnByTpcBoardAndUnitType;
+	}
+	public List<Failure> findByTypeOfFailureAndFromDateTimeAndThruDateTime(String typeOfFailure,Timestamp fromDateTime,Timestamp thruDateTime) {
+		List<Failure> failuresList = failuresRepository.findByTypeOfFailureAndFromDateTimeGreaterThanAndThruDateTimeLessThan(typeOfFailure,fromDateTime,thruDateTime);
+		return failuresList;
+	}
+	public List<Failure> findByTypeOfFailureAndFromDateTimeAndThruDateTimeAndFacilityId(String typeOfFailure,Timestamp fromDateTime,Timestamp thruDateTime,String facilityId) {
+		List<Failure> failureRespList = failuresRepository.findByTypeOfFailureAndFromDateTimeGreaterThanAndThruDateTimeLessThanAndFacilityId(typeOfFailure,fromDateTime,thruDateTime,facilityId);
+		return failureRespList;
+	}
+	public List<Failure> findByTypeOfFailureAndFromDateTimeAndThruDateTimeAndDataDiv(String typeOfFailure,Timestamp fromDateTime,Timestamp thruDateTime,String dataDiv) {
+		List<Failure> failureRespList = failuresRepository.findByTypeOfFailureAndFromDateTimeGreaterThanAndThruDateTimeLessThanAndDataDiv(typeOfFailure,fromDateTime,thruDateTime,dataDiv);
+		return failureRespList;
+	}
+	public List<ElectricEnergySuppliers> findByStateId(String stateId) {
+		
+		return electricEnergySuppliersRepository.findByStateId(stateId);
+	}
+public List<PbSwitchControl> findBySwitchType(String switchType) {
+		
+		return pbSwitchControlRepository.findDistinctSwitchTypeBySwitchType(switchType);
+	}
+public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String inspectionId,String assetType) {
+	return stipulationRepository.findByInspectionIdAndAssetType(inspectionId,assetType);
+
+}
+
 }

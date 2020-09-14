@@ -9,5 +9,7 @@ import com.scr.model.ElectricEnergySuppliers;
 public interface ElectricEnergySuppliersRepository extends JpaRepository<ElectricEnergySuppliers, Integer> {
 
 	List<ElectricEnergySuppliers> findAll();
+	List<ElectricEnergySuppliers> findByStateId(String stateId);
+
 	
 }

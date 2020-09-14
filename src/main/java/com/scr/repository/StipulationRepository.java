@@ -8,6 +8,8 @@ import com.scr.model.Stipulations;
 
 public interface StipulationRepository extends JpaRepository<Stipulations, Long>{
 	List<Stipulations> findAll();
+	
+	List<Stipulations> findByInspectionIdAndAssetType(String inspectionId,String assetType);
 
 
 }
