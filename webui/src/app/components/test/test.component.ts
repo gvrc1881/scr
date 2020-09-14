@@ -38,6 +38,7 @@ export class TestComponent implements OnInit {
   scheduleCodeList:any;
   statusItems:any;
   matcher = new MyErrorStateMatcher();
+  assetType:any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -68,7 +69,7 @@ export class TestComponent implements OnInit {
       'Schedule_date': [null, Validators.compose([Validators.required])],
       'Depot_Name': [null, Validators.compose([Validators.required])],
       'Power_Block': [null, Validators.compose([Validators.required])],
-      'Asset_Type': [null, Validators.compose([Validators.required])],
+      'Asset_Type': [null, ],
       'From_Kilometer':[null, Validators.compose([Validators.required])],
       'To_Kilometer':[null, Validators.compose([Validators.required,])],
       'Schedule':[null, Validators.compose([Validators.required])],
@@ -155,7 +156,8 @@ export class TestComponent implements OnInit {
       
   }
   getAssetIds($event){
-    console.log("selected asset type block"+$event.value);
+    console.log("selected asset type ::"+$event.value);
+    this.assetType=$event.value;
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM+ 'ATD'+'/30015'+'/121'+'/131').subscribe((data) => {
       this.assetIdList = data;
       }, error => {
@@ -171,14 +173,22 @@ export class TestComponent implements OnInit {
       });
   }
 
-  selectedFromKm($event){
-    console.log("selectedFromKm"+$event.value);
-    this.fromKm=$event.value;
-      
+  selectedFromKm(fKM){
+    if(this.assetType==null){
+    console.log("selected assetType"+this.assetType);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM+ '30015'+'/121'+'/131').subscribe((data) => {
+      this.assetIdList = data;
+      }, error => {
+        this.spinnerService.hide();
+      });
+     }
+    console.log("assetType:::"+fKM);
+    this.fromKm=fKM;
+    console.log("fromKm::"+this.fromKm);
   }
-  selectedToKm($event){
-    console.log("selectedToKm"+$event.value);
-    this.toKm=$event.value;
+  selectedToKm(tKM){
+    console.log("selectedToKm"+tKM);
+    this.toKm=tKM;
     
   }
   
@@ -192,7 +202,7 @@ export class TestComponent implements OnInit {
     if (this.save) {
       let assetIdAssetTypes= [];
       this.addAssetDailyScheduleReportGroup.controls.Asset_Id.value.map(value=>{
-        assetIdAssetTypes.push(value.assetId+"-"+value.assetType);
+        assetIdAssetTypes.push(value.assetId+"_"+value.assetType);
       })
       let ele = this.addAssetDailyScheduleReportGroup.value.Asset_Id;
       var saveAshModel = {

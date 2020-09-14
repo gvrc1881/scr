@@ -58,7 +58,7 @@ public class AssetScheduleHistoryController {
 			for(Object obj:array) {
 				String str=obj.toString();
 			//if (assetIds != null && !assetIds.isEmpty()) {
-				String[] assets = str.split("-");
+				String[] assets = str.split("_");
 					ashRequest.setAssetId(assets[0]);
 					ashRequest.setAssetType(assets[1]);
 					service.saveAshData(ashRequest);
