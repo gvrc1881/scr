@@ -100,16 +100,16 @@
                                                                         </mat-form-field>
                                                                     </div>
                                                                  
-                                                                <!--To Kilometer-->
+                                                                <!--To Kilometer [errorStateMatcher]="matcher"-->
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input [errorStateMatcher]="matcher" #toKm matInput placeholder="To Kilometer" 
+                                                                                <input  #toKm matInput placeholder="To Kilometer" 
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['To_Kilometer']" 
                                                                                 (selectionChange)="selectedToKm($event)" decimalNumber/>
                                                                                 <!--<mat-error *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid">To km is greater than from km</mat-error>-->
                                                                                 <span style="color:red" *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid" >
-                                                                                    To km is greater than From km
+                                                                                    To km is greater than or equals From km
                                                                                 </span>
                                                                         </mat-form-field>
                                                                     </div>
@@ -122,7 +122,7 @@
                                                                             <mat-select [formControl]="addAssetDailyScheduleReportGroup.controls['Asset_Id']" multiple
                                                                             (selectionChange)="getScheduleCodes($event)">
                                                                               <mat-option *ngFor="let assetIdObj of assetIdList" 
-                                                                              [value]="assetIdObj.assetId">{{assetIdObj.assetId}}-{{assetIdObj.assetType}}</mat-option>
+                                                                              [value]="assetIdObj">{{assetIdObj.assetId}}-{{assetIdObj.assetType}}</mat-option>
                                                                             </mat-select>
                                                                           </mat-form-field>
                                                                     </div>            

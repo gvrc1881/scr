@@ -53,4 +53,9 @@ public class AssetMasterDataService {
 		List<AssetMasterData> assetIds = assetMastersRepository.findByAssetTypeAndFacilityId(assetType,facilityId,fromKm,toKm);
 		return assetIds;
 	}
+
+	public List<AssetMasterData> findAssetIdsByFacilityId(String facilityId, Double fromKm, Double toKm) {
+		List<AssetMasterData> assetIds = assetMastersRepository.findAssetIdsByFacilityId(facilityId,fromKm,toKm);
+		return assetIds;
+	}
 }
