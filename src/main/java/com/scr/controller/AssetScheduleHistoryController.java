@@ -4,7 +4,9 @@ import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,13 +52,18 @@ public class AssetScheduleHistoryController {
 		logger.info("Request Parameters = "+ashRequest.toString());
 		try {
 			logger.info("Calling service with request parameters.");
-			String assetIds = ashRequest.getAssetId();
-			if (assetIds != null && !assetIds.isEmpty()) {
-				for (String assetId : assetIds.split(",")) {
-					ashRequest.setAssetId(assetId);
+			String inputStr = ashRequest.getAssetId();
+			JSONArray array= new JSONArray(inputStr);
+			//JSONObject json=array.getJSONObject(0);
+			for(Object obj:array) {
+				String str=obj.toString();
+			//if (assetIds != null && !assetIds.isEmpty()) {
+				String[] assets = str.split("-");
+					ashRequest.setAssetId(assets[0]);
+					ashRequest.setAssetType(assets[1]);
 					service.saveAshData(ashRequest);
-				}
 			}
+			
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Ash Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {

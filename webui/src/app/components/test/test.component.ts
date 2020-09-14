@@ -17,7 +17,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 
 
 export class TestComponent implements OnInit {
-
+  
   id: number = 0;
   today = new Date();
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
@@ -88,7 +88,8 @@ export class TestComponent implements OnInit {
 }
 
   selectedScheduleDate($event){
-    console.log("selectedScheduleDate"+$event.value);
+    console.log("loggedUserData::"+this.loggedUserData.depoNames);
+    console.log("selectedScheduleDate::"+$event.value);
     this.scheduleDate=this.datePipe.transform($event.value,"yyyy-MM-dd");
     console.log(this.datePipe.transform($event.value,"yyyy-MM-dd")); 
     
@@ -96,14 +97,17 @@ export class TestComponent implements OnInit {
 
   selectedDepoName($event){
     console.log("selected Depo names"+$event.value);
+   // let statusItem=[];
     this.facilityId=$event.value;
     this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.STATUS_ON_STATUS_TYPE+'PB_STATIC_STATUS').subscribe((data) => {
       this.statusItems = data;
 
       this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+ '/30000/2019-03-04').subscribe((data) => {
-        this.powerBlockList = [...data,  {"pbOperationSeqId":"To be filled Power Bolck"},
-        {"pbOperationSeqId":"No Power Bolck"},
-        {"pbOperationSeqId":"Off the Block"}
+        //this.powerBlockList = [...data,  this.statusItems
+        this.powerBlockList = [...data,...this.statusItems.map(value=>{
+          //console.log("value:::"+value.statusCode);
+          return ({"pbOperationSeqId":value.statusCode});
+        })
          ];
          console.log("this.powerBlockList"+this.powerBlockList);
          
@@ -117,6 +121,15 @@ export class TestComponent implements OnInit {
     
 
       
+  }
+  process(data:any)  
+  {
+      let statuses:any[]=[];    
+      for (let status of data)
+      {
+        statuses.push({"pbOperationSeqId":status.statusCode});
+     }
+      return statuses;
   }
   selectedPowerBlock($event){
     console.log("selected power block"+$event.value);
@@ -177,6 +190,10 @@ export class TestComponent implements OnInit {
     }
     this.spinnerService.show();
     if (this.save) {
+      let assetIdAssetTypes= [];
+      this.addAssetDailyScheduleReportGroup.controls.Asset_Id.value.map(value=>{
+        assetIdAssetTypes.push(value.assetId+"-"+value.assetType);
+      })
       let ele = this.addAssetDailyScheduleReportGroup.value.Asset_Id;
       var saveAshModel = {
       'scheduleDate': this.addAssetDailyScheduleReportGroup.value.Schedule_date,
@@ -189,7 +206,7 @@ export class TestComponent implements OnInit {
       'remarks' : this.addAssetDailyScheduleReportGroup.value.Remarks,
       'facilityId' : this.facilityId,
       'initialOfIncharge' : this.addAssetDailyScheduleReportGroup.value.Incharge,
-      'assetId' : ele.toString(),       
+      'assetId' : JSON.stringify(assetIdAssetTypes),       
       "createdBy": this.loggedUserData.username,      
       "createdOn": new Date(),
       "status":'EntryPending',
@@ -202,7 +219,8 @@ export class TestComponent implements OnInit {
      
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Ash Data Saved Successfully");
-          this.router.navigate(['../'], { relativeTo: this.route });
+          //this.router.navigate(['/'], { relativeTo: this.route });
+          window.location.reload;
         } else {
           this.commonService.showAlertMessage("Ash Data Saving Failed.");
         }

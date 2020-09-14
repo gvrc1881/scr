@@ -210,8 +210,8 @@ export const Constants = {
                 DELETE_ASSET_MASTER_DATA:"/deleteAssetMasterData/",
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
                 GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/",
-                GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM:"/assetIdsByAssetTypeAndFacilityId/"
-
+                GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM:"/assetIdsByAssetTypeAndFacilityId/",
+                GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM:"/assetIdsByFacilityId/"
             },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
