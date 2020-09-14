@@ -18,7 +18,7 @@
                     <div class="panel-body">
                     <mat-grid-list cols="3" rowHeight="4.5:0.4">
                         <ul *ngFor="let item of reportNamesData">
-                            <div *ngIf="(item.active=='YES')">
+                            <div *ngIf="(item.active=='Yes')">
                             <a [routerLink]="['/reportParameterDisplay',item.reportId]"
                                 routerLinkActive="router-link-active">
                                 <mat-grid-tile>{{item.reportId | uppercase}}</mat-grid-tile>

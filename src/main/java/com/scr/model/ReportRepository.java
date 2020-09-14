@@ -74,14 +74,6 @@ public class ReportRepository implements Serializable {
 		this.jrxmlName = jrxmlName;
 	}
 
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getActive() {
 		return active;
@@ -96,6 +88,8 @@ public class ReportRepository implements Serializable {
 		return "ReportRepository [id=" + id + ", active=" + active + ", reportId=" + reportId + ", reportCategory="
 				+ reportCategory + ", jrxmlVersion=" + jrxmlVersion + ", jrxmlName=" + jrxmlName + "]";
 	}
+
+	
 
 	
 
