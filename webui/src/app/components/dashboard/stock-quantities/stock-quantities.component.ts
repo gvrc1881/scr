@@ -130,10 +130,11 @@ export class StockQuantitiesComponent implements OnInit {
   }
   
   submitStockQuantities () {
-      console.log(this.addStockQuantities.controls);
+     // console.log(this.addStockQuantities.controls);
       let request = {
         fromDate:this.addStockQuantities.controls.fromDate.value,
         toDate:this.addStockQuantities.controls.toDate.value,
+        groupBy:this.addStockQuantities.controls.groupBy.value,
         zone:this.addStockQuantities.controls.zone.value.code,
         division:this.addStockQuantities.controls.division.value.code,
         subDivision:this.addStockQuantities.controls.subDivision.value.headquarters,
