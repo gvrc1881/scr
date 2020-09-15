@@ -896,5 +896,10 @@ export class HeaderComponent implements OnInit, DoCheck {
     localStorage.removeItem('userData');
     localStorage.removeItem('loggedUser');
     localStorage.removeItem('menus');
+    localStorage.removeItem('userHierarchy');
+    localStorage.removeItem('zoneData');
+    localStorage.removeItem('divisionData');
+    localStorage.removeItem('subDivData');
+    localStorage.removeItem('depotData');
   }
 }

@@ -4,6 +4,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AlertService } from '../../services/alert.service';
 import { CommonService } from '../../common/common.service';
+import { FacilityModel } from 'src/app/models/facility.model';
 
 import {
   ParentErrorStateMatcher,
@@ -27,6 +28,10 @@ export class LoginComponent implements OnInit {
   matching_passwords_group: FormGroup;
   country_phone_group: FormGroup;
   user: UsersModel;
+  zoneList:  FacilityModel [] = [];
+  divisionList: FacilityModel [] = [];
+  subDivList: FacilityModel [] = [];
+  facilityList: FacilityModel [] = [];
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -103,8 +108,30 @@ export class LoginComponent implements OnInit {
                   if(this.user){
                     this.authenticationService.userHierarchy(this.user.userName)
                       .subscribe(response => {
-                     // console.log("**user hierarchy***"+JSON.stringify(response));
+                    // console.log("**user hierarchy***"+JSON.stringify(response));
                         localStorage.setItem("userHierarchy",JSON.stringify(response));
+                        let userHierarchy = JSON.parse(localStorage.getItem('userHierarchy'));
+                        for (let i = 0; i < userHierarchy.length; i++) {
+			            
+			               if (userHierarchy[i].depotType == 'ZONE')
+			               	this.zoneList.push(userHierarchy[i]);
+			            
+			               else if (userHierarchy[i].depotType == 'DIV')
+			               	this.divisionList.push(userHierarchy[i]);
+			            
+			               else if (userHierarchy[i].depotType == 'SUBDIV')
+			               	this.subDivList.push(userHierarchy[i]);
+			            
+			               else
+			               	this.facilityList.push(userHierarchy[i]);
+			               
+			            }
+			            
+			            localStorage.setItem("zoneData",JSON.stringify(this.zoneList));
+			            localStorage.setItem("divisionData",JSON.stringify(this.divisionList));
+			            localStorage.setItem("subDivData",JSON.stringify(this.subDivList));
+			            localStorage.setItem("depotData",JSON.stringify(this.facilityList));
+			            
                       },error => {
                         console.log("Trigger Function Not Available >>> "+error);
                       }

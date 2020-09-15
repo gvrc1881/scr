@@ -24,11 +24,11 @@ public class ReportRequest {
 	
 	private String outputData;
 	private String reportId;
-	private Zone zone;
+	private String zone;
 	private Facility facilityName;
     private Facility facilityId;
 	private String reportHeader;
-	private Division division;
+	private String division;
 	private String subDivision;
 	private ObservationCategory department;
 	private Facility facility;
@@ -284,28 +284,28 @@ public class ReportRequest {
 		Date = date;
 	}
 
-	public Zone getZone() {
-		return zone;
-	}
-
-	public void setZone(Zone zone) {
-		this.zone = zone;
-	}
-
-	public Division getDivision() {
-		return division;
-	}
-
-	public void setDivision(Division division) {
-		this.division = division;
-	}
-
 	public String getMaterialItem() {
 		return materialItem;
 	}
 
 	public void setMaterialItem(String materialItem) {
 		this.materialItem = materialItem;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
 	}
 
 	

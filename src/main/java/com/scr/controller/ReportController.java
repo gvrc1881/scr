@@ -3,7 +3,9 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.Valid;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetScheduleAssoc;
@@ -51,6 +54,7 @@ import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
+import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
 import com.scr.services.ReportService;
 import com.scr.util.Helper;
@@ -457,5 +461,38 @@ public class ReportController {
 	public ResponseEntity<List<Stipulations>> getStipulationsBasedOnInspectionIdAndAssetType(@PathVariable("inspectionId") String inspectionId ,@PathVariable("assetType") String assetType){
 		List<Stipulations> stipulationDetails= reportService.findStipulationsBasedOnInspectionIdAndAssetType(inspectionId, assetType);
 			return new ResponseEntity<List<Stipulations>>(stipulationDetails, HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value = "/getUserDefaultData/{userName}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<UserDefualtFacConsIndEtc> getUserDefaultData(@PathVariable("userName") String userName) {
+		log.info("Enter into getUserDefaultData function" + userName);
+		Optional<UserDefualtFacConsIndEtc> userDefualtFacConsIndEtc = reportService.getUserDefaultData(userName);
+		if (userDefualtFacConsIndEtc.isPresent()) {
+			log.info("*** user Default Data ***" + userDefualtFacConsIndEtc.get().toString());
+			return new ResponseEntity<UserDefualtFacConsIndEtc>(userDefualtFacConsIndEtc.get(), HttpStatus.OK);
+		} else
+			return new ResponseEntity<UserDefualtFacConsIndEtc>(userDefualtFacConsIndEtc.get(), HttpStatus.CONFLICT);
+	}
+
+	@RequestMapping(value = "/getZoneObject/{zoneName}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<Zone> getZoneObject(@PathVariable("zoneName") String zoneName) {
+		log.info("Enter into getZoneObject function" + zoneName);
+		Optional<Zone> zone = reportService.getZoneObject(zoneName.toUpperCase());
+		if (zone.isPresent()) {
+			log.info("*** zone Data ***" + zone.get().toString());
+			return new ResponseEntity<Zone>(zone.get(), HttpStatus.OK);
+		} else
+			return new ResponseEntity<Zone>(zone.get(), HttpStatus.CONFLICT);
+	}
+
+	@RequestMapping(value = "/getDivisonObject/{divisionName}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<Division> getDivisonObject(@PathVariable("divisionName") String divisionName) {
+		log.info("Enter into getZoneObject function" + divisionName);
+		Optional<Division> division = reportService.getDivisonObject(divisionName.toUpperCase());
+		if (division.isPresent()) {
+			log.info("*** division Data ***" + division.get().toString());
+			return new ResponseEntity<Division>(division.get(), HttpStatus.OK);
+		} else
+			return new ResponseEntity<Division>(division.get(), HttpStatus.CONFLICT);
 	}
 }

@@ -3,10 +3,12 @@ package com.scr.services;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetMasterData;
@@ -43,18 +45,8 @@ import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
+import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
-import com.scr.repository.ReportParametersRepository;
-import com.scr.repository.ReportRepositoryRepository;
-import com.scr.repository.SectionRepository;
-import com.scr.repository.StatusItemRepository;
-import com.scr.repository.StipulationRepository;
-import com.scr.repository.SubDivisionRepository;
-import com.scr.repository.TPCBoardDepotAssocRepository;
-import com.scr.repository.TPCBoardRepository;
-import com.scr.repository.UomRepository;
-import com.scr.repository.ZoneRepository;
-
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
@@ -80,6 +72,17 @@ import com.scr.repository.PowerBlockRepository;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.ProductCategoryMemberRepository;
 import com.scr.repository.ProductMakeModelAssocRepository;
+import com.scr.repository.ReportParametersRepository;
+import com.scr.repository.ReportRepositoryRepository;
+import com.scr.repository.SectionRepository;
+import com.scr.repository.StatusItemRepository;
+import com.scr.repository.StipulationRepository;
+import com.scr.repository.SubDivisionRepository;
+import com.scr.repository.TPCBoardDepotAssocRepository;
+import com.scr.repository.TPCBoardRepository;
+import com.scr.repository.UomRepository;
+import com.scr.repository.UserDefualtFacConsIndEtcRepository;
+import com.scr.repository.ZoneRepository;
 
 
 @Service
@@ -159,6 +162,9 @@ public class ReportService {
 	private MeasureOrActivityListRepository measureOrActivityListRepository;
 	@Autowired
 	private TPCBoardDepotAssocRepository tpcBoardDepotAssocRepository;
+	
+	@Autowired
+	private UserDefualtFacConsIndEtcRepository userDefualtFacConsIndEtcRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -379,5 +385,18 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	return stipulationRepository.findByInspectionIdAndAssetType(inspectionId,assetType);
 
 }
+
+	public Optional<UserDefualtFacConsIndEtc> getUserDefaultData(String userName) {
+		return userDefualtFacConsIndEtcRepository.findByUserLoginId(userName);
+	}
+
+	public Optional<Zone> getZoneObject(String zoneName) {
+		return zoneRepository.findByCode(zoneName);
+	}
+
+	public Optional<Division> getDivisonObject(String divisionName) {
+		// TODO Auto-generated method stub
+		return divisionRepository.findByCode(divisionName);
+	}
 
 }

@@ -69,6 +69,9 @@ export const Constants = {
             GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE:"/getObservationCheckListBasedOnObservationCate/",
             GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE:"/getActivityNameBasedOnActivityType/",
             GET_FACILITY:"/getFacility/",
+            GET_USER_DEFAULT_DATA:"/getUserDefaultData/",
+            GET_ZONE_OBJECT:"/getZoneObject/",
+            GET_DIVISION_OBJECT:"/getDivisonObject/"
         },        
         MASTERS:{
             ROLE_TYPE:{

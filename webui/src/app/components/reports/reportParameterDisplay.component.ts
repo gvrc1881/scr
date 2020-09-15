@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ReportParameterModel } from 'src/app/models/reportParameter.model';
 import { ReportPayload } from 'src/app/payloads/report.payload';
 import { ReportModel } from 'src/app/models/report.model';
@@ -48,6 +48,11 @@ export class ReportParameterDisplayComponent implements OnInit {
        subDivList: FacilityModel[] = [];
        facilityList: FacilityModel[] = [];
        pbSwitchControlData: any;
+       userData: any = JSON.parse(localStorage.getItem('loggedUser'));
+       userDefaultData: any ;
+       zoneObject: any;
+       zoneCode: any;
+       divisionObject: any;
        sub;/*It defines to store router map of subscribe*/
        id: any;  /* Its used to store the getting name on the report page  */
        otyp = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
@@ -60,7 +65,9 @@ export class ReportParameterDisplayComponent implements OnInit {
 
        ngOnInit() {
               let previousUrl = this.previousRouterUrl.getPreviousUrl();
-
+              this.reportModel = new ReportModel();
+            
+              this.zoneCodeList();
               if (previousUrl === '/daily-progress-reports') {
                      this.assetType = 'TowerCar';
               }
@@ -77,7 +84,6 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + this.assetType).subscribe((data) => {
                      this.assetType = data;
               })
-              this.reportModel = new ReportModel();
               this.submitedForm = this.formBuilder.group({});
               this.facilityNames();
               this.elementarySections();
@@ -85,7 +91,6 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.observationCategories();
               this.powerBlocks();
               this.pbSwitchControl();
-              this.zoneCodeList();
               this.sub = this.Activatedroute.paramMap.subscribe(params => {
                      this.id = params.get('id');
               });
@@ -142,9 +147,29 @@ export class ReportParameterDisplayComponent implements OnInit {
        zoneCodeList() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
                      this.zoneData = data;
-              }
-              );
-
+                    if(data) {
+                     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.userData.userName).subscribe((data) => {
+	                     this.userDefaultData = data;
+	                     if(this.userDefaultData.zone){
+	                     	 	this.zoneCode =  this.userDefaultData.zone;
+		                     	this.reportModel.zone = this.userDefaultData.zone;
+		                     	this.divisionCode(this.userDefaultData.zone);
+		                     }
+		                 if(this.userDefaultData.division){
+		                     	this.reportModel.division = this.userDefaultData.division;
+		                     	this.subDivision(this.userDefaultData.division);
+		                     }
+		                     
+		                 if(this.userDefaultData.subDivision){
+			                	this.reportModel.subDivision = this.userDefaultData.subDivision; 
+			                    this.facility(this.userDefaultData.subDivision);
+			                }      
+	              },
+	                error => error => {
+	                       console.log(' >>> ERROR ' + error);
+	             	})
+	             }
+              });
        }
        observationCheckList() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CHECK_LIST).subscribe((data) => {
@@ -206,17 +231,21 @@ export class ReportParameterDisplayComponent implements OnInit {
               }
               )
        }
-       divisionCode(zone: any) {
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone.id).subscribe((data) => {
-                     this.divisionsData = data;
-              }
-              )
+       divisionCode(zoneCode: any) {
+       		  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_OBJECT + zoneCode).subscribe((data) => {
+		                     this.zoneObject = data;	
+	              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + this.zoneObject.id).subscribe((data) => {
+	                     this.divisionsData = data;
+	              })
+              })
        }
-       subDivision(division: any) {
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + division.id).subscribe((data) => {
-                     this.subDivisionData = data;
-              }
-              )
+       subDivision(divisionCode: any) {
+       		  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_OBJECT + divisionCode ).subscribe((data) => {
+			                     this.divisionObject = data;	
+	              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + this.divisionObject.id ).subscribe((data) => {
+	                     this.subDivisionData = data;
+	              })
+              })
        }
        facility(code: any) {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + code).subscribe((data) => {

@@ -52,10 +52,9 @@
                                                        <td *ngIf="(names.parameterName=='zone')">
                                                             <select name="zone" id="zone" [(ngModel)]="reportModel.zone"
                                                                  (change)="divisionCode(reportModel.zone)">
-                                                                 <option *ngFor="let item of zoneData" [ngValue]="item">
+                                                                 <option *ngFor="let item of zoneData"  [ngValue]="item.code" [selected]="item.code ===  zoneCode">
                                                                       {{item.code}}</option>
                                                             </select>
-
                                                        </td>
 
                                                        <td *ngIf="(names.parameterName=='division')">
@@ -63,7 +62,7 @@
                                                                  [(ngModel)]="reportModel.division"
                                                                  (change)="subDivision(reportModel.division)">
                                                                  <option *ngFor="let item of divisionsData"
-                                                                      [ngValue]="item">
+                                                                      [ngValue]="item.code" [selected]="item.code === userDefaultData.division">
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -73,7 +72,7 @@
                                                                  [(ngModel)]="reportModel.subDivision"
                                                                  (change)="facility(reportModel.subDivision)">
                                                                  <option *ngFor="let item of subDivisionData"
-                                                                      [ngValue]="item.code">
+                                                                      [ngValue]="item.code" [selected]="item.code === userDefaultData.subDivision" >
                                                                       {{item.code}}</option>
                                                             </select>
 
@@ -82,7 +81,7 @@
                                                             <select name="facilityName" id="facilityName"
                                                                  [(ngModel)]="reportModel.facility">
                                                                  <option *ngFor="let item of facilityId"
-                                                                      [ngValue]="item">
+                                                                      [ngValue]="item" >
                                                                       {{item.facilityName}}</option>
                                                             </select>
 

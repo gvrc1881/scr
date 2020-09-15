@@ -96,8 +96,8 @@ public class ReportResource {
 		parameters.put("Date", report.getDate());
 		parameters.put("gfFromDate", report.getFromDate());
 		parameters.put("gfTodate", report.getToDate());
-		parameters.put("zone", report.getZone().getCode());
-		parameters.put("division", report.getDivision().getCode());
+		parameters.put("zone", report.getZone());
+		parameters.put("division", report.getDivision());
 		parameters.put("subDivision", report.getSubDivision());
 		parameters.put("Material_Item", report.getMaterialItem());
 		parameters.put("start_date_of_period", report.getFromDate());
