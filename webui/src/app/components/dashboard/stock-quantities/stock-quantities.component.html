@@ -42,7 +42,7 @@
                                             <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
                                                 [min]="toMinDate" 
                                                 [max]="maxDate"
-                                                [formControl]="addStockQuantities.controls['toDate']">
+                                                [formControl]="addStockQuantities.controls['toDate']" required>
                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #picker2></mat-datepicker>
@@ -51,9 +51,22 @@
 
                                     <div class="col-md-3">
                                         <mat-form-field fxFlex="30">
+                                            <mat-select placeholder="Group By"
+                                                [formControl]="addStockQuantities.controls['groupBy']"
+                                                (selectionChange)="selectedGroupBy($event)" required>
+                                                <mat-option *ngFor="let groupBy of groupByList"
+                                                    [value]="groupBy.id">
+                                                    {{ groupBy.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <mat-form-field fxFlex="30">
                                             <mat-select placeholder="Zone"
                                                 [formControl]="addStockQuantities.controls['zone']"
-                                                (selectionChange)="selectedZone($event)">
+                                                (selectionChange)="selectedZone($event)" required>
                                                 <mat-option *ngFor="let zone of zoneList"
                                                     [value]="zone">
                                                     {{ zone.code}}
@@ -62,7 +75,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="group >= 1">
                                         <mat-form-field fxFlex="30">
                                             <mat-select placeholder="Division"
                                                 [formControl]="addStockQuantities.controls['division']"
@@ -75,7 +88,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="group >= 2">
                                         <mat-form-field fxFlex="30">
                                             <mat-select placeholder="Sub Division"
                                                 [formControl]="addStockQuantities.controls['subDivision']"
@@ -88,7 +101,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="group >= 3">
                                         <mat-form-field fxFlex="30">
                                             <mat-select placeholder="Depot"
                                                 [formControl]="addStockQuantities.controls['depot']"
@@ -101,7 +114,7 @@
                                         </mat-form-field>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="group >= 4">
                                         <mat-form-field fxFlex="30">
                                             <mat-select placeholder="Product"
                                                 [formControl]="addStockQuantities.controls['product']">

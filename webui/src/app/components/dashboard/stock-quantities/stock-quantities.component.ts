@@ -18,14 +18,15 @@ export class StockQuantitiesComponent implements OnInit {
   stockQuantitiesErrors: any;
   toMinDate = new Date();
 
-  statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  groupByList = [{ 'id': 1, "value": 'Division' }, { 'id': 2, "value": 'Sub Division' }
+  , { 'id': 3, "value": 'Depot' }, { 'id': 4, "value": 'Product' }];
   zoneList: any;
   divisionList: any;
   subDivisionList: any;
   depotList: any;
   productList: any;
   maxDate=new Date();
-
+  group:number=0;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -37,6 +38,7 @@ export class StockQuantitiesComponent implements OnInit {
     this.stockQuantitiesErrors = {
       fromDate: {},
       toDate: {},
+      groupBy:{},
       zone: {},
       division: {},
       subDivision: {},
@@ -50,11 +52,12 @@ export class StockQuantitiesComponent implements OnInit {
       id: 0,
       'fromDate': [null, Validators.required],
       'toDate': [null],
+      'groupBy': [null, Validators.required],
       'zone': [null, Validators.required],
-      'division': [null, Validators.required],
-      'subDivision': [null, Validators.required],
-      'depot': [null, Validators.required],
-      'product': [null, Validators.required]
+      'division': [null],
+      'subDivision': [null],
+      'depot': [null],
+      'product': [null]
     });
 
     this.findZoneCodeList();
@@ -70,34 +73,35 @@ export class StockQuantitiesComponent implements OnInit {
   }
   findDivisionCodeByZone(zone) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + zone).subscribe((data) => {
-      console.log(data)
       this.divisionList = data;
     })
   }
 
   findSubDivisionByDivision(division) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + division).subscribe((data) => {
-      console.log(data)
       this.subDivisionList = data;
     })
   }
 
   findDepotBySubDivision(subSivision) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + subSivision).subscribe((data) => {
-      console.log(data)
       this.depotList = data;
     })
   }
 
   findProductsByDepot(depot) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + depot).subscribe((data) => {
-      console.log(data)
       this.productList = data;
     })
   }
 
+  selectedGroupBy($event){
+    if($event.value){
+      this.group = $event.value;
+    }
+  }
+
   selectedZone($event) {
-    console.log($event.value)
     if ($event.value) {
       this.divisionList = [];
       this.findDivisionCodeByZone($event.value.id);

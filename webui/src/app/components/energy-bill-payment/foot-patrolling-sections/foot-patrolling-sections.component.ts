@@ -249,7 +249,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
 
        }
 
-    NewFPSectionsItem () {
+    NewFPSectionsItem() {
         this.addFPSectionsItem = true;
         this.fpSectionsItemFormGroup = this.formBuilder.group({
             id: 0,
