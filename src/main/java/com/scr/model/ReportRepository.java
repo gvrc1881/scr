@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 @Embeddable
 @Entity
-
 @Table(name = "report_repository")
 public class ReportRepository implements Serializable {
 

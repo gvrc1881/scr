@@ -6,6 +6,7 @@ public class DashboardParametersRequest {
 	
 	private Date fromDate;
 	private Date toDate;
+	private Integer groupBy;
 	private String zone;
 	private String division;
 	private String subDivision;
@@ -25,6 +26,13 @@ public class DashboardParametersRequest {
 	}
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
+	}
+	
+	public Integer getGroupBy() {
+		return groupBy;
+	}
+	public void setGroupBy(Integer groupBy) {
+		this.groupBy = groupBy;
 	}
 	public String getZone() {
 		return zone;
