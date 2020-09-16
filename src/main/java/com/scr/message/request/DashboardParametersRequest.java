@@ -14,6 +14,7 @@ public class DashboardParametersRequest {
 	private String facility;
 	private String material;
 	private String queryType;
+	private String product;
 	
 	public Date getFromDate() {
 		return fromDate;
@@ -75,6 +76,12 @@ public class DashboardParametersRequest {
 	}
 	public void setQueryType(String queryType) {
 		this.queryType = queryType;
+	}
+	public String getProduct() {
+		return product;
+	}
+	public void setProduct(String product) {
+		this.product = product;
 	}
 	
 	

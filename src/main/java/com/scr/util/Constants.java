@@ -85,4 +85,14 @@ public class Constants {
 	
 	public static final String MATERIAL_QTY_ONH_AND_BY_DEPOT = "MATERIAL_QTY_ONH_AND_BY_DEPOT";
 	public static final String MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT = "MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT";
+	
+	public static final String DIVISION = "DIVISION";
+	public static final String SUB_DIVISION = "SUB_DIVISION";
+	public static final String DEPOT = "DEPOT";
+	public static final String PRODUCT = "PRODUCT";
+	
+	public static final String DIVISION_PERIOD = "DIVISION_PERIOD";
+	public static final String SUB_DIVISION_PERIOD = "SUB_DIVISION_PERIOD";
+	public static final String DEPOT_PERIOD = "DEPOT_PERIOD";
+	public static final String PRODUCT_PERIOD = "PRODUCT_PERIOD";
 }

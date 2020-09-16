@@ -1,7 +1,6 @@
 package com.scr.repository;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,8 +39,171 @@ public class DashboardUtility {
 			return fetchByGivenPeriod(request);
 		case Constants.MATERIAL_QTY_ONH_AND_BY_DEPOT:
 			return fetchMaterialDataByDepot(request);
+		case Constants.DIVISION:
+			return fetchDivisionWise(request);
+		case Constants.SUB_DIVISION:
+			return fetchSubDivisionWise(request);
+		case Constants.DEPOT:
+			return fetchDepotWise(request);
+		case Constants.DIVISION_PERIOD:
+			return fetchDivisionWisePeriod(request);
+		case Constants.SUB_DIVISION_PERIOD:
+			return fetchSubDivisionWisePeriod(request);
+		case Constants.DEPOT_PERIOD:
+			return fetchDepotWisePeriod(request);
 		default:
 			break;
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchDepotWisePeriod(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.DEPOT_WISE_WITH_PERIOD);			
+			preparedStatement.setString(1, request.getZone());
+			preparedStatement.setString(2, request.getDivision());
+			preparedStatement.setString(3, request.getSubDivision());
+			preparedStatement.setString(4, request.getProduct());
+			preparedStatement.setString(5, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(6, Helper.convertDateToString(request.getToDate()));
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchSubDivisionWisePeriod(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.SUB_DIVISION_WITH_PERIOD);			
+			preparedStatement.setString(1, request.getZone());
+			preparedStatement.setString(2, request.getDivision());
+			preparedStatement.setString(3, request.getProduct());
+			preparedStatement.setString(4, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(5, Helper.convertDateToString(request.getToDate()));
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchDivisionWisePeriod(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.DIVISION_WISE_WITH_PERIOD);			
+			preparedStatement.setString(1, request.getZone());
+			preparedStatement.setString(2, request.getProduct());
+			preparedStatement.setString(3, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(4, Helper.convertDateToString(request.getToDate()));
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchDepotWise(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.DEPOT_WISE);			
+			preparedStatement.setString(1, request.getZone());
+			preparedStatement.setString(2, request.getDivision());
+			preparedStatement.setString(3, request.getSubDivision());
+			preparedStatement.setString(4, request.getProduct());
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchSubDivisionWise(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.SUB_DIVISION_WISE_BY_PRODUCT);
+			preparedStatement.setString(1, request.getDivision());
+			preparedStatement.setString(2, request.getZone());
+			preparedStatement.setString(3, request.getProduct());
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchDivisionWise(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.DIVISION_WISE_BY_PRODUCT);
+			preparedStatement.setString(1, request.getProduct());
+			preparedStatement.setString(2, request.getZone());
+			
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				return prepareListFromResultSet(resultSet, request.getQueryType());
+			}
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}catch (Exception e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
 		}
 		return null;
 	}
@@ -60,7 +222,7 @@ public class DashboardUtility {
 			preparedStatement.setString(5, request.getZone());
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
-				return prepareListFromResultSet(resultSet);
+				return prepareListFromResultSet(resultSet, "");
 			}
 		}catch (SQLException e) {
 			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
@@ -88,7 +250,7 @@ public class DashboardUtility {
 			preparedStatement.setString(7, Helper.convertDateToString(request.getToDate()));
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
-				return prepareListFromResultSet(resultSet);
+				return prepareListFromResultSet(resultSet, "");
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -101,7 +263,7 @@ public class DashboardUtility {
 		return null;
 	}
 
-	private List<DashboardGraphsResponse> prepareListFromResultSet(ResultSet resultSet) throws SQLException {
+	private List<DashboardGraphsResponse> prepareListFromResultSet(ResultSet resultSet, String queryType) throws SQLException {
 		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
 		DashboardGraphsResponse response = null; 
 		while(resultSet != null && resultSet.next()) {
@@ -109,13 +271,37 @@ public class DashboardUtility {
 			
 			response.setZone(resultSet.getString("zone"));
 			response.setDivision(resultSet.getString("div"));
-			response.setSubDivision(resultSet.getString("subdiv"));
 			response.setMaterialDesc(resultSet.getString("material_desc"));
-			response.setReceivedQty(resultSet.getLong("received_qty"));
-			response.setConsumedQty(resultSet.getLong("consumed_qty"));
-			response.setQtyNetPeriod(resultSet.getLong("qty_net_period_net_qty"));
-			response.setUom(resultSet.getString("uom"));
-			
+			if(queryType.equalsIgnoreCase(Constants.DIVISION) ||
+				queryType.equalsIgnoreCase(Constants.SUB_DIVISION) ||
+				queryType.equalsIgnoreCase(Constants.DEPOT)) {
+				response.setQoh(resultSet.getDouble("qoh"));
+			}
+			if (!queryType.equalsIgnoreCase(Constants.DIVISION)) {
+				if (queryType.equalsIgnoreCase(Constants.SUB_DIVISION)) {
+					response.setSubDivision(resultSet.getString("subdiv"));
+					//response.setUom(resultSet.getString("uom"));
+				} else if(queryType.equalsIgnoreCase(Constants.DEPOT)) {
+					response.setSubDivision(resultSet.getString("subdiv"));
+					//response.setUom(resultSet.getString("uom"));
+					response.setFacilityId(resultSet.getLong("facility_id"));
+					response.setDepotName(resultSet.getString("depot_name"));					
+				}else if(queryType.equalsIgnoreCase(Constants.DIVISION_PERIOD) ||
+						queryType.equalsIgnoreCase(Constants.SUB_DIVISION_PERIOD) ||
+						queryType.equalsIgnoreCase(Constants.DEPOT_PERIOD)) {
+					if(queryType.equalsIgnoreCase(Constants.SUB_DIVISION_PERIOD)) {
+						response.setSubDivision(resultSet.getString("sub_division"));
+					}else if(queryType.equalsIgnoreCase(Constants.DEPOT_PERIOD)) {
+						response.setSubDivision(resultSet.getString("subdiv"));
+						response.setDepotName(resultSet.getString("depot_name"));
+						response.setFacilityId(resultSet.getLong("facility_id"));
+					}
+					response.setReceivedQty(resultSet.getLong("received_qty"));
+					response.setConsumedQty(resultSet.getLong("consumed_qty"));
+					response.setQtyNetPeriod(resultSet.getLong("qty_net_period_net_qty"));	
+				}
+				response.setUom(resultSet.getString("uom"));
+			}
 			responseList.add(response);
 		}
 		return responseList;

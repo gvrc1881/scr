@@ -12,6 +12,8 @@ public class DashboardGraphsResponse {
 	private Long consumedQty;
 	private Long QtyNetPeriod;
 	private String uom;
+	private Double qoh;
+	
 	public String getZone() {
 		return zone;
 	}
@@ -71,6 +73,12 @@ public class DashboardGraphsResponse {
 	}
 	public void setUom(String uom) {
 		this.uom = uom;
+	}
+	public Double getQoh() {
+		return qoh;
+	}
+	public void setQoh(Double qoh) {
+		this.qoh = qoh;
 	}
 	
 	
