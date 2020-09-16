@@ -1,0 +1,195 @@
+<p>add-ash works!</p>
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="clearfix"> </div>
+<div class="content">
+    <div class="">
+        <div class="col-12">
+                <div class="breadcrumb-section">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                                    <li class="breadcrumb-item"><a [routerLink]="['/ash-add']">ASH</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">ASH</li>
+                            </ol>
+                        </nav>
+                </div>
+            <div class="clear"> </div>       
+                <div class="row-fluid">
+                        <div class="panel panel-primary">
+                                <!--<div class="panel-heading">Create Asset Daily Schedule Report</div>
+                                <div class="panel-heading">
+                                    <h4>Asset daily schedule report</h4></div>
+                                    <div class="panel-body">-->
+                                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Asset daily schedule report Form</div>
+                                                <div class="panel-body">
+                                                    <div class="p-24">
+                                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                
+                                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                                [formGroup]="addAssetDailyScheduleReportGroup" (ngSubmit)="onAssetDailyScheduleReportSubmit();">
+                
+                                                            <div class="col-md-12">
+                                                                    <!-- Schedule Date -->
+                                                                    <div class="col-md-3">
+                                                                            <mat-form-field fxFlex="30">
+                                                                                <input #schDate matInput [matDatepicker]="picker" placeholder="Schedule date" [max]="today"
+                                                                                    [formControl]="addAssetDailyScheduleReportGroup.controls['Schedule_date']"
+                                                                                    (dateChange)="selectedScheduleDate($event)">
+                                                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                                                    <mat-datepicker #picker  ></mat-datepicker> 
+                                                                            </mat-form-field>
+                                                                    </div>
+                                                                
+                                                                <!--Depot Name-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                            <mat-select #depoName placeholder="Depot Name" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['Depot_Name']"
+                                                                                (selectionChange)="selectedDepoName($event)" >
+                                                                                <mat-option *ngFor="let depoName of depoNameList"
+                                                                                    [value]="depoName.facilityId">
+                                                                                    {{ depoName.facilityName}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </div> 
+                                                                
+                                                                <!--Power Block
+                                                                    (selectionChange)="selectedPowerBlock($event)"
+                                                                    {{ powerblock.pbOperationSeqId}}+"-"+
+                                                                -->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                            <mat-select placeholder="Power Block" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['Power_Block']" 
+                                                                                (selectionChange)="getAssetTypes($event)">
+                                                                                <mat-option *ngFor="let powerblock of powerBlockList"
+                                                                                    [value]="powerblock.pbOperationSeqId">
+                                                                                    {{depoName.value}}_{{schDate.value}}_{{powerblock.elementarySectionCode}}
+                                                                                </mat-option>                                                                               
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </div> 
+                                                               
+                                                                <!--Asset Type-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                            <mat-select placeholder="Asset Type"
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['Asset_Type']"
+                                                                                (selectionChange)="getAssetIds($event)">
+                                                                                <mat-option *ngFor="let assetTypeObj of assetTypeList"
+                                                                                    [value]="assetTypeObj.id">
+                                                                                    {{ assetTypeObj.id}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </div> 
+                                                               
+                                                                <!--From Kilometer-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input #fromKm matInput placeholder="From Kilometer" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['From_Kilometer']" 
+                                                                                (keyup)="selectedFromKm($event.target.value)" decimalNumber/>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                 
+                                                                <!--To Kilometer [errorStateMatcher]="matcher"-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input  #toKm matInput placeholder="To Kilometer" 
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['To_Kilometer']" 
+                                                                                (keyup)="selectedToKm($event.target.value)" decimalNumber/>
+                                                                                <!--<mat-error *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid">To km is greater than from km</mat-error>-->
+                                                                                <span style="color:red" *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid" >
+                                                                                    To km is greater than or equals From km
+                                                                                </span>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                               
+                                                                <!--Asset Id-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field appearance="fill" fxFlex="30">
+                                                                            <mat-label>Asset Id</mat-label>
+                                                                            <mat-select [formControl]="addAssetDailyScheduleReportGroup.controls['Asset_Id']" multiple
+                                                                            (selectionChange)="getScheduleCodes($event)">
+                                                                              <mat-option *ngFor="let assetIdObj of assetIdList" 
+                                                                              [value]="assetIdObj">{{assetIdObj.assetId}}_{{assetIdObj.assetType}}</mat-option>
+                                                                            </mat-select>
+                                                                          </mat-form-field>
+                                                                    </div>            
+                                                                <!--Schedule-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                            <mat-select placeholder="Schedule"
+                                                                                [formControl]="addAssetDailyScheduleReportGroup.controls['Schedule']">
+                                                                                <mat-option *ngFor="let scheduleCodeObj of scheduleCodeList"
+                                                                                    [value]="scheduleCodeObj.scheduleCode">
+                                                                                    {{ scheduleCodeObj.scheduleCode}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </div> 
+                                                                    <div class="clear"> </div>
+                                                                <!--Details Of Maint-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input matInput placeholder="Details Of Maint" [formControl]="addAssetDailyScheduleReportGroup.controls['Details_Of_Maint']" />
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                
+                                                                <!--Done By-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input matInput placeholder="Done By" [formControl]="addAssetDailyScheduleReportGroup.controls['Done_By']" />
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                
+                                                                <!--Remarks-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input matInput placeholder="Remarks" [formControl]="addAssetDailyScheduleReportGroup.controls['Remarks']" />
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                
+                                                                <!--Incharge-->
+                                                                
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input matInput placeholder="Incharge" [formControl]="addAssetDailyScheduleReportGroup.controls['Incharge']" />
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 mt-15">
+                                                                    <div class="float-right" style="float: right;">
+                                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                                            class="d-inline" mat-raised-button="" type="submit">
+                                                                            create
+                                                                        </button>
+                                                                    </div>
+                                                                </div>         
+                                                            </form>
+                                                        </div>   
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                        </div>
+                                    <!--</div>-->
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>
