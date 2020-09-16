@@ -19,7 +19,7 @@ export class StockQuantitiesComponent implements OnInit {
   toMinDate = new Date();
   periodFlag = false;
   groupByList = [{ 'id': 1, "value": 'Division' }, { 'id': 2, "value": 'Sub Division' }
-    , { 'id': 3, "value": 'Depot' }, { 'id': 4, "value": 'Product' }];
+    , { 'id': 3, "value": 'Depot' }];
   periodList = [{ 'id': 1, "value": 'No' }, { 'id': 2, "value": 'Yes' }];
   zoneList: any;
   divisionList: any;
@@ -67,9 +67,9 @@ export class StockQuantitiesComponent implements OnInit {
       'division': [null],
       'subDivision': [null],
       'depot': [null],
-      'product': [null]
+      'product': [null, Validators.required]
     });
-
+    this.findProductsByDepot();
     this.findZoneCodeList();
   }
   addEvent($event) {
@@ -99,9 +99,10 @@ export class StockQuantitiesComponent implements OnInit {
     })
   }
 
-  findProductsByDepot(depot) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + depot).subscribe((data) => {
+  findProductsByDepot() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+'DASH_BOARD_CATEGORY').subscribe((data) => {
       this.productList = data;
+      //console.log(data)
     })
   }
 
@@ -145,12 +146,12 @@ export class StockQuantitiesComponent implements OnInit {
   selectedDepot($event) {
     if ($event.value) {
       this.productList = [];
-      this.findProductsByDepot($event.value.facilityId);
+      this.findProductsByDepot();
     }
   }
 
   submitStockQuantities() {
-    console.log(this.addStockQuantities.controls);
+    //console.log(this.addStockQuantities.controls);
     var queryType = '';
     var caption = '';
     var xAxisName = '';
@@ -187,7 +188,8 @@ export class StockQuantitiesComponent implements OnInit {
         queryType = 'PRODUCT_PERIOD';
       }
     }
-
+this.dataSource = [];
+this.periodDataSource = [];
     let request = {
       // period:this.addStockQuantities.controls.period.value,
       fromDate: this.addStockQuantities.controls.fromDate.value != null ? this.addStockQuantities.controls.fromDate.value : '',
@@ -198,14 +200,15 @@ export class StockQuantitiesComponent implements OnInit {
       subDivision: this.addStockQuantities.controls.subDivision.value != null ? this.addStockQuantities.controls.subDivision.value.headquarters : '',
       depot: this.addStockQuantities.controls.depot.value != null ? this.addStockQuantities.controls.depot.value.facilityName : '',
       facility: this.addStockQuantities.controls.product.value != null ? this.addStockQuantities.controls.product.value : '',
-      product: '0076-1',
+      //product: '0076-1',
+      product: this.addStockQuantities.controls.product.value,
       queryType: queryType
     };
-    console.log(request)
+    //console.log(request)
     this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, request, false).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.response = data;
-      if (this.response != null && this.response.length > 1) {
+      if (this.response != null && this.response.length > 0) {
         this.prepareDataSource(queryType, caption, xAxisName);
       }
     })
@@ -217,7 +220,7 @@ export class StockQuantitiesComponent implements OnInit {
     var yAxisName = '';
     var yAxisNamep = '';
     for (var i = 0; i < this.response.length; i++) {
-      console.log(this.response[i]);
+      //console.log(this.response[i]);
       var label = '';
       var qoh = 0;
       var qtyNetPeriod = 0;
@@ -279,7 +282,7 @@ export class StockQuantitiesComponent implements OnInit {
         })
       }
     }
-    console.log('datapoints = '+datapoints)
+   // console.log('datapoints = '+datapoints)
     this.chartConfig = {
       width: width,
       height: '400',
