@@ -30,7 +30,7 @@ const routes: Routes = [
         ReactiveFormsModule
     ],
     declarations: [
-        StockQuantitiesComponent
+        StockQuantitiesComponent,
     ],
     providers   : [
         Ng4LoadingSpinnerService,
