@@ -1,5 +1,7 @@
 package com.scr.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
@@ -8,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.request.AssetsScheduleHistoryRequest;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetsScheduleHistory;
 import com.scr.services.AssetScheduleHistoryService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -29,12 +33,12 @@ public class AssetScheduleHistoryController {
 	@Autowired
 	private AssetScheduleHistoryService service;
 	
-	/*@RequestMapping(value = "/history", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<AssetsScheduleHistoryRequest>> findAll() throws JSONException {
+	@RequestMapping(value = "/ashistory", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<AssetsScheduleHistory>> findAll() throws JSONException {
 		logger.info("Enter into findAllash function");
 		List<AssetsScheduleHistory> histories = null;
 		try {			
-			logger.info("Calling service for dirves data");
+			logger.info("Calling service for ASH data");
 			histories = service.findAllAshs();	
 			logger.info("Fetched ash data = "+histories);
 		} catch (NullPointerException e) {			
@@ -44,7 +48,7 @@ public class AssetScheduleHistoryController {
 		}
 		logger.info("Exit from findAllash function");
 		return ResponseEntity.ok((histories));
-	}*/
+	}
 	
 	@RequestMapping(value = "/saveAsh", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveAshData(@Valid @RequestBody AssetsScheduleHistoryRequest ashRequest) throws JSONException {	

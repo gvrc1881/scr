@@ -1,5 +1,7 @@
 package com.scr.services;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
@@ -34,10 +36,10 @@ public class AssetScheduleHistoryService {
 	private AssetsScheduleHistoryRepository ashRepository;
 	
 	
-	/*public List<AssetsScheduleHistory> findAllAshs() {
+	public List<AssetsScheduleHistory> findAllAshs() {
 		logger.info("Fetcing history data where active is 1.");
 		return ashRepository.findAll();
-	}*/	
+	}	
 
 	public @Valid boolean saveAshData(@Valid AssetsScheduleHistoryRequest ashRequest) throws Exception {
 		logger.info("Calling mapper for preparing the ash model object");

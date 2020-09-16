@@ -361,6 +361,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'ashd',
+    loadChildren: './components/ash-display/ash-display.module#AshDisplayModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'asset-schedule-activity-assoc',
     loadChildren: './components/asset-schedule-activity-assoc/asset-schedule-activity-assoc.module#AssetScheduleActivityAssocModule',
     canActivate: [AuthGuard]

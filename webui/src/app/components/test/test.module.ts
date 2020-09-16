@@ -9,13 +9,18 @@ import { FusionChartsModule } from 'angular-fusioncharts';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//import { AshDisplayComponent } from './ash-display/ash-display.component';
 
 const routes: Routes = [
     {
         path     : '',
         component: TestComponent,
        
-    }
+    },
+    //{
+      //  path: 'ashd',
+       // component: AshDisplayComponent
+    //}
 ];
 
 @NgModule({
@@ -33,6 +38,7 @@ const routes: Routes = [
     ],
     declarations: [
         TestComponent,
+       // AshDisplayComponent,
     ],
     providers   : [
         Ng4LoadingSpinnerService,

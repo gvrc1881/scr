@@ -374,7 +374,8 @@ export const Constants = {
         ASH:{
             ASH:{
                 SAVE_ASH:'/saveAsh',
-                STATUS_ON_STATUS_TYPE:'/getStatusCodeBasedOnStatusTypeId/'
+                STATUS_ON_STATUS_TYPE:'/getStatusCodeBasedOnStatusTypeId/',
+                GET_ASH:'/ashistory'
                 }
         },
         INSPECTIONS:{

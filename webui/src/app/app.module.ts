@@ -43,6 +43,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { PreviousRouteService } from './services/previousRoute.service';
 import { UnusualOccurrenceFailureModule } from './components/failures/unusual-occurrence/unusual-occurrence-failure.module';
 import { PowerBlockModule } from './components/tpc-operations/power-block/power-block.module';
+import { TestModule } from './components/test/test.module';
+import { AshDisplayModule } from './components/ash-display/ash-display.module';
 
 
 // Pass the fusioncharts library and chart modules
@@ -89,6 +91,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     UnusualOccurrenceFailureModule,
     DriveElectrificationTargetsModule,
     DriveStipulationModule,
+    TestModule,
+    AshDisplayModule,
     PowerBlockModule,
     NumberValidationsModule,
     DecimalValidationsModule,
