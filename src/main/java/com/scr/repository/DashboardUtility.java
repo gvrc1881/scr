@@ -280,10 +280,8 @@ public class DashboardUtility {
 			if (!queryType.equalsIgnoreCase(Constants.DIVISION)) {
 				if (queryType.equalsIgnoreCase(Constants.SUB_DIVISION)) {
 					response.setSubDivision(resultSet.getString("subdiv"));
-					//response.setUom(resultSet.getString("uom"));
 				} else if(queryType.equalsIgnoreCase(Constants.DEPOT)) {
 					response.setSubDivision(resultSet.getString("subdiv"));
-					//response.setUom(resultSet.getString("uom"));
 					response.setFacilityId(resultSet.getLong("facility_id"));
 					response.setDepotName(resultSet.getString("depot_name"));					
 				}else if(queryType.equalsIgnoreCase(Constants.DIVISION_PERIOD) ||

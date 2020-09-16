@@ -354,8 +354,7 @@ public class ReportController {
 	@RequestMapping(value = "/getOheAndPsiFacilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Facility>> findByDepotType(String depotType){
 		List<Facility> oheAndPsiDepotType= reportService.findByDepotType(depotType);
-		return new ResponseEntity<List<Facility>>(oheAndPsiDepotType,HttpStatus.OK);	
-		
+		return new ResponseEntity<List<Facility>>(oheAndPsiDepotType,HttpStatus.OK);			
 	}
 	@RequestMapping(value = "/findAllAssetTypes", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<ProductCategoryMember>> findByProductId(String productCategoryId){
