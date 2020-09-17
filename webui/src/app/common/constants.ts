@@ -72,6 +72,8 @@ export const Constants = {
             GET_USER_DEFAULT_DATA:"/getUserDefaultData/",
             GET_ZONE_OBJECT:"/getZoneObject/",
             GET_DIVISION_OBJECT:"/getDivisonObject/"
+            GET_PRODUCTID:"/getProductIdAndDescription",
+			GET_PRODUCT_ID_BASED_ON_CATEGORY_MEM_ID:"/getProductIdAndDescriptionBasedOnProductCategoryId/"
         },        
         MASTERS:{
             ROLE_TYPE:{

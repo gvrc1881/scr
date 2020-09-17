@@ -47,6 +47,7 @@ import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
+import com.scr.model.Product;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
@@ -83,6 +84,7 @@ import com.scr.repository.TPCBoardRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.UserDefualtFacConsIndEtcRepository;
 import com.scr.repository.ZoneRepository;
+import com.scr.repository.ProductRepository;
 
 
 @Service
@@ -165,6 +167,8 @@ public class ReportService {
 	
 	@Autowired
 	private UserDefualtFacConsIndEtcRepository userDefualtFacConsIndEtcRepository;
+	@Autowired
+	private ProductRepository productRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -398,5 +402,15 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 		// TODO Auto-generated method stub
 		return divisionRepository.findByCode(divisionName);
 	}
-
+	 public List<Product> getProductIdAndDescription() {
+		    List<Product> prodList= productRepository.findByProductIdAndDescription();	
+		       return prodList;
+		    
+		  }
+	 public List<Product> findByProductIdAndDescription(String productCategoryId) {
+		    
+		    List<Product> proList=productRepository.findProducts(productCategoryId);	
+		    return proList;  
+		  
+	}
 }

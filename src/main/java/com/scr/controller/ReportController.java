@@ -56,6 +56,7 @@ import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
+import com.scr.model.Product;
 import com.scr.services.ReportService;
 import com.scr.util.Helper;
 
@@ -494,4 +495,19 @@ public class ReportController {
 		} else
 			return new ResponseEntity<Division>(division.get(), HttpStatus.CONFLICT);
 	}
+	
+	@RequestMapping(value = "/getProductIdAndDescription",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Product>> getProductIdAndDescription(){
+		List<Product> productList= reportService.getProductIdAndDescription();
+		log.info("productList"+productList.size());
+			return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);		
+	}
+	@RequestMapping(value = "/getProductIdAndDescriptionBasedOnProductCategoryId/{productCategoryId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Product>> getProductIdAndDescription(@PathVariable("productCategoryId") String productCategoryId){
+		List<Product> prodList= reportService.findByProductIdAndDescription(productCategoryId);
+		log.info("prodList"+prodList.size());
+		log.info("prodList"+prodList);
+		return new ResponseEntity<List<Product>>(prodList, HttpStatus.OK);		
+  }
+	
 }
