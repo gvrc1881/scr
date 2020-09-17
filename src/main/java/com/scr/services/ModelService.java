@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.scr.model.Make;
+
 import com.scr.model.Model;
 import com.scr.repository.ModelRepository;
 
@@ -31,9 +31,9 @@ public class ModelService {
 		modelRepository.deleteById(id);
 	}
 
-	public List<Model> findAll() {
+	public List<Model> findAllOrderBymodelCodeAsc() {
 		// TODO Auto-generated method stub
-		return modelRepository.findAll();
+		return modelRepository.findAllOrderBymodelCodeAsc();
 	}
 	
 	public Optional<Model> findModelById(Long id) {

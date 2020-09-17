@@ -31,9 +31,9 @@ public class MakeService {
 		makeRepository.deleteById(id);
 	}
 
-	public List<Make> findAll() {
+	public List<Make> findAllOrderBymakeCodeAsc() {
 		// TODO Auto-generated method stub
-		return makeRepository.findAll();
+		return makeRepository.findAllOrderBymakeCodeAsc();
 	}
 	
 	public Optional<Make> findMakeById(Long id) {

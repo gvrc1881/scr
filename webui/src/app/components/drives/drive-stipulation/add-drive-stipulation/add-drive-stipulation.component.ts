@@ -97,8 +97,8 @@ export class AddDriveStipulationComponent implements OnInit {
           id: this.resp.id,
           stipulation: this.resp.stipulation,
           inspectionId: this.resp.inspectionId,
-          dateOfStipulation: new Date(this.resp.dateOfStipulation),
-          dateComplied: new Date(this.resp.dateComplied),
+          dateOfStipulation: !!this.resp.dateOfStipulation ? new Date(this.resp.dateOfStipulation) : '',
+          dateComplied:!!this.resp.dateComplied ? new Date(this.resp.toDate) : '', 
           compliance: this.resp.compliance,
           compliedBy: this.resp.compliedBy,
         });
@@ -141,7 +141,7 @@ export class AddDriveStipulationComponent implements OnInit {
         'dateComplied': [null],
         'compliance': [null],
         'attachment': [null],
-        'compliedBy': [null],
+        'compliedBy': [null,Validators.maxLength(255)],
       });
   }
   addEvent($event) {

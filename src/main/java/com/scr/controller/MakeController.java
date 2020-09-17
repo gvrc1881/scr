@@ -102,7 +102,7 @@ public class MakeController {
 		 try {
 			   logger.info("Calling service for make data");	
 		
-		 make = makeService.findAll();
+		 make = makeService.findAllOrderBymakeCodeAsc();
 		 logger.info("Fetched make data***"+make.size());
 		return make;
 	}catch (NullPointerException npe) {

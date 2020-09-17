@@ -13,8 +13,8 @@ import com.scr.model.Make;
 @Repository
 
 public interface MakeRepository extends JpaRepository<Make, Long>{
-	
-	List<Make> findAll();
+	@Query("FROM Make ORDER BY makeCode ASC")
+	List<Make> findAllOrderBymakeCodeAsc();
 	
 	//@Query(value = "SELECT case when count(ma)> 0 then true else false  end  FROM Make ma WHERE ma.makeCode = :makeCode")
 	//Boolean existsByIdAndMakeCode(@Param("id")Long id, @Param("makeCode")String makeCode);

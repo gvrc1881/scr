@@ -43,7 +43,7 @@ public class ScheduleController {
 		List<Schedule> scheduleList = null;
 		try {
 			log.info("Calling service for Schedules data");
-			scheduleList = scheduleService.findAll();
+			scheduleList = scheduleService.findAllOrderByscheduleCodeAsc();
 			log.info("Fetched Schedules data = "+scheduleList.size());
 			return scheduleList;
 		} catch (NullPointerException npe) {
