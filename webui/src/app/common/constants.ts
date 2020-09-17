@@ -15,7 +15,7 @@ export const Constants = {
             RESET_PASSWORD:"/resetPassword",
             CHANGE_PASSWORD:"/changePassword",
             UPDATE_PASSWORD:"/updatePassword",
-            MAIL_CONFIRMATION:"/mailConfirmation",
+            MAIL_CONFIRMATION:"/mailConfirmation", 
         }, 
         DASHBOARD:{
             GET_DASHBOARD:"/dashboard/",
