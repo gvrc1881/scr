@@ -85,8 +85,7 @@
                                                                     <mat-select placeholder="Select Depot"
                                                                         [formControl]="assetMasterFormGroup.controls['facilityId']" required>
                                                                         <mat-option *ngFor="let functionalUnit of functionalUnitList"
-                                                                            [value]="functionalUnit.facilityName"
-                                                                            id="functionalUnit.id">
+                                                                            [value]="functionalUnit.facilityId">
                                                                             {{ functionalUnit.facilityName}}
                                                                         </mat-option>
                                                                     </mat-select>
@@ -618,7 +617,7 @@
           <mat-cell *matCellDef="let row" style="cursor: pointer">
             {{row.type}}</mat-cell>
       </ng-container>
-      <ng-container matColumnDef="facilityId">
+      <ng-container matColumnDef="depot">
         <mat-header-cell *matHeaderCellDef mat-sort-header>facility Name</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.facilityId}}</mat-cell>

@@ -46,7 +46,7 @@ export class AssetMasterDataComponent implements OnInit{
     onlyPSI:boolean = false;
     pattern = "^[A-Z0-9]+$";
     assetMasterDataSource: MatTableDataSource<AssetMasterDataModel>;
-    assetMasterDisplayColumns = ['sno','type','facilityId','assetType','assetId','adeeSection','majorSection','section','locationPosition'
+    assetMasterDisplayColumns = ['sno','type','depot','assetType','assetId','adeeSection','majorSection','section','locationPosition'
     ,'kilometer','elementarySection','id'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -58,6 +58,7 @@ export class AssetMasterDataComponent implements OnInit{
     assetTypeParametersData:any;
     scheduleList:any;
     zone: any;
+    facilityData: any;
     division: any;
     amdErrors:any;
     constructor( 
@@ -210,8 +211,15 @@ export class AssetMasterDataComponent implements OnInit{
           this.assetMasterDataList = data;
           for (let i = 0; i < this.assetMasterDataList.length; i++) {
             this.assetMasterDataList[i].sno = i + 1;
-            assetMasterData.push(this.assetMasterDataList[i]);
-          }
+            this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.assetMasterDataList[i].facilityId)).subscribe((data) => {
+              this.spinnerService.hide();
+              this.facilityData = data;
+              this.assetMasterDataList[i].facilityId = this.facilityData.facilityName;
+          }, error => {
+	      		this.spinnerService.hide();
+	    	});
+        assetMasterData.push(this.assetMasterDataList[i]);
+      }
           this.assetMasterDataSource = new MatTableDataSource(assetMasterData);
           this.assetMasterDataSource.paginator = this.paginator;
           this.assetMasterDataSource.sort = this.sort;
