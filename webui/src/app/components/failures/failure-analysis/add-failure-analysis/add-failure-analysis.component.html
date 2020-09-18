@@ -64,7 +64,7 @@
                                                             </mat-error>
                                                             <mat-error
                                                                 *ngIf="addFailureAnalysisFormGroup.controls['repurcussion'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['repurcussion'].touched"
-                                                                class="alert alert-danger">Max 250 characters only
+                                                                class="alert alert-danger">Max 255 characters only
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -99,8 +99,12 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Failure Section"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['failureSection']"
-                                                                >                                                           
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['section']"
+                                                                > 
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['section'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['section'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
 
@@ -109,7 +113,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Asset Type"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['assetType']"
-                                                                >                                                           
+                                                                >    
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['assetType'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['assetType'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                         
                                                         </mat-form-field>
                                                     </div>
 
@@ -118,7 +126,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Asset Id"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['assetId']"
-                                                                >                                                           
+                                                                >  
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['assetId'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['assetId'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -127,7 +139,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Sub Asset Type"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['subAssetType']"
-                                                                >                                                           
+                                                                >  
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['subAssetType'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['subAssetType'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
 
@@ -136,7 +152,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Sub Asset Id"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['subAssetId']"
-                                                                >                                                           
+                                                                >   
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['subAssetId'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['subAssetId'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                         
                                                         </mat-form-field>
                                                     </div>
 
@@ -145,7 +165,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Make"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['make']"
-                                                                >                                                           
+                                                                > 
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['make'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['make'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -154,7 +178,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Model"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['model']"
-                                                                >                                                           
+                                                                > 
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['model'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['model'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -170,7 +198,7 @@
                                                             </mat-error>            
                                                             <mat-error
                                                                 *ngIf="addFailureAnalysisFormGroup.controls['rootCause'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['rootCause'].touched"
-                                                                class="alert alert-danger">Max 250 characters only
+                                                                class="alert alert-danger">Max 255 characters only
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -187,7 +215,7 @@
                                                             </mat-error>                                   
                                                             <mat-error
                                                                 *ngIf="addFailureAnalysisFormGroup.controls['actionPlan'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['actionPlan'].touched"
-                                                                class="alert alert-danger">Max 250 characters only
+                                                                class="alert alert-danger">Max 255 characters only
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -197,7 +225,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Action Status"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionStatus']"
-                                                                >                                                           
+                                                                > 
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['actionStatus'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['actionStatus'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
 
@@ -206,7 +238,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Approved By"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['approvedBy']"
-                                                                >                                                           
+                                                                >  
+                                                                <mat-error
+                                                                *ngIf="addFailureAnalysisFormGroup.controls['approvedBy'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['approvedBy'].touched"
+                                                                class="alert alert-danger">Max 255 characters only
+                                                            </mat-error>                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -247,7 +283,7 @@
                                                             </mat-error>            
                                                             <mat-error
                                                                 *ngIf="addFailureAnalysisFormGroup.controls['actionDescription'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['actionDescription'].touched"
-                                                                class="alert alert-danger">Max 250 characters only
+                                                                class="alert alert-danger">Max 255 characters only
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>

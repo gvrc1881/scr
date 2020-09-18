@@ -159,7 +159,7 @@ export class AddDriveInspectionComponent implements OnInit {
         'dateOfInspection': [null],
         'TKM': [null],
         'RKM': [null],
-        'remarks': [null, Validators.maxLength(250)],
+        'remarks': [null, Validators.maxLength(255)],
         'authorisationDate': [null],
         'chargingDate': [null],
         'attachment': [null],

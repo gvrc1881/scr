@@ -392,10 +392,12 @@ public class DriveMapper {
 			failureAnalysis = new FailureAnalysis();
 			
 			failureAnalysis.setReported(request.getReported());
-			
+			failureAnalysis.setReportDescription(request.getReportDescription());
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
+			failureAnalysis.setSection(request.getSection());
 			failureAnalysis.setDiv(request.getDiv());
+			failureAnalysis.setAssetType(request.getAssetType());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());
@@ -421,9 +423,12 @@ public class DriveMapper {
 			@Valid DriveRequest request) {
 		if(request != null) {
 			failureAnalysis.setReported(request.getReported());
+			failureAnalysis.setReportDescription(request.getReportDescription());
 			failureAnalysis.setRepurcussion(request.getRepurcussion());
 			failureAnalysis.setDate(request.getDate());
+			failureAnalysis.setSection(request.getSection());
 			failureAnalysis.setDiv(request.getDiv());
+			failureAnalysis.setAssetType(request.getAssetType());
 			failureAnalysis.setAssetId(request.getAssetId());
 			failureAnalysis.setSubAssetId(request.getSubAssetId());
 			failureAnalysis.setSubAssetType(request.getSubAssetType());

@@ -369,7 +369,8 @@ export const Constants = {
                 SAVE:'/saveDriveTarget',
                 UPDATE:'/updateDriveTarget',
                 EDIT:'/driveTargetById/',
-                DELETE:'/deleteDriveTarget/'
+                DELETE:'/deleteDriveTarget/',
+                EXIST_TARGET:'/existByUnitNameAndUnitType/'
             },
             GET_DIVISIONS:'/divisions'
         },

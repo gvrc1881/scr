@@ -24,6 +24,9 @@ export class AddDriveProgressRecordComponent implements OnInit {
   driveList = [];
   driveDailyProgressFormErrors: any;
   resp: any;
+  currentDate = new Date();
+  maxDate = new Date();
+  dateFormat = 'dd-MM-yyyy ';
   divisionList:any;
   constructor(
     private formBuilder: FormBuilder,    
@@ -43,6 +46,7 @@ export class AddDriveProgressRecordComponent implements OnInit {
       performedCount:{},
       supervisor:{},
       drive: {}
+
     };
   }
 
@@ -79,10 +83,10 @@ export class AddDriveProgressRecordComponent implements OnInit {
         'activityId': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
         'performedDate': [null, Validators.compose([Validators.required])],
         'division': [null, Validators.required],
-        'depot': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'section': [null, Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z,\/._-]+(\s[a-zA-Z,\/._-]+)?$")])],
+        'depot': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$'),Validators.maxLength(255)])],
+        'section': [null, Validators.compose([Validators.required,Validators.pattern("^[a-zA-Z,\/._-]+(\s[a-zA-Z,\/._-]+)?$"),Validators.maxLength(255)])],
         'performedCount': [null, Validators.compose([Validators.required,Validators.pattern("^[0-9,.]+(\s[0-9,.]+)?$")])],
-        'supervisor': [null, Validators.required],
+        'supervisor': [null, Validators.compose([Validators.required,Validators.maxLength(255)])],
         'drive': [null, Validators.compose([Validators.required])],
       });
   }

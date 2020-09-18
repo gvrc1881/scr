@@ -66,7 +66,7 @@
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
                                                     <input matInput placeholder="Current KWH" decimalNumber (keyup)="updateKWH($event)"
-                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KWH']">
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KWH']" required>
                                                 </mat-form-field>
                                                 <mat-error
                                                 *ngIf="kwhValidation" style="margin-top: -5%;font-size: 11px;"
@@ -93,7 +93,7 @@
                                                 <mat-form-field fxFlex="30">
                                                     <input matInput placeholder="Current KVAH" decimalNumber 
                                                         (keyup)="updateKVAH($event)"
-                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KVAH']">
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KVAH']" required>
                                                 </mat-form-field>
                                                 <mat-error
                                                 *ngIf="kvahValidation" style="margin-top: -5%;font-size: 11px;"
@@ -144,7 +144,7 @@
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
                                                     <input matInput placeholder="Current RKVAH Lead" decimalNumber (keyup)="updateRKVAHLead($event)"
-                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lead']">
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lead']" required>
                                                 </mat-form-field>
                                                 <mat-error
                                                 *ngIf="rkvahLeadValidation" style="margin-top: -5%;font-size: 11px;"

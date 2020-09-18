@@ -211,7 +211,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Phase"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['phase']"
-                                                                >                                                            
+                                                                >  
+                                                                <mat-error
+                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['phase'].hasError('maxlength') && addDriveElectrificationTargetsFormGroup.controls['phase'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
 
@@ -220,7 +224,11 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Proposal Scheme"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['proposalScheme']"
-                                                                >                                                            
+                                                                > 
+                                                                <mat-error
+                                                                *ngIf="addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].hasError('maxlength') && addDriveElectrificationTargetsFormGroup.controls['proposalScheme'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>                                                           
                                                         </mat-form-field>
                                                     </div>
 

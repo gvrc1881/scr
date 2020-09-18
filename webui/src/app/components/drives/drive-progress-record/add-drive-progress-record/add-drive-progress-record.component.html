@@ -39,7 +39,8 @@
                                                                 required >
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['activityId'].hasError('required') && addDriveDailyProgressFormGroup.controls['activityId'].touched"
-                                                                class="alert alert-danger">Enter Unit Type</mat-error>                                                           
+                                                                class="alert alert-danger">Enter Unit Type</mat-error>     
+                                                                                                        
                                                         </mat-form-field>
                                                     </div>
 
@@ -47,7 +48,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Performe Date"
+                                                                placeholder="Choose Performe Date" [max]="maxDate"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']"
                                                                 >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -90,7 +91,11 @@
                                                                 required>
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['depot'].hasError('required') && addDriveDailyProgressFormGroup.controls['depot'].touched"
-                                                                class="alert alert-danger">Enter Depot</mat-error>                                                            
+                                                                class="alert alert-danger">Enter Depot</mat-error>   
+                                                                <mat-error
+                                                                *ngIf="addDriveDailyProgressFormGroup.controls['depot'].hasError('maxlength') && addDriveDailyProgressFormGroup.controls['depot'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>                                                                       
                                                         </mat-form-field>
                                                     </div>
 
@@ -103,7 +108,11 @@
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['section'].hasError('required') && addDriveDailyProgressFormGroup.controls['section'].touched"
                                                                 class="alert alert-danger">Enter Section
-                                                            </mat-error>                                                            
+                                                            </mat-error>  
+                                                            <mat-error
+                                                            *ngIf="addDriveDailyProgressFormGroup.controls['section'].hasError('maxlength') && addDriveDailyProgressFormGroup.controls['section'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>                                                            
                                                         </mat-form-field>
                                                     </div>
 
@@ -130,7 +139,11 @@
                                                             <mat-error
                                                                 *ngIf="addDriveDailyProgressFormGroup.controls['supervisor'].hasError('required') && addDriveDailyProgressFormGroup.controls['supervisor'].touched"
                                                                 class="alert alert-danger">Enter Supervisor
-                                                            </mat-error>                                                            
+                                                            </mat-error>   
+                                                            <mat-error
+                                                            *ngIf="addDriveDailyProgressFormGroup.controls['supervisor'].hasError('maxlength') && addDriveDailyProgressFormGroup.controls['supervisor'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>                                                          
                                                         </mat-form-field>
                                                     </div>
 

@@ -31,7 +31,7 @@ export class AddDriveStipulationComponent implements OnInit {
   minDateComplied = new Date(); 
   currentDate = new Date();
   maxDate = new Date();
-  dateFormat = 'MM-dd-yyyy ';
+  dateFormat = 'dd-MM-yyyy ';
   attachedImages:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 

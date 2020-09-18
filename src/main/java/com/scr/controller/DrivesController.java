@@ -528,6 +528,17 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/existByUnitNameAndUnitType/{unitName}/{unitType}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existByUnitNameAndUnitType(@PathVariable("unitName") String unitName,@PathVariable("unitType") String unitType){		
+		logger.info("unitName"+unitName+"unitType=="+unitType);
+		try {
+			return service.existByUnitNameAndUnitType(unitName,unitType);
+		} catch (Exception e) {
+			logger.error("Error while checking exists unitname and unittype id."+e.getMessage());
+			return false;
+		}
+	}
+	
 	// DRIVE PROGRESS RECORD
 	@RequestMapping(value = "/driveDailyProgress", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveDailyProgress>> findAllDriveDailyProgress() throws JSONException {
@@ -911,7 +922,7 @@ public class DrivesController {
 	public ResponseEntity<List<InspectionType>> findAllInspectionType() throws JSONException {
 		List<InspectionType> inspectionsList = null;
 		try {			
-			inspectionsList = service.findAllInspectionType();			
+			inspectionsList = service.findAllOrderByInspectionTypeAsc();			
 		} catch (NullPointerException e) {			
 			logger.error(e);
 		} catch (Exception e) {			

@@ -336,7 +336,9 @@ public class DrivesService {
 	public Optional<DriveTarget> findDriveTargetById(Long id) {
 		return driveTargetRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
-
+	public Boolean existByUnitNameAndUnitType(String unitName, String unitType) {
+		return driveTargetRepository.existByUnitNameAndUnitType(unitName, unitType);
+	}
 	// DRIVE DAILY PROGRESS
 	public List<DriveDailyProgress> findAllDriveDailyProgress() {
 		return driveProgressRecordRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
@@ -600,8 +602,8 @@ public class DrivesService {
 		return divisionRepository.findAllOrderByCodeAsc();
 	}
 
-	public List<InspectionType> findAllInspectionType() {
-		return inspectionTypeRepository.findAll();
+	public List<InspectionType> findAllOrderByInspectionTypeAsc() {
+		return inspectionTypeRepository.findAllOrderByInspectionTypeAsc();
 	}
 
 	public List<ContentManagement> findInspectionsContentById(Long commonFileId) {

@@ -94,28 +94,49 @@ export class AddDriveTargetComponent implements OnInit {
     this.addDriveTargetFormGroup
       = this.formBuilder.group({
         id: 0,
-        'unitType': [null, Validators.compose([Validators.required]), this.duplicateCombination.bind(this)],
+        'unitType': [null, Validators.compose([Validators.required])],
         'unitName': [null, Validators.compose([Validators.required]), this.duplicateCombination.bind(this)],
         'target': [null],
         'poulation': [null],
         'drive': [null, Validators.compose([Validators.required])],
       });
   }
+  // duplicateCombination() {
+  //   let unitName = this.addDriveTargetFormGroup.controls['unitName'].value;
+  //   let unitType = this.addDriveTargetFormGroup.controls['unitType'].value;
+  //   const q = new Promise((resolve, reject) => {
+    
+  //       var filteredArray = !!this.driveTargetList && 
+  //       this.driveTargetList.filter(function(interval){          
+  //         return interval.unitName == unitName && interval.unitType == unitType;
+  //       });        
+  //       if(filteredArray.length !== 0){
+  //         resolve({ 'duplicateCombination': true });
+  //       } else {
+  //         resolve(null);
+  //       }
+  //   });
+  //   return q;
+  // }
   duplicateCombination() {
-    const q = new Promise((resolve, reject) => {
     let unitName = this.addDriveTargetFormGroup.controls['unitName'].value;
     let unitType = this.addDriveTargetFormGroup.controls['unitType'].value;
-        var filteredArray = !!this.driveTargetList && 
-        this.driveTargetList.filter(function(interval){          
-          return interval.unitName == unitName && interval.unitType == unitType;
-        });        
-        if(filteredArray.length !== 0){
-          resolve({ 'duplicateCombination': true });
-        } else {
-          resolve(null);
-        }
-    });
-    return q;
+   
+    const q = new Promise((resolve, reject) => {          
+
+      this.sendAndRequestService.requestForGET(
+             Constants.app_urls.DRIVE.TARGETS.EXIST_TARGET+unitName
+             +'/'+unitType
+            ).subscribe
+             ((duplicate) => {
+       if (duplicate) {
+         resolve({ 'duplicateCombination': true });
+       } else {
+         resolve(null);
+       }
+     }, () => { resolve({ 'duplicateCombination': true }); });
+   });
+   return q;
   }
   findDepoTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
