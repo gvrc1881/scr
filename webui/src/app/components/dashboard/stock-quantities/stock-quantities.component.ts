@@ -204,7 +204,8 @@ export class StockQuantitiesComponent implements OnInit {
       queryType: queryType
     };
     this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, request, false).subscribe((data) => {
-     // console.log(data);
+     this.dataSource ={};
+     this.periodDataSource={};
       this.response = data;
       if (this.response != null && this.response.length > 0) {
         this.prepareDataSource(queryType, caption, xAxisName);
