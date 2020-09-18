@@ -7,6 +7,9 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { FacilityModel } from 'src/app/models/facility.model';
+
+
 
 @Component({
     selector: 'tpc-board',
@@ -30,9 +33,9 @@ export class TPCBoardComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editTpcBoardResponse: any;
-    userHierarchy:any = localStorage.getItem('userHierarchy');
+    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    divisionList:  FacilityModel [] = [];    
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
 
     constructor(
         private commonService: CommonService,
@@ -45,6 +48,12 @@ export class TPCBoardComponent implements OnInit{
     }
 
     ngOnInit () {
+      for (let i = 0; i < this.userHierarchy.length; i++) {
+        if(this.userHierarchy[i].depotType == 'DIV'){
+          this.divisionList.push(this.userHierarchy[i]);
+          console.log("this.divisionList"+this.divisionList)
+        }
+     }
         this.getAllTPCBoardData();
         this.divisionDetails();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC BOARD") ;//p == 0 ? 'No Permission' : p[0].permissionName;

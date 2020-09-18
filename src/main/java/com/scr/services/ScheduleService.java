@@ -21,9 +21,9 @@ public class ScheduleService {
 	private ScheduleRepository scheduleRepository;
 	
 	
-	public List<Schedule> findAll() {
+	public List<Schedule> findAllOrderByscheduleCodeAsc() {
 		// TODO Auto-generated method stub
-		return scheduleRepository.findAll();
+		return scheduleRepository.findAllOrderByscheduleCodeAsc();
 	}
 
 }

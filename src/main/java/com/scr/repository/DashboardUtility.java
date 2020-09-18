@@ -63,13 +63,15 @@ public class DashboardUtility {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = dataSource.getConnection();
-			preparedStatement = connection.prepareStatement(DashboardQueries.DEPOT_WISE_WITH_PERIOD);			
-			preparedStatement.setString(1, request.getZone());
-			preparedStatement.setString(2, request.getDivision());
-			preparedStatement.setString(3, request.getSubDivision());
-			preparedStatement.setString(4, request.getProduct());
-			preparedStatement.setString(5, Helper.convertDateToString(request.getFromDate()));
-			preparedStatement.setString(6, Helper.convertDateToString(request.getToDate()));
+			preparedStatement = connection.prepareStatement(DashboardQueries.DEPOT_WISE_WITH_PERIOD);	
+			preparedStatement.setString(1, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(2, Helper.convertDateToString(request.getToDate()));
+			preparedStatement.setString(3, request.getZone());
+			preparedStatement.setString(4, request.getDivision());
+			preparedStatement.setString(5, request.getSubDivision());
+			preparedStatement.setString(6, request.getProduct());
+			preparedStatement.setString(7, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(8, Helper.convertDateToString(request.getToDate()));
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
 				return prepareListFromResultSet(resultSet, request.getQueryType());
@@ -90,12 +92,14 @@ public class DashboardUtility {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = dataSource.getConnection();
-			preparedStatement = connection.prepareStatement(DashboardQueries.SUB_DIVISION_WITH_PERIOD);			
-			preparedStatement.setString(1, request.getZone());
-			preparedStatement.setString(2, request.getDivision());
-			preparedStatement.setString(3, request.getProduct());
-			preparedStatement.setString(4, Helper.convertDateToString(request.getFromDate()));
-			preparedStatement.setString(5, Helper.convertDateToString(request.getToDate()));
+			preparedStatement = connection.prepareStatement(DashboardQueries.SUB_DIVISION_WITH_PERIOD);
+			preparedStatement.setString(1, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(2, Helper.convertDateToString(request.getToDate()));
+			preparedStatement.setString(3, request.getZone());
+			preparedStatement.setString(4, request.getDivision());
+			preparedStatement.setString(5, request.getProduct());
+			preparedStatement.setString(6, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(7, Helper.convertDateToString(request.getToDate()));
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
 				return prepareListFromResultSet(resultSet, request.getQueryType());
@@ -116,11 +120,13 @@ public class DashboardUtility {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = dataSource.getConnection();
-			preparedStatement = connection.prepareStatement(DashboardQueries.DIVISION_WISE_WITH_PERIOD);			
-			preparedStatement.setString(1, request.getZone());
-			preparedStatement.setString(2, request.getProduct());
-			preparedStatement.setString(3, Helper.convertDateToString(request.getFromDate()));
-			preparedStatement.setString(4, Helper.convertDateToString(request.getToDate()));
+			preparedStatement = connection.prepareStatement(DashboardQueries.DIVISION_WISE_WITH_PERIOD);
+			preparedStatement.setString(1, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(2, Helper.convertDateToString(request.getToDate()));
+			preparedStatement.setString(3, request.getZone());
+			preparedStatement.setString(4, request.getProduct());
+			preparedStatement.setString(5, Helper.convertDateToString(request.getFromDate()));
+			preparedStatement.setString(6, Helper.convertDateToString(request.getToDate()));
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
 				return prepareListFromResultSet(resultSet, request.getQueryType());
@@ -272,6 +278,7 @@ public class DashboardUtility {
 			response.setZone(resultSet.getString("zone"));
 			response.setDivision(resultSet.getString("div"));
 			response.setMaterialDesc(resultSet.getString("material_desc"));
+			response.setHeader(resultSet.getString("header"));
 			if(queryType.equalsIgnoreCase(Constants.DIVISION) ||
 				queryType.equalsIgnoreCase(Constants.SUB_DIVISION) ||
 				queryType.equalsIgnoreCase(Constants.DEPOT)) {

@@ -24,7 +24,6 @@ import { InspectionDocumentComponent } from './components/inpection-document-dia
 import { ComplianceDocumentComponent } from './components/compliance-document-dialog/compliance-document-dialog.component';
 // Import angular-fusioncharts
 import { FusionChartsModule } from 'angular-fusioncharts';
- 
 // Import FusionCharts library and chart modules
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
@@ -109,7 +108,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         FilesInformationDialogComponent,
         InspectionDocumentComponent,
         ComplianceDocumentComponent,
-
+        
   ],
   providers: [
     AuthenticationService,

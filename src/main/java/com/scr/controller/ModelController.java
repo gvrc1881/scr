@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.Make;
+
 import com.scr.model.Model;
 import com.scr.services.ModelService;
 import com.scr.util.Constants;
@@ -103,7 +103,7 @@ public class ModelController {
 		 try {
 			   logger.info("Calling service for model data");	
 		
-		 model = modelService.findAll();
+		 model = modelService.findAllOrderBymodelCodeAsc();
 		 logger.info("Fetched model data***"+model.size());
 		return model;
 	}catch (NullPointerException npe) {

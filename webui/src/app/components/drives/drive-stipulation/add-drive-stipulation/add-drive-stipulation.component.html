@@ -125,7 +125,7 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Compliance" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliance']"
-                                                                pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$" >
+                                                                pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" >
                                                                 <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
@@ -143,12 +143,17 @@
                                                     </div>
 
                                                      <!-- compliedBy -->
+                                                     <!-- size="12"maxlength="12" -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Complied By" size="12"
-                                                                maxlength="12"
+                                                            <input matInput placeholder="Complied By" 
+                                                            
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliedBy']"
                                                                 >
+                                                                <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['compliedBy'].hasError('maxlength') && addDriveStipulationFormGroup.controls['compliedBy'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 

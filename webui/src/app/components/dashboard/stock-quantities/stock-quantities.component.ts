@@ -31,9 +31,10 @@ export class StockQuantitiesComponent implements OnInit {
   graph: boolean = false;
   periodGraph: boolean = false;
   response: any;
-  dataSource: Object;
-  periodDataSource: Object;
-  chartConfig: Object;
+  dataSource: any;
+  periodDataSource: any;
+  chartConfig: any;
+  width:number=0;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -188,8 +189,6 @@ export class StockQuantitiesComponent implements OnInit {
         queryType = 'PRODUCT_PERIOD';
       }
     }
-this.dataSource = [];
-this.periodDataSource = [];
     let request = {
       // period:this.addStockQuantities.controls.period.value,
       fromDate: this.addStockQuantities.controls.fromDate.value != null ? this.addStockQuantities.controls.fromDate.value : '',
@@ -204,9 +203,8 @@ this.periodDataSource = [];
       product: this.addStockQuantities.controls.product.value,
       queryType: queryType
     };
-    //console.log(request)
     this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, request, false).subscribe((data) => {
-      //console.log(data);
+     // console.log(data);
       this.response = data;
       if (this.response != null && this.response.length > 0) {
         this.prepareDataSource(queryType, caption, xAxisName);
@@ -219,6 +217,9 @@ this.periodDataSource = [];
     var datapointsperiod = [];
     var yAxisName = '';
     var yAxisNamep = '';
+    var category = [];
+    var qtyNetPeriodData = [];
+    var receivedQtyData = [];
     for (var i = 0; i < this.response.length; i++) {
       //console.log(this.response[i]);
       var label = '';
@@ -226,6 +227,7 @@ this.periodDataSource = [];
       var qtyNetPeriod = 0;
       var receivedQty = 0;
       var width = 600;
+      caption = this.response[i].header;
       if (queryType == 'DIVISION') {
         label = this.response[i].division;
         qoh = this.response[i].qoh;
@@ -273,6 +275,9 @@ this.periodDataSource = [];
           value: qoh
         })
       } else {
+        category.push({label:label});
+        qtyNetPeriodData.push({value:qtyNetPeriod});
+        receivedQtyData.push({value:receivedQty});
         datapoints.push({
           label: label,
           value: qtyNetPeriod
@@ -282,34 +287,60 @@ this.periodDataSource = [];
         })
       }
     }
-   // console.log('datapoints = '+datapoints)
+   
+   this.width = width;
+    if (queryType == 'DIVISION' || queryType == 'SUB_DIVISION' || queryType == 'DEPOT') {
+    this.dataSource = {
+      "chart": {
+        caption: caption,
+        xAxisName: xAxisName,
+        yAxisName: yAxisName+' values',
+        showvalues: "1",
+        //numberSuffix: 'K',
+        theme: 'fusion'
+      },
+      "data": datapoints
+    }
     this.chartConfig = {
       width: width,
       height: '400',
       type: 'column3d',
       dataFormat: 'json',
     };
-
-    this.dataSource = {
-      "chart": {
-        caption: caption,
-        xAxisName: xAxisName,
-        yAxisName: yAxisName,
-        numberSuffix: 'K',
-        theme: 'fusion'
-      },
-      "data": datapoints
-    }
-
+    console.log(this.dataSource)
+    this.graph = true;
+    this.periodGraph = false;
+  }else{
+   
     this.periodDataSource = {
-      "chart": {
+      chart: {
         caption: caption,
         xAxisName: xAxisName,
-        yAxisName: yAxisNamep,
-        numberSuffix: 'K',
+        yAxisName: 'Values',
+        showvalues: "1",
+       // numberSuffix: 'K',
         theme: 'fusion'
       },
-      "data": datapointsperiod
+      categories:[{category:category}],
+      dataset:[
+        {
+          seriesname:'Net Quantity',
+          data:qtyNetPeriodData
+        },
+        {
+          seriesname:'Received Quantity',
+          data:receivedQtyData
+        }
+      ]
     }
+    this.graph = false;
+    this.periodGraph = true;
+    this.chartConfig = {
+      width: '1000',
+      height: '400',
+      type: 'mscolumn3d',
+      dataFormat: 'json',
+    };
+  }
   }
 }

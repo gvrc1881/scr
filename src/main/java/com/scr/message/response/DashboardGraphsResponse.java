@@ -13,6 +13,7 @@ public class DashboardGraphsResponse {
 	private Long QtyNetPeriod;
 	private String uom;
 	private Double qoh;
+	private String header;
 	
 	public String getZone() {
 		return zone;
@@ -79,6 +80,12 @@ public class DashboardGraphsResponse {
 	}
 	public void setQoh(Double qoh) {
 		this.qoh = qoh;
+	}
+	public String getHeader() {
+		return header;
+	}
+	public void setHeader(String header) {
+		this.header = header;
 	}
 	
 	

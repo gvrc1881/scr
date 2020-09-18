@@ -7,12 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.apache.commons.io.FileUtils;
@@ -25,6 +25,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import com.scr.message.request.ReportRequest;
+import com.scr.model.ReportRepository;
+import com.scr.repository.ReportRepositoryRepository;
 import com.scr.util.CloseJDBCObjects;
 
 import net.sf.jasperreports.engine.JRException;
@@ -53,32 +55,33 @@ public class ReportResource {
 	@Autowired
 	ResourceLoader resourceLoader;
 
+	@Autowired
+	private ReportRepositoryRepository reportRepository;
+
 	public ReportRequest generateReport(ReportRequest report) {
 		log.info("in report resource:6::" + report.getReportId());
 		String jrxmlFileName = null;
 		Connection con = null;
-		ResultSet resultSet = null;
-		PreparedStatement ps = null;
-		String query = ("select * from report_repository");
-		try {
-			con = dataSource.getConnection();
-			ps = con.prepareStatement(query);
-			resultSet = ps.executeQuery();
-			while (resultSet.next()) {
-				String rname = resultSet.getString("report_id");
-				String jname = resultSet.getString("jrxml_name");
-				if (report.getReportId().equalsIgnoreCase(rname)) {
-					jrxmlFileName = jname;
-
-				}
-
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeJDBCObjects.releaseResouces(con, ps, resultSet);
+	//	String query = ("select * from report_repository");
+		Optional<ReportRepository> reportRepryObject = reportRepository.findByReportId(report.getReportId());
+		if (reportRepryObject.isPresent()) {
+			ReportRepository reportRepry = reportRepryObject.get();
+			jrxmlFileName = reportRepry.getJrxmlName();
 		}
+		/*
+		 * try { con = dataSource.getConnection(); ps = con.prepareStatement(query);
+		 * resultSet = ps.executeQuery(); while (resultSet.next()) { String rname =
+		 * resultSet.getString("report_id"); String jname =
+		 * resultSet.getString("jrxml_name"); if
+		 * (report.getReportId().equalsIgnoreCase(rname)) { jrxmlFileName = jname;
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * } catch (Exception e) { e.printStackTrace(); } finally {
+		 * closeJDBCObjects.releaseResouces(con, ps, resultSet); }
+		 */
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		if (report.getFacility() != null) {

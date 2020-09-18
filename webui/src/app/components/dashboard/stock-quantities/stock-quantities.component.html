@@ -148,18 +148,16 @@
                         </div>
 
                         <div *ngIf="graph" class="col-md-12" style="text-align: center;">
-                            <fusioncharts [chartConfig]=chartConfig [dataSource]=dataSource>
+                            <fusioncharts 
+                            [chartConfig]=chartConfig [dataSource]=dataSource>
                             </fusioncharts>
                         </div>
-                        <div *ngIf="periodGraph" class="col-md-12">
-                            <div class="col-md-6">
-                                <fusioncharts [chartConfig]=chartConfig [dataSource]=dataSource>
-                                </fusioncharts>
-                            </div>
-                            <div class="col-md-6">
-                                <fusioncharts [chartConfig]=chartConfig [dataSource]=periodDataSource>
-                                </fusioncharts>
-                            </div>
+                         <div *ngIf="periodGraph" class="col-md-12" style="text-align: center;">
+                            
+                                 <fusioncharts 
+                                 [chartConfig]=chartConfig
+                                [dataSource]=periodDataSource>
+                                </fusioncharts> 
                         </div>
 
                     </div>
