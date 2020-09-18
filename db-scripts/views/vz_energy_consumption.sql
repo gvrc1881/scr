@@ -1,9 +1,8 @@
+--09 --DROP VIEW public.v_energy_consumption cascade;
 
----09
--- View: v_energy_consumption
-
-CREATE OR REPLACE VIEW public.v_energy_consumption AS
- SELECT ec.seq_id,
+CREATE OR REPLACE VIEW public.v_energy_consumption AS 
+ SELECT ec.id,
+    ec.seq_id,
     ec.energy_reading_date,
     ec.location_type,
     ec.location,
@@ -56,23 +55,23 @@ CREATE OR REPLACE VIEW public.v_energy_consumption AS
     ec.joint_meter,
     ec.remarks,
     ec.current_status,
-        CASE
-            WHEN ec.kwh::text = ''::text THEN 0::numeric
-            ELSE ec.kwh::numeric
-        END AS multiplication_fac,
+    em.feeder_id,
     em.seq_id AS em_seq_id,
-    em.start_date AS em_start_date,
-    em.end_date AS em_end_date,
-        CASE
-            WHEN em.m_start_reading::text = ''::text THEN 0::numeric
-            ELSE em.m_start_reading::numeric
-        END AS m_start_reading,
-        CASE
-            WHEN em.m_end_reading::text = ''::text THEN 0::numeric
-            ELSE em.m_end_reading::numeric
-        END AS m_end_reading,
+    em.em_start_date,
+    em.em_end_date,
+    em.em_end_kwh,
+    em.em_end_kvah,
+    em.em_end_rkvah_lag,
+    em.em_end_rkvah_lead,
+    em.em_start_kwh,
+    em.em_start_kvah,
+    em.em_start_rkvah_lag,
+    em.em_start_rkvah_lead,
+    em.multiplication_fac,
     em.remarks AS em_remarks
    FROM energy_consumption ec,
-    energy_meter em, tss_feeder_master tfm
-  WHERE ec.location::text = tfm.feeder_name
-  and tfm.feeder_id::text = em.feeder_id::text AND ec.energy_reading_date >= em.start_date AND (ec.energy_reading_date <= em.end_date OR em.end_date IS NULL);
+    v_energy_meter em
+  WHERE ec.location::text = em.feeder_name::text AND ec.energy_reading_date >= em.em_start_date AND (ec.energy_reading_date <= em.em_end_date OR em.em_end_date IS NULL);
+
+ALTER TABLE public.v_energy_consumption
+  OWNER TO postgres;

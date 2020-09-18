@@ -1,14 +1,15 @@
---- select * from v_energy_meter  
---  drop view v_energy_meter cascade;
+-- View: public.v_energy_meter
 
-create view v_energy_meter as 
-select feeder_name,
-em.id ,
-cmd ,
-em.created_stamp ,
-em.created_tx_stamp ,
-em.data_div as em_data_div,
-end_date as em_end_date,
+-- DROP VIEW public.v_energy_meter cascade;
+
+CREATE OR REPLACE VIEW public.v_energy_meter AS 
+ SELECT tss.feeder_name,
+    em.id,
+    em.cmd,
+    em.created_stamp,
+    em.created_tx_stamp,
+    em.data_div AS em_data_div,
+    em.end_date AS em_end_date,
         CASE
             WHEN em.end_kwh::text = ''::text THEN 0::numeric
             ELSE em.end_kwh::numeric
@@ -24,22 +25,22 @@ end_date as em_end_date,
         CASE
             WHEN em.end_rkvah_lead::text = ''::text THEN 0::numeric
             ELSE em.end_rkvah_lead::numeric
-        END AS em_end_rkvah_lead ,
-	em.feeder_id ,
-	em.last_updated_stamp ,
-	em.last_updated_tx_stamp ,
-	meter_make ,
-	meter_model ,
-	meter_no ,
-	CASE
+        END AS em_end_rkvah_lead,
+    em.feeder_id,
+    em.last_updated_stamp,
+    em.last_updated_tx_stamp,
+    em.meter_make,
+    em.meter_model,
+    em.meter_no,
+   
+        CASE
             WHEN em.multiplication_fac::text = ''::text THEN 0::numeric
             ELSE em.multiplication_fac::numeric
-        END AS multiplication_fac ,
-
-	em.remarks ,
-	seq_id ,
-	start_date as em_start_date,
-	CASE
+        END AS multiplication_fac,
+    em.remarks,
+    em.seq_id,
+    em.start_date AS em_start_date,
+        CASE
             WHEN em.m_start_reading::text = ''::text THEN 0::numeric
             ELSE em.m_start_reading::numeric
         END AS em_m_start_reading,
@@ -63,6 +64,9 @@ end_date as em_end_date,
             WHEN em.start_rkvah_lead::text = ''::text THEN 0::numeric
             ELSE em.start_rkvah_lead::numeric
         END AS em_start_rkvah_lead
+   FROM energy_meter em,
+    tss_feeder_master tss
+  WHERE tss.feeder_id::text = em.feeder_id::text;
 
-from energy_meter em , tss_feeder_master tss
-where tss.feeder_id = em.feeder_id ;
+ALTER TABLE public.v_energy_meter
+  OWNER TO postgres;
