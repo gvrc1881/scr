@@ -260,8 +260,8 @@ public class DashboardQueries {
 			"      else" + 
 			"         sum(QOH) " + 
 			"   end" + 
-			"   QOH , abbreviation uom " + 
-			" ,  'QoH By Division of - '||product_id ||' - units '||abbreviation as header "+
+			"   QOH , abbreviation1 uom " + 
+			" ,  'QoH By Division of - '||product_id ||'('||description1||') - units '||abbreviation1 as header "+
 			"from" + 
 			"   (" + 
 			"      select distinct" + 
@@ -279,13 +279,14 @@ public class DashboardQueries {
 			"         SELECT" + 
 			"            II.PRODUCT_ID AS PRODUCT_ID," + 
 			"            II.FACILITY_ID AS FACILITY_ID," + 
-			"            uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			"            ROUND(SUM((II.QUANTITY_ON_HAND_TOTAL)), 3) as QOH," + 
 			"            F.FACILITY_NAME AS FACILITY_NAME," + 
 			"            f.sub_division," + 
 			"            f.division," + 
 			"            f.zone," + 
-			"            f.data_div, f.description " + 
+			"            f.data_div "
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " + 
 			"         FROM" + 
 			"            INVENTORY_ITEM II," + 
 			"            PRODUCT P," + 
@@ -305,11 +306,12 @@ public class DashboardQueries {
 			"            II.PRODUCT_ID," + 
 			"            II.FACILITY_ID," + 
 			"            F.FACILITY_NAME," + 
-			"            uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
 			"            f.division," + 
 			"            f.data_div," + 
 			"            f.zone," + 
-			"            f.sub_division, f.description " + 
+			"            f.sub_division "
+			+ ", case when p.description is null or p.description ='' then ' ' else p.description end  " + 
 			"      )" + 
 			"      q " + 
 			"      on (div = q.data_div " + 
@@ -321,7 +323,7 @@ public class DashboardQueries {
 			"   div.zone," + 
 			"   div," + 
 			"   product_id," + 
-			"   abbreviation, description " + 
+			"   abbreviation1, description1 " + 
 			" ORDER BY" + 
 			"   div.zone," + 
 			"   div," + 
@@ -340,8 +342,8 @@ public class DashboardQueries {
 			"        else" + 
 			"            sum(QOH) " + 
 			"    end" + 
-			"    QOH , abbreviation uom " + 
-			" ,  'QoH By Sub Division of - '||product_id ||' - units '||abbreviation as header "+
+			"    QOH , abbreviation1 uom " + 
+			" ,  'QoH By Sub Division of - '||product_id ||'('||description1||') - units '||abbreviation1 as header "+
 			"from" + 
 			"    (" + 
 			"        select distinct" + 
@@ -359,13 +361,14 @@ public class DashboardQueries {
 			"            SELECT" + 
 			"                II.PRODUCT_ID AS PRODUCT_ID," + 
 			"                II.FACILITY_ID AS FACILITY_ID," + 
-			"                uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			"                ROUND(SUM((II.QUANTITY_ON_HAND_TOTAL)), 3) as QOH," + 
 			"                F.FACILITY_NAME AS FACILITY_NAME," + 
 			"                f.sub_division," + 
 			"                f.division," + 
 			"                f.zone," + 
-			"                f.data_div, f.description " + 
+			"                f.data_div"
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " +  
 			"            FROM" + 
 			"                INVENTORY_ITEM II," + 
 			"                PRODUCT P," + 
@@ -390,11 +393,12 @@ public class DashboardQueries {
 			"                II.PRODUCT_ID," + 
 			"                II.FACILITY_ID," + 
 			"                F.FACILITY_NAME," + 
-			"                uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
 			"                f.division," + 
 			"                f.data_div," + 
 			"                f.zone," + 
-			"                f.sub_division, f.description " + 
+			"                f.sub_division "
+			+ ", case when p.description is null or p.description ='' then ' ' else p.description end  " +  
 			"        )" + 
 			"        q " + 
 			"        on (div = q.data_div " + 
@@ -407,7 +411,7 @@ public class DashboardQueries {
 			"    div," + 
 			"    subdiv," + 
 			"    product_id," + 
-			"    abbreviation, description " + 
+			"    abbreviation1, description1 " + 
 			"ORDER BY" + 
 			"    div.zone," + 
 			"    div," + 
@@ -424,8 +428,8 @@ public class DashboardQueries {
 			"           WHEN QOH IS NULL THEN 0" + 
 			"           ELSE qoh" + 
 			"       END QOH," + 
-			"       abbreviation uom" + 
-			" ,  'QoH By Depot of - '||product_id ||' - units '||abbreviation as header "+
+			"       abbreviation1 uom" + 
+			" ,  'QoH By Depot of - '||product_id ||'('||description1||') - units '||abbreviation1 as header "+
 			" FROM " + 
 			"  (SELECT DISTINCT ZONE," + 
 			"                   data_div div," + 
@@ -436,13 +440,14 @@ public class DashboardQueries {
 			" INNER JOIN" + 
 			"  (SELECT II.PRODUCT_ID AS PRODUCT_ID," + 
 			"          II.FACILITY_ID AS FACILITY_ID," + 
-			" uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			" ROUND(SUM((II.QUANTITY_ON_HAND_TOTAL)), 3) AS QOH," + 
 			" F.FACILITY_NAME AS FACILITY_NAME," + 
 			" f.sub_division," + 
 			" f.division," + 
 			" f.zone," +  
-			" f.data_div, f.description " + 
+			" f.data_div"
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " + 
 			"   FROM INVENTORY_ITEM II," + 
 			"        PRODUCT P," + 
 			"        FACILITY F," + 
@@ -461,11 +466,13 @@ public class DashboardQueries {
 			"   GROUP BY II.PRODUCT_ID," + 
 			"            II.FACILITY_ID," + 
 			"            F.FACILITY_NAME," + 
-			"            uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
 			"            f.division," + 
 			"            f.data_div," + 
 			"            f.zone," + 
-			"            f.sub_division, f.description) q ON (div = q.data_div" + 
+			"            f.sub_division "+
+			", case when p.description is null or p.description ='' then ' ' else p.description end  " + 
+			" ) q ON (div = q.data_div" + 
 			"                                  AND div.zone = q.zone" + 
 			"                                  AND subdiv = q.sub_division" + 
 			"                                  AND q.FACILITY_NAME = depot_name" + 
@@ -480,20 +487,21 @@ public class DashboardQueries {
 			"case when sum(received_qty) is null then 0 else sum(received_qty) end received_qty ," + 
 			"case when sum(consumed_qty) is null then 0 else sum(consumed_qty) end consumed_qty ," + 
 			"case when sum(qty_net_period_net_qty) is null then 0 else sum(qty_net_period_net_qty) end qty_net_period_net_qty ," + 
-			"  abbreviation uom  " + 
-			" ,  'Materail received and consumed By Division of - '||product_id ||' - units '||abbreviation || ' from ' || ? " + 
+			"  abbreviation1 uom  " + 
+			" ,  'Materail received and consumed By Division of - '||product_id ||'('||description1||') - units '||abbreviation1 || ' from ' || ? " + 
 			" ||' to '|| ? as header "+
 			" from " + 
 			" (select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
 			" inner join " + 
 			"( " + 
 			" SELECT " + 
-			"        d.PRODUCT_ID AS PRODUCT_ID, d.FACILITY_ID AS FACILITY_ID,  " + 
-			"        uom.abbreviation," + 
+			"   d.PRODUCT_ID AS PRODUCT_ID, d.FACILITY_ID AS FACILITY_ID,  " + 
+			"   case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) < 0 then 0 else d.QUANTITY end ) as received_qty ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) > 0 then 0 else d.QUANTITY end ) as consumed_qty ," + 
-			"	ROUND(SUM((d.QUANTITY)),3) qty_net_period_net_qty ," + 
-			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div, f.description " + 
+			"	ROUND(SUM((d.QUANTITY)),3) qty_net_period_net_qty, " + 
+			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div"
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " +  
 			"               FROM " + 
 			"        dmtr d ," + 
 			"       PRODUCT P," + 
@@ -507,18 +515,21 @@ public class DashboardQueries {
 			"	and QUANTITY is not null " + 
 			" and transaction_date ::date >= ? ::date "+
 			" and transaction_date :: date <= ? ::date  "+
-			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division, f.description " + 
+			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME " +
+			"      ,case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
+			"  f.division ,  f.data_div , f.zone, f.sub_division "+
+			", case when p.description is null or p.description ='' then ' ' else p.description end  " + 
 			" ) q " + 
 			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
-			" Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_division, description " + 
+			" Group by  PRODUCT_ID, abbreviation1 , division , div, data_div , div.zone, sub_division, description1 " + 
 			"        ORDER BY div.zone , div,  PRODUCT_ID ";
 	
 	public static String SUB_DIVISION_WITH_PERIOD = "select div.zone , div,sub_division,  product_id as material_desc , " + 
 			"case when sum(received_qty) is null then 0 else sum(received_qty) end received_qty ," + 
 			"abs(case when sum(consumed_qty) is null then 0 else sum(consumed_qty) end ) consumed_qty ," + 
 			"case when sum(qty_net_period_net_qty) is null then 0 else sum(qty_net_period_net_qty) end qty_net_period_net_qty ," + 
-			"  abbreviation uom  " + 
-			" ,  'Materail received and consumed By Sub Division of - '||product_id ||' - units '||abbreviation || ' from ' || ? " + 
+			"  abbreviation1 uom  " + 
+			" ,  'Materail received and consumed By Sub Division of - '||product_id ||'('||description1||') - units '||abbreviation1 || ' from ' || ? " + 
 			" ||' to '|| ? as header "+			
 			" from" + 
 			" (select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div " + 
@@ -526,11 +537,12 @@ public class DashboardQueries {
 			"( " + 
 			" SELECT " + 
 			"        d.PRODUCT_ID AS PRODUCT_ID, d.FACILITY_ID AS FACILITY_ID,  " + 
-			"        uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) < 0 then 0 else d.QUANTITY end ) as received_qty ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) > 0 then 0 else d.QUANTITY end ) as consumed_qty ," + 
 			"	ROUND(SUM((d.QUANTITY)),3) qty_net_period_net_qty ," + 
-			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div, f.description " + 
+			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div"
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " +  
 			"               FROM" + 
 			"        dmtr d ," + 
 			"       PRODUCT P," + 
@@ -545,18 +557,21 @@ public class DashboardQueries {
 			"	and QUANTITY is not null" + 
 			" and transaction_date ::date >= ? ::date "+
 			" and transaction_date :: date <= ? ::date  "+
-			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division, f.description " + 
+			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME, "+
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
+			" f.division ,  f.data_div , f.zone, f.sub_division "+
+			", case when p.description is null or p.description ='' then ' ' else p.description end  " +  
 			" ) q" + 
 			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
-			" Group by  PRODUCT_ID, abbreviation , division , div, data_div , div.zone, sub_division, description " + 
+			" Group by  PRODUCT_ID, abbreviation1 , division , div, data_div , div.zone, sub_division, description1 " + 
 			"        ORDER BY div.zone , div,  PRODUCT_ID ";
 	
 	public static String DEPOT_WISE_WITH_PERIOD = "select div.zone , div, subdiv , div.FACILITY_ID , depot_name , product_id as material_desc , " + 
 			"case when received_qty is null then 0 else received_qty end received_qty ," + 
 			"case when consumed_qty is null then 0 else consumed_qty end consumed_qty ," + 
 			"case when qty_net_period_net_qty is null then 0 else qty_net_period_net_qty end qty_net_period_net_qty ," + 
-			"  abbreviation uom  " + 
-			" ,  'Materail received and consumed By Depot of - '||product_id ||' - units '||abbreviation || ' from ' || ? " + 
+			"  abbreviation1 uom  " + 
+			" ,  'Materail received and consumed By Depot of - '||product_id ||'('||description1||') - units '||abbreviation1 || ' from ' || ? " + 
 			" ||' to '|| ? as header "+
 			" from" + 
 			" (select distinct zone, data_div div , sub_division subdiv , facility_name depot_name , FACILITY_ID  from facility ) div" + 
@@ -564,11 +579,12 @@ public class DashboardQueries {
 			"( " + 
 			" SELECT " + 
 			"        d.PRODUCT_ID AS PRODUCT_ID, d.FACILITY_ID AS FACILITY_ID,  " + 
-			"        uom.abbreviation," + 
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end abbreviation1 ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) < 0 then 0 else d.QUANTITY end ) as received_qty ," + 
 			"	sum(case when ROUND(d.QUANTITY,3) > 0 then 0 else d.QUANTITY end ) as consumed_qty ," + 
 			"	ROUND(SUM((d.QUANTITY)),3) qty_net_period_net_qty ," + 
-			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div, f.description " + 
+			"       F.FACILITY_NAME AS FACILITY_NAME ,  f.sub_division , f.division, f.zone , f.data_div"
+			+ " , case when p.description is null or p.description ='' then ' ' else p.description end description1 " +  
 			"               FROM" + 
 			"        dmtr d ," + 
 			"       PRODUCT P," + 
@@ -585,7 +601,10 @@ public class DashboardQueries {
 			"	and QUANTITY is not null" + 
 			" and transaction_date ::date >= ? ::date "+
 			" and transaction_date :: date <= ? ::date  "+ 
-			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME,uom.abbreviation , f.division ,  f.data_div , f.zone, f.sub_division, f.description " + 
+			"        GROUP BY d.PRODUCT_ID,d.FACILITY_ID, F.FACILITY_NAME, "+
+			"            case when uom.abbreviation is null or uom.abbreviation ='' then ' ' else uom.abbreviation end ," + 
+			" f.division ,  f.data_div , f.zone, f.sub_division "+
+			", case when p.description is null or p.description ='' then ' ' else p.description end  " + 
 			" ) q" + 
 			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
 			"    ORDER BY div.zone , div, subdiv , depot_name  , PRODUCT_ID ";
