@@ -157,6 +157,13 @@
                                                                       [ngValue]="item">{{item.pbExtentCode}}</option>
                                                             </select>
                                                        </td>
+                                                       <td *ngIf="(names.parameterName=='tpc_Board')">
+                                                            <select name="tpcBoard" id="tpcBoard"
+                                                                 [(ngModel)]="reportModel.tpcBoard">
+                                                                 <option *ngFor="let item of tpcBoardData"
+                                                                      [ngValue]="item.tpcBoard">{{item.tpcBoard}}</option>
+                                                            </select>
+                                                       </td>
                                                        <td *ngIf="(names.parameterName=='elementarySectionCode')">
                                                             <select name="elementarySectionCode"
                                                                  id="elementarySectionCode"

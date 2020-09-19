@@ -51,6 +51,7 @@ public class ReportRequest {
 	private String tokm;
 	private LocalDate Date;
 	private String materialItem;
+	private String tpcBoard;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -306,6 +307,14 @@ public class ReportRequest {
 
 	public void setDivision(String division) {
 		this.division = division;
+	}
+
+	public String getTpcBoard() {
+		return tpcBoard;
+	}
+
+	public void setTpcBoard(String tpcBoard) {
+		this.tpcBoard = tpcBoard;
 	}
 
 	

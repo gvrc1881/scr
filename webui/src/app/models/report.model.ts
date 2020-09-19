@@ -7,6 +7,7 @@ export class ReportModel{
     subDivision:any;
     permission:String;
     depot:string;
+    tpcBoard:string;
     facility:any;
     facilityId:any;
     reportId:any;

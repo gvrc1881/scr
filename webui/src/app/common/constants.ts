@@ -252,12 +252,10 @@ export const Constants = {
                 UPDATE_STATION_SECTIONS:"/updateStationSections",
                 DELETE_STATION_SECTIONS:"/deleteStationSections/",
                 EXISTS_STATION_CODE:"/existsStationCode/",
-                EXISTS_STATION_NAME:'existsStationName',
+                EXISTS_STATION_NAME:'/existsStationName/',
                 EXISTS_STATION_CODE_AND_ID:"/findByStationCodeAndId/",
                 EXISTS_STATION_NAME_AND_ID:"/findByStationNameAndId/",
-                
             },
-            
             TPC_BOARD:{
                 GET_TPC_BOARD:"/findAllTPCBoard",
                 GET_TPC_BOARD_ID:"/findTPCBoardById/",
@@ -355,7 +353,7 @@ export const Constants = {
                 GET_MEASURE_ACTIVITY_LIST:'/measureActivityList',
                 SAVE_CHECK_LIST:'/saveCheckList',
                 UPDATE_CHECK_LIST:'/updateCheckList',
-                DELETE_CHECK_LIST_BY_ID:'/deleteDrive/',
+                DELETE_CHECK_LIST_BY_ID:'/deleteCheckList/',
                 EXIST_DRIVE_ACTIVITYLIST:'/existsByDriveIdActivityId/',
                 EXIST_DRIVE_POSITION_ID:'/existByDriveIdPositionId/'
             },
@@ -371,8 +369,7 @@ export const Constants = {
                 SAVE:'/saveDriveTarget',
                 UPDATE:'/updateDriveTarget',
                 EDIT:'/driveTargetById/',
-                DELETE:'/deleteDriveTarget/',
-                EXIST_TARGET:'/existByUnitNameAndUnitType/'
+                DELETE:'/deleteDriveTarget/'
             },
             GET_DIVISIONS:'/divisions'
         },

@@ -53,6 +53,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        zoneObject: any;
        zoneCode: any;
        divisionObject: any;
+       tpcBoardData:any;
        sub;/*It defines to store router map of subscribe*/
        id: any;  /* Its used to store the getting name on the report page  */
        otyp = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
@@ -91,6 +92,7 @@ export class ReportParameterDisplayComponent implements OnInit {
               this.observationCategories();
               this.powerBlocks();
               this.pbSwitchControl();
+              this.tpcBoardDetails();
               this.sub = this.Activatedroute.paramMap.subscribe(params => {
                      this.id = params.get('id');
               });
@@ -119,6 +121,11 @@ export class ReportParameterDisplayComponent implements OnInit {
        reportParameterNames() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_PARAMETER_BASED_ON_REPORT_ID + this.id).subscribe((data) => {
                      this.parameterData = data;
+              })
+       }
+       tpcBoardDetails() {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_DETAILS).subscribe((data) => {
+                     this.tpcBoardData = data;
               })
        }
        facilityNames() {

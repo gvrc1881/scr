@@ -105,6 +105,7 @@ public class ReportResource {
 		parameters.put("Material_Item", report.getMaterialItem());
 		parameters.put("start_date_of_period", report.getFromDate());
 		parameters.put("end_date_of_period", report.getToDate());
+		parameters.put("tpc_Board", report.getTpcBoard());
 
 		if (report.getProductId() != null) {
 			parameters.put("productId", report.getProductId());
