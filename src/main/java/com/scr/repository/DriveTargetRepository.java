@@ -15,6 +15,7 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 
 	List<DriveTarget> findByStatusId(Integer statusId);
 	
+	
 	@Query(value = "SELECT case when count(dt)> 0 then true else false  end  FROM DriveTarget dt WHERE dt.unitName = :unitName and dt.unitType = :unitType")
 	Boolean existByUnitNameAndUnitType(@Param("unitName")String unitName, @Param("unitType") String unitType);
 

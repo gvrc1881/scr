@@ -79,6 +79,8 @@ export class AddDriveInspectionComponent implements OnInit {
       this.title = 'Save'
     }    
   }
+  
+  
   addEvent($event) {
     this.toMinDate = new Date($event.value);
   }

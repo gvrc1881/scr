@@ -928,6 +928,7 @@ public class DrivesController {
 		} catch (Exception e) {			
 			logger.error(e);
 		}
+		
 		return ResponseEntity.ok((inspectionsList));
 	}
 	

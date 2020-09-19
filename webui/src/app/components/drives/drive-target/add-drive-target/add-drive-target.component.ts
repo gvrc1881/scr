@@ -18,6 +18,7 @@ export class AddDriveTargetComponent implements OnInit {
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
+  
   title:string;
   addDriveTargetFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";

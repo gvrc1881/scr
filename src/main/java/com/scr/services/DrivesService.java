@@ -601,6 +601,7 @@ public class DrivesService {
 	public List<Division> findAllOrderByCodeAsc() {
 		return divisionRepository.findAllOrderByCodeAsc();
 	}
+	
 
 	public List<InspectionType> findAllOrderByInspectionTypeAsc() {
 		return inspectionTypeRepository.findAllOrderByInspectionTypeAsc();

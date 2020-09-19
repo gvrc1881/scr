@@ -107,6 +107,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
         'yearOfSanction': [null],
         'dateOfCompletion': [null],
       });
+      
   }
 
   onFormValuesChanged() {

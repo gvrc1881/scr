@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './add-energy-consumption.component.html',
   styleUrls: ['./add-energy-consumption.component.css']
 })
+
 export class AddEnergyConsumptionComponent implements OnInit {
 
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

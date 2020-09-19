@@ -13,6 +13,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   templateUrl: './add-drive-stipulation.component.html',
   styleUrls: []
 })
+
 export class AddDriveStipulationComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
