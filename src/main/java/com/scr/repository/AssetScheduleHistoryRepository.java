@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.scr.model.AssetsScheduleHistory;
 
+
+
 @Repository
 public interface AssetScheduleHistoryRepository extends JpaRepository<AssetsScheduleHistory, Long> {
 

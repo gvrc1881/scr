@@ -8,6 +8,7 @@ import { FilesInformationDialogComponent } from '../file-information-dialog/file
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ash-display',
@@ -16,16 +17,23 @@ import { Constants } from 'src/app/common/constants';
 })
 export class AshDisplayComponent implements OnInit {
 
- 
+
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
+  exactDate: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   filterData;
+  facilityList: any;
+  selectedExactDate = new Date();
+  selectedBWFrom = new Date();
+  selectedBWTo = new Date();
+  minDate: Date;
+  maxDate: Date;
   //'createdStamp', 'createdTxStamp', , 'lastUpdatedStamp', 'lastUpdatedTxStamp''deviceCreatedStamp','deviceLastUpdatedStamp',
   //'sno', 'id', 'deviceId',, 'pbOperationSeqId', 'remarks','initialOfIncharge','detailsOfMaint', 'dataDiv',  'createdBy',
-  //   'doneBy','seqId', 
-  displayedColumns = ['sno','id','assetId', 'assetType', 'facilityId','scheduleCode', 'status'];
+  //   'doneBy','seqId',  'facilityId',
+  displayedColumns = ['sno', 'assetId', 'assetType', 'depo', 'scheduleCode', 'scheduleDate', 'status', 'actions'];
 
 
   dataSource: MatTableDataSource<StipulationstModel>;
@@ -44,40 +52,43 @@ export class AshDisplayComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
-     var permissionName = this.commonService.getPermissionNameByLoggedData("INSPECTIONS","STIPULATIONS") ;
-  	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
+    var permissionName = this.commonService.getPermissionNameByLoggedData("INSPECTIONS", "STIPULATIONS");
+    this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
 
     this.spinnerService.show();
-    this.getStipulationData();
+    this.findAshData();
     this.filterData = {
       filterColumnNames: [
-         { "Key": 'sno', "Value": " " },
-        { "Key": 'id', "Value": " " },
+        { "Key": 'sno', "Value": " " },
+        //{ "Key": 'id', "Value": " " },
         { "Key": 'assetId', "Value": " " },
         { "Key": 'assetType', "Value": " " },
-       // { "Key": 'createdBy', "Value": " " },
+        // { "Key": 'createdBy', "Value": " " },
         //{ "Key": 'createdStamp', "Value": "" },
         //{ "Key": 'createdTxStamp', "Value": " " },
-       // { "Key": 'dataDiv', "Value": " " },
-       // { "Key": 'detailsOfMaint', "Value": "" },
+        // { "Key": 'dataDiv', "Value": " " },
+        // { "Key": 'detailsOfMaint', "Value": "" },
         //{ "Key": 'deviceCreatedStamp', "Value": " " },
         //{ "Key": 'deviceId', "Value": " " },
         //{ "Key": 'deviceLastUpdatedStamp', "Value": "" },
-       // { "Key": 'doneBy', "Value": " " },
+        // { "Key": 'doneBy', "Value": " " },
         { "Key": 'facilityId', "Value": " " },
         //{ "Key": 'initialOfIncharge', "Value": "" },
         //{ "Key": 'lastUpdatedStamp', "Value": " " },
         //{ "Key": 'lastUpdatedTxStamp', "Value": " " },
-       // { "Key": 'pbOperationSeqId', "Value": "" },
+        // { "Key": 'pbOperationSeqId', "Value": "" },
         //{ "Key": 'remarks', "Value": " " },
         { "Key": 'scheduleCode', "Value": " " },
-       // { "Key": 'seqId', "Value": " " },
+        { "Key": 'scheduleDate', "Value": " " },
+        // { "Key": 'seqId', "Value": " " },
         { "Key": 'status', "Value": " " },
+        { "Key": 'depo', "Value": " " },
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -86,27 +97,33 @@ export class AshDisplayComponent implements OnInit {
     };
   }
 
-  getStipulationData() {
+  findAshData() {
     const stipulations: StipulationstModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH_DEPO).subscribe((data) => {
 
       this.stipulationsList = data;
+
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
         stipulations.push(this.stipulationsList[i]);
       }
-      console.log("stipulations:::"+stipulations);
-      this.filterData.gridData = stipulations;
-      this.dataSource = new MatTableDataSource(stipulations);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
-      this.filterData.dataSource = this.dataSource;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      console.log("stipulations:::" + stipulations);
+      this.refreshDatasource(stipulations);
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
     });
   }
+
+  refreshDatasource(stipulations){
+    this.filterData.gridData = stipulations;
+    this.dataSource = new MatTableDataSource(stipulations);
+    this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+    this.filterData.dataSource = this.dataSource;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
@@ -127,15 +144,15 @@ export class AshDisplayComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.INSPECTIONS.STIPULATION.DELETE_STIPULATION , id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.ASH.ASH.DELETE_ASH, id).subscribe(data => {
           console.log(JSON.stringify(data));
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Stipulation Successfully");
-          this.getStipulationData();
+          this.commonService.showAlertMessage("Deleted Ash Successfully");
+          this.findAshData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Inspection Stipulation Failed.");
+          this.commonService.showAlertMessage("Ash Deletion Failed.");
         })
       }
       this.confirmDialogRef = null;
@@ -159,5 +176,35 @@ export class AshDisplayComponent implements OnInit {
     }, error => this.commonService.showAlertMessage(error));
 
 
+  }
+  exactDateEvent($event) {
+    this.selectedExactDate = new Date($event.value);
+  }
+  bwFromDateEvent($event) {
+    this.selectedBWFrom = new Date($event.value);
+    this.selectedBWTo = this.maxDate;
+    console.log("this.selectedBWFrom:::" + this.selectedBWFrom);
+    this.filteredByDates();
+  }
+  bwToDateEvent($event) {
+    this.selectedBWTo = new Date($event.value);
+    console.log("this.selectedBWTo:::" + this.selectedBWTo);
+    this.filteredByDates();
+  }
+  makeQuery() {
+    this.filteredByDates();
+  }
+
+  filteredByDates(){
+    const stipulations: StipulationstModel[] = [];
+    let from = this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd hh:mm:ss');
+    let to = this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd hh:mm:ss');
+    for (let i = 0; i < this.stipulationsList.length; i++) {
+      if (this.stipulationsList[i].scheduleDate >= from && this.stipulationsList[i].scheduleDate <= to) {
+        this.stipulationsList[i].sno = i + 1;
+        stipulations.push(this.stipulationsList[i]);
+      }
+    }
+    this.refreshDatasource(stipulations);
   }
 }

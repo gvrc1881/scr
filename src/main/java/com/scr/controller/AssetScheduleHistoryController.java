@@ -12,12 +12,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.request.AssetsScheduleHistoryRequest;
+import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.services.AssetScheduleHistoryService;
@@ -47,6 +49,39 @@ public class AssetScheduleHistoryController {
 			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
 		}
 		logger.info("Exit from findAllash function");
+		return ResponseEntity.ok((histories));
+	}
+	
+	@RequestMapping(value = "/ashistoryWithDepo", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<AssetsScheduleHistoryResponse>> findAshWithFacilityName() throws JSONException {
+		logger.info("Enter into findAshWithFacilityName function");
+		List<AssetsScheduleHistoryResponse> histories = null;
+		try {			
+			logger.info("Calling service for ASH data");
+			histories = service.findAshWithFacilityName();	
+			logger.info("Fetched ash data = "+histories);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		}
+		logger.info("Exit from findAshWithFacilityName function");
+		return ResponseEntity.ok((histories));
+	}
+	@RequestMapping(value = "/ashistory/{fromDate}/{toDate}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<AssetsScheduleHistoryResponse>> findAshDateRange() throws JSONException {
+		logger.info("Enter into findAshWithFacilityName function");
+		List<AssetsScheduleHistoryResponse> histories = null;
+		try {			
+			logger.info("Calling service for ASH data");
+			histories = service.findAshWithFacilityName();	
+			logger.info("Fetched ash data = "+histories);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		}
+		logger.info("Exit from findAshWithFacilityName function");
 		return ResponseEntity.ok((histories));
 	}
 	
@@ -92,7 +127,7 @@ public class AssetScheduleHistoryController {
 			logger.error("ERROR >> While updating drive data. "+e.getMessage());
 			return Helper.findResponseStatus("Ash Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
-	}
+	}*/
 	
 	@RequestMapping(value = "/deleteAsh/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteAsh(@PathVariable("id") Long id) throws JSONException {
@@ -109,7 +144,7 @@ public class AssetScheduleHistoryController {
 			logger.error(e);
 			return Helper.findResponseStatus("Ash Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
-	}*/
+	}
 	
 		
 	

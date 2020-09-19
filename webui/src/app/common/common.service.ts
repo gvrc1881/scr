@@ -115,4 +115,15 @@ export class CommonService {
             })
           })
     }
+    updateDataSourceBwnDates(dataSource:MatTableDataSource<any>, displayedColumns:string[],fromDate:String,toDate:String){
+        dataSource.filteredData.map((item, index) =>{
+           // console.log("updateDataSourceBwnDates::item::"+item+"::index::"+index);
+            displayedColumns.map((col, i)=>{
+              if(col == 'scheduleDate' && (item[col] >=fromDate &&  item[col]<=toDate) ){
+                console.log("updateDataSourceBwnDates::item::"+item+"::col::"+col+"::col value"+item[col]); 
+                dataSource.filteredData[index]= item;
+              }
+            })
+          })
+    }
 }

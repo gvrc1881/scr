@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.scr.mapper.AshMapper;
 import com.scr.message.request.AssetsScheduleHistoryRequest;
+import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.repository.AssetsScheduleHistoryRepository;
+import com.scr.repository.AssetsScheduleHistoryUtilRepository;
+import com.scr.util.Constants;
 
 @Service
 public class AssetScheduleHistoryService {
@@ -35,10 +39,17 @@ public class AssetScheduleHistoryService {
 	@Autowired
 	private AssetsScheduleHistoryRepository ashRepository;
 	
+	@Autowired
+	AssetsScheduleHistoryUtilRepository ashutilRepository;
+	
 	
 	public List<AssetsScheduleHistory> findAllAshs() {
 		logger.info("Fetcing history data where active is 1.");
 		return ashRepository.findAll();
+	}	
+	public List<AssetsScheduleHistoryResponse> findAshWithFacilityName() {
+		logger.info("Fetcing history data where active is 1.");
+		return ashutilRepository.findAshWithFacilityName();
 	}	
 
 	public @Valid boolean saveAshData(@Valid AssetsScheduleHistoryRequest ashRequest) throws Exception {
@@ -64,18 +75,18 @@ public class AssetScheduleHistoryService {
 		}else {
 			return "Invalid Ash Id";
 		}
-	}
+	}*/
 	public String deleteAsh(Long id) {
 		Optional<AssetsScheduleHistory> ashOptional = ashRepository.findById(id);
 		if (ashOptional.isPresent()) {
-			AssetsScheduleHistory ashToUpdate = ashOptional.get();
-			ashToUpdate.setId(id);
-			ashRepository.save(ashToUpdate);
+			AssetsScheduleHistory ashToDelete = ashOptional.get();
+			ashToDelete.setId(id);
+			ashRepository.delete(ashToDelete);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
-			return "Invalid Drive Id";
+			return "Invalid ASH Id";
 		}
-	}*/
+	}
 	
 	
 

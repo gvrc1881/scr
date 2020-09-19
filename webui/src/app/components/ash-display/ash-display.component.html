@@ -27,15 +27,44 @@
                             <div class="p-24">
 
                                 <div class="example-header">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <mat-form-field>
                                             <input matInput (keyup)="applyFilter($event.target.value)"
                                                 placeholder="Filter">
                                         </mat-form-field>
                                     </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="picker3" placeholder="Choose From Date"
+                                                [(ngModel)]="selectedBWFrom" 
+                                                (dateChange)="bwFromDateEvent($event)"
+                                                [max]="maxDate">
+                                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
+                                                [min]="selectedBWFrom" [(ngModel)]="maxDate"
+                                                (dateChange)="bwToDateEvent($event)"
+                                                [max]="maxDate">
+                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="mat-raised-button mat-accent" color="accent" class="d-inline"
+                                            mat-raised-button="" type="button" (click)="makeQuery()">
+                                            Go
+                                        </button>
+                                    </div>
                                     <div class="clear"> </div>
+                                    
                                 </div>
-
+                                
                                 <div class="table-sort-input example-container mat-elevation-z8">
 
                                     
@@ -49,18 +78,18 @@
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
-                                      <ng-container matColumnDef="id">
+                                     <!--  <ng-container matColumnDef="id">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>Id</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
-                                        </ng-container> 
+                                        </ng-container>  -->
 
                                            <ng-container matColumnDef="assetId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>Asset Id </span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.assetId}}</mat-cell>
                                         </ng-container>
@@ -68,7 +97,7 @@
                                         <ng-container matColumnDef="assetType">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>Asset Type </span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
                                         </ng-container>
@@ -151,16 +180,16 @@
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.doneBy}}</mat-cell>
-                                        </ng-container>-->
+                                        </ng-container>
                                       
                                         <ng-container matColumnDef="facilityId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>facilityId</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                                                <span>Depo</span>
+                                                <input matInput  type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
                                         </ng-container>
-                                        <!--  <ng-container matColumnDef="initialOfIncharge">
+                                         <ng-container matColumnDef="initialOfIncharge">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>initialOfIncharge</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
@@ -198,24 +227,31 @@
                                         </ng-container> -->
                                         <ng-container matColumnDef="scheduleCode">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>scheduleCode</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                                                <span>Schedule Code</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.scheduleCode}}</mat-cell>
                                         </ng-container>
-                                        <!-- <ng-container matColumnDef="seqId">
+                                         <ng-container matColumnDef="scheduleDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>seqId</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                                                <span>Schedule Date</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.seqId}}</mat-cell>
-                                        </ng-container> -->
+                                            <mat-cell *matCellDef="let row"> {{row.scheduleDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                        </ng-container>
                                         <ng-container matColumnDef="status">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>status</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                                                <span>Status</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="depo">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Depo</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.depo}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
