@@ -154,18 +154,18 @@ export class AddDriveInspectionComponent implements OnInit {
     this.addDriveInspectionFormGroup
       = this.formBuilder.group({
         id: 0,
-        'inspectionType': [null, Validators.compose([Validators.required])],
-        'section': [null, Validators.compose([Validators.required])],
-        'sectionStartLocation': [null],
-        'sectionEndLocation': [null],
-        'dateOfInspection': [null],
-        'TKM': [null],
-        'RKM': [null],
-        'remarks': [null, Validators.maxLength(255)],
-        'authorisationDate': [null],
-        'chargingDate': [null],
+        'inspectionType': ['', Validators.compose([Validators.required])],
+        'section': ['', Validators.compose([Validators.required])],
+        'sectionStartLocation': [''],
+        'sectionEndLocation': [''],
+        'dateOfInspection': [''],
+        'TKM': [''],
+        'RKM': [''],
+        'remarks': ['', Validators.maxLength(255)],
+        'authorisationDate': [''],
+        'chargingDate': [''],
         'attachment': [null],
-        'station': [null]
+        'station': ['']
       });
   }
   onAddInspectionsFormSubmit() {
@@ -284,6 +284,7 @@ export class AddDriveInspectionComponent implements OnInit {
       this.selectedFiles.push(event.target.files[i]);
     }
   }
+
   removeFile(id) {
     this.selectedFiles.splice(id, 1);
   }

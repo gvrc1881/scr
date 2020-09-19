@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.Drives;
+import com.scr.model.Make;
 
 @Repository
 public interface DrivesRepository extends JpaRepository<Drives, Long> {
@@ -20,5 +22,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	Boolean existsByNameAndStatusId(String name, Integer statusId);
 
 	Boolean existsByDescriptionAndStatusId(String description, Integer statusId);
+	
+	@Query("FROM Drives ORDER BY name ASC")
+	List<Drives> findAllDrivesOrderByNameAsc();
 
 }

@@ -28,6 +28,7 @@ import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
+import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -336,8 +337,12 @@ public class DrivesService {
 	public Optional<DriveTarget> findDriveTargetById(Long id) {
 		return driveTargetRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
-	public Boolean existByUnitNameAndUnitType(String unitName, String unitType) {
-		return driveTargetRepository.existByUnitNameAndUnitType(unitName, unitType);
+	/*public Boolean findByUnitNameAndUnitType(String unitType, String unitName) {
+		return driveTargetRepository.findByUnitNameAndUnitType(unitType, unitName);
+	}*/
+	public Optional<DriveTarget> findByUnitTypeAndUnitName(String unitType, String unitName) {
+		// TODO Auto-generated method stub
+		return driveTargetRepository.findByUnitTypeAndUnitName(unitType, unitName);
 	}
 	// DRIVE DAILY PROGRESS
 	public List<DriveDailyProgress> findAllDriveDailyProgress() {

@@ -59,7 +59,7 @@
                                                                 <mat-option
                                                                     *ngFor="let functionalUnit of functionalUnitList"
                                                                     [value]="functionalUnit.facilityName"
-                                                                    id="functionalUnit.id">
+                                                                   >
                                                                     {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
@@ -68,6 +68,11 @@
                                                             class="alert alert-danger">Select Unit Name</mat-error>
                                                             <mat-error
                                                             *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('duplicateCombination')"
+                                                            class="alert alert-danger">
+                                                            Unit Type and Unit Name Combination Already Exists
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="addDriveTargetFormGroup.controls['unitName'].hasError('duplicateCombinationId')"
                                                             class="alert alert-danger">
                                                             Unit Type and Unit Name Combination Already Exists
                                                         </mat-error>

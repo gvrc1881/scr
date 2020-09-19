@@ -38,6 +38,7 @@ import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
+import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -528,17 +529,31 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/existByUnitNameAndUnitType/{unitName}/{unitType}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existByUnitNameAndUnitType(@PathVariable("unitName") String unitName,@PathVariable("unitType") String unitType){		
-		logger.info("unitName"+unitName+"unitType=="+unitType);
+	
+	@RequestMapping(value = "/existByUnitNameAndUnitType/{id}/{unitType}/{unitName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existByUnitNameAndUnitType(@PathVariable("id") Long id,@PathVariable("unitType") String unitType,@PathVariable("unitName") String unitName){
+		
+		logger.info("id=="+id+"unitType=="+unitType+"unitName=="+unitName);
+		Boolean result;
 		try {
-			return service.existByUnitNameAndUnitType(unitName,unitType);
+			Optional<DriveTarget> targetData = service.findByUnitTypeAndUnitName(unitType,unitName);
+			
+			if(targetData.isPresent()) {
+				DriveTarget target = targetData.get();
+				logger.info("***id ***"+target.getId());
+				if (id.equals(target.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
 		} catch (Exception e) {
-			logger.error("Error while checking exists unitname and unittype id."+e.getMessage());
+			logger.error("Error while checking exists id and UnitNameAndUnitType..."+e.getMessage());
 			return false;
 		}
 	}
-	
 	// DRIVE PROGRESS RECORD
 	@RequestMapping(value = "/driveDailyProgress", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveDailyProgress>> findAllDriveDailyProgress() throws JSONException {
@@ -653,7 +668,7 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/deleteFailure Analysis/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	@RequestMapping(value = "/deleteFailureAnalysis/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteFailureAnalysis(@PathVariable("id") Long id) throws JSONException {
 		try {
 			String status = service.deleteFailureAnalysis(id);

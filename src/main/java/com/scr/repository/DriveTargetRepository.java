@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.scr.model.DriveTarget;
+import com.scr.model.Make;
 
 public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 
@@ -16,7 +17,8 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 	List<DriveTarget> findByStatusId(Integer statusId);
 	
 	
-	@Query(value = "SELECT case when count(dt)> 0 then true else false  end  FROM DriveTarget dt WHERE dt.unitName = :unitName and dt.unitType = :unitType")
-	Boolean existByUnitNameAndUnitType(@Param("unitName")String unitName, @Param("unitType") String unitType);
-
+	/*@Query(value = "SELECT case when count(dt)> 0 then true else false  end  FROM DriveTarget dt WHERE dt.unitType = :unitType and dt.unitName = :unitName")
+	Boolean findByUnitNameAndUnitType(@Param("unitType")String unitType, @Param("unitName") String unitName);
+	*/
+	Optional<DriveTarget> findByUnitTypeAndUnitName(String unitType,String unitName);
 }
