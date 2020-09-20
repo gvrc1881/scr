@@ -10,6 +10,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'foot-patrolling-sections',
     templateUrl: './foot-patrolling-sections.component.html',
@@ -36,11 +38,13 @@ export class FootPatrollingSectionsComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     facilityCtrl: FormControl;
     filteredFacilityData: Observable<any[]>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService:SendAndRequestService
     ){
         this.facilityCtrl = new FormControl();
@@ -115,6 +119,9 @@ export class FootPatrollingSectionsComponent implements OnInit{
             this.fpSectionsList = data;
             for (let i = 0; i < this.fpSectionsList.length; i++) {
                 this.fpSectionsList[i].sno = i+1;
+                this.fpSectionsList[i].fromDate = this.datePipe.transform(this.fpSectionsList[i].fromDate, 'yyyy-mm-dd hh:mm:ss');
+                this.fpSectionsList[i].toDate = this.datePipe.transform(this.fpSectionsList[i].toDate, 'yyyy-mm-dd hh:mm:ss');
+
                 footPatrollingSections.push(this.fpSectionsList[i]);              
             }
             this.fpSectionsItemDataSource = new MatTableDataSource(footPatrollingSections);
@@ -263,5 +270,17 @@ export class FootPatrollingSectionsComponent implements OnInit{
             'remarks' : [null,Validators.maxLength(250)]
         });
     }
-
+    ViewData(data){
+      var result = {
+        'title':'Foot Patrolling Sections',
+        'dataSource':[{label:'Depot',value:data.facilityDepot},{label:'FP Section',value:data.fpSection},
+                      {label:'From Location', value:data.fromLocation},{label:'To Location',value:data.toLocation}]
+      }
+      this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+        disableClose: false,
+        height: '400px',
+        width: '80%',       
+        data:result,  
+      });            
+    }
 }

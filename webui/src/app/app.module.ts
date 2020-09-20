@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule, MatMenuModule, MatTableModule, MatPaginatorModule, MatTabsModule } from  '@angular/material';
+import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule, MatMenuModule, MatTableModule, MatPaginatorModule, MatTabsModule, MatSelectModule, MatGridListModule } from  '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +44,7 @@ import { UnusualOccurrenceFailureModule } from './components/failures/unusual-oc
 import { PowerBlockModule } from './components/tpc-operations/power-block/power-block.module';
 import { TestModule } from './components/test/test.module';
 import { AshDisplayModule } from './components/ash-display/ash-display.module';
+import { DataViewDialogComponent } from './components/data-view-dialog/data-view-dialog.component';
 
 
 // Pass the fusioncharts library and chart modules
@@ -63,6 +64,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     FilesInformationDialogComponent,
     InspectionDocumentComponent,
     ComplianceDocumentComponent,
+    DataViewDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +99,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DecimalValidationsModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
-    
+    MatSelectModule,
+    MatGridListModule
     ],
   entryComponents: [
         FuseConfirmDialogComponent,
@@ -108,7 +111,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         FilesInformationDialogComponent,
         InspectionDocumentComponent,
         ComplianceDocumentComponent,
-        
+        DataViewDialogComponent
   ],
   providers: [
     AuthenticationService,

@@ -1,0 +1,324 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+     <div class="row">
+          <div class="col-12">
+               <div class="breadcrumb-section">
+                    <nav aria-label="breadcrumb">
+                         <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Reports</li>
+                         </ol>
+                    </nav>
+               </div>
+               <div class="clear"> </div>
+
+               <div class="row-fluid">
+                    
+                         <div class="panel panel-primary">
+                              <div class="panel-heading">{{id  | uppercase }}</div>
+                              <div class="panel-body">
+                                   <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+                                             fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                             [formGroup]="reportsByQuery" (ngSubmit)="submitReportsByQuery();">
+                                             <div class="col-md-12">
+                                                  <div class="col-md-3" *ngFor="let names of parameterData">
+                                                       <!-- FROM DATE -->
+                                                       <div
+                                                            *ngIf="(names.parameterName=='date' || names.parameterName=='Date') ||
+                                        names.parameterName=='DayReadingsAndConsumptionDate' || names.parameterName=='fromDate'">
+                                                            <mat-form-field>
+                                                                 <input matInput [matDatepicker]="picker1"
+                                                                      placeholder="Choose From Date"
+                                                                      [formControl]="reportsByQuery.controls['fromDate']"
+                                                                      [max]="maxDate">
+                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                 </mat-datepicker-toggle>
+                                                                 <mat-datepicker #picker1></mat-datepicker>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- TO DATE -->
+                                                       <div *ngIf="(names.parameterName=='toDate' || names.parameterName=='failureFromDate' ||
+                                        names.parameterName=='failureToDate')">
+                                                            <mat-form-field>
+                                                                 <input matInput [matDatepicker]="picker2"
+                                                                      placeholder="Choose To Date"
+                                                                      [formControl]="reportsByQuery.controls['toDate']"
+                                                                      [max]="maxDate">
+                                                                 <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                                 </mat-datepicker-toggle>
+                                                                 <mat-datepicker #picker2></mat-datepicker>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- ZONE -->
+                                                       <div *ngIf="(names.parameterName=='zone')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Zone" [(ngModel)]="zoneCode"
+                                                                      [formControl]="reportsByQuery.controls['zone']"
+                                                                      (selectionChange)="selectedValue($event,'ZONE')">
+                                                                      <mat-option *ngFor="let zone of zoneData"
+                                                                           [value]="zone.code">
+                                                                           {{ zone.code}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- DIVISION -->
+                                                       <div *ngIf="(names.parameterName=='division')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <!-- [(ngModel)]="userDefaultData.division"-->
+                                                                 <mat-select placeholder="Division"
+                                                                      [formControl]="reportsByQuery.controls['division']"
+                                                                      (selectionChange)="selectedValue($event,'DIVISION')">
+                                                                      <mat-option *ngFor="let division of divisionsData"
+                                                                           [value]="division.code">
+                                                                           {{ division.code}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- SUB DIVISON -->
+                                                       <div *ngIf="(names.parameterName=='subDivision')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <!--[(ngModel)] ="userDefaultData.subDivision"-->
+                                                                 <mat-select placeholder="Sub Division"
+                                                                      [formControl]="reportsByQuery.controls['subDivision']"
+                                                                      (selectionChange)="selectedValue($event,'SUB DIVISION')">
+                                                                      <mat-option
+                                                                           *ngFor="let subDivision of subDivisionData"
+                                                                           [value]="subDivision.code">
+                                                                           {{ subDivision.code}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- FACILITY NAME -->
+                                                       <div *ngIf="(names.parameterName=='depot')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Depot"
+                                                                      [formControl]="reportsByQuery.controls['depot']">
+                                                                      <mat-option *ngFor="let facility of facilityId"
+                                                                           [value]="facility">
+                                                                           {{ facility.facilityName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- DEPARTMENT -->
+                                                       <div *ngIf="(names.parameterName=='department')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Department"
+                                                                      [formControl]="reportsByQuery.controls['department']">
+                                                                      <mat-option *ngFor="let depart of department"
+                                                                           [value]="depart">
+                                                                           {{ depart.department}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- OBSERVATION CATEGORY -->
+                                                       <div *ngIf="(names.parameterName=='observationCategory')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Observation Category"
+                                                                      [formControl]="reportsByQuery.controls['observationCategory']">
+                                                                      <mat-option
+                                                                           *ngFor="let obcat of observationCategory"
+                                                                           [value]="obcat">
+                                                                           {{ obcat.observationCategory}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- SCHEDULE TYPE -->
+                                                       <div *ngIf="(names.parameterName=='scheduleType')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Schedule Type"
+                                                                      [formControl]="reportsByQuery.controls['scheduleType']">
+                                                                      <mat-option *ngFor="let sch of schedule"
+                                                                           [value]="sch">
+                                                                           {{ sch.scheduleCode}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- ASSERT TYPE-->
+                                                       <div *ngIf="(names.parameterName=='assetType')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Asset Type"
+                                                                      [formControl]="reportsByQuery.controls['assetType']">
+                                                                      <mat-option *ngFor="let asstype of assetType"
+                                                                           [value]="asstype">
+                                                                           {{ asstype.productId}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--ASSERT ID -->
+                                                       <div *ngIf="(names.parameterName=='assetId')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Asset Id"
+                                                                      [formControl]="reportsByQuery.controls['assetId']">
+                                                                      <mat-option *ngFor="let assId of assetId"
+                                                                           [value]="assId">
+                                                                           {{ assId.assetId}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--SCHEDULE DATE -->
+                                                       <div *ngIf="(names.parameterName=='scheduleDate')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Schedule Date"
+                                                                      [formControl]="reportsByQuery.controls['scheduleDate']">
+                                                                      <mat-option *ngFor="let assId of assetId"
+                                                                           [value]="assId">
+                                                                           {{ assId.scheduleDate}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--SWITCH TYPE -->
+                                                       <div *ngIf="(names.parameterName=='SwitchType')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Switch Type"
+                                                                      [formControl]="reportsByQuery.controls['switchType']">
+                                                                      <mat-option
+                                                                           *ngFor="let switchType of pbSwitchType"
+                                                                           [value]="switchType">
+                                                                           {{ switchType}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--PB EXTENT CODE -->
+                                                       <div *ngIf="(names.parameterName=='elementarySection')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Elementary Section"
+                                                                      [formControl]="reportsByQuery.controls['elementarySection']">
+                                                                      <mat-option
+                                                                           *ngFor="let controlData of pbSwitchControlData"
+                                                                           [value]="controlData">
+                                                                           {{ controlData.pbExtentCode}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--TPC BOARD-->
+                                                       <div *ngIf="(names.parameterName=='tpc_Board')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="TPC Board"
+                                                                      [formControl]="reportsByQuery.controls['tpcBoard']">
+                                                                      <mat-option *ngFor="let tpcBoard of tpcBoardData"
+                                                                           [value]="tpcBoard">
+                                                                           {{ tpcBoard.tpcBoard}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- ELEMENTARY SECTION CODE -->
+                                                       <div *ngIf="(names.parameterName=='elementarySectionCode')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Elementary Section Code"
+                                                                      [formControl]="reportsByQuery.controls['elementarySectionCode']">
+                                                                      <mat-option
+                                                                           *ngFor="let eleSecCode of elementarySectionCode"
+                                                                           [value]="eleSecCode">
+                                                                           {{ eleSecCode.elementarySectionCode}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--ACTIVITY TYPE -->
+                                                       <div *ngIf="(names.parameterName=='ActivityType')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Activity Type"
+                                                                      [formControl]="reportsByQuery.controls['activityType']"
+                                                                      >
+                                                                      <mat-option *ngFor="let actType of activityType"
+                                                                           [value]="actType">
+                                                                           {{ actType }}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--YEAR -->
+                                                       <div *ngIf="(names.parameterName=='year')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="Year"
+                                                                      [formControl]="reportsByQuery.controls['year']">
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!-- FROM KM-->
+                                                       <div *ngIf="(names.parameterName=='fromkm')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="From KM"
+                                                                      [formControl]="reportsByQuery.controls['fromkm']">
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--TO KM-->
+                                                       <div *ngIf="(names.parameterName=='tokm')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="To KM"
+                                                                      [formControl]="reportsByQuery.controls['tokm']">
+                                                            </mat-form-field>
+                                                       </div>
+
+                                                       <!--MATERIAL ITEM-->
+                                                       <div *ngIf="(names.parameterName=='Material_Item')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="Material Item"
+                                                                      [formControl]="reportsByQuery.controls['materialItem']">
+                                                            </mat-form-field>
+                                                       </div>
+                                                  </div>
+                                                  <div class="col-md-3">
+                                                       <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Report Format"
+                                                                 [formControl]="reportsByQuery.controls['format']">
+                                                                 <mat-option *ngFor="let oty of otyp" [value]="oty">
+                                                                      {{ oty}}
+                                                                 </mat-option>
+                                                            </mat-select>
+                                                       </mat-form-field>
+                                                  </div>
+                                                  <div class="clearfix"></div>
+                                                  <div class="col-md-3 mt-15">
+                                                       <div class="float-right" style="float: right;">
+                                                            <button class="mat-raised-button mat-accent" color="accent"
+                                                                 class="d-inline" mat-raised-button="" type="submit">
+                                                                 Generate
+                                                            </button>
+
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </form>
+
+                                   </div>
+
+                              </div>
+                         </div>
+                   
+               </div>
+          </div>
+     </div>
+</div>

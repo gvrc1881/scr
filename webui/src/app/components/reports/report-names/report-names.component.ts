@@ -14,6 +14,7 @@ export class ReportNamesComponent implements OnInit {
   reportType:string;
   breadcrumb:string;
   reportName:string;
+  reportUrl:string;
   constructor(  
     private router: Router, 
     private sendAndRequestService:SendAndRequestService
@@ -22,6 +23,7 @@ export class ReportNamesComponent implements OnInit {
 
   ngOnInit() {   
      this.reportType = '';   
+     this.reportUrl = this.router.url+'/report-by-query';
     if(this.router.url == '/daily-progress-reports'){
       this.reportType = 'DailyProgress';   
       this.breadcrumb = 'Daily Progress Reports';
@@ -63,6 +65,7 @@ export class ReportNamesComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_NAMES+this.reportType)
     .subscribe((data)=>{
       this.reportNamesData =data;
+      console.log(data)
   })
 }
   

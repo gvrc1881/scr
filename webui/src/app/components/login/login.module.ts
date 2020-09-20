@@ -6,7 +6,6 @@ import { MatFormFieldModule, MatIconModule, MatCheckboxModule, MatInputModule, }
 import { CommonModule } from '@angular/common';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
-
 const routes = [
     {
         path: '',
