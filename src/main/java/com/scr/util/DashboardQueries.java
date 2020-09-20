@@ -608,4 +608,183 @@ public class DashboardQueries {
 			" ) q" + 
 			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
 			"    ORDER BY div.zone , div, subdiv , depot_name  , PRODUCT_ID ";
+	
+	public static String DIVISION_WISE_ENERGY_CONSUMPTION = " select feeder_id , feeder_name ,extract(day from no_of_days_lapsed_reading) , " + 
+			"cur_kwh , prev_kwh , multiplication_fac, " + 
+			" (cur_kwh - prev_kwh)*multiplication_fac/extract(day from no_of_days_lapsed_reading) consumption " + 
+			"from " + 
+			"( " + 
+			"select (cur_kwh - recent_kwh)*multiplication_fac/extract(day from no_of_days_lapsed_reading) consumption , " + 
+			"feeder_id , feeder_name , multiplication_fac ,requested_reading_date ,  joint_meter ,  " + 
+			"first_reading_after_meter_fix, meter_start_date ,recent_reading_date, no_of_days_lapsed_reading, " + 
+			" recent_reading_date as prev_reading_date , 'Gap(' ||   no_of_days_lapsed_reading ||')'  reading_gap_days, " + 
+			// "--|| \r\n" + 
+			" recent_kwh as prev_kwh, cur_kwh, " + 
+			//"-- recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || \r\n" + 
+			" recent_kvah as prev_kvah, cur_kvah, " + 
+			//"--recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || \r\n" + 
+			" recent_rkvah_lag as prev_rkvah_lag, cur_rkvah_lag, " + 
+			//"--recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || \r\n" + 
+			" recent_rkvah_lead as prev_rkvah_lead, cur_rkvah_lead, " + 
+			" cur_cmd, cur_rmd, cur_vol_max, cur_vol_min  , cur_max_load , " + 
+			" joint_reading_date, no_of_days_lapsed_j_reading, jr_kwh, jr_kvah, jr_rkvah_lag, jr_rkvah_lead " + 
+			"from  " + 
+			"( " + 
+			"SELECT " + 
+			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(?::date, 'dd-mm-yy') as requested_reading_date, rec.em_start_kwh rec_em_start_kwh, " + 
+			"    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix,  " + 
+			"  a.em_start_date::date  as meter_start_date , " + 
+			"    to_char(case when rec.energy_reading_date is null then a.em_start_date::date else rec.energy_reading_date::date end,'dd-mm-yy')  AS recent_reading_date, " + 
+			"    ?::date - case when rec.energy_reading_date is null then a.em_start_date else rec.energy_reading_date end AS no_of_days_lapsed_reading, " + 
+		//	"--- current day details\r\n" + 
+			"    cur.seq_id, cur.id , " + 
+			"    cur.location cur_location, cur.feeder_id cur_feeder_id, " + 
+			"    cur.energy_reading_date AS cuurent_reading_date, " + 
+			"    cur.joint_meter , " + 
+			"    cur.kwh AS cur_kwh, " + 
+			"    cur.kvah AS cur_kvah," + 
+			"    cur.rkvah_lag AS cur_rkvah_lag," + 
+			"    cur.rkvah_lead AS cur_rkvah_lead," + 
+			"    cur.cmd cur_cmd," + 
+			"    cur.rmd cur_rmd," + 
+			"    cur.vol_max  cur_vol_max," + 
+			"    cur.vol_min cur_vol_min," + 
+			"    cur.max_load cur_max_load," + 
+			"    cur.max_load_time_hhmm," + 
+			"    cur.max_load_time_date, cur.remarks," + 
+		//	"--    cur.multiplication_fac ," + 
+			//"--- recent to required date values " + 
+			"    rec.seq_id, rec.id ," + 
+			"    rec.location, rec.feeder_id rec_feeder_id," + 
+			"    case when rec.energy_reading_date is null then a.em_start_kwh else rec.kwh end AS recent_kwh," + 
+			"    case when rec.energy_reading_date is null then a.em_start_kvah else rec.kvah end AS recent_kvah," + 
+			"    case when rec.energy_reading_date is null then a.em_start_rkvah_lag else rec.rkvah_lag end AS recent_rkvah_lag," + 
+			"    case when rec.energy_reading_date is null then a.em_start_rkvah_lead else rec.rkvah_lead end AS recent_rkvah_lead," + 
+			"    rec.cmd recent_cmd," + 
+			"    rec.rmd recent_rmd, rec.vol_max recent_vol_max, rec.vol_min recent_vol_min, rec.max_load recent_max_load," + 
+			"    rec.max_load_time_hhmm recent_max_load_time_hhmm," + 
+			"    rec.max_load_time_date recent_max_load_time_date ," + 
+			"   rec.multiplication_fac recent_multiplication_fac ," + 
+		//	"   ----- ---- added for jr started\r\n" + 
+		//	"       -- joint reading ---\r\n" + 
+			"    jr.energy_reading_date AS joint_reading_date," + 
+			"    cur.energy_reading_date - jr.energy_reading_date AS no_of_days_lapsed_j_reading," + 
+			"    jr.kwh AS jr_kwh," + 
+			"    jr.kvah AS jr_kvah," + 
+			"    jr.rkvah_lag AS jr_rkvah_lag," + 
+			"    jr.rkvah_lead AS jr_rkvah_lead" + 
+			//"     ----- ---- added for jr ended" + 
+			"   FROM ( " + 
+			"   select em.feeder_id , em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks , " + 
+			"	em_m_start_reading , em_m_end_reading , em_start_kwh , em_start_kvah , em_start_rkvah_lag , em_start_rkvah_lead ," + 
+			"	 feeder_name from v_energy_meter em where upper(em_data_div) = upper(?)  )  a " + 
+			"   left outer join v_energy_consumption rec on rec.energy_reading_date = ( SELECT max(cur1.energy_reading_date) AS max " + 
+			"					FROM v_energy_consumption cur1 " + 
+			"					WHERE cur1.energy_reading_date < ?::date " + 
+			"					AND cur1.feeder_id = a.feeder_id " + 
+			"					) " + 
+			"	AND rec.feeder_id = a.feeder_id " + 
+			"    LEFT JOIN v_energy_consumption cur ON  ( cur.energy_reading_date = ?::date " + 
+			"						AND a.feeder_id = cur.feeder_id ) " + 
+			//"									---- added for jr started " + 
+			"   LEFT JOIN v_energy_consumption jr ON  ( jr.energy_reading_date = ( SELECT max(jr1.energy_reading_date) AS max " + 
+			"									FROM v_energy_consumption jr1 " + 
+			"									WHERE jr1.energy_reading_date < cur.energy_reading_date " + 
+			"									AND (jr1.joint_meter = 'y'::bpchar OR jr1.joint_meter = 'Y'::bpchar)  " + 
+			"									AND jr1.feeder_id = cur.feeder_id " + 
+			"									)  " + 
+			"						AND jr.feeder_id = cur.feeder_id )" + 
+			//" ----- ---- added for jr ended\r\n" + 
+			") final " + 
+			") a" ;
+	
+	public static  String FEEDER_WISH_ENERGY_CONSUMPTION = "select req_date, feeder_id , feeder_name , multiplication_fac ,  requested_reading_date ," + 
+			"no_of_days_lapsed_reading,  " + 
+			"cur_kwh , prev_kwh , multiplication_fac, " + 
+			" case when no_of_days_lapsed_reading > 1 then (cur_kwh - prev_kwh)*multiplication_fac/no_of_days_lapsed_reading " + 
+			"  else (cur_kwh - prev_kwh)*multiplication_fac end as   consumption " + 
+			"from " + 
+			"( " + 
+			"select energy_consume_date as req_date, feeder_id , feeder_name , multiplication_fac , joint_meter , requested_reading_date ,first_reading_after_meter_fix, meter_start_date ,recent_reading_date, " + 
+			"no_of_days_lapsed_reading,  " + 
+			"recent_reading_date_string , 'Gap(' ||   no_of_days_lapsed_reading ||')' reading_gap_days, " + 
+			" recent_kwh as prev_kwh, cur_kwh,  " + 
+			"recent_kvah as prev_kvah, cur_kvah,  " + 
+			"recent_rkvah_lag as prev_rkvah_lag, cur_rkvah_lag,  " + 
+			"recent_rkvah_lead as prev_rkvah_lead, cur_rkvah_lead,  " + 
+			"cur_cmd, cur_rmd, cur_vol_max, cur_vol_min  , cur_max_load   , " + 
+			" joint_reading_date, no_of_days_lapsed_j_reading, jr_kwh, jr_kvah, jr_rkvah_lag, jr_rkvah_lead " + 
+			"from   " + 
+			"(  " + 
+			"SELECT   " + 
+			"energy_consume_date ,  " + 
+			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(energy_consume_date::date, 'dd-mm-yy')  as requested_reading_date, rec.em_start_kwh rec_em_start_kwh,  " + 
+			"    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix,   " + 
+			"    a.em_start_date::date  as meter_start_date ,  to_char(a.em_start_date::date, 'dd-mm-yy')   as meter_start_date_string , " + 
+			"   rec.energy_reading_date AS recent_reading_date,  to_char(rec.energy_reading_date::date, 'dd-mm-yy')    as   recent_reading_date_string,  " + 
+			"    (energy_consume_date::date - case when rec.energy_reading_date is null then a.em_start_date::Date else rec.energy_reading_date::Date end)-1  AS no_of_days_lapsed_reading ,  " + 
+			"   cur.seq_id, cur.id ,  " + 
+			"    cur.location cur_location, cur.feeder_id cur_feeder_id,  " + 
+			"    cur.energy_reading_date AS cuurent_reading_date,  " + 
+			"    cur.joint_meter , " + 
+			"    cur.kwh AS cur_kwh,  " + 
+			"    cur.kvah AS cur_kvah,  " + 
+			"    cur.rkvah_lag AS cur_rkvah_lag,  " + 
+			"    cur.rkvah_lead AS cur_rkvah_lead,  " + 
+			"    cur.cmd cur_cmd,  " + 
+			"    cur.rmd cur_rmd,  " + 
+			"    cur.vol_max  cur_vol_max,  " + 
+			"    cur.vol_min cur_vol_min,  " + 
+			"    cur.max_load cur_max_load,  " + 
+			"    cur.max_load_time_hhmm,  " + 
+			"    cur.max_load_time_date,  " + 
+			"    rec.seq_id, rec.id , rec.energy_reading_date recent_energy_reading_Date ,  " + 
+			"    rec.location, rec.feeder_id rec_feeder_id,  " + 
+			"    case when rec.energy_reading_date is null then a.em_start_kwh else rec.kwh end AS recent_kwh,  " + 
+			"    case when rec.energy_reading_date is null then a.em_start_kvah else rec.kvah end AS recent_kvah,  " + 
+			"    case when rec.energy_reading_date is null then a.em_start_rkvah_lag else rec.rkvah_lag end AS recent_rkvah_lag,  " + 
+			"    case when rec.energy_reading_date is null then a.em_start_rkvah_lead else rec.rkvah_lead end AS recent_rkvah_lead,  " + 
+			"    rec.cmd recent_cmd,  " + 
+			"    rec.rmd recent_rmd, rec.vol_max recent_vol_max, rec.vol_min recent_vol_min, rec.max_load recent_max_load,  " + 
+			"    rec.max_load_time_hhmm recent_max_load_time_hhmm,  " + 
+			"    rec.max_load_time_date recent_max_load_time_date ,  " + 
+			"   rec.multiplication_fac recent_multiplication_fac  ," + 
+			// " ----- ---- added for jr started\r\n" + 
+			// "       -- joint reading ---\r\n" + 
+			"    jr.energy_reading_date AS joint_reading_date, " + 
+			"    cur.energy_reading_date - jr.energy_reading_date AS no_of_days_lapsed_j_reading, " + 
+			"    jr.kwh AS jr_kwh, " + 
+			"    jr.kvah AS jr_kvah," + 
+			"    jr.rkvah_lag AS jr_rkvah_lag," + 
+			"    jr.rkvah_lead AS jr_rkvah_lead" + 
+			// "     ----- ---- added for jr ended\r\n" + 
+			"   FROM  " + 
+			"   (   " + 
+			"   select energy_consume_date, em.feeder_id , em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks ,   " + 
+			"	em_m_start_reading , em_m_end_reading , em_start_kwh , em_start_kvah , em_start_rkvah_lag , em_start_rkvah_lead ,  " + 
+			"	 feeder_name from v_energy_meter em ,  " + 
+			"	 (select generate_series(?::date,  ?::date, interval '1 day')::date as energy_consume_date )dt   " + 
+			"	where feeder_id = ?    " + 
+			"	 )  a  " + 
+			"   left outer join v_energy_consumption rec on rec.energy_reading_date = ( SELECT max(cur1.energy_reading_date) AS max  " + 
+			"		FROM v_energy_consumption cur1  " + 
+			"		WHERE cur1.energy_reading_date < a.energy_consume_date  " + 
+			"		AND cur1.feeder_id = a.feeder_id   " + 
+			"		)  " + 
+			"	AND rec.feeder_id = a.feeder_id   " + 
+			"    LEFT JOIN v_energy_consumption cur ON  ( cur.energy_reading_date = a.energy_consume_date  " + 
+			"			AND a.feeder_id = cur.feeder_id )  " + 
+			// "			---- added for jr started\r\n" + 
+			"   LEFT JOIN v_energy_consumption jr ON  ( jr.energy_reading_date = ( SELECT max(jr1.energy_reading_date) AS max " + 
+			"									FROM v_energy_consumption jr1 " + 
+			"									WHERE jr1.energy_reading_date < cur.energy_reading_date " + 
+			"									AND (jr1.joint_meter = 'y'::bpchar OR jr1.joint_meter = 'Y'::bpchar) " + 
+			"									AND jr1.feeder_id = cur.feeder_id " + 
+			"									) " + 
+			"						AND jr.feeder_id = cur.feeder_id ) " + 
+			// " ----- ---- added for jr ended\r\n" + 
+			"			) final  " + 
+			" order by requested_reading_date " + 
+			") a " ;
+
 }

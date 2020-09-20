@@ -95,4 +95,7 @@ public class Constants {
 	public static final String SUB_DIVISION_PERIOD = "SUB_DIVISION_PERIOD";
 	public static final String DEPOT_PERIOD = "DEPOT_PERIOD";
 	public static final String PRODUCT_PERIOD = "PRODUCT_PERIOD";
+	
+	public static final String DIVISION_WISE_ENERGY_CONSUMPTION = "DIVISION_WISE_ENERGY_CONSUMPTION";
+	public static final String FEEDER_WISE_ENERGY_CONSUMPTION = "FEEDER_WISE_ENERGY_CONSUMPTION";
 }

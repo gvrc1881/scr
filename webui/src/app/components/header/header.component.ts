@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "",       
         isSelected: true,
         permission:this.commonService.findPermission('Dashboard', 'menu', 'view'),
-        currentTab: !!path && path.includes("dashboard") || path.includes('stock-quantities') ? "open" : "" ,
+        currentTab: !!path && path.includes("dashboard") || path.includes('stock-quantities')  || path.includes('energy-graph') ? "open" : "" ,
         subMenus:[
           { 
             subMenuName: "Dashboard", 
@@ -68,6 +68,15 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission: true,//this.commonService.findPermission('Asset Reports', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
+          },
+          { 
+            subMenuName: "Energy Consumption Graph", 
+            subMenuURL: "energy-graph",
+            color: "#1285EE", 
+            subMenuIcon: "fa fa-file",
+            rolePermission:true,
+            permission: true, //this.commonService.findPermission('Energy Consumption Graph', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("energy-graph") ? "active-item" : "",
           }
         ]
       },

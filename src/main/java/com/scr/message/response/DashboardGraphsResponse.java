@@ -14,6 +14,12 @@ public class DashboardGraphsResponse {
 	private String uom;
 	private Double qoh;
 	private String header;
+	private String feederName;
+	private Double curKwh;
+	private Double prevKwh;
+	private Double multiplicationFac;
+	private Double consumption;
+	private String requestedReadingDate;
 	
 	public String getZone() {
 		return zone;
@@ -88,5 +94,41 @@ public class DashboardGraphsResponse {
 		this.header = header;
 	}
 	
+	public String getFeederName() {
+		return feederName;
+	}
+	public void setFeederName(String feederName) {
+		this.feederName = feederName;
+	}
+	public Double getCurKwh() {
+		return curKwh;
+	}
+	public void setCurKwh(Double curKwh) {
+		this.curKwh = curKwh;
+	}
+	public Double getPrevKwh() {
+		return prevKwh;
+	}
+	public void setPrevKwh(Double prevKwh) {
+		this.prevKwh = prevKwh;
+	}
+	public Double getMultiplicationFac() {
+		return multiplicationFac;
+	}
+	public void setMultiplicationFac(Double multiplicationFac) {
+		this.multiplicationFac = multiplicationFac;
+	}
+	public Double getConsumption() {
+		return consumption;
+	}
+	public void setConsumption(Double consumption) {
+		this.consumption = consumption;
+	}
+	public String getRequestedReadingDate() {
+		return requestedReadingDate;
+	}
+	public void setRequestedReadingDate(String requestedReadingDate) {
+		this.requestedReadingDate = requestedReadingDate;
+	}
 	
 }

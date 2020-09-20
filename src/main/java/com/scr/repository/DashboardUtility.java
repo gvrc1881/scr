@@ -51,9 +51,59 @@ public class DashboardUtility {
 			return fetchSubDivisionWisePeriod(request);
 		case Constants.DEPOT_PERIOD:
 			return fetchDepotWisePeriod(request);
+		case Constants.DIVISION_WISE_ENERGY_CONSUMPTION:
+			return fetchDivisonWiseEnergyConsumption(request);
+		case Constants.FEEDER_WISE_ENERGY_CONSUMPTION:
+			return fetchFeederWiseEnergyConsumption(request);	
 		default:
 			break;
 		}
+		return null;
+	}
+	
+	private List<DashboardGraphsResponse> fetchFeederWiseEnergyConsumption(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+			try {
+				connection = dataSource.getConnection();
+				preparedStatement = connection.prepareStatement(DashboardQueries.FEEDER_WISH_ENERGY_CONSUMPTION);
+				preparedStatement.setString(1, Helper.convertDateToString(request.getFromDate()));
+				preparedStatement.setString(2, Helper.convertDateToString(request.getToDate()));
+				preparedStatement.setString(3, request.getFeederId());
+				resultSet = preparedStatement.executeQuery();
+				if(resultSet != null) {
+					return prepareListForEnergyConsumptionFromResultSet(resultSet, request.getQueryType());
+				}
+			} catch (SQLException e) {
+				logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+			}finally {
+				closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+			}
+		return null;
+	}
+
+	private List<DashboardGraphsResponse> fetchDivisonWiseEnergyConsumption(@Valid DashboardParametersRequest request) {
+			Connection connection = null;
+			ResultSet resultSet = null;
+			PreparedStatement preparedStatement = null;
+			try {
+				connection = dataSource.getConnection();
+				preparedStatement = connection.prepareStatement(DashboardQueries.DIVISION_WISE_ENERGY_CONSUMPTION);
+				preparedStatement.setString(1, Helper.convertDateToString(request.getFromDate()));
+				preparedStatement.setString(2, Helper.convertDateToString(request.getFromDate()));
+				preparedStatement.setString(3, request.getDivision());
+				preparedStatement.setString(4, Helper.convertDateToString(request.getFromDate()));
+				preparedStatement.setString(5, Helper.convertDateToString(request.getFromDate()));
+				resultSet = preparedStatement.executeQuery();
+				if(resultSet != null) {
+					return prepareListForEnergyConsumptionFromResultSet(resultSet, request.getQueryType());
+				}
+			} catch (SQLException e) {
+				logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+			}finally {
+				closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+			}
 		return null;
 	}
 
@@ -307,6 +357,25 @@ public class DashboardUtility {
 				}
 				response.setUom(resultSet.getString("uom"));
 			}
+			responseList.add(response);
+		}
+		return responseList;
+	}
+	
+	private List<DashboardGraphsResponse> prepareListForEnergyConsumptionFromResultSet(ResultSet resultSet,
+			String queryType) throws SQLException {
+		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
+		DashboardGraphsResponse response = null;
+		while (resultSet != null && resultSet.next()) {
+			response = new DashboardGraphsResponse();
+			if (queryType.equalsIgnoreCase(Constants.FEEDER_WISE_ENERGY_CONSUMPTION)) {
+				response.setRequestedReadingDate(resultSet.getString("requested_reading_date"));
+			}
+			response.setFeederName(resultSet.getString("feeder_name"));
+			response.setCurKwh(resultSet.getDouble("cur_kwh"));
+			response.setPrevKwh(resultSet.getDouble("prev_kwh"));
+			response.setMultiplicationFac(resultSet.getDouble("multiplication_fac"));
+			response.setConsumption(resultSet.getDouble("consumption"));
 			responseList.add(response);
 		}
 		return responseList;

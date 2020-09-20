@@ -15,6 +15,7 @@ public class DashboardParametersRequest {
 	private String material;
 	private String queryType;
 	private String product;
+	private String feederId;
 	
 	public Date getFromDate() {
 		return fromDate;
@@ -82,6 +83,12 @@ public class DashboardParametersRequest {
 	}
 	public void setProduct(String product) {
 		this.product = product;
+	}
+	public String getFeederId() {
+		return feederId;
+	}
+	public void setFeederId(String feederId) {
+		this.feederId = feederId;
 	}
 	
 	
