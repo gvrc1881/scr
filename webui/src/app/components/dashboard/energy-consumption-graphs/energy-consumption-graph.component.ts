@@ -34,6 +34,9 @@ export class EnergyConsumptionGraphComponent implements OnInit {
   	period: any;
   	maxDate = new Date();
   	toMinDate = new Date();
+  	reportModel: any;
+  	showReportBotton: boolean;
+  	submitedForm: any;
 
 	constructor(
     private formBuilder: FormBuilder,
@@ -60,6 +63,7 @@ export class EnergyConsumptionGraphComponent implements OnInit {
       'toDate': [null],
       
     });
+    this.submitedForm = this.formBuilder.group({});
   }
   
   addEvent($event) {
@@ -71,6 +75,11 @@ export class EnergyConsumptionGraphComponent implements OnInit {
     this.period = this.divisionWiseEnergyConsumption.controls.period.value;
     if (this.period == 1) {
     	this.queryType = 'DIVISION_WISE_ENERGY_CONSUMPTION';
+    	this.reportModel = {
+    		division: this.divisionWiseEnergyConsumption.controls.division.value.code,
+    		fromDate: this.divisionWiseEnergyConsumption.controls.fromDate.value,
+    		reportId: 'Day Readings And Consumption Report'
+    	}
     	this.requestBody = {
 	    	zone: this.divisionWiseEnergyConsumption.controls.zone.value.code,
 	    	division: this.divisionWiseEnergyConsumption.controls.division.value.code,
@@ -89,10 +98,29 @@ export class EnergyConsumptionGraphComponent implements OnInit {
     this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, this.requestBody, false).subscribe((data) => {
       console.log(data);
       this.response = data;
-      this.energyConsumptionDataSource = this.energyConsumptionGraph(this.response);
+      if(this.response) {
+      	this.energyConsumptionDataSource = this.energyConsumptionGraph(this.response);
+      	this.showReportBotton = true; 
+      }
     })
     
   }
+  
+	generateReport () {
+		this.submitedForm = "";
+		this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_REPORT, this.reportModel, true)
+                     .subscribe((response) => {
+                            this.submitedForm = response;
+                            let pdfWindow = window.open("download", "");
+                            let content = encodeURIComponent(this.submitedForm.outputData);
+                            let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";
+                            let iframeEnd = "'><\/iframe>";
+                            pdfWindow.document.write(iframeStart + content + iframeEnd);
+                     },
+                       error => error => {
+                             console.log(' >>> ERROR ' + error);
+                       })
+	}
   
   
   energyConsumptionGraph (data: any) {
@@ -167,11 +195,13 @@ export class EnergyConsumptionGraphComponent implements OnInit {
   			this.divisionFlag = true;
   			this.periodFlag = false;
   			// this.response = {};
+  			this.showReportBotton = false;
   		}else {
   			this.findFeedersList();
   			this.periodFlag = true;
   			// this.response = {}
   			this.divisionFlag = false;
+  			this.showReportBotton = false;
   		}	
   }
   

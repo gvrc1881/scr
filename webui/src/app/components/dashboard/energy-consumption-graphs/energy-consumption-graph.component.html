@@ -105,7 +105,17 @@
 											[disabled]="feederWiseEnergyConsumption.invalid">Submit</button>
 									</div>
 								</div>
-								
+								 <div class="col-md-3 mt-15" *ngIf="showReportBotton">
+								  	<div class="float-right" style="float: right;">
+												<!-- <button class="mat-raised-button mat-accent" color="accent"
+													class="d-inline" mat-raised-button="" type="submit"
+											[disabled]="feederWiseEnergyConsumption.invalid">Submit</button> -->
+										<button class="mat-raised-button mat-accent" color="accent"
+		                                      mat-raised-button="" (click)="generateReport()">
+		                                      Report
+		                                </button>		
+									</div>
+								  </div>
 							</form>
 						</div>
 						<div class="col-md-12 col-lg-12"  *ngIf = "showGraph">
