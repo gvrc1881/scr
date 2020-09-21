@@ -91,7 +91,7 @@ public class DivisionsToTempJob {
 			
 			//EXECUTE DELETE QUERIES
 			ResponseStatus deleteResponse = startInsertUpdateDeleteOperations(job, repository, timeInterval, fromDate, runType, trackingId, schedulerDivisionToTempJob, Constants.SCHEDULED_JOBS_OPERATION_DELETE, tempSchema, divisionSchema, schedulerOperationTypesTrackingToUpdate.getOperationId());
-			
+			logger.info("insert status"+insertResponse.getCode()+"***update status***"+updateResponse.getCode()+"delete staus"+deleteResponse.getCode() );
 			if(insertResponse.getCode() == Constants.SUCCESS_CODE &&
 					updateResponse.getCode() == Constants.SUCCESS_CODE && 
 					deleteResponse.getCode() == Constants.SUCCESS_CODE) {
@@ -267,8 +267,10 @@ public ResponseStatus runFailed(List<DivisionsHistory> diHistories, String jobty
 						jobsHistoryService.updateJobStatus(jobsHistory, Constants.JOB_FAILED_MESSAGE,Helper.currentTime(), successTablesCount, failedTablesCount, Constants.PROCESS_COMPLETED, operationType, failedTablesList);
 						logger.info("\t\t Updated Job Operation Type "+ operationType +" Status as COMPLETED.");
 					}
+					responseStatus.setCode(Constants.SUCCESS_CODE);
 					logger.info("\t\t\t Saved data jobs history successfully for Division "+repository.getRepositoryName());
 				}else {
+					responseStatus.setCode(Constants.FAILURE_CODE);
 					logger.info("\t\t\t *************************************** Finished Operation "+operationType +" at "+ Helper.currentTimeStamp() +" with ERROR >>> "+ insertQueriesResponse.getMessage() +"*******************************************");
 					logger.info("\t\t Updating Job Operation Type "+ operationType +" Status as COMPLETED.");			
 					jobsHistoryService.updateJobStatus(jobsHistory, insertQueriesResponse.getMessage(),Helper.currentTime(), successTablesCount, failedTablesCount, Constants.PROCESS_COMPLETED, operationType, failedTablesList);
@@ -279,6 +281,7 @@ public ResponseStatus runFailed(List<DivisionsHistory> diHistories, String jobty
 			logger.info("**************************************************************************************************************\n\n");
 		
 		}catch (Exception e) {
+			responseStatus.setCode(Constants.FAILURE_CODE);
 			logger.error("ERROR >>> " + e);
 		}
 		return responseStatus;
@@ -374,8 +377,10 @@ public ResponseStatus runFailed(List<DivisionsHistory> diHistories, String jobty
 						jobsHistoryService.updateJobStatus(jobsHistory, Constants.JOB_FAILED_MESSAGE,Helper.currentTime(), successTablesCount, failedTablesCount, Constants.PROCESS_COMPLETED, operationType, faileTablesList);
 						logger.info("\t\t Updated Job Operation Type "+ operationType +" Status as COMPLETED.");
 					}
+					responseStatus.setCode(Constants.SUCCESS_CODE);
 					logger.info("\t\t\t Saved data jobs history successfully for Division "+repository.getRepositoryName());
 				}else {
+					responseStatus.setCode(Constants.FAILURE_CODE);
 					logger.info("\t\t\t *************************************** Finished Operation "+operationType +" at "+ Helper.currentTimeStamp() +" with ERROR >>> "+ insertQueriesResponse.getMessage() +"*******************************************");
 					logger.info("\t\t Updating Job Operation Type "+ operationType +" Status as COMPLETED.");			
 					jobsHistoryService.updateJobStatus(jobsHistory, insertQueriesResponse.getMessage(),Helper.currentTime(), successTablesCount, failedTablesCount, Constants.PROCESS_COMPLETED, operationType, faileTablesList);
@@ -386,6 +391,7 @@ public ResponseStatus runFailed(List<DivisionsHistory> diHistories, String jobty
 			logger.info("**************************************************************************************************************\n\n");
 		
 		}catch (Exception e) {
+			responseStatus.setCode(Constants.FAILURE_CODE);
 			logger.error("ERROR >>> " + e);
 		}
 		return responseStatus;
