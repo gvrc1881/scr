@@ -73,8 +73,7 @@ export class EnergyConsumptionComponent implements OnInit {
     this.maxDate = new Date();
     this.selectedBWTo = this.maxDate;
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
-    var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY", "ENERGY CONSUMPTION");
-    this.spinnerService.show();
+        this.spinnerService.show();
     this.findFeedersList();
     this.divisionDetails();
 

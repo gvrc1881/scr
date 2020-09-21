@@ -40,7 +40,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     filteredFacilityData: Observable<any[]>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
-    constructor(
+    constructor( 
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
@@ -119,8 +119,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
             this.fpSectionsList = data;
             for (let i = 0; i < this.fpSectionsList.length; i++) {
                 this.fpSectionsList[i].sno = i+1;
-                this.fpSectionsList[i].fromDate = this.datePipe.transform(this.fpSectionsList[i].fromDate, 'yyyy-mm-dd hh:mm:ss');
-                this.fpSectionsList[i].toDate = this.datePipe.transform(this.fpSectionsList[i].toDate, 'yyyy-mm-dd hh:mm:ss');
+                this.fpSectionsList[i].fromDate = this.datePipe.transform(this.fpSectionsList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+                this.fpSectionsList[i].toDate = this.datePipe.transform(this.fpSectionsList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
 
                 footPatrollingSections.push(this.fpSectionsList[i]);              
             }
