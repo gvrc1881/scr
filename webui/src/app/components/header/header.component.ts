@@ -828,26 +828,7 @@ export class HeaderComponent implements OnInit, DoCheck {
               
         ]
       },
-      { 
-        ID: 17,
-        menuName: 'Energy Consumption', 
-        menuUrl: 'energy-consumption', 
-        icon: "fa fa-file",
-        color: "#12E1EE", 
-        isSelected: true, 
-        permission: true, //this.commonService.findPermission('Energy Consumption', 'menu', 'view'),
-        currentTab: !!path && path.includes("energy-consumption") ? "open" : "",
-        subMenus: [
-        	{
-            subMenuName: "Energy Consumption",
-            subMenuURL: "energy-consumption",
-            subMenuIcon: "fa fa-file",
-            permission: true,//this.commonService.findPermission('Energy Consumption', 'submenu', 'view'),
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("energy-consumption") ? "active-item" : "",
-          }
-        ] 
-      },
+     
       { 
         ID: 18,
         menuName: 'OPERATIONS', 

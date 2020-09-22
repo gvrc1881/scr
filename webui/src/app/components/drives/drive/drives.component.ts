@@ -4,9 +4,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DriveModel, DriveCategoryModel, DriveCategoryAssoModel } from 'src/app/models/drive.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-drives',
@@ -28,6 +29,7 @@ export class DrivesComponent implements OnInit {
   dataSource: MatTableDataSource<DriveModel>;
   driveCategoryDataSource: MatTableDataSource<DriveCategoryModel>;
   driveCategoryAssoDataSource: MatTableDataSource<DriveCategoryAssoModel>;
+   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   depoTypeList = [];
   assetTypeList = [];
   scheduleList=[];
@@ -234,5 +236,19 @@ export class DrivesComponent implements OnInit {
       this.spinnerService.hide();
       this.commonService.showAlertMessage("Drive Category Asso Deletion Failed.");
     })
+  }
+  ViewData(data){
+    var result = {
+      'title':'Drives',
+      'dataSource':[{label:'name',value:data.name},{label:'description',value:data.description},
+                    {label:'depotType', value:data.depoType},{label:'assetType',value:data.assetType},
+                    {label:'frequency',value:data.frequency}]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 }
