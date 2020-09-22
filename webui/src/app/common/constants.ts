@@ -521,6 +521,29 @@ export const Constants = {
                         FIND_FACILITY_BY_FACILITYID:"/findFacilityByFacilityId/",
                         },
             },
+            PRODUCTS:{
+                PRODUCT:{
+                    GET_PRODUCT:"/findAllProducts",
+                    GET_PRODUCT_ID:"/findProductById/",
+                    SAVE_PRODUCT:"/addProduct",
+                    UPDATE_PRODUCT:"/updateProduct",
+                    DELETE_PRODUCT:"/deleteProduct/",
+                },
+                PRODUCT_CATEGORY:{
+                    GET_PRODUCT_CATEGORY:"/findAllProductCategory",
+                    GET_PRODUCT_CATEGORY_ID:"/findProductCategoryById/",
+                    SAVE_PRODUCT_CATEGORY:"/addProductCategory",
+                    UPDATE_PRODUCT_CATEGORY:"/updateProductCategory",
+                    DELETE_PRODUCT_CATEGORY:"/deleteProductCategory/",
+                },
+                PRODUCT_CATEGORY_MEMBER:{
+                    GET_PRODUCT_CATEGORY_MEMBER:"/findAllProductCategoryMember",
+                    GET_PRODUCT_CATEGORY_MEMBER_ID:"/findProductCategoryMemberById/",
+                    SAVE_PRODUCT_CATEGORY_MEMBER:"/addProductCategoryMember",
+                    UPDATE_PRODUCT_CATEGORY_MEMBER:"/updateProductCategoryMember",
+                    DELETE_PRODUCT_CATEGORY_MEMBER:"/deleteProductCategoryMember/",
+                }
+            },
        OPERATIONS:{
         	POWER_BLOCK:{
         		GET_POWER_BLOCK:"/findAllPowerBlock",

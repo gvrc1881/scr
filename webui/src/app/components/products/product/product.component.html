@@ -1,0 +1,121 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/product']">Product</a></li>
+                    </ol>
+                </nav>
+            </div>
+            
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Product Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="p-24" style="text-align: right">
+                                <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                    [routerLink]="['add-product']"> 
+                                    Add Product
+                                </button></div>
+
+                            <div class="p-24">
+
+                                <div class="example-header">
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="clear"> </div>
+                                </div>
+
+                                <div class="example-container mat-elevation-z8">
+
+                                    <mat-table [dataSource]="dataSource" matSort>
+
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="facilityId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>depot</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="materialClassification">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Material Classification</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.materialClassification}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="primaryProductCategoryId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Product CategoryId</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.primaryProductCategoryId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="productCodeTypeId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product CodeTypeId</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.productCodeTypeId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="productTypeId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product TypeId</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.productTypeId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="productId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>ProductId
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.productId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="productName">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>ProductName
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.productName}}</mat-cell>
+                                        </ng-container>
+                                        
+
+                                        <ng-container matColumnDef="active">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.active}}</mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="actions">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <a mat-icon-button matTooltip="Edit" >
+                                                    <button mat-icon-button matTooltip="Edit"
+                                                        (click)="processEditAction(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </button>
+                                                </a>
+                                                
+                                                <button mat-icon-button matTooltip="Delete"
+                                                    (click)="delete(row.id)">
+                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                </button>
+                                            </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </mat-row>
+                                    </mat-table>
+                                   
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+ </div>           

@@ -384,6 +384,21 @@ const routes: Routes = [
     loadChildren: './components/facility/facility.module#FacilityModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'product',
+    loadChildren: './components/products/product/product.module#ProductModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'product-category',
+    loadChildren: './components/products/product-category/product-category.module#ProductCategoryModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'product-category-member',
+    loadChildren: './components/products/product-category-member/product-category-member.module#ProductCategoryMemberModule',    
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

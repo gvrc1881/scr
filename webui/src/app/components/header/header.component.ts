@@ -828,7 +828,26 @@ export class HeaderComponent implements OnInit, DoCheck {
               
         ]
       },
-     
+      { 
+        ID: 17,
+        menuName: 'Energy Consumption', 
+        menuUrl: 'energy-consumption', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission: true, //this.commonService.findPermission('Energy Consumption', 'menu', 'view'),
+        currentTab: !!path && path.includes("energy-consumption") ? "open" : "",
+        subMenus: [
+        	{
+            subMenuName: "Energy Consumption",
+            subMenuURL: "energy-consumption",
+            subMenuIcon: "fa fa-file",
+            permission: true,//this.commonService.findPermission('Energy Consumption', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("energy-consumption") ? "active-item" : "",
+          }
+        ] 
+      },
       { 
         ID: 18,
         menuName: 'OPERATIONS', 
@@ -891,6 +910,42 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("ash") ? "active-item" : "",
           },*/
         ]
+      },
+      { 
+        ID: 17,
+        menuName: 'PRODUCTS', 
+        menuUrl: 'product', 
+        icon: "fa fa-file",
+        color: "#12E1EE", 
+        isSelected: true, 
+        permission: true, 
+        currentTab: !!path && path.includes("product") || path.includes("product-category") || path.includes("product-category-member")? "open" : "",
+        subMenus: [
+        	{
+            subMenuName: "Product",
+            subMenuURL: "product",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Product Category",
+            subMenuURL: "product-category",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product-category") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Product Category Member",
+            subMenuURL: "product-category-member",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",
+          },
+        ] 
       },
       
     ];

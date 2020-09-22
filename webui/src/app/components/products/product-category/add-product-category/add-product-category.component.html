@@ -1,0 +1,158 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/Product']">Products </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Product Category</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Product Category</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Product Category Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addProductCategoryFormGroup" (ngSubmit)="ProductCategoryFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Category Name"
+                                                                [formControl]="addProductCategoryFormGroup.controls['categoryName']"
+                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('pattern') && addProductCategoryFormGroup.controls['categoryName'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('maxlength') && addProductCategoryFormGroup.controls['categoryName'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Primary Parent CategoryId"
+                                                                [formControl]="addProductCategoryFormGroup.controls['primaryParentCategoryId']"
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['primaryParentCategoryId'].hasError('required') && addProductCategoryFormGroup.controls['primaryParentCategoryId'].touched"
+                                                                class="alert alert-danger">Enter Primary Parent CategoryId</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['primaryParentCategoryId'].hasError('pattern') && addProductCategoryFormGroup.controls['primaryParentCategoryId'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductCategoryFormGroup.controls['primaryParentCategoryId'].hasError('maxlength') && addProductCategoryFormGroup.controls['primaryParentCategoryId'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                   
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="product CategoryId"
+                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryId']"
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('required') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                                class="alert alert-danger">Enter Product CategoryId</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('pattern') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('maxlength') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Product Category TypeId"
+                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryTypeId']"
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('required') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
+                                                                class="alert alert-danger">Enter Product Category TypeId</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('pattern') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('maxlength') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Description"
+                                                                [formControl]="addProductCategoryFormGroup.controls['description']"
+                                                                required 
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['description'].hasError('pattern') && addProductCategoryFormGroup.controls['description'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['description'].hasError('maxlength') && addProductCategoryFormGroup.controls['description'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addProductCategoryFormGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            color="accent"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
