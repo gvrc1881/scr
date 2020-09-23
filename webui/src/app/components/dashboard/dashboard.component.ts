@@ -23,12 +23,13 @@ export class DashboardComponent implements OnInit {
 
   operationTypesDataSet: any = [];
   dashboardResponse: any;
-  subDivProductReponse: any;
-  subDivProductDataSource: any = {};
-  productCategoryMember: any = [];
-  productId: any ;
-  dashboardFormGroup: FormGroup;
-  showSubDivGraph: boolean = false;
+  
+  //subDivProductReponse: any;
+  //subDivProductDataSource: any = {};
+  //productCategoryMember: any = [];
+  //productId: any ;
+  //dashboardFormGroup: FormGroup;
+  //showSubDivGraph: boolean = false;
 
   barDataSource: Object;
   jobsDataSource: Object;
@@ -59,6 +60,7 @@ export class DashboardComponent implements OnInit {
     
     this.spinnerService.show();
     this.findDashboardData();
+    /*
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+'DASH_BOARD_CATEGORY').subscribe(response => {
       this.productCategoryMember = response;
     }, error => {
@@ -68,6 +70,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardFormGroup = this.formBuilder.group({
             'productId': [null],
         })
+    */    
     
     this.MenusList = [
       { ID: 2, menuName: 'Reports', menuUrl: 'home', icon: "fa fa-area-chart", color: "#64aeed", isSelected: true },
@@ -115,6 +118,7 @@ export class DashboardComponent implements OnInit {
     };
   }
   
+  /*
   getSubDivProductGraph() {
   	this.sendAndRequestService.requestForGET(Constants.app_urls.DASHBOARD.GET_SUBDIV_WISE_PROD+'/'+this.dashboardFormGroup.value.productId).subscribe(response => {
       if(response){
@@ -146,7 +150,7 @@ export class DashboardComponent implements OnInit {
 	      },
 	      data: datapoints
     };
-  }
+  } */
 
   findLastProcessedJobsDataSource() {
    
