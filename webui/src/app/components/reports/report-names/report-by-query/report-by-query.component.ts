@@ -255,12 +255,30 @@ export class ReportByQueryComponent implements OnInit {
        public pbSwitchType = ['REMOTE', 'MANUAL'];
 
        submitReportsByQuery() {
-
+              console.log(this.reportsByQuery.controls);
               this.reportModel.reportId = this.id;
               this.reportModel.zone = this.reportsByQuery.controls.zone.value;
               this.reportModel.division = this.reportsByQuery.controls.division.value;
               this.reportModel.subDivision = this.reportsByQuery.controls.subDivision.value;
               this.reportModel.fromDate = this.reportsByQuery.controls.fromDate.value;
+              this.reportModel.toDate = this.reportsByQuery.controls.toDate.value;
+              this.reportModel.depot = this.reportsByQuery.controls.depot.value;
+              this.reportModel.department = this.reportsByQuery.controls.department.value;
+              this.reportModel.observationCategory = this.reportsByQuery.controls.observationCategory.value;
+              this.reportModel.scheduleCode = this.reportsByQuery.controls.scheduleType.value;
+              this.reportModel.assetType = this.reportsByQuery.controls.assetType.value;
+              this.reportModel.assetId = this.reportsByQuery.controls.assetId.value;
+              this.reportModel.scheduleDate = this.reportsByQuery.controls.scheduleDate.value;
+              this.reportModel.switchType = this.reportsByQuery.controls.switchType.value;
+             // this.reportModel.elementarySecti = this.reportsByQuery.controls.elementarySection.value;
+              this.reportModel.tpcBoard = this.reportsByQuery.controls.tpcBoard.value;
+              this.reportModel.elementarySectionCode = this.reportsByQuery.controls.elementarySectionCode.value;
+              this.reportModel.activityType = this.reportsByQuery.controls.activityType.value;
+              this.reportModel.year = this.reportsByQuery.controls.year.value;
+              this.reportModel.fromkm = this.reportsByQuery.controls.fromkm.value;
+              this.reportModel.tokm = this.reportsByQuery.controls.tokm.value;
+              this.reportModel.materialItem = this.reportsByQuery.controls.materialItem.value;
+
               console.log("generateReport" + this.id)
               console.log("generateReport" + JSON.stringify(this.reportModel));
               this.submitedForm = "";

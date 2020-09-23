@@ -35,4 +35,5 @@ export class ReportModel{
     locationTypes:any;
     depotType:any;
     materialItem:any;  
+    
 }
