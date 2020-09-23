@@ -73,7 +73,7 @@ export class ProductComponent implements OnInit {
     });
   }
   processEditAction(id) {
-    this.router.navigate(['product/' + id], { relativeTo: this.route });
+    this.router.navigate([id], { relativeTo: this.route });
   }
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {

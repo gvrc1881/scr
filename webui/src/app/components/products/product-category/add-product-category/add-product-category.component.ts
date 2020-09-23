@@ -125,7 +125,7 @@ export class AddProductCategoryComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Product Category Data Updated Successfully");
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        this.router.navigate(['../'], { relativeTo: this.route });
         }else{
           this.commonService.showAlertMessage("Product Category Data Updating Failed.");
         }
@@ -139,10 +139,6 @@ export class AddProductCategoryComponent implements OnInit {
   }
 
   onGoBack() {
-    if (this.save) {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else if (this.update) {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

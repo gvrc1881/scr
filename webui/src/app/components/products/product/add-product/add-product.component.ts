@@ -39,19 +39,19 @@ export class AddProductComponent implements OnInit {
   
     ngOnInit() {
       this.id = +this.route.snapshot.params['id'];
-      this.findFacilityNameList();
-      this.createProductForm();
-      if (!isNaN(this.id)) {     
-        this.spinnerService.show();
-        this.save = false;
-        this.update = true;
-        this.title = 'Edit';
-         this.getProductDataById(this.id);
-      } else {
-        this.save = true;
-        this.update = false;
-        this.title = 'Save';
-      }
+    this.createProductForm();
+
+    if (!isNaN(this.id)) {     
+      this.spinnerService.show();
+      this.save = false;
+      this.update = true;
+      this.title = 'Edit';
+      this.getProductDataById(this.id);
+    } else {
+      this.save = true;
+      this.update = false;
+      this.title = 'Save';
+    }
     }  
     
     createProductForm() {
@@ -202,8 +202,8 @@ export class AddProductComponent implements OnInit {
           this.resp = response;
           if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Product Data Updated Successfully");
-          this.router.navigate(['../../'], { relativeTo: this.route });
-          }else{
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
             this.commonService.showAlertMessage("Product Data Updating Failed.");
           }
         }, error => {
@@ -216,11 +216,7 @@ export class AddProductComponent implements OnInit {
     }
   
     onGoBack() {
-      if (this.save) {
-        this.router.navigate(['../'], { relativeTo: this.route });
-      } else if (this.update) {
-        this.router.navigate(['../../'], { relativeTo: this.route });
-      }
+      this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
   
