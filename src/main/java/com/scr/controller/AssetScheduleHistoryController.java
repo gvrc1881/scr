@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import com.scr.message.request.AssetsScheduleHistoryRequest;
 import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetsScheduleHistory;
+import com.scr.model.FailureAnalysis;
 import com.scr.services.AssetScheduleHistoryService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -50,6 +53,22 @@ public class AssetScheduleHistoryController {
 		}
 		logger.info("Exit from findAllash function");
 		return ResponseEntity.ok((histories));
+	}
+	@RequestMapping(value = "/ashistoryById/{id}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<AssetsScheduleHistory> findAshById(@PathVariable("id") Long id) throws JSONException {
+		logger.info("Enter into findAllash function");
+		Optional<AssetsScheduleHistory> historyOptional = null;
+		try {
+			historyOptional = service.findAshById(id);
+			if(historyOptional.isPresent())
+				return new ResponseEntity<AssetsScheduleHistory>(historyOptional.get(), HttpStatus.OK);
+			else
+				return new ResponseEntity<AssetsScheduleHistory>(historyOptional.get(), HttpStatus.CONFLICT);
+				
+		} catch (Exception e) {
+			logger.error("Error while find ashistoryById");
+			return new ResponseEntity<AssetsScheduleHistory>(historyOptional.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@RequestMapping(value = "/ashistoryWithDepo", method = RequestMethod.GET , headers = "Accept=application/json")

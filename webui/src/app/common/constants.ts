@@ -380,6 +380,7 @@ export const Constants = {
                 STATUS_ON_STATUS_TYPE:'/getStatusCodeBasedOnStatusTypeId/',
                 GET_ASH:'/ashistory',
                 GET_ASH_DEPO:'/ashistoryWithDepo',
+                GET_ASH_ID:'/ashistoryById/',
                 DELETE_ASH:'/deleteAsh/'
                 }
         },

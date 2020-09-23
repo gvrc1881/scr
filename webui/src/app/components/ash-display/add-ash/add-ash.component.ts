@@ -1,64 +1,86 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators,ValidatorFn,FormControl, FormGroupDirective,NgForm,AbstractControl } from '@angular/forms';
-import {FacilityModel} from 'src/app/models/facility.model';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, FormControl, FormGroupDirective, NgForm, AbstractControl } from '@angular/forms';
+import { FacilityModel } from 'src/app/models/facility.model';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DatePipe } from '@angular/common';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 @Component({
   selector: 'app-add-ash',
   templateUrl: './add-ash.component.html',
   styleUrls: ['./add-ash.component.css']
 })
 export class AddAshComponent implements OnInit {
-  
+
   id: number = 0;
+  title: string;
+  save: boolean = true;
+  update: boolean = false;
   today = new Date();
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  save: boolean = true;
   isSubmit: boolean = false;
   resp: any;
+  List = [];
   addAssetDailyScheduleReportGroup: FormGroup;
-  facilityId:any;
-  facility:any;
-  fromKm:any;
-  toKm:any;
-  facilityList: FacilityModel[]  = [];
+  facilityId: any;
+  facility: any;
+  fromKm: any;
+  toKm: any;
+  facilityList: FacilityModel[] = [];
   depoNameList: any;
   powerBlockList: any;
   assetTypeList: any;
   scheduleDate: any;
   assetIdList: any;
-  scheduleCodeList:any;
-  statusItems:any;
+  scheduleCodeList: any;
+  statusItems: any;
   matcher = new MyErrorStateMatcher();
-  assetType:any;
+  assetType: any;
+  failureAnalysisFormErrors: any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private sendAndRequestService:SendAndRequestService,
+    private sendAndRequestService: SendAndRequestService,
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private datePipe: DatePipe) {
     this.today.setDate(this.today.getDate());
-   }
-  
+    // Reactive form errors
+
+  }
+
   ngOnInit() {
-      this.depoNameList=this.findDeponames();
-      
-       this.id = +this.route.snapshot.params['id'];
-      this.createAssetDailyScheduleReportGroup();
-      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + 'OHE').subscribe((data) => {
-	      this.facilityList = data;
-	      }, error => {
-		      this.spinnerService.hide();
-        });
-      
-      
+    this.depoNameList = this.findDeponames();
+
+    this.id = +this.route.snapshot.params['id'];
+    this.createAssetDailyScheduleReportGroup();
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE + 'OHE').subscribe((data) => {
+      this.facilityList = data;
+    }, error => {
+      this.spinnerService.hide();
+    });
+    this.id = +this.route.snapshot.params['id'];
+    this.getsData();
+    this.createAssetDailyScheduleReportGroup();
+    if (!isNaN(this.id)) {
+      this.addAssetDailyScheduleReportGroup.valueChanges.subscribe(() => {
+        this.onFormValuesChanged();
+      });
+      this.spinnerService.show();
+      this.save = false;
+      this.update = true;
+      this.title = 'Edit';
+      this.getFailureAnalysisDataById(this.id);
+    } else {
+      this.save = true;
+      this.update = false;
+      this.title = 'Save';
+    }
+
   }
   createAssetDailyScheduleReportGroup() {
     this.addAssetDailyScheduleReportGroup = this.formBuilder.group({
@@ -66,164 +88,213 @@ export class AddAshComponent implements OnInit {
       'Schedule_date': [null, Validators.compose([Validators.required])],
       'Depot_Name': [null, Validators.compose([Validators.required])],
       'Power_Block': [null, Validators.compose([Validators.required])],
-      'Asset_Type': [null, ],
-      'From_Kilometer':[null, Validators.compose([Validators.required])],
-      'To_Kilometer':[null, Validators.compose([Validators.required,])],
-      'Schedule':[null, Validators.compose([Validators.required])],
-      'Details_Of_Maint':[null, Validators.compose([Validators.required])],
+      'Asset_Type': [null,],
+      'From_Kilometer': [null, Validators.compose([Validators.required])],
+      'To_Kilometer': [null, Validators.compose([Validators.required,])],
+      'Schedule': [null, Validators.compose([Validators.required])],
+      'Details_Of_Maint': [null, Validators.compose([Validators.required])],
       'Done_By': [null, Validators.compose([Validators.required])],
-      'Remarks' : [null, Validators.compose([Validators.required])],
-      'Incharge' : [null, Validators.compose([Validators.required])],
-      'Asset_Id' : [null, Validators.compose([Validators.required])]
-    },{ validator: this.checkKms });
+      'Remarks': [null, Validators.compose([Validators.required])],
+      'Incharge': [null, Validators.compose([Validators.required])],
+      'Asset_Id': [null, Validators.compose([Validators.required])]
+    }, { validator: this.checkKms });
 
   }
 
   checkKms(c: AbstractControl): { invalid: boolean } {
     if (c.get('From_Kilometer').value > c.get('To_Kilometer').value) {
-        return {invalid: true};
+      return { invalid: true };
     }
-}
-
-  selectedScheduleDate($event){
-    console.log("loggedUserData::"+this.loggedUserData.depoNames);
-    console.log("selectedScheduleDate::"+$event.value);
-    this.scheduleDate=this.datePipe.transform($event.value,"yyyy-MM-dd");
-    console.log(this.datePipe.transform($event.value,"yyyy-MM-dd")); 
-    
   }
 
-  selectedDepoName($event){
-    console.log("selected Depo names"+$event.value);
-   // let statusItem=[];
-    this.facilityId=$event.value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.STATUS_ON_STATUS_TYPE+'PB_STATIC_STATUS').subscribe((data) => {
+  selectedScheduleDate($event) {
+    console.log("loggedUserData::" + this.loggedUserData.depoNames);
+    console.log("selectedScheduleDate::" + $event.value);
+    this.scheduleDate = this.datePipe.transform($event.value, "yyyy-MM-dd");
+    console.log(this.datePipe.transform($event.value, "yyyy-MM-dd"));
+
+  }
+
+  selectedDepoName($event) {
+    console.log("selected Depo names" + $event.value);
+    // let statusItem=[];
+    this.facilityId = $event.value;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.STATUS_ON_STATUS_TYPE + 'PB_STATIC_STATUS').subscribe((data) => {
       this.statusItems = data;
 
-      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE+ '/30000/2019-03-04').subscribe((data) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE + '/30000/2019-03-04').subscribe((data) => {
         //this.powerBlockList = [...data,  this.statusItems
-        this.powerBlockList = [...data,...this.statusItems.map(value=>{
+        this.powerBlockList = [...data, ...this.statusItems.map(value => {
           //console.log("value:::"+value.statusCode);
-          return ({"pbOperationSeqId":value.statusCode});
+          return ({ "pbOperationSeqId": value.statusCode });
         })
-         ];
-         console.log("this.powerBlockList"+this.powerBlockList);
-         
-        }, error => {
-          this.spinnerService.hide();
-        });
+        ];
+        console.log("this.powerBlockList" + this.powerBlockList);
 
       }, error => {
         this.spinnerService.hide();
       });
-    
 
-      
+    }, error => {
+      this.spinnerService.hide();
+    });
+
+
+
   }
-  process(data:any)  
-  {
-      let statuses:any[]=[];    
-      for (let status of data)
-      {
-        statuses.push({"pbOperationSeqId":status.statusCode});
-     }
-      return statuses;
+  process(data: any) {
+    let statuses: any[] = [];
+    for (let status of data) {
+      statuses.push({ "pbOperationSeqId": status.statusCode });
+    }
+    return statuses;
   }
-  selectedPowerBlock($event){
-    console.log("selected power block"+$event.value);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID+ '131-4A'+'/30015').subscribe((data) => {
+  selectedPowerBlock($event) {
+    console.log("selected power block" + $event.value);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID + '131-4A' + '/30015').subscribe((data) => {
       this.assetTypeList = data;
-      }, error => {
-        this.spinnerService.hide();
-      });
+    }, error => {
+      this.spinnerService.hide();
+    });
   }
-  getAssetTypes($event){
-    console.log("getAssetTypes for facilityId::"+this.facilityId);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID+"30000").subscribe((data) => {
+  getAssetTypes($event) {
+    console.log("getAssetTypes for facilityId::" + this.facilityId);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID + "30000").subscribe((data) => {
       this.facility = data;
-      console.log("getAssetTypes for facility::::"+this.facility);
-      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+this.facility.depotType).subscribe((data) => {
+      console.log("getAssetTypes for facility::::" + this.facility);
+      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + this.facility.depotType).subscribe((data) => {
         this.assetTypeList = data;
-        }, error => {
-          this.spinnerService.hide();
-        });
       }, error => {
         this.spinnerService.hide();
       });
-      
+    }, error => {
+      this.spinnerService.hide();
+    });
+
   }
-  getAssetIds($event){
-    console.log("selected asset type ::"+$event.value);
-    this.assetType=$event.value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM+ 'ATD'+'/30015'+'/121'+'/131').subscribe((data) => {
+  getAssetIds($event) {
+    console.log("selected asset type ::" + $event.value);
+    this.assetType = $event.value;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM + 'ATD' + '/30015' + '/121' + '/131').subscribe((data) => {
       this.assetIdList = data;
-      }, error => {
-        this.spinnerService.hide();
-      });
+    }, error => {
+      this.spinnerService.hide();
+    });
   }
-  getScheduleCodes($event){
-    console.log("selected asset type block"+$event.value);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE+ 'SCL').subscribe((data) => {
+  getScheduleCodes($event) {
+    console.log("selected asset type block" + $event.value);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + 'SCL').subscribe((data) => {
       this.scheduleCodeList = data;
-      }, error => {
-        this.spinnerService.hide();
-      });
+    }, error => {
+      this.spinnerService.hide();
+    });
   }
 
-  selectedFromKm(fKM){
-    if(this.assetType==null){
-    console.log("selected assetType"+this.assetType);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM+ '30015'+'/121'+'/131').subscribe((data) => {
-      this.assetIdList = data;
+  selectedFromKm(fKM) {
+    if (this.assetType == null) {
+      console.log("selected assetType" + this.assetType);
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + '30015' + '/121' + '/131').subscribe((data) => {
+        this.assetIdList = data;
       }, error => {
         this.spinnerService.hide();
       });
-     }
-    console.log("assetType:::"+fKM);
-    this.fromKm=fKM;
-    console.log("fromKm::"+this.fromKm);
+    }
+    console.log("assetType:::" + fKM);
+    this.fromKm = fKM;
+    console.log("fromKm::" + this.fromKm);
   }
-  selectedToKm(tKM){
-    console.log("selectedToKm"+tKM);
-    this.toKm=tKM;
-    
+  selectedToKm(tKM) {
+    console.log("selectedToKm" + tKM);
+    this.toKm = tKM;
+
   }
-  
-  onAssetDailyScheduleReportSubmit(){
-    this.isSubmit = true;
+  getsData() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH_DEPO).subscribe((data) => {
+      this.List = data;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+  onFormValuesChanged() {
+    for (const field in this.failureAnalysisFormErrors) {
+      if (!this.failureAnalysisFormErrors.hasOwnProperty(field)) {
+        continue;
+      }
+      this.failureAnalysisFormErrors[field] = {};
+      const control = this.addAssetDailyScheduleReportGroup.get(field);
+
+      if (control && control.dirty && !control.valid) {
+        this.failureAnalysisFormErrors[field] = control.errors;
+      }
+    }
+  }
+  getFailureAnalysisDataById(id) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH_ID + id)
+      .subscribe((resp) => {
+        console.log("Ash edit record response:::" + resp)
+        this.resp = resp;
+        this.addAssetDailyScheduleReportGroup.patchValue({
+          id: this.resp.id,
+          // failure_id: this.resp.failure_id,
+          'scheduleDate': this.resp.ScheduleDate,
+          'depotName': this.resp.depotName,
+          'pbOperationSeqId': this.resp.Power_Block,
+          'assetType': this.resp.assetType,
+          'scheduleCode': this.resp.scheduleCode,
+          'detailsOfMaint': this.resp.detailsOfMaint,
+          'doneBy': this.resp.doneBy,
+          'remarks': this.resp.remarks,
+          'facilityId': this.resp.facilityId,
+          'initialOfIncharge': this.resp.initialOfIncharge,
+          'assetId': this.resp.assetId,
+          //"createdBy": this.resp.createdBy,      
+          // "createdOn": this.resp.createdBy, 
+          //"status":this.resp.createdBy, 
+          //"dataDiv": this.resp.createdBy,  
+        });
+        console.log("::: this.addAssetDailyScheduleReportGroup" + this.addAssetDailyScheduleReportGroup);
+        this.spinnerService.hide();
+      })
+  }
+  onGoBack() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+  onAssetDailyScheduleReportSubmit() {
+    // this.isSubmit = true;
     if (this.addAssetDailyScheduleReportGroup.invalid) {
       this.isSubmit = false;
       return;
     }
     this.spinnerService.show();
     if (this.save) {
-      let assetIdAssetTypes= [];
-      this.addAssetDailyScheduleReportGroup.controls.Asset_Id.value.map(value=>{
-        assetIdAssetTypes.push(value.assetId+"_"+value.assetType);
+      let assetIdAssetTypes = [];
+      this.addAssetDailyScheduleReportGroup.controls.Asset_Id.value.map(value => {
+        assetIdAssetTypes.push(value.assetId + "_" + value.assetType);
       })
       let ele = this.addAssetDailyScheduleReportGroup.value.Asset_Id;
       var saveAshModel = {
-      'scheduleDate': this.addAssetDailyScheduleReportGroup.value.Schedule_date,
-      'depotName':this.addAssetDailyScheduleReportGroup.value.Depot_Name,
-      'pbOperationSeqId': this.addAssetDailyScheduleReportGroup.value.Power_Block,
-      'assetType': this.addAssetDailyScheduleReportGroup.value.Asset_Type,
-      'scheduleCode':this.addAssetDailyScheduleReportGroup.value.Schedule,
-      'detailsOfMaint':this.addAssetDailyScheduleReportGroup.value.Details_Of_Maint,
-      'doneBy': this.addAssetDailyScheduleReportGroup.value.Done_By,
-      'remarks' : this.addAssetDailyScheduleReportGroup.value.Remarks,
-      'facilityId' : this.facilityId,
-      'initialOfIncharge' : this.addAssetDailyScheduleReportGroup.value.Incharge,
-      'assetId' : JSON.stringify(assetIdAssetTypes),       
-      "createdBy": this.loggedUserData.username,      
-      "createdOn": new Date(),
-      "status":'EntryPending',
-      "dataDiv": this.facility.division
+        'scheduleDate': this.addAssetDailyScheduleReportGroup.value.Schedule_date,
+        'depotName': this.addAssetDailyScheduleReportGroup.value.Depot_Name,
+        'pbOperationSeqId': this.addAssetDailyScheduleReportGroup.value.Power_Block,
+        'assetType': this.addAssetDailyScheduleReportGroup.value.Asset_Type,
+        'scheduleCode': this.addAssetDailyScheduleReportGroup.value.Schedule,
+        'detailsOfMaint': this.addAssetDailyScheduleReportGroup.value.Details_Of_Maint,
+        'doneBy': this.addAssetDailyScheduleReportGroup.value.Done_By,
+        'remarks': this.addAssetDailyScheduleReportGroup.value.Remarks,
+        'facilityId': this.facilityId,
+        'initialOfIncharge': this.addAssetDailyScheduleReportGroup.value.Incharge,
+        'assetId': JSON.stringify(assetIdAssetTypes),
+        "createdBy": this.loggedUserData.username,
+        "createdOn": new Date(),
+        "status": 'EntryPending',
+        "dataDiv": this.facility.division
       }
-      console.log(" model for save ash:::"+saveAshModel);
+      console.log(" model for save ash:::" + saveAshModel);
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH.SAVE_ASH, saveAshModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
-     
+
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Ash Data Saved Successfully");
           //this.router.navigate(['/'], { relativeTo: this.route });
@@ -236,11 +307,11 @@ export class AddAshComponent implements OnInit {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Ash Data Saving Failed.");
       });
+    }
+
   }
-  
-}
-  findDeponames(){
-    let depoNames=[
+  findDeponames() {
+    let depoNames = [
       {
         "id": 15115,
         "closedDate": null,

@@ -8,13 +8,16 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { filterDirective } from 'src/app/common/filter.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
-import { TestComponent } from '../test/test.component';
 import { AddAshComponent } from './add-ash/add-ash.component';
 
 const routes: Routes = [
     {
         path: '',
         component: AshDisplayComponent,
+    },
+    {
+        path     : ':id',
+        component: AddAshComponent
     },
     {
         path        : 'add-ash',

@@ -48,8 +48,12 @@ public class AssetScheduleHistoryService {
 		return ashRepository.findAll();
 	}	
 	public List<AssetsScheduleHistoryResponse> findAshWithFacilityName() {
-		logger.info("Fetcing history data where active is 1.");
+		logger.info("Fetcing history findAshWithFacilityName");
 		return ashutilRepository.findAshWithFacilityName();
+	}	
+	public Optional<AssetsScheduleHistory> findAshById(Long id) {
+		logger.info("Fetcing history findAshById");
+		return ashRepository.findById(id);
 	}	
 
 	public @Valid boolean saveAshData(@Valid AssetsScheduleHistoryRequest ashRequest) throws Exception {
