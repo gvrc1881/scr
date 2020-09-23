@@ -892,7 +892,7 @@ export class HeaderComponent implements OnInit, DoCheck {
       // },
       { 
         ID: 19,
-        menuName: 'ASH Display', 
+        menuName: 'SCH Maintainance', 
         menuUrl: 'ashd', 
         icon: "fa fa-file",
         color: "#12E1EE", 
