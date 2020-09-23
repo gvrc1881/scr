@@ -9,6 +9,8 @@ import { filterDirective } from 'src/app/common/filter.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 import { AddAshComponent } from './add-ash/add-ash.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -41,6 +43,8 @@ const routes: Routes = [
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
         CommonDirectivesModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [
         

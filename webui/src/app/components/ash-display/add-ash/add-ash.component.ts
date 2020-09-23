@@ -20,7 +20,8 @@ export class AddAshComponent implements OnInit {
   save: boolean = true;
   update: boolean = false;
   today = new Date();
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedHierarchyList: any = JSON.parse(localStorage.getItem('userHierarchy'));
+  loggedUserData: any=JSON.parse(localStorage.getItem('userData'));
   isSubmit: boolean = false;
   resp: any;
   List = [];
@@ -122,7 +123,7 @@ export class AddAshComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.STATUS_ON_STATUS_TYPE + 'PB_STATIC_STATUS').subscribe((data) => {
       this.statusItems = data;
 
-      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE + '/30000/2019-03-04').subscribe((data) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.POWER_BLOCK.GET_POWER_BLOCKS_BASED_ON_FACILITYID_AND_CREATEDDATE +'/'+this.facilityId+'/'+this.scheduleDate).subscribe((data) => { //'/30000/2019-03-04').subscribe((data) => {
         //this.powerBlockList = [...data,  this.statusItems
         this.powerBlockList = [...data, ...this.statusItems.map(value => {
           //console.log("value:::"+value.statusCode);
@@ -159,7 +160,7 @@ export class AddAshComponent implements OnInit {
   }
   getAssetTypes($event) {
     console.log("getAssetTypes for facilityId::" + this.facilityId);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID + "30000").subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID + this.facilityId).subscribe((data) => {
       this.facility = data;
       console.log("getAssetTypes for facility::::" + this.facility);
       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES + this.facility.depotType).subscribe((data) => {
@@ -175,15 +176,15 @@ export class AddAshComponent implements OnInit {
   getAssetIds($event) {
     console.log("selected asset type ::" + $event.value);
     this.assetType = $event.value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM + 'ATD' + '/30015' + '/121' + '/131').subscribe((data) => {
-      this.assetIdList = data;
-    }, error => {
-      this.spinnerService.hide();
-    });
+    // this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM + this.assetType + '/'+this.facilityId + '/' +this.fromKm+ '/'+this.toKm).subscribe((data) => {
+    //   this.assetIdList = data;
+    // }, error => {
+    //   this.spinnerService.hide();
+    // });
   }
   getScheduleCodes($event) {
     console.log("selected asset type block" + $event.value);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + 'SCL').subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SCHEDULE_CODE_BASED_ON_ASSETTYPE + this.assetType).subscribe((data) => {
       this.scheduleCodeList = data;
     }, error => {
       this.spinnerService.hide();
@@ -206,7 +207,23 @@ export class AddAshComponent implements OnInit {
   selectedToKm(tKM) {
     console.log("selectedToKm" + tKM);
     this.toKm = tKM;
-
+    if (this.assetType == null) {
+      console.log("selected assetType" + this.assetType);
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/' +this.fromKm+ '/'+this.toKm).subscribe((data) => {
+        this.assetIdList = data;
+      }, error => {
+        this.spinnerService.hide();
+      });
+    }
+    else{
+      console.log("selected assetType" + this.assetType);
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM + this.assetType + '/'+this.facilityId + '/' +this.fromKm+ '/'+this.toKm).subscribe((data) => {
+        this.assetIdList = data;
+      }, error => {
+        this.spinnerService.hide();
+      });
+      
+    }
   }
   getsData() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH_DEPO).subscribe((data) => {
@@ -237,17 +254,31 @@ export class AddAshComponent implements OnInit {
         this.addAssetDailyScheduleReportGroup.patchValue({
           id: this.resp.id,
           // failure_id: this.resp.failure_id,
-          'scheduleDate': this.resp.ScheduleDate,
+          'Schedule_date': this.resp.scheduleDate,
           'depotName': this.resp.depotName,
-          'pbOperationSeqId': this.resp.Power_Block,
-          'assetType': this.resp.assetType,
+          'Power_Block': this.resp.pbOperationSeqId,
+          'Asset_Type': this.resp.assetType,
           'scheduleCode': this.resp.scheduleCode,
-          'detailsOfMaint': this.resp.detailsOfMaint,
-          'doneBy': this.resp.doneBy,
-          'remarks': this.resp.remarks,
+          'Details_Of_Maint': this.resp.detailsOfMaint,
+          'Done_By': this.resp.doneBy,
+          'Remarks': this.resp.remarks,
           'facilityId': this.resp.facilityId,
-          'initialOfIncharge': this.resp.initialOfIncharge,
-          'assetId': this.resp.assetId,
+          'Incharge': this.resp.initialOfIncharge,
+          'Asset_Id': this.resp.assetId,
+
+//           Asset_Id: null
+// Asset_Type: null
+// Depot_Name: null
+// Details_Of_Maint: null
+// Done_By: null
+// From_Kilometer: null
+// Incharge: null
+// Power_Block: null
+// Remarks: null
+// Schedule: null
+// Schedule_date: null
+// To_Kilometer: null
+// id: 118052
           //"createdBy": this.resp.createdBy,      
           // "createdOn": this.resp.createdBy, 
           //"status":this.resp.createdBy, 

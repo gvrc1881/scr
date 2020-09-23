@@ -50,9 +50,9 @@
                                                                             <mat-select #depoName placeholder="Depot Name" 
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Depot_Name']"
                                                                                 (selectionChange)="selectedDepoName($event)" >
-                                                                                <mat-option *ngFor="let depoName of depoNameList"
-                                                                                    [value]="depoName.facilityId">
-                                                                                    {{ depoName.facilityName}}
+                                                                                <mat-option *ngFor="let loggedHierarchy of loggedHierarchyList"
+                                                                                    [value]="loggedHierarchy.facilityId">
+                                                                                    {{ loggedHierarchy.facilityName}}
                                                                                 </mat-option>
                                                                             </mat-select>
                                                                         </mat-form-field>

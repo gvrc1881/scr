@@ -61,6 +61,17 @@
                                             Go
                                         </button>
                                     </div>
+                                    <!-- <div>
+                                        <mat-form-field>
+                                            <mat-label>Enter a date range</mat-label>
+                                            <mat-date-range-input [rangePicker]="picker">
+                                              <input matStartDate matInput placeholder="Start date">
+                                              <input matEndDate matInput placeholder="End date">
+                                            </mat-date-range-input>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-date-range-picker #picker></mat-date-range-picker>
+                                          </mat-form-field>                                  
+                                    </div> -->
                                     <div class="clear"> </div>
                                     
                                 </div>
@@ -236,12 +247,6 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>Schedule Duration</span>
                                                 
-                                                <!-- <mat-date-range-input [rangePicker]="picker">
-                                                    <input matStartDate matInput placeholder="Start">
-                                                    <input matEndDate matInput placeholder="End" />
-                                                </mat-date-range-input>
-                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                <mat-date-range-picker #picker></mat-date-range-picker> -->
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.scheduleDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
