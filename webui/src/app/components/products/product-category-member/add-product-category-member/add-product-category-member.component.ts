@@ -144,15 +144,15 @@ export class AddProductCategoryMemberComponent implements OnInit {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
-        this.commonService.showAlertMessage("Product Category Member Data Updated Successfully");
+        this.commonService.showAlertMessage("Product Category member Data Updated Successfully");
         this.router.navigate(['../'], { relativeTo: this.route });
         }else{
-          this.commonService.showAlertMessage("Product Category Member Data Updating Failed.");
+          this.commonService.showAlertMessage("Product Category member Data Updating Failed.");
         }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Product Category Member Data Updating Failed.");
+        this.commonService.showAlertMessage("Product Category member Data Updating Failed.");
       })
 
     }

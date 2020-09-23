@@ -37,13 +37,9 @@ export class ProductComponent implements OnInit {
   
   ngOnInit() {
     var permissionName = this.commonService.getPermissionNameByLoggedData("PRODUCTS","PRODUCT") ;
-    console.log("permissionName"+permissionName);
     this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
-    console.log("AddpermissionName"+this.addPermission);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
-    console.log("EditpermissionName"+this.editPermission);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-    console.log("EditpermissionName"+this.deletePermission);
     this.spinnerService.show();
     this.getProductData();
 

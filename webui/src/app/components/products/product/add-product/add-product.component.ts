@@ -33,7 +33,7 @@ export class AddProductComponent implements OnInit {
       private router: Router,
       private sendAndRequestService:SendAndRequestService
     ) {
-      // Reactive form errors
+      
      
     }
   
@@ -169,7 +169,7 @@ export class AddProductComponent implements OnInit {
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Drive Data Saving Failed.");
+          this.commonService.showAlertMessage("Product Data Saving Failed.");
         });
       } else if (this.update) {
         var updateProductModel = {
