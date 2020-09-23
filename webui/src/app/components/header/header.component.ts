@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-home",
             rolePermission:true,
-            permission: true,//this.commonService.findPermission('Dashboard', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Dashboard', 'submenu', 'view'),
             currentSubMenu: !!path && ( path.includes("dashboard")) ? "active-item" : "",
           },
           { 
@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission: true,//this.commonService.findPermission('Asset Reports', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Stock Quantities', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
           },
           { 
@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission: true, //this.commonService.findPermission('Energy Consumption Graph', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Energy Consumption Graph', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("energy-graph") ? "active-item" : "",
           }
         ]
