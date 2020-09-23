@@ -164,7 +164,7 @@ export class AddProductComponent implements OnInit {
             this.commonService.showAlertMessage("Product Data Saved Successfully");
             this.router.navigate(['../'], { relativeTo: this.route });
           } else {
-            this.commonService.showAlertMessage("Product Data Saving Failed.");
+            this.commonService.showAlertMessage("product Data Saving Failed.");
           }
         }, error => {
           console.log('ERROR >>>');

@@ -87,7 +87,7 @@ export class ProductComponent implements OnInit {
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Product Deletion Failed.");
+          this.commonService.showAlertMessage("Product Deletion failed.");
         })
       }
       this.confirmDialogRef = null;
