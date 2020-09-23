@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Drives;
 import com.scr.model.EnergyMeter;
+import com.scr.model.User;
+import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.services.EnergyMeterService;
+import com.scr.services.UserDefualtFacConsIndEtcService;
+import com.scr.services.UserServices;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
@@ -33,6 +37,9 @@ public class EnergyMeterController {
 	
 	@Autowired
 	private EnergyMeterService energyMeterService;
+	
+	@Autowired
+	private UserDefualtFacConsIndEtcService userDefualtFacConsIndEtcService;
 	
 	
 	@CrossOrigin(origins = "*")
@@ -58,6 +65,10 @@ public class EnergyMeterController {
 	@ResponseBody
 	public ResponseStatus saveEnergyMeter(@RequestBody EnergyMeter energyMeter){
 		log.info("Enter into saveEnergyMeter function with below request parameters ");
+		Optional<UserDefualtFacConsIndEtc> userDefault = userDefualtFacConsIndEtcService.findByUserLoginId(energyMeter.getDataDiv());
+		if (userDefault.isPresent()) {
+			energyMeter.setDataDiv(userDefault.get().getDivision().toUpperCase());
+		}
 		log.info("Request Parameters = "+energyMeter.toString());
 		try {
 			log.info("Calling service with request parameters.");
@@ -98,7 +109,11 @@ public class EnergyMeterController {
 	@RequestMapping(value = "/updateEnergyMeter" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateEnergyMeter(@RequestBody EnergyMeter energyMeter) {
 		log.info("Enter into updateEnergyMeter function with below request parameters ");
-		log.info("Request Parameters = "+energyMeter.toString());
+		Optional<UserDefualtFacConsIndEtc> userDefault = userDefualtFacConsIndEtcService.findByUserLoginId(energyMeter.getDataDiv());
+		if (userDefault.isPresent()) {
+			energyMeter.setDataDiv(userDefault.get().getDivision());
+		}
+		log.info("Request Parameters = "+energyMeter.toString().toUpperCase());
 		try {
 			log.info("Calling service with request parameters.");
 			energyMeterService.save(energyMeter);

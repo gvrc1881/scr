@@ -33,6 +33,7 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterResponse: any;
     toMinDate=new Date();
     enableEndReadings: boolean;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 
     constructor(
         private commonService: CommonService,
@@ -91,6 +92,7 @@ export class EnergyMeterComponent implements OnInit{
         let remarks: string = this.energyMeterFormGroup.value.remarks;
         let startDate: string = this.energyMeterFormGroup.value.startDate;
         let endDate: string = this.energyMeterFormGroup.value.endDate;
+        let dataDiv: string = this.loggedUserData.username;
         this.addEnergyMeter = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
@@ -111,7 +113,8 @@ export class EnergyMeterComponent implements OnInit{
             	'meterModel' : meterModel,
             	'remarks' : remarks,
             	'startDate' : startDate,
-            	'endDate' : endDate
+            	'endDate' : endDate,
+            	'dataDiv' : dataDiv
             }              
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.SAVE_ENERGY_METER, saveEnergyMeterModel, false).subscribe(data => {
             	this.energyMeterResponse = data;
@@ -148,7 +151,8 @@ export class EnergyMeterComponent implements OnInit{
             	'meterModel' : meterModel,
             	'remarks' : remarks,
             	'startDate' : startDate,
-            	'endDate' : endDate
+            	'endDate' : endDate,
+            	'dataDiv' : dataDiv
             }    
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.UPDATE_ENERGY_METER,updateEnergyMeterModel, false).subscribe(data => {
             	this.energyMeterResponse = data;
