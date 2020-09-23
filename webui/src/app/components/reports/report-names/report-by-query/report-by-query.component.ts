@@ -60,6 +60,9 @@ export class ReportByQueryComponent implements OnInit {
 
        reportsByQuery: FormGroup;
        maxDate = new Date();
+       divCode: any;
+       subDivisionCode: any;
+       
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -211,11 +214,17 @@ export class ReportByQueryComponent implements OnInit {
                                           this.divisionCode(this.userDefaultData.zone);
                                    }
                                    if (this.userDefaultData.division) {
+                                   		  console.log('** div code***'+this.userDefaultData.division);
+		                 		this.divCode =  this.userDefaultData.division.toUpperCase( );
+		                     	console.log('** div code***'+this.divCode);
                                           this.reportModel.division = this.userDefaultData.division;
                                           this.subDivision(this.userDefaultData.division);
                                    }
 
                                    if (this.userDefaultData.subDivision) {
+                                   			console.log('** sub div code***'+this.userDefaultData.subDivision);
+		                 		this.subDivisionCode =  this.userDefaultData.subDivision.toUpperCase( );
+			                	console.log('** sub div code***'+this.subDivisionCode);
                                           this.reportModel.subDivision = this.userDefaultData.subDivision;
                                           this.facility(this.userDefaultData.subDivision);
                                    }
@@ -262,7 +271,7 @@ export class ReportByQueryComponent implements OnInit {
               this.reportModel.subDivision = this.reportsByQuery.controls.subDivision.value;
               this.reportModel.fromDate = this.reportsByQuery.controls.fromDate.value;
               this.reportModel.toDate = this.reportsByQuery.controls.toDate.value;
-              this.reportModel.depot = this.reportsByQuery.controls.depot.value;
+              this.reportModel.facility = this.reportsByQuery.controls.depot.value;
               this.reportModel.department = this.reportsByQuery.controls.department.value;
               this.reportModel.observationCategory = this.reportsByQuery.controls.observationCategory.value;
               this.reportModel.scheduleCode = this.reportsByQuery.controls.scheduleType.value;

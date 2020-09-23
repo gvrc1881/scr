@@ -70,7 +70,7 @@
                                                        <div *ngIf="(names.parameterName=='division')">
                                                             <mat-form-field fxFlex="30">
                                                                  <!-- [(ngModel)]="userDefaultData.division"-->
-                                                                 <mat-select placeholder="Division"
+                                                                 <mat-select placeholder="Division" [(ngModel)]="divCode"
                                                                       [formControl]="reportsByQuery.controls['division']"
                                                                       (selectionChange)="selectedValue($event,'DIVISION')">
                                                                       <mat-option *ngFor="let division of divisionsData"
@@ -85,7 +85,7 @@
                                                        <div *ngIf="(names.parameterName=='subDivision')">
                                                             <mat-form-field fxFlex="30">
                                                                  <!--[(ngModel)] ="userDefaultData.subDivision"-->
-                                                                 <mat-select placeholder="Sub Division"
+                                                                 <mat-select placeholder="Sub Division" [(ngModel)]="subDivisionCode"
                                                                       [formControl]="reportsByQuery.controls['subDivision']"
                                                                       (selectionChange)="selectedValue($event,'SUB DIVISION')">
                                                                       <mat-option
@@ -100,7 +100,7 @@
                                                        <!-- FACILITY NAME -->
                                                        <div *ngIf="(names.parameterName=='depot')">
                                                             <mat-form-field fxFlex="30">
-                                                                 <mat-select placeholder="Depot"
+                                                                 <mat-select placeholder="Depot" 
                                                                       [formControl]="reportsByQuery.controls['depot']">
                                                                       <mat-option *ngFor="let facility of facilityId"
                                                                            [value]="facility">
