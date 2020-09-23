@@ -85,7 +85,7 @@ export class AddProductCategoryComponent implements OnInit {
     }
     this.spinnerService.show();
     if (this.save) {
-      var saveProductCategoryModel = {
+      var saveProductModel = {
         "categoryName": this.addProductCategoryFormGroup.value.categoryName,
         "primaryParentCategoryId": this.addProductCategoryFormGroup.value.primaryParentCategoryId,
         "productCategoryId": this.addProductCategoryFormGroup.value.productCategoryId,
@@ -95,7 +95,7 @@ export class AddProductCategoryComponent implements OnInit {
         "lastUpdatedStamp": new Date()
 
       }
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.SAVE_PRODUCT_CATEGORY, saveProductCategoryModel, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.SAVE_PRODUCT_CATEGORY, saveProductModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
      
