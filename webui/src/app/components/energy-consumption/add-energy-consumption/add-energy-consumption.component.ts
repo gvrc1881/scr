@@ -221,6 +221,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_KVAH)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KVAH)) * parseFloat(this.resp.multiplication_fac) });
       this.kvahValidation = false;
+      this.addEnergyConsumptionFailFromGroup.patchValue({ pf: (parseFloat(this.addEnergyConsumptionFailFromGroup.controls.Current_KWH.value) / parseFloat($event.target.value)) });
     } else {
       this.kvahValidation =true;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: 0 });
