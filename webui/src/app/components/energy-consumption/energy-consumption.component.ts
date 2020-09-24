@@ -76,8 +76,6 @@ export class EnergyConsumptionComponent implements OnInit {
         this.spinnerService.show();
     this.findFeedersList();
     this.divisionDetails();
-
-    console.log("lll = "+localStorage.getItem('query'))
     var query = !!localStorage.getItem('query') ? localStorage.getItem('query') :  this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
     console.log('query = '+query);
     this.findEnergyConsumptionData(query);
@@ -85,14 +83,11 @@ export class EnergyConsumptionComponent implements OnInit {
       var values = localStorage.getItem('query').split('/');
       console.log(values);
       if(values[1] == 'exact'){
-        //for(var i=0;i<this.radioChange.length;i++){
           this.exactDate = true;
           this.radioList[0].checked=true;
           this.radioList[1].checked=false;
           this.selectedExactDate = new Date(values[0]);
           this.divisionCode = values[3];
-          console.log('sdfsdf= '+this.divisionCode)
-        //}
       }else{
         this.exactDate = false;
           this.radioList[0].checked=false;
@@ -126,12 +121,6 @@ export class EnergyConsumptionComponent implements OnInit {
         { "Key": 'Old_RKVAH_Lead', "Value": " " },
         { "Key": 'Current_RKVAH_Lead', "Value": " " },
         { "Key": "Consumption_RKVAH_Lead", "Value": "" }
-      /*  { "Key": 'PF', "Value": " " },
-        { "Key": 'CPF', "Value": " " },
-        { "Key": 'rmd', "Value": " " },
-        { "Key": 'Vol_Max', "Value": " " },
-        { "Key": 'Vol_Min', "Value": " " },
-        { "Key": 'Max_Load', "Value": " " }*/
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -154,25 +143,6 @@ export class EnergyConsumptionComponent implements OnInit {
       })
   }
   divisionDetails() {
-    // var division = {
-    //   address_1: null,
-    // address_2: null,
-    // city: null,
-    // code: "SC",
-    // createdBy: "system",
-    // createdOn: null,
-    // description: "South Central",
-    // district: null,
-    // divisionId: null,
-    // headquarters: "Secunderabad",
-    // id: 10,
-    // pin: null,
-    // state: null,
-    // updatedOn: null
-    // }
-    //this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE,).subscribe((data) => {
-     
-    console.log("div==="+JSON.stringify(this.divisionsList));
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
       .subscribe((data) => {
       this.divisionsList = data;
@@ -198,25 +168,25 @@ export class EnergyConsumptionComponent implements OnInit {
          
           this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prev_kwh;
           this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].cur_kwh;
-          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].cur_kwh != 0 ? (this.energyConsumptionData[i].cur_kwh - parseFloat(this.energyConsumptionData[i].prev_kwh)) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
+          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].cur_kwh != 0 ? ((this.energyConsumptionData[i].cur_kwh - parseFloat(this.energyConsumptionData[i].prev_kwh)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
           this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].Previous_Date.split('(')[0].length+1;
           this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[0].length;
           this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[1].length;
 
           this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prev_kvah;
           this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].cur_kvah;
-          this.energyConsumptionData[i].Consumption_KVAH = this.energyConsumptionData[i].cur_kvah != 0 ? (this.energyConsumptionData[i].cur_kvah - parseFloat(this.energyConsumptionData[i].prev_kvah)) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
+          this.energyConsumptionData[i].Consumption_KVAH = this.energyConsumptionData[i].cur_kvah != 0 ? ((this.energyConsumptionData[i].cur_kvah - parseFloat(this.energyConsumptionData[i].prev_kvah)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
 
           this.energyConsumptionData[i].Old_RKVAH_Lag = this.energyConsumptionData[i].prev_rkvah_lag;
           this.energyConsumptionData[i].Current_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag;
-          this.energyConsumptionData[i].Consumption_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag != 0 ? (this.energyConsumptionData[i].cur_rkvah_lag - parseFloat(this.energyConsumptionData[i].prev_rkvah_lag)) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag != 0 ? ((this.energyConsumptionData[i].cur_rkvah_lag - parseFloat(this.energyConsumptionData[i].prev_rkvah_lag)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
 
           this.energyConsumptionData[i].Old_RKVAH_Lead = this.energyConsumptionData[i].prev_rkvah_lead;
           this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead;
-          this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead != 0 ? (this.energyConsumptionData[i].cur_rkvah_lead - parseFloat(this.energyConsumptionData[i].prev_rkvah_lead)) * parseFloat(this.energyConsumptionData[i].multiplication_fac) : 0;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead != 0 ? ((this.energyConsumptionData[i].cur_rkvah_lead - parseFloat(this.energyConsumptionData[i].prev_rkvah_lead)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
 
-          this.energyConsumptionData[i].pf = this.energyConsumptionData[i].Consumption_KVAH != 0 && this.energyConsumptionData[i].Consumption_KWH != 0 ? this.energyConsumptionData[i].Consumption_KWH / this.energyConsumptionData[i].Consumption_KVAH : 0;
-          this.energyConsumptionData[i].cpf = this.energyConsumptionData[i].jr_kvah != 0 ? this.energyConsumptionData[i].jr_kwh / this.energyConsumptionData[i].jr_kvah : 0;
+          this.energyConsumptionData[i].pf = this.energyConsumptionData[i].Consumption_KVAH != 0 && this.energyConsumptionData[i].Consumption_KWH != 0 ? (this.energyConsumptionData[i].Consumption_KWH / this.energyConsumptionData[i].Consumption_KVAH).toFixed(2) : 0;
+          this.energyConsumptionData[i].cpf = this.energyConsumptionData[i].jr_kvah != 0 ? (this.energyConsumptionData[i].jr_kwh / this.energyConsumptionData[i].jr_kvah).toFixed(2) : 0;
           
           this.energyConsumptionData[i].rmd = this.energyConsumptionData[i].cur_rmd;
           this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].cur_vol_max;
@@ -251,7 +221,9 @@ export class EnergyConsumptionComponent implements OnInit {
     var row = this.dataSource.filteredData.find((item, index) => {
       return item.feeder_id == id;
     })
-    //console.log(row);
+    var query = "";
+    query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId +'/'+ this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId+'/'+ this.selectedDivision;
+    localStorage.setItem('query', query);
     localStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([id], { relativeTo: this.route });
   }
@@ -292,7 +264,6 @@ export class EnergyConsumptionComponent implements OnInit {
   }
 
   updateDivision($event) {
-   // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if(!this.exactDate){
       this.feedersList = this.feedersOriginalList.filter(value =>{
         return value.dataDiv.toLowerCase() == $event.value.toLowerCase();

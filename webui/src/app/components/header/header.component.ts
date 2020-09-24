@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit, DoCheck {
             color: "#1285EE", 
             subMenuIcon: "fa fa-file",
             rolePermission:true,
-            permission: this.commonService.findPermission('Stock Quantities', 'submenu', 'view'),
+            permission: true,//this.commonService.findPermission('Stock Quantities', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
           },
           { 

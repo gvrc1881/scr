@@ -298,7 +298,9 @@ export class StockQuantitiesComponent implements OnInit {
         yAxisName: yAxisName+' values',
         showvalues: "1",
         //numberSuffix: 'K',
-        theme: 'fusion'
+        theme: 'fusion',        
+        exportEnabled: "1",
+        exportFileName: caption
       },
       "data": datapoints
     }
@@ -320,7 +322,9 @@ export class StockQuantitiesComponent implements OnInit {
         yAxisName: 'Values',
         showvalues: "1",
        // numberSuffix: 'K',
-        theme: 'fusion'
+        theme: 'fusion',
+        exportEnabled: "1",
+        exportFileName: caption
       },
       categories:[{category:category}],
       dataset:[
