@@ -37,6 +37,8 @@ export class TssFeederComponent implements OnInit{
     feederResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+    divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
     enableZone: boolean ;
@@ -304,32 +306,45 @@ export class TssFeederComponent implements OnInit{
     displayHierarchyFields(){
         this.zoneList = [];
         this.divisionList = [];
+
+        this.zoneHierarchy.zoneList;
+        this.enableZone = true;
        
-        for (let i = 0; i < this.userHierarchy.length; i++) {
-               if(this.userHierarchy[i].depotType == 'ZONE'){
-                   this.zoneList.push(this.userHierarchy[i]);
-                   this.enableZone = true;
-               }
-            }
-           
+        if(!this.enableZone){
+         
+          this.enableDivision = true;
+          this.enableZone=false;
+        }  
+        if(this.zoneHierarchy.length>0)
+        {
+        
+          this.enableZone=true;
+        }
+        else{
+         
+          this.enableZone=false;
+          this.enableDivision=true;
+        }
+    
        
     }
     
 findDivisions(){
     let zone: string = this.tssFeederFormGroup.value.zone;
-    this.divisionList=[];
+    this.divisionList=[];    
 
-    for (let i = 0; i < this.userHierarchy.length; i++) {
+    for (let i = 0; i < this.divisionHierarchy.length; i++) {
         
-           if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
+           if(this.divisionHierarchy[i].zone == zone&& this.divisionHierarchy[i].depotType == 'DIV'){
            
-               this.divisionList.push(this.userHierarchy[i]);
+               //this.divisionList.push(this.divisionHierarchy[i]);
+               this.divisionHierarchy.divisionList;
                this.enableDivision = true;
            }
         }
 }
 
-   
+
 
     
     

@@ -309,11 +309,11 @@ export class AssetScheduleAssocComponent implements OnInit{
                   Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.Exist_ASSETTYPE_SCH+assetType+'/'+scheduleCode).subscribe
                   ((duplicate) => {
             if (duplicate) {
-              resolve({ 'duplicate': true });
+              resolve({ 'duplicateAssetSchCode': true });
             } else {
               resolve(null);
             }
-          }, () => { resolve({ 'duplicate': true }); });
+          }, () => { resolve({ 'duplicateAssetSchCode': true }); });
         });
         return q;
       }

@@ -7,6 +7,7 @@ import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class MeasureActivityComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild('filter', { static: true }) filter: ElementRef;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     measureResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 
@@ -412,7 +414,19 @@ if (unitOfMeasure==null) {
 }
 
 }
-
+ViewData(data){
+  var result = {
+    'title':'Measures/Activities',
+    'dataSource':[{label:'activityName',value:data.activityName},{label:'activityType',value:data.activityType},
+                  {label:'unitOfMeasure', value:data.unitOfMeasure}]
+  }
+  this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+    disableClose: false,
+    height: '400px',
+    width: '80%',       
+    data:result,  
+  });            
+}
       
      
 }
