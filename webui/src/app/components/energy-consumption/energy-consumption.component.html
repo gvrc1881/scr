@@ -31,6 +31,16 @@
                                         [checked]="op.checked" value="{{op.name}}" >{{ op.name}}</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
+                                <div class="col-md-2" >
+                                    <mat-form-field fxFlex="30" class="example-full-width">
+                                        <mat-select placeholder="Zone" (selectionChange)="getDivisions(zoneCode)" [(ngModel)]="zoneCode" >
+                                            <mat-option *ngFor="let facility of zoneData "
+                                                [value]="facility.zone">
+                                                {{ facility.zone}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
                                 <div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="Division" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">

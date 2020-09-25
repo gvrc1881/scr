@@ -58,6 +58,14 @@ export class EnergyConsumptionComponent implements OnInit {
     ]
     divisionCode:string;
     feederId:string;
+    zoneData: any  = JSON.parse(localStorage.getItem('zoneData')) ;
+  	divisionData: any  = JSON.parse(localStorage.getItem('divisionData'));
+  	zoneObject: any;
+  	zoneCode: string
+  	userDefaultData: any;
+  	loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
+  	
+  	
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -68,6 +76,21 @@ export class EnergyConsumptionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  		this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
+        	this.userDefaultData = data;
+        	if (this.userDefaultData.zone) {
+        		this.zoneCode = this.userDefaultData.zone.toUpperCase( );
+        		this.getDivisions(this.userDefaultData.zone);
+ 			}
+ 			if (this.userDefaultData.division) {
+		        this.divisionCode =  this.userDefaultData.division.toUpperCase( );
+        		
+ 			}
+       },
+ 		error => error => {
+        	console.log(' >>> ERROR ' + error);
+ 		});
+  	
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear - 1, 0, 1);
     this.maxDate = new Date();
@@ -128,6 +151,16 @@ export class EnergyConsumptionComponent implements OnInit {
       sort: this.sort
     };
   }
+  
+  getDivisions(zoneCode: any) {
+  	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_OBJECT + zoneCode).subscribe((data) => {
+  		this.zoneObject = data;
+  		this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + this.zoneObject.id).subscribe((data) => {
+  			this.divisionsList = data;
+  		})
+  	})
+  }
+  
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
