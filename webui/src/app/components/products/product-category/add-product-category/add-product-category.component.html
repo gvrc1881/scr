@@ -80,7 +80,7 @@
                                                             <mat-select placeholder="Select Product Category TypeId"
     
                                                                 [formControl]="addProductCategoryFormGroup.controls['productCategoryTypeId']">
-                                                                <mat-option *ngFor="let depotData of depotData"
+                                                                <mat-option *ngFor="let depotData of productCateData"
                                                                     [value]="depotData.productCategoryTypeId">
                                                                     {{ depotData.productCategoryTypeId }}
                                                                 </mat-option>
