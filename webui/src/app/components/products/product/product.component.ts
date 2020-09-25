@@ -7,6 +7,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import{ProductModel} from 'src/app/models/product.model'
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+
 @Component({
   selector: 'product',
   templateUrl: './product.component.html',
@@ -18,13 +20,14 @@ export class ProductComponent implements OnInit {
   	editPermission: boolean = true;
     deletePermission: boolean = true;
     productList:any;
-  	displayedColumns = ['sno','facilityId','materialClassification','primaryProductCategoryId','productCodeTypeId','productTypeId','productId','productName','actions'];
+  	displayedColumns = ['sno','productId','rlyId','plNo','description','quantityUomId','materialClassification','productTypeId','primaryProductCategoryId','actions'];
   	confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   	facilityData: any;
     dataSource: MatTableDataSource<ProductModel>;
   	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   	@ViewChild(MatSort, { static: true }) sort: MatSort;
   	@ViewChild('filter', { static: true }) filter: ElementRef;  	
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -50,16 +53,8 @@ export class ProductComponent implements OnInit {
       this.productList = data;
       for (let i = 0; i < this.productList.length; i++) {
         this.productList[i].sno = i + 1;
-	        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.productList[i].facilityId)).subscribe((data) => {
-		        this.spinnerService.hide();
-	    	    this.facilityData = data;
-	        	this.productList[i].facilityId = this.facilityData.facilityName;
-	        }, error => {
-	      		this.spinnerService.hide();
-	    	});
         product.push(this.productList[i]);
       }
-
       this.dataSource = new MatTableDataSource(product);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -100,6 +95,21 @@ export class ProductComponent implements OnInit {
     filterValue = filterValue.trim(); 
     filterValue = filterValue.toLowerCase(); 
     this.dataSource.filter = filterValue;
+  }
+  ViewData(data){
+    var result = {
+      'title':'Product Data',
+      'dataSource':[{label:'ProductId',value:data.productId},{label:'Rly Id',value:data.rlyId},{label:'Pl No',value:data.plNo},
+                    {label:'Quantity UomId', value:data.quantityUomId},{label:'Material Classification', value:data.materialClassification},
+                    {label:'Product Type Id',value:data.productTypeId},
+                    {label:'Primary Product CategoryId',value:data.primaryProductCategoryId}]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 
 }

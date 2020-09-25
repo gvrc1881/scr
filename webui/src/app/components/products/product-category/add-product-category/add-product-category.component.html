@@ -33,6 +33,30 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="product CategoryId"
+                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryId']"
+                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('required') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                                class="alert alert-danger">Enter Product CategoryId</mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('pattern') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('maxlength') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
+                                                            class="alert alert-danger">Max 250 characters only
+                                                        </mat-error>
+                                                        <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('duplicateProductCategoryId')"
+                                                                class="alert alert-danger">
+                                                                product CategoryId Already Exists
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Category Name"
                                                                 [formControl]="addProductCategoryFormGroup.controls['categoryName']"
                                                                  pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
@@ -44,8 +68,38 @@
                                                             *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('maxlength') && addProductCategoryFormGroup.controls['categoryName'].touched"
                                                             class="alert alert-danger">Max 250 characters only
                                                         </mat-error>
+                                                        <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('duplicateCategoryName')"
+                                                                class="alert alert-danger">
+                                                                Category Name Already Exists
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Product Category TypeId"
+    
+                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryTypeId']">
+                                                                <mat-option *ngFor="let depotData of depotData"
+                                                                    [value]="depotData.productCategoryTypeId">
+                                                                    {{ depotData.productCategoryTypeId }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Primary Parent CategoryId"
+    
+                                                                [formControl]="addProductCategoryFormGroup.controls['primaryParentCategoryId']">
+                                                                <mat-option *ngFor="let productCateData of productCateData"
+                                                                    [value]="productCateData.productCategoryId">
+                                                                    {{ productCateData.productCategoryId }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
                                                 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -67,42 +121,8 @@
                                                     </div>
                                                    
 
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="product CategoryId"
-                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryId']"
-                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
-                                                            <mat-error
-                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('required') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
-                                                                class="alert alert-danger">Enter Product CategoryId</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('pattern') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
-                                                                class="alert alert-danger">Special characters are not allowed
-                                                            </mat-error>
-                                                            <mat-error
-                                                            *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('maxlength') && addProductCategoryFormGroup.controls['productCategoryId'].touched"
-                                                            class="alert alert-danger">Max 250 characters only
-                                                        </mat-error>
-                                                        </mat-form-field>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Product Category TypeId"
-                                                                [formControl]="addProductCategoryFormGroup.controls['productCategoryTypeId']"
-                                                                required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
-                                                            <mat-error
-                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('required') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
-                                                                class="alert alert-danger">Enter Product Category TypeId</mat-error>
-                                                            <mat-error
-                                                                *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('pattern') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
-                                                                class="alert alert-danger">Special characters are not allowed
-                                                            </mat-error>
-                                                            <mat-error
-                                                            *ngIf="addProductCategoryFormGroup.controls['productCategoryTypeId'].hasError('maxlength') && addProductCategoryFormGroup.controls['productCategoryTypeId'].touched"
-                                                            class="alert alert-danger">Max 250 characters only
-                                                        </mat-error>
-                                                        </mat-form-field>
-                                                    </div>
+                                                    
+                                                    
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Description"

@@ -22,6 +22,7 @@ export class AddProductCategoryMemberComponent implements OnInit {
   addProductCategoryMemberFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   toMinDate = new Date();
+  today=new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   scheduleList:any;

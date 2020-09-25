@@ -71,7 +71,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose From Date"
+                                                                placeholder="Choose From Date" [max]="today"
                                                                 (dateChange)="addEvent($event)" 
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['fromDate']" required>
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -84,7 +84,6 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
                                                                 placeholder="Choose To Date"
-                                                                [min]="toMinDate"
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['thruDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>

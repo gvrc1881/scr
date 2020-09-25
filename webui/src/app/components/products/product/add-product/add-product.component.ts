@@ -57,26 +57,27 @@ export class AddProductComponent implements OnInit {
     createProductForm() {
       this.addProductFormGroup = this.formBuilder.group({
         id: 0,
-        'facilityId': [null, Validators.required],
-        'depthUomId': [null, Validators.maxLength(255)],
+        //'facilityId': [null, Validators.required],
+        'productId':[null, Validators.maxLength(255)],
+        'rlyId':[null, Validators.maxLength(255)],
+        'plNo': [null, Validators.maxLength(255)],
+        'description':[null, Validators.maxLength(255)],
+        'quantityUomId':[null, Validators.maxLength(255)],
+        'materialClassification': [null, Validators.maxLength(255)],
+        'productTypeId': [null, Validators.maxLength(255)],
+        'primaryProductCategoryId':[null, Validators.maxLength(255)],
+
+        /*'depthUomId': [null, Validators.maxLength(255)],
         'diameterUomId': [null, Validators.maxLength(255)],
         'heightUomId': [null, Validators.maxLength(255)],
-        'materialClassification': [null, Validators.maxLength(255)],
-        'plNo': [null, Validators.maxLength(255)],
-        'primaryProductCategoryId':[null, Validators.maxLength(255)],
         'productCodeTypeId': [null, Validators.maxLength(255)],
-        'productTypeId': [null, Validators.maxLength(255)],
-        'productId':[null, Validators.maxLength(255)],
         'productName': [null, Validators.maxLength(255)],
         'productDepth': [null],
         'productDiameter': [null],
         'productHeight': [null],
         'productWeight':[null],
         'productWidth':[null],
-        'quantityIncluded':[null],
-        'quantityUomId':[null, Validators.maxLength(255)],
-        'rlyId':[null, Validators.maxLength(255)],
-        'description':[null, Validators.maxLength(255)],
+        'quantityIncluded':[null],*/
         
       });
     }
@@ -98,26 +99,27 @@ export class AddProductComponent implements OnInit {
           this.resp = resp;
           this.addProductFormGroup.patchValue({
             id: this.resp.id,
-            facilityId: this.resp.facilityId,
-            depthUomId: this.resp.depthUomId,
+            //facilityId: this.resp.facilityId,
+            productId: this.resp.productId,
+            rlyId: this.resp.rlyId,
+            plNo: this.resp.plNo,
+            description: this.resp.description,
+            quantityUomId: this.resp.quantityUomId,
+            materialClassification: this.resp.materialClassification,
+            productTypeId: this.resp.productTypeId,
+            primaryProductCategoryId: this.resp.primaryProductCategoryId,
+
+            /*depthUomId: this.resp.depthUomId,
             diameterUomId: this.resp.diameterUomId,
             heightUomId: this.resp.heightUomId,
-            materialClassification: this.resp.materialClassification,
-            plNo: this.resp.plNo,
-            primaryProductCategoryId: this.resp.primaryProductCategoryId,
             productCodeTypeId: this.resp.productCodeTypeId,
-            productTypeId: this.resp.productTypeId,
-            productId: this.resp.productId,
             productName: this.resp.productName,
             productDepth: this.resp.productDepth,
             productDiameter: this.resp.productDiameter,
             productHeight: this.resp.productHeight,
             productWeight: this.resp.productWeight,
             productWidth: this.resp.productWidth,
-            quantityIncluded: this.resp.quantityIncluded,
-            quantityUomId: this.resp.quantityUomId,
-            rlyId: this.resp.rlyId,
-            description: this.resp.description,
+            quantityIncluded: this.resp.quantityIncluded,*/
 
             
           });
@@ -133,26 +135,27 @@ export class AddProductComponent implements OnInit {
       this.spinnerService.show();
       if (this.save) {
         var saveProductModel = {
-          "facilityId": this.addProductFormGroup.value.facilityId,
-          "depthUomId": this.addProductFormGroup.value.depthUomId,
+         // "facilityId": this.addProductFormGroup.value.facilityId,
+         "productId": this.addProductFormGroup.value.productId,
+         "rlyId": this.addProductFormGroup.value.rlyId,
+         "plNo": this.addProductFormGroup.value.plNo,
+         "description": this.addProductFormGroup.value.description,                                                                                                                
+         "quantityUomId": this.addProductFormGroup.value.quantityUomId,
+         "materialClassification": this.addProductFormGroup.value.materialClassification,
+         "productTypeId": this.addProductFormGroup.value.productTypeId,
+         "primaryProductCategoryId":this.addProductFormGroup.value.primaryProductCategoryId,
+
+         /* "depthUomId": this.addProductFormGroup.value.depthUomId,
           "diameterUomId": this.addProductFormGroup.value.diameterUomId,
           "heightUomId": this.addProductFormGroup.value.heightUomId,
-          "materialClassification": this.addProductFormGroup.value.materialClassification,
-          "plNo": this.addProductFormGroup.value.plNo,
-          "primaryProductCategoryId":this.addProductFormGroup.value.primaryProductCategoryId,
           "productCodeTypeId": this.addProductFormGroup.value.productCodeTypeId,
-          "productTypeId": this.addProductFormGroup.value.productTypeId,
-          "productId": this.addProductFormGroup.value.productId,
           "productName": this.addProductFormGroup.value.productName,
           "productDepth": this.addProductFormGroup.value.productDepth,
           "productDiameter": this.addProductFormGroup.value.productDiameter,
           "productHeight": this.addProductFormGroup.value.productHeight,
           "productWeight": this.addProductFormGroup.value.productWeight,       
           "productWidth": this.addProductFormGroup.value.productWidth,       
-          "quantityIncluded": this.addProductFormGroup.value.quantityIncluded,
-          "quantityUomId": this.addProductFormGroup.value.quantityUomId,
-          "rlyId": this.addProductFormGroup.value.rlyId,
-          "description": this.addProductFormGroup.value.description,                                                                                                                
+          "quantityIncluded": this.addProductFormGroup.value.quantityIncluded,*/
           "createdByUserLogin": this.loggedUserData.username,
           "createdDate": new Date()
         }
@@ -174,26 +177,27 @@ export class AddProductComponent implements OnInit {
       } else if (this.update) {
         var updateProductModel = {
           "id": this.id,
-          "facilityId": this.addProductFormGroup.value.facilityId,
-          "depthUomId": this.addProductFormGroup.value.depthUomId,
+          // "facilityId": this.addProductFormGroup.value.facilityId,
+         "productId": this.addProductFormGroup.value.productId,
+         "rlyId": this.addProductFormGroup.value.rlyId,
+         "plNo": this.addProductFormGroup.value.plNo,
+         "description": this.addProductFormGroup.value.description,                                                                                                                
+         "quantityUomId": this.addProductFormGroup.value.quantityUomId,
+         "materialClassification": this.addProductFormGroup.value.materialClassification,
+         "productTypeId": this.addProductFormGroup.value.productTypeId,
+         "primaryProductCategoryId":this.addProductFormGroup.value.primaryProductCategoryId,
+
+         /* "depthUomId": this.addProductFormGroup.value.depthUomId,
           "diameterUomId": this.addProductFormGroup.value.diameterUomId,
           "heightUomId": this.addProductFormGroup.value.heightUomId,
-          "materialClassification": this.addProductFormGroup.value.materialClassification,
-          "plNo": this.addProductFormGroup.value.plNo,
-          "primaryProductCategoryId":this.addProductFormGroup.value.primaryProductCategoryId,
           "productCodeTypeId": this.addProductFormGroup.value.productCodeTypeId,
-          "productTypeId": this.addProductFormGroup.value.productTypeId,
-          "productId": this.addProductFormGroup.value.productId,
           "productName": this.addProductFormGroup.value.productName,
           "productDepth": this.addProductFormGroup.value.productDepth,
           "productDiameter": this.addProductFormGroup.value.productDiameter,
-          "productHeight": this.addProductFormGroup.value.productHeight,   
+          "productHeight": this.addProductFormGroup.value.productHeight,
           "productWeight": this.addProductFormGroup.value.productWeight,       
           "productWidth": this.addProductFormGroup.value.productWidth,       
-          "quantityIncluded": this.addProductFormGroup.value.quantityIncluded, 
-          "quantityUomId": this.addProductFormGroup.value.quantityUomId,           
-          "rlyId": this.addProductFormGroup.value.rlyId,
-          "description": this.addProductFormGroup.value.description,                                          
+          "quantityIncluded": this.addProductFormGroup.value.quantityIncluded,*/                                          
           "updatedBy": this.loggedUserData.username,
           "updatedOn": new Date()
         }

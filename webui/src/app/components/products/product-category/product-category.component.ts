@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
 @Component({
   selector: 'app-product-category',
@@ -20,8 +21,9 @@ export class ProductCategoryComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'categoryName', 'primaryParentCategoryId','productCategoryId', 'productCategoryTypeId','actions'];
+  displayedColumns = ['sno','productCategoryId', 'categoryName', 'productCategoryTypeId','primaryParentCategoryId', 'actions'];
   dataSource: MatTableDataSource<ProductCategoryModel>;
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -95,5 +97,17 @@ export class ProductCategoryComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
-
+  ViewData(data){
+    var result = {
+      'title':'Product Category Data',
+      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'CategoryName',value:data.categoryName},
+                    {label:'Product Category TypeId', value:data.productCategoryTypeId},{label:'Primary Parent CategoryId', value:data.primaryParentCategoryId}]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
 }

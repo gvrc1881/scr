@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-category-member',
@@ -22,6 +24,7 @@ export class ProductCategoryMemberComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'productCategoryId', 'productId','quantity', 'fromDate', 'thruDate','actions'];
   dataSource: MatTableDataSource<ProductCategoryMemberModel>;
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -34,6 +37,7 @@ export class ProductCategoryMemberComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
+    private datePipe: DatePipe,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private sendAndRequestService:SendAndRequestService
@@ -60,6 +64,8 @@ export class ProductCategoryMemberComponent implements OnInit {
       this.categoryMemberList = data;
       for (let i = 0; i < this.categoryMemberList.length; i++) {
         this.categoryMemberList[i].sno = i + 1;
+        this.categoryMemberList[i].fromDate = this.datePipe.transform(this.categoryMemberList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+                this.categoryMemberList[i].toDate = this.datePipe.transform(this.categoryMemberList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
         categoryMember.push(this.categoryMemberList[i]);
       }
 
@@ -95,5 +101,17 @@ export class ProductCategoryMemberComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
-
+  ViewData(data){
+    var result = {
+      'title':'Product Category Data',
+      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'ProductId',value:data.productId},
+                    {label:'Quantity', value:data.quantity}]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
 }

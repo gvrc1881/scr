@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,6 +116,25 @@ public class ProductCategoryController {
 		} catch (Exception e) {
 			log.error("ERROR >> While deleting ProductCategory data"+e.getMessage());
 			return Helper.findResponseStatus("ProductCategory Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	@RequestMapping(value = "/existsProductCategoryId/{productCategoryId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsByProductCategoryId(@PathVariable("productCategoryId") String productCategoryId){		
+		try {
+			return productCategoryService.existsByProductCategoryId(productCategoryId);
+		} catch (Exception e) {
+			log.error("Error while checking exists productCategoryId.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsCategoryName/{categoryName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsCategoryName(@PathVariable("categoryName") String categoryName){		
+		try {
+			return productCategoryService.existsCategoryName(categoryName);
+		} catch (Exception e) {
+			log.error("Error while checking exists categoryName.");
+			return false;
 		}
 	}
 }

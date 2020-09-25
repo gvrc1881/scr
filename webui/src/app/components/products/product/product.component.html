@@ -44,9 +44,30 @@
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="facilityId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>depot</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
+                                        <ng-container matColumnDef="productId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.productId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="rlyId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>RlyId</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.rlyId}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="plNo">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Pl No
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.plNo}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="description">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
+                                        </ng-container>
+                                        
+
+                                        <ng-container matColumnDef="quantityUomId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity UomId</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.quantityUomId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="materialClassification">
@@ -54,32 +75,18 @@
                                             <mat-cell *matCellDef="let row"> {{row.materialClassification}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="primaryProductCategoryId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Product CategoryId</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.primaryProductCategoryId}}</mat-cell>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="productCodeTypeId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product CodeTypeId</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.productCodeTypeId}}</mat-cell>
-                                        </ng-container>
-
                                         <ng-container matColumnDef="productTypeId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Product TypeId</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.productTypeId}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="productId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>ProductId
+                                        <ng-container matColumnDef="primaryProductCategoryId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Product CategoryId
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.productId}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.primaryProductCategoryId}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="productName">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>ProductName
-                                            </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.productName}}</mat-cell>
-                                        </ng-container>
+                                        
                                         
 
                                         <ng-container matColumnDef="active">
@@ -91,6 +98,10 @@
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
+                                                <button mat-icon-button matTooltip="View"
+                                                       (click)="ViewData(row)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                </button>
                                                 <a mat-icon-button matTooltip="Edit" >
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">

@@ -537,6 +537,8 @@ export const Constants = {
                     SAVE_PRODUCT_CATEGORY:"/addProductCategory",
                     UPDATE_PRODUCT_CATEGORY:"/updateProductCategory",
                     DELETE_PRODUCT_CATEGORY:"/deleteProductCategory/",
+                    EXISTS_PRODUCT_CATEGORY_ID:"/existsProductCategoryId/",
+                    EXISTS_CATEGORY_NAME:"/existsCategoryName/"
                 },
                 PRODUCT_CATEGORY_MEMBER:{
                     GET_PRODUCT_CATEGORY_MEMBER:"/findAllProductCategoryMember",

@@ -32,5 +32,11 @@ public class ProductCategoryService {
 		// TODO Auto-generated method stub
 		productCategoryRepository.deleteById(id);
 	}
+	public Boolean existsByProductCategoryId(String productCategoryId) {
+		return productCategoryRepository.existsByProductCategoryId(productCategoryId);
+	}
+	public Boolean existsCategoryName(String categoryName) {
+		return productCategoryRepository.existsByCategoryName(categoryName);
+	}
 
 }

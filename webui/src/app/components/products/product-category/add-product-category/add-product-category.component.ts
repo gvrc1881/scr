@@ -19,6 +19,7 @@ export class AddProductCategoryComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   resp: any;
   title:string;
+  productCateData:any;
   addProductCategoryFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   constructor(
@@ -35,7 +36,7 @@ export class AddProductCategoryComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.createProductCategoryForm();
-
+    this.findProductCategoryList();
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
       this.save = false;
@@ -55,10 +56,10 @@ export class AddProductCategoryComponent implements OnInit {
   createProductCategoryForm() {
     this.addProductCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'categoryName': [null, Validators.maxLength(255)],
-      'primaryParentCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'productCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'productCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateProductCategoryId.bind(this)],
+      'categoryName': [null, Validators.maxLength(255), this.duplicateCategoryName.bind(this)],
       'productCategoryTypeId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
+      'primaryParentCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
       'description': [null, Validators.maxLength(255)],
     });
   }
@@ -68,14 +69,49 @@ export class AddProductCategoryComponent implements OnInit {
         this.resp = resp;
         this.addProductCategoryFormGroup.patchValue({
           id: this.resp.id,
-          categoryName: this.resp.categoryName,
-          primaryParentCategoryId: this.resp.primaryParentCategoryId,
           productCategoryId: this.resp.productCategoryId,
+          categoryName: this.resp.categoryName,
           productCategoryTypeId: this.resp.productCategoryTypeId,
+          primaryParentCategoryId: this.resp.primaryParentCategoryId,
           description: this.resp.description,
         });
         this.spinnerService.hide();
       })
+  }
+  duplicateProductCategoryId() {
+    var productCategoryId = this.addProductCategoryFormGroup.controls['productCategoryId'].value;
+    console.log("productCategoryId = "+this.resp.productCategoryId)
+    const q = new Promise((resolve, reject) => {
+      if(this.update && productCategoryId.toUpperCase() == this.resp.productCategoryId.toUpperCase()){
+        resolve(null);        
+      }else{
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_PRODUCT_CATEGORY_ID + productCategoryId).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateProductCategoryId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateProductCategoryId': true }); });
+    }
+    });
+    return q;
+  }
+  duplicateCategoryName() {
+    var categoryName = this.addProductCategoryFormGroup.controls['categoryName'].value;
+    const q = new Promise((resolve, reject) => {
+      if(this.update && categoryName.toUpperCase() == this.resp.categoryName.toUpperCase()){
+        resolve(null);
+      }else{
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_CATEGORY_NAME  +categoryName).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateCategoryName': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateCategoryName': true }); });
+    }
+    });
+    return q;
   }
   ProductCategoryFormSubmit() {
     this.isSubmit = true;
@@ -86,10 +122,10 @@ export class AddProductCategoryComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveProductModel = {
-        "categoryName": this.addProductCategoryFormGroup.value.categoryName,
-        "primaryParentCategoryId": this.addProductCategoryFormGroup.value.primaryParentCategoryId,
         "productCategoryId": this.addProductCategoryFormGroup.value.productCategoryId,
+        "categoryName": this.addProductCategoryFormGroup.value.categoryName,
         "productCategoryTypeId": this.addProductCategoryFormGroup.value.productCategoryTypeId,
+        "primaryParentCategoryId": this.addProductCategoryFormGroup.value.primaryParentCategoryId,
         "description": this.addProductCategoryFormGroup.value.description,                                                                      
         "createdStamp": new Date(),
         "lastUpdatedStamp": new Date()
@@ -113,10 +149,10 @@ export class AddProductCategoryComponent implements OnInit {
     } else if (this.update) {
       var updateProductModel = {
         "id": this.id,
-        "categoryName": this.addProductCategoryFormGroup.value.categoryName,
-        "primaryParentCategoryId": this.addProductCategoryFormGroup.value.primaryParentCategoryId,
         "productCategoryId": this.addProductCategoryFormGroup.value.productCategoryId,
+        "categoryName": this.addProductCategoryFormGroup.value.categoryName,
         "productCategoryTypeId": this.addProductCategoryFormGroup.value.productCategoryTypeId,
+        "primaryParentCategoryId": this.addProductCategoryFormGroup.value.primaryParentCategoryId,
         "description": this.addProductCategoryFormGroup.value.description,                                         
         "lastUpdatedStamp": new Date()
       }
@@ -140,5 +176,12 @@ export class AddProductCategoryComponent implements OnInit {
 
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  findProductCategoryList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.GET_PRODUCT_CATEGORY)
+      .subscribe((data) => {
+        this.productCateData = data;
+      })
   }
 }
