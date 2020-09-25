@@ -53,6 +53,7 @@ import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
+import com.scr.model.TssFeederMaster;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
@@ -509,5 +510,24 @@ public class ReportController {
 		log.info("prodList"+prodList);
 		return new ResponseEntity<List<Product>>(prodList, HttpStatus.OK);		
   }
+	
+	@RequestMapping(value = "/getTssFeederBasedOnFeederId/{feederId}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<TssFeederMaster> getTssFeederBasedOnFeederId(@PathVariable("feederId") String feederId) {
+		log.info("** Enter into getTssFeederBasedOnFeederId function ***");
+		Optional<TssFeederMaster> tssFeeder = null;
+		try {
+			log.info("** feederId = " + feederId);
+			tssFeeder = reportService.findByFeederId(feederId);
+			if (tssFeeder.isPresent()) {
+				return new ResponseEntity<TssFeederMaster>(tssFeeder.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<TssFeederMaster>(tssFeeder.get(), HttpStatus.CONFLICT);
+
+		} catch (Exception e) {
+			log.error("Error >>  while find feeder Details by feederId, " + e.getMessage());
+			return new ResponseEntity<TssFeederMaster>(tssFeeder.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 	
 }

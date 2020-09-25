@@ -46,5 +46,9 @@ public class TssFeederMasterService {
 		return tssFeederMasterRepository.findByFeederName(feederName);
 	}
 
+	public Optional<TssFeederMaster> findByFeederId(String feederId) {
+		return tssFeederMasterRepository.findByFeederId(feederId);
+	}
+
 
 }

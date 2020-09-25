@@ -18,4 +18,6 @@ public interface TssFeederMasterRepository extends JpaRepository<TssFeederMaster
 	Boolean existsByFeederName(String feederName);
 	
 	Optional<TssFeederMaster> findByFeederName(String feederName);
+
+	Optional<TssFeederMaster> findByFeederId(String feederId);
 }

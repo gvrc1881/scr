@@ -72,6 +72,8 @@ public class EnergyMeterController {
 		log.info("Request Parameters = "+energyMeter.toString());
 		try {
 			log.info("Calling service with request parameters.");
+			EnergyMeter eneMeter = energyMeterService.save(energyMeter);
+			energyMeter.setSeqId(eneMeter.getId().toString());
 			energyMeterService.save(energyMeter);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("Energy meter added successfully", Constants.SUCCESS_CODE);
@@ -109,11 +111,7 @@ public class EnergyMeterController {
 	@RequestMapping(value = "/updateEnergyMeter" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateEnergyMeter(@RequestBody EnergyMeter energyMeter) {
 		log.info("Enter into updateEnergyMeter function with below request parameters ");
-		Optional<UserDefualtFacConsIndEtc> userDefault = userDefualtFacConsIndEtcService.findByUserLoginId(energyMeter.getDataDiv());
-		if (userDefault.isPresent()) {
-			energyMeter.setDataDiv(userDefault.get().getDivision());
-		}
-		log.info("Request Parameters = "+energyMeter.toString().toUpperCase());
+		log.info("Request Parameters = "+energyMeter.toString());
 		try {
 			log.info("Calling service with request parameters.");
 			energyMeterService.save(energyMeter);
@@ -153,6 +151,18 @@ public class EnergyMeterController {
 			return energyMeterService.existsByFeederAndStartDate(feeder,Helper.convertStringToTimestamp(startDate));
 		} catch (Exception e) {
 			log.error("Error while checking exists feeder and start date..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsFeederHavingEndDate/{feederId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFeeder(@PathVariable("feederId") String feeder ){
+			
+		try {
+            log.info("Request for checking exists feeder and end date...");
+			return energyMeterService.existsByFeederAndEndDateIsNull(feeder);
+		} catch (Exception e) {
+			log.error("Error while checking exists feeder and end date..."+e.getMessage());
 			return false;
 		}
 	}

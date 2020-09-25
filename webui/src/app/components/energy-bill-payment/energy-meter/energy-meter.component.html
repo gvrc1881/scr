@@ -46,6 +46,11 @@
 									                                  {{ tssFeederMater.feederName}}
 									                                </mat-option>
 									                              </mat-select>
+									                               <mat-error
+										                            	*ngIf="energyMeterFormGroup.controls['feederId'].hasError('dupllicateFeederhavingEndDate')" 
+										                            		class="alert alert-danger" >
+										                                		Already Exists
+										                        	</mat-error>
 									                            </mat-form-field>
 									                        </div>
 									                        </div>
@@ -214,6 +219,10 @@
 	                                            <ng-container matColumnDef="id">
 	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
+	                                                    	<button mat-icon-button matTooltip="View"
+									                        	(click)="ViewData(row)">
+									                        	<mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+									                      	</button>
 	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
 	                                                        (click)="editEnergyMeter(row.id)">
 	                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>

@@ -44,6 +44,7 @@ import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
+import com.scr.model.TssFeederMaster;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
@@ -169,6 +170,9 @@ public class ReportService {
 	private UserDefualtFacConsIndEtcRepository userDefualtFacConsIndEtcRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private TssFeederMasterService tssFeederMasterService;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -412,5 +416,9 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 		    List<Product> proList=productRepository.findProducts(productCategoryId);	
 		    return proList;  
 		  
+	}
+
+	public Optional<TssFeederMaster> findByFeederId(String feederId) {
+		return tssFeederMasterService.findByFeederId(feederId);
 	}
 }

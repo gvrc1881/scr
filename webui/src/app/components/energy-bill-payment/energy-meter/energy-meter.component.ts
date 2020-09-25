@@ -7,6 +7,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'energy-meter',
@@ -34,13 +36,16 @@ export class EnergyMeterComponent implements OnInit{
     toMinDate=new Date();
     enableEndReadings: boolean;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    tssFeeder: any;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
-        private sendAndRequestService:SendAndRequestService
+        private sendAndRequestService:SendAndRequestService,
+        private datePipe: DatePipe
 
     ){
 
@@ -65,11 +70,11 @@ export class EnergyMeterComponent implements OnInit{
 	            this.energyMeterFormGroup.controls['startDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
-	          resolve({ 'duplicate': true });
+	          resolve({ 'duplicateFeederAndStartDate': true });
 	        } else {
 	          resolve(null);
 	        }
-	      }, () => { resolve({ 'duplicate': true }); });
+	      }, () => { resolve({ 'duplicateFeederAndStartDate': true }); });
 	    });
     	return q;
   	}
@@ -137,7 +142,7 @@ export class EnergyMeterComponent implements OnInit{
                 'id':id,
                 'cmd':cmd,
                 'startKvah': startKvah,
-                'feederId':feederId,
+                'feederId': this.editEnergyMeterResponse.feederId,
                 'startKwh': startKwh,
                 'startRkvahLag' : startRkvahLag,
                 'startRkvahLead': startRkvahLead,
@@ -152,7 +157,8 @@ export class EnergyMeterComponent implements OnInit{
             	'remarks' : remarks,
             	'startDate' : startDate,
             	'endDate' : endDate,
-            	'dataDiv' : dataDiv
+            	'dataDiv' : this.editEnergyMeterResponse.dataDiv,
+            	'seqId': this.editEnergyMeterResponse.seqId
             }    
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.UPDATE_ENERGY_METER,updateEnergyMeterModel, false).subscribe(data => {
             	this.energyMeterResponse = data;
@@ -205,11 +211,14 @@ export class EnergyMeterComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
               this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
+		    	 this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_BASED_ON_FEEDER_ID+'/'+this.editEnergyMeterResponse.feederId).subscribe((response) => {
+		                	this.tssFeeder = response;
+		               		this.energyMeterFormGroup.patchValue({ feederId: this.tssFeeder.feederName })       	
+		         });
       		this.energyMeterFormGroup.patchValue({
                 id: this.editEnergyMeterResponse.id,
                 cmd:this.editEnergyMeterResponse.cmd,
                 startKvah: this.editEnergyMeterResponse.startKvah,
-                feederId: this.editEnergyMeterResponse.feederId,
                 startKwh: this.editEnergyMeterResponse.startKwh,
                 startRkvahLag: this.editEnergyMeterResponse.startRkvahLag,
                 startRkvahLead: this.editEnergyMeterResponse.startRkvahLead,
@@ -235,12 +244,18 @@ export class EnergyMeterComponent implements OnInit{
           }
     }
     
+    
     getAllEnergyMeterData() {
         const energyMeter : EnergyMeterModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER).subscribe((data) => {
             this.energyMeterList = data;
+            this.spinnerService.show();
             for (let i = 0; i < this.energyMeterList.length; i++) {
                 this.energyMeterList[i].sno = i+1;
+                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_BASED_ON_FEEDER_ID+'/'+this.energyMeterList[i].feederId).subscribe((response) => {
+                	this.tssFeeder = response;
+                	this.energyMeterList[i].feederId = this.tssFeeder.feederName;
+                });
                 energyMeter.push(this.energyMeterList[i]);              
             }
             this.energyMeterDataSource = new MatTableDataSource(energyMeter);
@@ -254,6 +269,7 @@ export class EnergyMeterComponent implements OnInit{
     }
     
     deleteEnergyMeter (id) {
+    	this.addEnergyMeter = false;
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });
@@ -310,8 +326,45 @@ export class EnergyMeterComponent implements OnInit{
             'remarks' : [null,Validators.maxLength(250)],
             'startDate': [null,Validators.required, this.duplicateFeederAndStartDate.bind(this)],
             'endDate': [null],
-            'feederId': [null]
+            'feederId': [null,Validators.required , this.dupllicateFeederhavingEndDate.bind(this)]
         });
+    }
+    
+    dupllicateFeederhavingEndDate() {
+    	const q = new Promise((resolve, reject) => {
+	       this.sendAndRequestService.requestForGET(
+        	        Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_HAVING_END_DATE +
+	            this.energyMeterFormGroup.controls['feederId'].value 
+	      ).subscribe((duplicate) => {
+	        if (duplicate) {
+	          resolve({ 'dupllicateFeederhavingEndDate': true });
+	        } else {
+	          resolve(null);
+	        }
+	      }, () => { resolve({ 'dupllicateFeederhavingEndDate': true }); });
+	    });
+    	return q;
+    }
+    
+     ViewData(data){
+      var result = {
+        'title':'Energy Meter',
+        'dataSource':[{label:'Feeder',value:data.feederId},{label:'Start Date',value:this.datePipe.transform(data.startDate, 'dd-MM-yyyy hh:mm:ss')},
+                      {label:'Multiplication Factor', value:data.multiplicationFac},{label:'Meter No',value:data.meterNo},{label:'CMD',value:data.cmd},
+                      {label:'Start Kvah',value:data.startKvah},
+                      {label:'Start Kwh',value:data.startKwh},{label:'Start Rkvah Lag',value:data.startRkvahLag},
+                      {label:'Start Rkvah Lead',value:data.startRkvahLead},{label:'End Date',value:this.datePipe.transform(data.endDate, 'dd-MM-yyyy hh:mm:ss')},
+                      {label:'End Kvah',value:data.endKvah},{label:'End Kwh',value:data.endKwh},
+                      {label:'End Rkvah Lag',value:data.endRkvahLag},{label:'End Rkvah Lead',value:data.endRkvahLead},
+                      {label:'Meter Make',value:data.meterMake},{label:'Meter Model',value:data.meterModel}
+                      ]
+      }
+      this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+        disableClose: false,
+        height: '400px',
+        width: '80%',       
+        data:result,  
+      });            
     }
     
  }   

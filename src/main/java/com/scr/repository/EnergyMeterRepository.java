@@ -14,5 +14,8 @@ public interface EnergyMeterRepository extends JpaRepository<EnergyMeter, Long>{
 	
 	@Query(value = "SELECT case when count(tet)> 0 then true else false  end  FROM EnergyMeter tet WHERE tet.feederId = :feederId and CAST(tet.startDate AS date ) = :startDate")
 	Boolean existsByFeederAndStartDate(@Param("feederId")String feeder, @Param("startDate") Timestamp startDae);
+	
+	@Query(value = "SELECT case when count(tet)> 0 then true else false  end  FROM EnergyMeter tet WHERE tet.feederId = :feederId and tet.endDate is  null")
+	Boolean existsByFeederAndEndDateIsNull(@Param("feederId")String feeder);
 
 }

@@ -40,5 +40,9 @@ public class EnergyMeterService {
 		// TODO Auto-generated method stub
 		return energyMeterRepository.existsByFeederAndStartDate(feeder,startDate);
 	}
+	
+	public Boolean existsByFeederAndEndDateIsNull(String feeder) {
+		return energyMeterRepository.existsByFeederAndEndDateIsNull(feeder);
+	}
 
 }
