@@ -130,6 +130,8 @@ public class ReportResource {
 		parameters.put("toKm", report.getTokm());
 		if (report.getProductId() != null) {
 			parameters.put("assetType", report.getProductId());
+			log.info("assetType"+parameters.put("assetType", report.getProductId()));
+			log.info("assetType1"+ report.getProductId());
 		}
 		parameters.put("assetId", report.getAssetId());
 		if (report.getScheduleCode() != null) {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
-import com.scr.model.ReportRepository;
 import com.scr.services.AssetMasterDataService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;

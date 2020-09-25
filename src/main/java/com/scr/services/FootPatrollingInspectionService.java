@@ -22,6 +22,7 @@ import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
 import com.scr.model.FootPatrollingInspection;
+import com.scr.model.Inspection;
 import com.scr.model.Observation;
 import com.scr.repository.ComplianceRepository;
 import com.scr.repository.ContentManagementRepository;
@@ -396,4 +397,12 @@ public class FootPatrollingInspectionService {
 	public List<Compliance> findByStatus(String status) {	
 		return complianceRepository.findByStatus(status);
 	}
+	
+	public List<Inspection> findObservation(String section, String facilityId,String nameOfStaff,Timestamp fromDateTime) {
+		List<Inspection> inspectionList = observationsRepository.findObservation(section,facilityId,nameOfStaff,fromDateTime);
+		log.info("inspectionListService"+inspectionList);
+		log.info("inspectionListService"+inspectionList.size());
+		return inspectionList;
+	}
+	
 }

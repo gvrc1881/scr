@@ -531,7 +531,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         color: "#12E1EE", 
         isSelected: true, 
         permission:this.commonService.findPermission('CONFIG', 'menu', 'view'),
-        currentTab: !!path &&  path.includes("make")|| path.includes("model")  ? "open" : "",  
+        currentTab: !!path &&  path.includes("make")|| path.includes("model")|| path.includes("product")|| path.includes("product-category")|| path.includes("product-category-member")  ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Make",
@@ -549,7 +549,30 @@ export class HeaderComponent implements OnInit, DoCheck {
             permission:this.commonService.findPermission('Model', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("model") ? "active-item" : "",
           },
-         
+          {
+            subMenuName: "Product",
+            subMenuURL: "product",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Product Category",
+            subMenuURL: "product-category",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product-category") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Product Category Member",
+            subMenuURL: "product-category-member",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",
+          },
 
         ]
       },
@@ -910,42 +933,6 @@ export class HeaderComponent implements OnInit, DoCheck {
             currentSubMenu: !!path && path.includes("ash") ? "active-item" : "",
           },*/
         ]
-      },
-      { 
-        ID: 17,
-        menuName: 'PRODUCTS', 
-        menuUrl: 'product', 
-        icon: "fa fa-file",
-        color: "#12E1EE", 
-        isSelected: true, 
-        permission: true, 
-        currentTab: !!path && path.includes("product") || path.includes("product-category") || path.includes("product-category-member")? "open" : "",
-        subMenus: [
-        	{
-            subMenuName: "Product",
-            subMenuURL: "product",
-            subMenuIcon: "fa fa-file",
-            permission: true,
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("product") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Product Category",
-            subMenuURL: "product-category",
-            subMenuIcon: "fa fa-file",
-            permission: true,
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("product-category") ? "active-item" : "",
-          },
-          {
-            subMenuName: "Product Category Member",
-            subMenuURL: "product-category-member",
-            subMenuIcon: "fa fa-file",
-            permission: true,
-            rolePermission:true,
-            currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",
-          },
-        ] 
       },
       
     ];

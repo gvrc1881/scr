@@ -25,6 +25,7 @@ import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
 import com.scr.model.FootPatrollingInspection;
+import com.scr.model.Inspection;
 import com.scr.model.Observation;
 import com.scr.services.ContentManagementService;
 import com.scr.services.FootPatrollingInspectionService;
@@ -430,4 +431,21 @@ public class FootPatrollingInspectionController {
 			return new ResponseEntity<List<Compliance>>(complianceStatus,HttpStatus.OK);	
 			
 		}
+		
+		
+		//search list for observations
+		
+		@RequestMapping(value = "/inspectionIdByFacilityId/{section}/{facilityId}/{nameOfStaff}/{fromDateTime}",method = RequestMethod.GET  , headers="accept=application/json" )
+		public ResponseEntity<List<Inspection>> findInspectionIdByFacilityId(
+				@PathVariable("section") String section,
+				@PathVariable("facilityId") String facilityId ,
+				@PathVariable("nameOfStaff") String nameOfStaff,
+				@PathVariable("fromDateTime") String fromDateTime){
+			log.info("Section = "+section +" FacilityId = "+facilityId+" NameOfStaff = "+nameOfStaff+" FromDateTime = "+fromDateTime);
+			List<Inspection> inspectionList= footPatrollingInspectionService.findObservation(section,facilityId,nameOfStaff,Helper.convertStringToTimestamp(fromDateTime));
+			log.info("inspectionListSize"+inspectionList.size());
+			log.info("inspectionList"+inspectionList);
+				return new ResponseEntity<List<Inspection>>(inspectionList, HttpStatus.OK);		
+		}
+		
 }
