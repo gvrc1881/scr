@@ -80,7 +80,7 @@ public class EnergyConsumptionMapper {
 				 * System.out.println("dateString = "+dateString);
 				 */
 			System.out.println("energy reading date = "+request.getEnergyReadingDate());
-			 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+			 SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
 			energyConsumption.setEnergyReadingDate(formatter1.parse(request.getEnergyReadingDate()));
 			
 			energyConsumption.setCreatedBy(request.getUpdatedBy());

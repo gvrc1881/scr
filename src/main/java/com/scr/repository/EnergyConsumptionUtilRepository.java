@@ -329,7 +329,8 @@ public class EnergyConsumptionUtilRepository{
 	 */
 	
 	String datesQ = "select  feeder_id , feeder_name , multiplication_fac ,requested_reading_date ,  joint_meter , " + 
-			" first_reading_after_meter_fix, meter_start_date ,recent_reading_date, no_of_days_lapsed_reading," + 
+			" first_reading_after_meter_fix, meter_start_date ,recent_reading_date, no_of_days_lapsed_reading," +
+			" curseq_id, curId,  "+
 			" recent_reading_date as prev_reading_date , 'Gap(' ||   no_of_days_lapsed_reading ||')'  reading_gap_days," + 
 			" recent_kwh as prev_kwh, cur_kwh," + 
 			" recent_kvah as prev_kvah, cur_kvah," + 
@@ -340,12 +341,12 @@ public class EnergyConsumptionUtilRepository{
 			" from  " + 
 			"( " + 
 			" SELECT " + 
-			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(?::date, 'dd-mm-yy') as requested_reading_date, rec.em_start_kwh rec_em_start_kwh," + 
+			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(?::date, 'dd-mm-yyyy') as requested_reading_date, rec.em_start_kwh rec_em_start_kwh," + 
 			"    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix, " + 
 			"  a.em_start_date::date  as meter_start_date ,     " + 
-			"    to_char(case when rec.energy_reading_date is null then a.em_start_date::date else rec.energy_reading_date::date end,'dd-mm-yy')  AS recent_reading_date," + 
+			"    to_char(case when rec.energy_reading_date is null then a.em_start_date::date else rec.energy_reading_date::date end,'dd-mm-yyyy')  AS recent_reading_date," + 
 			"    ?::date - case when rec.energy_reading_date is null then a.em_start_date else rec.energy_reading_date end AS no_of_days_lapsed_reading," + 
-			"    cur.seq_id, cur.id as curId ," + 
+			"    cur.seq_id curseq_id, cur.id as curId ," + 
 			"    cur.location cur_location, cur.feeder_id cur_feeder_id," + 
 			"    cur.energy_reading_date AS cuurent_reading_date," + 
 			"    cur.joint_meter ," + 
@@ -360,7 +361,7 @@ public class EnergyConsumptionUtilRepository{
 			"    cur.max_load cur_max_load," + 
 			"    cur.max_load_time_hhmm," + 
 			"    cur.max_load_time_date, cur.remarks, " + 
-			"    rec.seq_id, rec.id ," + 
+			"    rec.seq_id rec_seq_id, rec.id ," + 
 			"    rec.location, rec.feeder_id rec_feeder_id," + 
 			"    case when rec.energy_reading_date is null then a.em_start_kwh else rec.kwh end AS recent_kwh," + 
 			"    case when rec.energy_reading_date is null then a.em_start_kvah else rec.kvah end AS recent_kvah," + 
@@ -398,7 +399,8 @@ public class EnergyConsumptionUtilRepository{
 			"						AND jr.feeder_id = cur.feeder_id )" + 
 			") final";
 	String sQuery = "select energy_consume_date as req_date, feeder_id , feeder_name , multiplication_fac , joint_meter , requested_reading_date ,first_reading_after_meter_fix, meter_start_date ,recent_reading_date, " + 
-			"no_of_days_lapsed_reading,  " + 
+			"no_of_days_lapsed_reading,  " +
+			" curseq_id, curId, "+
 			"recent_reading_date_string , 'Gap(' ||   no_of_days_lapsed_reading ||')' reading_gap_days," + 
 			" recent_kwh as prev_kwh, cur_kwh,  " + 
 			"recent_kvah as prev_kvah, cur_kvah,  " + 
@@ -417,12 +419,12 @@ public class EnergyConsumptionUtilRepository{
 			"(  " + 
 			" SELECT   " + 
 			" energy_consume_date ,  " + 
-			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(energy_consume_date::date, 'dd-mm-yy')  as requested_reading_date, rec.em_start_kwh rec_em_start_kwh,  " + 
+			"	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(energy_consume_date::date, 'dd-mm-yyyy')  as requested_reading_date, rec.em_start_kwh rec_em_start_kwh,  " + 
 			"    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix,   " + 
-			"    a.em_start_date::date  as meter_start_date ,  to_char(a.em_start_date::date, 'dd-mm-yy')   as meter_start_date_string , " + 
-			"   rec.energy_reading_date AS recent_reading_date,  to_char(rec.energy_reading_date::date, 'dd-mm-yy')    as   recent_reading_date_string,  " + 
+			"    a.em_start_date::date  as meter_start_date ,  to_char(a.em_start_date::date, 'dd-mm-yyyy')   as meter_start_date_string , " + 
+			"   rec.energy_reading_date AS recent_reading_date,  to_char(rec.energy_reading_date::date, 'dd-mm-yyyy')    as   recent_reading_date_string,  " + 
 			"    (energy_consume_date::date - case when rec.energy_reading_date is null then a.em_start_date::Date else rec.energy_reading_date::Date end)-1  AS no_of_days_lapsed_reading ,  " + 
-			"   cur.seq_id, cur.id as curId,  " + 
+			"   cur.seq_id curseq_id, cur.id as curId,  " + 
 			"    cur.location cur_location, cur.feeder_id cur_feeder_id,  " + 
 			"    cur.energy_reading_date AS cuurent_reading_date,  " + 
 			"    cur.joint_meter ," + 
@@ -437,7 +439,7 @@ public class EnergyConsumptionUtilRepository{
 			"    cur.max_load cur_max_load,  " + 
 			"    cur.max_load_time_hhmm,  " + 
 			"    cur.max_load_time_date,  cur.remarks, " + 
-			"    rec.seq_id, rec.id , rec.energy_reading_date recent_energy_reading_Date ,  " + 
+			"    rec.seq_id rec_seq_id, rec.id , rec.energy_reading_date recent_energy_reading_Date ,  " + 
 			"    rec.location, rec.feeder_id rec_feeder_id,  " + 
 			"    case when rec.energy_reading_date is null then a.em_start_kwh else rec.kwh end AS recent_kwh,  " + 
 			"    case when rec.energy_reading_date is null then a.em_start_kvah else rec.kvah end AS recent_kvah,  " + 

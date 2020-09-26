@@ -227,7 +227,7 @@ export class EnergyConsumptionComponent implements OnInit {
           this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
 
           this.energyConsumptionData[i].energyReadingDate = this.energyConsumptionData[i].requested_reading_date;//this.exactDate == true ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') : this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') ;
-
+		  this.energyConsumptionData[i].id = this.energyConsumptionData[i].curId;
           this.energyConsumptionData[i].editable = false;
           this.stipulations.push(this.energyConsumptionData[i]);
         }
