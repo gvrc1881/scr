@@ -50,7 +50,12 @@ public class AssetScheduleHistoryService {
 	public List<AssetsScheduleHistoryResponse> findAshWithFacilityName() {
 		logger.info("Fetcing history findAshWithFacilityName");
 		return ashutilRepository.findAshWithFacilityName();
-	}	
+	}
+	public AssetsScheduleHistoryResponse findAshWithFacilityNameById(String id) {
+		logger.info("Fetcing history findAshWithId::"+id);
+		return ashutilRepository.findAshWithFacilityNameById(id);
+	}
+	
 	public Optional<AssetsScheduleHistory> findAshById(Long id) {
 		logger.info("Fetcing history findAshById");
 		return ashRepository.findById(id);

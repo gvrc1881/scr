@@ -81,7 +81,7 @@ public class AssetMasterData implements Serializable {
 	private String implantation;
 
 	@Column(name="kilometer")
-	private double kilometer;
+	private Double kilometer;
 
 	@Column(name="last_updated_stamp")
 	private Timestamp lastUpdatedStamp;
@@ -487,11 +487,11 @@ public class AssetMasterData implements Serializable {
 		this.implantation = implantation;
 	}
 
-	public double getKilometer() {
+	public Double getKilometer() {
 		return this.kilometer;
 	}
 
-	public void setKilometer(double kilometer) {
+	public void setKilometer(Double kilometer) {
 		this.kilometer = kilometer;
 	}
 

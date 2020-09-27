@@ -43,7 +43,7 @@ public class AssetScheduleAssoc implements Serializable {
 	private String description;
 
 	@Column(name="duration")
-	private double duration;
+	private Double duration;
 
 	@Column(name="is_dpr")
 	private String isDpr;
@@ -141,11 +141,11 @@ public class AssetScheduleAssoc implements Serializable {
 		this.description = description;
 	}
 
-	public double getDuration() {
+	public Double getDuration() {
 		return this.duration;
 	}
 
-	public void setDuration(double duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 

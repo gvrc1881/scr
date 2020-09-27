@@ -382,7 +382,8 @@ export const Constants = {
                 GET_ASH:'/ashistory',
                 GET_ASH_DEPO:'/ashistoryWithDepo',
                 GET_ASH_ID:'/ashistoryById/',
-                DELETE_ASH:'/deleteAsh/'
+                DELETE_ASH:'/deleteAsh/',
+                GET_ASH_DEPO_BY_ID:'/ashistoryWithDepoById/'
                 }
         },
         INSPECTIONS:{

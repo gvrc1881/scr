@@ -33,9 +33,9 @@
                                                 placeholder="Filter">
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <mat-form-field>
-                                            <input matInput [matDatepicker]="picker3" placeholder="Choose From Date"
+                                            <input matInput [matDatepicker]="picker3" placeholder="Schedule From Date"
                                                 [(ngModel)]="selectedBWFrom" 
                                                 (dateChange)="bwFromDateEvent($event)"
                                                 [max]="maxDate">
@@ -44,9 +44,9 @@
                                             <mat-datepicker #picker3></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <mat-form-field>
-                                            <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
+                                            <input matInput [matDatepicker]="picker2" placeholder="Schedule To Date"
                                                 [min]="selectedBWFrom" [(ngModel)]="maxDate"
                                                 (dateChange)="bwToDateEvent($event)"
                                                 [max]="maxDate">

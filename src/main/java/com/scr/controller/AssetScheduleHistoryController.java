@@ -87,6 +87,22 @@ public class AssetScheduleHistoryController {
 		logger.info("Exit from findAshWithFacilityName function");
 		return ResponseEntity.ok((histories));
 	}
+	@RequestMapping(value = "/ashistoryWithDepoById/{id}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<AssetsScheduleHistoryResponse> findAshWithFacilityNameById(@PathVariable("id") String id) throws JSONException {
+		logger.info("Enter into findAshWithFacilityName function");
+		AssetsScheduleHistoryResponse history = null;
+		try {			
+			logger.info("Calling service for ASH data");
+			history = service.findAshWithFacilityNameById(id);	
+			logger.info("Fetched ash data = "+history);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		}
+		logger.info("Exit from findAshWithFacilityName function");
+		return ResponseEntity.ok((history));
+	}
 	@RequestMapping(value = "/ashistory/{fromDate}/{toDate}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<AssetsScheduleHistoryResponse>> findAshDateRange() throws JSONException {
 		logger.info("Enter into findAshWithFacilityName function");
