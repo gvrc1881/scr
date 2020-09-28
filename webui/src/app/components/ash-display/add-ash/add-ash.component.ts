@@ -136,8 +136,8 @@ export class AddAshComponent implements OnInit {
       'Depot_Name': [null, Validators.compose([Validators.required])],
       'Power_Block': [null, Validators.compose([Validators.required])],
       'Asset_Type': [null,],
-      'From_Kilometer': [null, Validators.compose([Validators.required])],
-      'To_Kilometer': [null, Validators.compose([Validators.required,])],
+      'From_Kilometer': [null],
+      'To_Kilometer': [null],
       'Schedule': [null, Validators.compose([Validators.required])],
       'Details_Of_Maint': [null, Validators.compose([Validators.required])],
       'Done_By': [null, Validators.compose([Validators.required])],
@@ -356,7 +356,8 @@ export class AddAshComponent implements OnInit {
        if(this.assetIdList===undefined){
         console.log("assetid not mapped for edit page for ng mpodel undefined");
        }else{
-        this.assetIdList.map(asset => {           
+        this.assetIdList.map(asset => {      
+          console.log("assetid mapped for edit page for ng mpodel::"+asset.assetId+"::this.resp.assetId::"+this.resp.assetId);      
           if(asset.assetId===this.resp.assetId)    
           console.log("assetid mapped for edit page for ng mpodel::"+asset.assetId);      
            this.assetidObjModel=asset;
@@ -366,6 +367,7 @@ export class AddAshComponent implements OnInit {
        this.SchCode=this.resp.scheduleCode;
       })
   }
+  
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
@@ -416,8 +418,49 @@ export class AddAshComponent implements OnInit {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Ash Data Saving Failed.");
       });
+    }else if(this.update){
+      let assetIdAssetTypes = [];
+      this.addAssetDailyScheduleReportGroup.controls.Asset_Id.value.map(value => {
+        assetIdAssetTypes.push(value.assetId + "_" + value.assetType);
+      })
+     var updateAshModel = {
+       
+        "id":this.id,
+        'scheduleDate': this.addAssetDailyScheduleReportGroup.value.Schedule_date,
+        'depotName': this.addAssetDailyScheduleReportGroup.value.Depot_Name,
+        'pbOperationSeqId': this.addAssetDailyScheduleReportGroup.value.Power_Block,
+        'assetType': this.addAssetDailyScheduleReportGroup.value.Asset_Type,
+        'scheduleCode': this.addAssetDailyScheduleReportGroup.value.Schedule,
+        'detailsOfMaint': this.addAssetDailyScheduleReportGroup.value.Details_Of_Maint,
+        'doneBy': this.addAssetDailyScheduleReportGroup.value.Done_By,
+        'remarks': this.addAssetDailyScheduleReportGroup.value.Remarks,
+        'facilityId': this.facilityId,
+        'initialOfIncharge': this.addAssetDailyScheduleReportGroup.value.Incharge,
+        'assetId': JSON.stringify(assetIdAssetTypes),
+        "createdBy": this.loggedUserData.username,
+        "createdOn": new Date(),
+        "status": 'EntryPending',
+        "dataDiv": this.facility.division,
+        "updatedBy": this.loggedUserData.username,
+        "updatedOn": new Date()
+      }   
+     var message = 'Updated';
+     var failedMessage = "Updating";
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.ASH.ASH.UPDATE_ASH,updateAshModel, false).subscribe(response => {
+        this.spinnerService.hide();
+        this.resp = response;
+        if (this.resp.code == Constants.CODES.SUCCESS) {
+        this.commonService.showAlertMessage("Failure Analysis Data "+message+" Successfully");
+        this.router.navigate(['../'], { relativeTo: this.route });
+        }else{
+          this.commonService.showAlertMessage("Failure Analysis Data "+failedMessage+" Failed."); 
+        }
+      }, error => {
+        console.log('ERROR >>>');
+        this.spinnerService.hide();
+        this.commonService.showAlertMessage("Failure Analysis Data "+failedMessage+" Failed.");
+      })
     }
-
   }
 
 }

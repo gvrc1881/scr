@@ -30,6 +30,28 @@ public class AssetsScheduleHistory implements Serializable {
 
 	@Column(name="created_on")
 	private Timestamp createdOn;
+	
+	@Column(name = "updated_by")
+	private String updatedBy;
+
+	@Column(name = "updated_on")
+	private Timestamp updatedOn;
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
+	}
 
 	@Column(name="created_stamp")
 	private Timestamp createdStamp;

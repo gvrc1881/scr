@@ -2,6 +2,7 @@ package com.scr.mapper;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.scr.message.request.AssetsScheduleHistoryRequest;
+import com.scr.message.request.DriveRequest;
 import com.scr.model.AssetsScheduleHistory;
+import com.scr.model.Drives;
+import com.scr.model.Facility;
 
 
 @Component
@@ -50,6 +54,36 @@ public class AshMapper {
 		logger.info("Prepared ASH model object = "+ash);
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
+		}
+		return ash;
+	}
+	public AssetsScheduleHistory prepareDriveUpdataData(AssetsScheduleHistory ash, @Valid AssetsScheduleHistoryRequest ashRequest) {
+
+		if (ashRequest != null) {
+
+			logger.info(ashRequest);
+
+			
+
+			if (ashRequest != null) {
+				ash = new AssetsScheduleHistory();
+				ash.setId(ashRequest.getId());
+				ash.setAssetId(ashRequest.getAssetId());
+				ash.setAssetType(ashRequest.getAssetType());
+				ash.setCreatedBy(ashRequest.getCreatedBy());
+				ash.setDetailsOfMaint(ashRequest.getDetailsOfMaint());
+				ash.setDoneBy(ashRequest.getDoneBy());
+				ash.setFacilityId(ashRequest.getFacilityId());
+				ash.setScheduleCode(ashRequest.getScheduleCode());
+				ash.setRemarks(ashRequest.getRemarks());
+				ash.setScheduleDate(ashRequest.getScheduleDate());
+				ash.setPbOperationSeqId(ashRequest.getPbOperationSeqId());
+				ash.setInitialOfIncharge(ashRequest.getInitialOfIncharge());
+				ash.setStatus(ashRequest.getStatus());
+				ash.setDataDiv(ashRequest.getDataDiv());
+				ash.setUpdatedBy(ashRequest.getUpdatedBy());
+				ash.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			}
 		}
 		return ash;
 	}

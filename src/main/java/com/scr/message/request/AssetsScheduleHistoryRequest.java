@@ -20,6 +20,8 @@ public class AssetsScheduleHistoryRequest implements Serializable {
 	private String createdBy;
 
 	private Timestamp createdOn;
+	private String updatedBy;
+	private Timestamp updatedOn;
 
 	private Timestamp createdStamp;
 
@@ -93,6 +95,22 @@ public class AssetsScheduleHistoryRequest implements Serializable {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	public Timestamp getCreatedOn() {

@@ -75,16 +75,16 @@ public class AssetScheduleHistoryService {
 		}
 	}
 
-	/*public String updateAshData(@Valid AssetsScheduleHistoryRequest request) {
+	public String updateAshData(@Valid AssetsScheduleHistoryRequest request) {
 		Optional<AssetsScheduleHistory> ash = ashRepository.findById(request.getId());
 		if(ash.isPresent()) {
-			AssetsScheduleHistory ashUpdate = driveMapper.prepareDriveUpdataData(ash.get(), request);
+			AssetsScheduleHistory ashUpdate = ashMapper.prepareDriveUpdataData(ash.get(), request);
 			ashUpdate = ashRepository.save(ashUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
 			return "Invalid Ash Id";
 		}
-	}*/
+	}
 	public String deleteAsh(Long id) {
 		Optional<AssetsScheduleHistory> ashOptional = ashRepository.findById(id);
 		if (ashOptional.isPresent()) {

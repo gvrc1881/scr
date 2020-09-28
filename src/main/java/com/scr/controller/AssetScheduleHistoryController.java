@@ -150,19 +150,35 @@ public class AssetScheduleHistoryController {
 		}
 	}
 	
-	/*@RequestMapping(value = "/updateAsh", method = RequestMethod.PUT, headers = "Accept=application/json")
+	@RequestMapping(value = "/updateAsh", method = RequestMethod.PUT, headers = "Accept=application/json")
 	public ResponseStatus updateAshData(@Valid @RequestBody AssetsScheduleHistoryRequest ashRequest) throws JSONException {		
-		try {			
-			String status = service.updateAshData(ashRequest);
-			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
-				return Helper.findResponseStatus("Ash Data Updated Successfully", Constants.SUCCESS_CODE);
-			else
-				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
-		}catch (Exception e) {
-			logger.error("ERROR >> While updating drive data. "+e.getMessage());
+		logger.info("Enter into updateAshData function with below request parameters ");
+		logger.info("Request Parameters = "+ashRequest.toString());
+		try {
+			logger.info("Calling service with request parameters.");
+			String inputStr = ashRequest.getAssetId();
+			JSONArray array= new JSONArray(inputStr);
+			//JSONObject json=array.getJSONObject(0);
+			for(Object obj:array) {
+				String str=obj.toString();
+			//if (assetIds != null && !assetIds.isEmpty()) {
+				String[] assets = str.split("_");
+					ashRequest.setAssetId(assets[0]);
+					ashRequest.setAssetType(assets[1]);
+					service.updateAshData(ashRequest);
+			}
+			
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("Ash Data updated Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding ash data. "+npe.getMessage());
+			return Helper.findResponseStatus("Ash Updation is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While updaing ash data. "+e.getMessage());
 			return Helper.findResponseStatus("Ash Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
-	}*/
+	}
 	
 	@RequestMapping(value = "/deleteAsh/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteAsh(@PathVariable("id") Long id) throws JSONException {
