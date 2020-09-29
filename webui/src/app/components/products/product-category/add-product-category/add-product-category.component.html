@@ -93,7 +93,7 @@
                                                             <mat-select placeholder="Select Primary Parent CategoryId"
     
                                                                 [formControl]="addProductCategoryFormGroup.controls['primaryParentCategoryId']">
-                                                                <mat-option *ngFor="let productData of productData"
+                                                                <mat-option *ngFor="let productData of productCateData"
                                                                     [value]="productData.productCategoryId">
                                                                     {{ productData.productCategoryId }}
                                                                 </mat-option>
