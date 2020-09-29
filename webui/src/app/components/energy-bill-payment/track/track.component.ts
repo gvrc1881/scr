@@ -30,7 +30,7 @@ export class TrackComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    trackDisplayedColumns = ['sno' ,  'depot'  , 'TKM' , 'RKM' , 'remarks' , 'id' ];
+    trackDisplayedColumns = ['sno' ,  'depot'  , 'TKM', 'electrifiedTKM' , 'RKM' ,'electrifiedRKM', 'remarks' , 'id' ];
     funLocTypeData: any;
     trackResponse: any;
     enableDepotType: boolean;
@@ -52,16 +52,6 @@ export class TrackComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getTrackData();
-        this.trackFormGroup = this.formBuilder.group({
-             id: 0,
-             "depotType":[null],
-            "facilityId": [null, Validators.compose([Validators.required])],
-            "tkm": [null, Validators.compose([Validators.required])],
-            "rkm":[null, Validators.compose([Validators.required])],
-            "remark": [null, Validators.maxLength(250)],
-            "electrifiedRkm": [null, Validators.compose([Validators.required])],
-    		"electrifiedTkm": [null, Validators.compose([Validators.required])],
-        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES).subscribe((data) => {
                  this.funLocTypeData = data;
       		});
@@ -71,6 +61,32 @@ export class TrackComponent implements OnInit{
         this.addTrack = true;
         this.enableDepotType = true;
     	this.enableDepots = true;
+        this.trackFormGroup = this.formBuilder.group({
+             id: 0,
+             "depotType":[null],
+            "facilityId": [null, Validators.required , this.duplicateDepot.bind(this)],
+            "tkm": [null, Validators.compose([Validators.required])],
+            "rkm":[null, Validators.compose([Validators.required])],
+            "remark": [null, Validators.maxLength(250)],
+            "electrifiedRkm": [null, Validators.compose([Validators.required])],
+            "electrifiedTkm": [null, Validators.compose([Validators.required])],
+        });
+    }
+    
+    duplicateDepot() {
+        const q = new Promise((resolve, reject) => {
+           this.sendAndRequestService.requestForGET(
+                    Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.EXISTS_DEPOT +
+                this.trackFormGroup.controls['facilityId'].value.facilityId
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicateDepot': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateDepot': true }); });
+        });
+        return q;
     }
     
     onTrackSubmit() {
@@ -99,13 +115,16 @@ export class TrackComponent implements OnInit{
             })
         }else if(this.title == Constants.EVENTS.UPDATE){
             TrackPayload.UPDATE_PAYLOAD.id = this.editTrackResponse.id;
-            TrackPayload.UPDATE_PAYLOAD.facilityId = this.trackFormGroup.value.facilityId;
+            TrackPayload.UPDATE_PAYLOAD.facilityId = this.editTrackResponse.facilityId;
 	        TrackPayload.UPDATE_PAYLOAD.tkm = this.trackFormGroup.value.tkm;
 	        TrackPayload.UPDATE_PAYLOAD.rkm = this.trackFormGroup.value.rkm;
 	        TrackPayload.UPDATE_PAYLOAD.remark = this.trackFormGroup.value.remark;
-	        TrackPayload.UPDATE_PAYLOAD.updatedBy = this.loggedUserData.username;
+	        TrackPayload.UPDATE_PAYLOAD.updatedBy  = this.loggedUserData.username;
 			TrackPayload.UPDATE_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
         	TrackPayload.UPDATE_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
+            TrackPayload.UPDATE_PAYLOAD.createdBy = this.editTrackResponse.createdBy;
+            TrackPayload.UPDATE_PAYLOAD.createdOn = this.editTrackResponse.createdOn;
+            TrackPayload.UPDATE_PAYLOAD.updatedOn = this.editTrackResponse.updatedOn;
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.UPDATE_TRACK,TrackPayload.UPDATE_PAYLOAD, false).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
@@ -156,12 +175,22 @@ export class TrackComponent implements OnInit{
         this.addTrack = true;
         this.trackEditAction(id);
         this.title = "Update";
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
+        /*this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                  this.facilityData = data;
-        		});
+        		});*/
         this.spinnerService.hide();
         this.enableDepots = false;
         this.enableDepotType = false;
+        this.trackFormGroup = this.formBuilder.group({
+             id: 0,
+             "depotType":[null],
+            "facilityId": [null, Validators.required ],
+            "tkm": [null, Validators.compose([Validators.required])],
+            "rkm":[null, Validators.compose([Validators.required])],
+            "remark": [null, Validators.maxLength(250)],
+            "electrifiedRkm": [null, Validators.compose([Validators.required])],
+            "electrifiedTkm": [null, Validators.compose([Validators.required])],
+        });
     }   
      
     trackEditAction(id: number) {
@@ -170,7 +199,7 @@ export class TrackComponent implements OnInit{
                 this.editTrackResponse = responseData;
                 this.trackFormGroup.patchValue({
                     id: this.editTrackResponse.id,
-                    facilityId: this.editTrackResponse.facilityId,
+                    facilityId: this.editTrackResponse.facilityId.facilityName,
                     tkm: this.editTrackResponse.tkm,
                     rkm: this.editTrackResponse.rkm,
                     remark: this.editTrackResponse.remark,
@@ -182,6 +211,7 @@ export class TrackComponent implements OnInit{
     
     
     deleteTrack (id) {
+        this.addTrack = false;
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });

@@ -17,6 +17,9 @@ export const TrackPayload = {
     	"facilityId":"",
     	"updatedBy":"",
     	"electrifiedRkm":"",
-    	"electrifiedTkm":""
+    	"electrifiedTkm":"",
+        "createdBy":"",
+        "createdOn":"",
+        "updatedOn":""
     },
 };

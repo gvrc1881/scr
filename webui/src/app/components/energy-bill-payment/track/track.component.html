@@ -56,6 +56,11 @@
 			                                                                    {{ facilityId.facilityName}}
 			                                                                </mat-option>
 			                                                            </mat-select>
+			                                                            <mat-error
+											                            	*ngIf="trackFormGroup.controls['facilityId'].hasError('duplicateDepot')" 
+											                            		class="alert alert-danger" >
+											                                		Depot Already Exists
+											                        	</mat-error>
 			                                                            <!-- <mat-error
 			                                                                *ngIf="scheduleJobFormGroup.controls['repository'].hasError('required') && scheduleJobFormGroup.controls['repository'].touched"
 			                                                                class="alert alert-danger">Select Repository Name
@@ -152,7 +157,7 @@
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="depot">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>depot</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.depot}}</mat-cell>
 	                                            </ng-container>
@@ -161,13 +166,23 @@
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.tkm}}</mat-cell>
 	                                            </ng-container>
+	                                            <ng-container matColumnDef="electrifiedTKM">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Electrified TKM</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.electrifiedTkm}}</mat-cell>
+	                                            </ng-container>
 	                                            <ng-container matColumnDef="RKM">
 	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>RKM</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.rkm}}</mat-cell>
 	                                            </ng-container>
+	                                            <ng-container matColumnDef="electrifiedRKM">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Electrified RKM</mat-header-cell>
+	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+	                                                  {{row.electrifiedRkm}}</mat-cell>
+	                                            </ng-container>
 	                                            <ng-container matColumnDef="remarks">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>remarks</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.remark}}</mat-cell>
 	                                            </ng-container>

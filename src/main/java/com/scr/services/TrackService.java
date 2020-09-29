@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.Facility;
 import com.scr.model.Track;
 import com.scr.repository.TrackRepository;
 
@@ -33,6 +34,10 @@ public class TrackService {
 	public void deleteTrackById(Integer id) {
 		// TODO Auto-generated method stub
 		trackRepository.deleteById(id);
+	}
+
+	public Boolean existsByFacilityId(Facility facility) {
+		return trackRepository.existsByFacilityId(facility);
 	}
 
 }

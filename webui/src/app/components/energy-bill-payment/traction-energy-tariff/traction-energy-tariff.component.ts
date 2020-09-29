@@ -9,7 +9,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { TractionEnergyTariffPayload } from 'src/app/payloads/traction-energy-tariff.payload';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'traction-energy-tariff',
@@ -52,7 +52,8 @@ export class TractionEnergyTariffComponent implements OnInit{
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
         private formBuilder: FormBuilder,
-        private sendAndRequestService:SendAndRequestService
+        private sendAndRequestService:SendAndRequestService,
+        private datePipe: DatePipe
 
     ){
 
@@ -71,7 +72,7 @@ export class TractionEnergyTariffComponent implements OnInit{
             });
         
     }
-    
+
     duplicateFromDate() {
     	const q = new Promise((resolve, reject) => {
 	       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.EXISTS_FROM_DATE +
@@ -90,6 +91,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
+        this.title = 'Save';
         this.tractionEnergyTariffFormGroup = this.formBuilder.group({
             id: 0,
            "supplier": [null],
@@ -258,6 +260,8 @@ export class TractionEnergyTariffComponent implements OnInit{
             this.tractionEnergyTariffList = data;
             for (let i = 0; i < this.tractionEnergyTariffList.length; i++) {
                 this.tractionEnergyTariffList[i].sno = i+1;
+                this.tractionEnergyTariffList[i].fromDate = this.datePipe.transform(this.tractionEnergyTariffList[i].fromDate,'dd-MM-yyyy hh:mm:ss');
+                this.tractionEnergyTariffList[i].thruDate = this.datePipe.transform(this.tractionEnergyTariffList[i].thruDate,'dd-MM-yyyy hh:mm:ss');
                tractionEnergyTariff.push(this.tractionEnergyTariffList[i]);
             }
             this.tractionEnergyTariffDataSource = new MatTableDataSource(tractionEnergyTariff);
@@ -277,6 +281,15 @@ export class TractionEnergyTariffComponent implements OnInit{
     }   
      
     tractionEnergyTariffEditAction(id: number) {
+        this.tractionEnergyTariffFormGroup = this.formBuilder.group({
+                id: 0,
+               "supplier": [null],
+               "rate": [null],
+               "specification":[null, Validators.maxLength(250)],
+               "condition": [null, Validators.maxLength(250)],
+               "fromDate":[null,  Validators.required, this.duplicateFromDateAndId.bind(this)],
+               "thruDate":[null]
+           });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
@@ -291,15 +304,7 @@ export class TractionEnergyTariffComponent implements OnInit{
                 });
             } , error => {});
             this.id=id;
-            this.tractionEnergyTariffFormGroup = this.formBuilder.group({
-	            id: 0,
-	           "supplier": [null],
-	           "rate": [null],
-	           "specification":[null, Validators.maxLength(250)],
-	           "condition": [null, Validators.maxLength(250)],
-	           "fromDate":[null,  Validators.required, this.duplicateFromDateAndId.bind(this)],
-	           "thruDate":[null]
-	       });
+            
 	       
         if (!isNaN(this.id)) {
             this.title = 'Update';
@@ -326,6 +331,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     
     
     deleteTractionEneTariff (id) {
+        this.addTractionEnergyTariff = false;
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });

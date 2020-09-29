@@ -235,7 +235,8 @@ export const Constants = {
                 GET_TRACK_ID:"/findTrack/",
                 SAVE_TRACK:"/addTrack",
                 UPDATE_TRACK:"/updateTrack",
-                DELETE_TRACK:"/deleteTrack/"
+                DELETE_TRACK:"/deleteTrack/",
+                EXISTS_DEPOT:"/existsDepot/"
             },
             ENERGY_METER:{
                 GET_ENERGY_METER:"/findAllEnergyMeter",

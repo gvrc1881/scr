@@ -43,8 +43,11 @@
 									                                  {{ eleEngSupplier.code}}
 									                                </mat-option>
 									                              </mat-select>
-									                              <!-- <mat-error *ngIf="isSubmit && f.contentTopic.errors && f.contentTopic.errors.required"
-									                                class="alert alert-danger">Select Content Topic</mat-error> -->
+									                              <mat-error
+										                            *ngIf="tractionEnergyTariffFormGroup.controls['supplier'].hasError('duplicateFromDate')" 
+										                            class="alert alert-danger" >
+										                                Supplier And Date Combination Already Exists
+										                        </mat-error>
 									                            </mat-form-field>
 									                          </div> 
 	                                                        <!-- <div class="col-md-3">
@@ -82,17 +85,13 @@
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
-	                                                            <mat-form-field>
+	                                                            <mat-form-field fxFlex="30">
 	                                                            	<input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Choose Thru Date"
-                                                                [min]="toMinDate"
-                                                                [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" required>                                                                
+                                                                [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
-	                                                                <!-- <input matInput [matDatepicker]="thruDate" placeholder="Choose Thru Date" [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']">
-	                                                                    <mat-datepicker-toggle matSuffix [for]="thruDate"></mat-datepicker-toggle>
-	                                                                    <mat-datepicker #thruDate  ></mat-datepicker> (yearSeleceted)="close($event)" -->
 	                                                              </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -251,12 +250,12 @@
 	                                            <ng-container matColumnDef="fromDate">
 	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.fromDate | date}}</mat-cell>
+	                                                  {{row.fromDate}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="thruDate">
 	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Thru Date</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.thruDate | date}}</mat-cell>
+	                                                  {{row.thruDate}}</mat-cell>
 	                                            </ng-container>
 	                                           <ng-container matColumnDef="specification">
 	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Specification</mat-header-cell>
