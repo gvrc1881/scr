@@ -18,7 +18,7 @@
                         <div class="panel panel-primary">
                                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                                             <div class="panel panel-primary">
-                                                <div class="panel-heading">SCH Measure Entry</div>
+                                                <div class="panel-heading">Asset Actual Measure</div>
                                                 <div class="panel-body">
                                                     <div class="p-24">
                                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -71,8 +71,59 @@
                                                                     </div>  
                                                                     <div class="clear"> </div>      
                                                                 </div>
-
-                                                                
+                                                                <hr size="8" width="100%" color="balck">
+                                                                <p style="color:green" >MEASURES</p>
+                                                                    <div class="col-md-2">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input #fromKm matInput placeholder="Check wear of insulting rod" 
+                                                                                [formControl]="entryScheduleReportGroup.controls['Ins_rod']" [(ngModel)]="Rod" />
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <mat-form-field fxFlex="30">
+                                                                                <input #fromKm matInput placeholder="Check the length of skids bulb" 
+                                                                                [formControl]="entryScheduleReportGroup.controls['Skids_Blub']" [(ngModel)]="Bulb" />
+                                                                        </mat-form-field>
+                                                                    </div> 
+                                                                <hr size="8" width="100%" color="balck"  >
+                                                                <p style="color:green">ACTIVITY</p>
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check PTFE cover the of insulting rod" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['PTFE_Ins_rod']" [(ngModel)]="PTFERod" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check complete bracket of netural section for ny abnormolity" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['Netural_Abnormal']" [(ngModel)]="Abnormal" />
+                                                                    </mat-form-field>
+                                                                </div> 
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check leveling of skid" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['Level_Skid']" [(ngModel)]="LevelSkid" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check for excessive wear at the intake point of skids" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['Exce_Skids_Blub']" [(ngModel)]="ExceBulb" />
+                                                                    </mat-form-field>
+                                                                </div> 
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check tumbbuckels" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['Thumb_Buckle']" [(ngModel)]="Buckle" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <mat-form-field fxFlex="30">
+                                                                            <input #fromKm matInput placeholder="Check earth cable" 
+                                                                            [formControl]="entryScheduleReportGroup.controls['Earth_Cable']" [(ngModel)]="Cable" />
+                                                                    </mat-form-field>
+                                                                </div> 
+                                                                <hr size="6" width="100%" color="balck">
                                                                 <div class="col-md-3 mt-15">
                                                                     <div class="float-right" style="float: right;">
                                                                         <button class="mat-raised-button mat-accent" color="accent"
