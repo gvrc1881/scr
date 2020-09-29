@@ -8,6 +8,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-drives',
@@ -58,6 +59,7 @@ export class DrivesComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
     private sendAndRequestService:SendAndRequestService
   ) { }
 
@@ -128,6 +130,8 @@ export class DrivesComponent implements OnInit {
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
         this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['depotType'] : '';
+        this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+        this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
         drive.push(this.drivesList[i]);
       }
 

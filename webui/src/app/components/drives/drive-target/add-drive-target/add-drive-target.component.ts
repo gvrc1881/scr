@@ -249,6 +249,7 @@ export class AddDriveTargetComponent implements OnInit {
       failedMessage = "Updating";
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.TARGETS.UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
+      
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Drive Target Data "+message+" Successfully");

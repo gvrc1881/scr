@@ -58,8 +58,7 @@
                                                                 [formControl]="addDriveTargetFormGroup.controls['unitName']">
                                                                 <mat-option
                                                                     *ngFor="let functionalUnit of functionalUnitList"
-                                                                    [value]="functionalUnit.facilityName"
-                                                                   >
+                                                                    [value]="functionalUnit.facilityName">
                                                                     {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>

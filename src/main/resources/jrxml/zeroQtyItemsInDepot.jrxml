@@ -71,7 +71,7 @@ order by product_id]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{header} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{header}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -94,11 +94,11 @@ order by product_id]]>
 			<staticText>
 				<reportElement x="200" y="21" width="75" height="20" uuid="200961b1-e04f-442e-820d-00a755ecf236"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -108,11 +108,11 @@ order by product_id]]>
 			<staticText>
 				<reportElement x="200" y="0" width="75" height="21" uuid="d85db14d-0315-446f-b5b2-17e81c88c7b9"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
@@ -120,37 +120,51 @@ order by product_id]]>
 				<text><![CDATA[Division :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="275" y="0" width="92" height="21" uuid="ba773449-41c8-4cc0-9b59-52f380dfef77"/>
+				<reportElement x="275" y="0" width="107" height="21" uuid="ba773449-41c8-4cc0-9b59-52f380dfef77"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{div}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="656" y="0" width="106" height="21" uuid="3f640346-c49d-482a-a6e7-324badd9e48e"/>
+				<reportElement x="656" y="0" width="104" height="21" uuid="3f640346-c49d-482a-a6e7-324badd9e48e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Generated On: ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="762" y="0" width="98" height="21" uuid="58e1fa47-9409-4a58-8939-bd1580c9b6d6"/>
+				<reportElement x="760" y="0" width="100" height="21" uuid="58e1fa47-9409-4a58-8939-bd1580c9b6d6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="21" width="67" height="21" uuid="5cbc1fc3-b65c-49a5-ab92-5e04f6832b7a"/>
+				<reportElement x="0" y="21" width="67" height="20" uuid="5cbc1fc3-b65c-49a5-ab92-5e04f6832b7a"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -158,25 +172,25 @@ order by product_id]]>
 				<text><![CDATA[SubDivision : ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="67" y="21" width="100" height="21" uuid="94e2340e-6df0-4dfb-b212-d5c7257cefb1"/>
+				<reportElement x="67" y="21" width="133" height="20" uuid="94e2340e-6df0-4dfb-b212-d5c7257cefb1"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{subdiv}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="382" y="1" width="110" height="20" uuid="0efeab9c-ff8d-4819-b98c-11be69415a2b"/>
+				<reportElement x="382" y="0" width="110" height="21" uuid="0efeab9c-ff8d-4819-b98c-11be69415a2b"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -226,33 +240,7 @@ order by product_id]]>
 				<text><![CDATA[Unit]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="67" y="0" width="100" height="21" uuid="27008acd-318c-4bc6-af30-473441914c1b"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="0" width="67" height="21" uuid="ff320b14-79ef-46e3-b8de-0b1810af73e1"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Zone :  ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="860" height="41" uuid="e0f1cca1-841f-458c-af81-c49bde8b9c4b"/>
+				<reportElement x="67" y="0" width="133" height="21" uuid="27008acd-318c-4bc6-af30-473441914c1b"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -260,28 +248,43 @@ order by product_id]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<text><![CDATA[]]></text>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="67" height="21" uuid="ff320b14-79ef-46e3-b8de-0b1810af73e1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zone :  ]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="275" y="21" width="92" height="20" uuid="940b7297-5de8-42b4-9e2f-b17371aa516a"/>
+				<reportElement stretchType="RelativeToTallestObject" x="275" y="21" width="585" height="20" uuid="940b7297-5de8-42b4-9e2f-b17371aa516a"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{depot_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="492" y="1" width="150" height="20" uuid="9f59504c-6081-4c58-afb0-e156b1fb5764"/>
+				<reportElement stretchType="RelativeToTallestObject" x="492" y="0" width="164" height="21" uuid="9f59504c-6081-4c58-afb0-e156b1fb5764"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{product_category_id}]]></textFieldExpression>
@@ -369,12 +372,12 @@ order by product_id]]>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement x="813" y="0" width="47" height="20" uuid="36ff5c8d-6ef1-461c-98db-6fe3742dcd9c"/>
+				<reportElement x="760" y="0" width="100" height="20" uuid="36ff5c8d-6ef1-461c-98db-6fe3742dcd9c"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="733" y="0" width="80" height="20" uuid="e781f8a9-6160-430d-a61f-23f9719f38d0"/>
+				<reportElement x="625" y="0" width="135" height="20" uuid="e781f8a9-6160-430d-a61f-23f9719f38d0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>

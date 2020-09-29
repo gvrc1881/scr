@@ -3,7 +3,6 @@
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Crosstab Data Text" hAlign="Center"/>
 	<queryString>
 		<![CDATA[SELECT *
 FROM crosstab(
@@ -74,7 +73,7 @@ VKB_OHE text );]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="1174" height="35" uuid="6e84d979-1da3-45b1-a244-2b739744f353"/>
+				<reportElement x="0" y="0" width="1175" height="35" uuid="6e84d979-1da3-45b1-a244-2b739744f353"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -119,32 +118,6 @@ VKB_OHE text );]]>
 				</textElement>
 				<text><![CDATA[Material Desc]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="234" y="0" width="60" height="20" uuid="d85db14d-0315-446f-b5b2-17e81c88c7b9"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Division :  ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="999" y="0" width="106" height="20" uuid="3f640346-c49d-482a-a6e7-324badd9e48e"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Generated On: ]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="1105" y="0" width="69" height="20" uuid="58e1fa47-9409-4a58-8939-bd1580c9b6d6"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="369" y="20" width="35" height="29" uuid="bfb12ed8-fa6d-4bc8-a571-0a083fa6693e"/>
 				<box>
@@ -454,7 +427,7 @@ VKB_OHE text );]]>
 				<text><![CDATA[TDU PSI]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1139" y="20" width="35" height="29" uuid="367d7967-2457-403e-947b-6f0ab8fd6afd"/>
+				<reportElement x="1139" y="20" width="36" height="29" uuid="367d7967-2457-403e-947b-6f0ab8fd6afd"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -468,49 +441,7 @@ VKB_OHE text );]]>
 				<text><![CDATA[VKB OHE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="60" height="20" uuid="66f41ab5-607e-487e-ab1c-ba17d72119c5"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Zone :  ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="60" y="0" width="60" height="20" uuid="361e54df-ef63-4d40-b20e-5357fb31538d"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[SCR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="294" y="0" width="60" height="20" uuid="20a75e6a-c5f0-4759-823a-0b515b4dbcfd"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[SC]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="1174" height="20" uuid="8fcc8c94-3252-491e-bbe8-5a1af677b11e"/>
+				<reportElement x="999" y="0" width="105" height="20" uuid="3f640346-c49d-482a-a6e7-324badd9e48e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -518,10 +449,52 @@ VKB_OHE text );]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[]]></text>
+				<text><![CDATA[Generated On: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="369" height="20" uuid="66f41ab5-607e-487e-ab1c-ba17d72119c5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Zone :  SCR
+]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1104" y="0" width="71" height="20" uuid="58e1fa47-9409-4a58-8939-bd1580c9b6d6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="369" y="0" width="630" height="20" uuid="8b82f933-1c24-4655-a97a-b97eac9dfa98"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Division :SC
+]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -864,7 +837,7 @@ VKB_OHE text );]]>
 				<textFieldExpression><![CDATA[$F{tdu_psi}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1139" y="0" width="35" height="20" uuid="4e491418-3553-4988-b263-4caa61c4bcab"/>
+				<reportElement x="1139" y="0" width="36" height="20" uuid="4e491418-3553-4988-b263-4caa61c4bcab"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -882,12 +855,12 @@ VKB_OHE text );]]>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement x="633" y="0" width="47" height="20" uuid="36ff5c8d-6ef1-461c-98db-6fe3742dcd9c"/>
+				<reportElement x="614" y="0" width="70" height="20" uuid="36ff5c8d-6ef1-461c-98db-6fe3742dcd9c"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="553" y="0" width="80" height="20" uuid="e781f8a9-6160-430d-a61f-23f9719f38d0"/>
+				<reportElement x="509" y="0" width="105" height="20" uuid="e781f8a9-6160-430d-a61f-23f9719f38d0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
@@ -896,7 +869,7 @@ VKB_OHE text );]]>
 	<noData>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="1299" height="20" forecolor="#EF0320" uuid="aaccc37a-c102-40f4-b96a-24bb6ae6c716"/>
+				<reportElement x="0" y="0" width="1176" height="20" forecolor="#EF0320" uuid="aaccc37a-c102-40f4-b96a-24bb6ae6c716"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
