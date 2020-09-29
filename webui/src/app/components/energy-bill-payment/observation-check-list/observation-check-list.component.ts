@@ -8,8 +8,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-
-
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'observation-check-list',
     templateUrl: './observation-check-list.component.html',
@@ -30,6 +30,7 @@ export class ObservationCheckListComponent implements OnInit {
     toMinDate = new Date();
     currentDate = new Date();
     observationCheckListItemDataSource: MatTableDataSource<ObservationsCheckListModel>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     observationCheckListDisplayColumns = ['sno', 'inspectionType', 'observationCategory', 'observationItem', 'severity', 'description', 'priority', 'fromDate', 'thruDate', 'id'];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -42,6 +43,7 @@ export class ObservationCheckListComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService: SendAndRequestService
     ) {
 
@@ -85,6 +87,8 @@ export class ObservationCheckListComponent implements OnInit {
             this.observationCheckList = data;
             for (let i = 0; i < this.observationCheckList.length; i++) {
                 this.observationCheckList[i].sno = i + 1;
+                this.observationCheckList[i].fromDate = this.datePipe.transform(this.observationCheckList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+                this.observationCheckList[i].thruDate = this.datePipe.transform(this.observationCheckList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
                 observationsCheckList.push(this.observationCheckList[i]);
             }
             this.observationCheckListItemDataSource = new MatTableDataSource(observationsCheckList);
@@ -220,5 +224,18 @@ export class ObservationCheckListComponent implements OnInit {
     NewObservationCheckList() {
         this.addObservationCheckListItem = true;
     }
-
+    ViewData(data){
+        var result = {
+          'title':'Observation Check List Data',
+          'dataSource':[{label:'Inspection Type',value:data.inspectionType},{label:'Observation Category',value:data.observationCategory},{label:'Observation Item',value:data.observationItem},
+                        {label:'Description', value:data.description},{label:'Priority', value:data.priority},{label:'Severity', value:data.severity},
+                        {label:'From Date', value:data.fromDate},{label:'Thru Date', value:data.thruDate}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
+      }
 }

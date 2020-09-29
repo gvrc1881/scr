@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.FpInspectionMapper;
 import com.scr.message.request.InspectionRequest;
+import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
@@ -27,6 +28,7 @@ import com.scr.model.Observation;
 import com.scr.repository.ComplianceRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.FootPatrollingInspectionRepository;
+import com.scr.repository.ObservationUtilRepository;
 import com.scr.repository.ObservationsRepository;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -47,6 +49,9 @@ public class FootPatrollingInspectionService {
 	private ContentManagementRepository contentManagementRepository;
 	@Autowired
 	private FpInspectionMapper fpInspectionMapper;
+	@Autowired
+	private ObservationUtilRepository utilRepository;
+	
 	static Logger log = LogManager.getLogger(FootPatrollingInspectionService.class);
 
 	@Value("${observation.path}")
@@ -398,8 +403,8 @@ public class FootPatrollingInspectionService {
 		return complianceRepository.findByStatus(status);
 	}
 	
-	public List<Inspection> findObservation(String section, String facilityId,String nameOfStaff,Timestamp fromDateTime) {
-		List<Inspection> inspectionList = observationsRepository.findObservation(section,facilityId,nameOfStaff,fromDateTime);
+	public List<ObservationResponse> findObservation(String section, String facilityId,String nameOfStaff,String fromDateTime) {
+		List<ObservationResponse> inspectionList = utilRepository.findObservation(section,facilityId,nameOfStaff,fromDateTime);
 		log.info("inspectionListService"+inspectionList);
 		log.info("inspectionListService"+inspectionList.size());
 		return inspectionList;

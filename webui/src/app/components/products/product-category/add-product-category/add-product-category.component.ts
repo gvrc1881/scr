@@ -20,6 +20,7 @@ export class AddProductCategoryComponent implements OnInit {
   resp: any;
   title:string;
   productCateData:any;
+  productCateTypeData:any;
   addProductCategoryFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   constructor(
@@ -37,6 +38,7 @@ export class AddProductCategoryComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.createProductCategoryForm();
     this.findProductCategoryList();
+    this.findProductCategoryTypeList();
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
       this.save = false;
@@ -56,11 +58,11 @@ export class AddProductCategoryComponent implements OnInit {
   createProductCategoryForm() {
     this.addProductCategoryFormGroup = this.formBuilder.group({
       id: 0,
-      'productCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateProductCategoryId.bind(this)],
-      'categoryName': [null, Validators.maxLength(255), this.duplicateCategoryName.bind(this)],
-      'productCategoryTypeId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'primaryParentCategoryId':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
-      'description': [null, Validators.maxLength(255)],
+      'productCategoryId':['', Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateProductCategoryId.bind(this)],
+      'categoryName': ['', Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateCategoryName.bind(this)],
+      'productCategoryTypeId':[''],
+      'primaryParentCategoryId':[''],
+      'description': ['', Validators.maxLength(255)],
     });
   }
   getProductCategoryDataById(id) {
@@ -182,6 +184,12 @@ export class AddProductCategoryComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.GET_PRODUCT_CATEGORY)
       .subscribe((data) => {
         this.productCateData = data;
+      })
+  }
+  findProductCategoryTypeList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_PRODUCT_CATEGORY_TYPE)
+      .subscribe((data) => {
+        this.productCateTypeData = data;
       })
   }
 }

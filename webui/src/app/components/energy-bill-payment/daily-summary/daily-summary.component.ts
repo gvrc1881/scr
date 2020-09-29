@@ -7,6 +7,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FacilityModel } from 'src/app/models/facility.model';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'daily-summary',
@@ -26,6 +28,7 @@ export class DailySummaryComponent implements OnInit{
     facilityData: any;
     today=new Date();
     dailySummaryDataSource: MatTableDataSource<DailySummaryModel>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     dailySummaryDisplayColumns = ['sno' , 'createdDate' , 'facilityId' , 'nameOfStaff' , 'dayProgress' , 'npbProgress' , 'psiProgress' , 'tomorrowForecast',
     'footPatrolling', 'footInspection', 'footPlateInspection', 'supervisor', 'staffStrength', 'powerBlock','nonPowerBlock','remarks','id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -49,6 +52,7 @@ export class DailySummaryComponent implements OnInit{
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService:SendAndRequestService
 
     ){
@@ -125,6 +129,7 @@ export class DailySummaryComponent implements OnInit{
             this.dailySummaryList = data;
             for (let i = 0; i < this.dailySummaryList.length; i++) {
                 this.dailySummaryList[i].sno = i+1;
+                this.dailySummaryList[i].createdDate = this.datePipe.transform(this.dailySummaryList[i].createdDate, 'dd-MM-yyyy hh:mm:ss');
                 dailyProgressSummery.push(this.dailySummaryList[i]);              
             }
             this.dailySummaryDataSource = new MatTableDataSource(dailyProgressSummery);
@@ -361,6 +366,21 @@ export class DailySummaryComponent implements OnInit{
                }
             }
     }
+    ViewData(data){
+        var result = {
+          'title':'Daily Summary  Data',
+          'dataSource':[{label:'Facility Name',value:data.facilityId},{label:'Name Of Staff',value:data.nameOfStaff},{label:'Day Progress',value:data.dayProgress},
+                        {label:'Npb Progress', value:data.npbProgress},{label:'Psi Progress', value:data.psiProgress},{label:'Tomorrow Forecast', value:data.tomorrowForecast},
+                        {label:'Foot Patrolling', value:data.footPatrolling},{label:'Foot Inspection', value:data.footInspection},{label:'Foot PlateInspection', value:data.footPlateInspection},
+                        {label:'Supervisor', value:data.supervisor},{label:'Staff Strength', value:data.staffStrength},{label:'Power Block', value:data.powerBlock}, ]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
+      }
 
 }
 

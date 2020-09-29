@@ -44,6 +44,7 @@ import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
 import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.ProductCategoryMember;
+import com.scr.model.ProductCategoryType;
 import com.scr.model.ProductMakeModelAssociation;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
@@ -528,6 +529,13 @@ public class ReportController {
 			return new ResponseEntity<TssFeederMaster>(tssFeeder.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+	
+	@RequestMapping(value = "/getAllProductCategoryType", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<ProductCategoryType>> findProductCategoryType(){
+		List<ProductCategoryType> productCategoryTypeDetails= reportService.findProductCategoryType();
+		return new ResponseEntity<List<ProductCategoryType>>(productCategoryTypeDetails,HttpStatus.OK);	
+		
 	}
 	
 }

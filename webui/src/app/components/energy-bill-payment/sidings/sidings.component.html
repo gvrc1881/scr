@@ -338,17 +338,17 @@
                                           <ng-container matColumnDef="proposedDate">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>proposed</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.proposedDate | date}}</mat-cell>
+                                                {{row.proposedDate}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="approvalDate">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>approved</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.approvalDate | date}}</mat-cell>
+                                                {{row.approvalDate}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="workOrderDate">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>workOrder</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.workOrderDate | date}}</mat-cell>
+                                                {{row.workOrderDate}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="workProgressPercentage">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>workProgressPercentage</mat-header-cell>
@@ -363,11 +363,15 @@
                                           <ng-container matColumnDef="completionDate">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>completion</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.completionDate | date}}</mat-cell>
+                                                {{row.completionDate}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="id">
                                               <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                                   <mat-cell *matCellDef="let row">
+                                                    <button mat-icon-button matTooltip="View"
+                                                       (click)="ViewData(row)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                    </button>
                                                     <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                                                       (click)="editSidingsItem(row.id)">
                                                       <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>

@@ -1,5 +1,3 @@
-
-
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
@@ -8,6 +6,7 @@ import { TPCBoardDepotAssocModel } from 'src/app/models/tpc-board-depot-assoc.mo
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
 @Component({
     selector: 'tpc-board-depot-assoc',
@@ -32,6 +31,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     editTpcBoardDepotAssocResponse: any;
     tpcBoardDepotAssocFormErrors: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     funLocTypeData: any;
     tpcBoardData:any;
     facilityNames:any
@@ -246,5 +246,17 @@ duplicateTpcBoard() {
         });
         this.addTPCBoardDepotAssoc = true;
     }
-
+    ViewData(data){
+        var result = {
+          'title':'Tpc Board Depot Assoc Data',
+          'dataSource':[{label:'tpcBoard',value:data.tpcBoard},{label:'Unit Type',value:data.unitType},{label:'Unit Name',value:data.unitName},
+                        {label:'Description', value:data.description}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
+      }
 }

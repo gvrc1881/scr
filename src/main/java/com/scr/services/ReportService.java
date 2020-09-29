@@ -35,6 +35,7 @@ import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
 import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.model.ProductCategoryMember;
+import com.scr.model.ProductCategoryType;
 import com.scr.model.ProductMakeModelAssociation;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
@@ -73,6 +74,7 @@ import com.scr.repository.PBSwitchControlRepository;
 import com.scr.repository.PowerBlockRepository;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.ProductCategoryMemberRepository;
+import com.scr.repository.ProductCategoryTypeRepository;
 import com.scr.repository.ProductMakeModelAssocRepository;
 import com.scr.repository.ReportParametersRepository;
 import com.scr.repository.ReportRepositoryRepository;
@@ -170,6 +172,8 @@ public class ReportService {
 	private UserDefualtFacConsIndEtcRepository userDefualtFacConsIndEtcRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private ProductCategoryTypeRepository productCategoryTypeRepository;
 	
 	@Autowired
 	private TssFeederMasterService tssFeederMasterService;
@@ -421,4 +425,7 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public Optional<TssFeederMaster> findByFeederId(String feederId) {
 		return tssFeederMasterService.findByFeederId(feederId);
 	}
+	public List<ProductCategoryType>findProductCategoryType() {	
+		   return productCategoryTypeRepository.findAll();
+		}
 }

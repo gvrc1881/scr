@@ -78,14 +78,14 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>From Date
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        {{row.fromDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                                        {{row.fromDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="thruDate">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>To Date
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        {{row.thruDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                                        {{row.thruDate}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions

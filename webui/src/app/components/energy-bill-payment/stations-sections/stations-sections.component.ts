@@ -6,6 +6,7 @@ import { StationsSectionsModel } from 'src/app/models/stations-sections.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
 @Component({
   selector: 'stations-sections',
@@ -29,6 +30,7 @@ export class StationsSectionsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   editstationsSectionsResponse: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
 
   constructor(
@@ -284,5 +286,18 @@ export class StationsSectionsComponent implements OnInit {
       'division': [null, Validators.maxLength(250)]
     });
   }
-
+  ViewData(data){
+    var result = {
+      'title':'Station Sections  Data',
+      'dataSource':[{label:'Station Code',value:data.stationCode},{label:'Station Name',value:data.stationName},{label:'Major Section Route',value:data.majorSectionRoute},
+                    {label:'Up Section', value:data.upSection},{label:'Up Section Name', value:data.upSectionName},{label:'Dn Section', value:data.dnSection},
+                    {label:'Dn Section Name', value:data.dnSectionName},{label:'Division', value:data.division} ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
 }

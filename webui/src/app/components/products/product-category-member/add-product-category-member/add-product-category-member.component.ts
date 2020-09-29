@@ -26,6 +26,8 @@ export class AddProductCategoryMemberComponent implements OnInit {
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   scheduleList:any;
+  productData:any;
+  productCategoryData:any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -40,6 +42,8 @@ export class AddProductCategoryMemberComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.createProductCategoryMemberForm();
+    this.findProductNameList();
+    this.findProductCategoryList();
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
       this.save = false;
@@ -161,5 +165,17 @@ export class AddProductCategoryMemberComponent implements OnInit {
 
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+  findProductNameList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT)
+      .subscribe((data) => {
+        this.productData = data;
+      })
+  }
+  findProductCategoryList() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
+      .subscribe((data) => {
+        this.productCategoryData = data;
+      })
   }
 }

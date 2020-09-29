@@ -552,7 +552,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           {
             subMenuName: "Product",
             subMenuURL: "product",
-            subMenuIcon: "fa fa-file",
+            subMenuIcon: "fa fa-product-hunt",
             permission: true,
             rolePermission:true,
             currentSubMenu: !!path && path.includes("product") ? "active-item" : "",
@@ -560,7 +560,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           {
             subMenuName: "Product Category",
             subMenuURL: "product-category",
-            subMenuIcon: "fa fa-file",
+            subMenuIcon: "fa fa-product-hunt",
             permission: true,
             rolePermission:true,
             currentSubMenu: !!path && path.includes("product-category") ? "active-item" : "",
@@ -568,7 +568,7 @@ export class HeaderComponent implements OnInit, DoCheck {
           {
             subMenuName: "Product Category Member",
             subMenuURL: "product-category-member",
-            subMenuIcon: "fa fa-file",
+            subMenuIcon: "fa fa-product-hunt",
             permission: true,
             rolePermission:true,
             currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",

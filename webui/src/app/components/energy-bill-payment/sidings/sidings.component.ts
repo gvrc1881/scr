@@ -8,6 +8,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-sidings',
@@ -26,6 +28,8 @@ export class SidingsComponent implements OnInit {
     toMinDate=new Date();
     today=new Date();
     sidingsItemDataSource: MatTableDataSource<SidingsModel>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+
     sidingsItemDisplayColumns = ['sno' ,'zone','division','depot' ,'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
     'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvalDate',
     'workOrderDate','workProgressPercentage','workProgressRemark','completionDate','id' ] ;
@@ -62,6 +66,7 @@ export class SidingsComponent implements OnInit {
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService:SendAndRequestService
 
     ) { }
@@ -125,6 +130,10 @@ export class SidingsComponent implements OnInit {
             this.sidingsItemList = data;
             for (let i = 0; i < this.sidingsItemList.length; i++) {
                 this.sidingsItemList[i].sno = i+1;
+                this.sidingsItemList[i].proposedDate = this.datePipe.transform(this.sidingsItemList[i].proposedDate, 'dd-MM-yyyy hh:mm:ss');
+                this.sidingsItemList[i].approvalDate = this.datePipe.transform(this.sidingsItemList[i].approvalDate, 'dd-MM-yyyy hh:mm:ss');
+                this.sidingsItemList[i].workOrderDate = this.datePipe.transform(this.sidingsItemList[i].workOrderDate, 'dd-MM-yyyy hh:mm:ss');
+                this.sidingsItemList[i].completionDate = this.datePipe.transform(this.sidingsItemList[i].completionDate, 'dd-MM-yyyy hh:mm:ss');
                 sidingsDetails.push(this.sidingsItemList[i]);              
             }
             this.sidingsItemDataSource = new MatTableDataSource(sidingsDetails);
@@ -410,5 +419,20 @@ findDepots(){
            }
         }
 }
+ViewData(data){
+    var result = {
+      'title':'Sidings  Data',
+      'dataSource':[{label:'Station',value:data.station},{label:'Siding Code',value:data.sidingCode},{label:'Section',value:data.section},
+                    {label:'Section Eletrified Status', value:data.sectionEletrifiedStatus},{label:'Siding Eletrified Status', value:data.sidingEletrifiedStatus},{label:'Private Railway', value:data.privateRailway},
+                    {label:'status', value:data.status},{label:'Tkm', value:data.tkm},{label:'Remarks', value:data.remarks},
+                    {label:'proposedDate', value:data.proposedDate},{label:'ApprovalDate', value:data.approvalDate},{label:'WorkOrderDate', value:data.workOrderDate}, ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
             
     }

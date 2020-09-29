@@ -10,6 +10,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
+import { query } from '@angular/animations';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'foot-patrolling-inspection',
@@ -46,15 +48,23 @@ export class FootPatrollingInspectionComponent implements OnInit{
        //Observation 
    observationFormGroup: FormGroup;
    obsList : any;
+   observationData = [];
+   gridData = [];
    observationDataSource: MatTableDataSource<ObservationModel>;
    observationDisplayColumns = ['sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','id','compliance'] ;
    editObservationResponse: any;
    observationResponse: any;
    insId: any;
    obsId:any;
+   filterData;
+   maxDate: Date;
+   facilityId:string;
    observationItemData:any;
    attachedImages:any;
-
+   selectedFacilityId = 0;
+   selectedExactDate = new Date();
+   nameOfStaff:any;
+   section:any;
    //Compliance 
    complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
    complianceFormGroup: FormGroup;
@@ -70,6 +80,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private router: Router, 
+        private datePipe: DatePipe,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
     ){
@@ -98,7 +109,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'stopTime' : [null]
         });
         //Observation Permissions
-        this.getAllObservationsData();
+        this.getAllObservationsData(query);
         var ObspermissionName = this.commonService.getPermissionNameByLoggedData("FP","Observations") ;//p == 0 ? 'No Permission' : p[0].permissionName;
           console.log("ObspermissionName"+ObspermissionName);
         this.addPermission = this.commonService.getPermissionByType("Add", ObspermissionName); 
@@ -129,7 +140,27 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'compliedDateTime' : [null],
             'attachment'  :[null]
         });
-       
+       var query = this.section +'/'+ this.selectedFacilityId +'/'+this.nameOfStaff +'/'+this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') ;
+       console.log('query = '+query);
+        localStorage.setItem('query','');
+
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": "inspectionSeqId", "Value": "" },
+              { "Key": "location", "Value":" "},
+              { "Key": "observationCategory", "Value": "" },
+              { "Key": "actionRequired", "Value": "" },
+              { "Key": "description", "Value": "" },
+
+            
+            ],
+            gridData: this.gridData,
+            observationDataSource: this.observationDataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
+
     }
     
       public get f() { return this.fpInspectionItemFormGroup.controls; }
@@ -268,15 +299,16 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
     
      //Observations Related code for Add,delete,update,fetch records
-     getAllObservationsData() {
+     getAllObservationsData(query) {
          if(this.fpInspectionItemFormGroup.controls.id){
             const observation : ObservationModel[] = [];
-            this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION).subscribe((data) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_LIST_BASED_ON_QUERY+query).subscribe((data) => {
                 this.obsList = data;
                 for (let i = 0; i < this.obsList.length; i++) {
                     this.obsList[i].sno = i+1;
                     observation.push(this.obsList[i]);              
                 }
+                
                 this.observationDataSource = new MatTableDataSource(observation);
                 this.observationDataSource.paginator = this.paginator;
                 this.observationDataSource.sort = this.sort;
@@ -318,7 +350,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.observationResponse = response
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
-                this.getAllObservationsData();
+                this.getAllObservationsData(query);
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
             }else {
@@ -359,7 +391,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             this.observationResponse = data
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
-                this.getAllObservationsData();
+                this.getAllObservationsData(query);
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
                 this.title = "Save";
@@ -379,6 +411,29 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.insId = id;
         this.addObservation = true;
     }
+    exactDateEvent($event) {
+        this.selectedExactDate = new Date($event.value);
+      }
+      updateNameOfStaff($event) {
+        this.nameOfStaff = $event.value;
+      }
+    updateFacilityName($event) {
+        if ($event.value) {
+          this.selectedFacilityId = $event.value;
+        }
+      }
+      updateSection($event) {
+        if ($event.value) {
+          this.section = $event.value;
+        }
+      }
+
+    executeQuery() {
+        var query = "";
+        query = this.section +'/'+ this.selectedFacilityId +'/'+this.nameOfStaff +'/'+this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') ;
+        localStorage.setItem('query', query);
+        this.getAllObservationsData(query);
+      }
     onGoBack() {
         this.observationFormGroup.reset();
         this.addObservation = false;
@@ -425,7 +480,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             if(result){
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
                         this.commonService.showAlertMessage('Observation Deleted Successfully');
-                        this.getAllObservationsData();
+                        this.getAllObservationsData(query);
                     },error => {});
             }
         });

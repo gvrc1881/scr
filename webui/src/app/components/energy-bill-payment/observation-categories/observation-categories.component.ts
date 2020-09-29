@@ -8,7 +8,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'observation-categories',
     templateUrl: './observation-categories.component.html',
@@ -28,6 +29,7 @@ export class ObservationCategoriesComponent implements OnInit{
     inspectionTypeData:any;
     obsCategoriesErrors: any;
     observationCategoriesItemDataSource: MatTableDataSource<ObservationCategoriesModel>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     observationCategoriesDisplayColumns = ['sno' ,'inspectionType','department' , 'observationCategory' , 'description' , 'remark' , 'fromDate' , 'thruDate' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -40,6 +42,7 @@ export class ObservationCategoriesComponent implements OnInit{
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private dialog: MatDialog,
+        private datePipe: DatePipe,
         private sendAndRequestService:SendAndRequestService
 
     ){
@@ -128,6 +131,8 @@ export class ObservationCategoriesComponent implements OnInit{
             this.observationCategoriesList = data;
             for (let i = 0; i < this.observationCategoriesList.length; i++) {
                 this.observationCategoriesList[i].sno = i+1;
+                this.observationCategoriesList[i].fromDate = this.datePipe.transform(this.observationCategoriesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+                this.observationCategoriesList[i].thruDate = this.datePipe.transform(this.observationCategoriesList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
                 observationCategories.push(this.observationCategoriesList[i]);              
             }
             this.observationCategoriesItemDataSource = new MatTableDataSource(observationCategories);
@@ -277,5 +282,18 @@ export class ObservationCategoriesComponent implements OnInit{
           'thruDate' : [null]
       });
     }
-
+    ViewData(data){
+      var result = {
+        'title':'Observation Categories Data',
+        'dataSource':[{label:'Inspection Type',value:data.inspectionType},{label:'Department',value:data.department},{label:'Observation Category',value:data.observationCategory},
+                      {label:'Description', value:data.description},{label:'Remark', value:data.remark},
+                      {label:'From Date', value:data.fromDate},{label:'Thru Date', value:data.thruDate}]
+      }
+      this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+        disableClose: false,
+        height: '400px',
+        width: '80%',       
+        data:result,  
+      });            
+    }
 }

@@ -74,7 +74,8 @@ export const Constants = {
             GET_DIVISION_OBJECT:"/getDivisonObject/",
             GET_PRODUCTID:"/getProductIdAndDescription",
 			GET_PRODUCT_ID_BASED_ON_CATEGORY_MEM_ID:"/getProductIdAndDescriptionBasedOnProductCategoryId/",
-			GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId"
+            GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
+            GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType"
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -449,7 +450,8 @@ export const Constants = {
                 SAVE_OBSERVATION:"/addObservation",
                 UPDATE_OBSERVATION:"/updateObservationItem",
                 DELETE_OBSERVATION:"/deleteObservationItem/",
-                GET_OBSERVATION_CONTENT_ID:"/observationsContentById/"
+                GET_OBSERVATION_CONTENT_ID:"/observationsContentById/",
+                GET_OBSERVATION_LIST_BASED_ON_QUERY:"/observationList/"
             },
             COMPLIANCES:{
                 GET_COMPLIANCE:"/findAllComplianceItems",

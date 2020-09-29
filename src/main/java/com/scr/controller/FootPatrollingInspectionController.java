@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.InspectionRequest;
+import com.scr.message.response.EnergyConsumptionResponse;
+import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
@@ -434,18 +437,26 @@ public class FootPatrollingInspectionController {
 		
 		
 		//search list for observations
-		
-		@RequestMapping(value = "/inspectionIdByFacilityId/{section}/{facilityId}/{nameOfStaff}/{fromDateTime}",method = RequestMethod.GET  , headers="accept=application/json" )
-		public ResponseEntity<List<Inspection>> findInspectionIdByFacilityId(
-				@PathVariable("section") String section,
-				@PathVariable("facilityId") String facilityId ,
-				@PathVariable("nameOfStaff") String nameOfStaff,
-				@PathVariable("fromDateTime") String fromDateTime){
-			log.info("Section = "+section +" FacilityId = "+facilityId+" NameOfStaff = "+nameOfStaff+" FromDateTime = "+fromDateTime);
-			List<Inspection> inspectionList= footPatrollingInspectionService.findObservation(section,facilityId,nameOfStaff,Helper.convertStringToTimestamp(fromDateTime));
-			log.info("inspectionListSize"+inspectionList.size());
-			log.info("inspectionList"+inspectionList);
-				return new ResponseEntity<List<Inspection>>(inspectionList, HttpStatus.OK);		
+		@RequestMapping(value = "/observationList/{section}/{facilityId}/{nameOfStaff}/{fromDateTime}", method = RequestMethod.GET , headers = "Accept=application/json")
+		public ResponseEntity<List<ObservationResponse>> findObservation(
+					@PathVariable("section") String section,
+					@PathVariable("facilityId") String facilityId,
+					@PathVariable("nameOfStaff") String nameOfStaff,
+					@PathVariable("fromDateTime") String fromDateTime) throws JSONException {
+			log.info("Enter into Filter Observation function");
+			log.info("section = "+section +" FacilityId = "+facilityId+" nameOfStaff = "+nameOfStaff+" fromDateTime = "+fromDateTime);
+			List<ObservationResponse> obsFilterList = null;
+			try {			
+				log.info("Calling service for Energy Consumption data");
+				obsFilterList = footPatrollingInspectionService.findObservation(section, facilityId, nameOfStaff, fromDateTime);	
+				log.info("Fetched Observation Filtered data = "+obsFilterList);
+			} catch (NullPointerException e) {			
+				log.error("ERROR >>> while fetching the Observation Filter data = "+e.getMessage());
+			} catch (Exception e) {			
+				log.error("ERROR >>> while fetching the Observation Filter data = "+e.getMessage());
+			}
+			log.info("Exit from Observation Filter function");
+			return ResponseEntity.ok((obsFilterList));
 		}
 		
 }

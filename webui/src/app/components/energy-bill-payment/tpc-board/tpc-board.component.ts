@@ -8,6 +8,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
 
 
@@ -36,6 +37,7 @@ export class TPCBoardComponent implements OnInit{
     userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
     divisionList:  FacilityModel [] = [];    
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
     constructor(
         private commonService: CommonService,
@@ -253,6 +255,19 @@ export class TPCBoardComponent implements OnInit{
             'description':[null,Validators.maxLength(250)]
             
         });
+    }
+    ViewData(data){
+      var result = {
+        'title':'Tpc Board  Data',
+        'dataSource':[{label:'tpcBoard',value:data.tpcBoard},{label:'Division',value:data.dataDiv},
+                      {label:'Description', value:data.description}]
+      }
+      this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+        disableClose: false,
+        height: '400px',
+        width: '80%',       
+        data:result,  
+      });            
     }
 
 }
