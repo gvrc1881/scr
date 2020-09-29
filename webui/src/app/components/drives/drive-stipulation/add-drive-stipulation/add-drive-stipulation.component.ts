@@ -7,6 +7,8 @@ import { MatDatepickerInputEvent, MatDialogRef, MatDialog } from '@angular/mater
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { InspectionstModel } from 'src/app/models/drive.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-drive-stipulation',
@@ -35,6 +37,7 @@ export class AddDriveStipulationComponent implements OnInit {
   dateFormat = 'dd-MM-yyyy ';
   attachedImages:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  crsEigInspections: InspectionstModel[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +47,7 @@ export class AddDriveStipulationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private datePipe: DatePipe
   ) {
     // Reactive form errors
     this.stipulationFormErrors = {
@@ -77,6 +81,16 @@ export class AddDriveStipulationComponent implements OnInit {
       this.update = false;
       this.title = 'Save';
     }
+    this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
+      let crsEigInss = data;
+        for (let i = 0; i < crsEigInss.length; i++) {
+        crsEigInss[i].dateOfInspection = this.datePipe.transform(crsEigInss[i].dateOfInspection, 'dd-MM-yyyy hh:mm:ss');
+        this.crsEigInspections.push(crsEigInss[i]);
+      }
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });  
   }
   findAssertTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.ASSERT_TYPE).subscribe((data) => {
@@ -97,12 +111,13 @@ export class AddDriveStipulationComponent implements OnInit {
         this.addDriveStipulationFormGroup.patchValue({
           id: this.resp.id,
           stipulation: this.resp.stipulation,
-          inspectionId: this.resp.inspectionId,
+          inspectionId: parseInt(this.resp.inspectionId),
           dateOfStipulation: !!this.resp.dateOfStipulation ? new Date(this.resp.dateOfStipulation) : '',
-          dateComplied:!!this.resp.dateComplied ? new Date(this.resp.toDate) : '', 
+          dateComplied:!!this.resp.dateComplied ? new Date(this.resp.dateComplied) : '', 
           compliance: this.resp.compliance,
           compliedBy: this.resp.compliedBy,
         });
+          
         this.minDateComplied =  new Date(this.resp.dateOfStipulation);
         var commonId = !!this.resp.attachment && this.resp.attachment;
         this.spinnerService.hide();
@@ -171,6 +186,7 @@ export class AddDriveStipulationComponent implements OnInit {
       for(var i=0;i<this.selectedFiles.length;i++){
           formdata.append('file', this.selectedFiles[i]);
       }
+
       formdata.append('stipulation', save.stipulation);
       formdata.append('inspectionId', save.inspectionId);
       formdata.append('dateOfStipulation', save.dateOfStipulation);

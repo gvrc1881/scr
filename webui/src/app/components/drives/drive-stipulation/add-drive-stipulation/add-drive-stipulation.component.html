@@ -31,33 +31,23 @@
                                                 [formGroup]="addDriveStipulationFormGroup" (ngSubmit)="onAddStipulationFormSubmit();">
 
                                                 <div class="col-md-12">
-
-                                                    <!-- stipulation -->
+                                                
+                                                	<!-- inspectionId -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Stipulation" 
-                                                                [formControl]="addDriveStipulationFormGroup.controls['stipulation']"
-                                                                required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$">
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('required') && addDriveStipulationFormGroup.controls['stipulation'].touched"
-                                                                class="alert alert-danger">Enter Stipulation</mat-error>
-                                                            
-                                                            <mat-error
-                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
-                                                                class="alert alert-danger">Special characters are not allowed
-                                                            </mat-error>
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <!-- inspectionId -->
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Inspection Id"
+                                                            <!-- <input matInput placeholder="Inspection Id"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['inspectionId']"
-                                                                required>
+                                                                required> -->
+                                                            <mat-select placeholder=" Choose Inspection" 
+                                                                [formControl]="addDriveStipulationFormGroup.controls['inspectionId']" required> 
+                                                                <mat-option *ngFor="let crsEigInspection of crsEigInspections"
+                                                                    [value]="crsEigInspection.id">
+                                                                    {{ crsEigInspection.inspectionType}} - {{ crsEigInspection.dateOfInspection}} - {{crsEigInspection.sectionStartLocation}}
+                                                                </mat-option>
+                                                            </mat-select>    
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('required') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
-                                                                class="alert alert-danger">Enter Inspection Id</mat-error>
+                                                                class="alert alert-danger">Choose Inspection</mat-error>
                                                             <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['inspectionId'].hasError('pattern') && addDriveStipulationFormGroup.controls['inspectionId'].touched"
                                                                 class="alert alert-danger">Only alphabets allowed
@@ -120,30 +110,40 @@
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div> -->
+                                                    
+                                                     <!-- stipulation -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                        	<textarea matInput placeholder="Stipulation" [formControl]="addDriveStipulationFormGroup.controls['stipulation']" required pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
+                                                            <!-- <input matInput placeholder="Stipulation" 
+                                                                [formControl]="addDriveStipulationFormGroup.controls['stipulation']"
+                                                                required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"> -->
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('required') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">Enter Stipulation</mat-error>
+                                                            
+                                                            <mat-error
+                                                                *ngIf="addDriveStipulationFormGroup.controls['stipulation'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
 
                                                      <!-- compliance -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Compliance" 
+                                                        	<textarea matInput placeholder="Compliance" [formControl]="addDriveStipulationFormGroup.controls['compliance']" pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
+                                                            <!-- <input matInput placeholder="Compliance" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliance']"
-                                                                pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" >
+                                                                pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" > -->
                                                                 <mat-error
                                                                 *ngIf="addDriveStipulationFormGroup.controls['compliance'].hasError('pattern') && addDriveStipulationFormGroup.controls['stipulation'].touched"
                                                                 class="alert alert-danger">Special characters are not allowed
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
-
-                                                     <!-- attachment -->
-                                                     <div class="col-md-3">
                                                     
-                                                        <input type="file" [formControl]="addDriveStipulationFormGroup.controls['attachment']"
-                                                             name="uploadFile"  accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                                            style="margin-top: 6%;"
-                                                            id="uploadFile" multiple (change)="upload($event)" />
-                                                    </div>
-
-                                                     <!-- compliedBy -->
+                                                    <!-- compliedBy -->
                                                      <!-- size="12"maxlength="12" -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -157,8 +157,17 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
-
                                                     
+
+                                                     <!-- attachment -->
+                                                     <div class="col-md-3">
+                                                    
+                                                        <input type="file" [formControl]="addDriveStipulationFormGroup.controls['attachment']"
+                                                             name="uploadFile"  accept="image/*,.pdf,.doc,.docx,.csv,application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, .xlsx, .xls,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                            style="margin-top: 6%;"
+                                                            id="uploadFile" multiple (change)="upload($event)" />
+                                                    </div>
+
                                                 <div class="clear"> </div>
                                                 <div class="col-md-12">
                                                     <table class="table" *ngIf="filesExists">

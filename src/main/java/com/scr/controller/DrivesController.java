@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,6 @@ import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
-import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -848,7 +848,7 @@ public class DrivesController {
 		}
 	}
 	
-	@PostMapping("/updateStipulations")
+	@PutMapping("/updateStipulations")
 	@ResponseBody
 	public ResponseStatus updateStipulationsData(
 			@RequestParam("file") List<MultipartFile> file, 

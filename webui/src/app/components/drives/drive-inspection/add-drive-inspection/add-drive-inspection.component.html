@@ -35,8 +35,8 @@
                                                             <mat-select placeholder="Inspection Type"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['inspectionType']">
                                                                 <mat-option *ngFor="let status of inspectionTypeList"
-                                                                    [value]="status.inspectionType">
-                                                                    {{ status.inspectionType}}
+                                                                    [value]="status.statusCode">
+                                                                    {{ status.statusCode}}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

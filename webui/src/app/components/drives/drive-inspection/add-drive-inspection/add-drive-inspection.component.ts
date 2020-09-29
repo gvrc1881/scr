@@ -93,12 +93,19 @@ export class AddDriveInspectionComponent implements OnInit {
     });
   }
   findInspectionType(){
+      
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'CRS_EIG').subscribe((data) => {
+            this.inspectionTypeList = data;
+      }, error => {
+          this.spinnerService.hide();
+        });
+    /*
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.INSPECTION_TYPE).subscribe((data) => {
       this.inspectionTypeList = data;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
-    });
+    }); */
   }
   getInspectionDataById(id){
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + id)

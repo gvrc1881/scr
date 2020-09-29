@@ -8,6 +8,7 @@ import { FilesInformationDialogComponent } from '../../file-information-dialog/f
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -25,6 +26,7 @@ export class DriveStipulationComponent implements OnInit {
     'compliance', 'attachment', 'compliedBy', 'actions'];
   dataSource: MatTableDataSource<StipulationstModel>;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    resp: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -39,6 +41,7 @@ export class DriveStipulationComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    public datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -74,6 +77,14 @@ export class DriveStipulationComponent implements OnInit {
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
+          this.stipulationsList[i].dateOfStipulation = this.datePipe.transform(this.stipulationsList[i].dateOfStipulation, 'dd-MM-yyyy hh:mm:ss')
+                this.stipulationsList[i].dateComplied = this.datePipe.transform(this.stipulationsList[i].dateComplied, 'dd-MM-yyyy hh:mm:ss')
+          this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + this.stipulationsList[i].inspectionId)
+            .subscribe((resp) => {
+               this.resp = resp;
+                this.stipulationsList[i].inspectionId = this.resp.inspectionType + ' - ' + this.datePipe.transform(this.resp.dateOfInspection, 'dd-MM-yyyy hh:mm:ss') +  ' - ' +this.resp.sectionStartLocation ;
+          });
+          
         stipulations.push(this.stipulationsList[i]);
       }
       this.filterData.gridData = stipulations;
