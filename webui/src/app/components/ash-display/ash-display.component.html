@@ -265,6 +265,21 @@
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.depo}}</mat-cell>
                                         </ng-container>
+                                        
+                                        <ng-container matColumnDef="measureEntry">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Measrure Entry</span>
+                                                <input disabled="true" matInput type="text" (keyup) ="updatePagination()" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row">
+                                                <a mat-icon-button matTooltip="entry" *ngIf="editPermission"> 
+                                                    <button mat-icon-button matTooltip="entry"
+                                                        (click)="processEntryAction(row.id)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                    </button>
+                                                </a>                                                
+                                            </mat-cell>
+                                        </ng-container>
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>Actions</span>

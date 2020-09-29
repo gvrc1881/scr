@@ -45,6 +45,7 @@ import { PowerBlockModule } from './components/tpc-operations/power-block/power-
 import { TestModule } from './components/test/test.module';
 import { AshDisplayModule } from './components/ash-display/ash-display.module';
 import { DataViewDialogComponent } from './components/data-view-dialog/data-view-dialog.component';
+import { AshEntryComponent } from './src/app/components/ash-display/ash-entry/ash-entry.component';
 
 
 // Pass the fusioncharts library and chart modules
@@ -65,6 +66,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     InspectionDocumentComponent,
     ComplianceDocumentComponent,
     DataViewDialogComponent,
+    AshEntryComponent,
   ],
   imports: [
     BrowserModule,

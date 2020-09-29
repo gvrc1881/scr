@@ -11,6 +11,7 @@ import { CommonDirectivesModule } from 'src/app/modules/common-directives.module
 import { AddAshComponent } from './add-ash/add-ash.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import { AshEntryComponent } from './ash-entry/ash-entry.component';
 
 const routes: Routes = [
     {
@@ -21,10 +22,10 @@ const routes: Routes = [
         path     : ':id',
         component: AddAshComponent
     },
-    // {
-    //     path        : 'add-ash',
-    //     component:   AddAshComponent
-    // },   
+    {
+        path        : 'entry/:id',
+        component:   AshEntryComponent
+    },   
     
 ];
 
@@ -32,6 +33,7 @@ const routes: Routes = [
     declarations: [
         AshDisplayComponent,
         AddAshComponent,
+        AshEntryComponent,
     ],
     imports: [
         RouterModule.forChild(routes),

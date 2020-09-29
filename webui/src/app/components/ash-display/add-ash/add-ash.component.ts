@@ -234,7 +234,7 @@ export class AddAshComponent implements OnInit {
     this.assetType = assetyp;
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID + this.assetType + '/'+this.facilityId).subscribe((data) => {
       this.assetIdList = data;
-      console.log("selected assetId List for edit  ::" +this.assetIdList);
+     // console.log("selected assetId List for edit  ::" +this.assetIdList);
     }, error => {
       this.spinnerService.hide();
     });
@@ -357,7 +357,7 @@ export class AddAshComponent implements OnInit {
         console.log("assetid not mapped for edit page for ng mpodel undefined");
        }else{
         this.assetIdList.map(asset => {      
-          console.log("assetid mapped for edit page for ng mpodel::"+asset.assetId+"::this.resp.assetId::"+this.resp.assetId);      
+         // console.log("assetid mapped for edit page for ng mpodel::"+asset.assetId+"::this.resp.assetId::"+this.resp.assetId);      
           if(asset.assetId===this.resp.assetId)    
           console.log("assetid mapped for edit page for ng mpodel::"+asset.assetId);      
            this.assetidObjModel=asset;

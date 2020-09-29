@@ -33,7 +33,7 @@ export class AshDisplayComponent implements OnInit {
   //'createdStamp', 'createdTxStamp', , 'lastUpdatedStamp', 'lastUpdatedTxStamp''deviceCreatedStamp','deviceLastUpdatedStamp',
   //'sno', 'id', 'deviceId',, 'pbOperationSeqId', 'remarks','initialOfIncharge','detailsOfMaint', 'dataDiv',  'createdBy',
   //   'doneBy','seqId',  'facilityId',
-  displayedColumns = ['sno', 'assetId', 'assetType', 'depo', 'scheduleCode', 'scheduleDate', 'status', 'actions'];
+  displayedColumns = ['sno', 'assetId', 'assetType', 'depo', 'scheduleCode', 'scheduleDate', 'status','measureEntry','actions'];
 
 
   dataSource: MatTableDataSource<StipulationstModel>;
@@ -107,7 +107,7 @@ export class AshDisplayComponent implements OnInit {
         this.stipulationsList[i].sno = i + 1;
         stipulations.push(this.stipulationsList[i]);
       }
-      console.log("stipulations:::" + stipulations);
+     // console.log("stipulations:::" + stipulations);
       this.refreshDatasource(stipulations);
       this.spinnerService.hide();
     }, error => {
@@ -130,6 +130,9 @@ export class AshDisplayComponent implements OnInit {
   }
   processEditAction(id) {
     this.router.navigate([id], { relativeTo: this.route });
+  }
+  processEntryAction(id) {
+    this.router.navigate(["entry/"+id], { relativeTo: this.route });
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
