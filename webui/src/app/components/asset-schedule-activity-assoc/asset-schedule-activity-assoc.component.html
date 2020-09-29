@@ -320,6 +320,10 @@
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
             <mat-cell *matCellDef="let row">
+                <button mat-icon-button matTooltip="View"
+                (click)="ViewData(row)">
+            <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                </button>
               <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                 (click)="editAssetSchActAssoc(row.id)">
                 <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>

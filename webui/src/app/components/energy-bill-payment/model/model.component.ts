@@ -8,6 +8,8 @@ import { ModelPayload } from 'src/app/payloads/model.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class ModelComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     modelResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     
@@ -47,7 +50,8 @@ export class ModelComponent implements OnInit{
         private commonService: CommonService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private datePipe: DatePipe,
         ){
                 this.modelErrors = {
                     modelCode:{},
@@ -316,6 +320,18 @@ export class ModelComponent implements OnInit{
         return q;
       }
      
+      ViewData(data){
+        var result = {
+          'title':'Model',
+          'dataSource':[{label:'modelCode',value:data.modelCode},{label:'description',value:data.description}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
+      }
 }
     
 

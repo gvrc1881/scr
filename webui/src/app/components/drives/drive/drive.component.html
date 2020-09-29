@@ -228,14 +228,14 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>From Date
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        {{row.fromDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                                        {{row.fromDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="toDate">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>To Date
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        {{row.toDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                                        {{row.toDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="authority">
@@ -248,6 +248,10 @@
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
+                                                        <button mat-icon-button matTooltip="View"
+                                                        (click)="ViewDataDriveCat(row)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                      </button>
                                                         <a mat-icon-button matTooltip="Edit"
                                                             *ngIf="editPermission">
                                                             <button mat-icon-button matTooltip="Edit"

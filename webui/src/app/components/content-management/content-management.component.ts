@@ -97,9 +97,9 @@ export class ContentManagementComponent implements OnInit {
             GenOps: ['', Validators.required],
             description: ['', Validators.compose([Validators.required])],
             uploadFiles: ['', Validators.required],
-            assetTypeRlyId: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            assetTypeRlyId: ['', Validators.compose([Validators.required])],
             make: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
-            model: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            model: ['', Validators.compose([Validators.required])],
             docCategory: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
         });
     }

@@ -7,6 +7,8 @@ import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class FacilityComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     facilityResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
@@ -56,7 +59,8 @@ export class FacilityComponent implements OnInit{
         private commonService: CommonService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private datePipe: DatePipe,
         ){
                 this.facilityErrors = {
                     facilityId: {},
@@ -460,11 +464,7 @@ export class FacilityComponent implements OnInit{
                    this.divisionsList.push(this.userHierarchy[i]);
                    this.enableDivision = true;
                  }
-                //  else if(this.userHierarchy[i].depotType == 'DIV'){
-                //   this.divisionsList.push(this.userHierarchy[i]);
-                //   this.enableDivision = true;
-
-                //  }
+                
               }
       }
       
@@ -475,15 +475,24 @@ export class FacilityComponent implements OnInit{
                    this.subDivisionList.push(this.userHierarchy[i]);
                    this.enableSubDivision = true;
                  }
-                //  else if(this.userHierarchy[i].depotType == 'SUB_DIV'){
-                //   this.subDivisionList.push(this.userHierarchy[i]);
-                //   this.enableSubDivision = true;
-
-                //  }
+                
               }
       }
         
-      
+      ViewData(data){
+        var result = {
+          'title':'Functional Unit',
+          'dataSource':[{label:'Zone',value:data.zone},{label:'Division',value:data.division},
+          {label:'Sub_Div',value:data.subDivision},{label:'Functional unit name',value:data.facilityName},
+          {label:'description',value:data.description}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
+      }
         
    }
    

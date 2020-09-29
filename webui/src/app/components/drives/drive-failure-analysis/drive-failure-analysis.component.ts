@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 @Component({
   selector: 'app-drive-failure-analysis',
@@ -25,7 +27,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
     'rootCause', 'actionPlan', 'actionStatus', 'approvedBy', 'actionTargetDate', 'actionCompletedDate',
     'actionDescription', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
-
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -40,6 +42,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -63,9 +66,12 @@ export class DriveFailureAnalysisComponent implements OnInit {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
+        this.driveTargetList[i].date = this.datePipe.transform(this.driveTargetList[i].date, 'dd-MM-yyyy hh:mm:ss');
+        this.driveTargetList[i].actionTargetDate = this.datePipe.transform(this.driveTargetList[i].actionTargetDate, 'dd-MM-yyyy hh:mm:ss');
+        this.driveTargetList[i].actionCompletedDate = this.datePipe.transform(this.driveTargetList[i].actionCompletedDate, 'dd-MM-yyyy hh:mm:ss');
+        
         driveTarget.push(this.driveTargetList[i]);
       }
-
       this.dataSource = new MatTableDataSource(driveTarget);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -74,6 +80,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
       this.spinnerService.hide();
     });
   }
+  
   processEditAction(id) {
     this.router.navigate([id], { relativeTo: this.route });
   }
@@ -97,6 +104,21 @@ export class DriveFailureAnalysisComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+  }
+  ViewData(data){
+    var result = {
+      'title':'Failure Analysis',
+      'dataSource':[{label:'Division',value:data.div},{label:'Failure scetion',value:data.section},
+      {label:'assetType',value:data.assetType},{label:'rootCause',value:data.rootCause},
+      {label:'ActionPlan',value:data.actionPlan},{label:'ActionDescription',value:data.actionDescription}
+    ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 
 }

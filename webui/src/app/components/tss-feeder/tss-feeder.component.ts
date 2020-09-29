@@ -8,6 +8,8 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 @Component({
     selector: 'tss-feeder',
@@ -34,6 +36,7 @@ export class TssFeederComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     feederResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
@@ -49,7 +52,8 @@ export class TssFeederComponent implements OnInit{
         private commonService: CommonService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private datePipe: DatePipe,
         ){
                 this.feederErrors = {
                     feederName: {},
@@ -344,7 +348,18 @@ findDivisions(){
         }
 }
 
-
+ViewData(data){
+  var result = {
+    'title':'TSS FEEDER MASTER',
+    'dataSource':[{label:'Division',value:data.dataDiv},{label:'feederName',value:data.feederName},{label:'description',value:data.description}]
+  }
+  this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+    disableClose: false,
+    height: '400px',
+    width: '80%',       
+    data:result,  
+  });            
+}
 
     
     

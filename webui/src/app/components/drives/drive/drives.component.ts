@@ -151,6 +151,8 @@ export class DrivesComponent implements OnInit {
       for (let i = 0; i < this.driveCategoryList.length; i++) {
         this.driveCategoryList[i].sno = i + 1;
         this.driveCategoryList[i].name = this.driveCategoryList[i].driveCategoryName;
+        this.driveCategoryList[i].fromDate = this.datePipe.transform(this.driveCategoryList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
+        this.driveCategoryList[i].toDate = this.datePipe.transform(this.driveCategoryList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
         drive.push(this.driveCategoryList[i]);
       }
 
@@ -247,6 +249,18 @@ export class DrivesComponent implements OnInit {
       'dataSource':[{label:'name',value:data.name},{label:'description',value:data.description},
                     {label:'depotType', value:data.depoType},{label:'assetType',value:data.assetType},
                     {label:'frequency',value:data.frequency}]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
+  ViewDataDriveCat(data){
+    var result = {
+      'title':'Drives',
+      'dataSource':[{label:'name',value:data.name},{label:'description',value:data.description}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

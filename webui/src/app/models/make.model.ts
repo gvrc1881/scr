@@ -1,3 +1,5 @@
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
+
 export interface MakeModel{
     brandName: string ,
     createdBy: string, 
@@ -5,10 +7,10 @@ export interface MakeModel{
     makeCode :string,
     makeName :string,
     makeType :string,
-    createdOn :string,
-  createdStamp: string,
-  createdTxStamp :string, 
-  lastUpdatedStamp :string,
-  lastUpdatedTxStamp: string
+    createdOn :Date,
+  createdStamp: Date,
+  createdTxStamp :Date, 
+  lastUpdatedStamp :Date,
+  lastUpdatedTxStamp: Date
       
   }

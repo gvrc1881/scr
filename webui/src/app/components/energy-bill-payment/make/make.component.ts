@@ -8,7 +8,8 @@ import { MakePayload } from 'src/app/payloads/make.payload';
 import { FuseConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 @Component({
     selector: 'make',
@@ -38,6 +39,7 @@ export class MakeComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     makeResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 
@@ -46,7 +48,8 @@ export class MakeComponent implements OnInit{
         private commonService: CommonService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private datePipe: DatePipe,
         ){
                 this.makeErrors = {
                   makeName: {},
@@ -84,6 +87,7 @@ export class MakeComponent implements OnInit{
             MakePayload.ADD_PAYLOAD.brandName =brandName;
             MakePayload.ADD_PAYLOAD.makeType =makeType;
             MakePayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
+            
            this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.MAKE.SAVE_MAKE, MakePayload.ADD_PAYLOAD, false)
             .subscribe((data)=>{
               this.makeResponse=data;
@@ -281,24 +285,7 @@ export class MakeComponent implements OnInit{
           }
         }
       }
-      // duplicateMakeName() {
-      //   const q = new Promise((resolve, reject) => {
-        
-      //     let makeName: string = this.makeFormGroup.controls['makeName'].value;
-        
-         
-      //     this.makeService.existsMakeName(
-      //       makeName
-      //     ).subscribe((duplicate) => {
-      //       if (duplicate) {
-      //         resolve({ 'duplicateMakeName': true });
-      //       } else {
-      //         resolve(null);
-      //       }
-      //     }, () => { resolve({ 'duplicateMakeName': true }); });
-      //   });
-      //   return q;
-      // }
+  
 
       duplicateMakeCode() {
         const q = new Promise((resolve, reject) => {
@@ -336,6 +323,19 @@ export class MakeComponent implements OnInit{
           }, () => { resolve({ 'duplicateMakeCodeAndId': true }); });
         });
         return q;
+      }
+
+      ViewData(data){
+        var result = {
+          'title':'Make',
+          'dataSource':[{label:'makeCode',value:data.makeCode},{label:'description',value:data.description}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
       }
      
 }

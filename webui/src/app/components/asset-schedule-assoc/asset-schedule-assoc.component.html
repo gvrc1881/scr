@@ -115,12 +115,12 @@
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Units" 
                         [formControl]="assetSchAssocFormGroup.controls['uomOfDuration']">
+                        <mat-option value="Time in Days">Time in Days</mat-option>
                         <mat-option value="Time in Hours">Time in Hours</mat-option>
                         <mat-option value="Time in Minutes">Time in Minutes</mat-option>
-                        <mat-option value="Time in Seconds">Time in Seconds</mat-option>
-                        <mat-option value="Time in Days">Time in Days</mat-option>
-                        <mat-option value="Time in Weeks">Time in Weeks</mat-option>
                         <mat-option value="Time in Months">Time in Months</mat-option>
+                        <mat-option value="Time in Seconds">Time in Seconds</mat-option>                        
+                        <mat-option value="Time in Weeks">Time in Weeks</mat-option>                        
                         <mat-option value="Time in Years">Time in Years</mat-option>           
                        
                     </mat-select>                                                            
@@ -229,6 +229,10 @@
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
             <mat-cell *matCellDef="let row">
+              <button mat-icon-button matTooltip="View"
+                (click)="ViewData(row)">
+            <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                </button>
               <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                 (click)="editAssetSchAssoc(row.id)">
                 <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>

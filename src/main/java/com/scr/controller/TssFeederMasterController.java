@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.EnergyMeter;
 import com.scr.model.Make;
 import com.scr.model.TssFeederMaster;
 import com.scr.services.TssFeederMasterService;
@@ -57,6 +58,8 @@ public class TssFeederMasterController {
 		//feeder.setDataDiv(feeder.getdivision().toUpperCase());
 		try {
 			log.info("Calling service with request parameters.");
+			TssFeederMaster tss = tssFeederMasterService.save(feeder);
+			feeder.setFeederId(tss.getId().toString());
 			tssFeederMasterService.save(feeder);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("Feeder added successfully", Constants.SUCCESS_CODE);
@@ -97,6 +100,8 @@ public class TssFeederMasterController {
 		log.info("Request Parameters = "+feeder.toString());
 		try {
 			log.info("Calling service with request parameters.");
+			TssFeederMaster tss = tssFeederMasterService.save(feeder);
+			feeder.setFeederId(tss.getId().toString());
 			tssFeederMasterService.save(feeder);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("Feeder updated successfully", Constants.SUCCESS_CODE);
