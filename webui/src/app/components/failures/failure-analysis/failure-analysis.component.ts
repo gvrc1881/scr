@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 
 @Component({
   selector: 'app-failure-analysis',
@@ -20,9 +22,10 @@ export class FailureAnalysisComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'reported', 'reportDescription', 'repurcussion', 'date', 'div',
-    'failureSection', 'assetType', 'assetId', 'subAssetType', 'subAssetId', 'make', 'model',
-    'rootCause', 'actionPlan', 'actionStatus', 'approvedBy', 'actionTargetDate', 'actionCompletedDate',
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+  displayedColumns = ['sno', 'reported', 'div','date',
+    'failureSection', 'assetType', 'assetId',
+    'rootCause', 'actionPlan', 'actionStatus', 'actionTargetDate', 'actionCompletedDate',
     'actionDescription', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
 
@@ -40,6 +43,7 @@ export class FailureAnalysisComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -63,6 +67,9 @@ export class FailureAnalysisComponent implements OnInit {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
+        this.driveTargetList[i].date = this.datePipe.transform(this.driveTargetList[i].date, 'dd-MM-yyyy hh:mm:ss');
+        this.driveTargetList[i].actionTargetDate = this.datePipe.transform(this.driveTargetList[i].actionTargetDate, 'dd-MM-yyyy hh:mm:ss');
+        this.driveTargetList[i].actionCompletedDate = this.datePipe.transform(this.driveTargetList[i].actionCompletedDate, 'dd-MM-yyyy hh:mm:ss');
         driveTarget.push(this.driveTargetList[i]);
       }
 
@@ -97,6 +104,27 @@ export class FailureAnalysisComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+  }
+  ViewData(data){
+    var result = {
+      'title':'Failure Analysis',
+      'dataSource':[{label:'Reported',value:data.reported},{label:'Division',value:data.div},
+      {label:'ReportDescription',value:data.reportDescription},{label:'Repurcussion',value:data.repurcussion},
+      {label:'Date',value:data.date},{label:'Failure scetion',value:data.section},{label:'assetType',value:data.assetType},
+      {label:'AssetId',value:data.assetId},{label:'SubAssetType',value:data.subAssetType},{label:'SubAssetId',value:data.subAssetId},
+      {label:'make',value:data.make},{label:'model',value:data.model},{label:'RootCause',value:data.rootCause},      
+      {label:'ActionPlan',value:data.actionPlan},{label:'ActionStatus',value:data.actionStatus},
+      {label:'ApprovedBy',value:data.approvedBy},{label:'ActionTargetDate',value:data.actionTargetDate},
+      {label:'ActionCompletedDate',value:data.actionCompletedDate},
+      {label:'ActionDescription',value:data.actionDescription}
+    ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 
 }
