@@ -351,7 +351,8 @@ findDivisions(){
 ViewData(data){
   var result = {
     'title':'TSS FEEDER MASTER',
-    'dataSource':[{label:'Division',value:data.dataDiv},{label:'feederName',value:data.feederName},{label:'description',value:data.description}]
+    'dataSource':[{label:'Division',value:data.dataDiv},{label:'feederName',value:data.feederName},
+    {label:'description',value:data.description},{label:'StateElectricityBoard',value:data.stateElectricityBoard}]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

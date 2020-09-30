@@ -246,9 +246,13 @@ export class DrivesComponent implements OnInit {
   ViewData(data){
     var result = {
       'title':'Drives',
-      'dataSource':[{label:'name',value:data.name},{label:'description',value:data.description},
-                    {label:'depotType', value:data.depoType},{label:'assetType',value:data.assetType},
-                    {label:'frequency',value:data.frequency}]
+      'dataSource':[{label:'Name',value:data.name},{label:'Description',value:data.description},
+      {label:'FromDate', value:data.fromDate},{label:'ToDate', value:data.toDate},
+      {label:'DepotType', value:data.depoType},{label:'AssetType',value:data.assetType},
+      {label:'Frequency',value:data.frequency},{label:'AssetDescription',value:data.assetDescription},
+      {label:'Criteria',value:data.criteria},{label:'TargetQuantity',value:data.targetQuantity},
+      {label:'IsIdRequired',value:data.isIdRequired},{label:'FunctionalUnit',value:data.functionalUnit},
+      {label:'CheckList', value:data.checkList},{label:'Active', value:data.active} ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
@@ -260,7 +264,9 @@ export class DrivesComponent implements OnInit {
   ViewDataDriveCat(data){
     var result = {
       'title':'Drives',
-      'dataSource':[{label:'name',value:data.name},{label:'description',value:data.description}]
+      'dataSource':[{label:'Name',value:data.name},{label:'Description',value:data.description},
+      {label:'FromDate',value:data.fromDate},{label:'ToDate',value:data.toDate},
+      {label:'Authority',value:data.authority}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

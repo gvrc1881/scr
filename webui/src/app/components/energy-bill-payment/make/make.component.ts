@@ -328,7 +328,8 @@ export class MakeComponent implements OnInit{
       ViewData(data){
         var result = {
           'title':'Make',
-          'dataSource':[{label:'makeCode',value:data.makeCode},{label:'description',value:data.description}]
+          'dataSource':[{label:'makeCode',value:data.makeCode},{label:'description',value:data.description},
+          {label:'brandName',value:data.brandName},{label:'makeType',value:data.makeType}]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

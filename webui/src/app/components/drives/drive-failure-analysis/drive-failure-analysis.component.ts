@@ -79,6 +79,7 @@ export class DriveFailureAnalysisComponent implements OnInit {
     }, error => {
       this.spinnerService.hide();
     });
+    
   }
   
   processEditAction(id) {

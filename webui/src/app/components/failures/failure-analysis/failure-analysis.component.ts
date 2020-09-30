@@ -9,7 +9,6 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
-
 @Component({
   selector: 'app-failure-analysis',
   templateUrl: './failure-analysis.component.html',
@@ -28,11 +27,13 @@ export class FailureAnalysisComponent implements OnInit {
     'rootCause', 'actionPlan', 'actionStatus', 'actionTargetDate', 'actionCompletedDate',
     'actionDescription', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
-
+  filterData;
+  gridData = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+ 
 
   driveTargetList: any;
 
@@ -54,12 +55,39 @@ export class FailureAnalysisComponent implements OnInit {
 
     this.spinnerService.show();
     this.getFailureAnalysisData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'reported', "Value": " " },           
+        { "Key": 'div', "Value": " " },
+        { "Key": 'date', "Value": " " },
+        { "Key": 'failureSection', "Value": " " },
+        { "Key": 'assetType', "Value": " " },
+        { "Key": 'assetId', "Value": " " },
+        { "Key": 'rootCause', "Value": " " },
+        { "Key": 'actionPlan', "Value": " " },
+        { "Key": 'actionStatus', "Value": " " },
+        { "Key": 'actionTargetDate', "Value": " " },
+        { "Key": 'actionCompletedDate', "Value": " " },
+        { "Key": 'actionDescription', "Value": " " },
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
 
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
+  }
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
   }
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
@@ -73,7 +101,13 @@ export class FailureAnalysisComponent implements OnInit {
         driveTarget.push(this.driveTargetList[i]);
       }
 
+      // this.dataSource = new MatTableDataSource(driveTarget);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
+      this.filterData.gridData = driveTarget;
       this.dataSource = new MatTableDataSource(driveTarget);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -110,9 +144,9 @@ export class FailureAnalysisComponent implements OnInit {
       'title':'Failure Analysis',
       'dataSource':[{label:'Reported',value:data.reported},{label:'Division',value:data.div},
       {label:'ReportDescription',value:data.reportDescription},{label:'Repurcussion',value:data.repurcussion},
-      {label:'Date',value:data.date},{label:'Failure scetion',value:data.section},{label:'assetType',value:data.assetType},
+      {label:'Date',value:data.date},{label:'Failure scetion',value:data.section},{label:'AssetType',value:data.assetType},
       {label:'AssetId',value:data.assetId},{label:'SubAssetType',value:data.subAssetType},{label:'SubAssetId',value:data.subAssetId},
-      {label:'make',value:data.make},{label:'model',value:data.model},{label:'RootCause',value:data.rootCause},      
+      {label:'Make',value:data.make},{label:'Model',value:data.model},{label:'RootCause',value:data.rootCause},      
       {label:'ActionPlan',value:data.actionPlan},{label:'ActionStatus',value:data.actionStatus},
       {label:'ApprovedBy',value:data.approvedBy},{label:'ActionTargetDate',value:data.actionTargetDate},
       {label:'ActionCompletedDate',value:data.actionCompletedDate},

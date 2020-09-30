@@ -323,7 +323,8 @@ export class ModelComponent implements OnInit{
       ViewData(data){
         var result = {
           'title':'Model',
-          'dataSource':[{label:'modelCode',value:data.modelCode},{label:'description',value:data.description}]
+          'dataSource':[{label:'modelCode',value:data.modelCode},{label:'description',value:data.description},
+          {label:'brandName',value:data.brandName},{label:'modelType',value:data.modelType}]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

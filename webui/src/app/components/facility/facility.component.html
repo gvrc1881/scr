@@ -146,7 +146,7 @@
             </div>
             <div class="col-md-3" *ngIf = "enableFacilityId">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Facility Id" [formControl]="facilityFormGroup.controls['facilityId']" required decimalNumber/>
+                    <input matInput placeholder="Functional Unit Id" [formControl]="facilityFormGroup.controls['facilityId']" required decimalNumber/>
         
                        <mat-error
                         *ngIf=" facilityFormGroup.controls['facilityId'].hasError('required')"

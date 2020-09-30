@@ -344,7 +344,9 @@ export class AssetScheduleAssocComponent implements OnInit{
       ViewData(data){
         var result = {
           'title':'Asset Schedule Assoc',
-          'dataSource':[{label:'assetType',value:data.assetType},{label:'scheduleCode',value:data.scheduleCode},{label:'description',value:data.description}]
+          'dataSource':[{label:'assetType',value:data.assetType},{label:'scheduleCode',value:data.scheduleCode},{label:'isDpr',value:data.isDpr},
+          {label:'targetPlanMonths',value:data.targetPlanMonths},{label:'sequenceCode',value:data.sequenceCode},{label:'duration',value:data.duration},
+          {label:'uomOfDuration',value:data.uomOfDuration},{label:'asaSeqId',value:data.asaSeqId},{label:'description',value:data.description}]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

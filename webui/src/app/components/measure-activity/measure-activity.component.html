@@ -186,7 +186,10 @@
                                 </ng-container>
                               
                                 <ng-container matColumnDef="id">
-                                  <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    <span>Actions</span>
+                                    <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                                </mat-header-cell>
                                   
                                       <mat-cell *matCellDef="let row">
                                         <button mat-icon-button matTooltip="View"

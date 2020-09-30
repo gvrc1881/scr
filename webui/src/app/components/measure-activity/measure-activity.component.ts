@@ -417,8 +417,8 @@ if (unitOfMeasure==null) {
 ViewData(data){
   var result = {
     'title':'Measures/Activities',
-    'dataSource':[{label:'activityName',value:data.activityName},{label:'activityType',value:data.activityType},
-                  {label:'unitOfMeasure', value:data.unitOfMeasure}]
+    'dataSource':[{label:'ActivityId',value:data.activityId},{label:'ActivityName',value:data.activityName},
+    {label:'ActivityType',value:data.activityType},{label:'UnitOfMeasure', value:data.unitOfMeasure}]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

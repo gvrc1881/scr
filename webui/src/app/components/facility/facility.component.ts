@@ -483,8 +483,10 @@ export class FacilityComponent implements OnInit{
         var result = {
           'title':'Functional Unit',
           'dataSource':[{label:'Zone',value:data.zone},{label:'Division',value:data.division},
-          {label:'Sub_Div',value:data.subDivision},{label:'Functional unit name',value:data.facilityName},
-          {label:'description',value:data.description}]
+          {label:'Sub_Div',value:data.subDivision},
+          {label:'functional Unit Id',value:data.facilityId},{label:'Functional unit name',value:data.facilityName},
+          {label:'facilityTypeId',value:data.facilityTypeId},{label:'Functional Type',value:data.depotType},
+          {label:'Parent Fun Unit',value:data.parentDepot}, {label:'description',value:data.description}]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

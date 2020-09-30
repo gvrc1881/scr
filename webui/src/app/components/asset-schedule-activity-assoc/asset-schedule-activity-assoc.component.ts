@@ -496,7 +496,10 @@ ActAssocEditAction(id: number) {
     var result = {
       'title':'Asset Schedule Activity Assoc',
       'dataSource':[{label:'Asset Schedule',value:data.asaSeqId},{label:'activity',value:data.activityId},
-      {label:'activityPosition',value:data.activityPositionId},{label:'description',value:data.description}]
+      {label:'activityPosition',value:data.activityPositionId},{label:'makeCode',value:data.makeCode},
+      {label:'modelCode',value:data.modelCode},{label:'activityFlag',value:data.activityFlag},
+      {label:'displayOrder',value:data.displayOrder},{label:'lowerLimit',value:data.lowerLimit},
+      {label:'upperLimit',value:data.upperLimit},{label:'description',value:data.description}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
