@@ -191,11 +191,11 @@ export class EnergyMeterComponent implements OnInit{
         this.energyMeterFormGroup = this.formBuilder.group({
             id: 0,
             'meterNo' : [null],
-            'multiplicationFac' : [null],
-            'startKvah': [null],
-            'startKwh': [null],
-            'startRkvahLag': [null],
-            'startRkvahLead': [null],
+            'multiplicationFac' : [null,Validators.required],
+            'startKvah': [null,Validators.required],
+            'startKwh': [null,Validators.required],
+            'startRkvahLag': [null,Validators.required],
+            'startRkvahLead': [null,Validators.required],
             'endKvah' : [null],
             'endKwh' : [null],
             'endRkvahLag' : [null],
@@ -311,11 +311,11 @@ export class EnergyMeterComponent implements OnInit{
         this.energyMeterFormGroup = this.formBuilder.group({
             id: 0,
             'meterNo' : [null],
-            'multiplicationFac' : [null],
-            'startKvah': [null],
-            'startKwh': [null],
-            'startRkvahLag': [null],
-            'startRkvahLead': [null],
+            'multiplicationFac' : [null,Validators.required],
+            'startKvah': [null,Validators.required],
+            'startKwh': [null,Validators.required],
+            'startRkvahLag': [null,Validators.required],
+            'startRkvahLead': [null,Validators.required],
             'endKvah' : [null],
             'endKwh' : [null],
             'endRkvahLag' : [null],
@@ -356,7 +356,8 @@ export class EnergyMeterComponent implements OnInit{
                       {label:'Start Rkvah Lead',value:data.startRkvahLead},{label:'End Date',value:this.datePipe.transform(data.endDate, 'dd-MM-yyyy hh:mm:ss')},
                       {label:'End Kvah',value:data.endKvah},{label:'End Kwh',value:data.endKwh},
                       {label:'End Rkvah Lag',value:data.endRkvahLag},{label:'End Rkvah Lead',value:data.endRkvahLead},
-                      {label:'Meter Make',value:data.meterMake},{label:'Meter Model',value:data.meterModel}
+                      {label:'Meter Make',value:data.meterMake},{label:'Meter Model',value:data.meterModel},
+                      {label:'Remark',value:data.remarks}
                       ]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {

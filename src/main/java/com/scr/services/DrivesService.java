@@ -482,6 +482,9 @@ public class DrivesService {
 			logger.info("Files Details saved in to Database Successfully.");
 			Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest, file, liContentManagements.get(0).getCommonFileId());
 			stipulations = driveStipulationRepository.save(stipulations);
+		}else {
+			Stipulations stipulations = driveMapper.prepareStipulationsModel(stipulationsRequest, file, new Long(0));
+			stipulations = driveStipulationRepository.save(stipulations);
 		}
 		
 		return true;

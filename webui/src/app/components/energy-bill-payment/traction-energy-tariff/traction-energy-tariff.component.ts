@@ -46,6 +46,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     eleEnergySuppliersList: any;
     tariffResponse: any;
+    enableSupplier: boolean;
     
     constructor(
         private commonService: CommonService,
@@ -91,6 +92,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         
     addNewTractionEnergyTariff() {
         this.addTractionEnergyTariff = true;
+        this.enableSupplier = true;
         this.title = 'Save';
         this.tractionEnergyTariffFormGroup = this.formBuilder.group({
             id: 0,
@@ -278,6 +280,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.tractionEnergyTariffEditAction(id);
         this.title = "Update";
         this.spinnerService.hide();
+        this.enableSupplier = false;
     }   
      
     tractionEnergyTariffEditAction(id: number) {

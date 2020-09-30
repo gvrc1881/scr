@@ -36,9 +36,9 @@
 	                                                                <input matInput placeholder="Supplier" [formControl]="tractionEnergyTariffFormGroup.controls['supplier']" />
 	                                                            </mat-form-field>
 	                                                        </div> -->
-	                                                        <div class="col-md-3">
+	                                                        <div class="col-md-3" *ngIf="enableSupplier; else supplierElseBlock">
 									                            <mat-form-field fxFlex="30">
-									                              <mat-select placeholder="Select Suppliers" formControlName="supplier" >
+									                              <mat-select placeholder="Select Suppliers" formControlName="supplier" required >
 									                                <mat-option *ngFor="let eleEngSupplier of eleEnergySuppliersList" [value]="eleEngSupplier.code">
 									                                  {{ eleEngSupplier.code}}
 									                                </mat-option>
@@ -49,7 +49,14 @@
 										                                Supplier And Date Combination Already Exists
 										                        </mat-error>
 									                            </mat-form-field>
-									                          </div> 
+									                          </div>
+									                          <ng-template #supplierElseBlock>
+																  <div class = "col-md-2" >
+                                                      				<mat-form-field fxFlex="30">
+                                                      					<input matInput placeholder = "Suppliers" formControlName="supplier" required [readonly]="true"/>
+                                                      				</mat-form-field>
+                                                      			  </div>
+															</ng-template> 
 	                                                        <!-- <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                                <input matInput placeholder="year" [formControl]="tractionEnergyTariffFormGroup.controls['year']" />

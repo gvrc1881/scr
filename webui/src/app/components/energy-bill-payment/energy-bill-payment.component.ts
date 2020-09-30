@@ -1,12 +1,13 @@
 import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EnergyBillPaymentModel } from 'src/app/models/energy-bill-payment.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
     selector: 'energy-bill-payment',
@@ -30,6 +31,7 @@ export class EnergyBillPaymentComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    divisionList: any;
     
 
     constructor(
@@ -37,7 +39,8 @@ export class EnergyBillPaymentComponent implements OnInit{
         private dialog: MatDialog,
        private sendAndRequestService : SendAndRequestService,
         private spinnerService: Ng4LoadingSpinnerService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private datePipe: DatePipe
     ){
     }
     ngOnInit(){
@@ -49,13 +52,19 @@ export class EnergyBillPaymentComponent implements OnInit{
         this.spinnerService.show();
         this.energyBillPaymentFormGroup = this.formBuilder.group({
             id: 0,
-            'amount': [null],
-            'dateOfPayment':[null],
-            'division': [null],
-            month:[null],
+            'amount': [null,Validators.required],
+            'dateOfPayment':[null,Validators.required],
+            'division': [null,Validators.required],
+            month:[null,Validators.required],
             year: [null]
         })
-       
+        this.getDivisions();
+    }
+    
+    getDivisions () {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_DETAILS).subscribe((data) => {
+            this.divisionList = data;
+        })    
     }
 
 
@@ -77,6 +86,7 @@ export class EnergyBillPaymentComponent implements OnInit{
             this.eneBillPaymentList = data;
             for (let i = 0; i < this.eneBillPaymentList.length; i++) {
                 this.eneBillPaymentList[i].sno = i+1;
+                //this.eneBillPaymentList[i].dateOfPayment = this.datePipe.transform(this.eneBillPaymentList[i].dateOfPayment, 'dd-MM-yyyy hh:mm:ss');
                eneBillPayment.push(this.eneBillPaymentList[i]);
             }
             this.energyBillPaymentDataSource = new MatTableDataSource(eneBillPayment);

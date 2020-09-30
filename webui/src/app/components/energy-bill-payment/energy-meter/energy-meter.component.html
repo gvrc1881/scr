@@ -6,7 +6,7 @@
 	                <ol class="breadcrumb">
 	                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
 	                        <li class="breadcrumb-item"><a [routerLink]="['/energyBillPayment']">Energy Bill Payment </a></li>
-	                          <li class="breadcrumb-item active" aria-current="page">Energy Meter</li>
+	                        <li class="breadcrumb-item active" aria-current="page">Energy Meter</li>
 	                </ol>
 	            </nav>
 	          </div>
@@ -41,7 +41,7 @@
 									                        <div *ngIf="!enableEndReadings; else feederElseBlock">
 									                        	<div class="col-md-2">
 									                             <mat-form-field fxFlex="30">
-									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" >
+									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" required >
 									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater.feederId">
 									                                  {{ tssFeederMater.feederName}}
 									                                </mat-option>
@@ -79,27 +79,27 @@
 		                                                    </div>  
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Multiplication Factor" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" />
+	                                                                <input matInput placeholder="Multiplication Factor" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" />
+	                                                                <input matInput placeholder="Start Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" />
+	                                                                <input matInput placeholder="Start Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lag" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" />
+	                                                                <input matInput placeholder="Start Rkvah Lag" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']" />
+	                                                                <input matInput placeholder="Start Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']"  required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">

@@ -33,29 +33,37 @@
                                                     <div class="col-md-12">
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="amount" [formControl]="energyBillPaymentFormGroup.controls['amount']" />
+                                                                <input matInput placeholder="Amount" [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']">
+                                                                <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']" required>
                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                     <mat-datepicker #picker  ></mat-datepicker> <!--(yearSeleceted)="close($event)"-->
                                                               </mat-form-field>
                                                         </div>      
                                                         <div class="col-md-3">
+                                                            <!-- <mat-form-field fxFlex="30">
+                                                                <input matInput placeholder="division" [formControl]="energyBillPaymentFormGroup.controls['division']" required/>
+                                                            </mat-form-field> -->
+						                                    <mat-form-field fxFlex="30" class="example-full-width">
+						                                        <mat-select placeholder="Choose Division" [formControl]="energyBillPaymentFormGroup.controls['division']" required>
+						                                            <mat-option *ngFor="let divisionList of divisionList "
+						                                                [value]="divisionList.code">
+						                                                {{ divisionList.code}}
+						                                            </mat-option>
+						                                        </mat-select>
+						                                    </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="division" [formControl]="energyBillPaymentFormGroup.controls['division']" />
+                                                                <input matInput placeholder="Month" [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="month" [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber />
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="year" [formControl]="energyBillPaymentFormGroup.controls['year']"decimalNumber />
+                                                                <input matInput placeholder="Year" [formControl]="energyBillPaymentFormGroup.controls['year']"decimalNumber />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3 mt-15">
@@ -96,27 +104,27 @@
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="amount">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>amount</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.amount}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dateOfPayment">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>date of payment</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Payment</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                       {{row.dateOfPayment | date}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="division">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>division</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.division}}</mat-cell>
                                             </ng-container>
                                            <ng-container matColumnDef="month">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>month</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Month</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.month}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="year">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>year</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Year</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.year}}</mat-cell>
                                             </ng-container>
