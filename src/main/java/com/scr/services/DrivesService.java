@@ -548,6 +548,9 @@ public class DrivesService {
 			logger.info("Files Details saved in to Database Successfully.");
 			CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request, file, liContentManagements.get(0).getCommonFileId());
 			inspections = driveInspectionRepository.save(inspections);
+		}else {
+			CrsEigInspections inspections = driveMapper.prepareInspectionsModel(request, file, new Long(0));
+			inspections = driveInspectionRepository.save(inspections);
 		}
 		
 		return true;
@@ -580,6 +583,7 @@ public class DrivesService {
 		}else {
 			return "Invalid Inspections Id";
 		}
+		
 	}
 	public String deleteInspections(Long id) {
 		Optional<CrsEigInspections> inspectionsOptional = driveInspectionRepository.findById(id);
@@ -598,8 +602,8 @@ public class DrivesService {
 		return driveInspectionRepository.findByIdAndStatusId(id, Constants.ACTIVE_STATUS_ID);
 	}
 
-	public void saveInspectionWithDoc(CrsEigInspections update) {
-		driveInspectionRepository.save(update);
+	public void saveInspectionWithDoc(CrsEigInspections inspectionsUpdate) {
+		driveInspectionRepository.save(inspectionsUpdate);
 	}
 
 	public void saveStipulationWithDoc(Stipulations stipulationsUpdate) {

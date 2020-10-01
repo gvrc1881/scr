@@ -85,7 +85,7 @@
                                                 <span>Date Of Inspection</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.dateOfInspection }}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="RKM">
@@ -117,7 +117,7 @@
                                                 <span>Authorisation Date</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.authorisationDate}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="chargingDate">
@@ -125,7 +125,7 @@
                                                 <span>Charging Date</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.chargingDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.chargingDate}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="attachment">

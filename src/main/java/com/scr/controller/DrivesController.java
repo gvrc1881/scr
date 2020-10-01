@@ -990,7 +990,7 @@ public class DrivesController {
 		}
 	}
 		
-	@PostMapping("/updateInspections")
+	@PutMapping("/updateInspections")
 	@ResponseBody
 	public ResponseStatus updateInspectionsData(
 			@RequestParam("file") List<MultipartFile> file, 

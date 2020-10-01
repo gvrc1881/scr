@@ -113,7 +113,7 @@ export class AddFailureAnalysisComponent implements OnInit {
         'approvedBy': [null,Validators.maxLength(255)],
         'actionTargetDate': [null],
         'actionCompletedDate': [null],
-        'actionDescription': [null, Validators.maxLength(250)]
+        'actionDescription': [null, Validators.maxLength(255)]
       });
   }
 

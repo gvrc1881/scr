@@ -621,8 +621,7 @@ public class DriveMapper {
 		return sb.toString();
 	}
 
-	public CrsEigInspections prepareInspectionsUpdataData(CrsEigInspections inspections,
-			@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
+	public CrsEigInspections prepareInspectionsUpdataData(CrsEigInspections inspections,@Valid DriveRequest request, List<MultipartFile> file, Long commonFileId) {
 		if(request != null) {
 			inspections.setInspectionType(request.getInspectionType());
 			inspections.setSection(request.getSection());
@@ -644,6 +643,5 @@ public class DriveMapper {
 		}
 		return inspections;
 	}
-
 	
 }

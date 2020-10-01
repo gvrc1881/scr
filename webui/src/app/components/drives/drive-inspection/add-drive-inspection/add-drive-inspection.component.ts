@@ -265,7 +265,7 @@ export class AddDriveInspectionComponent implements OnInit {
       formdata.append('updatedBy', update.updatedBy);
       formdata.append('updatedOn', update.updatedOn.toLocaleDateString());
       formdata.append('attachment', update.attachment);
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.UPDATE ,update, true).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.INSPECTIONS.INSPECTIONS.UPDATE ,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if(this.resp.code == Constants.CODES.SUCCESS){

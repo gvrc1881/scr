@@ -151,13 +151,13 @@ export class AddDriveStipulationComponent implements OnInit {
     this.addDriveStipulationFormGroup
       = this.formBuilder.group({
         id: 0,
-        'stipulation': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'inspectionId': [null, Validators.compose([Validators.required])],
-        'dateOfStipulation': [null],
-        'dateComplied': [null],
-        'compliance': [null],
-        'attachment': [null],
-        'compliedBy': [null,Validators.maxLength(255)],
+        'stipulation': ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
+        'inspectionId': ['', Validators.compose([Validators.required])],
+        'dateOfStipulation': [''],
+        'dateComplied': [''],
+        'compliance': [''],
+        'attachment': [''],
+        'compliedBy': ['',Validators.maxLength(255)],
       });
   }
   addEvent($event) {

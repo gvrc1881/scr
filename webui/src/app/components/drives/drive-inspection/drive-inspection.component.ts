@@ -8,6 +8,9 @@ import { FilesInformationDialogComponent } from '../../file-information-dialog/f
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+
 
 @Component({
   selector: 'app-drive-inspection',
@@ -27,6 +30,7 @@ export class DriveInspectionComponent implements OnInit {
   dataSource: MatTableDataSource<InspectionstModel>;
   filterData;
   fileInformationDialogRef: MatDialogRef<FilesInformationDialogComponent>;
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
@@ -40,6 +44,7 @@ export class DriveInspectionComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -90,6 +95,9 @@ export class DriveInspectionComponent implements OnInit {
         this.inspectionsList[i].sno = i + 1;
         this.inspectionsList[i].TKM = this.inspectionsList[i].tkm;
         this.inspectionsList[i].RKM = this.inspectionsList[i].rkm;
+        this.inspectionsList[i].dateOfInspection = this.datePipe.transform(this.inspectionsList[i].dateOfInspection, 'dd-MM-yyyy hh:mm:ss');
+        this.inspectionsList[i].authorisationDate = this.datePipe.transform(this.inspectionsList[i].authorisationDate, 'dd-MM-yyyy hh:mm:ss');
+        this.inspectionsList[i].chargingDate = this.datePipe.transform(this.inspectionsList[i].chargingDate, 'dd-MM-yyyy hh:mm:ss');
         inspections.push(this.inspectionsList[i]);
       }
       this.filterData.gridData = inspections;
