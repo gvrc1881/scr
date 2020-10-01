@@ -426,6 +426,6 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 		return tssFeederMasterService.findByFeederId(feederId);
 	}
 	public List<ProductCategoryType>findProductCategoryType() {	
-		   return productCategoryTypeRepository.findAll();
+		   return productCategoryTypeRepository.findAllOrderByProductCategoryTypeIdAsc();
 		}
 }
