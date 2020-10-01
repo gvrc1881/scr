@@ -122,45 +122,61 @@
   </div>
             <div class="clear"></div>
             <div class="mat-elevation-z8">
-              <mat-table [dataSource]="complianceDataSource" matSort>
+              <mat-table [dataSource]="filterData.complianceDataSource" matSort>
                 <ng-container matColumnDef="sno">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
-                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="status">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="cursor: pointer">
-                      {{row.status}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="attachment">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
-                   <span> Documents </span>
-                   </mat-header-cell>
-                   <mat-cell *matCellDef="let row">
-                    <button mat-icon-button matTooltip="Document View"
-                    (click)="compViewFilesDetails(row.id)" > 
-                    <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
-               </button>
-                  </mat-cell>
+                      <span>Sl No</span>
+                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
               </ng-container>
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span>Status</span>
+                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="action">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="cursor: pointer">
-                    {{row.action}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span>Action</span>
+                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.action}}</mat-cell>
               </ng-container>
                 <ng-container matColumnDef="complianceBy">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Compliance By</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="cursor: pointer">
-                      {{row.complianceBy}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span>Compliance By</span>
+                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.complianceBy}}</mat-cell>
                 </ng-container>
                 
                <ng-container matColumnDef="compliedDateTime">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Complied Date</mat-header-cell>
-                         <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                  {{row.compliedDateTime | date}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <span>complied Date Time</span>
+                  <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.compliedDateTime}}</mat-cell>
                 </ng-container>
+
+                <ng-container matColumnDef="attachment">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                   <span> Documents </span>
+                   <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" disabled  [filter]="filterData"/>
+                   </mat-header-cell>
+                   <mat-cell *matCellDef="let row">
+                      <button mat-icon-button matTooltip="View Documents"
+                          (click)="compViewFilesDetails(row.id)">
+                          <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                      </button>
+                  </mat-cell>
+              </ng-container>
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span>Actions</span>
+                    <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                </mat-header-cell>
                         <mat-cell *matCellDef="let row">
                           <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                             (click)="editComplianceItem(row.id)">

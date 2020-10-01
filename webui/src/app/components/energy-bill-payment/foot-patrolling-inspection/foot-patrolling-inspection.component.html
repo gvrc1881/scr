@@ -153,12 +153,12 @@
                     <ng-container matColumnDef="startTime">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
                       <mat-cell *matCellDef="let row" style="cursor: pointer">
-                        {{row.startTime | date}}</mat-cell>
+                        {{row.startTime}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="stopTime">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
-                      {{row.stopTime | date}}</mat-cell>
+                      {{row.stopTime}}</mat-cell>
                 </ng-container>
                                          
                                           <ng-container matColumnDef="id">
@@ -333,46 +333,7 @@ Close
         </mat-form-field>
     </div>
 </div>
-<div class="col-md-3">
-  <mat-form-field fxFlex="30">
-  <textarea matInput placeholder="section" (ngModelChange)="updateSection
-  ($event)" [(ngModel)]="section"></textarea>
-  </mat-form-field>
-  </div>
-    <div class="col-md-3">
-        <mat-form-field fxFlex="30" class="example-full-width">
-            <mat-select placeholder="Feeder Name"
-                (selectionChange)="updateFacilityName($event)" [(ngModel)]="facilityId">
-                <mat-option *ngFor="let facilityData of facilityData"
-                    [value]="facilityData.facilityId">
-                    {{ facilityData.facilityName }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-<div class="col-md-3">
-  <mat-form-field fxFlex="30">
-  <textarea matInput placeholder="Name Of Staff" (ngModelChange)="updateNameOfStaff($event)" [(ngModel)]="nameOfStaff"></textarea>
-  </mat-form-field>
-  </div>
-  <div class="col-md-3">
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker1" 
-        placeholder="Choose Date"
-            [(ngModel)]="selectedExactDate" 
-            (dateChange)="exactDateEvent($event)"
-            [max]="maxDate">
-        <mat-datepicker-toggle matSuffix [for]="picker1">
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-</div>
-<div class="col-md-3">
-  <button class="mat-raised-button mat-accent" color="accent" class="d-inline"
-      mat-raised-button="" type="button" (click)="executeQuery()">
-      Go
-  </button>
-</div>
+
 <div class="clear"> </div>
 
 </div>
@@ -382,7 +343,7 @@ Close
 </div>
 <div class="clear"></div>
 <div class="table-sort-input example-container mat-elevation-z8 table-responsive">
-  <mat-table [dataSource]="filterData.observationDataSource" matSort>
+  <mat-table [dataSource]="observationDataSource" matSort>
         <ng-container matColumnDef="sno">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>

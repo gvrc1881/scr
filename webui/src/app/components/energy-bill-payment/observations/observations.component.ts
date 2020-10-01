@@ -42,6 +42,8 @@ export class ObservationsComponent implements OnInit{
    observationResponse: any;
    observationItemData:any;
    attachedImages:any;
+   filterData;
+   gridData = [];
 
     constructor(
         private commonService: CommonService,
@@ -73,7 +75,20 @@ export class ObservationsComponent implements OnInit{
             'attachment'  :[null]
             
         });
-       
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'location', "Value": " " },
+              { "Key": 'observationCategory', "Value": " " },
+              { "Key": 'observationItem', "Value": " " },
+              { "Key": 'actionRequired', "Value": "" },
+              { "Key": 'description', "Value": " " },
+            ],
+            gridData: this.gridData,
+            observationDataSource: this.observationDataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
     }
     
 
@@ -97,11 +112,17 @@ export class ObservationsComponent implements OnInit{
                     this.obsList[i].sno = i+1;
                     observation.push(this.obsList[i]);              
                 }
+                this.filterData.gridData = observation;
                 this.observationDataSource = new MatTableDataSource(observation);
+                this.commonService.updateDataSource(this.observationDataSource, this.observationDisplayColumns);
+                this.filterData.dataSource = this.observationDataSource;
                 this.observationDataSource.paginator = this.paginator;
                 this.observationDataSource.sort = this.sort;
-        } , error => {});
-    }
+                this.spinnerService.hide();
+              }, error => {
+                this.spinnerService.hide();
+              });
+            }
      observationItemSubmit () {
         let location: string = this.observationFormGroup.value.location;
         let observationCategory: string = this.observationFormGroup.value.observationCategory;
@@ -243,11 +264,14 @@ export class ObservationsComponent implements OnInit{
         });
     }
 
-
+    updatePagination() {
+        this.filterData.observationDataSource = this.filterData.observationDataSource;
+        this.filterData.observationDataSource.paginator = this.paginator;
+      }
     observationApplyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
-        this.observationDataSource.filter = filterValue;
+        this.filterData.observationDataSource.filter = filterValue;
     }
     categoryList()
         {  

@@ -9,6 +9,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'compliances',
@@ -37,12 +38,14 @@ export class CompliancesComponent implements OnInit{
    editComplianceResponse: any;
    complianceResponse: any;
    attachedImages:any;
-
+   filterData;
+   gridData=[];
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private router: Router, 
+        private datePipe: DatePipe,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService
     ){
@@ -66,6 +69,20 @@ export class CompliancesComponent implements OnInit{
             'compliedDateTime' : [null],
             'attachment'  :[null]
         });
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'status', "Value": " " },
+              { "Key": 'action', "Value": " " },
+              { "Key": 'complianceBy', "Value": " " },
+              { "Key": 'compliedDateTime', "Value": "" },
+              { "Key": 'attachment', "Value": " " },
+            ],
+            gridData: this.gridData,
+            complianceDataSource: this.complianceDataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
        
     }
     
@@ -132,15 +149,20 @@ getAllCompliancesData() {
         this.complianceList = data;
         for (let i = 0; i < this.complianceList.length; i++) {
             this.complianceList[i].sno = i+1;
+            this.complianceList[i].fromDate = this.datePipe.transform(this.complianceList[i].compliedDateTime, 'dd-MM-yyyy hh:mm:ss');
             compliances.push(this.complianceList[i]);              
         }
-        this.complianceDataSource = new MatTableDataSource(compliances);
-        this.complianceDataSource.paginator = this.paginator;
-        this.complianceDataSource.sort = this.sort;
-
-    } , error => {});
-
-}
+        this.filterData.gridData = compliances;
+      this.complianceDataSource = new MatTableDataSource(compliances);
+      this.commonService.updateDataSource(this.complianceDataSource, this.complianceDisplayColumns);
+      this.filterData.dataSource = this.complianceDataSource;
+      this.complianceDataSource.paginator = this.paginator;
+      this.complianceDataSource.sort = this.sort;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
 NewComplianceItem () {
     this.addComplianceItem = true;
 }
@@ -270,9 +292,12 @@ complianceItemSubmit () {
     comApplyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
-        this.complianceDataSource.filter = filterValue;
+        this.filterData.complianceDataSource.filter = filterValue;
     }
-   
+    updatePagination() {
+        this.filterData.complianceDataSource = this.filterData.complianceDataSource;
+        this.filterData.complianceDataSource.paginator = this.paginator;
+      }
     statusList()
     {  
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'COMPLIANCES_STATUS').subscribe((data) => {

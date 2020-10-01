@@ -49,14 +49,12 @@ export class FootPatrollingInspectionComponent implements OnInit{
    observationFormGroup: FormGroup;
    obsList : any;
    observationData = [];
-   gridData = [];
    observationDataSource: MatTableDataSource<ObservationModel>;
    observationDisplayColumns = ['sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','id','compliance'] ;
    editObservationResponse: any;
    observationResponse: any;
    insId: any;
    obsId:any;
-   filterData;
    maxDate: Date;
    facilityId:string;
    observationItemData:any;
@@ -88,9 +86,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     ngOnInit () {
-        if(this.router.url == '/Observations'){
-             console.log("ObservationsUrl"+this.router.url)    
-          }
         this.getAllFootPatrollingInspectionData();
         this.depotTypeForOhe();
         this.categoryList();
@@ -108,8 +103,9 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'startTime': [null],
             'stopTime' : [null]
         });
+        
         //Observation Permissions
-        this.getAllObservationsData(query);
+        this.getAllObservationsData();
         var ObspermissionName = this.commonService.getPermissionNameByLoggedData("FP","Observations") ;//p == 0 ? 'No Permission' : p[0].permissionName;
           console.log("ObspermissionName"+ObspermissionName);
         this.addPermission = this.commonService.getPermissionByType("Add", ObspermissionName); 
@@ -140,27 +136,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'compliedDateTime' : [null],
             'attachment'  :[null]
         });
-       var query = this.section +'/'+ this.selectedFacilityId +'/'+this.nameOfStaff +'/'+this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') ;
-       console.log('query = '+query);
-        localStorage.setItem('query','');
-
-        this.filterData = {
-            filterColumnNames: [
-              { "Key": 'sno', "Value": " " },
-              { "Key": "inspectionSeqId", "Value": "" },
-              { "Key": "location", "Value":" "},
-              { "Key": "observationCategory", "Value": "" },
-              { "Key": "actionRequired", "Value": "" },
-              { "Key": "description", "Value": "" },
-
-            
-            ],
-            gridData: this.gridData,
-            observationDataSource: this.observationDataSource,
-            paginator: this.paginator,
-            sort: this.sort
-          };
-
     }
     
       public get f() { return this.fpInspectionItemFormGroup.controls; }
@@ -178,6 +153,8 @@ export class FootPatrollingInspectionComponent implements OnInit{
             this.fpInspectionList = data;
             for (let i = 0; i < this.fpInspectionList.length; i++) {
                 this.fpInspectionList[i].sno = i+1;
+                this.fpInspectionList[i].startTime = this.datePipe.transform(this.fpInspectionList[i].startTime, 'dd-MM-yyyy hh:mm:ss');
+                this.fpInspectionList[i].stopTime = this.datePipe.transform(this.fpInspectionList[i].stopTime, 'dd-MM-yyyy hh:mm:ss');
                 footPatrollingInspection.push(this.fpInspectionList[i]);              
             }
             this.fpInspectionItemDataSource = new MatTableDataSource(footPatrollingInspection);
@@ -270,7 +247,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
         });
     }
 
-
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
@@ -299,10 +275,10 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
     
      //Observations Related code for Add,delete,update,fetch records
-     getAllObservationsData(query) {
+     getAllObservationsData() {
          if(this.fpInspectionItemFormGroup.controls.id){
             const observation : ObservationModel[] = [];
-            this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_LIST_BASED_ON_QUERY+query).subscribe((data) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION).subscribe((data) => {
                 this.obsList = data;
                 for (let i = 0; i < this.obsList.length; i++) {
                     this.obsList[i].sno = i+1;
@@ -350,7 +326,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.observationResponse = response
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
-                this.getAllObservationsData(query);
+                this.getAllObservationsData();
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
             }else {
@@ -391,7 +367,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             this.observationResponse = data
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
-                this.getAllObservationsData(query);
+                this.getAllObservationsData();
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
                 this.title = "Save";
@@ -411,29 +387,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.insId = id;
         this.addObservation = true;
     }
-    exactDateEvent($event) {
-        this.selectedExactDate = new Date($event.value);
-      }
-      updateNameOfStaff($event) {
-        this.nameOfStaff = $event.value;
-      }
-    updateFacilityName($event) {
-        if ($event.value) {
-          this.selectedFacilityId = $event.value;
-        }
-      }
-      updateSection($event) {
-        if ($event.value) {
-          this.section = $event.value;
-        }
-      }
-
-    executeQuery() {
-        var query = "";
-        query = this.section +'/'+ this.selectedFacilityId +'/'+this.nameOfStaff +'/'+this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') ;
-        localStorage.setItem('query', query);
-        this.getAllObservationsData(query);
-      }
     onGoBack() {
         this.observationFormGroup.reset();
         this.addObservation = false;
@@ -480,7 +433,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             if(result){
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
                         this.commonService.showAlertMessage('Observation Deleted Successfully');
-                        this.getAllObservationsData(query);
+                        this.getAllObservationsData();
                     },error => {});
             }
         });
