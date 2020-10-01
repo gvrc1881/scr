@@ -167,13 +167,13 @@ export class AddProductCategoryMemberComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   findProductNameList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.GET_PRODUCT)
       .subscribe((data) => {
         this.productData = data;
       })
   }
   findProductCategoryList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.GET_PRODUCT_CATEGORY)
       .subscribe((data) => {
         this.productCategoryData = data;
       })
