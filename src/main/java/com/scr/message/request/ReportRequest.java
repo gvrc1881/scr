@@ -52,6 +52,7 @@ public class ReportRequest {
 	private LocalDate Date;
 	private String materialItem;
 	private String tpcBoard;
+	private String formatType;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -315,6 +316,14 @@ public class ReportRequest {
 
 	public void setTpcBoard(String tpcBoard) {
 		this.tpcBoard = tpcBoard;
+	}
+
+	public String getFormatType() {
+		return formatType;
+	}
+
+	public void setFormatType(String formatType) {
+		this.formatType = formatType;
 	}
 
 	

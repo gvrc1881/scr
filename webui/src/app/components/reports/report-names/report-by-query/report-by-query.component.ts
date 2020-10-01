@@ -56,7 +56,7 @@ export class ReportByQueryComponent implements OnInit {
        tpcBoardData: any;
        sub;/*It defines to store router map of subscribe*/
        id: any;  /* Its used to store the getting name on the report page  */
-       otyp = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
+       formatType = ["Adobe portable Document Format(pdf)", "Comma Separated Value Text", "HTML Text", "Microsoft Excel", "Plain Text", "XML Text"]
 
        reportsByQuery: FormGroup;
        maxDate = new Date();
@@ -149,6 +149,7 @@ export class ReportByQueryComponent implements OnInit {
                      'fromkm': [null],
                      'tokm': [null],
                      'materialItem': [null],
+                     'format': [null]
               });
        }
        selectedValue($event, Type) {
@@ -214,17 +215,17 @@ export class ReportByQueryComponent implements OnInit {
                                           this.divisionCode(this.userDefaultData.zone);
                                    }
                                    if (this.userDefaultData.division) {
-                                   		  console.log('** div code***'+this.userDefaultData.division);
+                                   //		  console.log('** div code***'+this.userDefaultData.division);
 		                 		this.divCode =  this.userDefaultData.division.toUpperCase( );
-		                     	console.log('** div code***'+this.divCode);
+		                     	// console.log('** div code***'+this.divCode);
                                           this.reportModel.division = this.userDefaultData.division;
                                           this.subDivision(this.userDefaultData.division);
                                    }
 
                                    if (this.userDefaultData.subDivision) {
-                                   			console.log('** sub div code***'+this.userDefaultData.subDivision);
+                                   		//	console.log('** sub div code***'+this.userDefaultData.subDivision);
 		                 		this.subDivisionCode =  this.userDefaultData.subDivision.toUpperCase( );
-			                	console.log('** sub div code***'+this.subDivisionCode);
+			                	// console.log('** sub div code***'+this.subDivisionCode);
                                           this.reportModel.subDivision = this.userDefaultData.subDivision;
                                           this.facility(this.userDefaultData.subDivision);
                                    }
@@ -287,6 +288,7 @@ export class ReportByQueryComponent implements OnInit {
               this.reportModel.fromkm = this.reportsByQuery.controls.fromkm.value;
               this.reportModel.tokm = this.reportsByQuery.controls.tokm.value;
               this.reportModel.materialItem = this.reportsByQuery.controls.materialItem.value;
+              this.reportModel.formatType = this.reportsByQuery.controls.format.value;
 
               console.log("generateReport" + this.id)
               console.log("generateReport" + JSON.stringify(this.reportModel));
@@ -296,9 +298,14 @@ export class ReportByQueryComponent implements OnInit {
                             this.submitedForm = response;
                             let pdfWindow = window.open("download", "");
                             let content = encodeURIComponent(this.submitedForm.outputData);
-                            let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";
                             let iframeEnd = "'><\/iframe>";
-                            pdfWindow.document.write(iframeStart + content + iframeEnd);
+                         if('Microsoft Excel' === this.reportModel.formatType ) {
+                                let iframeStart = "<\iframe width='100%' height='100%' src='data:application/vnd.ms-excel;base64, ";
+                                pdfWindow.document.write(iframeStart + content + iframeEnd); 
+                             }else {
+                                let iframeStart = "<\iframe width='100%' height='100%' src='data:application/pdf;base64, ";
+                                pdfWindow.document.write(iframeStart + content + iframeEnd); 
+                             }
                      },
                             error => error => {
                                    console.log(' >>> ERROR ' + error);

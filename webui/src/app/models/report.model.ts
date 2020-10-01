@@ -32,6 +32,7 @@ export class ReportModel{
     elementarySectionCode:any;
     fromkm:any;
     tokm:any;
+    formatType: string;
     locationTypes:any;
     depotType:any;
     materialItem:any;  

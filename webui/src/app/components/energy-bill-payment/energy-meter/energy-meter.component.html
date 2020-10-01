@@ -42,7 +42,7 @@
 									                        	<div class="col-md-2">
 									                             <mat-form-field fxFlex="30">
 									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" required >
-									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater.feederId">
+									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater">
 									                                  {{ tssFeederMater.feederName}}
 									                                </mat-option>
 									                              </mat-select>

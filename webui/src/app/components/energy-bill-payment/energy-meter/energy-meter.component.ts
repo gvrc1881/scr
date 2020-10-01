@@ -63,10 +63,11 @@ export class EnergyMeterComponent implements OnInit{
     }
     
     duplicateFeederAndStartDate() {
+        let feeder = this.energyMeterFormGroup.controls['feederId'].value;
     	const q = new Promise((resolve, reject) => {
 	       this.sendAndRequestService.requestForGET(
                 Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_START_DATE +
-	            this.energyMeterFormGroup.controls['feederId'].value + '/'+
+	            feeder.feederId + '/'+
 	            this.energyMeterFormGroup.controls['startDate'].value
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
@@ -81,7 +82,7 @@ export class EnergyMeterComponent implements OnInit{
     
     energyMeterSubmit () {
         let cmd: string = this.energyMeterFormGroup.value.cmd;
-        let feederId: Date = this.energyMeterFormGroup.value.feederId;
+        let feederId: Date = this.energyMeterFormGroup.value.feederId.feederId;
         let startKvah: string = this.energyMeterFormGroup.value.startKvah;
         let startKwh: string = this.energyMeterFormGroup.value.startKwh;
         let startRkvahLag: string = this.energyMeterFormGroup.value.startRkvahLag;
@@ -97,7 +98,7 @@ export class EnergyMeterComponent implements OnInit{
         let remarks: string = this.energyMeterFormGroup.value.remarks;
         let startDate: string = this.energyMeterFormGroup.value.startDate;
         let endDate: string = this.energyMeterFormGroup.value.endDate;
-        let dataDiv: string = this.loggedUserData.username;
+        let dataDiv: string = this.energyMeterFormGroup.value.feederId.dataDiv;
         this.addEnergyMeter = false;
         
         if (this.title ==  Constants.EVENTS.SAVE) {
@@ -331,10 +332,10 @@ export class EnergyMeterComponent implements OnInit{
     }
     
     dupllicateFeederhavingEndDate() {
+        let feeder = this.energyMeterFormGroup.controls['feederId'].value;
     	const q = new Promise((resolve, reject) => {
 	       this.sendAndRequestService.requestForGET(
-        	        Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_HAVING_END_DATE +
-	            this.energyMeterFormGroup.controls['feederId'].value 
+        	        Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.EXISTS_FEEDER_HAVING_END_DATE +feeder.feederId
 	      ).subscribe((duplicate) => {
 	        if (duplicate) {
 	          resolve({ 'dupllicateFeederhavingEndDate': true });

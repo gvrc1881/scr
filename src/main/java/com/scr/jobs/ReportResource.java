@@ -35,6 +35,10 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
 
 /**
  * @author winfocus
@@ -164,8 +168,27 @@ public class ReportResource {
 			}
 			JasperReport jasperReport = JasperCompileManager.compileReport(tempFilePath);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, con);
-			byte[] reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
-			report.setOutputData(Base64.getEncoder().encodeToString(reportResult));
+			byte[] reportResult = null; 
+			
+			if ("Microsoft Excel".equals(report.getFormatType())) {
+				try {
+					File reportOutPutFile = File.createTempFile(resource.getFilename().replace(".jrxml","").trim(), ".xlsx");
+					JRXlsxExporter jrXlsxExporter = new JRXlsxExporter();
+					jrXlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+					jrXlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(reportOutPutFile));
+					SimpleXlsxExporterConfiguration simpleXlsxExporterConfiguration = new SimpleXlsxExporterConfiguration();
+					jrXlsxExporter.setConfiguration(simpleXlsxExporterConfiguration);
+					jrXlsxExporter.exportReport();
+					reportResult = FileUtils.readFileToByteArray(reportOutPutFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			} else {
+				reportResult = JasperExportManager.exportReportToPdf(jasperPrint);
+			}
+		 report.setOutputData(Base64.getEncoder().encodeToString(reportResult));
+			
 			log.info("Done!...");
 		} catch (SQLException e) {
 			e.printStackTrace();

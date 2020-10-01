@@ -65,10 +65,11 @@ public class EnergyMeterController {
 	@ResponseBody
 	public ResponseStatus saveEnergyMeter(@RequestBody EnergyMeter energyMeter){
 		log.info("Enter into saveEnergyMeter function with below request parameters ");
-		Optional<UserDefualtFacConsIndEtc> userDefault = userDefualtFacConsIndEtcService.findByUserLoginId(energyMeter.getDataDiv());
+		/*Optional<UserDefualtFacConsIndEtc> userDefault = userDefualtFacConsIndEtcService.findByUserLoginId(energyMeter.getDataDiv());
 		if (userDefault.isPresent()) {
 			energyMeter.setDataDiv(userDefault.get().getDivision().toUpperCase());
-		}
+		}*/
+		energyMeter.setDataDiv(energyMeter.getDataDiv().toUpperCase());
 		log.info("Request Parameters = "+energyMeter.toString());
 		try {
 			log.info("Calling service with request parameters.");
