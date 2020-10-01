@@ -38,31 +38,45 @@
 
                                 <div class="example-container mat-elevation-z8">
 
-                                    <mat-table [dataSource]="dataSource" matSort>
+                                    <mat-table [dataSource]="filterData.dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Sl No</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="productCategoryId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product CategoryId</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Product Category Id</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.productCategoryId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="categoryName">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Category Name</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.categoryName}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="productCategoryTypeId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Product Category TypeId
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Product Category TypeId</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.productCategoryTypeId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="primaryParentCategoryId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Parent CategoryId</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>Primary Parent CategoryId</span>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.primaryParentCategoryId}}</mat-cell>
                                         </ng-container>
                                         

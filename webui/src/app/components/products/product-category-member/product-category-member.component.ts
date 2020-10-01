@@ -25,11 +25,13 @@ export class ProductCategoryMemberComponent implements OnInit {
   displayedColumns = ['sno', 'productCategoryId', 'productId','quantity', 'fromDate', 'thruDate','actions'];
   dataSource: MatTableDataSource<ProductCategoryMemberModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+  filterData;
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+  gridData = [];
 
   categoryMemberList: any;
 
@@ -51,12 +53,22 @@ export class ProductCategoryMemberComponent implements OnInit {
 
     this.spinnerService.show();
     this.getProductCategoryMemberData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'productCategoryId', "Value": " " },
+        { "Key": 'productId', "Value": " " },
+        { "Key": 'quantity', "Value": " " },
+        { "Key": 'fromDate', "Value": "" },
+        { "Key": 'thruDate', "Value": " " },
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+    };
 
-  }
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+
   }
   getProductCategoryMemberData() {
     const categoryMember: ProductCategoryMemberModel[] = [];
@@ -68,8 +80,10 @@ export class ProductCategoryMemberComponent implements OnInit {
                 this.categoryMemberList[i].thruDate = this.datePipe.transform(this.categoryMemberList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
         categoryMember.push(this.categoryMemberList[i]);
       }
-
+      this.filterData.gridData = categoryMember;
       this.dataSource = new MatTableDataSource(categoryMember);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -101,11 +115,20 @@ export class ProductCategoryMemberComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
+    this.filterData.dataSource.filter = filterValue;
+  }
   ViewData(data){
     var result = {
       'title':'Product Category Data',
-      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'ProductId',value:data.productId},
-                    {label:'Quantity', value:data.quantity}]
+      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'Product Id',value:data.productId},
+                    {label:'Quantity', value:data.quantity},{label:'From Date', value:data.fromDate},{label:'Thru Date', value:data.thruDate},]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

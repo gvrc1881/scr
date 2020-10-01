@@ -20,10 +20,12 @@ export class ProductComponent implements OnInit {
   	editPermission: boolean = true;
     deletePermission: boolean = true;
     productList:any;
+    filterData;
   	displayedColumns = ['sno','productId','rlyId','plNo','description','quantityUomId','materialClassification','productTypeId','primaryProductCategoryId','actions'];
   	confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   	facilityData: any;
     dataSource: MatTableDataSource<ProductModel>;
+    gridData = [];
   	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   	@ViewChild(MatSort, { static: true }) sort: MatSort;
   	@ViewChild('filter', { static: true }) filter: ElementRef;  	
@@ -46,6 +48,24 @@ export class ProductComponent implements OnInit {
     this.spinnerService.show();
     this.getProductData();
 
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'productId', "Value": " " },
+        { "Key": 'rlyId', "Value": " " },
+        { "Key": 'plNo', "Value": " " },
+        { "Key": 'description', "Value": "" },
+        { "Key": 'quantityUomId', "Value": " " },
+        { "Key": 'materialClassification', "Value": " " },
+        { "Key": 'productTypeId', "Value": "" },
+        { "Key": 'primaryProductCategoryId', "Value": " " },  
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+    };
+
   }
   getProductData() {
     const product: ProductModel[] = [];
@@ -55,7 +75,10 @@ export class ProductComponent implements OnInit {
         this.productList[i].sno = i + 1;
         product.push(this.productList[i]);
       }
+      this.filterData.gridData = product;
       this.dataSource = new MatTableDataSource(product);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -88,21 +111,22 @@ export class ProductComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
-  
-  
-  
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
+  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); 
     filterValue = filterValue.toLowerCase(); 
-    this.dataSource.filter = filterValue;
+    this.filterData.dataSource.filter = filterValue;
   }
   ViewData(data){
     var result = {
       'title':'Product Data',
-      'dataSource':[{label:'ProductId',value:data.productId},{label:'Rly Id',value:data.rlyId},{label:'Pl No',value:data.plNo},
+      'dataSource':[{label:'Product Id',value:data.productId},{label:'Rly Id',value:data.rlyId},{label:'Pl No',value:data.plNo},
                     {label:'Quantity UomId', value:data.quantityUomId},{label:'Material Classification', value:data.materialClassification},
                     {label:'Product Type Id',value:data.productTypeId},
-                    {label:'Primary Product CategoryId',value:data.primaryProductCategoryId}]
+                    {label:'Primary Product Category Id',value:data.primaryProductCategoryId}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

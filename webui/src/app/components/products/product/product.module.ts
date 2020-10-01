@@ -9,6 +9,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { AddProductComponent } from './add-product/add-product.component';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
@@ -43,7 +44,8 @@ const routes: Routes = [
         NumberValidationsModule,
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
-        OwlNativeDateTimeModule,
+        CommonDirectivesModule, 
+        OwlNativeDateTimeModule
     ],
     providers: [
         

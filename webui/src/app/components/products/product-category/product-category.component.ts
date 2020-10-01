@@ -19,6 +19,7 @@ export class ProductCategoryComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
+  filterData;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno','productCategoryId', 'categoryName', 'productCategoryTypeId','primaryParentCategoryId', 'actions'];
@@ -29,6 +30,7 @@ export class ProductCategoryComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+  gridData = [];
 
   productCategoryList: any;
 
@@ -49,12 +51,20 @@ export class ProductCategoryComponent implements OnInit {
 
     this.spinnerService.show();
     this.getProductCategoryData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'productCategoryId', "Value": " " },
+        { "Key": 'categoryName', "Value": " " },
+        { "Key": 'productCategoryTypeId', "Value": " " },
+        { "Key": 'primaryParentCategoryId', "Value": " " },
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+    };
 
-  }
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
   }
   getProductCategoryData() {
     const productCategory: ProductCategoryModel[] = [];
@@ -65,7 +75,10 @@ export class ProductCategoryComponent implements OnInit {
         productCategory.push(this.productCategoryList[i]);
       }
 
+      this.filterData.gridData = productCategory;
       this.dataSource = new MatTableDataSource(productCategory);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -97,10 +110,19 @@ export class ProductCategoryComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
+    this.filterData.dataSource.filter = filterValue;
+  }
   ViewData(data){
     var result = {
       'title':'Product Category Data',
-      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'CategoryName',value:data.categoryName},
+      'dataSource':[{label:'Product Category Id',value:data.productCategoryId},{label:'Category Name',value:data.categoryName},
                     {label:'Product Category TypeId', value:data.productCategoryTypeId},{label:'Primary Parent CategoryId', value:data.primaryParentCategoryId}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {

@@ -15,7 +15,7 @@
             <div class="clear"> </div>
             <div class="row-fluid">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Product Category Member Information</div>
+                    <div class="panel-heading">Product Category Member</div>
                     <div class="panel-body">
 
                         
@@ -47,48 +47,59 @@
 
                                         <div class="example-container mat-elevation-z8">
 
-                                            <mat-table [dataSource]="dataSource" matSort>
+                                            <mat-table [dataSource]="filterData.dataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Sl No</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
                                                     </mat-header-cell>
-
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="productCategoryId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Product Category Id
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Product Category Id</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.productCategoryId}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="productId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Product Id
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Product Id</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.productId}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="quantity">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Quantity</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.quantity}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="fromDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>From Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>From Date</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        {{row.fromDate}}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.fromDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="thruDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Thru Date</span>
+                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row">
-                                                        {{row.thruDate}}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.thruDate}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Actions</span>
+                                                        <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <button mat-icon-button matTooltip="View"
