@@ -35,9 +35,9 @@
                             <mat-form-field fxFlex="30" class="example-full-width">
                               <mat-select placeholder="Select Depot" 
                                 [formControl]="fpInspectionItemFormGroup.controls['facilityId']" required>
-                                <mat-option *ngFor="let facilityData of facilityData"
-                                  [value]="facilityData.facilityName">
-                                  {{ facilityData.facilityName }}
+                                <mat-option *ngFor="let facilityList of facilityList"
+                                  [value]="facilityList.facilityId">
+                                  {{ facilityList.facilityName }}
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
@@ -124,45 +124,71 @@
                                   </div>
                                   <div class="clear"></div>
                                   <div class="mat-elevation-z8">
-                                      <mat-table [dataSource]="fpInspectionItemDataSource" matSort>
+                                      <mat-table [dataSource]="filterData.dataSource" matSort>
+                                          <ng-container matColumnDef="sort">
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Sort</span>
+                                                  </mat-header-cell>
+                                                    <mat-cell *matCellDef="let row">
+                                                  <mat-checkbox (change)="filterColumnNames()"></mat-checkbox>
+                                                  </mat-cell>
+                                          </ng-container>
+                                          
                                           <ng-container matColumnDef="sno">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Sl No</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
+                                                  </mat-header-cell>
                                               <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="facilityId">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
-                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.facilityId}}</mat-cell>
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Depot</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
                                           </ng-container>
-                                          
                                           <ng-container matColumnDef="inspectionType">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Inspection Type</mat-header-cell>
-                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.inspectionType}}</mat-cell>
-                    </ng-container>
-                    <ng-container matColumnDef="section">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
-                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.section}}</mat-cell>
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Inspection Type</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.inspectionType}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="section">
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Section</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="inspectionBy">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-                                              <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                {{row.inspectionBy}}</mat-cell>
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Inspection By</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.inspectionBy}}</mat-cell>
                                           </ng-container>
-                    <ng-container matColumnDef="startTime">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
-                      <mat-cell *matCellDef="let row" style="cursor: pointer">
-                        {{row.startTime}}</mat-cell>
-                  </ng-container>
-                  <ng-container matColumnDef="stopTime">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
-                    <mat-cell *matCellDef="let row" style="cursor: pointer">
-                      {{row.stopTime}}</mat-cell>
-                </ng-container>
-                                         
+                                          <ng-container matColumnDef="startTime">
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Start Time</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.startTime}}</mat-cell>
+                                          </ng-container>
+                                          <ng-container matColumnDef="stopTime">
+                                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                    <span>Stop Time</span>
+                                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
+                                                  </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.stopTime}}</mat-cell>
+                                          </ng-container>
+                                          
                                           <ng-container matColumnDef="id">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Actions</span>
+                                                        <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                                                    </mat-header-cell>
                                                   <mat-cell *matCellDef="let row">
                                                     <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                                                       (click)="editFPInspectionItem(row.id)">
@@ -175,7 +201,10 @@
                                                   </mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="observation">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Observation</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>Observations</span>
+                                                        <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                                                    </mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                   <span class="mat-raised-button mat-accent" (click)="NewObservationItem(row.id)" *ngIf="!addObservation"
                                                   color="accent" mat-raised-button="">
@@ -333,17 +362,13 @@ Close
         </mat-form-field>
     </div>
 </div>
-
-<div class="clear"> </div>
-
-</div>
 <div class="row-fluid">
 <div class="panel panel-primary"></div>
 <div class="panel-heading">Observations List  Information</div>
 </div>
 <div class="clear"></div>
-<div class="table-sort-input example-container mat-elevation-z8 table-responsive">
-  <mat-table [dataSource]="observationDataSource" matSort>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="observationDataSource" matSort>
         <ng-container matColumnDef="sno">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -381,7 +406,7 @@ Close
          <mat-cell *matCellDef="let row">
           <button mat-icon-button matTooltip="Document View"
           (click)="viewFilesDetails(row.id)" > 
-          <mat-icon style="color: rgb(0, 145, 234);">Visibility</mat-icon>
+          <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
      </button>
         </mat-cell>
     </ng-container>
@@ -412,6 +437,7 @@ Close
         </mat-row>
     </mat-table> 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
 </div>
 </div>
 
@@ -554,7 +580,7 @@ Close
              <ng-container matColumnDef="compliedDateTime">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Complied Date</mat-header-cell>
                        <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                {{row.compliedDateTime | date:'yyyy-mm-dd'}}</mat-cell>
+                                {{row.compliedDateTime | date}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>

@@ -36,7 +36,7 @@ export class ObservationsComponent implements OnInit{
     inspectionDocumentDialogRef: MatDialogRef<InspectionDocumentComponent>;
    observationFormGroup: FormGroup;
    obsList : any;
-   observationDataSource: MatTableDataSource<ObservationModel>;
+   dataSource: MatTableDataSource<ObservationModel>;
    observationDisplayColumns = ['sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','id'] ;
    editObservationResponse: any;
    observationResponse: any;
@@ -57,6 +57,7 @@ export class ObservationsComponent implements OnInit{
     }
 
     ngOnInit () {
+      this.categoryList();
         this.getAllObservationsData();
         var ObspermissionName = this.commonService.getPermissionNameByLoggedData("MAINTENANCE","OBSERVATIONS") ;//p == 0 ? 'No Permission' : p[0].permissionName;
           console.log("ObspermissionName"+ObspermissionName);
@@ -85,7 +86,7 @@ export class ObservationsComponent implements OnInit{
               { "Key": 'description', "Value": " " },
             ],
             gridData: this.gridData,
-            observationDataSource: this.observationDataSource,
+            dataSource: this.dataSource,
             paginator: this.paginator,
             sort: this.sort
           };
@@ -113,11 +114,11 @@ export class ObservationsComponent implements OnInit{
                     observation.push(this.obsList[i]);              
                 }
                 this.filterData.gridData = observation;
-                this.observationDataSource = new MatTableDataSource(observation);
-                this.commonService.updateDataSource(this.observationDataSource, this.observationDisplayColumns);
-                this.filterData.dataSource = this.observationDataSource;
-                this.observationDataSource.paginator = this.paginator;
-                this.observationDataSource.sort = this.sort;
+                this.dataSource = new MatTableDataSource(observation);
+                this.commonService.updateDataSource(this.dataSource, this.observationDisplayColumns);
+                this.filterData.dataSource = this.dataSource;
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
                 this.spinnerService.hide();
               }, error => {
                 this.spinnerService.hide();
@@ -265,13 +266,13 @@ export class ObservationsComponent implements OnInit{
     }
 
     updatePagination() {
-        this.filterData.observationDataSource = this.filterData.observationDataSource;
-        this.filterData.observationDataSource.paginator = this.paginator;
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
       }
     observationApplyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
-        this.filterData.observationDataSource.filter = filterValue;
+        this.filterData.dataSource.filter = filterValue;
     }
     categoryList()
         {  

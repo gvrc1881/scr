@@ -33,7 +33,7 @@ export class CompliancesComponent implements OnInit{
    complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
    complianceFormGroup: FormGroup;
    complianceList : any;
-   complianceDataSource: MatTableDataSource<ComplianceModel>;
+   dataSource: MatTableDataSource<ComplianceModel>;
    complianceDisplayColumns = ['sno' ,'status','action' , 'complianceBy' ,  'compliedDateTime' ,'attachment', 'id'] ;
    editComplianceResponse: any;
    complianceResponse: any;
@@ -79,7 +79,7 @@ export class CompliancesComponent implements OnInit{
               { "Key": 'attachment', "Value": " " },
             ],
             gridData: this.gridData,
-            complianceDataSource: this.complianceDataSource,
+            dataSource: this.dataSource,
             paginator: this.paginator,
             sort: this.sort
           };
@@ -153,11 +153,11 @@ getAllCompliancesData() {
             compliances.push(this.complianceList[i]);              
         }
         this.filterData.gridData = compliances;
-      this.complianceDataSource = new MatTableDataSource(compliances);
-      this.commonService.updateDataSource(this.complianceDataSource, this.complianceDisplayColumns);
-      this.filterData.dataSource = this.complianceDataSource;
-      this.complianceDataSource.paginator = this.paginator;
-      this.complianceDataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource(compliances);
+      this.commonService.updateDataSource(this.dataSource, this.complianceDisplayColumns);
+      this.filterData.dataSource = this.dataSource;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -292,11 +292,11 @@ complianceItemSubmit () {
     comApplyFilter(filterValue: string) {
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase();
-        this.filterData.complianceDataSource.filter = filterValue;
+        this.filterData.dataSource.filter = filterValue;
     }
     updatePagination() {
-        this.filterData.complianceDataSource = this.filterData.complianceDataSource;
-        this.filterData.complianceDataSource.paginator = this.paginator;
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
       }
     statusList()
     {  

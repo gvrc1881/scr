@@ -216,7 +216,7 @@ public class ReportService {
 		   return elementarySectionsRepository.findByFacilityId(facilityId);
 		}
 	public List<ObservationCategory>findDepartments() {	
-		   return observationCategoryRepository.findByInspectionTypeOrderByObservationCategoryAsc();
+		   return observationCategoryRepository.findAllOrderByObservationCategoryAsc();
 		}
 	public List<ObservationsCheckList>findObservationCheckList() {	
 		   return observationCheckListRepository.findAll();

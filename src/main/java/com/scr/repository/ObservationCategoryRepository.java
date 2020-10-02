@@ -10,7 +10,7 @@ import com.scr.model.ObservationCategory;
 
 public interface ObservationCategoryRepository extends JpaRepository<ObservationCategory, Long> {
 	@Query("FROM ObservationCategory ORDER BY observationCategory ASC")
-	List<ObservationCategory> findByInspectionTypeOrderByObservationCategoryAsc();
+	List<ObservationCategory> findAllOrderByObservationCategoryAsc();
 
 	List<ObservationCategory> findDistinctByDepartment(String department);
 

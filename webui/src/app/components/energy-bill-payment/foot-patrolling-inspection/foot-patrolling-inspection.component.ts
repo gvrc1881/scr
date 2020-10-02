@@ -33,18 +33,22 @@ export class FootPatrollingInspectionComponent implements OnInit{
     toMinDate=new Date();
     currentDate = new Date();
     facilityData:any;
+    facilityList:any;
+    filterData;
+    gridData = [];
     selectedFiles: File[] = [];
     filesExists: boolean = false;
     ComplianceStatus:any;
     observationCategoryData:any;
     statusTypeData:any;
-    fpInspectionItemDataSource: MatTableDataSource<FootPatrollingInspectionModel>;
-    fpInspectionItemDisplayColumns = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id','observation'] ;
+    dataSource: MatTableDataSource<FootPatrollingInspectionModel>;
+    fpInspectionItemDisplayColumns = ['sort','sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'id','observation'] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editfpInspectionItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     inspectionDocumentDialogRef: MatDialogRef<InspectionDocumentComponent>;
+        onlyYes:boolean = false;
        //Observation 
    observationFormGroup: FormGroup;
    obsList : any;
@@ -103,7 +107,21 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'startTime': [null],
             'stopTime' : [null]
         });
-        
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'facilityId', "Value": " " },
+              { "Key": 'inspectionType', "Value": " " },
+              { "Key": 'section', "Value": " " },
+              { "Key": 'inspectionBy', "Value": " " },
+              { "Key": 'startTime', "Value": "" },
+              { "Key": 'stopTime', "Value": " " },
+            ],
+            gridData: this.gridData,
+            dataSource: this.dataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
         //Observation Permissions
         this.getAllObservationsData();
         var ObspermissionName = this.commonService.getPermissionNameByLoggedData("FP","Observations") ;//p == 0 ? 'No Permission' : p[0].permissionName;
@@ -136,6 +154,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'compliedDateTime' : [null],
             'attachment'  :[null]
         });
+        
     }
     
       public get f() { return this.fpInspectionItemFormGroup.controls; }
@@ -155,15 +174,25 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.fpInspectionList[i].sno = i+1;
                 this.fpInspectionList[i].startTime = this.datePipe.transform(this.fpInspectionList[i].startTime, 'dd-MM-yyyy hh:mm:ss');
                 this.fpInspectionList[i].stopTime = this.datePipe.transform(this.fpInspectionList[i].stopTime, 'dd-MM-yyyy hh:mm:ss');
+                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.fpInspectionList[i].facilityId)).subscribe((data) => {
+		        this.spinnerService.hide();
+	    	    this.facilityData = data;
+	        	this.fpInspectionList[i].facilityId = this.facilityData.facilityName;
+	        });
                 footPatrollingInspection.push(this.fpInspectionList[i]);              
             }
-            this.fpInspectionItemDataSource = new MatTableDataSource(footPatrollingInspection);
-            this.fpInspectionItemDataSource.paginator = this.paginator;
-            this.fpInspectionItemDataSource.sort = this.sort;
-
-        } , error => {});
-
-    }
+            
+            this.filterData.gridData = footPatrollingInspection;
+      this.dataSource = new MatTableDataSource(footPatrollingInspection);
+      this.commonService.updateDataSource(this.dataSource, this.fpInspectionItemDisplayColumns);
+      this.filterData.dataSource = this.dataSource;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
     fpInspectionItemSubmit () {
         let facilityId: string = this.fpInspectionItemFormGroup.value.facilityId;
         let inspectionType: string = this.fpInspectionItemFormGroup.value.inspectionType;
@@ -246,12 +275,15 @@ export class FootPatrollingInspectionComponent implements OnInit{
             }
         });
     }
-
-    applyFilter(filterValue: string) {
-        filterValue = filterValue.trim();
-        filterValue = filterValue.toLowerCase();
-        this.fpInspectionItemDataSource.filter = filterValue;
-    }
+    updatePagination() {
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
+      }
+      applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); 
+        filterValue = filterValue.toLowerCase(); 
+        this.filterData.dataSource.filter = filterValue;
+      }
     fpGoBack() {
         this.fpInspectionItemFormGroup.reset();
         this.addFPInspectionItem = false;
@@ -261,7 +293,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     depotTypeForOhe()
         {  
                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE).subscribe((data) => {
-                 this.facilityData = data;
+                 this.facilityList = data;
         }
                );
 
@@ -273,7 +305,14 @@ export class FootPatrollingInspectionComponent implements OnInit{
     NewMapItem(){
         this.addMap=true;
     }
-    
+    filterColumnNames() {
+        alert("filterColumnNames")
+        if (this.fpInspectionItemFormGroup.value.id == this.observationFormGroup.value.inspectionSeqId) {     
+            this.onlyYes = false;
+        } else {
+            this.onlyYes = true;
+        }
+            }
      //Observations Related code for Add,delete,update,fetch records
      getAllObservationsData() {
          if(this.fpInspectionItemFormGroup.controls.id){

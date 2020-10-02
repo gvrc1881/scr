@@ -203,7 +203,7 @@ export class ObservationCheckListComponent implements OnInit {
     }
     observationCategories() {
 
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CATEGORIES).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION_CATEGORIES.GET_OBS_CATEGORIES).subscribe((data) => {
             this.inspectionTypeData = data;
         }
         );
