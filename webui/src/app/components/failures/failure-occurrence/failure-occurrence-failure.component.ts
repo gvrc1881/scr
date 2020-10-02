@@ -6,7 +6,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 @Component({
   selector: 'app-failure-occurrence',
   templateUrl: './failure-occurrence-failure.component.html',
@@ -37,6 +38,7 @@ export class FailureOccurrenceComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -61,6 +63,9 @@ export class FailureOccurrenceComponent implements OnInit {
       console.log(this.FailureOccurrenceFailList)
       for (let i = 0; i < this.FailureOccurrenceFailList.length; i++) {
         this.FailureOccurrenceFailList[i].sno = i + 1;
+         this.FailureOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.FailureOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        
         FailureOccurrenceFail.push(this.FailureOccurrenceFailList[i]);
       }
 

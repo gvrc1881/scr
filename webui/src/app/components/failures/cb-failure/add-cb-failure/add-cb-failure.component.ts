@@ -32,8 +32,8 @@ export class AddCbFailureComponent implements OnInit {
   resp: any;
   reportDescriptionFlag=false;
   maxDate = new Date();
-  minDate=new Date();
-  dateFormat = 'MM-dd-yyyy HH:MM:SS';
+  toMinDate=new Date();
+  dateFormat = 'MM-dd-yyyy hh:mm:ss';
   divisionList:any;
   failureList:any;
   failurecasList:any;
@@ -170,6 +170,7 @@ export class AddCbFailureComponent implements OnInit {
     }
   }
  
+ 
   updateFeedOff($event){
     if ($event.value) {
       console.log($event.value)
@@ -187,6 +188,7 @@ export class AddCbFailureComponent implements OnInit {
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.toMinDate = new Date(this.resp.fromDateTime);
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
@@ -235,10 +237,10 @@ export class AddCbFailureComponent implements OnInit {
   }
 
   addEvent($event) {
-    this.minDate = new Date($event.value);
+    this.toMinDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.minDate = new Date($event.value);
+    this.toMinDate = new Date($event.value);
   }
 
 timeDuration(){
@@ -249,15 +251,15 @@ timeDuration(){
    
     if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
    var diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
-   console.log("diff"+diff)
+   
    var days=Math.floor(diff / (60*60*24*1000));
-   console.log("days"+days)
+   
    var hours=Math.floor(diff / (60*60*1000))-(days*24);
-   console.log("hours"+hours)
+  
    var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-   console.log("minutes"+minutes)
+   
    var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-   console.log("seconds"+seconds)
+  
    this.duration=String(days)+":" +String(hours)+":" + String(minutes)+":" +String(seconds) ;
    console.log("duration"+this.duration)
     }

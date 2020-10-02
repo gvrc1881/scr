@@ -6,7 +6,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 @Component({
   selector: 'app-rc-failure',
   templateUrl: './rc-failure.component.html',
@@ -37,6 +38,7 @@ export class RcFailureComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -61,6 +63,9 @@ export class RcFailureComponent implements OnInit {
       console.log(this.RcFailList)
       for (let i = 0; i < this.RcFailList.length; i++) {
         this.RcFailList[i].sno = i + 1;
+        this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        
         RcFail.push(this.RcFailList[i]);
       }
 

@@ -44,7 +44,6 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
-
                                         <ng-container matColumnDef="subStation">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Sub Station</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.subStation}}</mat-cell>
@@ -150,6 +149,10 @@
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
+                                                <button mat-icon-button matTooltip="View"
+                                                        (click)="ViewData(row)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                      </button>
                                                 <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">

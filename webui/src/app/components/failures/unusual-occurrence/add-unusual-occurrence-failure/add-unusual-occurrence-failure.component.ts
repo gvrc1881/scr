@@ -162,6 +162,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.minDate = new Date(this.resp.fromDateTime);
         this.addUnusualOccurrenceFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,

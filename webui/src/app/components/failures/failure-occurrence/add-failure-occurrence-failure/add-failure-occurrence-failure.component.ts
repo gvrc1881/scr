@@ -30,8 +30,6 @@ export class AddFailureOccurrenceComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
-  toMinDate=new Date();
-  completeMinDate=new Date();
   divisionList:any;
   duration:any;
   minDate=new Date();
@@ -155,6 +153,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.minDate = new Date(this.resp.fromDateTime);
         this.addFailureOccurrenceFailFromGroup.patchValue({
           id: this.resp.id,
           occurrence:this.resp.occurrence,
@@ -191,11 +190,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
   }
 
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
   }
-  addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
-  }
+ 
   onAddFailureAnalysisFormSubmit() {
     if (this.addFailureOccurrenceFailFromGroup.invalid) {
       this.isSubmit = false;

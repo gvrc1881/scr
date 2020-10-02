@@ -157,6 +157,8 @@ export class AddFailureAnalysisComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EDIT+id)
       .subscribe((resp) => {
         this.resp = resp;
+        this.toMinDate = new Date(this.resp.date);
+        this.completeMinDate = new Date(this.resp.actionTargetDate);
         this.addFailureAnalysisFormGroup.patchValue({
           id: this.resp.id,
          // failure_id: this.resp.failure_id,

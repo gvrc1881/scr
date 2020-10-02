@@ -6,7 +6,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 @Component({
   selector: 'app-unusual-occurrence-failure',
   templateUrl: './unusual-occurrence-failure.component.html',
@@ -45,6 +46,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -71,6 +73,9 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       console.log(this.UnusualOccurrenceFailList)
       for (let i = 0; i < this.UnusualOccurrenceFailList.length; i++) {
         this.UnusualOccurrenceFailList[i].sno = i + 1;
+        this.UnusualOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.UnusualOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        
         UnusualOccurrenceFail.push(this.UnusualOccurrenceFailList[i]);
       }
 

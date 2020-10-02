@@ -155,12 +155,13 @@ export class AddRcFailureComponent implements OnInit {
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.minDate = new Date(this.resp.fromDateTime);
         this.addRcFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
           relayIndication:this.resp.relayIndication,
-          fromDateTime:new Date(this.resp.fromDateTime),
-          thruDateTime:new Date(this.resp.thruDateTime),
+          fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
           divisionLocal:this.resp.divisionLocal,
           internalExternal:this.resp.internalExternal,

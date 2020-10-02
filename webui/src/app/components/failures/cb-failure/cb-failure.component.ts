@@ -6,7 +6,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 @Component({
   selector: 'app-cb-failure',
   templateUrl: './cb-failure.component.html',
@@ -24,7 +25,7 @@ export class CbFailureComponent implements OnInit {
      'xValue', 'zValue','faultDistance','actualFaultDistance','current','voltage','phaseAngle',
      'trippedIdentifiedFault','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
-
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -39,6 +40,7 @@ export class CbFailureComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,9 @@ export class CbFailureComponent implements OnInit {
       console.log(this.CbFailList)
       for (let i = 0; i < this.CbFailList.length; i++) {
         this.CbFailList[i].sno = i + 1;
+        this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        
         CbFail.push(this.CbFailList[i]);
       }
 
@@ -97,5 +102,26 @@ export class CbFailureComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+  }
+  ViewData(data){
+    var result = {
+      'title':'Drives',
+      'dataSource':[{label:'SubStation',value:data.subStation},{label:'Equipment',value:data.equipment},
+      {label:'CascadeAssets', value:data.cascadeAssets},{label:'FromDateTime', value:data.fromDateTime},
+      {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},
+      {label:'RelayIndication',value:data.relayIndication},{label:'NatureOfClosure',value:data.natureOfClosure},
+      {label:'RValue',value:data.rValue},{label:'XValue',value:data.xValue},
+      {label:'ZValue',value:data.zValue},{label:'FaultDistance',value:data.faultDistance},
+      {label:'ActualFaultDistance', value:data.actualFaultDistance},{label:'Current', value:data.current},
+      {label:'Voltage',value:data.voltage},{label:'PhaseAngle',value:data.phaseAngle},
+      {label:'TrippedIdentifiedFault',value:data.trippedIdentifiedFault},{label:'DivisionLocal',value:data.divisionLocal},
+      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 }
