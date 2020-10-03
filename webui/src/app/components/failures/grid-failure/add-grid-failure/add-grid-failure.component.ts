@@ -31,6 +31,8 @@ export class AddGridFailureComponent implements OnInit {
   reportDescriptionFlag=false;
   maxDate = new Date();
   minDate=new Date();
+  toMinDate=new Date();
+  fMinDate=new Date();
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
   duration:any;
@@ -124,24 +126,24 @@ export class AddGridFailureComponent implements OnInit {
   }
  
 timeDuration(){
-  console.log("duration")
+  
   var ffdate=this.addGridFailFromGroup.value.ffdate;
   
   var ftdate=this.addGridFailFromGroup.value.ftdate;
  
   if(this.addGridFailFromGroup.value.ffdate.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
  var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.ffdate.getTime();
- console.log("diff"+diff)
+
  var days=Math.floor(diff / (60*60*24*1000));
- console.log("days"+days)
+
  var hours=Math.floor(diff / (60*60*1000))-(days*24);
- console.log("hours"+hours)
+
  var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
- console.log("minutes"+minutes)
+
  var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
- console.log("seconds"+seconds)
+
  this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
- console.log("duration"+this.duration)
+ 
   }
 }
 
@@ -153,13 +155,13 @@ timDuration(){
  
   if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
  var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
- console.log("diff"+diff)
+ 
  var days=Math.floor(diff / (60*60*24*1000));
- console.log("days"+days)
+ 
  var hours=Math.floor(diff / (60*60*1000))-(days*24);
- console.log("hours"+hours)
+
  var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
- console.log("minutes"+minutes)
+
  var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
  
  this.dur=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
@@ -183,15 +185,19 @@ timDuration(){
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.minDate=new Date(this.resp.ffdate),
+        this.toMinDate=new Date(this.resp.efdate),
+        this.fMinDate=new Date(this.resp.ftdate),
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
           feedOff: this.resp.feedOf,
-          ffdate: new Date(this.resp.fromDateTime),
-          ftdate: new Date(this.resp.thruDateTime),
+          ffdate:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          ftdate:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           fduration: this.resp.duration ,
           extendedFrom: this.resp.extendedOf,
-          efdate: this.resp.feedExtendedFromDateTime != null ? new Date(this.resp.feedExtendedFromDateTime) : null,
-          etdate: this.resp.feedExtendedThruDateTime != null ? new Date(this.resp.feedExtendedThruDateTime) : null,
+          efdate:!!this.resp.feedExtendedFromDateTime ? new Date(this.resp.feedExtendedFromDateTime) : '',
+          etdate:!!this.resp.feedExtendedThruDateTime ? new Date(this.resp.feedExtendedThruDateTime) : '',
+          
           eduration: this.resp.feedExtendedDuration,
           maxDemand: this.resp.maxDemand,
           dl: this.resp.divisionLocal,
@@ -209,9 +215,11 @@ timDuration(){
   }
   addEvent($event) {
     this.minDate  = new Date($event.value);
+    //this.fMinDate  = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.minDate  = new Date($event.value);
+    this.fMinDate  = new Date($event.value);
+    this.toMinDate  = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addGridFailFromGroup.invalid) {
@@ -242,7 +250,7 @@ timDuration(){
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -277,7 +285,7 @@ timDuration(){
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

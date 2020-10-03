@@ -23,7 +23,7 @@ export class RcFailureComponent implements OnInit {
   displayedColumns = ['sno', 'subStation','relayIndication', 'fromDateTime', 'thruDateTime',
     'duration','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
-
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -88,7 +88,7 @@ export class RcFailureComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Rc Fail Record Successfully");
           this.getRcFailureData();
@@ -101,5 +101,19 @@ export class RcFailureComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
-
+  ViewData(data){
+    var result = {
+      'title':'RC Failures',
+      'dataSource':[{label:'SubStation',value:data.subStation},{label:'relayIndication',value:data.relayIndication},
+      {label:'fromDateTime', value:data.fromDateTime},{label:'thruDateTime', value:data.thruDateTime},
+     {label:'Duration',value:data.duration},{label:'DivisionLocal',value:data.divisionLocal},
+      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
+  }
 }

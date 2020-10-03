@@ -97,10 +97,9 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
-                                                                [formControl]="addCbFailFromGroup.controls['duration']" id="duration">
-                                                               
-                                                                {{duration}}                                                         
+                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly 
+                                                                [formControl]="addCbFailFromGroup.controls['duration']"  [(ngModel)]="duration" >                                                               
+                                                                                                                     
                                                         </mat-form-field>
                                                     </div>
                                                    

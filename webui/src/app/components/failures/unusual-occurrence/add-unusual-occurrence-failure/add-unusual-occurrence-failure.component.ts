@@ -217,8 +217,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     if (this.save) {
       data = {
         'subStation': this.addUnusualOccurrenceFromGroup.value.subStation , 
-        'location': this.addUnusualOccurrenceFromGroup.value.equipment , 
-        'causeOfFailure': this.addUnusualOccurrenceFromGroup.value.cascadeAssets, 
+        'location': this.addUnusualOccurrenceFromGroup.value.location , 
+        'causeOfFailure': this.addUnusualOccurrenceFromGroup.value.causeOfFailure, 
         'fromDateTime': this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         'thruDateTime': this.addUnusualOccurrenceFromGroup.value.thruDateTime,
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
@@ -232,7 +232,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE ,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -250,8 +250,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       data = {
         "id":this.id,
         'subStation': this.addUnusualOccurrenceFromGroup.value.subStation , 
-        'location': this.addUnusualOccurrenceFromGroup.value.equipment , 
-        'causeOfFailure': this.addUnusualOccurrenceFromGroup.value.cascadeAssets, 
+        'location': this.addUnusualOccurrenceFromGroup.value.location , 
+        'causeOfFailure': this.addUnusualOccurrenceFromGroup.value.causeOfFailure, 
         'fromDateTime': this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         'thruDateTime': this.addUnusualOccurrenceFromGroup.value.thruDateTime,
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
@@ -265,7 +265,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

@@ -89,8 +89,8 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Duration (HH:MM:SS)" readonly
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['duration']"
-                                                                id="duration"   >  
-                                                                {{duration}}                                                          
+                                                                [(ngModel)]="duration"   >  
+                                                                                                                        
                                                         </mat-form-field>
                                                     </div>
                                                    

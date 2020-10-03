@@ -74,7 +74,7 @@ public class FailureController {
 		}
 	}
 	
-	@RequestMapping(value = "/saveFailureByType", method = RequestMethod.PUT, headers = "Accept=application/json")
+	@RequestMapping(value = "/updateFailureByType", method = RequestMethod.PUT, headers = "Accept=application/json")
 	public ResponseStatus updateFailureByType(@Valid @RequestBody Failure failureRequest) throws JSONException {	
 		logger.info("Enter into saveFailureByType function with below request parameters ");
 		logger.info("Request Parameters = "+failureRequest.toString());

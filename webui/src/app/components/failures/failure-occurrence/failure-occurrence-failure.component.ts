@@ -23,7 +23,7 @@ export class FailureOccurrenceComponent implements OnInit {
   displayedColumns = ['sno', 'occurrence','trainNo','place', 'fromDateTime', 'thruDateTime',
     'duration','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
-
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -88,7 +88,7 @@ export class FailureOccurrenceComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted FailureOccurrence Fail Record Successfully");
           this.getFailureOccurrenceFailureData();
@@ -100,6 +100,21 @@ export class FailureOccurrenceComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+  }
+  ViewData(data){
+    var result = {
+      'title':'Failure Occurence',
+      'dataSource':[{label:'Occurrence',value:data.occurrence},{label:'TrainNo',value:data.trainNo},
+      {label:'Place', value:data.place},{label:'FromDateTime', value:data.fromDateTime},{label:'ThruDateTime', value:data.thruDateTime},
+     {label:'Duration',value:data.duration},{label:'DivisionLocal',value:data.divisionLocal},
+      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+    }
+    this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+      disableClose: false,
+      height: '400px',
+      width: '80%',       
+      data:result,  
+    });            
   }
 
 }

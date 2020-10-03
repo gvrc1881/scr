@@ -41,11 +41,11 @@
                                     <mat-table [dataSource]="dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="subStation">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sub Station</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Station</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.subStation}}</mat-cell>
                                         </ng-container>
                                         
@@ -55,7 +55,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="cascadeAssets">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Cas Cade Assets
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>CasCade
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.cascadeAssets}}</mat-cell>
                                         </ng-container>
@@ -131,12 +131,12 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="divisionLocal">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division/Local</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Div/Local</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="internalExternal">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Internal/External</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Int/Ext</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.internalExternal}}</mat-cell>
                                         </ng-container>
 

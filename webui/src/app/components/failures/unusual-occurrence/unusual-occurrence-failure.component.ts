@@ -23,7 +23,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   displayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
     'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions'];
   dataSource: MatTableDataSource<any>;
-
+  dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -98,7 +98,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted UnusualOccurrence Fail Record Successfully");
           this.getUnusualOccurrenceFailureData();
@@ -148,7 +148,7 @@ deleteActions(id) {
   this.confirmDialogRef.afterClosed().subscribe(result => {
     if (result) {
       this.spinnerService.show();
-      this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Deleted Actions Fail Record Successfully");
         this.getActionsFailureData();
@@ -161,5 +161,20 @@ deleteActions(id) {
     this.confirmDialogRef = null;
   });
 }
-
+ViewData(data){
+  var result = {
+    'title':'Unusual Occurence ',
+    'dataSource':[{label:'SubStation',value:data.subStation},{label:'location',value:data.location},
+    {label:'CauseOfFailure',value:data.causeOfFailure},{label:'FromDateTime', value:data.fromDateTime},
+    {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},
+    {label:'DivisionLocal',value:data.divisionLocal},{label:'InternalExternal', value:data.internalExternal},
+    {label:'Impact',value:data.impact},{label:'Remarks', value:data.remarks} ]
+  }
+  this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+    disableClose: false,
+    height: '400px',
+    width: '80%',       
+    data:result,  
+  });            
+}
 }

@@ -594,4 +594,27 @@ public class Failure implements Serializable {
 		this.xValue = xValue;
 	}
 
+	@Override
+	public String toString() {
+		return "Failure [id=" + id + ", actualFaultDistance=" + actualFaultDistance + ", assetId=" + assetId
+				+ ", assetType=" + assetType + ", cascadeAssets=" + cascadeAssets + ", causeOfFailure=" + causeOfFailure
+				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", createdOn=" + createdOn
+				+ ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp + ", current=" + current
+				+ ", currentStatus=" + currentStatus + ", dataDiv=" + dataDiv + ", divisionLocal=" + divisionLocal
+				+ ", duration=" + duration + ", equipment=" + equipment + ", extendedOf=" + extendedOf + ", facilityId="
+				+ facilityId + ", failureDateTime=" + failureDateTime + ", failureSeqId=" + failureSeqId
+				+ ", faultDistance=" + faultDistance + ", feedExtendedDuration=" + feedExtendedDuration
+				+ ", feedExtendedFromDateTime=" + feedExtendedFromDateTime + ", feedExtendedThruDateTime="
+				+ feedExtendedThruDateTime + ", feedOf=" + feedOf + ", fromDateTime=" + fromDateTime + ", impact="
+				+ impact + ", internalExternal=" + internalExternal + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", location=" + location + ", maxDemand=" + maxDemand
+				+ ", natureOfClosure=" + natureOfClosure + ", occurrence=" + occurrence + ", phaseAngle=" + phaseAngle
+				+ ", place=" + place + ", punctualityAffectedTo=" + punctualityAffectedTo + ", rValue=" + rValue
+				+ ", relayIndication=" + relayIndication + ", remarks=" + remarks + ", resumeDateTime=" + resumeDateTime
+				+ ", section=" + section + ", staff=" + staff + ", subStation=" + subStation + ", thruDateTime="
+				+ thruDateTime + ", timeDelay=" + timeDelay + ", tpcBoard=" + tpcBoard + ", trainNo=" + trainNo
+				+ ", trippedIdentifiedFault=" + trippedIdentifiedFault + ", typeOfFailure=" + typeOfFailure
+				+ ", voltage=" + voltage + ", xValue=" + xValue + "]";
+	}
+
 }

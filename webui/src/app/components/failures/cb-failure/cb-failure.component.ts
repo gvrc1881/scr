@@ -22,7 +22,7 @@ export class CbFailureComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'subStation', 'equipment', 'cascadeAssets', 'fromDateTime', 'thruDateTime',
     'duration', 'relayIndication', 'natureOfClosure', 'rValue',
-     'xValue', 'zValue','faultDistance','actualFaultDistance','current','voltage','phaseAngle',
+     'xValue', 'zValue','faultDistance','actualFaultDistance','current','voltage',
      'trippedIdentifiedFault','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
@@ -67,7 +67,7 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].sno = i + 1;
         this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        
+        this.CbFailList[i].duration=(this.CbFailList[i].thruDateTime-this.CbFailList[i].fromDateTime);
         CbFail.push(this.CbFailList[i]);
       }
 
@@ -90,7 +90,7 @@ export class CbFailureComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Cb Fail Record Successfully");
           this.getCbFailureData();
@@ -105,7 +105,7 @@ export class CbFailureComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Drives',
+      'title':'CB Failures',
       'dataSource':[{label:'SubStation',value:data.subStation},{label:'Equipment',value:data.equipment},
       {label:'CascadeAssets', value:data.cascadeAssets},{label:'FromDateTime', value:data.fromDateTime},
       {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},

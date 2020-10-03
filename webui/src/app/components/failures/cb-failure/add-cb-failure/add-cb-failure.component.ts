@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { JitEmitterVisitor } from '@angular/compiler/src/output/output_jit';
 
 @Component({
   selector: 'app-add-cb-failure',
@@ -45,7 +46,8 @@ export class AddCbFailureComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
-    private sendAndRequestService: SendAndRequestService
+    private sendAndRequestService: SendAndRequestService,
+   
   ) {
     // Reactive form errors
     this.cbFailFormErrors = {
@@ -100,7 +102,7 @@ export class AddCbFailureComponent implements OnInit {
       , error => {});
       this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
       .subscribe((data) => {
-        console.log("id===="+JSON.stringify(this.failurecasList));
+        
         this.failurecasList = data;
       //  this.extendedFromList = response;
         this.spinnerService.hide();
@@ -196,12 +198,12 @@ export class AddCbFailureComponent implements OnInit {
           cascadeAssets:this.resp.cascadeAssets.split(","),
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
-          duration:this.resp.duration, 
+          //duration:this.resp.duration, 
           relayIndication:this.resp.relayIndication,
           natureOfClosure:this.resp.natureOfClosure, 
           rValue:this.resp.rValue,
           xValue:this.resp.xValue,
-          zValue:this.resp.xValue,
+          zValue:this.resp.zValue,
           faultDistance:this.resp.faultDistance,
           actualFaultDistance:this.resp.actualFaultDistance,
           current:this.resp.current,
@@ -244,7 +246,7 @@ export class AddCbFailureComponent implements OnInit {
   }
 
 timeDuration(){
-    console.log("duration")
+    
     var fromDateTime=this.addCbFailFromGroup.value.fromDateTime;
     
     var thruDateTime=this.addCbFailFromGroup.value.thruDateTime;
@@ -261,7 +263,7 @@ timeDuration(){
    var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
   
    this.duration=String(days)+":" +String(hours)+":" + String(minutes)+":" +String(seconds) ;
-   console.log("duration"+this.duration)
+   
     }
 }
   onAddFailureAnalysisFormSubmit() {
@@ -274,6 +276,7 @@ timeDuration(){
     var message = '';
     var failedMessage = '';
     if (this.save) {
+     console.log("xavle=="+JSON.stringify(this.addCbFailFromGroup.value.xValue));
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
@@ -281,7 +284,7 @@ timeDuration(){
         'cascadeAssets':  casc.toString(),
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
-        'duration': this.addCbFailFromGroup.value.duration, 
+        //'duration': this.addCbFailFromGroup.value.duration, 
         'relayIndication': this.addCbFailFromGroup.value.relayIndication, 
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue': this.addCbFailFromGroup.value.rValue,
@@ -302,7 +305,7 @@ timeDuration(){
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -325,7 +328,7 @@ timeDuration(){
         'cascadeAssets':  casc.toString(),
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
-        'duration': this.addCbFailFromGroup.value.duration, 
+        //'duration': this.addCbFailFromGroup.value.duration, 
         'relayIndication': this.addCbFailFromGroup.value.relayIndication, 
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue': this.addCbFailFromGroup.value.rValue,
@@ -346,7 +349,7 @@ timeDuration(){
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

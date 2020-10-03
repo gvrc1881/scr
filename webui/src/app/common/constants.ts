@@ -470,8 +470,10 @@ export const Constants = {
             DELETE:'/deleteFailureAnalysis/',
             FAILURE_BY_TYPE:"/failuresByType/",
             FAILURE_TYPE_BY_ID:'/failureTypeById/',     
-            FAILURE_TYPE_UPDATE:'/saveFailureByType', 
+            FAILURE_TYPE_SAVE:'/saveFailureByType',
+            FAILURE_TYPE_UPDATE:'/updateFailureByType', 
             FAILURE_EQUIPMENT:'/getEquipments',
+            DELETE_FAILURE_TYPE_ID:'/deleteFailureTypeById/'
              
         },
         PROGRESS_RECORD:{
