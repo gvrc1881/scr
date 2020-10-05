@@ -35,6 +35,11 @@ public class EnergyBillPaymentServices {
 		// TODO Auto-generated method stub
 		energyBillPaymentRepository.deleteById(id);
 	}
+
+	public Optional<EnergyBillPayment> findByReferenceAndToPayment(String reference, String toPayment) {
+		// TODO Auto-generated method stub
+		return energyBillPaymentRepository.findByReferenceAndToPayment(reference,toPayment);
+	}
 	
 	
 

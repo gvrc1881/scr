@@ -182,6 +182,7 @@ export const Constants = {
             EDIT:'/findEneBillPayment/',
             UPDATE:'/updateEneBillPayment',
             DELETE:'/deleteEneBillPayment/',
+            EXISTS_REFERENCE_AND_TOPAYMENT_AND_ID:'/existsReferenceAndToPaymentAndId/',
             GUIDENCE_ITEM:{
                 GET_GUIDENCE_ITEM:"/findAllGuidenceItems",
                 GET_GUIDENCE_ITEM_ID:"/findGuidenceItemById/",

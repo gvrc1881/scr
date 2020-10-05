@@ -32,7 +32,8 @@ export class EnergyBillPaymentComponent implements OnInit{
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     divisionList: any;
-    
+    id: any;
+    enableReference: boolean;
 
     constructor(
         private commonService: CommonService,
@@ -50,16 +51,6 @@ export class EnergyBillPaymentComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getEnergyBillPaymentData();
         this.spinnerService.show();
-        this.energyBillPaymentFormGroup = this.formBuilder.group({
-            id: 0,
-            'amount': [null,Validators.required],
-            'dateOfPayment':[null,Validators.required],
-            'division': [null,Validators.required],
-            month:[null,Validators.required],
-            year: [null],
-            'reference': [null,Validators.required],
-            'toPayment': [null,Validators.required,this.duplicateDivisionName.bind(this)] 
-        })
         this.getDivisions();
     }
     
@@ -69,7 +60,7 @@ export class EnergyBillPaymentComponent implements OnInit{
         })    
     }
     
-    duplicateDivisionName() {
+    duplicateReferenceAndToPayment() {
     const q = new Promise((resolve, reject) => {
       if(this.title == Constants.EVENTS.UPDATE){
         resolve(null);
@@ -80,7 +71,7 @@ export class EnergyBillPaymentComponent implements OnInit{
            return eneBillPayment.toPayment == toPayment && eneBillPayment.reference == reference;
       });
       if (filteredArray.length !== 0) {
-        resolve({ 'duplicateDivisionName': true });
+        resolve({ 'duplicateReferenceAndToPayment': true });
       } else {
         resolve(null);
       }
@@ -93,6 +84,17 @@ export class EnergyBillPaymentComponent implements OnInit{
 
     addNewEnergyBillPayment() {
         this.addEnergyBillPayment = true;
+        this.enableReference = true;
+        this.energyBillPaymentFormGroup = this.formBuilder.group({
+            id: 0,
+            'amount': [null,Validators.required],
+            'dateOfPayment':[null,Validators.required],
+            'division': [null,Validators.required],
+            month:[null,Validators.required],
+            year: [null],
+            'reference': [null,Validators.required],
+            'toPayment': [null,Validators.required,this.duplicateReferenceAndToPayment.bind(this)] 
+        })
     }
 
     onGoBack() {
@@ -176,12 +178,24 @@ export class EnergyBillPaymentComponent implements OnInit{
         this.eneBillPaymentEditAction(id);
         this.title = "Update";
         this.spinnerService.hide();
+        this.enableReference = false;
     }
 
     eneBillPaymentEditAction(id: number) {
+        this.energyBillPaymentFormGroup = this.formBuilder.group({
+            id: 0,
+            'amount': [null,Validators.required],
+            'dateOfPayment':[null,Validators.required],
+            'division': [null,Validators.required],
+            month:[null,Validators.required],
+            year: [null],
+           'reference': [null,Validators.required],
+           'toPayment': [null,Validators.required,this.duplicateReferenceAndToPaymentAndId.bind(this)] 
+        })
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.EDIT + id)
             .subscribe((responseData) => {
                 this.editEneBillPaymentResponse = responseData;
+                this.id = this.editEneBillPaymentResponse.id;
                 this.energyBillPaymentFormGroup.patchValue({
                     id: this.editEneBillPaymentResponse.id,
                     amount: this.editEneBillPaymentResponse.amount,
@@ -217,4 +231,21 @@ export class EnergyBillPaymentComponent implements OnInit{
         filterValue = filterValue.toLowerCase();
         this.energyBillPaymentDataSource.filter = filterValue;
     }
+    
+    duplicateReferenceAndToPaymentAndId() {
+    const q = new Promise((resolve, reject) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.EXISTS_REFERENCE_AND_TOPAYMENT_AND_ID +this.id+'/'+
+        this.energyBillPaymentFormGroup.controls['reference'].value +'/'+
+        this.energyBillPaymentFormGroup.controls['toPayment'].value  
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateReferenceAndToPaymentAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateReferenceAndToPaymentAndId': true }); });
+    });
+    
+    return q;
+  }
 }

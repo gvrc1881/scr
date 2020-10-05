@@ -31,19 +31,30 @@
                                                 <div class="panel-heading">{{title}} EnergyBillPayment</div>
                                                 <div class="panel-body">
                                                     <div class="col-md-12">
-                                                    	<div class="col-md-3">
+                                                    	<div class="col-md-3" *ngIf="enableReference else referenceElseBlock">
                                                             <mat-form-field fxFlex="30">
                                                                 <input matInput placeholder="Reference" [formControl]="energyBillPaymentFormGroup.controls['reference']" required />
                                                             </mat-form-field>
                                                         </div>
+                                                       <ng-template #referenceElseBlock>
+													   		<div class = "col-md-3" >
+                                                      			<mat-form-field fxFlex="30">
+                                                      				<input matInput placeholder = "Reference" [formControl]="energyBillPaymentFormGroup.controls['reference']" required [readonly]="true"/>
+                                                      			</mat-form-field>
+                                                      		</div>
+														</ng-template> 
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
                                                                 <input matInput placeholder="To Payment" [formControl]="energyBillPaymentFormGroup.controls['toPayment']" required />
                                                             </mat-form-field>
-                                                            <mat-error *ngIf="energyBillPaymentFormGroup.controls['toPayment'].hasError('duplicateDivisionName')"
+                                                            <mat-error *ngIf="energyBillPaymentFormGroup.controls['toPayment'].hasError('duplicateReferenceAndToPayment')"
 	                                                            class="alert alert-danger">
 	                                                             Already Exists
-	                                                          </mat-error>
+	                                                        </mat-error>
+	                                                        <mat-error *ngIf="energyBillPaymentFormGroup.controls['toPayment'].hasError('duplicateReferenceAndToPaymentAndId')"
+	                                                            class="alert alert-danger">
+	                                                             Already Exists
+	                                                        </mat-error>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">

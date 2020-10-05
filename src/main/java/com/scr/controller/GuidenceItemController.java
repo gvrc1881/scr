@@ -162,7 +162,7 @@ public class GuidenceItemController {
 	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("guidenceItemId") Integer guidenceItemId){
 		List<ContentManagement> contentManagementList = new ArrayList<>();
 		try {
-			log.info("Getting guidence item  id  = "+guidenceItemId);	
+			log.info("Getting documents based on guidence item   id  = "+guidenceItemId);	
 			Optional<GuidenceItem> guidenceItem = guidenceItemService.findGuidenceItemById(guidenceItemId);
 			if (guidenceItem.isPresent()) {
 				GuidenceItem guidenceItemDetails = guidenceItem.get();
