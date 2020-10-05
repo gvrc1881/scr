@@ -5,4 +5,6 @@ export interface EnergyBillPaymentModel {
     month: number;
     supplier: string;
     year: number;
+    reference: string;
+    toPayment: string;
 }

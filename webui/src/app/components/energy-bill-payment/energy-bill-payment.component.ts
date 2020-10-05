@@ -26,7 +26,7 @@ export class EnergyBillPaymentComponent implements OnInit{
     data: any;
     energyBillPaymentDataSource: MatTableDataSource<EnergyBillPaymentModel>;
     eneBillPaymentList: any;
-    eneBillPaymentDisplayedColumns = ['sno' ,  'amount' , 'dateOfPayment' , 'division' , 'month' , 'year' , 'id' ];
+    eneBillPaymentDisplayedColumns = ['sno' , 'reference', 'toPayment',  'amount' , 'dateOfPayment' , 'division' , 'month' , 'year' , 'id' ];
     editEneBillPaymentResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -56,7 +56,9 @@ export class EnergyBillPaymentComponent implements OnInit{
             'dateOfPayment':[null,Validators.required],
             'division': [null,Validators.required],
             month:[null,Validators.required],
-            year: [null]
+            year: [null],
+            'reference': [null,Validators.required],
+            'toPayment': [null,Validators.required,this.duplicateDivisionName.bind(this)] 
         })
         this.getDivisions();
     }
@@ -66,6 +68,27 @@ export class EnergyBillPaymentComponent implements OnInit{
             this.divisionList = data;
         })    
     }
+    
+    duplicateDivisionName() {
+    const q = new Promise((resolve, reject) => {
+      if(this.title == Constants.EVENTS.UPDATE){
+        resolve(null);
+      }else{
+      let reference = this.energyBillPaymentFormGroup.controls['reference'].value;
+      let toPayment = this.energyBillPaymentFormGroup.controls['toPayment'].value;
+       var filteredArray = !!this.eneBillPaymentList && this.eneBillPaymentList.filter(function (eneBillPayment) {
+           return eneBillPayment.toPayment == toPayment && eneBillPayment.reference == reference;
+      });
+      if (filteredArray.length !== 0) {
+        resolve({ 'duplicateDivisionName': true });
+      } else {
+        resolve(null);
+      }
+      }
+    });
+    
+    return q;
+  }
 
 
     addNewEnergyBillPayment() {
@@ -103,13 +126,17 @@ export class EnergyBillPaymentComponent implements OnInit{
         let division: string = this.energyBillPaymentFormGroup.value.division;
         let month: string = this.energyBillPaymentFormGroup.value.month;
         let year: string = this.energyBillPaymentFormGroup.value.year;
+        let reference: string = this.energyBillPaymentFormGroup.value.reference;
+        let toPayment: string = this.energyBillPaymentFormGroup.value.toPayment;
         if (this.title == Constants.EVENTS.SAVE) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SAVE,{
                 "amount":amount,
                 "dateOfPayment":dateOfPayment,
                 "division": division,
                 "month": month,
-                "year": year
+                "year": year,
+                "reference": reference,
+                "toPayment": toPayment
             }, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage("Successfully saved");
@@ -127,7 +154,9 @@ export class EnergyBillPaymentComponent implements OnInit{
                 "dateOfPayment":dateOfPayment,
                 "division": division,
                 "month": month,
-                "year": year
+                "year": year,
+                "reference": reference,
+                "toPayment": toPayment
             }, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage("Successfully updated");
@@ -159,6 +188,8 @@ export class EnergyBillPaymentComponent implements OnInit{
                     division: this.editEneBillPaymentResponse.division,
                     month: this.editEneBillPaymentResponse.month,
                     year: this.editEneBillPaymentResponse.year,
+                    reference: this.editEneBillPaymentResponse.reference,
+                    toPayment: this.editEneBillPaymentResponse.toPayment,
                     dateOfPayment: !! this.editEneBillPaymentResponse.dateOfPayment ? new Date(this.editEneBillPaymentResponse.dateOfPayment) : ''
                 });
             } , error => {});

@@ -31,6 +31,20 @@
                                                 <div class="panel-heading">{{title}} EnergyBillPayment</div>
                                                 <div class="panel-body">
                                                     <div class="col-md-12">
+                                                    	<div class="col-md-3">
+                                                            <mat-form-field fxFlex="30">
+                                                                <input matInput placeholder="Reference" [formControl]="energyBillPaymentFormGroup.controls['reference']" required />
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30">
+                                                                <input matInput placeholder="To Payment" [formControl]="energyBillPaymentFormGroup.controls['toPayment']" required />
+                                                            </mat-form-field>
+                                                            <mat-error *ngIf="energyBillPaymentFormGroup.controls['toPayment'].hasError('duplicateDivisionName')"
+	                                                            class="alert alert-danger">
+	                                                             Already Exists
+	                                                          </mat-error>
+                                                        </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
                                                                 <input matInput placeholder="Amount" [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
@@ -102,6 +116,16 @@
                                             <ng-container matColumnDef="sno">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="reference">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Reference</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.reference}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="toPayment">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>To Payment</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.toPayment}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="amount">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>

@@ -33,6 +33,10 @@ public class EnergyBillPayment implements Serializable {
 	private String supplier;
 
 	private Integer year;
+	
+	private String toPayment;
+	
+	private String reference; 
 
 	public EnergyBillPayment() {
 	}
@@ -91,6 +95,22 @@ public class EnergyBillPayment implements Serializable {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public String getToPayment() {
+		return toPayment;
+	}
+
+	public void setToPayment(String toPayment) {
+		this.toPayment = toPayment;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 
 }
