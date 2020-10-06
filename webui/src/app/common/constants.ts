@@ -330,7 +330,8 @@ export const Constants = {
                 UPDATE_DRIVE:"/updateDrive",
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
-                EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/"
+                EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/",
+                GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOTTYPE:"/getDrivesBasedOnFromDateAndDepotType/"
                
             },
             DRIVE_CATEGORY:{

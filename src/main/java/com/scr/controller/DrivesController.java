@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -1158,6 +1159,23 @@ public class DrivesController {
 			logger.error(e);
 			return response;
 		}
+	}
+	
+	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepotType/{fromDate}/{depotType}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate,@PathVariable("depotType") String depotType ) throws JSONException {
+		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
+		List<Drives> drivesList = null;
+		try {			
+			logger.info("Calling service for dirves data");
+			drivesList = service.getDrivesBasedOnFromDateAndDepotType(fromDate,depotType);	
+			logger.info("Fetched drives size = "+drivesList.size());
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+		}
+		logger.info("Exit from findAllDrives function");
+		return ResponseEntity.ok((drivesList));
 	}
 	
 	

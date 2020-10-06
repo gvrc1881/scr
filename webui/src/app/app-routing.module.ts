@@ -268,6 +268,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'drive-daily-progress',
+    loadChildren: './components/drives/drive-daily-progress/drive-daily-progress.module#DriveDailyProgressModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'failure-analysis',
     loadChildren: './components/failures/failure-analysis/failure-analysis.module#FailureAnalysisModule',
     canActivate: [AuthGuard]

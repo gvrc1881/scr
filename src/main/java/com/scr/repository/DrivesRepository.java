@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,7 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	
 	@Query("FROM Drives ORDER BY name ASC")
 	List<Drives> findAllDrivesOrderByNameAsc();
+
+	List<Drives> findByFromDateAndDepotType(Date fromDate, String depotType);
 
 }

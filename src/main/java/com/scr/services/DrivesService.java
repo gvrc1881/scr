@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -641,6 +642,11 @@ public class DrivesService {
 	public Optional<DriveCategory> findDrivesCategoryById(Long driveCategoryId) {
 		// TODO Auto-generated method stub
 		return driveCategoryRepository.findById(driveCategoryId);
+	}
+
+	public List<Drives> getDrivesBasedOnFromDateAndDepotType(Date fromDate, String depotType) {
+		// TODO Auto-generated method stub
+		return driveRepository.findByFromDateAndDepotType(fromDate,depotType);
 	}
 
 	

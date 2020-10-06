@@ -82,7 +82,9 @@ export class DriveStipulationComponent implements OnInit {
           this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + this.stipulationsList[i].inspectionId)
             .subscribe((resp) => {
                this.resp = resp;
-                this.stipulationsList[i].inspectionId = this.resp.inspectionType + ' - ' + this.datePipe.transform(this.resp.dateOfInspection, 'dd-MM-yyyy hh:mm:ss') +  ' - ' +this.resp.sectionStartLocation ;
+                let dateOfInspection = this.datePipe.transform(this.resp.dateOfInspection, 'dd-MM-yyyy hh:mm:ss') != null ? this.datePipe.transform(this.resp.dateOfInspection, 'dd-MM-yyyy hh:mm:ss') : '' ;
+                let sectionStartLocation = this.resp.sectionStartLocation != null ? this.resp.sectionStartLocation: '' ;
+                 this.stipulationsList[i].inspectionId = this.resp.inspectionType + ' - ' + dateOfInspection + ' - ' +sectionStartLocation;
           });
           
         stipulations.push(this.stipulationsList[i]);

@@ -349,7 +349,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('Drives', 'menu', 'view'),
         currentTab: !!path && path.includes("drives") || path.includes("checklist") ||
-        path.includes("target") || path.includes("progress-record") 
+        path.includes("target") || path.includes("progress-record") || path.includes("drive-daily-progress") 
          ||
         path.includes("inspection") || path.includes("stipulation")  ? "open" : "",  
         subMenus: [
@@ -385,7 +385,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             currentSubMenu: !!path && path.includes("progress-record") ? "active-item" : "",
           },
-        
+          {
+            subMenuName: "Drive Daily Progress",
+            subMenuURL: "drive-daily-progress",
+            subMenuIcon: "fa fa-file",
+            permission:this.commonService.findPermission('Drive Daily Progress', 'submenu', 'view'),
+            rolePermission:true,
+            currentSubMenu: !!path && path.includes("drive-daily-progress") ? "active-item" : "",
+          },
          
         ]
       },
