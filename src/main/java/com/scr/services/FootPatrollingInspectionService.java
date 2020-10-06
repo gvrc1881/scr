@@ -17,14 +17,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.FpInspectionMapper;
+import com.scr.message.request.DriveRequest;
 import com.scr.message.request.InspectionRequest;
 import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
 import com.scr.model.FootPatrollingInspection;
-import com.scr.model.Inspection;
+import com.scr.mapper.CommonMapper;
 import com.scr.model.Observation;
+import com.scr.model.Stipulations;
 import com.scr.repository.ComplianceRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.FootPatrollingInspectionRepository;
@@ -51,6 +53,9 @@ public class FootPatrollingInspectionService {
 	private FpInspectionMapper fpInspectionMapper;
 	@Autowired
 	private ObservationUtilRepository utilRepository;
+	
+	@Autowired
+	private CommonMapper commonMapper;
 	
 	static Logger log = LogManager.getLogger(FootPatrollingInspectionService.class);
 
@@ -80,9 +85,13 @@ public class FootPatrollingInspectionService {
 	
 	
 	//Observation Service
-	public List<Observation> findAllObservations() {
+	public List<Observation> findAllObservationItem() {
 		// TODO Auto-generated method stub
 		return observationsRepository.findAll();
+	}
+	public List<Observation> findByInspectionSeqId(String inspectionSeqId) {
+		// TODO Auto-generated method stub
+		return observationsRepository.findByInspectionSeqId(inspectionSeqId);
 	}
 	
 	public @Valid boolean save(@Valid InspectionRequest request, List<MultipartFile> file) {
@@ -248,67 +257,26 @@ public class FootPatrollingInspectionService {
 	public List<Compliance> findAllCompliances() {
 		return complianceRepository.findAll();
 	}
-	
-	public @Valid boolean saveCompliances(@Valid InspectionRequest request, List<MultipartFile> file) {
+	public List<Compliance> findByObeservationSeqId(String obeservationSeqId) {
+		// TODO Auto-generated method stub
+		return complianceRepository.findByObeservationSeqId(obeservationSeqId);
+	}
+		public @Valid boolean saveCompliances(@Valid InspectionRequest complianceRequest, List<MultipartFile> file) {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();
-		Long commonFileId = (long) 0.0; 
-		if(fileId == null || fileId.getCommonFileId() == null) {
-			commonFileId = (long) 1;
-		}else {
-			commonFileId = fileId.getCommonFileId()+1;
-		}
 		
-		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(compliancePath, Constants.COMPLIANCES );
+		liContentManagements = commonMapper.prepareContentManagementList(file, compliancePath, Constants.STIPULATION,
+				"","","","Compliance","","","","","", Integer.parseInt(complianceRequest.getCreatedBy()));
 		
-		for(MultipartFile mf: file)
-		{	
-			log.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, Constants.COMPLIANCES, request.getCreatedBy());
-			Path rootLocation = null;
-			try {
-				String folderPath = folderResponse.getMessage();
-				rootLocation = Paths.get(folderPath);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			ContentManagement contentManagement = new ContentManagement();			
-			log.info("File Saved Successfully with name "+changedFileName);
-			contentManagement = new ContentManagement();
-			contentManagement.setCommonFileId(commonFileId);
-			contentManagement.setDivision("");
-			contentManagement.setFunUnit("");
-			contentManagement.setGenOps("");
-			contentManagement.setTopic("Compliances");
-			contentManagement.setDescription("");
-			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
-			double bytes = mf.getSize();
-			log.info("bytes = "+bytes);
-			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
-			log.info("KB = "+kilobytes);
-			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
-			log.info("mega bytes = "+megabytes);
-			contentManagement.setFileSize(kilobytes+" KB");
-			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
-			contentManagement.setAssetTypeRlyId("");
-			contentManagement.setMake("");
-			contentManagement.setModel("");
-			contentManagement.setDocCategory("");
-			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			
-			liContentManagements.add(contentManagement);
-		}
-		if(!liContentManagements.isEmpty()) {
+		if(liContentManagements != null && !liContentManagements.isEmpty()) {
 			contentManagementRepository.saveAll(liContentManagements);
 			log.info("Files Details saved in to Database Successfully.");
+			Compliance compliance = fpInspectionMapper.prepareComplianceModel(complianceRequest, file, liContentManagements.get(0).getCommonFileId());
+			compliance = complianceRepository.save(compliance);
+		}else {
+			Compliance compliance = fpInspectionMapper.prepareComplianceModel(complianceRequest, file, new Long(0));
+			compliance = complianceRepository.save(compliance);
 		}
-		Compliance compliance = fpInspectionMapper.prepareComplianceModel(request, file, commonFileId);
-		compliance = complianceRepository.save(compliance);
+		
 		return true;
 	}
 	public String updateCompliancesData(@Valid InspectionRequest request, List<MultipartFile> file) {

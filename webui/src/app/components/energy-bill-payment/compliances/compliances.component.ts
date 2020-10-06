@@ -244,7 +244,8 @@ complianceItemSubmit () {
                 status:this.editComplianceResponse.status,
                 action:this.editComplianceResponse.action,
                 complianceBy: this.editComplianceResponse.complianceBy,
-                compliedDateTime: this.editComplianceResponse.compliedDateTime,
+                compliedDateTime:new Date(this.editAssetMasterResponse.compliedDateTime), 
+
             });console.log(this.editComplianceResponse.attachment);
             var commonId = !!this.editComplianceResponse.attachment && this.editComplianceResponse.attachment;
             console.log(commonId)

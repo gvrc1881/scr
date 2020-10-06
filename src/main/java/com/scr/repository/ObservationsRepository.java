@@ -32,4 +32,6 @@ public interface ObservationsRepository extends JpaRepository<Observation, Long>
 			"and ins.from_date_time=:fromDateTime",nativeQuery = true)
 	List<Inspection> findObservation(String section, String facilityId,String nameOfStaff,Timestamp fromDateTime);
 
+	
+	List<Observation> findByInspectionSeqId(String inspectionSeqId);
 }

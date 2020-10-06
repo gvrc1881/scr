@@ -48,13 +48,13 @@ export class FootPatrollingInspectionComponent implements OnInit{
     editfpInspectionItemResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     inspectionDocumentDialogRef: MatDialogRef<InspectionDocumentComponent>;
-        onlyYes:boolean = false;
+        onlyYes:boolean = true;
        //Observation 
    observationFormGroup: FormGroup;
    obsList : any;
    observationData = [];
    observationDataSource: MatTableDataSource<ObservationModel>;
-   observationDisplayColumns = ['sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','id','compliance'] ;
+   observationDisplayColumns = ['sort','sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','id','compliance'] ;
    editObservationResponse: any;
    observationResponse: any;
    insId: any;
@@ -68,6 +68,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
    nameOfStaff:any;
    section:any;
    //Compliance 
+   enableComplianceFilter=true;
    complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
    complianceFormGroup: FormGroup;
    complianceList : any;
@@ -75,8 +76,6 @@ export class FootPatrollingInspectionComponent implements OnInit{
    complianceDisplayColumns = ['sno' ,'status','action' , 'complianceBy' ,  'compliedDateTime' ,'attachment', 'id'] ;
    editComplianceResponse: any;
    complianceResponse: any;
-   
-
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -99,7 +98,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.fpInspectionItemFormGroup = this.formBuilder.group({
-            id: 0,
+            id: [],
             'facilityId':[null],
             'inspectionType':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
             'section': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
@@ -194,6 +193,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     });
   }
     fpInspectionItemSubmit () {
+        let id:number=this.fpInspectionItemFormGroup.value.id;
         let facilityId: string = this.fpInspectionItemFormGroup.value.facilityId;
         let inspectionType: string = this.fpInspectionItemFormGroup.value.inspectionType;
         let section: string = this.fpInspectionItemFormGroup.value.section;
@@ -204,6 +204,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         
         if (this.title ==  Constants.EVENTS.SAVE) {
             var saveFpInspection={
+                'id':id,
                 'facilityId':facilityId,
                 'inspectionType':inspectionType,
                 'section': section,
@@ -305,12 +306,23 @@ export class FootPatrollingInspectionComponent implements OnInit{
     NewMapItem(){
         this.addMap=true;
     }
-    filterColumnNames() {
-        alert("filterColumnNames")
-        if (this.fpInspectionItemFormGroup.value.id == this.observationFormGroup.value.inspectionSeqId) {     
-            this.onlyYes = false;
-        } else {
+    filterColumnNames(id) {
+        const observation : ObservationModel[] = [];
+            this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_LIST_BASED_ON_INSPECTION_SEQ_ID+id).subscribe((data) => {
+                this.obsList = data;
+                for (let i = 0; i < this.obsList.length; i++) {
+                    this.obsList[i].sno = i+1;
+                    observation.push(this.obsList[i]);              
+                }
+                
+                this.observationDataSource = new MatTableDataSource(observation);
+                this.observationDataSource.paginator = this.paginator;
+                this.observationDataSource.sort = this.sort;
+        } , error => {});
+        if (id.this.obsList.length>0) {   
             this.onlyYes = true;
+        } else {
+            this.onlyYes = false;
         }
             }
      //Observations Related code for Add,delete,update,fetch records
@@ -365,6 +377,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.observationResponse = response
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
+                this.filterColumnNames(id);
                 this.getAllObservationsData();
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
@@ -406,6 +419,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             this.observationResponse = data
             if(this.observationResponse.code == 200 && !!this.observationResponse) {
                 this.commonService.showAlertMessage(this.observationResponse.message);
+                this.filterColumnNames(id);
                 this.getAllObservationsData();
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
@@ -431,6 +445,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         this.addObservation = false;
         this.title = 'Save';
     }
+    
     editObservationItem (id) {
         this.addObservation = true;
         this.ObservationEditAction(id);
@@ -472,6 +487,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             if(result){
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
                         this.commonService.showAlertMessage('Observation Deleted Successfully');
+                        this.filterColumnNames(id);
                         this.getAllObservationsData();
                     },error => {});
             }
@@ -550,6 +566,26 @@ export class FootPatrollingInspectionComponent implements OnInit{
       }
 //Compliance CRUD Operations
 
+observationFilter(id){
+    const compliances : ComplianceModel[] = [];
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.GET_COMPLIANCE_LIST_BASED_ON_OBSERVATION_SEQ_ID+id).subscribe((data) => {
+        this.complianceList = data;
+        for (let i = 0; i < this.complianceList.length; i++) {
+            this.complianceList[i].sno = i+1;
+            compliances.push(this.complianceList[i]);              
+        }
+        
+        this.complianceDataSource = new MatTableDataSource(compliances);
+        this.complianceDataSource.paginator = this.paginator;
+        this.complianceDataSource.sort = this.sort;
+} , error => {});
+if (id.this.obsList.length>0) {   
+    this.enableComplianceFilter = true;
+} else {
+    this.enableComplianceFilter = false;
+}
+}    
+
 getAllCompliancesData() {
     const compliances : ComplianceModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.GET_COMPLIANCE).subscribe((data) => {
@@ -596,11 +632,21 @@ complianceItemSubmit () {
       formdata.append('compliedDateTime',saveCompliance.compliedDateTime );
       formdata.append('createdBy', saveCompliance.createdBy);              
             this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
-                this.commonService.showAlertMessage('Successfully saved');
+                this.complianceResponse = response
+            if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
+                this.commonService.showAlertMessage(this.complianceResponse.message);
                 this.getAllCompliancesData();
                 this.complianceFormGroup.reset();
-            } , error => {});
-        }else if (this.title == Constants.EVENTS.UPDATE ) {
+                this.addComplianceItem =  false;
+            }else {
+                this.commonService.showAlertMessage("Compliance Data Saving Failed.");
+            }    
+        } , error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Compliance  Data Saving Failed.");
+        });
+    }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editComplianceResponse.id;
             var updateCompliances={
                 'id':id,
@@ -625,14 +671,25 @@ complianceItemSubmit () {
           formdata.append('updatedBy', updateCompliances.updatedBy);
           formdata.append('attachment', updateCompliances.attachment);
             this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.UPDATE_COMPLIANCE,formdata, false).subscribe(response => {
-                this.commonService.showAlertMessage('Successfully updated');
+                this.complianceResponse = response
+            if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
+                this.commonService.showAlertMessage(this.complianceResponse.message);
                 this.getAllCompliancesData();
+                this.observationFilter(id)
                 this.complianceFormGroup.reset();
                 this.addComplianceItem =  false;
-            } , error => {})
-            
-        }
+                this.title = "Save";
+            }else {
+                this.commonService.showAlertMessage("compliance Data Updating Failed.");
+            }
+        } , error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("compliance  Data Updating Failed.");
+        });
+        
     }
+}
     comGoBack() {
         this.complianceFormGroup.reset();
         this.addComplianceItem = false;
@@ -652,7 +709,7 @@ complianceItemSubmit () {
                 status:this.editComplianceResponse.status,
                 action:this.editComplianceResponse.action,
                 complianceBy: this.editComplianceResponse.complianceBy,
-                compliedDateTime: this.editComplianceResponse.compliedDateTime,
+                compliedDateTime:new Date(this.editAssetMasterResponse.compliedDateTime), 
             });console.log(this.editComplianceResponse.attachment);
             var commonId = !!this.editComplianceResponse.attachment && this.editComplianceResponse.attachment;
             console.log(commonId)
@@ -693,6 +750,7 @@ complianceItemSubmit () {
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
                         this.commonService.showAlertMessage('Compliances Deleted Successfully');
                         this.getAllCompliancesData();
+                        this.observationFilter(id);
                     },error => {});
             }
         });

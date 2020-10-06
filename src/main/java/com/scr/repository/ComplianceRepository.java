@@ -13,5 +13,9 @@ public interface ComplianceRepository extends JpaRepository<Compliance, Long>{
 	@Query(value = "select distinct status from compliances",
             nativeQuery=true )
     public List<Compliance> findByStatus(String status);
+	
+	
+	List<Compliance> findByObeservationSeqId(String obeservationSeqId);
+
 
 }

@@ -10,7 +10,7 @@ export interface FootPatrollingInspectionModel{
 }
 export interface ObservationModel {
     id:number;
-    inspectionSeqId:string;
+    inspectionSeqId:number;
     location: string;
     observationCategory: string;
     observationItem: string;

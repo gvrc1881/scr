@@ -446,6 +446,7 @@ export const Constants = {
                 DELETE_FP_INSPECTION:"/deleteFPInspectionItem/",
             },
             OBSERVATION:{
+                GET_OBSERVATION_LIST_BASED_ON_INSPECTION_SEQ_ID:"/findObservationItemsByInspectionSeqId/",
                 GET_OBSERVATION:"/findAllObservationItems",
                 GET_OBSERVATION_ID:"/findObservationItemById/",
                 SAVE_OBSERVATION:"/addObservation",
@@ -455,6 +456,7 @@ export const Constants = {
                 GET_OBSERVATION_LIST_BASED_ON_QUERY:"/observationList/"
             },
             COMPLIANCES:{
+                GET_COMPLIANCE_LIST_BASED_ON_OBSERVATION_SEQ_ID:"/findComplianceItemsByObeservationSeqId/",
                 GET_COMPLIANCE:"/findAllComplianceItems",
                 GET_COMPLIANCE_ID:"/findComplianceItemById/",
                 SAVE_COMPLIANCE:"/addCompliance",

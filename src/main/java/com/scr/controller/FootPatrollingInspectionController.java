@@ -21,13 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.scr.message.request.DriveRequest;
 import com.scr.message.request.InspectionRequest;
 import com.scr.message.response.EnergyConsumptionResponse;
 import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
+import com.scr.model.Facility;
 import com.scr.model.FootPatrollingInspection;
+import com.scr.model.FootPatrollingSection;
 import com.scr.model.Inspection;
 import com.scr.model.Observation;
 import com.scr.services.ContentManagementService;
@@ -47,6 +51,8 @@ public class FootPatrollingInspectionController {
 	
 	@Autowired
 	private ContentManagementService contentManagementService;
+
+	private ContentManagementService footPatrollingSectionsService;
 	//The Below code related to Foot patrollingInspection service
 	
 	//findAllFpInspection
@@ -145,15 +151,31 @@ public class FootPatrollingInspectionController {
 	}
 	
 	//The Below code related to Observation services
-	
 	//findAllObservations
 	@RequestMapping(value = "/findAllObservationItems" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<Observation> findAllObservationItems(){
 		log.info("Enter into findAllObservationItems function");
+		List<Observation> observationItem = null;
+		try {
+			log.info("Calling service for  observationItem data");
+			observationItem = footPatrollingInspectionService.findAllObservationItem();
+			log.info("Fetched fp SectionsItem data ***"+observationItem.size());
+		}catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the observationItem data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			log.error("ERROR >>> while fetching the observationItem data = "+e.getMessage());
+		}
+		log.info("Exit from findAllObservationItem function");
+		return observationItem;
+	}
+	@RequestMapping(value = "/findObservationItemsByInspectionSeqId/{inspectionSeqId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<Observation> findObservationItemsByInspectionSeqId(@PathVariable("inspectionSeqId") String inspectionSeqId){
+		log.info("Enter into findAllObservationItems function");
 		List<Observation> observationItems = null;
 		try {
 			log.info("Calling service for  observations data");
-			observationItems = footPatrollingInspectionService.findAllObservations();
+			observationItems = footPatrollingInspectionService.findByInspectionSeqId(inspectionSeqId);
 			log.info("Fetched fp Inspection Item data ***"+observationItems.size());
 		}catch (NullPointerException npe) {
 			log.error("ERROR >>> while fetching the observations  Item data = "+npe.getMessage());
@@ -310,6 +332,23 @@ public class FootPatrollingInspectionController {
 	//The Below code related to Compliance services
 	
 	//findAllCompliance
+	@RequestMapping(value = "/findComplianceItemsByObeservationSeqId/{obeservationSeqId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<Compliance> findComplianceItemsByObeservationSeqId(@PathVariable("obeservationSeqId") String obeservationSeqId){
+		log.info("Enter into findComplianceItemsByObeservationSeqId function");
+		List<Compliance> complianceItems = null;
+		try {
+			log.info("Calling service for  Compliance  data");
+			complianceItems = footPatrollingInspectionService.findByObeservationSeqId(obeservationSeqId);
+			log.info("Fetched fp Inspection Item data ***"+complianceItems.size());
+		}catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the observations  Item data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			log.error("ERROR >>> while fetching the compliance   Item data = "+e.getMessage());
+		}
+		log.info("Exit from findComplianceItemsByObeservationSeqId function");
+		return complianceItems;
+	}
 		@RequestMapping(value = "/findAllComplianceItems" , method = RequestMethod.GET , headers = "Accept=application/json")
 		public List<Compliance> findAllComplianceItems(){
 			log.info("Enter into findAllComplianceItems function");
@@ -356,6 +395,7 @@ public class FootPatrollingInspectionController {
 				return Helper.findResponseStatus("Compliances Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 			}
 		}
+		
 		//Update Compliances
 		@PutMapping("/updateComplianceItem")
 		@ResponseBody

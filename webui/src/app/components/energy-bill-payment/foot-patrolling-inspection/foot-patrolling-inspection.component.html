@@ -130,7 +130,7 @@
                                                     <span>Sort</span>
                                                   </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                  <mat-checkbox (change)="filterColumnNames()"></mat-checkbox>
+                                                  <mat-checkbox (change)="filterColumnNames(row.id)"></mat-checkbox>
                                                   </mat-cell>
                                           </ng-container>
                                           
@@ -368,7 +368,15 @@ Close
 </div>
 <div class="clear"></div>
 <div class="mat-elevation-z8">
-    <mat-table [dataSource]="observationDataSource" matSort>
+    <mat-table [dataSource]="observationDataSource" matSort  *ngIf="onlyYes">
+      <ng-container matColumnDef="sort">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <span>Sort</span>
+        </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+        <mat-checkbox (change)="observationFilter(row.id)"></mat-checkbox>
+        </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="sno">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -545,7 +553,7 @@ Close
   </div>
           <div class="clear"></div>
           <div class="mat-elevation-z8">
-            <mat-table [dataSource]="complianceDataSource" matSort>
+            <mat-table [dataSource]="complianceDataSource" matSort *ngIf="enableComplianceFilter">
               <ng-container matColumnDef="sno">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>

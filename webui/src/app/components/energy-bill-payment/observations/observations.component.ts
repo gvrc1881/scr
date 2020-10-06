@@ -66,6 +66,7 @@ export class ObservationsComponent implements OnInit{
         this.deletePermission = this.commonService.getPermissionByType("Delete", ObspermissionName);
         this.observationFormGroup = this.formBuilder.group({
             id: 0,
+            'inspectionSeqId':[null],
             'location':[null],
             'observationCategory':[null],
             'observationItem': [null],
@@ -125,6 +126,7 @@ export class ObservationsComponent implements OnInit{
               });
             }
      observationItemSubmit () {
+        let id: number = this.observationFormGroup.value.id;
         let location: string = this.observationFormGroup.value.location;
         let observationCategory: string = this.observationFormGroup.value.observationCategory;
         let observationItem: string = this.observationFormGroup.value.observationItem;
@@ -135,6 +137,7 @@ export class ObservationsComponent implements OnInit{
         
         if (this.title ==  Constants.EVENTS.SAVE) {
             var observationModel ={
+                'inspectionSeqId':id,
                 'location':location,
                 'observationCategory': observationCategory,
                 'observationItem':observationItem,
@@ -146,6 +149,7 @@ export class ObservationsComponent implements OnInit{
       for(var i=0;i<this.selectedFiles.length;i++){
           formdata.append('file', this.selectedFiles[i]);
       }
+      formdata.append('inspectionSeqId', observationModel.inspectionSeqId.toString());
       formdata.append('location', observationModel.location);
       formdata.append('observationCategory', observationModel.observationCategory);
       formdata.append('observationItem', observationModel.observationItem);
@@ -171,6 +175,7 @@ export class ObservationsComponent implements OnInit{
         let id: number = this.editObservationResponse.id;
         var updateObservationModel={
             'id':id,
+            'inspectionSeqId':id,
             'location':location,
             'observationCategory': observationCategory,
             'observationItem':observationItem,
@@ -184,6 +189,7 @@ export class ObservationsComponent implements OnInit{
           formdata.append('file', this.selectedFiles[i]);
       }
       formdata.append('id', updateObservationModel.id.toString());
+      formdata.append('inspectionSeqId', updateObservationModel.inspectionSeqId.toString());
       formdata.append('location', updateObservationModel.location);
       formdata.append('observationCategory', updateObservationModel.observationCategory);
       formdata.append('observationItem', updateObservationModel.observationItem);
