@@ -44,13 +44,9 @@
                         <div class="col-md-12" *ngIf="onlyDrawing && addPermission">
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Asset type/Rly id" formControlName="assetTypeRlyId"
-                                required pattern="^[a-zA-Z,0-9,-]+(\s[a-zA-Z,0-9,-]+)?$"/>
+                              <input matInput placeholder="Asset type/Rly id" formControlName="assetTypeRlyId"/>
                               <mat-error *ngIf="isSubmit && f.assetTypeRlyId.errors && f.assetTypeRlyId.errors.required"
                                 class="alert alert-danger">Asset type/Rly id required</mat-error>
-                              <mat-error *ngIf="isSubmit && f.assetTypeRlyId.errors"
-                                class="alert alert-danger">Only alphabets allowed
-                              </mat-error>
                             </mat-form-field>
                           </div>
                           <div class="col-md-6">
@@ -66,13 +62,9 @@
                           </div>
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Model" formControlName="model"
-                                required pattern="^[a-zA-Z,0-9,-]+(\s[a-zA-Z,0-9,-]+)?$"/>
+                              <input matInput placeholder="Model" formControlName="model"/>
                               <mat-error *ngIf="isSubmit && f.model.errors && f.model.errors.required"
                                 class="alert alert-danger">Model required</mat-error>
-                              <mat-error *ngIf="isSubmit && f.model.errors "
-                                class="alert alert-danger">Only alphabets allowed
-                              </mat-error>
                             </mat-form-field>
                           </div>
                           <div class="col-md-6">

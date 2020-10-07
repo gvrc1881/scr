@@ -67,6 +67,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
    selectedExactDate = new Date();
    nameOfStaff:any;
    section:any;
+   inspList:any
    //Compliance 
    enableComplianceFilter=true;
    complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
@@ -89,6 +90,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     ngOnInit () {
+        this.inspetionDetails();
         this.getAllFootPatrollingInspectionData();
         this.depotTypeForOhe();
         this.categoryList();
@@ -342,6 +344,13 @@ export class FootPatrollingInspectionComponent implements OnInit{
         } , error => {});
     }
     }
+    inspetionDetails() {
+        console.log("Insiddd"+this.insId)
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + this.insId).subscribe((data) => {
+               this.inspList = data;
+               console.log("inspList"+JSON.stringify(data))
+        })
+ }
      observationItemSubmit () {
         let location: string = this.observationFormGroup.value.location;
         let observationCategory: string = this.observationFormGroup.value.observationCategory;
@@ -363,6 +372,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 "createdBy": this.loggedUserData.id,
             }
             let formdata: FormData = new FormData();
+            console.log("insiDDD"+this.insId);
       for(var i=0;i<this.selectedFiles.length;i++){
           formdata.append('file', this.selectedFiles[i]);
       }
@@ -592,6 +602,7 @@ getAllCompliancesData() {
         this.complianceList = data;
         for (let i = 0; i < this.complianceList.length; i++) {
             this.complianceList[i].sno = i+1;
+            this.complianceList[i].fromDate = this.datePipe.transform(this.complianceList[i].compliedDateTime, 'dd-MM-yyyy hh:mm:ss');
             compliances.push(this.complianceList[i]);              
         }
         this.complianceDataSource = new MatTableDataSource(compliances);

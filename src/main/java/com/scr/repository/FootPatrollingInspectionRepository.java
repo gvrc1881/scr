@@ -12,6 +12,7 @@ import com.scr.model.FootPatrollingInspection;
 public interface FootPatrollingInspectionRepository extends JpaRepository<FootPatrollingInspection, Long> {
 	// fetching from repository
 	List<FootPatrollingInspection> findAll();
+	Optional<FootPatrollingInspection> findById(Long id);
 
 	List<FootPatrollingInspection> findByCreatedStampLessThanEqualAndCreatedStampGreaterThan(Timestamp currenTimestamp,
 			Timestamp previousTimestamp);

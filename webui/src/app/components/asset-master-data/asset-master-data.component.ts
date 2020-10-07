@@ -8,6 +8,7 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { ReportModel } from 'src/app/models/report.model';
+import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 
 
 @Component({
