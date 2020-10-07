@@ -67,8 +67,7 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].sno = i + 1;
         this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.CbFailList[i].duration=(this.CbFailList[i].thruDateTime-this.CbFailList[i].fromDateTime);
-        CbFail.push(this.CbFailList[i]);
+        
       }
 
       this.dataSource = new MatTableDataSource(CbFail);

@@ -110,10 +110,10 @@ export class AddFailureOccurrenceComponent implements OnInit {
     this.addFailureOccurrenceFailFromGroup
       = this.formBuilder.group({
         id: 0,
-        'occurrence': [null], 
+        'occurrence': [null,Validators.compose([Validators.required])], 
         'trainNo':[null],
-        'place':[null],
-        'fromDateTime': [null],
+        'place':[null,Validators.compose([Validators.required])],
+        'fromDateTime': [null,Validators.compose([Validators.required])],
         'thruDateTime': [null],
         'duration': [null], 
         'divisionLocal': [null],
@@ -219,7 +219,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

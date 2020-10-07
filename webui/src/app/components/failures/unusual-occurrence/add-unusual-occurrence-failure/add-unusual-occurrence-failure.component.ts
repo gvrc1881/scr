@@ -119,10 +119,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     this.addUnusualOccurrenceFromGroup
       = this.formBuilder.group({
         id: 0,
-        'subStation': [null], 
-        'location': [null], 
+        'subStation': [null,Validators.compose([Validators.required])], 
+        'location': [null,Validators.compose([Validators.required])], 
         'causeOfFailure': [null], 
-        'fromDateTime': [null],
+        'fromDateTime': [null,Validators.compose([Validators.required])],
         'thruDateTime': [null],
         'duration': [null], 
         'divisionLocal': [null],

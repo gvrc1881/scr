@@ -114,8 +114,8 @@ export class AddRcFailureComponent implements OnInit {
     this.addRcFailFromGroup
       = this.formBuilder.group({
         id: 0,
-        'subStation': [null], 
-        'relayIndication':[null],
+        'subStation': [null,Validators.compose([Validators.required])], 
+        'relayIndication':[null,Validators.compose([Validators.required])],
         'fromDateTime': [null],
         'thruDateTime': [null],
         'duration': [null], 
@@ -221,7 +221,7 @@ export class AddRcFailureComponent implements OnInit {
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

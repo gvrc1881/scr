@@ -64,8 +64,7 @@ export class RcFailureComponent implements OnInit {
       for (let i = 0; i < this.RcFailList.length; i++) {
         this.RcFailList[i].sno = i + 1;
         this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        
+        this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');        
         RcFail.push(this.RcFailList[i]);
       }
 

@@ -34,7 +34,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Depot" (selectionChange)="updateFeedOff($event)"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['subStation']">
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let feeder of feedersList"
                                                                     [value]="feeder.facilityName">
                                                                     {{ feeder.facilityName }}
@@ -47,7 +47,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Location"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']" >                                                           
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']" required>                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -64,7 +64,7 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="From Time"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()">                                                                
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>

@@ -97,8 +97,8 @@ export class AddGridFailureComponent implements OnInit {
     this.addGridFailFromGroup
       = this.formBuilder.group({
         id: 0,
-        'feedOff': [null],
-        "ffdate":[null],
+        'feedOff': [null,Validators.compose([Validators.required])],
+        "ffdate":[null,Validators.compose([Validators.required])],
         'ftdate': [null],
         'fduration': [null],
         'extendedFrom': [null],
