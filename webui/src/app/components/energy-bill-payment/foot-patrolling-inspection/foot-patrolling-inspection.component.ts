@@ -73,6 +73,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
    complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
    complianceFormGroup: FormGroup;
    complianceList : any;
+   obsData:any;
    complianceDataSource: MatTableDataSource<ComplianceModel>;
    complianceDisplayColumns = ['sno' ,'status','action' , 'complianceBy' ,  'compliedDateTime' ,'attachment', 'id'] ;
    editComplianceResponse: any;
@@ -90,12 +91,12 @@ export class FootPatrollingInspectionComponent implements OnInit{
     }
 
     ngOnInit () {
-        this.inspetionDetails();
         this.getAllFootPatrollingInspectionData();
         this.depotTypeForOhe();
         this.categoryList();
         var permissionName = this.commonService.getPermissionNameByLoggedData("FP","FP Inspection") ;//p == 0 ? 'No Permission' : p[0].permissionName;
         console.log("permissionName***"+permissionName);
+        console.log("insi44"+this.insId);
         this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -344,13 +345,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         } , error => {});
     }
     }
-    inspetionDetails() {
-        console.log("Insiddd"+this.insId)
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + this.insId).subscribe((data) => {
-               this.inspList = data;
-               console.log("inspList"+JSON.stringify(data))
-        })
- }
+    
      observationItemSubmit () {
         let location: string = this.observationFormGroup.value.location;
         let observationCategory: string = this.observationFormGroup.value.observationCategory;
@@ -445,10 +440,18 @@ export class FootPatrollingInspectionComponent implements OnInit{
         
     }
 }
+inspetionDetails() {
+    console.log("Insiddd"+this.insId)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + this.insId).subscribe((data) => {
+           this.inspList = data;
+           console.log("inspList"+JSON.stringify(data))
+    })
+}
     NewObservationItem (id) {
         console.log("observationItem"+id);
         this.insId = id;
         this.addObservation = true;
+        this.inspetionDetails();
     }
     onGoBack() {
         this.observationFormGroup.reset();
@@ -602,7 +605,7 @@ getAllCompliancesData() {
         this.complianceList = data;
         for (let i = 0; i < this.complianceList.length; i++) {
             this.complianceList[i].sno = i+1;
-            this.complianceList[i].fromDate = this.datePipe.transform(this.complianceList[i].compliedDateTime, 'dd-MM-yyyy hh:mm:ss');
+            this.complianceList[i].compliedDateTime = this.datePipe.transform(this.complianceList[i].compliedDateTime, 'dd-MM-yyyy hh:mm:ss');
             compliances.push(this.complianceList[i]);              
         }
         this.complianceDataSource = new MatTableDataSource(compliances);
@@ -612,10 +615,16 @@ getAllCompliancesData() {
     } , error => {});
 
 }
+observationDetails() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID + this.obsId).subscribe((data) => {
+           this.obsData = data;
+           console.log("obsData"+JSON.stringify(data));
+    })
+}
 NewComplianceItem (id) {
-    console.log("complianceItem"+id);
     this.obsId = id;
     this.addComplianceItem = true;
+    this.observationDetails();
 }
 complianceItemSubmit () {
         let status: string = this.complianceFormGroup.value.status;
@@ -642,7 +651,7 @@ complianceItemSubmit () {
       formdata.append('complianceBy', saveCompliance.complianceBy);
       formdata.append('compliedDateTime',saveCompliance.compliedDateTime );
       formdata.append('createdBy', saveCompliance.createdBy);              
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
                 this.complianceResponse = response
             if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
                 this.commonService.showAlertMessage(this.complianceResponse.message);

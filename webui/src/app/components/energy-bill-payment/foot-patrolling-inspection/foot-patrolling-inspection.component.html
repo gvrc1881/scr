@@ -243,6 +243,12 @@
         (ngSubmit)="observationItemSubmit();">
         <div class="panel panel-primary">
             <div class="panel-heading">{{title}} Observation Item</div>
+            <div class="panel-heading"><b><U>INSPECTION DETAILS:</U></b><br/>
+              <span><b>Inspection Type:</b>{{inspList.inspectionType}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span><b>Section:</b>{{inspList.section}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+              <span><b>Inspection By:</b>{{inspList.inspectionBy}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span><b>Start Time:</b>{{inspList.startTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span><b>Stop Time:</b>{{inspList.stopTime}}</span></div>
             <div class="panel-body">
 
 <div class="col-md-3">
@@ -459,11 +465,18 @@ Close
                       (ngSubmit)="complianceItemSubmit();">
                       <div class="panel panel-primary">
                           <div class="panel-heading">{{title}}Compliances Item</div>
+                          <div class="panel-heading"><b><U>OBSERVATION DETAILS:</U></b><br/>
+                            <span><b>Location:</b>{{obsData.location}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span><b>Observation Category:</b>{{obsData.observationCategory}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+                            <span><b>Observation Item:</b>{{obsData.observationItem}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <textarea matInput >Description{{obsData.description}}</textarea>
+                            <span><b>Action Required:</b>{{obsData.actionRequired}}</span></div>
                           <div class="panel-body">
+                            
   <div class="col-md-3">
     <mat-form-field fxFlex="30" class="example-full-width">
       <mat-select placeholder="Select Status" 
-        [formControl]="complianceFormGroup.controls['status']" required>
+        [formControl]="complianceFormGroup.controls['status']" >
         <mat-option *ngFor="let statusTypeData of statusTypeData"
           [value]="statusTypeData.statusCode">
           {{ statusTypeData.statusCode }}

@@ -159,23 +159,14 @@ export class TPCBoardComponent implements OnInit{
                 'description':description,
             }
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.UPDATE_TPC_BOARD, updateTPCBoardModel, false).subscribe(data => {
-              this.tpcBoardResponse = data;
-              if(this.tpcBoardResponse.code == 200 && !!this.tpcBoardResponse) {
-                  this.commonService.showAlertMessage(this.tpcBoardResponse.message);
-                  this.getAllTPCBoardData();
-                  this.tpcBoardFormGroup.reset();
-                  this.addTPCBoard =  false;
-              }else {
-                  this.commonService.showAlertMessage("tpc Board Data Updating Failed.");
-              }
-          } , error => {
-              console.log('ERROR >>>');
-              this.spinnerService.hide();
-              this.commonService.showAlertMessage("tpc Board  Data Updating Failed.");
-          });
-          
-      }
-  }
+              this.commonService.showAlertMessage('Successfully updated');
+                this.getAllTPCBoardData();
+                this.tpcBoardFormGroup.reset();
+                this.addTPCBoard =  false;
+            } , error => {})
+            
+        }
+    }
 
     editTPCBoard (id) {
         this.addTPCBoard = true;
