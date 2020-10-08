@@ -1,7 +1,6 @@
 package com.scr.message.response;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 
 

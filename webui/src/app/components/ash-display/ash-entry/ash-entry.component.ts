@@ -23,12 +23,11 @@ export class AshEntryComponent implements OnInit {
   loggedUserData: any=JSON.parse(localStorage.getItem('userData'));
   isSubmit: boolean = false;
   resp: any;
+  ashEntry:any;
   List = [];
   entryScheduleReportGroup: FormGroup;
   facilityId: any;
   facility: any;
-  fromKm: any;
-  toKm: any;
   facilityList: FacilityModel[] = [];
   depoNameList: any;
   powerBlockList: any;
@@ -45,6 +44,9 @@ export class AshEntryComponent implements OnInit {
   AsstId:any;
   assetidObjModel:any;
   SchCode:any;
+  makeModelList:any;
+  measuresList:any;
+  activityList:any;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -65,12 +67,77 @@ export class AshEntryComponent implements OnInit {
     this.createAssetDailyScheduleReportGroup();
     if (!isNaN(this.id)) {
       console.log(" inside:::")
+
+      this.entryScheduleReportGroup.get('Asset_Id').valueChanges.subscribe(asstid => {
+        console.log("ngonit Asset_Id:::"+ asstid);
+        if(asstid===undefined){
+          console.log("ngonit undefined Asset_Type:::"+ asstid);
+        }
+        else{
+         this.AsstId=asstid;
+        }
+       }) 
+       this.entryScheduleReportGroup.get('Depot_Name').valueChanges.subscribe(depo => {
+        console.log("ngonit facilityid:::"+ depo);
+       
+        if(depo===undefined){
+          console.log("ngonit undefined facilityid:::"+ depo);
+        }else{
+        this.facilityId = depo;
+        let asset=this.AsstId;
+        if(asset.includes("/")){
+          console.log("assetId replacement");
+          asset=asset.replace("/","@");
+        }
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_MAKE_MODEL +asset +'/'+this.assetType + '/'+this.facilityId).subscribe((data) => {
+          this.makeModelList = data;
+         console.log("this.makeModelList:::"+JSON.stringify(this.makeModelList[0].make));
+         //get measures
+         this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH_ENTRY.GET_MEASURES +encodeURI(this.assetType) + '/'+encodeURI(this.SchCode) + '/'+this.makeModelList[0].make + '/'+this.makeModelList[0].model).subscribe((data) => {
+          this.measuresList = data;
+         console.log("this.measuresList:::"+JSON.stringify(this.measuresList));
+         
+        }, error => {
+          this.spinnerService.hide();
+        });
+        // get activites
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH_ENTRY.GET_ACTIVITES +encodeURI(this.assetType) + '/'+encodeURI(this.SchCode) + '/'+this.makeModelList[0].make + '/'+this.makeModelList[0].model).subscribe((data) => {
+          this.activityList = data;
+         console.log("this.activityList:::"+JSON.stringify(this.activityList));
+         
+        }, error => {
+          this.spinnerService.hide();
+        });
+        //get facility 
+        console.log("getAssetTypes for facilityId::" + this.facilityId);
+          this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_FACILITY_BY_FACILITYID + this.facilityId).subscribe((data) => {
+          this.facility = data;
+          console.log( this.facility);
+        }, error => {
+          this.spinnerService.hide();
+        });
+        }, error => {
+          this.spinnerService.hide();
+        });
+        }
+      })
+       this.entryScheduleReportGroup.get('Asset_Type').valueChanges.subscribe(asstyp => {
+        console.log("ngonit Asset_Type:::"+ asstyp);
+        if(asstyp===undefined){
+          console.log("ngonit undefined Asset_Type:::"+ asstyp);
+        }
+        else{
+          this.assetType=asstyp;
+         
+        }
+       }) 
             
       this.spinnerService.show();
       this.save = true;
       this.update = false;
       this.title = 'Edit';
       this.getAshDataById(this.id);
+     
     } else {
       this.save = true;
       this.update = false;
@@ -139,45 +206,53 @@ export class AshEntryComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ASH.ASH.GET_ASH_DEPO_BY_ID + id)
       .subscribe((resp) => {
         console.log("Ash edit record response:::" + JSON.stringify(resp))
-        this.resp = resp;
+        this.ashEntry = resp;
         this.entryScheduleReportGroup.patchValue({
-          id: this.resp.id,
+          id: this.ashEntry.id,
           // failure_id: this.resp.failure_id,  !!this.resp.actionTargetDate ? new Date(this.resp.actionTargetDate) : '',
-          Schedule_date: !!this.resp.scheduleDate?new Date(this.resp.scheduleDate) : '',
+          Schedule_date: !!this.ashEntry.scheduleDate?new Date(this.ashEntry.scheduleDate) : '',
           //Depot_Name: this.resp.depo,
           //Power_Block: this.resp.pbOperationSeqId,
           //Asset_Type: this.resp.assetType,
           //Schedule: this.resp.scheduleCode,
-          Details_Of_Maint: this.resp.detailsOfMaint,
-          Done_By: this.resp.doneBy,
-          Remarks: this.resp.remarks,
+          Details_Of_Maint: this.ashEntry.detailsOfMaint,
+          Done_By: this.ashEntry.doneBy,
+          Remarks: this.ashEntry.remarks,
           //'facilityId': this.resp.facilityId,
-          Incharge: this.resp.initialOfIncharge,
+          Incharge: this.ashEntry.initialOfIncharge,
          // Asset_Id: [this.resp.assetId],
 
  
         });
         console.log("::: this.entryScheduleReportGroup" + this.entryScheduleReportGroup);
         this.spinnerService.hide();
-        this.DepotName=this.resp.facilityId;
-        this.PwrBlock=this.resp.pbOperationSeqId;
-        this.AssetTyp=this.resp.assetType;
+        this.DepotName=this.ashEntry.facilityId;
+        this.PwrBlock=this.ashEntry.pbOperationSeqId;
+        this.AssetTyp=this.ashEntry.assetType;
         console.log("assetIdList mapped for edit page for ng mpodel::"+this.assetIdList);
        if(this.assetIdList===undefined){
         console.log("assetid not mapped for edit page for ng mpodel undefined");
        }else{
         
-         this.AsstId=this.resp.assetId;       
+         this.AsstId=this.ashEntry.assetId;
+         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_MAKE_MODEL +this.AsstId +'/'+this.assetType + '/'+this.facilityId).subscribe((data) => {
+          this.makeModelList = data;
+         console.log("this.makeModelList:::"+JSON.stringify(this.makeModelList));
+        }, error => {
+          this.spinnerService.hide();
+        });       
        }
-       this.AsstId=this.resp.assetId;  
-       this.SchCode=this.resp.scheduleCode;
+       this.AsstId=this.ashEntry.assetId;  
+       this.SchCode=this.ashEntry.scheduleCode;
       })
+
+      
   }
   
   onGoBack() {
     this.router.navigate(['../../'], { relativeTo: this.route });
   }
-  onAssetDailyScheduleReportSubmit() {
+  onEntryScheduleReportSubmit() {
     // this.isSubmit = true;
     if (this.entryScheduleReportGroup.invalid) {
       this.isSubmit = false;
@@ -185,27 +260,31 @@ export class AshEntryComponent implements OnInit {
     }
     this.spinnerService.show();
     if (this.save) {
-      let assetIdAssetTypes = [];
-      this.entryScheduleReportGroup.controls.Asset_Id.value.map(value => {
-        assetIdAssetTypes.push(value.assetId + "_" + value.assetType);
-      })
+      // let assetIdAssetTypes = [];
+      // this.entryScheduleReportGroup.controls.Asset_Id.value.map(value => {
+      //   assetIdAssetTypes.push(value.assetId + "_" + value.assetType);
+      // })
+      console.log("while saving ash entery data is :::"+JSON.stringify(this.ashEntry))
       let ele = this.entryScheduleReportGroup.value.Asset_Id;
       var saveAshModel = {
         'scheduleDate': this.entryScheduleReportGroup.value.Schedule_date,
         'depotName': this.entryScheduleReportGroup.value.Depot_Name,
         'pbOperationSeqId': this.entryScheduleReportGroup.value.Power_Block,
         'assetType': this.entryScheduleReportGroup.value.Asset_Type,
-        'scheduleCode': this.entryScheduleReportGroup.value.Schedule,
-        
+        'scheduleCode': this.entryScheduleReportGroup.value.Schedule,       
+        'detailsOfMaint':  this.ashEntry.detailsOfMaint,
+        'doneBy':  this.ashEntry.doneBy,
+        'remarks':  this.ashEntry.remarks,
+        'initialOfIncharge':  this.ashEntry.initialOfIncharge,
         'facilityId': this.facilityId,
-        'assetId': JSON.stringify(assetIdAssetTypes),
+        'assetId': this.entryScheduleReportGroup.value.Asset_Id,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date(),
         "status": 'EntryPending',
         "dataDiv": this.facility.division
       }
-      console.log(" model for save ash:::" + saveAshModel);
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH.SAVE_ASH, saveAshModel, false).subscribe(response => {
+      console.log(" model for save ash entry:::" + saveAshModel);
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH_ENTRY.SAVE_ENTY, saveAshModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
 

@@ -219,7 +219,8 @@ export const Constants = {
                 GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID:"/getAssetIdBasedonAssetTypeAndFacilityId/",
                 GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/",
                 GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM:"/assetIdsByAssetTypeAndFacilityId/",
-                GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM:"/assetIdsByFacilityId/"
+                GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM:"/assetIdsByFacilityId/",
+                GET_MAKE_MODEL:"/findMakeModel/"
             },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
@@ -389,7 +390,12 @@ export const Constants = {
                 GET_ASH_ID:'/ashistoryById/',
                 DELETE_ASH:'/deleteAsh/',
                 GET_ASH_DEPO_BY_ID:'/ashistoryWithDepoById/'
-                }
+                },
+            ASH_ENTRY:{
+                GET_MEASURES:"/measure/",
+                GET_ACTIVITES:"/activity/",
+                SAVE_ENTY:"/saveEntry"
+            }
         },
         INSPECTIONS:{
             STIPULATION:{

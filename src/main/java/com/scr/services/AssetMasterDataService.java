@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
 import com.scr.model.ReportRepository;
@@ -56,6 +58,11 @@ public class AssetMasterDataService {
 
 	public List<AssetMasterData> findAssetIdsByFacilityId(String facilityId, Double fromKm, Double toKm) {
 		List<AssetMasterData> assetIds = assetMastersRepository.findAssetIdsByFacilityId(facilityId,fromKm,toKm);
+		return assetIds;
+	}
+
+	public List<AssetMasterData> findMakeModel(String assetId, String assetType, String facilityId) {
+		List<AssetMasterData> assetIds = assetMastersRepository.findMakeModel(assetId,assetType,facilityId);
 		return assetIds;
 	}
 }

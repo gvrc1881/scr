@@ -29,7 +29,7 @@ import com.scr.services.AssetScheduleHistoryService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/scr/api")
 public class AssetScheduleHistoryController {

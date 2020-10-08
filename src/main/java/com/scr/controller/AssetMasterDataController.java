@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -147,5 +150,25 @@ public class AssetMasterDataController {
 		
 		List<AssetMasterData> assetIdsList= assetMasterDataService.findAssetIdsByFacilityId(facilityId,Double.valueOf(fromKm),Double.valueOf(toKm));
 			return new ResponseEntity<List<AssetMasterData>>(assetIdsList, HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value = "/findMakeModel/{assetId}/{assetType}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<AssetMasterData>> findMakeModel(@PathVariable("assetId") String assetId ,@PathVariable("assetType") String assetType ,@PathVariable("facilityId") String facilityId) throws JSONException {
+		log.info("Enter into findAshWithFacilityName function");
+		System.out.println("assetId::"+assetId+"assetType::"+assetType+"facilityId::"+facilityId);
+		List<AssetMasterData> assetData = null;
+		try {			
+			log.info("Calling service for ASH data");
+			if(null!=assetId&&assetId.contains("@"))
+				assetId=assetId.replace('@', '/');
+			assetData = assetMasterDataService.findMakeModel(assetId,assetType,facilityId);	
+			log.info("Fetched assetData  = "+assetData);
+		} catch (NullPointerException e) {			
+			log.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		} catch (Exception e) {			
+			log.error("ERROR >>> while fetching the ash data = "+e.getMessage());
+		}
+		log.info("Exit from findAshWithFacilityName function");
+		return ResponseEntity.ok((assetData));
 	}
 }
