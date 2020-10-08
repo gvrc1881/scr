@@ -336,8 +336,9 @@ public class DriveMapper {
 		DriveDailyProgress driveDailyProgress = null;
 		if(request != null) {
 			driveDailyProgress = new DriveDailyProgress();
-			
-			driveDailyProgress.setActivityId(Long.parseLong(request.getActivityId()));
+			if(request.getActivityId() != null) {
+				driveDailyProgress.setActivityId(Long.parseLong(request.getActivityId()));
+			}
 			driveDailyProgress.setPerformedDate(request.getPerformedDate());
 			driveDailyProgress.setDivision(request.getDivision());
 			driveDailyProgress.setDepot(request.getDepot());

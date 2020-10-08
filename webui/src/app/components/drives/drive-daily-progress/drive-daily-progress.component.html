@@ -30,7 +30,7 @@
                                             <mat-datepicker #picker1></mat-datepicker>                                                           
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-3">
+                                <!-- <div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
                                     	<mat-select placeholder="Period"
                                            [formControl]="searchInputFormGroup.controls['depotType']">
@@ -39,7 +39,7 @@
                                         	</mat-option>
                                     	</mat-select>
                                 	</mat-form-field>
-                                </div>
+                                </div> -->
                                 <div class="col-md-3 mt-15">
 							    	<div class="float-right" style="float: right;">
 										<button class="mat-raised-button mat-accent" color="accent"
@@ -66,13 +66,20 @@
 	
 	                                        <ng-container matColumnDef="activityPlan">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Plan</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.activityId}}</mat-cell>
+	                                            <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
 	                                        </ng-container>
-	
+	                                        
+	                                        <ng-container matColumnDef="performedCount">
+	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
+	                                        	<mat-cell *matCellDef="let row">
+	                                        	<input matInput  placeholder="Count" decimalNumber [(ngModel)]="row.performedCount" />
+	                                        	</mat-cell>
+	                                        </ng-container>
+	<!-- 
 	                                        <ng-container matColumnDef="actionDone">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Action Done</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> {{row.performedDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
-	                                        </ng-container>
+	                                        </ng-container> -->
 	
 	                                        <!-- <ng-container matColumnDef="division">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division
@@ -89,11 +96,11 @@
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
 	                                        </ng-container> -->
-	
+	<!-- 
 	                                        <ng-container matColumnDef="performedCount">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> {{row.performedCount}}</mat-cell>
-	                                        </ng-container>
+	                                        </ng-container> -->
 	
 	                                        <!-- <ng-container matColumnDef="supervisor">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</mat-header-cell>
@@ -106,7 +113,13 @@
 	                                        </ng-container> -->
 	                                        <ng-container matColumnDef="actions">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
-	                                            <!-- <mat-cell *matCellDef="let row">
+	                                             <mat-cell *matCellDef="let row">
+	                                                <a mat-icon-button matTooltip="Save" >
+	                                                    <button mat-icon-button matTooltip="Save"
+	                                                        (click)="processSaveAction(row)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
+	                                                    </button>
+	                                                </a>
 	                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
 	                                                    <button mat-icon-button matTooltip="Edit"
 	                                                        (click)="processEditAction(row.id)">
@@ -118,7 +131,7 @@
 	                                                   *ngIf="deletePermission">
 	                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
 	                                                </button>
-	                                            </mat-cell> -->
+	                                            </mat-cell> 
 	                                        </ng-container>
 	                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                        <mat-row *matRowDef="let row; columns: displayedColumns;">

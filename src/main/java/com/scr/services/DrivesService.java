@@ -649,6 +649,25 @@ public class DrivesService {
 		return driveRepository.findByFromDateAndDepotType(fromDate,depotType);
 	}
 
+	public List<Drives> getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+			Date fromDate,Date toDate ) {
+		// TODO Auto-generated method stub
+		return driveRepository.findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);
+	}
+
+	public void saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
+		DriveDailyProgress driveDailyProgress = driveMapper.prepareDriveDailyProgressModel(driveDailyProgressRequest);
+		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findByDriveId(driveDailyProgress.getDriveId());
+		if (existsDriveDailyProgress.isPresent()) {
+			DriveDailyProgress ddProgress = existsDriveDailyProgress.get();
+			ddProgress.setPerformedCount(driveDailyProgress.getPerformedCount());
+			driveProgressRecordRepository.save(ddProgress);
+		} else {
+			driveProgressRecordRepository.save(driveDailyProgress);
+		}
+		
+	}
+
 	
 
 	

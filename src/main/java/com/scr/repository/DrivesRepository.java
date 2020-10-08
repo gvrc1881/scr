@@ -29,4 +29,6 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByFromDateAndDepotType(Date fromDate, String depotType);
 
+	List<Drives> findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(Date fromDate,Date toDate);
+
 }

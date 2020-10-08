@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DriveDailyProgressModel } from 'src/app/models/drive.model';
+import { DriveModel } from 'src/app/models/drive.model';
 
 @Component({
   selector: 'drive-daily-progress',
@@ -21,10 +22,13 @@ export class DriveDailyProgressComponent implements OnInit {
     dailyProgressFormGroup: FormGroup;
     dailyProgressDate: any;
     depotType: any;
-    dataSource: MatTableDataSource<DriveDailyProgressModel>;
-    displayedColumns = ['sno', 'activityPlan', 'actionDone','performedCount', 'actions'];
+    dataSource: MatTableDataSource<DriveModel>;
+    displayedColumns = ['sno', 'activityPlan','performedCount', 'actions'];
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
+    drivesList: any;
+    performedCount: any;
+    resp: any;
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -46,6 +50,29 @@ export class DriveDailyProgressComponent implements OnInit {
         this.findDepoTypeList();
     }
     
+    processSaveAction(row: any){
+        var message = '';
+        var failedMessage = ''; 
+        let saveDriveDailyProgress = {
+            id: 0,
+            driveId: row.drive.id,
+            performedCount: row.performedCount,
+        }
+        message = 'Saved';
+        failedMessage = "Saving";
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
+            this.spinnerService.hide();
+            this.resp = response;
+            if (this.resp.code == Constants.CODES.SUCCESS) {
+            this.commonService.showAlertMessage("Drive Daily Progress Data "+message+" Successfully");
+            //this.router.navigate(['../'], { relativeTo: this.route });
+            }else{
+              this.commonService.showAlertMessage("Drive Daily Progress Data "+failedMessage+" Failed.");
+            }
+            
+          });  
+    }
+    
     findDepoTypeList() {
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
           .subscribe((depoTypes) => {
@@ -54,22 +81,23 @@ export class DriveDailyProgressComponent implements OnInit {
       }
     
     getDriveDailyProgress() {
-        console.log(this.searchInputFormGroup.controls['fromDate'].value);
-        console.log(this.searchInputFormGroup.controls['depotType'].value);
+        const drivesData: DriveModel [] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOTTYPE
-        +this.searchInputFormGroup.controls['fromDate'].value + '/'+this.searchInputFormGroup.controls['depotType'].value
+        +this.searchInputFormGroup.controls['fromDate'].value 
             ).subscribe((data) => {
-         /* this.driveTargetList = data;
-          for (let i = 0; i < this.driveTargetList.length; i++) {
-            this.driveTargetList[i].sno = i + 1;
-            this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
-            driveTarget.push(this.driveTargetList[i]);
+                this.drivesList = data;
+          for (let i = 0; i < this.drivesList.length; i++) {
+            this.drivesList[i].sno = i + 1;
+            this.drivesList[i].drive = this.drivesList[i];
+             this.drivesList[i].performedCount;
+          //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
+            drivesData.push(this.drivesList[i]);
           }
     
-          this.dataSource = new MatTableDataSource(driveTarget);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.spinnerService.hide(); */
+          this.dataSource = new MatTableDataSource(drivesData);
+         // this.dataSource.paginator = this.paginator;
+         // this.dataSource.sort = this.sort;
+          this.spinnerService.hide(); 
         }, error => {
           this.spinnerService.hide();
         });

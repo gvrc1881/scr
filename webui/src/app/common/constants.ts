@@ -485,7 +485,8 @@ export const Constants = {
             SAVE:'/saveDriveDailyProgress',
             UPDATE:'/updateDriveDailyProgress',
             EDIT:'/driveDailyProgressById/',
-            DELETE:'/deleteDriveDailyProgress/'
+            DELETE:'/deleteDriveDailyProgress/',
+            SAVE_DRIVE_DAILY_PROGRESS_RECORD:'/saveDriveDailyProgressRecord'
         },
         CONFIG:{
             MAKE:{  

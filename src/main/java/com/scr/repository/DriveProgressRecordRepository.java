@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.DriveDailyProgress;
+import com.scr.model.Drives;
 
 @Repository
 public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyProgress, Long>{
@@ -14,5 +15,7 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 	Optional<DriveDailyProgress> findByIdAndStatusId(Long id, Integer statusId);
 
 	List<DriveDailyProgress> findByStatusId(Integer statusId);
+
+	Optional<DriveDailyProgress> findByDriveId(Drives driveId);
 
 }

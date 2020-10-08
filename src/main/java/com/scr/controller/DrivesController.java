@@ -1161,21 +1161,35 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepotType/{fromDate}/{depotType}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate,@PathVariable("depotType") String depotType ) throws JSONException {
+	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepotType/{fromDate}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate ) throws JSONException {
 		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
 		List<Drives> drivesList = null;
+		Date toDate = fromDate;
+		logger.info("** from date ***"+fromDate+"** to date**"+toDate);
 		try {			
 			logger.info("Calling service for dirves data");
-			drivesList = service.getDrivesBasedOnFromDateAndDepotType(fromDate,depotType);	
+			drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);	
 			logger.info("Fetched drives size = "+drivesList.size());
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
 		} catch (Exception e) {			
 			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
 		}
-		logger.info("Exit from findAllDrives function");
+		logger.info("Exit from getDrivesBasedOnFromDateAndDepotType function");
 		return ResponseEntity.ok((drivesList));
+	}
+	
+	@RequestMapping(value = "/saveDriveDailyProgressRecord", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveDriveDailyProgressRecord(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
+		logger.info("** performed count **"+driveDailyProgressRequest.getPerformedCount() +"** drive **"+driveDailyProgressRequest.getDriveId());
+		try {			
+			service.saveDriveDailyProgressRecord(driveDailyProgressRequest);
+			return Helper.findResponseStatus("Drive Daily Progress Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Daily Progress data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Daily Progress Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 	
 	
