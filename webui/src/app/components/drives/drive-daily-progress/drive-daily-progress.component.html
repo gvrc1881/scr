@@ -120,17 +120,12 @@
 	                                                        <mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
 	                                                    </button>
 	                                                </a>
-	                                                <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
-	                                                    <button mat-icon-button matTooltip="Edit"
-	                                                        (click)="processEditAction(row.id)">
-	                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
-	                                                    </button>
-	                                                </a>
-	                                                <button mat-icon-button matTooltip="Delete"
+	                                               
+	                                                <!-- <button mat-icon-button matTooltip="Delete"
 	                                                    (click)="delete(row.id)"
 	                                                   *ngIf="deletePermission">
 	                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-	                                                </button>
+	                                                </button> -->
 	                                            </mat-cell> 
 	                                        </ng-container>
 	                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
