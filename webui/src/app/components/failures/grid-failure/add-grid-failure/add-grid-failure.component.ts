@@ -49,7 +49,7 @@ export class AddGridFailureComponent implements OnInit {
     // Reactive form errors
     this.gridFailFormErrors = {
       feedOff: {},
-      ffdate:{},
+      fromDateTime:{},
       ftdate: {},
       fduration: {},
       extendedFrom: {},
@@ -98,7 +98,25 @@ export class AddGridFailureComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'feedOff': [null,Validators.compose([Validators.required])],
-        "ffdate":[null,Validators.compose([Validators.required])],
+        'fromDateTime':[null,Validators.compose([Validators.required]),this.duplicateFeedOfAndFromDateTime.bind(this)],
+        'ftdate': [null],
+        'fduration': [null],
+        'extendedFrom': [null],
+        'efdate': [null],
+        'etdate': [null],
+        'eduration': [null],
+        'maxDemand': [null],
+        'dl': [null],
+        'ie': [null],
+        'remarks': [null, Validators.maxLength(250)]
+      });
+  }
+  updateForm() {
+    this.addGridFailFromGroup
+      = this.formBuilder.group({
+        id: 0,
+        'feedOff': [null,Validators.compose([Validators.required])],
+        'fromDateTime':[null,Validators.compose([Validators.required])],
         'ftdate': [null],
         'fduration': [null],
         'extendedFrom': [null],
@@ -127,21 +145,21 @@ export class AddGridFailureComponent implements OnInit {
  
 timeDuration(){
   
-  var ffdate=this.addGridFailFromGroup.value.ffdate;
+  var ffdate=this.addGridFailFromGroup.value.fromDateTime;
   
   var ftdate=this.addGridFailFromGroup.value.ftdate;
  
-  if(this.addGridFailFromGroup.value.ffdate.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
- var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.ffdate.getTime();
-
- var days=Math.floor(diff / (60*60*24*1000));
-
- var hours=Math.floor(diff / (60*60*1000))-(days*24);
-
- var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-
- var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-
+  if(this.addGridFailFromGroup.value.fromDateTime.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
+ var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.fromDateTime.getTime();
+console.log("diff="+diff);
+ var days=Math.floor(diff /86400000);
+ console.log("days="+days);
+ var hours=Math.floor((diff  % 86400000)/3600000);
+ console.log("hours="+hours);
+ var minutes=Math.floor(((diff % 86400000) % 3600000) / 60000);
+ console.log("minutes="+minutes);
+ var seconds=Math.floor(((diff % 86400000 % 3600000)% 60000)/ 1000);
+ console.log("seconds="+seconds);
  this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
  
   }
@@ -156,15 +174,17 @@ timDuration(){
   if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
  var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
  
- var days=Math.floor(diff / (60*60*24*1000));
+ var days=Math.floor(diff /86400000);
  
- var hours=Math.floor(diff / (60*60*1000))-(days*24);
+ var hours=Math.floor((diff  % 86400000)/3600000);
 
- var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+ var minutes=Math.floor(((diff % 86400000) % 3600000) / 60000);
 
- var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+ var seconds=Math.floor(((diff % 86400000 % 3600000)% 60000)/ 1000);
+
+ //var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
  
- this.dur=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+ this.dur=String(hours)+":" + String(minutes)+":" +String(seconds) ;
 
   }
 }
@@ -185,13 +205,13 @@ timDuration(){
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
-        this.minDate=new Date(this.resp.ffdate),
+        this.minDate=new Date(this.resp.fromDateTime),
         this.toMinDate=new Date(this.resp.efdate),
         this.fMinDate=new Date(this.resp.ftdate),
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
           feedOff: this.resp.feedOf,
-          ffdate:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           ftdate:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           fduration: this.resp.duration ,
           extendedFrom: this.resp.extendedOf,
@@ -233,7 +253,7 @@ timDuration(){
     if (this.save) {
       data = {
         "feedOf": this.addGridFailFromGroup.value.feedOff,
-        "fromDateTime":this.addGridFailFromGroup.value.ffdate,
+        "fromDateTime":this.addGridFailFromGroup.value.fromDateTime,
         "thruDateTime": this.addGridFailFromGroup.value.ftdate,
         "duration": this.addGridFailFromGroup.value.fduration,
         "extendedOf": this.addGridFailFromGroup.value.extendedFrom,
@@ -268,7 +288,7 @@ timDuration(){
       data = {
         "id":this.id,
         "feedOf": this.addGridFailFromGroup.value.feedOff,
-        "fromDateTime":this.addGridFailFromGroup.value.ffdate,
+        "fromDateTime":this.addGridFailFromGroup.value.fromDateTime,
         "thruDateTime": this.addGridFailFromGroup.value.ftdate,
         "duration": this.addGridFailFromGroup.value.fduration,
         "extendedOf": this.addGridFailFromGroup.value.extendedFrom,
@@ -301,6 +321,42 @@ timDuration(){
       })
     }
     
+  }
+
+  duplicateFeedOfAndFromDateTime() {   
+
+              const q = new Promise((resolve, reject) => {
+        let feedOf: string = this.addGridFailFromGroup.value.feedOff;
+        let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['fromDateTime'].value);   
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME+feedOf+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateFeedOfAndFromDateTime': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateFeedOfAndFromDateTime': true }); });
+    });
+    return q;
+  }
+
+  duplicateFeedOfAndFromDateTimeAndID() {
+    const q = new Promise((resolve, reject) => {
+              
+      let id=this.id;
+      let feedOf: string = this.addGridFailFromGroup.controls['feedOf'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['ffdate'].value);
+  
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME_ID+id+'/'+feedOf+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateFeedOfAndFromDateTimeAndID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateFeedOfAndFromDateTimeAndID': true }); });
+    });
+    return q;
   }
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });

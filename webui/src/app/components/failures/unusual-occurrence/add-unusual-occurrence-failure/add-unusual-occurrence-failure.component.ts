@@ -97,7 +97,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
    console.log("minutes"+minutes)
    var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
    console.log("seconds"+seconds)
-   this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
    console.log("duration"+this.duration)
     }
   }
@@ -108,7 +108,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
    
       .subscribe((response) => {
        
-        console.log("depots======"+JSON.stringify(response));
+        
         this.feedersList = response;
        
       //  this.extendedFromList = response;
@@ -122,7 +122,23 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'subStation': [null,Validators.compose([Validators.required])], 
         'location': [null,Validators.compose([Validators.required])], 
         'causeOfFailure': [null], 
-        'fromDateTime': [null,Validators.compose([Validators.required])],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndLocationAndFromDateTime.bind(this)],
+        'thruDateTime': [null],
+        'duration': [null], 
+        'divisionLocal': [null],
+        'internalExternal': [null], 
+        'impact': [null],
+        'remarks': [null, Validators.maxLength(250)]
+      });
+  }
+  updateForm() {
+    this.addUnusualOccurrenceFromGroup
+      = this.formBuilder.group({
+        id: 0,
+        'subStation': [null,Validators.compose([Validators.required])], 
+        'location': [null,Validators.compose([Validators.required])], 
+        'causeOfFailure': [null], 
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndLocationAndFromDateTimeID.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
         'divisionLocal': [null],
@@ -286,5 +302,42 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
+  duplicateSubStationAndLocationAndFromDateTime() {
+    const q = new Promise((resolve, reject) => {
+              
+      let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
+      let location: string = this.addUnusualOccurrenceFromGroup.controls['location'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
+    
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME+subStation+'/'+location+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndLocationAndFromDateTime': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndLocationAndFromDateTime': true }); });
+    });
+    return q;
+  }
+  duplicateSubStationAndLocationAndFromDateTimeID() {
+    const q = new Promise((resolve, reject) => {
+
+      let id=this.id;        
+      let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
+      let location: string = this.addUnusualOccurrenceFromGroup.controls['location'].value;
+      let fromDateTime: string =this.sendAndRequestService.convertIndiaStandardTimeToTimestamp( this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
+    
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID+id+'/'+subStation+'/'+location+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndLocationAndFromDateTimeID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndLocationAndFromDateTimeID': true }); });
+    });
+    return q;
+  }
 
 }

@@ -32,6 +32,7 @@ export class SendAndRequestService {
     //}
     // METHOD FOR POST REQUESTS
     requestForPOST(requestUrl, requestData: any, flag) {
+    
         console.log(flag)
         if (flag == true) {
 
@@ -65,6 +66,21 @@ export class SendAndRequestService {
     //  requestForEXIST(requestUrl,requestData) {        
     //  return this._http.get<any[]>(environment.apiUrl + requestUrl+requestData, { headers: this.header });
     //}
+    convertIndiaStandardTimeToTimestamp(dateformat: string) {
+       // var month, day, year, hours, minutes, seconds;
+        var date = new Date(dateformat);
 
+       // month = ("0" + (date.getMonth() + 1)).slice(-2),
+        //day = ("0" + date.getDate()).slice(-2);
+       /// hours = ("0" + date.getHours()).slice(-2);
+        // minutes = ("0" + date.getMinutes()).slice(-2);
+        // seconds = ("0" + date.getSeconds()).slice(-2);
+
+        var orignalDate = [date.getFullYear(), ("0" + (date.getMonth() + 1)).slice(-2) , ("0" + date.getDate()).slice(-2)].join("-");
+        var time = [("0" + date.getHours()).slice(-2), ("0" + date.getMinutes()).slice(-2), ("0" + date.getSeconds()).slice(-2)].join(":");
+        var timestamp  = [orignalDate, time].join(" ");
+       
+        return timestamp;
+    }
 }
 

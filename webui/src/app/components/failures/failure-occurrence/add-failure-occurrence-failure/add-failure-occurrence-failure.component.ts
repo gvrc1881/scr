@@ -83,16 +83,16 @@ export class AddFailureOccurrenceComponent implements OnInit {
    
     if(this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime()!="" && this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()!=""){
    var diff=this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()-this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime();
-   console.log("diff"+diff)
+
    var days=Math.floor(diff / (60*60*24*1000));
-   console.log("days"+days)
+  
    var hours=Math.floor(diff / (60*60*1000))-(days*24);
-   console.log("hours"+hours)
+  
    var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-   console.log("minutes"+minutes)
+  
    var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-   console.log("seconds"+seconds)
-   this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   
+   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
    console.log("duration"+this.duration)
     }
   }
@@ -113,7 +113,22 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'occurrence': [null,Validators.compose([Validators.required])], 
         'trainNo':[null],
         'place':[null,Validators.compose([Validators.required])],
-        'fromDateTime': [null,Validators.compose([Validators.required])],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateOccurenceAndPlaceAndFromDateTime.bind(this)],
+        'thruDateTime': [null],
+        'duration': [null], 
+        'divisionLocal': [null],
+        'internalExternal': [null], 
+        'remarks': [null, Validators.maxLength(250)]
+      });
+  }
+  updateForm() {
+    this.addFailureOccurrenceFailFromGroup
+      = this.formBuilder.group({
+        id: 0,
+        'occurrence': [null,Validators.compose([Validators.required])], 
+        'trainNo':[null],
+        'place':[null,Validators.compose([Validators.required])],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateOccurenceAndPlaceAndFromDateTimeID.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
         'divisionLocal': [null],
@@ -159,8 +174,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
           occurrence:this.resp.occurrence,
           trainNo:this.resp.trainNo,
           place:this.resp.place,
-          fromDateTime:new Date(this.resp.fromDateTime),
-          thruDateTime:new Date(this.resp.thruDateTime),
+          fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
+          thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
           divisionLocal:this.resp.divisionLocal,
           internalExternal:this.resp.internalExternal,
@@ -213,7 +228,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal,
         'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal, 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
-        "typeOfFailure":Constants.FAILURE_TYPES.RC_FAILURE,
+        "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
+
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -271,5 +287,47 @@ export class AddFailureOccurrenceComponent implements OnInit {
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
+
+  duplicateOccurenceAndPlaceAndFromDateTime() {
+    
+              
+      let occurrence: string = this.addFailureOccurrenceFailFromGroup.controls['occurrence'].value;
+      let place: string = this.addFailureOccurrenceFailFromGroup.controls['place'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value);
+     
+      const q = new Promise((resolve, reject) => {
+      //this.makeService.existsMakeCode(makeCode)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME+occurrence+'/'+place+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateOccurenceAndPlaceAndFromDateTime': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateOccurenceAndPlaceAndFromDateTime': true }); });
+    });
+    return q;
+  }
+
+  duplicateOccurenceAndPlaceAndFromDateTimeID() {
+    
+    let id=this.id;        
+    let occurrence: string = this.addFailureOccurrenceFailFromGroup.controls['occurrence'].value;
+    let place: string = this.addFailureOccurrenceFailFromGroup.controls['place'].value;
+    let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value);
+   
+    const q = new Promise((resolve, reject) => {
+    //this.makeService.existsMakeCode(makeCode)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME_ID+id+'/'+occurrence+'/'+place+'/'+fromDateTime)
+    .subscribe((duplicate) => {
+      if (duplicate) {
+        resolve({ 'duplicateOccurenceAndPlaceAndFromDateTimeID': true });
+      } else {
+        resolve(null);
+      }
+    }, () => { resolve({ 'duplicateOccurenceAndPlaceAndFromDateTimeID': true }); });
+  });
+  return q;
+}
 
 }

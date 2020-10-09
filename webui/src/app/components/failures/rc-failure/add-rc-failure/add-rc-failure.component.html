@@ -34,7 +34,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Switching Station" (selectionChange)="updateFeedOff($event)"
-                                                                [formControl]="addRcFailFromGroup.controls['subStation']" required>
+                                                                [formControl]="addRcFailFromGroup.controls['subStation']" >
                                                                 <mat-option *ngFor="let feeder of feedersList"
                                                                     [value]="feeder.feederName">
                                                                     {{ feeder.feederName }}
@@ -47,7 +47,8 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Indication" 
                                                                 [formControl]="addRcFailFromGroup.controls['relayIndication']"
-                                                                required >                                                           
+                                                                required > 
+                                                                                                                        
                                                         </mat-form-field>
                                                     </div>
 
@@ -56,10 +57,20 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Occurred Date"
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
-                                                                [formControl]="addRcFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" >                                                                
+                                                                [formControl]="addRcFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+                                                                <mat-error
+                                                                *ngIf="addRcFailFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndOccurence')"
+                                                                class="alert alert-danger">
+                                                                Station And Place And Indication combination  Already Exists
+                                                              </mat-error>
+                                                              <mat-error
+                                                              *ngIf="addRcFailFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndOccurenceID')"
+                                                              class="alert alert-danger">
+                                                              Station And Place And Indication combination  Already Exists
+                                                            </mat-error>  
                                                         </mat-form-field>
                                                     </div>  
                                                     
@@ -79,7 +90,7 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
+                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
                                                                 [formControl]="addRcFailFromGroup.controls['duration']"
                                                                 [(ngModel)]="duration" >   
                                                                                                                        

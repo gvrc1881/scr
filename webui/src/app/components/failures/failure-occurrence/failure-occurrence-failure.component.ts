@@ -58,14 +58,13 @@ export class FailureOccurrenceComponent implements OnInit {
   }
   getFailureOccurrenceFailureData() {
     const FailureOccurrenceFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.FAILURE_OCCURRENCE).subscribe((data) => {
       this.FailureOccurrenceFailList = data;
       console.log(this.FailureOccurrenceFailList)
       for (let i = 0; i < this.FailureOccurrenceFailList.length; i++) {
         this.FailureOccurrenceFailList[i].sno = i + 1;
          this.FailureOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.FailureOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        
         FailureOccurrenceFail.push(this.FailureOccurrenceFailList[i]);
       }
 

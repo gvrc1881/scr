@@ -58,9 +58,8 @@ export class RcFailureComponent implements OnInit {
   }
   getRcFailureData() {
     const RcFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
-      this.RcFailList = data;
-      console.log(this.RcFailList)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.RC_FAILURE).subscribe((data) => {
+      this.RcFailList = data;      
       for (let i = 0; i < this.RcFailList.length; i++) {
         this.RcFailList[i].sno = i + 1;
         this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');

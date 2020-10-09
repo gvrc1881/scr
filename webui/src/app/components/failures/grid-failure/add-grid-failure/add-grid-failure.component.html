@@ -41,6 +41,7 @@
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
+                                                        
                                                     </div>
 
                                                   <div class="col-md-3">
@@ -48,11 +49,23 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [formControl]="addGridFailFromGroup.controls['ffdate']" (ngModelChange)="timeDuration()" required >                                                                
+                                                                [formControl]="addGridFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
-                                                                <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+                                                           
+                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+                                                                 <mat-error
+                                                        *ngIf="addGridFailFromGroup.controls['fromDateTime'].hasError('duplicateFeedOfAndFromDateTime')"
+                                                        class="alert alert-danger">
+                                                        FeedOF And From date combination  Already Exists
+                                                      </mat-error>
+                                                      <mat-error
+                                                      *ngIf="addGridFailFromGroup.controls['fromDateTime'].hasError('duplicateFeedOfAndFromDateTimeAndID')"
+                                                      class="alert alert-danger">
+                                                      FeedOF And From date combination  Already Exists
+                                                    </mat-error>
                                                         </mat-form-field>
+                                                         
                                                     </div>  
                                                     
                                                     <div class="col-md-3">
@@ -61,8 +74,7 @@
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
                                                                   [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
                                                                 [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()"  >                                                                
-                                                                <owl-date-time #dt2 [showSecondsTimer]=true
-                                                                    ></owl-date-time>
+                                                                <owl-date-time #dt2 [showSecondsTimer]=true></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
                                                         </mat-form-field>
                                                     </div>
@@ -72,10 +84,10 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
+                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['fduration']"
                                                                 [(ngModel)]="duration"  >   
-                                                                {{duration}}                                                         
+                                                                                                                        
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -90,6 +102,7 @@
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
+                                                       
                                                     </div>
 
                                                     <div class="col-md-3">
@@ -121,10 +134,10 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (Days:HH:MM:SS)" readonly
+                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['eduration']"
                                                                 [(ngModel)]="dur" >  
-                                                                {{dur}}                                                          
+                                                                                                                        
                                                         </mat-form-field>
                                                     </div>
 

@@ -5,7 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-import { JitEmitterVisitor } from '@angular/compiler/src/output/output_jit';
+
 
 @Component({
   selector: 'app-add-cb-failure',
@@ -40,6 +40,7 @@ export class AddCbFailureComponent implements OnInit {
   failurecasList:any;
   difference:any;
   duration:any;
+  result:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -61,7 +62,7 @@ export class AddCbFailureComponent implements OnInit {
       natureOfClosure: {}, 
       rValue: {},
       xValue: {}, 
-      zValue: {},
+      zConstant: {},
       faultDistance: {},
       actualFaultDistance: {},
       current: {},
@@ -78,7 +79,7 @@ export class AddCbFailureComponent implements OnInit {
     this.findRelayIndicationStatus();
     this.findNatureOfCloseStatus();
     this.findFeedersList();
-    this. findCascadeList();
+   
     this.id = +this.route.snapshot.params['id'];    
     this.createForm();
     if (!isNaN(this.id)) {
@@ -91,8 +92,7 @@ export class AddCbFailureComponent implements OnInit {
       this.title = 'Edit';
       this.getCbFailDataById(this.id);
     } else {
-      this.save = true;
-      this.update = false;
+     
       this.title = 'Save';
     }
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
@@ -121,17 +121,6 @@ export class AddCbFailureComponent implements OnInit {
       })
   }
 
-  findCascadeList(){
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
-      .subscribe((data) => {
-        console.log(data)
-        this.failurecasList = data;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
-
-  }
   createForm() {
     this.addCbFailFromGroup
       = this.formBuilder.group({
@@ -139,14 +128,14 @@ export class AddCbFailureComponent implements OnInit {
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
         'cascadeAssets': [null], 
-        'fromDateTime': [null,Validators.compose([Validators.required])],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndEquipmentAndFromDateTime.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
         'relayIndication': [null], 
         'natureOfClosure': [null], 
         'rValue': [null],
         'xValue': [null], 
-        'zValue': [null],
+        'zConstant': [null],
         'faultDistance': [null],
         'actualFaultDistance': [null],
         'current': [null],
@@ -158,6 +147,33 @@ export class AddCbFailureComponent implements OnInit {
         'remarks': [null, Validators.maxLength(250)]
       });
   }
+  updateForm() {
+    this.addCbFailFromGroup
+      = this.formBuilder.group({
+        id: 0,
+        'subStation': [null,Validators.compose([Validators.required])], 
+        'equipment': [null,Validators.compose([Validators.required])], 
+        'cascadeAssets': [null], 
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndEquipmentAndFromDateTimeAndId.bind(this)],
+        'thruDateTime': [null],
+        'duration': [null], 
+        'relayIndication': [null], 
+        'natureOfClosure': [null], 
+        'rValue': [null],
+        'xValue': [null], 
+        'zConstant': [null],
+        'faultDistance': [null],
+        'actualFaultDistance': [null],
+        'current': [null],
+        'voltage': [null],
+        'phaseAngle': [null],
+        'trippedIdentifiedFault': [null],
+        'divisionLocal': [null],
+        'internalExternal': [null], 
+        'remarks': [null, Validators.maxLength(250)]
+      });
+  }
+
 
   onFormValuesChanged() {
     for (const field in this.cbFailFormErrors) {
@@ -203,7 +219,7 @@ export class AddCbFailureComponent implements OnInit {
           natureOfClosure:this.resp.natureOfClosure, 
           rValue:this.resp.rValue,
           xValue:this.resp.xValue,
-          zValue:this.resp.zValue,
+          zConstant:this.resp.zConstant,
           faultDistance:this.resp.faultDistance,
           actualFaultDistance:this.resp.actualFaultDistance,
           current:this.resp.current,
@@ -247,25 +263,40 @@ export class AddCbFailureComponent implements OnInit {
 
 timeDuration(){
     
-    var fromDateTime=this.addCbFailFromGroup.value.fromDateTime;
+    var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
     
-    var thruDateTime=this.addCbFailFromGroup.value.thruDateTime;
+    var thruDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.thruDateTime);
    
-    if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
-   var diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
    
-   var days=Math.floor(diff / (60*60*24*1000));
+   if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
    
-   var hours=Math.floor(diff / (60*60*1000))-(days*24);
+    
+    let diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
   
-   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+
+   let days=Math.floor(diff / (60*60*24*1000));
    
-   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+   let hours=Math.floor(diff / (60*60*1000))-(days*24);
   
-   this.duration=String(days)+":" +String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   
+   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  
+   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
    
     }
 }
+
+function(){
+  var resp2=this.addCbFailFromGroup.value.rValue;
+  var R=resp2*resp2;
+  var resp1=this.addCbFailFromGroup.value.xValue;
+  var X=resp1*resp1; 
+  var z=R+X;
+  this.result=String(Math.sqrt(z));
+  console.log("result=="+JSON.stringify(this.result));
+  }
+
   onAddFailureAnalysisFormSubmit() {
     if (this.addCbFailFromGroup.invalid) {
       this.isSubmit = false;
@@ -278,6 +309,7 @@ timeDuration(){
     if (this.save) {
      console.log("xavle=="+JSON.stringify(this.addCbFailFromGroup.value.xValue));
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
+      let xValue = this.addCbFailFromGroup.value.xValue;
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
@@ -287,9 +319,9 @@ timeDuration(){
         'duration': this.addCbFailFromGroup.value.duration, 
         'relayIndication': this.addCbFailFromGroup.value.relayIndication, 
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
-        'rValue': this.addCbFailFromGroup.value.rValue,
-        'xValue': this.addCbFailFromGroup.value.xValue, 
-        'zValue': this.addCbFailFromGroup.value.zValue,
+        'rValue':this.addCbFailFromGroup.value.rValue,
+        'xValue':this.addCbFailFromGroup.value.xValue,
+        'zConstant': this.addCbFailFromGroup.value.zConstant,
         'faultDistance': this.addCbFailFromGroup.value.faultDistance,
         'actualFaultDistance': this.addCbFailFromGroup.value.actualFaultDistance,
         'current': this.addCbFailFromGroup.value.current,
@@ -302,7 +334,8 @@ timeDuration(){
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
-      }    
+      }   
+      console.log('*** data***'+JSON.stringify(data)); 
       message = 'Saved';
       failedMessage = "Saving";
       this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
@@ -333,7 +366,7 @@ timeDuration(){
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue': this.addCbFailFromGroup.value.rValue,
         'xValue': this.addCbFailFromGroup.value.xValue, 
-        'zValue': this.addCbFailFromGroup.value.zValue,
+        'zConstant': this.addCbFailFromGroup.value.zConstant,
         'faultDistance': this.addCbFailFromGroup.value.faultDistance,
         'actualFaultDistance': this.addCbFailFromGroup.value.actualFaultDistance,
         'current': this.addCbFailFromGroup.value.current,
@@ -368,6 +401,48 @@ timeDuration(){
   }
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  duplicateSubStationAndEquipmentAndFromDateTime() {
+    const q = new Promise((resolve, reject) => {              
+
+      let subStation: string = this.addCbFailFromGroup.controls['subStation'].value;
+      let equipment: string = this.addCbFailFromGroup.controls['equipment'].value;
+
+      let fromDateTime = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.controls['fromDateTime'].value);
+      
+      
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME+subStation+'/'+equipment+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndEquipmentAndFromDateTime': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndEquipmentAndFromDateTime': true }); });
+    });
+    return q;
+  }
+
+  duplicateSubStationAndEquipmentAndFromDateTimeAndId() {
+    const q = new Promise((resolve, reject) => {
+
+         let id=this.id;      
+      let subStation: string = this.addCbFailFromGroup.controls['subStation'].value;
+      let equipment: string = this.addCbFailFromGroup.controls['equipment'].value;
+      let fromDateTime = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.controls['fromDateTime'].value);   ;
+     
+      
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME_ID+id+'/'+subStation+'/'+equipment+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndEquipmentAndFromDateTimeAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndEquipmentAndFromDateTimeAndId': true }); });
+    });
+    return q;
   }
 
 

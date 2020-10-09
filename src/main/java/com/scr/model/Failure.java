@@ -166,8 +166,12 @@ public class Failure implements Serializable {
 
 	@Column(name="x_value")
 	private String xValue;
+	
+	@Column(name=" z_constant")
+	private String zConstant;
 
 	public Failure() {
+		
 	}
 
 	public Long getId() {
@@ -474,13 +478,6 @@ public class Failure implements Serializable {
 		this.punctualityAffectedTo = punctualityAffectedTo;
 	}
 
-	public String getRValue() {
-		return this.rValue;
-	}
-
-	public void setRValue(String rValue) {
-		this.rValue = rValue;
-	}
 
 	public String getRelayIndication() {
 		return this.relayIndication;
@@ -586,12 +583,28 @@ public class Failure implements Serializable {
 		this.voltage = voltage;
 	}
 
-	public String getXValue() {
-		return this.xValue;
+	public String getrValue() {
+		return rValue;
 	}
 
-	public void setXValue(String xValue) {
+	public void setrValue(String rValue) {
+		this.rValue = rValue;
+	}
+
+	public String getxValue() {
+		return xValue;
+	}
+
+	public void setxValue(String xValue) {
 		this.xValue = xValue;
+	}
+
+	public String getzConstant() {
+		return zConstant;
+	}
+
+	public void setzConstant(String zConstant) {
+		this.zConstant = zConstant;
 	}
 
 	@Override
@@ -614,7 +627,10 @@ public class Failure implements Serializable {
 				+ ", section=" + section + ", staff=" + staff + ", subStation=" + subStation + ", thruDateTime="
 				+ thruDateTime + ", timeDelay=" + timeDelay + ", tpcBoard=" + tpcBoard + ", trainNo=" + trainNo
 				+ ", trippedIdentifiedFault=" + trippedIdentifiedFault + ", typeOfFailure=" + typeOfFailure
-				+ ", voltage=" + voltage + ", xValue=" + xValue + "]";
+				+ ", voltage=" + voltage + ", xValue=" + xValue + ", zConstant=" + zConstant + "]";
 	}
+
+	
+	
 
 }

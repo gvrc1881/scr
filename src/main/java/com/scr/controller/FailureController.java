@@ -2,7 +2,7 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.sql.Timestamp;
 import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Failure;
 import com.scr.model.FailureActionsCausesImpact;
+import com.scr.model.MeasureOrActivityList;
 import com.scr.model.ProductCategoryMember;
 import com.scr.services.FailureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 import com.scr.model.AssetMasterData;
+
 
 @RestController
 @RequestMapping("/scr/api")
@@ -56,8 +58,8 @@ public class FailureController {
 	}
 	
 	@RequestMapping(value = "/saveFailureByType", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveFailureByType(@Valid @RequestBody Failure failureRequest) throws JSONException {	
-		logger.info("Enter into saveFailureByType function with below request parameters ");
+	public ResponseStatus saveFailureByType(@RequestBody Failure failureRequest) throws JSONException {	
+		logger.info("Enter into saveFailureByType function with below request parameters r value***"+failureRequest.getrValue()+"** x valu **"+failureRequest.getxValue());
 		logger.info("Request Parameters = "+failureRequest.toString());
 		try {			
 			logger.info("Calling service with request parameters.");
@@ -75,7 +77,7 @@ public class FailureController {
 	}
 	
 	@RequestMapping(value = "/updateFailureByType", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public ResponseStatus updateFailureByType(@Valid @RequestBody Failure failureRequest) throws JSONException {	
+	public ResponseStatus updateFailureByType(@RequestBody Failure failureRequest) throws JSONException {	
 		logger.info("Enter into saveFailureByType function with below request parameters ");
 		logger.info("Request Parameters = "+failureRequest.toString());
 		try {			
@@ -169,4 +171,189 @@ public class FailureController {
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
 	}
+	@RequestMapping(value = "/findByFeedOfAndFromDateTime/{feedOf}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFeedOfAndFromDateTime(@PathVariable("feedOf") String feedOf ,@PathVariable("fromDateTime") Timestamp fromDateTime){
+		logger.info("Exist====="+feedOf+"fromDateTime"+fromDateTime);
+		try {
+			logger.info("Request for checking exists feedOf and fromDateTime...");
+			return failureService.existsByFeedOfAndFromDateTime(feedOf,fromDateTime);
+		} catch (Exception e) {
+			logger.error("Error while checking exists feedOf and fromDateTime..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findBySubStationAndEquipmentAndFromDateTime/{subStation}/{equipment}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findBySubStationAndEquipmentAndFromDateTime(@PathVariable("subStation") String subStation ,@PathVariable("equipment") String equipment,@PathVariable("fromDateTime") Timestamp fromDateTime){
+		logger.info("Exist====="+subStation+equipment+"fromDateTime"+fromDateTime);
+		try {
+			logger.info("Request for checking exists subStation and equipment and fromDateTime...");
+			return failureService.existsBySubStationAndEquipmentAndFromDateTime(subStation,equipment,fromDateTime);
+		} catch (Exception e) {
+			logger.error("Error while checking exists subStation and equipment and fromDateTime..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/findBySubStationAndOccurence/{subStation}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findBySubStationAndOccurence(@PathVariable("subStation") String subStation ,@PathVariable("fromDateTime") Timestamp fromDateTime){
+		logger.info("Exist====="+subStation+fromDateTime);
+		try {
+			logger.info("Request for checking exists subStation and fromDateTime ");
+			return failureService.existsBySubStationAndOccurrence(subStation,fromDateTime);
+		} catch (Exception e) {
+			logger.error("Error while checking exists subStation and fromDateTime ..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/findByOccurenceAndPlaceAndFromDateTime/{occurrence}/{place}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByOccurenceAndPlaceAndFromDateTime(@PathVariable("occurrence") String occurrence ,@PathVariable("place") String place,@PathVariable("fromDateTime") Timestamp fromDateTime){
+		logger.info("Exist====="+occurrence+place+"fromDateTime"+fromDateTime);
+		try {
+			logger.info("Request for checking exists occurrence and place and fromDateTime...");
+			return failureService.existsByOccurrenceAndPlaceAndFromDateTime(occurrence,place,fromDateTime);
+		} catch (Exception e) {
+			logger.error("Error while checking exists occurrence and place and fromDateTime..."+e.getMessage());
+			return false;
+		}
+	}
+
+	@RequestMapping(value = "/findBySubStationAndLocationAndFromDateTime/{subStation}/{location}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findBySubStationAndLocationAndFromDateTime(@PathVariable("subStation") String subStation ,@PathVariable("location") String location,@PathVariable("fromDateTime") Timestamp fromDateTime){
+		logger.info("Exist====="+subStation+location+"fromDateTime"+fromDateTime);
+		try {
+			logger.info("Request for checking exists subStation and place and fromDateTime...");
+			return failureService.existsBySubStationAndLocationAndFromDateTime(subStation,location,fromDateTime);
+		} catch (Exception e) {
+			logger.error("Error while checking exists subStation and location and fromDateTime..."+e.getMessage());
+			return false;
+		}
+	}
+	
+
+@RequestMapping(value = "/findByFeedOfAndFromDateTimeAndId/{id}/{feedOf}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean existsActivityNameAndId(@PathVariable("id") Long id,@PathVariable("feedOf") String feedOf,@PathVariable("fromDateTime") Timestamp fromDateTime){
+	
+	logger.info("id=="+id+"feedOf=="+feedOf);
+	Boolean result;
+	try {
+		Optional<Failure> failData = failureService.findByFeedOfAndFromDateTime(feedOf,fromDateTime);
+		
+		if(failData.isPresent()) {
+			Failure fail = failData.get();
+			logger.info("***id ***"+fail.getId());
+			if (id.equals(fail.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		logger.error("Error while checking exists id and feedOf..."+e.getMessage());
+		return false;
+	}
+}
+
+@RequestMapping(value = "/findBySubStationAndEquipmentAndFromDateTimeAndId/{id}/{subStation}/{equipment}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean findBySubStationAndEquipmentAndFromDateTimeAndId(@PathVariable("id") Long id,@PathVariable("subStation") String subStation,@PathVariable("equipment") String equipment,@PathVariable("fromDateTime") Timestamp fromDateTime){
+	
+	logger.info("id=="+id+"subStation=="+subStation);
+	Boolean result;
+	try {
+		Optional<Failure> faiData = failureService.findBySubStationAndEquipmentAndFromDateTime(subStation,equipment,fromDateTime);
+		
+		if(faiData.isPresent()) {
+			Failure fai = faiData.get();
+			logger.info("***id ***"+fai.getId());
+			if (id.equals(fai.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		logger.error("Error while checking exists id and subStation..."+e.getMessage());
+		return false;
+	}
+}
+
+@RequestMapping(value = "/findBySubStationAndOccurenceAndId/{id}/{subStation}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean findBySubStationAndOccurenceAndId(@PathVariable("id") Long id,@PathVariable("subStation") String subStation,@PathVariable("fromDateTime") Timestamp fromDateTime){
+	
+	logger.info("id=="+id+"subStation=="+subStation);
+	Boolean result;
+	try {
+		Optional<Failure> faiData = failureService.findBySubStationAndOccurrence(subStation,fromDateTime);
+		
+		if(faiData.isPresent()) {
+			Failure fai = faiData.get();
+			logger.info("***id ***"+fai.getId());
+			if (id.equals(fai.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		logger.error("Error while checking exists id and subStation..."+e.getMessage());
+		return false;
+	}
+}
+
+@RequestMapping(value = "/findByOccurenceAndPlaceAndFromDateTimeAndId/{id}/{occurrence}/{place}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean findByOccurenceAndPlaceAndFromDateTimeAndId(@PathVariable("id") Long id,@PathVariable("occurrence") String occurrence,@PathVariable("place") String place,@PathVariable("fromDateTime") Timestamp fromDateTime){
+	
+	logger.info("id=="+id+"subStation=="+fromDateTime);
+	Boolean result;
+	try {
+		Optional<Failure> faiDat = failureService.findByOccurrenceAndPlaceAndFromDateTime(occurrence,place,fromDateTime);
+		
+		if(faiDat.isPresent()) {
+			Failure fa = faiDat.get();
+			logger.info("***id ***"+fa.getId());
+			if (id.equals(fa.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		logger.error("Error while checking exists id and subStation..."+e.getMessage());
+		return false;
+	}
+}
+
+@RequestMapping(value = "/findBySubStationAndLocationAndFromDateTimeAndId/{id}/{subStation}/{location}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+public Boolean findBySubStationAndLocationAndFromDateTimeAndId(@PathVariable("id") Long id,@PathVariable("subStation") String subStation,@PathVariable("location") String location,@PathVariable("fromDateTime") Timestamp fromDateTime){
+	
+	logger.info("id=="+id+"subStation=="+fromDateTime);
+	Boolean result;
+	try {
+		Optional<Failure> faiDa = failureService.findBySubStationAndLocationAndFromDateTime(subStation,location,fromDateTime);
+		
+		if(faiDa.isPresent()) {
+			Failure fad = faiDa.get();
+			logger.info("***id ***"+fad.getId());
+			if (id.equals(fad.getId())) {
+				return result = false;
+			} else {
+				return result = true;
+			}
+		}
+		else 
+			return  result = false;
+	} catch (Exception e) {
+		logger.error("Error while checking exists id and subStation..."+e.getMessage());
+		return false;
+	}
+}
+	
 }

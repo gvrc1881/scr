@@ -68,6 +68,16 @@
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
+                                                                <mat-error
+                                                        *ngIf="addUnusualOccurrenceFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndLocationAndFromDateTime')"
+                                                        class="alert alert-danger">
+                                                        Depot And Location And From date combination  Already Exists
+                                                      </mat-error>
+                                                      <mat-error
+                                                        *ngIf="addUnusualOccurrenceFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndLocationAndFromDateTimeID')"
+                                                        class="alert alert-danger">
+                                                        Depot And Location And From date combination  Already Exists
+                                                      </mat-error>
                                                         </mat-form-field>
                                                     </div>  
                                                     

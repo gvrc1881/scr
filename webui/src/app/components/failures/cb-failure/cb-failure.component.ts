@@ -22,7 +22,7 @@ export class CbFailureComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'subStation', 'equipment', 'cascadeAssets', 'fromDateTime', 'thruDateTime',
     'duration', 'relayIndication', 'natureOfClosure', 'rValue',
-     'xValue', 'zValue','faultDistance','actualFaultDistance','current','voltage',
+     'xValue', 'zConstant','faultDistance','actualFaultDistance','current','voltage',
      'trippedIdentifiedFault','divisionLocal','internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
@@ -67,9 +67,8 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].sno = i + 1;
         this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        
+         CbFail.push(this.CbFailList[i]);
       }
-
       this.dataSource = new MatTableDataSource(CbFail);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -110,7 +109,7 @@ export class CbFailureComponent implements OnInit {
       {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},
       {label:'RelayIndication',value:data.relayIndication},{label:'NatureOfClosure',value:data.natureOfClosure},
       {label:'RValue',value:data.rValue},{label:'XValue',value:data.xValue},
-      {label:'ZValue',value:data.zValue},{label:'FaultDistance',value:data.faultDistance},
+      {label:'zConstant',value:data.zConstant},{label:'FaultDistance',value:data.faultDistance},
       {label:'ActualFaultDistance', value:data.actualFaultDistance},{label:'Current', value:data.current},
       {label:'Voltage',value:data.voltage},{label:'PhaseAngle',value:data.phaseAngle},
       {label:'TrippedIdentifiedFault',value:data.trippedIdentifiedFault},{label:'DivisionLocal',value:data.divisionLocal},

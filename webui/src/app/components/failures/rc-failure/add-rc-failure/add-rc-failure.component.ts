@@ -95,7 +95,7 @@ export class AddRcFailureComponent implements OnInit {
    console.log("minutes"+minutes)
    var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
    console.log("seconds"+seconds)
-   this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   this.duration=String(hours*days)+":" + String(minutes)+":" +String(seconds) ;
    console.log("duration"+this.duration)
     }
   }
@@ -115,8 +115,22 @@ export class AddRcFailureComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'subStation': [null,Validators.compose([Validators.required])], 
-        'relayIndication':[null,Validators.compose([Validators.required])],
-        'fromDateTime': [null],
+        'relayIndication':[null],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndOccurence.bind(this)],
+        'thruDateTime': [null],
+        'duration': [null], 
+        'divisionLocal': [null],
+        'internalExternal': [null], 
+        'remarks': [null, Validators.maxLength(250)]
+      });
+  }
+  updateForm() {
+    this.addRcFailFromGroup
+      = this.formBuilder.group({
+        id: 0,
+        'subStation': [null,Validators.compose([Validators.required])], 
+        'relayIndication':[null],
+        'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndOccurenceID.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
         'divisionLocal': [null],
@@ -273,4 +287,40 @@ export class AddRcFailureComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
+  duplicateSubStationAndOccurence() {
+    const q = new Promise((resolve, reject) => {
+              
+      let subStation: string = this.addRcFailFromGroup.controls['subStation'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp( this.addRcFailFromGroup.controls['fromDateTime'].value);
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE+subStation+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndOccurence': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndOccurence': true }); });
+    });
+    return q;
+  }
+
+  duplicateSubStationAndOccurenceID() {
+    const q = new Promise((resolve, reject) => {
+
+      let id=this.id;        
+      let subStation: string = this.addRcFailFromGroup.controls['subStation'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addRcFailFromGroup.controls['fromDateTime'].value);
+    
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE_ID+id+'/'+subStation+'/'+fromDateTime)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubStationAndOccurenceID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubStationAndOccurenceID': true }); });
+    });
+    return q;
+  }
 }

@@ -483,7 +483,18 @@ export const Constants = {
             FAILURE_TYPE_SAVE:'/saveFailureByType',
             FAILURE_TYPE_UPDATE:'/updateFailureByType', 
             FAILURE_EQUIPMENT:'/getEquipments',
-            DELETE_FAILURE_TYPE_ID:'/deleteFailureTypeById/'
+            DELETE_FAILURE_TYPE_ID:'/deleteFailureTypeById/',
+            EXIST_FEEDOF_FROMDATETIME:'/findByFeedOfAndFromDateTime/',
+            EXIST_SUBSTATION_EQUPMENT_FROMDATETIME:'/findBySubStationAndEquipmentAndFromDateTime/',
+            EXIST_SUBSTATION_OCCURENCE:'/findBySubStationAndOccurence/',
+            EXIST_OCCURENCE_PLACE_FROMDATETIME:'/findByOccurenceAndPlaceAndFromDateTime/',
+            EXIST_STATION_LOCATION_FROMDATETIME:'/findBySubStationAndLocationAndFromDateTime/',
+            EXIST_FEEDOF_FROMDATETIME_ID:'/findByFeedOfAndFromDateTimeAndId/',
+            EXIST_SUBSTATION_EQUPMENT_FROMDATETIME_ID:'/findBySubStationAndEquipmentAndFromDateTimeAndId/',
+            EXIST_SUBSTATION_OCCURENCE_ID:'/findBySubStationAndOccurenceAndId/',
+            EXIST_OCCURENCE_PLACE_FROMDATETIME_ID:'/findByOccurenceAndPlaceAndFromDateTimeAndId/',
+            EXIST_STATION_LOCATION_FROMDATETIME_ID:'/findBySubStationAndLocationAndFromDateTimeAndId/'
+
              
         },
         PROGRESS_RECORD:{
