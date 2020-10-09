@@ -35,8 +35,8 @@
                                                         <input #schDate matInput [matDatepicker]="picker"
                                                             placeholder="Schedule date" [max]="today" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Schedule_date']">
-                                                        <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
-                                                        <!-- <mat-datepicker #picker  ></mat-datepicker>  -->
+                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> 
+                                                 <mat-datepicker #picker  ></mat-datepicker>  
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-2">
@@ -177,7 +177,7 @@
                                                         <mat-form-field fxFlex="30" >
                                                             <div class="col-md-5">
                                                             
-                                                                <mat-checkbox [checked]="myModel" class="example-margin"
+                                                                <mat-checkbox  class="example-margin"
                                                                     labelPosition="before">
                                                                     <label>{{activity.activityName}}</label>
                                                                 </mat-checkbox>

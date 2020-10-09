@@ -46,7 +46,8 @@ const routes: Routes = [
         OwlNativeDateTimeModule,
         CommonDirectivesModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatDatepickerModule
     ],
     providers: [
         
