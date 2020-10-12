@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,5 +18,7 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 	List<DriveDailyProgress> findByStatusId(Integer statusId);
 
 	Optional<DriveDailyProgress> findByDriveId(Drives driveId);
+
+	Optional<DriveDailyProgress> findByDriveIdAndPerformedDate(Drives drives, Date fromDate);
 
 }

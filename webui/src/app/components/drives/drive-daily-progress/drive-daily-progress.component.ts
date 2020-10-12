@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { DriveChecklistModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
@@ -14,7 +14,7 @@ import { DriveModel } from 'src/app/models/drive.model';
 @Component({
   selector: 'drive-daily-progress',
   templateUrl: './drive-daily-progress.component.html',
-  styleUrls: []
+  styleUrls: ['./drive-daily-progress.component.scss']
 })
 export class DriveDailyProgressComponent implements OnInit {
         
@@ -23,12 +23,13 @@ export class DriveDailyProgressComponent implements OnInit {
     dailyProgressDate: any;
     depotType: any;
     dataSource: MatTableDataSource<DriveModel>;
-    displayedColumns = ['sno', 'activityPlan','performedCount', 'actions'];
+    displayedColumns = ['sno', 'drive','alreadyDone','assetType','performedCount','ids', 'actions'];
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
     drivesList: any;
     performedCount: any;
     resp: any;
+    DDProgress: any;
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -57,6 +58,7 @@ export class DriveDailyProgressComponent implements OnInit {
             id: 0,
             driveId: row.drive.id,
             performedCount: row.performedCount,
+            performedDate: this.searchInputFormGroup.controls['fromDate'].value
         }
         message = 'Saved';
         failedMessage = "Saving";
@@ -72,6 +74,18 @@ export class DriveDailyProgressComponent implements OnInit {
             
           });  
     }
+    
+    assetIdsDialog(){
+        
+        const dialogRef = this.dialog.open(AddAssetIdsDriveDialogComponent, {
+          height: '600px',
+          width: '80%', 
+          data: {sno:30}
+        });
+        
+    }
+    
+    
     
     findDepoTypeList() {
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
@@ -90,6 +104,18 @@ export class DriveDailyProgressComponent implements OnInit {
             this.drivesList[i].sno = i + 1;
             this.drivesList[i].drive = this.drivesList[i];
              this.drivesList[i].performedCount;
+              console.log('*** id ***'+this.drivesList[i].id);
+              console.log('*** from date ***'+this.searchInputFormGroup.controls['fromDate'].value);
+             // this.DDProgress = '';
+              this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
+              +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
+                  ).subscribe((data) =>{
+                      this.DDProgress = data;
+                      if(this.DDProgress != null) {
+                          this.drivesList[i].alreadyDone = this.DDProgress.performedCount;
+                        console.log('data***'+this.DDProgress.performedCount);
+                          }
+                      });
           //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
             drivesData.push(this.drivesList[i]);
           }
@@ -117,6 +143,45 @@ export class DriveDailyProgressComponent implements OnInit {
         });
       }
     
+}
+
+@Component({
+  selector: 'add-asset-ids-drive-dialog',
+  templateUrl: 'add-asset-ids-drive-dialog.component.html',
+})
+export class AddAssetIdsDriveDialogComponent implements OnInit  {
+        
+    dailyProgressIdFormGroup: FormGroup;
+    assetIdList: any;
+    displayedColumns = ['sno', 'assetId', 'actions'];
+    dataSource: any;
+
+  constructor(
+    public formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<AddAssetIdsDriveDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: any) {
+      
+    console.log('** data **'+JSON.stringify(data));
+  }
     
+    ngOnInit() {
+        this.dailyProgressIdFormGroup = this.formBuilder.group({
+            fromKilometer:[null],
+            toKilometer: [null],
+            assetId: [null]    
+        })
+        
+    }
+    
+    addAssetIdsFormSubmit() {
+        
+    }
+    
+    
+    
+
+  onGoBack(): void {
+    this.dialogRef.close();
+  }
 
 }

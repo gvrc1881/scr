@@ -64,16 +64,59 @@
 	                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                        </ng-container>
 	
-	                                        <ng-container matColumnDef="activityPlan">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Plan</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+	                                        <ng-container matColumnDef="drive">
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row"> 
+	                                            	<mat-form-field fxFlex="30">
+														<input matInput  [value]="row.name" 
+												                 [(ngModel)]="row.name" readonly>
+												    </mat-form-field>
+	                                            </mat-cell>
+	                                        </ng-container>
+	                                        
+	                                        <ng-container matColumnDef="alreadyDone" >
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Already Done</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row"> 
+	                                            	<mat-form-field fxFlex="30">
+														<input matInput  [value]="row.alreadyDone" 
+												                 [(ngModel)]="row.alreadyDone" readonly>
+												    </mat-form-field>
+	                                            </mat-cell>
+	                                        </ng-container>
+	                                        
+	                                        <ng-container matColumnDef="assetType">
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row">
+	                                            	<mat-form-field floatLabel="never">
+														<input matInput  [value]="row.assetType" 
+												                 [(ngModel)]="row.assetType" readonly>
+												    </mat-form-field>
+	                                            </mat-cell>
 	                                        </ng-container>
 	                                        
 	                                        <ng-container matColumnDef="performedCount">
 	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
 	                                        	<mat-cell *matCellDef="let row">
-	                                        	<input matInput  placeholder="Count" decimalNumber [(ngModel)]="row.performedCount" />
+	                                        		<mat-form-field fxFlex="30">
+														<input matInput placeholder="Count" [value]="row.performedCount" 
+												                 [(ngModel)]="row.performedCount" >
+												    </mat-form-field>
+	                                        	<!-- <input matInput   decimalNumber [(ngModel)]="row.performedCount" /> -->
 	                                        	</mat-cell>
+	                                        </ng-container>
+	                                        
+	                                        <ng-container matColumnDef="ids" >
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Ids</mat-header-cell>
+	                                            <ng-container *matCellDef="let row" >
+	                                            	<!-- <mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock" style="cursor: pointer;text-decoration: underline;font-weight: 600;color: #014884;"
+	                                            	  [routerLink]="['/divisions/'+row.operationId+'/'+row.jobType]" > {{row.isIdRequired}}</mat-cell> -->
+	                                            	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock">
+	                                            		<button mat-raised-button (click)="assetIdsDialog()">assetId</button>
+	                                            	</mat-cell>
+	                                            </ng-container>
+	                                            <ng-template #isIdRequiredElseBlock>
+	                                            	<mat-cell></mat-cell>
+	                                            </ng-template>
 	                                        </ng-container>
 	<!-- 
 	                                        <ng-container matColumnDef="actionDone">

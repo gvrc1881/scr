@@ -657,7 +657,7 @@ public class DrivesService {
 
 	public void saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
 		DriveDailyProgress driveDailyProgress = driveMapper.prepareDriveDailyProgressModel(driveDailyProgressRequest);
-		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findByDriveId(driveDailyProgress.getDriveId());
+		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findByDriveIdAndPerformedDate(driveDailyProgress.getDriveId(),driveDailyProgress.getPerformedDate());
 		if (existsDriveDailyProgress.isPresent()) {
 			DriveDailyProgress ddProgress = existsDriveDailyProgress.get();
 			ddProgress.setPerformedCount(driveDailyProgress.getPerformedCount());
@@ -666,6 +666,11 @@ public class DrivesService {
 			driveProgressRecordRepository.save(driveDailyProgress);
 		}
 		
+	}
+
+	public Optional<DriveDailyProgress> findByDriveIdAndPerformedDate(Drives drives, Date fromDate) {
+		// TODO Auto-generated method stub
+		return driveProgressRecordRepository.findByDriveIdAndPerformedDate(drives,fromDate);
 	}
 
 	

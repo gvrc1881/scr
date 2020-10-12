@@ -1192,5 +1192,28 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/getDDProgressBasedOnDirveAndFromDate/{driveId}/{fromDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<DriveDailyProgress> getDDProgressBasedOnDirveAndFromDate(@PathVariable("driveId") Long driveId,@PathVariable("fromDate") Date fromDate){
+		Optional<DriveDailyProgress> DDProgress= null;
+		logger.info("** driveId **"+driveId+"** from date **"+fromDate);
+		Optional<Drives> drive = service.findDriveById(driveId);
+		logger.info("*** before try block***");
+		try {
+			if (drive.isPresent()) {
+				DDProgress = service.findByDriveIdAndPerformedDate(drive.get(),fromDate);
+			}
+			logger.info("after if condition**");
+			if(DDProgress.isPresent())
+				return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.OK);
+			/*else
+				return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.CONFLICT);*/
+				
+		} catch (Exception e) {
+			logger.error("Error while find Drive Daily Progress Details by id");
+			return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return null;
+	}
+	
 	
 }
