@@ -53,6 +53,7 @@ export class AssetMasterDataComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editAssetMasterDataResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     assetMasterResponse:any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     assetsList:any;
@@ -762,6 +763,21 @@ export class AssetMasterDataComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES+assetType).subscribe((data) => {
                    this.assetTypeParametersData = data;
               });
+      }
+      ViewData(data){
+        var result = {
+          'title':'Asset Master Data',
+          'dataSource':[{label:'Depot Type',value:data.type},{label:'Depot',value:data.facilityId},{label:'Asset Type', value:data.assetType},{label:'AssetId', value:data.assetId},{label:'Adee Section', value:data.adeeSection},
+          {label:'Major Section',value:data.majorSection},{label:'Location Position',value:data.locationPosition},{label:'kilometer', value:data.kilometer},{label:'ElementarySection', value:data.elementarySection},
+          {label:'Created On',value:data.createdOn},{label:'Date Of Commision',value:data.dateOfCommision},{label:'Date Of Manufacture', value:data.dateOfManufacture},{label:'Date Of Received', value:data.dateOfReceived},
+          {label:'Equipped Date',value:data.equippedDate},{label:'Expiry Date',value:data.expiryDate},{label:'LugDate', value:data.lugDate},{label:'StripDate', value:data.stripDate},{label:'Warranty Amc EndDate', value:data.warrantyAmcEndDate}]
+        }
+        this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
+          disableClose: false,
+          height: '400px',
+          width: '80%',       
+          data:result,  
+        });            
       }
 }
 

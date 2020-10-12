@@ -10,6 +10,8 @@ import com.scr.model.OheLocation;
 
 @Repository
 public interface OheLocationRepository extends JpaRepository<OheLocation, Long> {
+	
+	List<OheLocation> findAll();
 
 	List<OheLocation> findByCreatedStampLessThanEqualAndCreatedStampGreaterThanAndOheMastIsNotNullAndLatitudeIsNotNullAndLongitudeIsNotNull(
 			Timestamp currenTimestamp, Timestamp previousTimestamp);

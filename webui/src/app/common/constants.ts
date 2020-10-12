@@ -222,6 +222,14 @@ export const Constants = {
                 GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM:"/assetIdsByFacilityId/",
                 GET_MAKE_MODEL:"/findMakeModel/"
             },
+            OHELOCATION:{
+                GET_OHE_LOCATION:"/findAllOheLocationItems",
+                GET_OHE_LOCATION_ID:"/findOheLocationById/",
+                SAVE_OHE_LOCATION:"/addOheLocationItem",
+                UPDATE_OHE_LOCATION:"/updateOheLocation",
+                DELETE_OHE_LOCATION:"/deleteOheLocation/"
+
+            },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
                 GET_TARIFF_ID:"/findTractionEnergyTariff/",

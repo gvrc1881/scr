@@ -16,6 +16,7 @@ public class OheLocation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="adee_section")
@@ -408,6 +409,22 @@ public class OheLocation implements Serializable {
 
 	public void setValidity(String validity) {
 		this.validity = validity;
+	}
+
+	@Override
+	public String toString() {
+		return "OheLocation [id=" + id + ", adeeSection=" + adeeSection + ", altitude=" + altitude + ", chainage="
+				+ chainage + ", chainageRemark=" + chainageRemark + ", createdStamp=" + createdStamp
+				+ ", createdTxStamp=" + createdTxStamp + ", curvature=" + curvature + ", curvatureRemark="
+				+ curvatureRemark + ", dataDiv=" + dataDiv + ", date=" + date + ", division=" + division
+				+ ", engFeature=" + engFeature + ", facilityId=" + facilityId + ", heading=" + heading + ", kilometer="
+				+ kilometer + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", majorSection=" + majorSection
+				+ ", oheFeature=" + oheFeature + ", oheMast=" + oheMast + ", oheSequence=" + oheSequence + ", pwi="
+				+ pwi + ", remarkOne=" + remarkOne + ", remarkTwo=" + remarkTwo + ", satellites=" + satellites
+				+ ", section=" + section + ", seqId=" + seqId + ", sequenceNo=" + sequenceNo + ", span=" + span
+				+ ", spanRemark=" + spanRemark + ", speed=" + speed + ", structureType=" + structureType
+				+ ", trackLine=" + trackLine + ", validity=" + validity + "]";
 	}
 
 }

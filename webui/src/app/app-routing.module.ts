@@ -404,6 +404,11 @@ const routes: Routes = [
     loadChildren: './components/products/product-category-member/product-category-member.module#ProductCategoryMemberModule',    
     canActivate: [AuthGuard]
   },
+  {
+    path: 'ohe-location',
+    loadChildren: './components/ohe-location/ohe-location.module#OheLocationModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,224 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/electrification-targets']">Electrification Targets </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Ohe Location</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Ohe Location  Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}}Ohe Location Form</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addOheLocationFormGroup" (ngSubmit)="oheLocationFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Division"
+                                                                [formControl]="addOheLocationFormGroup.controls['division']"
+                                                                required 
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
+                                                                <mat-error *ngIf="addOheLocationFormGroup.controls['division'].hasError('required')">
+                                                                    Enter Division
+                                                                </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Section"
+                                                                [formControl]="addOheLocationFormGroup.controls['section']"
+                                                                required 
+                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"></textarea>
+                                                                <mat-error *ngIf="addOheLocationFormGroup.controls['section'].hasError('required')">
+                                                                    Enter section
+                                                                </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="pwi"
+                                                                [formControl]="addOheLocationFormGroup.controls['pwi']"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="trackLine"
+                                                                [formControl]="addOheLocationFormGroup.controls['trackLine']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="oheMast"
+                                                                [formControl]="addOheLocationFormGroup.controls['oheMast']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Structure Type"
+                                                                [formControl]="addOheLocationFormGroup.controls['structureType']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Eng Feature"
+                                                                [formControl]="addOheLocationFormGroup.controls['engFeature']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Ohe Feature"
+                                                                [formControl]="addOheLocationFormGroup.controls['oheFeature']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Longitude"
+                                                                [formControl]="addOheLocationFormGroup.controls['longitude']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Latitude"
+                                                                [formControl]="addOheLocationFormGroup.controls['latitude']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Altitude"
+                                                                [formControl]="addOheLocationFormGroup.controls['altitude']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker1" 
+                                                                placeholder="Date"
+                                                                [formControl]="addOheLocationFormGroup.controls['date']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Validity"
+                                                                [formControl]="addOheLocationFormGroup.controls['validity']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Satellites"
+                                                                [formControl]="addOheLocationFormGroup.controls['satellites']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Speed"
+                                                                [formControl]="addOheLocationFormGroup.controls['speed']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Heading"
+                                                                [formControl]="addOheLocationFormGroup.controls['heading']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Remark One"
+                                                                [formControl]="addOheLocationFormGroup.controls['remarkOne']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Remark Two"
+                                                                [formControl]="addOheLocationFormGroup.controls['remarkTwo']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Ohe Sequence"
+                                                                [formControl]="addOheLocationFormGroup.controls['oheSequence']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Curvature"
+                                                                [formControl]="addOheLocationFormGroup.controls['curvature']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Curvature Remark"
+                                                                [formControl]="addOheLocationFormGroup.controls['curvatureRemark']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Chainage"
+                                                                [formControl]="addOheLocationFormGroup.controls['chainage']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="Chainage Remark"
+                                                                [formControl]="addOheLocationFormGroup.controls['chainageRemark']"></textarea>  
+                                                        </mat-form-field>
+                                                    </div>
+                                                   
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addOheLocationFormGroup.invalid" *ngIf="save">
+                                                            Submit
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            color="accent" type="submit" [disabled]="addOheLocationFormGroup.invalid"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+    
