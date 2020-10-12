@@ -32,6 +32,8 @@ export class CbFailureComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   CbFailList: any;
+  filterData;
+  gridData = [];
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -51,8 +53,41 @@ export class CbFailureComponent implements OnInit {
 
     this.spinnerService.show();
     this.getCbFailureData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'subStation', "Value": " " },           
+        { "Key": 'equipment', "Value": " " },
+        { "Key": 'cascadeAssets', "Value": " " },
+        { "Key": 'fromDateTime', "Value": " " },
+        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'duration', "Value": " " },
+        { "Key": 'relayIndication', "Value": " " },
+        { "Key": 'natureOfClosure', "Value": " " },
+        { "Key": 'rValue', "Value": " " },
+        { "Key": 'xValue', "Value": " " },
+        { "Key": 'zConstant', "Value": " " },
+        { "Key": 'faultDistance', "Value": " " },
+        { "Key": 'actualFaultDistance', "Value": " " },
+        { "Key": 'current', "Value": " " },
+        { "Key": 'voltage', "Value": " " },
+        { "Key": 'phaseAngle', "Value": " " },
+        { "Key": 'trippedIdentifiedFault', "Value": " " },
+        { "Key": 'divisionLocal', "Value": " " },
+        { "Key": 'internalExternal', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+      
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
 
   }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -69,9 +104,14 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
          CbFail.push(this.CbFailList[i]);
       }
+      this.filterData.gridData = CbFail;
       this.dataSource = new MatTableDataSource(CbFail);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+     
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();

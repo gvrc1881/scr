@@ -35,6 +35,11 @@ export class AddRcFailureComponent implements OnInit {
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
   divisionList:any;
   duration:any;
+  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  facilityList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -57,12 +62,12 @@ export class AddRcFailureComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.findRelayIndicationStatus();
-    //this.findNatureOfCloseStatus();
-    this.findFeedersList();
+    
+    this.findFacilities();
     this.id = +this.route.snapshot.params['id'];    
-    this.createForm();
+    
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addRcFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -72,11 +77,26 @@ export class AddRcFailureComponent implements OnInit {
       this.title = 'Edit';
       this.getRcFailDataById(this.id);
     } else {
+      this.createForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
     }
   }
+  findFacilities(){
+   
+    this.facilityList=[];    
+
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+           if( this.facilityHierarchy[i].depotType == 'RCC'){
+           
+              
+            this.facilityList.push(this.facilityHierarchy[i]);
+               
+           }
+        }
+}
 
   timeDuration(){
     console.log("duration")
@@ -86,17 +106,16 @@ export class AddRcFailureComponent implements OnInit {
    
     if(this.addRcFailFromGroup.value.fromDateTime.getTime()!="" && this.addRcFailFromGroup.value.thruDateTime.getTime()!=""){
    var diff=this.addRcFailFromGroup.value.thruDateTime.getTime()-this.addRcFailFromGroup.value.fromDateTime.getTime();
-   console.log("diff"+diff)
-   var days=Math.floor(diff / (60*60*24*1000));
-   console.log("days"+days)
-   var hours=Math.floor(diff / (60*60*1000))-(days*24);
-   console.log("hours"+hours)
-   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-   console.log("minutes"+minutes)
-   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-   console.log("seconds"+seconds)
-   this.duration=String(hours*days)+":" + String(minutes)+":" +String(seconds) ;
-   console.log("duration"+this.duration)
+   let days=Math.floor(diff / (60*60*24*1000));
+   
+   let hours=Math.floor(diff / (60*60*1000))-(days*24);
+   let hour=hours+(days*24);
+  
+   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   
+   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  
+   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
     }
   }
   

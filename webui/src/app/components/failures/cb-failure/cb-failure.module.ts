@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AddCbFailureComponent } from './add-cb-failure/add-cb-failure.component';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
@@ -39,6 +40,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
+        CommonDirectivesModule,
         DecimalValidationsModule,
     ],
     providers: [

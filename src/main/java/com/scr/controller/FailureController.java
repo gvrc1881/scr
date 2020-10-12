@@ -23,6 +23,7 @@ import com.scr.model.Failure;
 import com.scr.model.FailureActionsCausesImpact;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.ProductCategoryMember;
+import com.scr.model.TssFeederMaster;
 import com.scr.services.FailureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -63,6 +64,8 @@ public class FailureController {
 		logger.info("Request Parameters = "+failureRequest.toString());
 		try {			
 			logger.info("Calling service with request parameters.");
+			Failure failure = failureService.saveFailureByType(failureRequest);
+			failureRequest.setFailureSeqId(failure.getId().toString());
 			failureService.saveFailureByType(failureRequest);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Failure Type "+failureRequest.getTypeOfFailure()+" Added Successfully", Constants.SUCCESS_CODE);
@@ -171,6 +174,13 @@ public class FailureController {
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
 	}
+	/*@RequestMapping(value = "/getEquipments/{subStation}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterData>> findByAssetIdBasedOnFacilityName(@PathVariable("subStation") String subStation){
+		List<AssetMasterData> assetId= failureService.findByAssetIdBasedOnFacilityName(subStation);
+		logger.info("Fetched assets data = "+assetId.size());
+		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
+		
+	}*/
 	@RequestMapping(value = "/findByFeedOfAndFromDateTime/{feedOf}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByFeedOfAndFromDateTime(@PathVariable("feedOf") String feedOf ,@PathVariable("fromDateTime") Timestamp fromDateTime){
 		logger.info("Exist====="+feedOf+"fromDateTime"+fromDateTime);

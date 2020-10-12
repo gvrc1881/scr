@@ -37,6 +37,12 @@ export class AddGridFailureComponent implements OnInit {
   divisionList:any;
   duration:any;
   dur:any;
+  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+
+  facilityList:any;
 
   constructor(
     private formBuilder: FormBuilder,    
@@ -64,10 +70,11 @@ export class AddGridFailureComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.findFeedersList();
+    this.findFacilities();
     this.id = +this.route.snapshot.params['id'];    
-    this.createForm();
+    
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addGridFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -77,12 +84,26 @@ export class AddGridFailureComponent implements OnInit {
       this.title = 'Edit';
       this.getGridFailDataById(this.id);
     } else {
+      this.createForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
     }
   }
+  findFacilities(){
+   
+    this.facilityList=[];    
 
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+           if( this.facilityHierarchy[i].depotType == 'TSS'){
+           
+            this.facilityList.push(this.facilityHierarchy[i]);
+               //this.facilityHierarchy.facilityList;
+               
+           }
+        }
+}
   findFeedersList(){
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
@@ -112,11 +133,13 @@ export class AddGridFailureComponent implements OnInit {
       });
   }
   updateForm() {
+    console.log("updatee");
+
     this.addGridFailFromGroup
       = this.formBuilder.group({
         id: 0,
         'feedOff': [null,Validators.compose([Validators.required])],
-        'fromDateTime':[null,Validators.compose([Validators.required])],
+        'fromDateTime':[null,Validators.compose([Validators.required]),this.duplicateFeedOfAndFromDateTimeAndID.bind(this)],
         'ftdate': [null],
         'fduration': [null],
         'extendedFrom': [null],
@@ -151,17 +174,17 @@ timeDuration(){
  
   if(this.addGridFailFromGroup.value.fromDateTime.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
  var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.fromDateTime.getTime();
-console.log("diff="+diff);
- var days=Math.floor(diff /86400000);
- console.log("days="+days);
- var hours=Math.floor((diff  % 86400000)/3600000);
- console.log("hours="+hours);
- var minutes=Math.floor(((diff % 86400000) % 3600000) / 60000);
- console.log("minutes="+minutes);
- var seconds=Math.floor(((diff % 86400000 % 3600000)% 60000)/ 1000);
- console.log("seconds="+seconds);
- this.duration=String(days)+":"+String(hours)+":" + String(minutes)+":" +String(seconds) ;
+ let days=Math.floor(diff / (60*60*24*1000));
+   
+ let hours=Math.floor(diff / (60*60*1000))-(days*24);
+ let hour=hours+(days*24);
+
+ let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
  
+ let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+
+ this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+
   }
 }
 
@@ -174,17 +197,17 @@ timDuration(){
   if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
  var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
  
- var days=Math.floor(diff /86400000);
  
- var hours=Math.floor((diff  % 86400000)/3600000);
+ let days=Math.floor(diff / (60*60*24*1000));
+   
+ let hours=Math.floor(diff / (60*60*1000))-(days*24);
+ let hour=hours+(days*24);
 
- var minutes=Math.floor(((diff % 86400000) % 3600000) / 60000);
-
- var seconds=Math.floor(((diff % 86400000 % 3600000)% 60000)/ 1000);
-
- //var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+ let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
  
- this.dur=String(hours)+":" + String(minutes)+":" +String(seconds) ;
+ let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+
+ this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
 
   }
 }
@@ -193,8 +216,8 @@ timDuration(){
       console.log($event.value)
       this.extendedFromList = [];
       //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.feedersList.map(element => {
-        if(element.feederName != $event.value){
+      this.facilityList.map(element => {
+        if(element.facilityName != $event.value){
           this.extendedFromList.push(element);
         }
       });
@@ -205,12 +228,17 @@ timDuration(){
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.resp.feedOf).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityList = data;
+          this.addGridFailFromGroup.patchValue({ feedOff: this.facilityList.feedOf })
+        });
         this.minDate=new Date(this.resp.fromDateTime),
         this.toMinDate=new Date(this.resp.efdate),
         this.fMinDate=new Date(this.resp.ftdate),
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
-          feedOff: this.resp.feedOf,
+          //feedOff: this.resp.feedOff,
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           ftdate:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           fduration: this.resp.duration ,
@@ -224,7 +252,7 @@ timDuration(){
           ie: this.resp.internalExternal,
           remarks: this.resp.remarks
         });
-        this.feedersList.map(element => {
+        this.facilityList.map(element => {
           if(element.id != this.resp.id){
             this.extendedFromList.push(element);
           }
@@ -344,8 +372,8 @@ timDuration(){
     const q = new Promise((resolve, reject) => {
               
       let id=this.id;
-      let feedOf: string = this.addGridFailFromGroup.controls['feedOf'].value;
-      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['ffdate'].value);
+      let feedOf: string = this.addGridFailFromGroup.controls['feedOff'].value;
+      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['fromDateTime'].value);
   
       this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME_ID+id+'/'+feedOf+'/'+fromDateTime)
       .subscribe((duplicate) => {

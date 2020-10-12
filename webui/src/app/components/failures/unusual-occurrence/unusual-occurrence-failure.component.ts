@@ -38,6 +38,10 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sortActions: MatSort;
   @ViewChild('filter', { static: true }) filterActions: ElementRef;
   ActionsFailListActions: any;
+
+  filterData;
+  filterActionsData;
+  gridData = [];
   
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -59,6 +63,51 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     this.getUnusualOccurrenceFailureData();
 
     this.getActionsFailureData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'subStation', "Value": " " },           
+        { "Key": 'location', "Value": " " },
+        { "Key": 'causeOfFailure', "Value": " " },
+        { "Key": 'fromDateTime', "Value": " " },
+        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'duration', "Value": " " },
+        { "Key": 'impact', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+        { "Key": 'divisionLocal', "Value": " " },
+        { "Key": 'internalExternal', "Value": " " },
+       
+      
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
+    this.filterActionsData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'failureActivity', "Value": " " },           
+        { "Key": 'fromTime', "Value": " " },
+        { "Key": 'thruTime', "Value": " " },
+        { "Key": 'by', "Value": " " },
+        { "Key": 'specialRemarks', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+        { "Key": 'location', "Value": " " },
+        { "Key": 'trainNo', "Value": " " },
+      
+       
+      
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
 
   }
   applyFilter(filterValue: string) {
@@ -78,8 +127,10 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         
         UnusualOccurrenceFail.push(this.UnusualOccurrenceFailList[i]);
       }
-
+      this.filterData.gridData = UnusualOccurrenceFail;
       this.dataSource = new MatTableDataSource(UnusualOccurrenceFail);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -121,7 +172,7 @@ applyFilterActions(filterValue: string) {
 getActionsFailureData() {
   const ActionsFail: any[] = [];
   console.log("list"+this.ActionsFailListActions);
-  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE).subscribe((data) => {
     this.ActionsFailListActions = data;
     console.log(this.ActionsFailListActions)
     for (let i = 0; i < this.ActionsFailListActions.length; i++) {
@@ -129,9 +180,12 @@ getActionsFailureData() {
       ActionsFail.push(this.ActionsFailListActions[i]);
     }
 
-    this.dataSourceActions= new MatTableDataSource(ActionsFail);
-    this.dataSourceActions.paginator = this.paginatorActions;
-    this.dataSourceActions.sort = this.sortActions;
+    this.filterActionsData.gridData = ActionsFail;
+    this.dataSourceActions = new MatTableDataSource(ActionsFail);
+    this.commonService.updateDataSource(this.dataSourceActions, this.displayedColumnsActions);
+    this.filterActionsData.dataSourceActions = this.dataSource;
+    this.dataSourceActions.paginator = this.paginator;
+    this.dataSourceActions.sort = this.sort;
     this.spinnerService.hide();
   }, error => {
     this.spinnerService.hide();

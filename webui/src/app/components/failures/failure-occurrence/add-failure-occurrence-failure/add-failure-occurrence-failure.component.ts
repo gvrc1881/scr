@@ -34,6 +34,11 @@ export class AddFailureOccurrenceComponent implements OnInit {
   duration:any;
   minDate=new Date();
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
+  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  facilityList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -58,8 +63,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];    
-    this.createForm();
+    
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addFailureOccurrenceFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -69,6 +75,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
       this.title = 'Edit';
       this.getFailureOccurrenceFailDataById(this.id);
     } else {
+      this.createForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
@@ -84,16 +91,16 @@ export class AddFailureOccurrenceComponent implements OnInit {
     if(this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime()!="" && this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()!=""){
    var diff=this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()-this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime();
 
-   var days=Math.floor(diff / (60*60*24*1000));
-  
-   var hours=Math.floor(diff / (60*60*1000))-(days*24);
-  
-   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-  
-   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+   let days=Math.floor(diff / (60*60*24*1000));
    
-   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
-   console.log("duration"+this.duration)
+   let hours=Math.floor(diff / (60*60*1000))-(days*24);
+   let hour=hours+(days*24);
+  
+   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   
+   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  
+   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
     }
   }
   findFeedersList(){
@@ -162,7 +169,20 @@ export class AddFailureOccurrenceComponent implements OnInit {
       });
     }
   }
- 
+  findFacilities(){
+   
+    this.facilityList=[];    
+
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+           if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+           
+              
+               this.facilityHierarchy.facilityList;
+               
+           }
+        }
+}
   getFailureOccurrenceFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {

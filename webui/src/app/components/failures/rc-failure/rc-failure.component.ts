@@ -30,6 +30,8 @@ export class RcFailureComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   RcFailList: any;
+  filterData;
+  gridData = [];
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -49,6 +51,26 @@ export class RcFailureComponent implements OnInit {
 
     this.spinnerService.show();
     this.getRcFailureData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'subStation', "Value": " " },           
+        { "Key": 'relayIndication', "Value": " " },    
+        { "Key": 'fromDateTime', "Value": " " },
+        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'duration', "Value": " " },  
+        { "Key": 'divisionLocal', "Value": " " },
+        { "Key": 'internalExternal', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+      
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
 
   }
   applyFilter(filterValue: string) {
@@ -66,8 +88,10 @@ export class RcFailureComponent implements OnInit {
         this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');        
         RcFail.push(this.RcFailList[i]);
       }
-
+      this.filterData.gridData = RcFail;
       this.dataSource = new MatTableDataSource(RcFail);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();

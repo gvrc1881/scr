@@ -31,7 +31,9 @@ export class GridFailureComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
-
+  facilityList:any;
+  filterData;
+  gridData = [];
   gridFailList: any;
 
   constructor(
@@ -52,6 +54,29 @@ export class GridFailureComponent implements OnInit {
 
     this.spinnerService.show();
     this.getGridFailureData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'feedOf', "Value": " " },           
+        { "Key": 'fromDateTime', "Value": " " },
+        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'duration', "Value": " " },
+        { "Key": 'extendedOf', "Value": " " },
+        { "Key": 'feedExtendedFromDateTime', "Value": " " },
+        { "Key": 'feedExtendedThruDateTime', "Value": " " },
+        { "Key": 'feedExtendedDuration', "Value": " " },
+        { "Key": 'maxDemand', "Value": " " },
+        { "Key": 'divisionLocal', "Value": " " },
+        { "Key": 'internalExternal', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
 
   }
   applyFilter(filterValue: string) {
@@ -70,12 +95,26 @@ export class GridFailureComponent implements OnInit {
         this.gridFailList[i].thruDateTime = this.datePipe.transform(this.gridFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.gridFailList[i].feedExtendedFromDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedFromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.gridFailList[i].feedExtendedThruDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedThruDateTime, 'dd-MM-yyyy hh:mm:ss');
+     
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].feedOf).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityList = data;
+          this.gridFailList[i].feedOf = this.facilityList.facilityName;
+        });
+  
         gridFail.push(this.gridFailList[i]);
       }
-
+     
+      this.filterData.gridData = gridFail;
       this.dataSource = new MatTableDataSource(gridFail);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      // this.dataSource = new MatTableDataSource(gridFail);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();

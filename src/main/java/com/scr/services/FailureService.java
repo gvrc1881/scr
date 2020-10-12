@@ -31,9 +31,9 @@ public class FailureService {
 		return failuresRepository.findByTypeOfFailureAndCurrentStatus(typeOfFailure, Constants.ACTIVE);
 	}
 
-	public void saveFailureByType(@Valid Failure failureRequest) {
+	public Failure saveFailureByType(@Valid Failure failureRequest) {
 		failureRequest.setCurrentStatus(Constants.ACTIVE);
-		failuresRepository.save(failureRequest);
+		return failuresRepository.save(failureRequest);
 	}
 
 	public String deleteFailureTypeById(Long id) {
@@ -64,6 +64,10 @@ public class FailureService {
 		// TODO Auto-generated method stub
 		return assetMasterdataRepository.findByAssetId(productId);
 	}
+	/*public List<AssetMasterData> findByAssetIdBasedOnFacilityName(String subStation) {
+		// TODO Auto-generated method stub
+		return assetMasterdataRepository.findByAssetIdBasedOnFacilityName(subStation);
+	}*/
 	
 	public Boolean existsByFeedOfAndFromDateTime(String feedOf, Timestamp fromDateTime) {
 		 //TODO Auto-generated method stub

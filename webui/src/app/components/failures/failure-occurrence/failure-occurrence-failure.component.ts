@@ -30,6 +30,8 @@ export class FailureOccurrenceComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   FailureOccurrenceFailList: any;
+  filterData;
+  gridData = [];
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -49,6 +51,28 @@ export class FailureOccurrenceComponent implements OnInit {
 
     this.spinnerService.show();
     this.getFailureOccurrenceFailureData();
+    this.filterData = {
+      filterColumnNames: [
+        { "Key": 'sno', "Value": " " },
+        { "Key": 'occurrence', "Value": " " },           
+        { "Key": 'trainNo', "Value": " " },    
+        { "Key": 'place', "Value": " " },
+        { "Key": 'fromDateTime', "Value": " " },
+        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'duration', "Value": " " },  
+        { "Key": 'divisionLocal', "Value": " " },
+        { "Key": 'internalExternal', "Value": " " },
+        { "Key": 'remarks', "Value": " " },
+      
+       
+      ],
+      gridData: this.gridData,
+      dataSource: this.dataSource,
+      paginator: this.paginator,
+      sort: this.sort
+     
+    }; 
+
 
   }
   applyFilter(filterValue: string) {
@@ -68,7 +92,12 @@ export class FailureOccurrenceComponent implements OnInit {
         FailureOccurrenceFail.push(this.FailureOccurrenceFailList[i]);
       }
 
+     
+
+      this.filterData.gridData = FailureOccurrenceFail;
       this.dataSource = new MatTableDataSource(FailureOccurrenceFail);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();

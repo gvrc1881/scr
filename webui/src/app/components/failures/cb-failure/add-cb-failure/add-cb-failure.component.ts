@@ -34,13 +34,18 @@ export class AddCbFailureComponent implements OnInit {
   reportDescriptionFlag=false;
   maxDate = new Date();
   toMinDate=new Date();
-  dateFormat = 'MM-dd-yyyy hh:mm:ss';
-  divisionList:any;
+  dateFormat = 'MM-dd-yyyy hh:mm:ss';  
   failureList:any;
   failurecasList:any;
   difference:any;
   duration:any;
   result:any;
+  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  divisionList:any; 
+  facilityList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -78,28 +83,32 @@ export class AddCbFailureComponent implements OnInit {
   ngOnInit() {
     this.findRelayIndicationStatus();
     this.findNatureOfCloseStatus();
-    this.findFeedersList();
+    this.findFacilities();
    
     this.id = +this.route.snapshot.params['id'];    
-    this.createForm();
+    
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addCbFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = 'Edit';   
+      
       this.getCbFailDataById(this.id);
     } else {
-     
+      this.createForm();
       this.title = 'Save';
     }
+    let substation= this.addCbFailFromGroup.controls['subStation'].value;
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
       this.failureList = data;
       
       } 
       , error => {});
+      let substations= this.addCbFailFromGroup.controls['subStation'].value;
       this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
       .subscribe((data) => {
         
@@ -148,8 +157,10 @@ export class AddCbFailureComponent implements OnInit {
       });
   }
   updateForm() {
+  
     this.addCbFailFromGroup
       = this.formBuilder.group({
+
         id: 0,
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
@@ -261,6 +272,23 @@ export class AddCbFailureComponent implements OnInit {
     this.toMinDate = new Date($event.value);
   }
 
+
+
+  findFacilities(){
+   
+    this.facilityList=[];    
+
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+           if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+              
+              this.facilityList.push(this.facilityHierarchy[i]);
+               //this.facilityHierarchy.facilityList;
+               
+           }
+        }
+}
+
 timeDuration(){
     
     var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
@@ -277,12 +305,13 @@ timeDuration(){
    let days=Math.floor(diff / (60*60*24*1000));
    
    let hours=Math.floor(diff / (60*60*1000))-(days*24);
+   let hour=hours+(days*24);
   
    let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
    
    let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
   
-   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
+   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
    
     }
 }
@@ -294,7 +323,7 @@ function(){
   var X=resp1*resp1; 
   var z=R+X;
   this.result=String(Math.sqrt(z));
-  console.log("result=="+JSON.stringify(this.result));
+  
   }
 
   onAddFailureAnalysisFormSubmit() {

@@ -64,8 +64,9 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   //  this.findNatureOfCloseStatus();
     this.findFeedersList();
     this.id = +this.route.snapshot.params['id'];    
-    this.createForm();
+    
     if (!isNaN(this.id)) {
+      this.updateForm();
       this.addUnusualOccurrenceFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -75,6 +76,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       this.title = 'Edit';
       this.getUnusualOccurrenceFailDataById(this.id);
     } else {
+      this.createForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
@@ -88,17 +90,16 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
    
     if(this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime()!="" && this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()!=""){
    var diff=this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()-this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime();
-   console.log("diff"+diff)
-   var days=Math.floor(diff / (60*60*24*1000));
-   console.log("days"+days)
-   var hours=Math.floor(diff / (60*60*1000))-(days*24);
-   console.log("hours"+hours)
-   var minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
-   console.log("minutes"+minutes)
-   var seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
-   console.log("seconds"+seconds)
-   this.duration=String(hours)+":" + String(minutes)+":" +String(seconds) ;
-   console.log("duration"+this.duration)
+   let days=Math.floor(diff / (60*60*24*1000));
+   
+   let hours=Math.floor(diff / (60*60*1000))-(days*24);
+   let hour=hours+(days*24);
+  
+   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+   
+   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  
+   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
     }
   }
   findFeedersList(){

@@ -7,7 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AddFailureOccurrenceComponent } from './add-failure-occurrence-failure/add-failure-occurrence-failure.component';
-
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 const routes: Routes = [
     {
         path: '',
@@ -37,6 +37,7 @@ const routes: Routes = [
         MaterialModule,      
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
+        CommonDirectivesModule,
         OwlNativeDateTimeModule,
     ],
     providers: [
