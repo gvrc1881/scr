@@ -129,7 +129,8 @@ export class DrivesComponent implements OnInit {
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
-        this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['depotType'] : '';
+        
+        this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['code'] : '';
         this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
         this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
         drive.push(this.drivesList[i]);
@@ -155,7 +156,6 @@ export class DrivesComponent implements OnInit {
         this.driveCategoryList[i].toDate = this.datePipe.transform(this.driveCategoryList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
         drive.push(this.driveCategoryList[i]);
       }
-
       this.driveCategoryDataSource = new MatTableDataSource(drive);
       this.driveCategoryDataSource.paginator = this.driveCategoryPaginator;
       this.driveCategoryDataSource.sort = this.driveCategorySort;

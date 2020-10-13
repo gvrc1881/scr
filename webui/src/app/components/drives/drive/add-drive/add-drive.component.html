@@ -171,7 +171,7 @@
                                                                 (selectionChange)="updateAssertType($event)"
                                                                 [formControl]="addDriveFormGroup.controls['depoType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
-                                                                    [value]="depoType.code">
+                                                                    [value]="depoType.id">
                                                                     {{ depoType.code }}
                                                                 </mat-option>
                                                             </mat-select>

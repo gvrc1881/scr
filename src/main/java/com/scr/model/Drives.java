@@ -87,7 +87,7 @@ public class Drives implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "depot_type", foreignKey = @ForeignKey(name = "fk_drives_depot_type"))
-	private Facility depotType;
+	private FunctionalLocationTypes depotType;
 
 	public Long getId() {
 		return id;
@@ -227,11 +227,11 @@ public class Drives implements Serializable {
 		this.updatedOn = updatedOn;
 	}
 
-	public Facility getDepotType() {
+	public FunctionalLocationTypes getDepotType() {
 		return depotType;
 	}
 
-	public void setDepotType(Facility depotType) {
+	public void setDepotType(FunctionalLocationTypes depotType) {
 		this.depotType = depotType;
 	}
 

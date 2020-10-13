@@ -32,10 +32,12 @@ import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Stipulations;
+import com.scr.model.FunctionalLocationTypes;
 import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DrivesRepository;
 import com.scr.repository.FacilityRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
+import com.scr.repository.FunctionLocationTypesRepository;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 
@@ -62,6 +64,9 @@ public class DriveMapper {
 	@Autowired
 	private DriveCategoryRepository driveCategoryRepository;
 	
+	@Autowired
+	private FunctionLocationTypesRepository functionLocationTypesRepository;
+	
 	public Drives prepareDriveModel(@Valid DriveRequest driveRequest) throws Exception {
 		Drives drive = null;
 		logger.info("Preparing the drive model object");
@@ -73,9 +78,11 @@ public class DriveMapper {
 			drive.setDescription(driveRequest.getDescription());
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
-			if (driveRequest.getFunctionalUnit() != null && !driveRequest.getFunctionalUnit().isEmpty()) {
-				Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-				drive.setDepotType(facility.get());
+			
+			if (driveRequest.getDepotType() != null && !driveRequest.getDepotType().isEmpty()) {
+				//Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
+				Optional<FunctionalLocationTypes> functional = functionLocationTypesRepository.findByCode(driveRequest.getDepotType());
+				drive.setDepotType(functional.get());
 			}
 
 			drive.setAssetType(driveRequest.getAssetType());
@@ -111,9 +118,10 @@ public class DriveMapper {
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
 
-			if (driveRequest.getFunctionalUnit() != null && !driveRequest.getFunctionalUnit().isEmpty()) {
-				Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-				drive.setDepotType(facility.get());
+			if (driveRequest.getDepotType() != null && !driveRequest.getDepotType().isEmpty()) {
+				//Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
+				Optional<FunctionalLocationTypes> functional = functionLocationTypesRepository.findByCode(driveRequest.getDepotType());
+				drive.setDepotType(functional.get());
 			}
 
 			drive.setAssetType(driveRequest.getAssetType());

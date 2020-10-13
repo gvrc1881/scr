@@ -35,6 +35,7 @@ export class AddDriveComponent implements OnInit {
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   scheduleList:any;
+  depotCode: any;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -206,26 +207,38 @@ export class AddDriveComponent implements OnInit {
         this.allFunctionalUnitsList = units;
       })
   }
+  
   updateAssertType($event) {
     if ($event.value) {
-      this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
+      this.depoTypeList.filter(element => {
+        if(element.id === $event.value){
+            this.depotCode = element.code;
+        }
+      });
+   
+      
+      this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
       this.functionalUnitList = [];
       this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
-        return element.depotType == $event.value;
+        return element.depotType == this.depotCode;
       });
     }
   }
   getDriveDataById(id) {
+   // this.findFunctionalUnits();
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+this.resp.depotType['code']).subscribe((data) => {
+          this.functionalUnitList = data;
+     });
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
           description: this.resp.description,
           fromDate: new Date(this.resp.fromDate),
           toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
-          depoType: !!this.resp.depotType ? this.resp.depotType['depotType'] : '',
+          depoType: !!this.resp.depotType ? this.resp.depotType['id'] : '',          
           assetType: this.resp.assetType,
           frequency: this.resp.frequency,
           assetDescription: this.resp.assetDescription,
@@ -239,11 +252,7 @@ export class AddDriveComponent implements OnInit {
         });
       this.toMinDate = new Date(this.resp.fromDate);
         if (this.resp.depotType != null) {
-          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['depotType']]);
-          this.functionalUnitList = [];
-          this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
-            return element.depotType == this.resp.depotType['depotType'];
-          });
+          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['code']]);
         }
         this.spinnerService.hide();
       })
@@ -263,7 +272,7 @@ export class AddDriveComponent implements OnInit {
         "description": this.addDriveFormGroup.value.description,
         "fromDate": this.addDriveFormGroup.value.fromDate,
         "toDate": this.addDriveFormGroup.value.toDate,
-        "depotType": this.addDriveFormGroup.value.depoType,
+        "depotType":this.depotCode,
         "assetType": this.addDriveFormGroup.value.assetType,
         "frequency":this.addDriveFormGroup.value.frequency,
         "assetDescription": this.addDriveFormGroup.value.assetDescription,
@@ -276,6 +285,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
+
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -298,7 +308,7 @@ export class AddDriveComponent implements OnInit {
         "description": this.addDriveFormGroup.value.description,
         "fromDate": this.addDriveFormGroup.value.fromDate,
         "toDate": this.addDriveFormGroup.value.toDate,
-        "depotType": this.addDriveFormGroup.value.depoType,
+        "depotType": this.depotCode,
         "assetType": this.addDriveFormGroup.value.assetType,
         "frequency":this.addDriveFormGroup.value.frequency,
         "assetDescription": this.addDriveFormGroup.value.assetDescription,
