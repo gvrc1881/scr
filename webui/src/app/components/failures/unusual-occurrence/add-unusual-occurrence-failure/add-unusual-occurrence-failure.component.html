@@ -33,11 +33,11 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Depot" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="Depot" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['subStation']" required>
-                                                                <mat-option *ngFor="let feeder of feedersList"
-                                                                    [value]="feeder.facilityName">
-                                                                    {{ feeder.facilityName }}
+                                                                <mat-option *ngFor="let depot of facilityList"
+                                                                    [value]="depot.facilityId">
+                                                                    {{ depot.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>

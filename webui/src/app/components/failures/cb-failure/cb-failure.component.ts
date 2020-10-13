@@ -32,6 +32,7 @@ export class CbFailureComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   CbFailList: any;
+  facilityList:any;
   filterData;
   gridData = [];
 
@@ -105,7 +106,14 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].sno = i + 1;
         this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-         CbFail.push(this.CbFailList[i]);
+       
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.CbFailList[i].subStation).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityList = data;
+          this.CbFailList[i].subStation = this.facilityList.facilityName;
+        });
+        
+        CbFail.push(this.CbFailList[i]);
       }
       this.filterData.gridData = CbFail;
       this.dataSource = new MatTableDataSource(CbFail);

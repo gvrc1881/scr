@@ -36,6 +36,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   dateFormat = 'MM-dd-yyyy ';
   divisionList:any;
   duration:any;
+  facilityList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -83,7 +84,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     }
   }
   timeDuration(){
-    console.log("duration")
+    
     var fromDateTime=this.addUnusualOccurrenceFromGroup.value.fromDateTime;
     
     var thruDateTime=this.addUnusualOccurrenceFromGroup.value.thruDateTime;
@@ -107,12 +108,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE)
    
-      .subscribe((response) => {
-       
+      .subscribe((response) => {       
         
-        this.feedersList = response;
-       
-      //  this.extendedFromList = response;
+        this.facilityList = response;       
+     
         this.spinnerService.hide();
       })
   }
@@ -162,18 +161,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     }
   }
  
-  updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value)
-      this.extendedFromList = [];
-      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.feedersList.map(element => {
-        if(element.feederName != $event.value){
-          this.extendedFromList.push(element);
-        }
-      });
-    }
-  }
+
   getUnusualOccurrenceFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {

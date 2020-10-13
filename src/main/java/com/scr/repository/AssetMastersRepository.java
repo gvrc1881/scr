@@ -20,14 +20,14 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 	
 	List<AssetMasterData> findByAssetTypeAndFacilityIdAndKM(String assetType, String facilityId, Double fromKm, Double toKm);
 
-	@Query(value = "select * from asset_master_data amd,product_category_member pcm where product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
+/*	@Query(value = "select * from asset_master_data amd,product_category_member pcm where product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
             nativeQuery=true )
-	List<AssetMasterData> findByAssetId(String productId);
+	List<AssetMasterData> findByAssetId(String productId);*/
 	
-	/*@Query(value = "select * from asset_master_data amd,product_category_member pcm where amd.facilityName=:substation and product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
+	@Query(value = "select * from asset_master_data amd,product_category_member pcm where amd.facility_id=:substation and product_category_id ='CIRCUIT_BREAKER' and amd.asset_type=pcm.product_id",
             nativeQuery=true )
 	List<AssetMasterData> findByAssetIdBasedOnFacilityName(@Param("substation")String substation);
-	*/
+	
 	@Query(value="select * from asset_master_data " +
 			" where facility_id=:facilityId " +
 			" and kilometer BETWEEN :fromKm and :toKm ",nativeQuery = true)

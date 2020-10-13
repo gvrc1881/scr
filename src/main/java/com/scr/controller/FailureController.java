@@ -167,20 +167,20 @@ public class FailureController {
 	}
 	
 	
-	@RequestMapping(value = "/getEquipments", method = RequestMethod.GET ,headers = "accept=application/json")	
+/*	@RequestMapping(value = "/getEquipments", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<AssetMasterData>> findByAssetId(String productId){
 		List<AssetMasterData> assetId= failureService.findByAssetId(productId);
 		logger.info("Fetched assets data = "+assetId.size());
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
-	}
-	/*@RequestMapping(value = "/getEquipments/{subStation}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	}*/
+	@RequestMapping(value = "/getEquipments/{subStation}", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<AssetMasterData>> findByAssetIdBasedOnFacilityName(@PathVariable("subStation") String subStation){
 		List<AssetMasterData> assetId= failureService.findByAssetIdBasedOnFacilityName(subStation);
 		logger.info("Fetched assets data = "+assetId.size());
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
-	}*/
+	}
 	@RequestMapping(value = "/findByFeedOfAndFromDateTime/{feedOf}/{fromDateTime}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByFeedOfAndFromDateTime(@PathVariable("feedOf") String feedOf ,@PathVariable("fromDateTime") Timestamp fromDateTime){
 		logger.info("Exist====="+feedOf+"fromDateTime"+fromDateTime);

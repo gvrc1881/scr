@@ -102,23 +102,28 @@ export class AddCbFailureComponent implements OnInit {
       this.createForm();
       this.title = 'Save';
     }
+  
+     
+
+  }
+
+  findEquipments()
+  {
     let substation= this.addCbFailFromGroup.controls['subStation'].value;
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT+substation).subscribe((data) => {
       this.failureList = data;
       
       } 
       , error => {});
-      let substations= this.addCbFailFromGroup.controls['subStation'].value;
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT)
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT+substation)
       .subscribe((data) => {
         
         this.failurecasList = data;
       //  this.extendedFromList = response;
         this.spinnerService.hide();
       })
-
   }
-
   findFeedersList(){
     this.spinnerService.show();
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
@@ -200,18 +205,7 @@ export class AddCbFailureComponent implements OnInit {
   }
  
  
-  updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value)
-      this.extendedFromList = [];
-      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.feedersList.map(element => {
-        if(element.feederName != $event.value){
-          this.extendedFromList.push(element);
-        }
-      });
-    }
-  }
+
   getCbFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
@@ -336,9 +330,9 @@ function(){
     var message = '';
     var failedMessage = '';
     if (this.save) {
-     console.log("xavle=="+JSON.stringify(this.addCbFailFromGroup.value.xValue));
+     
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
-      let xValue = this.addCbFailFromGroup.value.xValue;
+     
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
         'equipment': this.addCbFailFromGroup.value.equipment , 
@@ -364,7 +358,7 @@ function(){
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }   
-      console.log('*** data***'+JSON.stringify(data)); 
+    
       message = 'Saved';
       failedMessage = "Saving";
       this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {

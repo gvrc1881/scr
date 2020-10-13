@@ -60,14 +60,14 @@ public class FailureService {
 		// TODO Auto-generated method stub
 		return failuresRepository.findAll();
 	}
-	public List<AssetMasterData> findByAssetId(String productId) {
+	/*public List<AssetMasterData> findByAssetId(String productId) {
 		// TODO Auto-generated method stub
 		return assetMasterdataRepository.findByAssetId(productId);
-	}
-	/*public List<AssetMasterData> findByAssetIdBasedOnFacilityName(String subStation) {
+	}*/
+	public List<AssetMasterData> findByAssetIdBasedOnFacilityName(String subStation) {
 		// TODO Auto-generated method stub
 		return assetMasterdataRepository.findByAssetIdBasedOnFacilityName(subStation);
-	}*/
+	}
 	
 	public Boolean existsByFeedOfAndFromDateTime(String feedOf, Timestamp fromDateTime) {
 		 //TODO Auto-generated method stub

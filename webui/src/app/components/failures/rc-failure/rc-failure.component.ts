@@ -30,6 +30,7 @@ export class RcFailureComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
   RcFailList: any;
+  facilityList:any;
   filterData;
   gridData = [];
 
@@ -90,6 +91,13 @@ export class RcFailureComponent implements OnInit {
         this.RcFailList[i].sno = i + 1;
         this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');        
+        
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.RcFailList[i].subStation).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityList = data;
+          this.RcFailList[i].subStation = this.facilityList.facilityName;
+        });
+       
         RcFail.push(this.RcFailList[i]);
       }
       this.filterData.gridData = RcFail;

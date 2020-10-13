@@ -133,8 +133,7 @@ export class AddGridFailureComponent implements OnInit {
       });
   }
   updateForm() {
-    console.log("updatee");
-
+   
     this.addGridFailFromGroup
       = this.formBuilder.group({
         id: 0,
@@ -207,7 +206,7 @@ timDuration(){
  
  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
 
- this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+ this.dur=String(hour)+":" + String(minutes)+":" +String(seconds) ;
 
   }
 }
@@ -217,7 +216,7 @@ timDuration(){
       this.extendedFromList = [];
       //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
       this.facilityList.map(element => {
-        if(element.facilityName != $event.value){
+        if(element.facilityId != $event.value){
           this.extendedFromList.push(element);
         }
       });
@@ -228,17 +227,13 @@ timDuration(){
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.resp.feedOf).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityList = data;
-          this.addGridFailFromGroup.patchValue({ feedOff: this.facilityList.feedOf })
-        });
+
         this.minDate=new Date(this.resp.fromDateTime),
         this.toMinDate=new Date(this.resp.efdate),
         this.fMinDate=new Date(this.resp.ftdate),
         this.addGridFailFromGroup.patchValue({
           id: this.resp.id,
-          //feedOff: this.resp.feedOff,
+          feedOff: this.resp.feedOf,
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           ftdate:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           fduration: this.resp.duration ,

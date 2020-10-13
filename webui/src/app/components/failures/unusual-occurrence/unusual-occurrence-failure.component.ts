@@ -38,7 +38,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sortActions: MatSort;
   @ViewChild('filter', { static: true }) filterActions: ElementRef;
   ActionsFailListActions: any;
-
+  facilityList;
   filterData;
   filterActionsData;
   gridData = [];
@@ -134,6 +134,11 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         this.UnusualOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.UnusualOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
         
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.UnusualOccurrenceFailList[i].subStation).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityList = data;
+          this.UnusualOccurrenceFailList[i].subStation = this.facilityList.facilityName;
+        });
         UnusualOccurrenceFail.push(this.UnusualOccurrenceFailList[i]);
       }
       this.filterData.gridData = UnusualOccurrenceFail;

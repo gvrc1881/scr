@@ -159,30 +159,18 @@ export class AddRcFailureComponent implements OnInit {
   }
 
   onFormValuesChanged() {
-    for (const field in this.cbFailFormErrors) {
-      if (!this.cbFailFormErrors.hasOwnProperty(field)) {
+    for (const field in this.addRcFailFromGroup) {
+      if (!this.addRcFailFromGroup.hasOwnProperty(field)) {
         continue;
       }
-      this.cbFailFormErrors[field] = {};
+      this.addRcFailFromGroup[field] = {};
       const control = this.addRcFailFromGroup.get(field);
       if (control && control.dirty && !control.valid) {
-        this.cbFailFormErrors[field] = control.errors;
+        this.addRcFailFromGroup[field] = control.errors;
       }
     }
   }
  
-  updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value)
-      this.extendedFromList = [];
-      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.feedersList.map(element => {
-        if(element.feederName != $event.value){
-          this.extendedFromList.push(element);
-        }
-      });
-    }
-  }
   getRcFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {

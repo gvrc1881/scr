@@ -32,6 +32,7 @@ export class GridFailureComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   facilityList:any;
+  extendedFromList:any;
   filterData;
   gridData = [];
   gridFailList: any;
@@ -106,6 +107,12 @@ export class GridFailureComponent implements OnInit {
           this.facilityList = data;
           this.gridFailList[i].feedOf = this.facilityList.facilityName;
         });
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].extendedOf).subscribe((data) => {
+          this.spinnerService.hide();
+          this.extendedFromList = data;
+          this.gridFailList[i].extendedOf = this.extendedFromList.facilityName;
+        });
+  
   
         gridFail.push(this.gridFailList[i]);
       }

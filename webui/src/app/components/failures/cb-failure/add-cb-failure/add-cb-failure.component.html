@@ -33,10 +33,10 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Sub Station" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="Sub Station" (ngModelChange)="findEquipments()"
                                                                 [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
-                                                                    [value]="depot.facilityName">
+                                                                    [value]="depot.facilityId">
                                                                     {{ depot.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
@@ -159,7 +159,7 @@
                                                             <input matInput placeholder="z Constant" readonly
                                                                 [formControl]="addCbFailFromGroup.controls['zConstant']"
                                                                 [(ngModel)]="result"    > 
-                                                                {{result}}                                                          
+                                                                                                                         
                                                         </mat-form-field>
                                                     </div>
 
