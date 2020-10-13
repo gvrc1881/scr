@@ -22,6 +22,7 @@ public class InspectionRequest {
 	private Timestamp lastUpdatedStamp;
 	private Timestamp lastUpdatedTxStamp;
 	private String attachment;
+	private String document;
 	private String location;
 	private String observation;
 	private String observationCategory;
@@ -204,6 +205,12 @@ public class InspectionRequest {
 	}
 	public void setObeservationSeqId(String obeservationSeqId) {
 		this.obeservationSeqId = obeservationSeqId;
+	}
+	public String getDocument() {
+		return document;
+	}
+	public void setDocument(String document) {
+		this.document = document;
 	}
 
 }

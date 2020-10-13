@@ -106,7 +106,6 @@
                                                         
 
                                                         <ul *ngFor="let names of assetTypeParametersData">
-                                                            <div *ngIf="(names.active=='Yes')">
                                                             <div class="col-md-3" *ngIf="(names.columnName=='adee_section')">
                                                                 <mat-form-field fxFlex="30">
                                                                     <textarea matInput placeholder="Adee Section" [formControl]="assetMasterFormGroup.controls['adeeSection']" ></textarea>
@@ -576,7 +575,6 @@
                                                         <mat-datepicker #picker1></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>  
-                                                            </div>
                                                 </ul>   
                                                             <div class="col-md-3 mt-15">
                                                                 <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">

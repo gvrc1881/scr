@@ -65,8 +65,8 @@ public class Compliance implements Serializable {
 	@Column(name="seq_id")
 	private String seqId;
 	
-	@Column(name = "attachment")
-	private String attachment;
+	@Column(name = "document")
+	private String document;
 	
 	private String status;
 
@@ -209,12 +209,14 @@ public class Compliance implements Serializable {
 		this.status = status;
 	}
 
-	public String getAttachment() {
-		return attachment;
+	
+
+	public String getDocument() {
+		return document;
 	}
 
-	public void setAttachment(String attachment) {
-		this.attachment = attachment;
+	public void setDocument(String document) {
+		this.document = document;
 	}
 
 	public String getCreatedBy() {
@@ -241,8 +243,10 @@ public class Compliance implements Serializable {
 				+ createdTxStamp + ", createdBy=" + createdBy + ", dataDiv=" + dataDiv + ", description=" + description
 				+ ", deviceId=" + deviceId + ", deviceSeqId=" + deviceSeqId + ", updatedBy=" + updatedBy
 				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
-				+ ", obeservationSeqId=" + obeservationSeqId + ", seqId=" + seqId + ", attachment=" + attachment
+				+ ", obeservationSeqId=" + obeservationSeqId + ", seqId=" + seqId + ", document=" + document
 				+ ", status=" + status + "]";
 	}
+
+	
 
 }

@@ -209,7 +209,7 @@ public class FootPatrollingInspectionController {
 			observationsRequest.setDescription(description);
 			observationsRequest.setActionRequired(actionRequired);
 			observationsRequest.setCreatedBy(createdBy);
-			footPatrollingInspectionService.save(observationsRequest, file);
+			footPatrollingInspectionService.saveObservation(observationsRequest, file);
 			return Helper.findResponseStatus("Observations Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch (Exception e) {
 			e.printStackTrace();

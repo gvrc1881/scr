@@ -9,6 +9,6 @@ import com.scr.model.AssetMasterDataFormParameter;
 public interface AssetMasterFormParameterRepository extends JpaRepository<AssetMasterDataFormParameter, Long>{
 	
       List<AssetMasterDataFormParameter> findAll();
-      List<AssetMasterDataFormParameter> findByAssetType(String assetType);
+      List<AssetMasterDataFormParameter> findByAssetTypeAndActive(String assetType,String active);
 
 }

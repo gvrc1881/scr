@@ -55,7 +55,7 @@ public class FpInspectionMapper {
 			compliance.setComplianceBy(request.getComplianceBy());
 			compliance.setCompliedDateTime(request.getCompliedDateTime());
 			compliance.setCreatedBy(request.getCreatedBy());
-			compliance.setAttachment(String.valueOf(commonFileId));
+			compliance.setDocument(String.valueOf(commonFileId));
 		}
 		return compliance;
 	}
@@ -67,7 +67,7 @@ public class FpInspectionMapper {
 			compliance.setAction(request.getAction());
 			compliance.setComplianceBy(request.getComplianceBy());
 			compliance.setCompliedDateTime(request.getCompliedDateTime());
-			compliance.setAttachment(String.valueOf(commonFileId));
+			compliance.setDocument(String.valueOf(commonFileId));
 			compliance.setUpdatedBy(request.getUpdatedBy());			
 		}
 		return compliance;

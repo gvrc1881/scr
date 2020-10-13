@@ -760,7 +760,7 @@ export class AssetMasterDataComponent implements OnInit{
     }
         getAssetTypes(){
           var assetType = this.assetMasterFormGroup.value.assetType ;
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES+assetType).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES+assetType+'/'+'Yes').subscribe((data) => {
                    this.assetTypeParametersData = data;
               });
       }

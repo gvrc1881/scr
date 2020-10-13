@@ -23,6 +23,7 @@ import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
+import com.scr.model.CrsEigInspections;
 import com.scr.model.FootPatrollingInspection;
 import com.scr.mapper.CommonMapper;
 import com.scr.model.Observation;
@@ -93,145 +94,46 @@ public class FootPatrollingInspectionService {
 		// TODO Auto-generated method stub
 		return observationsRepository.findByInspectionSeqId(inspectionSeqId);
 	}
-	
-	public @Valid boolean save(@Valid InspectionRequest request, List<MultipartFile> file) {
+	public @Valid boolean saveObservation(@Valid InspectionRequest observationsRequest, List<MultipartFile> file) {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();
-		Long commonFileId = (long) 0.0; 
-		if(fileId == null || fileId.getCommonFileId() == null) {
-			commonFileId = (long) 1;
-		}else {
-			commonFileId = fileId.getCommonFileId()+1;
-		}
 		
-		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(observationPath, Constants.OBSERVATIONS );
+		liContentManagements = commonMapper.prepareContentManagementList(file, observationPath, Constants.OBSERVATIONS,
+				"","","","Observations","","","","","", Integer.parseInt(observationsRequest.getCreatedBy()));
 		
-		for(MultipartFile mf: file)
-		{	
-			log.info("filename: "+mf.getOriginalFilename());
-			String changedFileName = Helper.prepareChangeFileName(mf, Constants.OBSERVATIONS, request.getCreatedBy());
-			Path rootLocation = null;
-			try {
-				String folderPath = folderResponse.getMessage();
-				rootLocation = Paths.get(folderPath);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			ContentManagement contentManagement = new ContentManagement();			
-			log.info("File Saved Successfully with name "+changedFileName);
-			contentManagement = new ContentManagement();
-			contentManagement.setCommonFileId(commonFileId);
-			contentManagement.setDivision("");
-			contentManagement.setFunUnit("");
-			contentManagement.setGenOps("");
-			contentManagement.setTopic("Observations");
-			contentManagement.setDescription("");
-			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
-			double bytes = mf.getSize();
-			log.info("bytes = "+bytes);
-			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
-			log.info("KB = "+kilobytes);
-			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
-			log.info("mega bytes = "+megabytes);
-			contentManagement.setFileSize(kilobytes+" KB");
-			contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setCreatedBy(Integer.parseInt(request.getCreatedBy()));
-			contentManagement.setAssetTypeRlyId("");
-			contentManagement.setMake("");
-			contentManagement.setModel("");
-			contentManagement.setDocCategory("");
-			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			
-			liContentManagements.add(contentManagement);
-		}
-		if(!liContentManagements.isEmpty()) {
+		if(liContentManagements != null && !liContentManagements.isEmpty()) {
 			contentManagementRepository.saveAll(liContentManagements);
 			log.info("Files Details saved in to Database Successfully.");
+			Observation observation = fpInspectionMapper.prepareObservationsModel(observationsRequest, file, liContentManagements.get(0).getCommonFileId());
+			observation = observationsRepository.save(observation);
+		}else {
+			Observation observation = fpInspectionMapper.prepareObservationsModel(observationsRequest, file, new Long(0));
+			observation = observationsRepository.save(observation);
 		}
-		Observation observations = fpInspectionMapper.prepareObservationsModel(request, file, commonFileId);
-		observations = observationsRepository.save(observations);
+		
 		return true;
 	}
-	public String updateObservationsData(@Valid InspectionRequest request, List<MultipartFile> file) {
-		Long commonFileId = (long) 0.0; 
-		if(file != null && file.size() > 0) {
-			log.info("file ");
-		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(observationPath, Constants.OBSERVATIONS );
-		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		log.info("commonfifle "+request.getAttachment());
-		if(request.getAttachment() == null || Long.parseLong(request.getAttachment()) ==0.0 ) {
-			
-			ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();		
-			if(fileId == null || fileId.getCommonFileId() == null) {
-				commonFileId = (long) 1;
-			}else {
-				commonFileId = fileId.getCommonFileId()+1;
-			}
-		}else {
-			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
-		}
-		log.info("find file = "+commonFileId);
+	
+	public String updateObservationsData(@Valid InspectionRequest observationsRequest, List<MultipartFile> file) {
+		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();
+		liContentManagements = commonMapper.prepareForUpdateContentManagementList(file, observationPath, Constants.OBSERVATIONS,
+				"","","","Observations","","","","","", Integer.parseInt(observationsRequest.getUpdatedBy()), observationsRequest.getAttachment());
 		
-		for(MultipartFile mf: file)
-		{	
-			ContentManagement contentManagement = new ContentManagement();
-			String changedFileName = Helper.prepareChangeFileName(mf, Constants.OBSERVATIONS, request.getUpdatedBy());
-			Path rootLocation = null;
-			try {
-				String folderPath = folderResponse.getMessage();
-				rootLocation = Paths.get(folderPath);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			log.info("filename: "+mf.getOriginalFilename());
-			
-			log.info("File Saved Successfully with name "+changedFileName);
-			contentManagement = new ContentManagement();
-			contentManagement.setCommonFileId(commonFileId);
-			contentManagement.setDivision("");
-			contentManagement.setFunUnit("");
-			contentManagement.setGenOps("");
-			contentManagement.setTopic("Observations");
-			contentManagement.setDescription("");
-			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
-			double bytes = mf.getSize();
-			log.info("bytes = "+bytes);
-			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
-			log.info("KB = "+kilobytes);
-			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
-			log.info("mega bytes = "+megabytes);
-			contentManagement.setFileSize(kilobytes+" KB");
-			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setModifiedBy(Integer.parseInt(request.getUpdatedBy()));
-			contentManagement.setAssetTypeRlyId("");
-			contentManagement.setMake("");
-			contentManagement.setModel("");
-			contentManagement.setDocCategory("");
-			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			
-			liContentManagements.add(contentManagement);
-		}
-		if(!liContentManagements.isEmpty()) {
+		Long commonFileId = (long) 0.0;
+		if(liContentManagements!=null && !liContentManagements.isEmpty()) {
 			contentManagementRepository.saveAll(liContentManagements);
 			log.info("Files Details saved in to Database Successfully.");
+			commonFileId = liContentManagements.get(0).getCommonFileId();
 		}
-		}else {
-			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
+		else {
+			commonFileId = observationsRequest.getAttachment() != null ? Long.parseLong(observationsRequest.getAttachment()) : (long) 0.0;
 			log.info("find file = "+commonFileId);
 		}
 		
 		log.info("find the existing observation by id : "+commonFileId);
-		Optional<Observation> observations = observationsRepository.findById(request.getId());
-		if(observations.isPresent()) {
-			Observation observationsUpdate = fpInspectionMapper.prepareObservationsUpdataData(observations.get(), request, file, commonFileId);
-			observationsUpdate = observationsRepository.save(observationsUpdate);
+		Optional<Observation> observation = observationsRepository.findById(observationsRequest.getId());
+		if(observation.isPresent()) {
+			Observation observationUpdate = fpInspectionMapper.prepareObservationsUpdataData(observation.get(), observationsRequest, file, commonFileId);
+			observationUpdate = observationsRepository.save(observationUpdate);
 			return Constants.JOB_SUCCESS_MESSAGE;
 		}else {
 			return "Invalid Observations Id";
@@ -264,7 +166,7 @@ public class FootPatrollingInspectionService {
 		public @Valid boolean saveCompliances(@Valid InspectionRequest complianceRequest, List<MultipartFile> file) {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 		
-		liContentManagements = commonMapper.prepareContentManagementList(file, compliancePath, Constants.STIPULATION,
+		liContentManagements = commonMapper.prepareContentManagementList(file, compliancePath, Constants.COMPLIANCES,
 				"","","","Compliance","","","","","", Integer.parseInt(complianceRequest.getCreatedBy()));
 		
 		if(liContentManagements != null && !liContentManagements.isEmpty()) {
@@ -279,87 +181,36 @@ public class FootPatrollingInspectionService {
 		
 		return true;
 	}
-	public String updateCompliancesData(@Valid InspectionRequest request, List<MultipartFile> file) {
-		Long commonFileId = (long) 0.0; 
-		if(file != null && file.size() > 0) {
-			log.info("file ");
-		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(compliancePath, Constants.COMPLIANCES );
-		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
-		log.info("commonfifle "+request.getAttachment());
-		if(request.getAttachment() == null || Long.parseLong(request.getAttachment()) ==0.0 ) {
+		public String updateCompliancesData(@Valid InspectionRequest complianceRequest, List<MultipartFile> file) {
 			
-			ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();		
-			if(fileId == null || fileId.getCommonFileId() == null) {
-				commonFileId = (long) 1;
+			List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();
+			liContentManagements = commonMapper.prepareForUpdateContentManagementList(file, compliancePath, Constants.COMPLIANCES,
+					"","","","Compliance","","","","","", Integer.parseInt(complianceRequest.getUpdatedBy()), complianceRequest.getAttachment());
+			
+			Long commonFileId = (long) 0.0;
+			
+			if(liContentManagements != null && !liContentManagements.isEmpty()) {
+				contentManagementRepository.saveAll(liContentManagements);
+				log.info("Files Details saved in to Database Successfully.");
+				commonFileId = liContentManagements.get(0).getCommonFileId();
+			}
+			else {
+				commonFileId = complianceRequest.getAttachment() != null ? Long.parseLong(complianceRequest.getAttachment()) : (long) 0.0;
+				log.info("find file = "+commonFileId);
+			}
+			
+			log.info("find the existing compliance by id : "+commonFileId);
+			Optional<Compliance> compliance = complianceRepository.findById(complianceRequest.getId());
+			if(compliance.isPresent()) {
+				Compliance complianceUpdate = fpInspectionMapper.prepareCompliancesUpdataData(compliance.get(), complianceRequest, file, commonFileId);
+				complianceUpdate = complianceRepository.save(complianceUpdate);
+				return Constants.JOB_SUCCESS_MESSAGE;
 			}else {
-				commonFileId = fileId.getCommonFileId()+1;
-			}
-		}else {
-			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
-		}
-		log.info("find file = "+commonFileId);
-		
-		for(MultipartFile mf: file)
-		{	
-			ContentManagement contentManagement = new ContentManagement();
-			String changedFileName = Helper.prepareChangeFileName(mf, Constants.COMPLIANCES, request.getUpdatedBy());
-			Path rootLocation = null;
-			try {
-				String folderPath = folderResponse.getMessage();
-				rootLocation = Paths.get(folderPath);
-				Files.copy(mf.getInputStream(), rootLocation.resolve(changedFileName));
-			} catch (Exception e) {
-				e.printStackTrace();
+				return "Invalid Compliance Id";
 			}
 			
-			log.info("filename: "+mf.getOriginalFilename());
-			
-			log.info("File Saved Successfully with name "+changedFileName);
-			contentManagement = new ContentManagement();
-			contentManagement.setCommonFileId(commonFileId);
-			contentManagement.setDivision("");
-			contentManagement.setFunUnit("");
-			contentManagement.setGenOps("");
-			contentManagement.setTopic("Compliances");
-			contentManagement.setDescription("");
-			contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-			contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
-			double bytes = mf.getSize();
-			log.info("bytes = "+bytes);
-			double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
-			log.info("KB = "+kilobytes);
-			double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
-			log.info("mega bytes = "+megabytes);
-			contentManagement.setFileSize(kilobytes+" KB");
-			contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			contentManagement.setModifiedBy(Integer.parseInt(request.getUpdatedBy()));
-			contentManagement.setAssetTypeRlyId("");
-			contentManagement.setMake("");
-			contentManagement.setModel("");
-			contentManagement.setDocCategory("");
-			contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-			
-			liContentManagements.add(contentManagement);
-		}
-		if(!liContentManagements.isEmpty()) {
-			contentManagementRepository.saveAll(liContentManagements);
-			log.info("Files Details saved in to Database Successfully.");
-		}
-		}else {
-			commonFileId = request.getAttachment() != null ? Long.parseLong(request.getAttachment()) : (long) 0.0;
-			log.info("find file = "+commonFileId);
 		}
 		
-		log.info("find the existing Compliance by id : "+commonFileId);
-		Optional<Compliance> compliances = complianceRepository.findById(request.getId());
-		if(compliances.isPresent()) {
-			Compliance compliancesUpdate = fpInspectionMapper.prepareCompliancesUpdataData(compliances.get(), request, file, commonFileId);
-			compliancesUpdate = complianceRepository.save(compliancesUpdate);
-			return Constants.JOB_SUCCESS_MESSAGE;
-		}else {
-			return "Invalid Observations Id";
-		}
-	}	
 	public Optional<Compliance> findComplianceItemById(Long id) {
 		return complianceRepository.findById(id);
 	}

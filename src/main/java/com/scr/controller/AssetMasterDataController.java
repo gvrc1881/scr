@@ -127,15 +127,13 @@ public class AssetMasterDataController {
 		List<AssetMasterData> assetIdsList= assetMasterDataService.findByAssetTypeAndFacilityId(assetType, facilityId);
 			return new ResponseEntity<List<AssetMasterData>>(assetIdsList, HttpStatus.OK);		
 	}
-	@RequestMapping(value = "/assetMasterParameterNames", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<AssetMasterDataFormParameter>> findall(){
-		List<AssetMasterDataFormParameter> amdParamNames= assetMasterDataService.findAssetMasterFormParamter();
-					return new ResponseEntity<List<AssetMasterDataFormParameter>>(amdParamNames, HttpStatus.OK);	
-		
-	}
-	@RequestMapping(value = "/getAssetParameterNamesBasedOnAssetTypes/{assetType}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<AssetMasterDataFormParameter>> findAllAssetTypes(@PathVariable("assetType") String assetType){
-		List<AssetMasterDataFormParameter> assetTypeList= assetMasterDataService.findByAssetType(assetType);
+	
+	@RequestMapping(value = "/getAssetParameterNamesBasedOnAssetTypes/{assetType}/{active}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<AssetMasterDataFormParameter>> findAllAssetTypes(@PathVariable("assetType") String assetType,@PathVariable("active") String active){
+		List<AssetMasterDataFormParameter> assetTypeList= assetMasterDataService.findByAssetTypeAndActive(assetType,active);
+		log.info("assetTypeList"+assetTypeList);
+		log.info("assetTypeListSize"+assetTypeList.size());
+
 			return new ResponseEntity<List<AssetMasterDataFormParameter>>(assetTypeList, HttpStatus.OK);		
 	}
 	

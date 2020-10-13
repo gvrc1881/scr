@@ -98,7 +98,7 @@ export class AddOheLocationComponent implements OnInit {
           longitude: this.resp.longitude,
           latitude: this.resp.latitude,
           altitude: this.resp.altitude,
-          date: this.resp.date,
+          date:new Date(this.resp.date), 
           validity: this.resp.validity,
           satellites: this.resp.satellites,
           speed: this.resp.speed,

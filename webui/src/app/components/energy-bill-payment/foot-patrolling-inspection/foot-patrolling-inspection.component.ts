@@ -139,7 +139,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
             'observationItem': [null],
             'severity':[null],
             'priority':[null],
-            'actionRequired':[null],
+            'actionRequired':['false'],
             'description' : [null],
             'attachment'  :[null]
             
@@ -651,7 +651,7 @@ complianceItemSubmit () {
       formdata.append('complianceBy', saveCompliance.complianceBy);
       formdata.append('compliedDateTime',saveCompliance.compliedDateTime );
       formdata.append('createdBy', saveCompliance.createdBy);              
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
                 this.complianceResponse = response
             if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
                 this.commonService.showAlertMessage(this.complianceResponse.message);

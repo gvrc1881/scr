@@ -43,11 +43,9 @@ public class AssetMasterDataService {
 		List<AssetMasterData> assetId = assetMastersRepository.findByAssetTypeAndFacilityId(assetType,facilityId);
 		return assetId;
 	}
-	public List<AssetMasterDataFormParameter> findAssetMasterFormParamter() {	
-		return assetMasterFormParameterRepository.findAll();
-	}
-	public List<AssetMasterDataFormParameter> findByAssetType(String assetType) {	
-		return assetMasterFormParameterRepository.findByAssetType(assetType);
+	
+	public List<AssetMasterDataFormParameter> findByAssetTypeAndActive(String assetType,String active) {	
+		return assetMasterFormParameterRepository.findByAssetTypeAndActive(assetType,active);
 	}
 
 	public List<AssetMasterData> findByAssetTypeAndFacilityIdAndKM(String assetType, String facilityId, Double fromKm,
