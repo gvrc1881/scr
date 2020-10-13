@@ -42,7 +42,16 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   filterData;
   filterActionsData;
   gridData = [];
-  
+
+  updatePagination() {
+    this.filterData.dataSource = this.filterData.dataSource;
+    this.filterData.dataSource.paginator = this.paginator;
+  }
+  updatePaginatn() {
+    this.filterActionsData.dataSource = this.filterActionsData.dataSource;
+    this.filterActionsData.dataSource.paginator = this.paginator;
+  }
+
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
