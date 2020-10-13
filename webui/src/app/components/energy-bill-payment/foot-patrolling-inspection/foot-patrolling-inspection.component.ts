@@ -651,7 +651,7 @@ complianceItemSubmit () {
       formdata.append('complianceBy', saveCompliance.complianceBy);
       formdata.append('compliedDateTime',saveCompliance.compliedDateTime );
       formdata.append('createdBy', saveCompliance.createdBy);              
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , false).subscribe(response => {
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.SAVE_COMPLIANCE,formdata , true).subscribe(response => {
                 this.complianceResponse = response
             if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
                 this.commonService.showAlertMessage(this.complianceResponse.message);
@@ -690,7 +690,7 @@ complianceItemSubmit () {
           formdata.append('compliedDateTime', updateCompliances.compliedDateTime);
           formdata.append('updatedBy', updateCompliances.updatedBy);
           formdata.append('attachment', updateCompliances.attachment);
-            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.UPDATE_COMPLIANCE,formdata, false).subscribe(response => {
+            this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.UPDATE_COMPLIANCE,formdata, true).subscribe(response => {
                 this.complianceResponse = response
             if(this.complianceResponse.code == 200 && !!this.complianceResponse) {
                 this.commonService.showAlertMessage(this.complianceResponse.message);

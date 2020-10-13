@@ -274,6 +274,11 @@
                         (click)="deleteFile(row.id)">
                         <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                       </button>
+                      <form ngNoForm target="_blank" action="{{url+'/download/'+row.commonFileId+'/'+row.genOps+'/'+row.originalFileName}}" method="GET">
+                      <button mat-icon-button matTooltip="Download" type="submit">
+                        <mat-icon style="color:#0091ea;">cloud_download</mat-icon>
+                      </button>
+                    </form>
                     </mat-cell>
                   </ng-container>
   

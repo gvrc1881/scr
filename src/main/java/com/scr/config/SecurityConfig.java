@@ -83,7 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests().antMatchers("/scr/api/auth/*").permitAll()
 				// .antMatchers("/scr/api/*").permitAll()
 				.antMatchers("/swagger-ui.html").permitAll().antMatchers("/warehouse/fpApp/*").permitAll()
-				.antMatchers("/scr/api/auth/download/*").permitAll().anyRequest().authenticated().and()
+				.antMatchers("/scr/api/download/*/*/*").permitAll()
+				.anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 		// .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -7,7 +7,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ContentManagementDialogComponent } from '../content-management-edit-dialog/content-management-edit-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
-
+import {environment} from './../../../environments/environment'
 
 @Component({
     selector: 'content-management',
@@ -44,6 +44,7 @@ export class ContentManagementComponent implements OnInit {
     @ViewChild('filter', { static: true }) filter: ElementRef;
     contentManagementDialogRef: MatDialogRef<ContentManagementDialogComponent>;
     gridData = [];
+    url=environment.apiUrl;
     constructor(
         public dialog: MatDialog,
         private formBuilder: FormBuilder,

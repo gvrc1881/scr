@@ -35,4 +35,7 @@ public interface ContentManagementRepository extends JpaRepository<ContentManage
 	
 	List<ContentManagement> findAll();
 
+	Optional<ContentManagement> findByCommonFileIdAndGenOpsAndOriginalFileName(Long commonFileId, String genOps,
+			String originalFileName);
+
 }

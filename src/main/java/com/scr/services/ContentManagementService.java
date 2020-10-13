@@ -115,8 +115,12 @@ public class ContentManagementService {
 		return repository.findByCreatedByAndGenOps(createdBy, GenOps);
 	}
 	public List<ContentManagement> findAll() {
-		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+
+	public Optional<ContentManagement> findByCommonFileIdAndGenOpsAndOriginalFileName(Long commonFileId, String genOps,
+			String originalFileName) {
+		return repository.findByCommonFileIdAndGenOpsAndOriginalFileName(commonFileId, genOps, originalFileName);
 	}
 
 }
