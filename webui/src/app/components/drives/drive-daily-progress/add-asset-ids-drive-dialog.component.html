@@ -22,14 +22,14 @@
                                     	<mat-form-field fxFlex="30">
                                         	<input #fromKm matInput placeholder="From Kilometer"  
                                             	[formControl]="dailyProgressIdFormGroup.controls['fromKilometer']" 
-                                                	 decimalNumber/> <!-- (change)="selectedFromKm($event.target.value)" -->
+                                                (change)="selectedFromKm($event.target.value)"	 decimalNumber/> <!-- (change)="selectedFromKm($event.target.value)" -->
                                    		</mat-form-field>
                                     </div>
                                     <div class="col-md-3">
                                     	<mat-form-field fxFlex="30">
                                         	<input  #toKm matInput placeholder="To Kilometer"  
                                             	[formControl]="dailyProgressIdFormGroup.controls['toKilometer']" 
-                                                	 decimalNumber/> <!-- (change)="selectedToKm($event.target.value)" -->
+                                                	(change)="selectedToKm($event.target.value)"  decimalNumber/> <!-- (change)="selectedToKm($event.target.value)" -->
                                                     	<!--<mat-error *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid">To km is greater than from km</mat-error>-->
                                             	<span style="color:red" *ngIf="dailyProgressIdFormGroup.errors?.invalid" >
                                                 	To km is greater than or equals From km
@@ -40,13 +40,36 @@
                                    	<mat-form-field appearance="fill" fxFlex="30">
                                     	<mat-label>Asset Id</mat-label>
                                         	<mat-select [formControl]="dailyProgressIdFormGroup.controls['assetId']"  multiple >
-                                                	<mat-option *ngFor="let assetIdObj of assetIdList" 
-                                                    	[value]="assetIdObj">{{assetIdObj.assetId}}_{{assetIdObj.assetType}}</mat-option>
+                                                	<mat-option *ngFor="let assetIdObj of assetIdList" (onSelectionChange)="selectedAssetId($event)"
+                                                    	[value]="assetIdObj.assetId">{{assetIdObj.assetId}}_{{assetIdObj.assetType}}</mat-option>
                                             </mat-select>
                                     </mat-form-field>
                                   </div>
+                                  <div>
+                                  	<table class="table" *ngIf="assetIdsExists">
+                                  		<thead>
+					                    <th>Sno</th>
+					                    <th>assetId</th>
+				                        <th>Action</th>
+			                            </thead>
+			                            <tbody id="uploadedFilesTBodyId">
+					                    	<tr *ngFor="let assetId of selectedAssetIdList;let i=index">
+					                        	<td>{{i+1}}</td>
+					                            <td>{{assetId}}</td>
+					                            <td> <button mat-icon-button matTooltip="Delete" (click)="removeAssetId(i)">
+					                            		<mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+					                                 </button>  
+					                            </td>
+					                        </tr>
+					                   </tbody>
+                                  	</table>
+                                  </div>
                                   <div class="col-md-3 mt-15">
                                   	<div class="float-right" style="float: right;">
+                                  		<button class="mat-raised-button mat-accent" color="accent"
+                                  			class="d-inline" mat-raised-button="" (click)="addAssetIds()" type="submit"> 
+                                  				Add
+                                  		</button>&nbsp;&nbsp;
                                   		<button class="mat-raised-button mat-accent" color="accent"
                                   			class="d-inline" mat-raised-button="" type="submit"> 
                                   				Submit

@@ -24,6 +24,7 @@ import com.scr.model.DriveCategory;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
+import com.scr.model.DriveProgressId;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
@@ -41,6 +42,7 @@ import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DriveElectrificationTargetsRepository;
 import com.scr.repository.DriveFailureAnalysisRepository;
 import com.scr.repository.DriveInspectionRepository;
+import com.scr.repository.DriveProgressIdRepository;
 import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
@@ -114,6 +116,9 @@ public class DrivesService {
 	
 	@Autowired
 	private CommonMapper commonMapper;
+	
+	@Autowired
+	private DriveProgressIdRepository driveProgressIdRepository;
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -655,22 +660,39 @@ public class DrivesService {
 		return driveRepository.findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);
 	}
 
-	public void saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
+	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
+		DriveDailyProgress DDProgressRecord = null;
 		DriveDailyProgress driveDailyProgress = driveMapper.prepareDriveDailyProgressModel(driveDailyProgressRequest);
 		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findByDriveIdAndPerformedDate(driveDailyProgress.getDriveId(),driveDailyProgress.getPerformedDate());
 		if (existsDriveDailyProgress.isPresent()) {
 			DriveDailyProgress ddProgress = existsDriveDailyProgress.get();
 			ddProgress.setPerformedCount(driveDailyProgress.getPerformedCount());
-			driveProgressRecordRepository.save(ddProgress);
+			DDProgressRecord = driveProgressRecordRepository.save(ddProgress);
 		} else {
-			driveProgressRecordRepository.save(driveDailyProgress);
+			DDProgressRecord = driveProgressRecordRepository.save(driveDailyProgress);
 		}
-		
+		return DDProgressRecord;
 	}
 
 	public Optional<DriveDailyProgress> findByDriveIdAndPerformedDate(Drives drives, Date fromDate) {
 		// TODO Auto-generated method stub
 		return driveProgressRecordRepository.findByDriveIdAndPerformedDate(drives,fromDate);
+	}
+
+	public void saveDriveProgressId(List<String> assetIds, Long driveProgressId, String createdBy) {
+		// TODO Auto-generated method stub
+		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findById(driveProgressId);
+		
+		for (String assetId : assetIds) {
+			DriveProgressId drProgressId = driveMapper.prepareDriveProgressIdModel(assetId,existsDriveDailyProgress.get(),createdBy);
+			driveProgressIdRepository.save(drProgressId);
+		}
+		
+	}
+
+	public List<DriveProgressId> findByDriveDailyProgressId(Long driveDailyProgressId) {
+		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findById(driveDailyProgressId);
+		return driveProgressIdRepository.findByDriveDailyProgressId(existsDriveDailyProgress.get());
 	}
 
 	

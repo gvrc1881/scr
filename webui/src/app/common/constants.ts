@@ -340,7 +340,7 @@ export const Constants = {
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/",
-                GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOTTYPE:"/getDrivesBasedOnFromDateAndDepotType/"
+                GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT:"/getDrivesBasedOnFromDateAndDepot/"
                
             },
             DRIVE_CATEGORY:{
@@ -513,6 +513,10 @@ export const Constants = {
             DELETE:'/deleteDriveDailyProgress/',
             SAVE_DRIVE_DAILY_PROGRESS_RECORD:'/saveDriveDailyProgressRecord',
             GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/'
+        },
+        DRIVE_PROGRESS_ID:{
+            SAVE:'/saveDriveProgressId',
+            GET_DRIVE_PROGRESS_ID_DATA_BASED_ON_DRIVE_DAILY_PROGRESS:'/getDriveProgressIdDataBasedOnDriveDailyProgress/',
         },
         CONFIG:{
             MAKE:{  

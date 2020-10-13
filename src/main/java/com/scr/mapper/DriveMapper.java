@@ -24,6 +24,7 @@ import com.scr.model.DriveCategory;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
+import com.scr.model.DriveProgressId;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
@@ -643,6 +644,15 @@ public class DriveMapper {
 		    inspections.setStatusId(Constants.ACTIVE_STATUS_ID);
 		}
 		return inspections;
+	}
+
+	public DriveProgressId prepareDriveProgressIdModel(String assetId, DriveDailyProgress driveDailyProgress,
+			String createdBy) {
+		DriveProgressId driveProgressId = new DriveProgressId();
+		driveProgressId.setAssetId(assetId);
+		driveProgressId.setDriveDailyProgressId(driveDailyProgress);
+		driveProgressId.setCreatedBy(createdBy);
+		return driveProgressId;
 	}
 	
 }

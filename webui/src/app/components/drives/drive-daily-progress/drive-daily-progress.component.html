@@ -30,6 +30,17 @@
                                             <mat-datepicker #picker1></mat-datepicker>                                                           
                                     </mat-form-field>
                                 </div>
+                                <div class="col-md-3">
+                                	<mat-form-field fxFlex="30" class="example-full-width">
+                                    	<mat-select [formControl]="searchInputFormGroup.controls['facilityId']" >
+                                        	<mat-option *ngFor="let depot of depotsList"
+                                            	[value]="depot.facilityId">
+                                                	{{ depot.facilityName }}
+                                            </mat-option>
+                                        </mat-select>                                                            
+                                    </mat-form-field>
+                                </div>
+                                
                                 <!-- <div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
                                     	<mat-select placeholder="Period"
@@ -105,13 +116,29 @@
 	                                        	</mat-cell>
 	                                        </ng-container>
 	                                        
+	                                        <!-- depots List -->
+	                                        
+	                                        <ng-container matColumnDef="depot">
+	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+	                                        	<mat-cell *matCellDef="let row">
+	                                        		<mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select [(ngModel)] = "row.facilityId" >
+                                                                <mat-option *ngFor="let depot of depotsList"
+                                                                    [value]="depot.facilityId">
+                                                                    {{ depot.facilityName }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                    </mat-form-field>
+	                                        	</mat-cell>
+	                                        </ng-container>
+	                                        
 	                                        <ng-container matColumnDef="ids" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Ids</mat-header-cell>
 	                                            <ng-container *matCellDef="let row" >
 	                                            	<!-- <mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock" style="cursor: pointer;text-decoration: underline;font-weight: 600;color: #014884;"
 	                                            	  [routerLink]="['/divisions/'+row.operationId+'/'+row.jobType]" > {{row.isIdRequired}}</mat-cell> -->
 	                                            	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock">
-	                                            		<button mat-raised-button (click)="assetIdsDialog()">assetId</button>
+	                                            		<button mat-raised-button (click)="assetIdsDialog(row)">assetId</button>
 	                                            	</mat-cell>
 	                                            </ng-container>
 	                                            <ng-template #isIdRequiredElseBlock>

@@ -30,7 +30,7 @@ public class DriveProgressId implements Serializable {
 	private Long id;
 
 	@Column(name = "assetId")
-	private Long assetId;
+	private String assetId;
 
 	@Column(name = "performed_by")
 	private String performedBy;
@@ -59,11 +59,11 @@ public class DriveProgressId implements Serializable {
 		this.id = id;
 	}
 
-	public Long getAssetId() {
+	public String getAssetId() {
 		return assetId;
 	}
 
-	public void setAssetId(Long assetId) {
+	public void setAssetId(String assetId) {
 		this.assetId = assetId;
 	}
 

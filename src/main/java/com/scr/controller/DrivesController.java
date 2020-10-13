@@ -35,15 +35,18 @@ import com.scr.model.DriveCategory;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.DriveCheckList;
 import com.scr.model.DriveDailyProgress;
+import com.scr.model.DriveProgressId;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.services.DrivesService;
+import com.scr.services.FacilityService;
 import com.scr.services.MeasureOrActivityListService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -59,6 +62,9 @@ public class DrivesController {
 	
 	@Autowired
 	private MeasureOrActivityListService measureService;
+	
+	@Autowired
+	private FacilityService facilityService;
 	
 	
 	
@@ -1161,15 +1167,19 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepotType/{fromDate}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate ) throws JSONException {
+	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId  ) throws JSONException {
 		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
 		List<Drives> drivesList = null;
 		Date toDate = fromDate;
 		logger.info("** from date ***"+fromDate+"** to date**"+toDate);
 		try {			
 			logger.info("Calling service for dirves data");
-			drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);	
+			Optional<Facility> facilityData = facilityService.findByFacilityId(facilityId);
+			if (facilityData.isPresent()) {
+				drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);	
+			}
+			
 			logger.info("Fetched drives size = "+drivesList.size());
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
@@ -1181,14 +1191,15 @@ public class DrivesController {
 	}
 	
 	@RequestMapping(value = "/saveDriveDailyProgressRecord", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveDriveDailyProgressRecord(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
+	public ResponseEntity<DriveDailyProgress> saveDriveDailyProgressRecord(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
 		logger.info("** performed count **"+driveDailyProgressRequest.getPerformedCount() +"** drive **"+driveDailyProgressRequest.getDriveId());
+		DriveDailyProgress DDProgress = null;
 		try {			
-			service.saveDriveDailyProgressRecord(driveDailyProgressRequest);
-			return Helper.findResponseStatus("Drive Daily Progress Data Added Successfully", Constants.SUCCESS_CODE);
+			DDProgress = service.saveDriveDailyProgressRecord(driveDailyProgressRequest);
+			return new ResponseEntity<DriveDailyProgress>(DDProgress,HttpStatus.OK);
 		}catch (Exception e) {
 			logger.error("ERROR >> While adding Drive Daily Progress data. "+e.getMessage());
-			return Helper.findResponseStatus("Drive Daily Progress Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			return new ResponseEntity<DriveDailyProgress>(DDProgress, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -1213,6 +1224,43 @@ public class DrivesController {
 			return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return null;
+	}
+	
+	@PostMapping("/saveDriveProgressId")
+	@ResponseBody
+	public ResponseStatus saveDriveProgressId(
+			@RequestParam("assetIds") List<String> assetIds,
+			@RequestParam("driveDailyProgressId") Long driveProgressid,
+			@RequestParam("createdBy") String createdBy) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		
+		logger.info("*** drive Id**"+driveProgressid+"*** created by **"+createdBy);
+		for (String assetId : assetIds) {
+			logger.info("*** asset id ***"+assetId);
+		}
+		try {
+			service.saveDriveProgressId(assetIds,driveProgressid,createdBy);
+			return Helper.findResponseStatus("success fully saved ", Constants.SUCCESS_CODE);			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return Helper.findResponseStatus("data save failed"+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		
+	}
+	
+	@RequestMapping(value = "/getDriveProgressIdDataBasedOnDriveDailyProgress/{driveDailyProgressId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public List<DriveProgressId> findDriveProgressIdDataByDriveDailyProgressId(@PathVariable("driveDailyProgressId") Long driveDailyProgressId){
+		logger.info("Enter into findDriveProgressIdDataByDriveDailyProgressId function with id*** "+driveDailyProgressId);
+		List<DriveProgressId> driveProgressIdList = null;
+		try {
+			driveProgressIdList = service.findByDriveDailyProgressId(driveDailyProgressId);
+			logger.info("Fetch drive progress id data count ::"+driveProgressIdList.size());
+			return driveProgressIdList;		
+		} catch (Exception e) {
+			logger.error("ERROR >>> while fetching the drive progress id data = "+e.getMessage());
+		}
+		logger.info("Exit from findDriveProgressIdDataByDriveDailyProgressId function");
+		return driveProgressIdList;
 	}
 	
 	
