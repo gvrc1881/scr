@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MaterialQtyreceivedandConsumedingivenperiodbyDiv" pageWidth="900" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e84a3a8c-0e3e-433d-930d-f73877a323ce">
-	<property name="ireport.zoom" value="1.4641000000000006"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="73"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="zone" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -51,7 +51,7 @@ SELECT
 	and p.quantity_uom_id = uom.uom_id
 	and upper(zone) = $P{zone}
 	and upper(f.division) = $P{division}
-	and case when upper($P{subDivision})='' then f.sub_division=upper($P{subDivision})
+	and case when upper($P{subDivision}) !='' then f.sub_division=upper($P{subDivision})
 			else f.sub_division is not null end
 	and p.product_id = $P{Material_Item}
 	and QUANTITY is not null
@@ -84,18 +84,6 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 	</background>
 	<title>
 		<band height="65" splitType="Stretch">
-			<staticText>
-				<reportElement x="660" y="45" width="100" height="20" uuid="31b795e0-0c24-4e0f-896f-c14d6380a444"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Generated On :]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="760" y="45" width="100" height="20" uuid="40ced5c7-9370-41c7-b812-d75e59f19a6e"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="860" height="45" uuid="0b662f59-1a06-46f2-9afd-bb9077a27ca5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -103,12 +91,17 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				</textElement>
 				<textFieldExpression><![CDATA[$F{header}]]></textFieldExpression>
 			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="45" width="860" height="20" uuid="403253fb-67aa-4bd8-95ac-d982f3cee22f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="styled"/>
+				<textFieldExpression><![CDATA["<b>Generated On : </b>"+ new SimpleDateFormat("dd-MMM-yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="80" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="60" width="50" height="20" uuid="98972396-31a1-4871-9915-fd58059159c5"/>
+				<reportElement x="0" y="40" width="50" height="20" uuid="98972396-31a1-4871-9915-fd58059159c5"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -122,7 +115,7 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				<text><![CDATA[Sl.No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="60" width="230" height="20" uuid="200961b1-e04f-442e-820d-00a755ecf236"/>
+				<reportElement x="50" y="40" width="230" height="20" uuid="200961b1-e04f-442e-820d-00a755ecf236"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -136,7 +129,7 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				<text><![CDATA[SubDivision]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="280" y="60" width="170" height="20" uuid="447c346c-5d9f-4fc3-a17a-2e3bf33d24d3"/>
+				<reportElement x="280" y="40" width="170" height="20" uuid="447c346c-5d9f-4fc3-a17a-2e3bf33d24d3"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -150,7 +143,7 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				<text><![CDATA[Depot]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="450" y="60" width="210" height="20" uuid="d92c1154-f3bb-42d4-8e8d-1ebadb193c0e"/>
+				<reportElement x="450" y="40" width="210" height="20" uuid="d92c1154-f3bb-42d4-8e8d-1ebadb193c0e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -164,35 +157,7 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				<text><![CDATA[Received Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="550" y="40" width="110" height="20" uuid="39f53e7b-feff-4701-8a06-de6c0f0150e8"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Units :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="272" y="40" width="100" height="20" uuid="1760b801-52ed-4211-b5d2-7615b8f42a4f"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Material Desc : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="660" y="60" width="200" height="20" uuid="e6aaea24-f5bc-49d6-994e-57260ed514fb"/>
+				<reportElement x="660" y="40" width="200" height="20" uuid="e6aaea24-f5bc-49d6-994e-57260ed514fb"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -205,58 +170,8 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				</textElement>
 				<text><![CDATA[Consumed Qty]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="83" height="20" uuid="608f8be8-f9c0-49ce-80c2-6bb65c2a1792"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Zone : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="272" y="20" width="100" height="20" uuid="225efb45-7abb-4d3f-bd45-78914b6e7009"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Start Date of Period:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="20" width="83" height="20" uuid="2be759a3-273b-4c57-a6f4-6b453098525c"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Material Item : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="550" y="20" width="110" height="20" uuid="a8aba4c9-ed5e-4e6f-99f1-387e3a35df96"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[End Date of Period :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="272" y="0" width="100" height="20" uuid="e02e1efb-b1e0-4955-b1f9-793f7e642877"/>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Division : ]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="83" y="0" width="117" height="20" uuid="394dfeab-0416-4787-bc4e-29011586a9f7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{zone}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="0" width="100" height="20" uuid="a7c57c07-28da-4b9c-9ec5-c0f08480dbc2"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{div}.toUpperCase()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="83" y="20" width="117" height="20" uuid="eb6b1004-62b1-48e5-a392-761c0961cb99"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{material_desc}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="0" width="860" height="60" uuid="4c8fa885-540a-47ca-8c4b-734c5e6ae97c"/>
+				<reportElement x="300" y="20" width="360" height="20" uuid="fc7d78fe-4263-48b7-b2bc-cf3db5e8d645"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -264,49 +179,94 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="660" y="20" width="100" height="20" uuid="95f8e0ad-4ebf-4493-bf09-db56bc03d823"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{enddate}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="660" y="40" width="104" height="20" uuid="430ce978-4839-426b-8881-579e4c61a749"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{uom}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="83" y="40" width="117" height="20" uuid="688a8753-cc71-41f4-8263-981dcc6a5329"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{rly_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[ " Material Desc : " + $F{description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="660" y="20" width="200" height="20" uuid="f567a944-d4e1-4dab-a6f8-521809fbaa18"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[ " Units : " + $F{uom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="200" height="20" uuid="fbeac8bb-0e1c-4fdc-839c-7a8943244484"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[ " Start Date of Period :  " + $F{startdate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="660" y="0" width="200" height="20" uuid="c8c513dc-ce7d-4a95-a01a-09707c4e3486"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[ " Rly Id :  " + $F{rly_id}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="200" height="20" uuid="021081db-d4fe-4f23-ad75-616375b7a706"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[ " Zone :  " + $F{zone}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="40" width="83" height="20" uuid="dcd71db2-8ce7-4dd5-9c35-7f0363ad41d1"/>
+				<reportElement x="200" y="20" width="100" height="20" uuid="451ae178-f18b-48bf-a48f-1323aaee04d0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Rly Id : ]]></text>
+				<text><![CDATA[End Date of Period : ]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="20" width="100" height="20" uuid="99a387a2-2930-4ac6-bf98-8127d1eb82a7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{startdate}]]></textFieldExpression>
+			<textField>
+				<reportElement x="200" y="0" width="200" height="20" uuid="5ecd6263-4486-46c8-b019-01c0628508cc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[ " Division " + $F{div}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="40" width="178" height="20" uuid="fb644b26-b052-414d-82a9-190ced8fbbbc"/>
+				<reportElement x="400" y="0" width="260" height="20" uuid="7568fe5c-7996-4605-a0fd-b49e28998fef"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[ " Material Item :  " + $F{material_desc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -322,19 +282,7 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="50" y="0" width="230" height="20" uuid="b79de0bd-6d87-49b2-84a5-08c43bc84f89"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{subDivision}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="280" y="0" width="170" height="20" uuid="1cc32a9b-81dd-4dcd-bf91-4aa76bd3f812"/>
@@ -372,30 +320,37 @@ on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FAC
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{consumed_qty}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="230" height="20" uuid="65fd6779-4951-4f35-ad09-dc36465422e8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{subdiv}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="320" y="0" width="80" height="20" uuid="5b22a9e3-fdd8-405d-b57d-a8eacdf338a7"/>
+				<reportElement x="0" y="0" width="860" height="20" uuid="754098ca-e09f-484b-9789-87d4428c69c9"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="400" y="0" width="40" height="20" uuid="c06d2266-25ec-45d2-a395-dcd5bd380f8c"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of" +" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
 	<noData>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="860" height="20" forecolor="#EF0320" uuid="aaccc37a-c102-40f4-b96a-24bb6ae6c716"/>
+				<reportElement x="0" y="0" width="860" height="20" forecolor="#FF0033" uuid="23437f66-b9c9-4590-b88b-231f6b783e14"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO DATA FOUND]]></text>
+				<text><![CDATA[No Data Found]]></text>
 			</staticText>
 		</band>
 	</noData>
