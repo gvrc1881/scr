@@ -12,6 +12,7 @@ import com.scr.model.MeasureOrActivityList;
 public interface MeasureOrActivityListRepository extends JpaRepository<MeasureOrActivityList, Long>{
 
 	Optional<MeasureOrActivityList> findByActivityId(String activityId);
+	
 	List<MeasureOrActivityList> findByActivityType(String activityType);
 
 	Boolean existsByActivityId(String activityId);

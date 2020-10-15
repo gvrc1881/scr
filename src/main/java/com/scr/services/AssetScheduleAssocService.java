@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.AssetScheduleAssoc;
-
+import com.scr.model.TssFeederMaster;
 import com.scr.repository.AssetSchAssoRepository;
 
 @Service
@@ -48,4 +48,8 @@ public class AssetScheduleAssocService {
 		// TODO Auto-generated method stub
 		return assetSchAssocRepository.findByAssetTypeAndScheduleCode(assetType,scheduleCode);
 	}
+	public Optional<AssetScheduleAssoc> findByAsaSeqId(String asaSeqId) {
+		return assetSchAssocRepository.findByAsaSeqId(asaSeqId);
+	}
 }
+

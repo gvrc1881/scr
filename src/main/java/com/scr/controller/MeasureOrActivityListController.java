@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.services.MeasureOrActivityListService;
@@ -235,5 +236,24 @@ public Boolean existsActivityNameAndUnitOfMeasureAndId(@PathVariable("id") Long 
 		log.error("Error while checking exists id and activityid..."+e.getMessage());
 		return false;
 	}
+}
+
+@RequestMapping(value = "/getActivityNameBasedOnActivityId/{activityId}", method = RequestMethod.GET, headers = "accept=application/json")
+public ResponseEntity<MeasureOrActivityList> getAssetTypeAndScheduleCodeBasedOnSeqId(@PathVariable("activityId") String activityId) {
+	log.info("** Enter into getActivityNameBasedOnActivityId function ***");
+	Optional<MeasureOrActivityList> measure = null;
+	try {
+		log.info("** activityId = " + activityId);
+		measure = measureService.findByActivityId(activityId);
+		if (measure.isPresent()) {
+			return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.OK);
+		} else
+			return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.CONFLICT);
+
+	} catch (Exception e) {
+		log.error("Error >>  while find measure Details by activityId, " + e.getMessage());
+		return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 }
 }

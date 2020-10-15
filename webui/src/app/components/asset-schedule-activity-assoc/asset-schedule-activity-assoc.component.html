@@ -34,18 +34,17 @@
     <div class="panel-heading">{{title}} Asset Sch Activity Assoc</div>
     <div class="panel-body">
         <div class="col-md-12">
-            <div *ngIf ="enableAsaSeqId">
+             <div *ngIf ="enableAsaSeqId">
             </div>
             <div *ngIf="!enableAsaSeqId; else AsaSeqIdElseBlock">
-            <div class="col-md-3">
+             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
                     <mat-select placeholder="Asset Type-Schedule Name" 
                         [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required>
                         <mat-option *ngFor="let assetType of assetSchList"
                             [value]="assetType.asaSeqId" >
-                            <span>{{ assetType.assetType }}</span>-
-                        <small>{{assetType.scheduleCode}}</small>
-                           
+                          
+                        {{ assetType.assetType }}-{{assetType.scheduleCode}}
                         </mat-option>
                     </mat-select>
                    
@@ -54,17 +53,17 @@
                 class="alert alert-danger"> Max 255 characters only
         </mat-error>                                                          
                 </mat-form-field>
-            </div>
-            </div>
+            </div> 
+             </div>
             <ng-template #AsaSeqIdElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
                         <input matInput placeholder = "Asset Type-Schedule Name" [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
-          </ng-template>
+          </ng-template>  
 
-          <div *ngIf ="enableActivityId">
+              <div *ngIf ="enableActivityId">
         </div>
         <div *ngIf="!enableActivityId; else ActivityIdElseBlock">
             <div class="col-md-3">
@@ -180,7 +179,7 @@
                     class="alert alert-danger"> Max 255 characters only
             </mat-error>                                                             
                 </mat-form-field>
-            </div>
+            </div>    
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
                     <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']"/>

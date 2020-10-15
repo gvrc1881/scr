@@ -46,7 +46,8 @@ export class AddDriveComponent implements OnInit {
     private dialog: MatDialog,
   
     private sendAndRequestService:SendAndRequestService
-  ) {
+  ) 
+  {
     // Reactive form errors
     this.driveFormErrors = {
       name: {},
@@ -68,9 +69,9 @@ export class AddDriveComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-    this.findFunctionalUnits();
+   // this.findFunctionalUnits();
     this.findDepoTypeList();
-    this.createDriveForm();
+    this.createDriveForm();    
     this.findScheduleList();
     if (!isNaN(this.id)) {
       this.addDriveFormGroup.valueChanges.subscribe(() => {
@@ -81,9 +82,10 @@ export class AddDriveComponent implements OnInit {
       this.update = true;
       this.title = 'Edit';
       this.getDriveDataById(this.id);
-    } else {
+    } else {      
       this.title = 'Save';      
-    }
+    }  
+    
   }
   onFormValuesChanged() {
     for (const field in this.driveFormErrors) {
@@ -133,6 +135,36 @@ export class AddDriveComponent implements OnInit {
       'criteria': [null, Validators.maxLength(255)],
       'targetQuantity': [null],
       'isIdRequired': ['No'],
+      'functionalUnit': [null],
+      'checklist': ['No'],
+      'status': ['Yes'],
+      
+    });
+    this.addDriveFormGroup.patchValue({
+
+      depoType: 5
+    });
+    this.depotCode = 'TRD';
+    console.log('*** depot code'+this.depotCode);
+    this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
+    this.functionalUnitList = [];
+    this.getFunctionalUnits(this.depotCode);
+
+  }
+  creatDriveForm() {
+    this.addDriveFormGroup = this.formBuilder.group({
+      id: 0,
+      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateName.bind(this)],
+      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateDescription.bind(this)],
+      'fromDate': [null, Validators.required],
+      'toDate': [null],
+      'depoType': [null,Validators.compose([Validators.required])],
+      'assetType': [null,Validators.compose([Validators.required])],
+      'frequency':[null],
+      'assetDescription': [null, Validators.maxLength(255)],
+      'criteria': [null, Validators.maxLength(255)],
+      'targetQuantity': [null],
+      'isIdRequired': ['Yes'],
       'functionalUnit': [null],
       'checklist': ['No'],
       'status': ['Yes'],
@@ -194,6 +226,7 @@ export class AddDriveComponent implements OnInit {
     this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
+    console.log('*** find asset typess***'+assertType);
     this.assetTypeList = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+assertType)
       .subscribe((assetTypes) => {
@@ -201,12 +234,12 @@ export class AddDriveComponent implements OnInit {
       })
   }
 
-  findFunctionalUnits() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
-      .subscribe((units) => {
-        this.allFunctionalUnitsList = units;
-      })
-  }
+  // findFunctionalUnits() {
+  //   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
+  //     .subscribe((units) => {
+  //       this.allFunctionalUnitsList = units;
+  //     })
+  // }
   
   updateAssertType($event) {
     if ($event.value) {
@@ -224,14 +257,20 @@ export class AddDriveComponent implements OnInit {
       });
     }
   }
+
+  getFunctionalUnits (depotType){
+    console.log('*** dept type in get functionalutints '+depotType);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
+          this.functionalUnitList = data;
+    });
+  }
+
   getDriveDataById(id) {
-   // this.findFunctionalUnits();
+ 
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+this.resp.depotType['code']).subscribe((data) => {
-          this.functionalUnitList = data;
-     });
+        this.getFunctionalUnits(this.resp.depotType['code'] );
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
@@ -285,7 +324,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-
+      console.log("asset==="+this.depotCode);
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -338,7 +377,13 @@ export class AddDriveComponent implements OnInit {
 
     }
   }
-
+  IsRequire(){
+  if(this.addDriveFormGroup.controls['isIdRequired'].value=='Yes')
+  {
+    if(this.addDriveFormGroup.controls['assetType'].value==null)
+    this.creatDriveForm();
+  }
+}
   onGoBack() {
     if (this.save) {
       this.router.navigate(['../'], { relativeTo: this.route });

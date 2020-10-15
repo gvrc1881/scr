@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.scr.model.AssetScheduleAssoc;
+import com.scr.model.TssFeederMaster;
 
 
 
@@ -25,4 +26,6 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
     public List<AssetScheduleAssoc> findAll();
     
     Optional<AssetScheduleAssoc>findByAssetTypeAndScheduleCode(String assetType,String scheduleCode);
+    
+    Optional<AssetScheduleAssoc> findByAsaSeqId(String asaSeqId);
 }

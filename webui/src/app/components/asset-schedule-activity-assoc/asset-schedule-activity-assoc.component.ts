@@ -49,7 +49,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     enableAsaSeqId:any;
     enableActivityId:any;
     enablePositionId:any;
-    
+    resp:any;
 
     constructor(  
         private formBuilder: FormBuilder,
@@ -86,7 +86,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
         this.getAllActivityAssocData();   
-               
+        console.log("schlist==="+JSON.stringify(this.assetSchList));       
     }
             findAssetsSchedules()
             {
@@ -94,8 +94,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_ASSET_SCH_ASSOC)
                 .subscribe((resp) => {
                 this.assetSchList = resp;
-                console.log("asssch=="+this.assetSchList);
-            
+               
                 });
             }
             findActivities()
@@ -138,6 +137,16 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
             this.ActivityAssocList = data;
             for (let i = 0; i < this.ActivityAssocList.length; i++) {
                 this.ActivityAssocList[i].sno = i+1;
+                      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_ASSETTYPE_SCHEDULE_CODE_BASED_ON_ID+this.ActivityAssocList[i].asaSeqId).subscribe((data) => {
+                     this.spinnerService.hide();
+                     this.resp = data;
+                     this.ActivityAssocList[i].asaSeqId = this.resp.assetType+'-'+ this.resp.scheduleCode;
+                   });
+                  this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID+this.ActivityAssocList[i].activityId).subscribe((data) => {
+                   this.spinnerService.hide();
+                    this.resp = data;
+                    this.ActivityAssocList[i].activityId = this.resp.activityName;
+                  });
                 assoc.push(this.ActivityAssocList[i]);              
             }
             this.assetSchActAssocDataSource = new MatTableDataSource(assoc);
@@ -232,8 +241,8 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
            let id: number = this.editAssetSchActAssocResponse.id;
            var updateActAssocModel={
                                        'id':id,
-                                       'asaSeqId':asaSeqId,
-                               'activityId': activityId,
+                                       'asaSeqId':this.editAssetSchActAssocResponse.asaSeqId,
+                               'activityId':this.editAssetSchActAssocResponse.activityId,
                                'activityPositionId':activityPositionId,
                                'makeCode':makeCode,
                                'modelCode':modelCode,
@@ -319,12 +328,27 @@ ActAssocEditAction(id: number) {
 });
     this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.GET_ASSET_SCH_ACT_ASSOC_ID+id).subscribe((responseData) => {
         this.editAssetSchActAssocResponse = responseData;
-         
+         let activityName = '';
+         this.activityList.filter(element => {
+           if (element.activityId === this.editAssetSchActAssocResponse.activityId) {
+              activityName = element.activityName
+           }
+        
+        });
+        let assetTypeAndscheduleCode='';
+       
+        this.assetSchList.filter(element =>{
+          if(element.asaSeqId===this.editAssetSchActAssocResponse.asaSeqId){
+            assetTypeAndscheduleCode = element.assetType +'-'+element.scheduleCode
+            
+       
+          }
+        })
           this.assetSchActAssocFormGroup.patchValue
           ({
                             id: this.editAssetSchActAssocResponse.id,
-                            asaSeqId:this.editAssetSchActAssocResponse.asaSeqId,
-                            activityId: this.editAssetSchActAssocResponse.activityId,
+                            asaSeqId:assetTypeAndscheduleCode,
+                            activityId: activityName,
                             activityPositionId: this.editAssetSchActAssocResponse.activityPositionId,
                             makeCode:this.editAssetSchActAssocResponse.makeCode,
                             modelCode :this.editAssetSchActAssocResponse.modelCode,

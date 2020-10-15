@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetScheduleActivityAssoc;
+import com.scr.model.AssetScheduleAssoc;
 import com.scr.services.AssetScheduleActivityAssocService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -45,6 +46,7 @@ public class AssetScheduleActivityAssocController {
 	
 		try {
 			logger.info("Calling service with request parameters.");
+			
 			assetScheduleActivityAssocService.save(assetScheduleActivityAssoc);
 		logger.info("Preparing the return response");
 		return Helper.findResponseStatus("AssetScheActivityAssoc added successfully", Constants.SUCCESS_CODE);

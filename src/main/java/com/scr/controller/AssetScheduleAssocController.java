@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 
 import com.scr.model.AssetScheduleAssoc;
-
+import com.scr.model.Failure;
+import com.scr.model.TssFeederMaster;
 import com.scr.services.AssetScheduleAssocService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -44,6 +45,8 @@ public class AssetScheduleAssocController {
 	
 		try {
 			logger.info("Calling service with request parameters.");
+			AssetScheduleAssoc asa = assetScheduleAssocService.save(assetScheduleAssoc);
+			assetScheduleAssoc.setAsaSeqId(asa.getId().toString());
 			assetScheduleAssocService.save(assetScheduleAssoc);
 		logger.info("Preparing the return response");
 		return Helper.findResponseStatus("AssetScheAssoc added successfully", Constants.SUCCESS_CODE);
@@ -58,6 +61,7 @@ public class AssetScheduleAssocController {
 			return Helper.findResponseStatus("AssetScheAssoc save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
+	
 	
 	@RequestMapping(value = "/updateAssetSchAssoc" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateAssetSchAssoc(@RequestBody AssetScheduleAssoc assetScheduleAssoc) {
@@ -169,5 +173,24 @@ public class AssetScheduleAssocController {
 			logger.error("Error while checking exists id and assetType..."+e.getMessage());
 			return false;
 		}
+	}
+	
+	@RequestMapping(value = "/getAssetTypeAndScheduleCodeBasedOnSeqId/{asaSeqId}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<AssetScheduleAssoc> getAssetTypeAndScheduleCodeBasedOnSeqId(@PathVariable("asaSeqId") String asaSeqId) {
+		logger.info("** Enter into getAssetTypeAndScheduleCodeBasedOnSeqId function ***");
+		Optional<AssetScheduleAssoc> ascaa = null;
+		try {
+			logger.info("** asaSeqId = " + asaSeqId);
+			ascaa = assetScheduleAssocService.findByAsaSeqId(asaSeqId);
+			if (ascaa.isPresent()) {
+				return new ResponseEntity<AssetScheduleAssoc>(ascaa.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<AssetScheduleAssoc>(ascaa.get(), HttpStatus.CONFLICT);
+
+		} catch (Exception e) {
+			logger.error("Error >>  while find schedule Details by asaSeqId, " + e.getMessage());
+			return new ResponseEntity<AssetScheduleAssoc>(ascaa.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 }
