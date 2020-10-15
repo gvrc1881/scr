@@ -152,7 +152,7 @@ export class AddDriveStipulationComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'stipulation': ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
-        'inspectionId': ['', Validators.compose([Validators.required])],
+        'inspectionId': [''],
         'dateOfStipulation': [''],
         'dateComplied': [''],
         'compliance': [''],

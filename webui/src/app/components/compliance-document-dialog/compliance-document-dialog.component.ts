@@ -79,7 +79,7 @@ export class ComplianceDocumentComponent implements OnInit {
                     "fileName":rowid,
                     "type":this.type
                 }
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_FILE, data, false).subscribe(data => {
                     this.spinnerService.hide();
                     this.commonService.showAlertMessage("Deleted File Sucessfully");
                 }, error => {

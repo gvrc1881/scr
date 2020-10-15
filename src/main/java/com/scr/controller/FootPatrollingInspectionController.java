@@ -3,6 +3,7 @@ package com.scr.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -21,18 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.scr.message.request.DriveRequest;
+import com.scr.message.request.InspectionFileDeleteRequest;
 import com.scr.message.request.InspectionRequest;
-import com.scr.message.response.EnergyConsumptionResponse;
 import com.scr.message.response.ObservationResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
-import com.scr.model.Facility;
 import com.scr.model.FootPatrollingInspection;
-import com.scr.model.FootPatrollingSection;
-import com.scr.model.Inspection;
 import com.scr.model.Observation;
 import com.scr.services.ContentManagementService;
 import com.scr.services.FootPatrollingInspectionService;
@@ -52,7 +48,7 @@ public class FootPatrollingInspectionController {
 	@Autowired
 	private ContentManagementService contentManagementService;
 
-	private ContentManagementService footPatrollingSectionsService;
+	
 	//The Below code related to Foot patrollingInspection service
 	
 	//findAllFpInspection
@@ -474,7 +470,33 @@ public class FootPatrollingInspectionController {
 			return new ResponseEntity<List<Compliance>>(complianceStatus,HttpStatus.OK);	
 			
 		}
-		
+		@RequestMapping(value = "/deleteFileRecord", method = RequestMethod.POST, headers = "Accept=application/json")
+		public ResponseStatus deleteFile(@Valid @RequestBody InspectionFileDeleteRequest request) throws JSONException {
+			ResponseStatus response = new ResponseStatus();
+			Optional<ContentManagement> depOptionalObservat= null;
+			try {
+				log.info("Request Data = "+request.toString());
+				Long Id = request.getId();
+				String fileName = request.getFileName();
+				String type = request.getType();
+				log.info("CommonId = "+Id + " Row id = "+fileName+ " Type = "+type);
+				//if(type.equalsIgnoreCase("Stipulation")) {
+				depOptionalObservat = footPatrollingInspectionService.findInspectionsContentByIdAndCommon(Id, Long.valueOf(fileName));
+					if(depOptionalObservat != null && depOptionalObservat.isPresent()) {
+						ContentManagement inspecttionUpdate = depOptionalObservat.get();
+						inspecttionUpdate.setStatusId(Constants.UNACTIVE_STATUS_ID);
+						footPatrollingInspectionService.updatefileStatus(inspecttionUpdate);
+					
+					}
+				return response;
+			} catch (NullPointerException e) {
+				log.error(e);
+				return response;
+			} catch (Exception e) {
+				log.error(e);
+				return response;
+			}
+		}
 		
 		//search list for observations
 		@RequestMapping(value = "/observationList/{section}/{facilityId}/{nameOfStaff}/{fromDateTime}", method = RequestMethod.GET , headers = "Accept=application/json")

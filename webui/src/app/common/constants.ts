@@ -230,6 +230,21 @@ export const Constants = {
                 DELETE_OHE_LOCATION:"/deleteOheLocation/"
 
             },
+            GANTRY:{
+                GET_GANTRY:"/findAllGantrys",
+                GET_GANTRY_ID:"/findGantryItemById/",
+                SAVE_GANTRY:"/addGantryItem",
+                UPDATE_GANTRY:"/updateGantryItem",
+                DELETE_GANTRY:"/deleteGantryItem/"
+            },
+            PBSWITCH:{
+                GET_SWITCH:"/findAllPbSwitchControl",
+                GET_SWITCH_ID:"/findPbSwitchById/",
+                SAVE_SWITCH:"/addPbSwitchItem",
+                UPDATE_SWITCH:"/updatePbSwitchItem",
+                DELETE_SWITCH:"/deletePbSwitchItem/"
+
+            },
             TARIFF:{
                 GET_TARIFF:"/findAllTractionEnergyTariff",
                 GET_TARIFF_ID:"/findTractionEnergyTariff/",
@@ -468,7 +483,8 @@ export const Constants = {
                 UPDATE_OBSERVATION:"/updateObservationItem",
                 DELETE_OBSERVATION:"/deleteObservationItem/",
                 GET_OBSERVATION_CONTENT_ID:"/observationsContentById/",
-                GET_OBSERVATION_LIST_BASED_ON_QUERY:"/observationList/"
+                GET_OBSERVATION_LIST_BASED_ON_QUERY:"/observationList/",
+                DELETE_FILE:"/deleteFileRecord"
             },
             COMPLIANCES:{
                 GET_COMPLIANCE_LIST_BASED_ON_OBSERVATION_SEQ_ID:"/findComplianceItemsByObeservationSeqId/",

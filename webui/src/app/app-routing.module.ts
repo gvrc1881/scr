@@ -409,6 +409,11 @@ const routes: Routes = [
     loadChildren: './components/ohe-location/ohe-location.module#OheLocationModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'gantry',
+    loadChildren: './components/gantry/gantry.module#GantryModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

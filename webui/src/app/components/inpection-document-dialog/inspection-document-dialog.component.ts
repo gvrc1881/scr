@@ -73,13 +73,13 @@ export class InspectionDocumentComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.spinnerService.show();
-                var id = localStorage.getItem('observationFileTypeId');
+                var id = localStorage.getItem('inspectionFileTypeId');
                 var data ={
                     "id":id,
                     "fileName":rowid,
                     "type":this.type
                 }
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_FILE, data, false).subscribe(data => {
                     this.spinnerService.hide();
                     this.commonService.showAlertMessage("Deleted File Successfully");
                 }, error => {

@@ -1,11 +1,7 @@
 package com.scr.services;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -15,26 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.FpInspectionMapper;
-import com.scr.message.request.DriveRequest;
 import com.scr.message.request.InspectionRequest;
 import com.scr.message.response.ObservationResponse;
-import com.scr.message.response.ResponseStatus;
 import com.scr.model.Compliance;
 import com.scr.model.ContentManagement;
-import com.scr.model.CrsEigInspections;
 import com.scr.model.FootPatrollingInspection;
 import com.scr.mapper.CommonMapper;
 import com.scr.model.Observation;
-import com.scr.model.Stipulations;
 import com.scr.repository.ComplianceRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.FootPatrollingInspectionRepository;
 import com.scr.repository.ObservationUtilRepository;
 import com.scr.repository.ObservationsRepository;
 import com.scr.util.Constants;
-import com.scr.util.Helper;
 
 @Service
 public class FootPatrollingInspectionService {
@@ -46,8 +36,6 @@ public class FootPatrollingInspectionService {
 	private ObservationsRepository observationsRepository;
 	@Autowired
 	private ComplianceRepository complianceRepository;
-	@Autowired
-	private ContentManagementMapper contentManagementMapper;
 	@Autowired
 	private ContentManagementRepository contentManagementRepository;
 	@Autowired
@@ -228,5 +216,10 @@ public class FootPatrollingInspectionService {
 		log.info("inspectionListService"+inspectionList.size());
 		return inspectionList;
 	}
-	
+	public Optional<ContentManagement> findInspectionsContentByIdAndCommon(Long commonFileId, Long Id) {
+		return contentManagementRepository.findByIdAndCommonFileId(Id, commonFileId);
+	}
+	public void updatefileStatus(ContentManagement contentUpdate) {
+		contentManagementRepository.save(contentUpdate);
+	}
 }

@@ -39,7 +39,7 @@
                                                                 [formControl]="addDriveStipulationFormGroup.controls['inspectionId']"
                                                                 required> -->
                                                             <mat-select placeholder=" Choose Inspection" 
-                                                                [formControl]="addDriveStipulationFormGroup.controls['inspectionId']" required> 
+                                                                [formControl]="addDriveStipulationFormGroup.controls['inspectionId']" > 
                                                                 <mat-option *ngFor="let crsEigInspection of crsEigInspections"
                                                                     [value]="crsEigInspection.id">
                                                                     {{ crsEigInspection.inspectionType}} - {{ crsEigInspection.dateOfInspection}} - {{crsEigInspection.sectionStartLocation}}

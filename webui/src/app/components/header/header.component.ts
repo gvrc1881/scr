@@ -613,7 +613,7 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
         currentTab: !!path && path.includes("electrification-targets")|| path.includes("sidings") 
-        || path.includes("track") || path.includes("asset-master-data")||path.includes("work") || path.includes("guidenceItem")|| path.includes("ohe-location")  ? "open" : "",  
+        || path.includes("track") || path.includes("asset-master-data")||path.includes("work") || path.includes("guidenceItem")|| path.includes("ohe-location")|| path.includes("gantry")  ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Asset Master",
@@ -674,6 +674,14 @@ export class HeaderComponent implements OnInit, DoCheck {
             rolePermission:true,
             permission:true,
             currentSubMenu: !!path && path.includes("ohe-location") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Gantry",
+            subMenuURL: "gantry",
+            subMenuIcon: "fa fa-track",
+            rolePermission:true,
+            permission:true,
+            currentSubMenu: !!path && path.includes("gantry") ? "active-item" : "",
           },
           
         ]

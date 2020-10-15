@@ -428,7 +428,7 @@ Close
             <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let row">
                   <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
-                    (click)="editObservationItem(row.id)">
+                    (click)="editObservationItem(row.attachment)">
                     <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                   </a>
                   <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
@@ -581,12 +581,13 @@ Close
                  <span> Documents </span>
                  </mat-header-cell>
                  <mat-cell *matCellDef="let row">
-                  <button mat-icon-button matTooltip="Document View"
-                  (click)="compViewFilesDetails(row.id)" > 
+                  <button mat-icon-button matTooltip="View Documents"
+                  (click)="compViewFilesDetails(row.attachment)" > 
                   <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
              </button>
                 </mat-cell>
             </ng-container>
+            
               <ng-container matColumnDef="action">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                 <mat-cell *matCellDef="let row" style="cursor: pointer">

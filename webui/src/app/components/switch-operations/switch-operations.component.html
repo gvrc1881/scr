@@ -1,0 +1,109 @@
+<div class="panel-body">
+    <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+        <div class="p-24">
+                
+                <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"  fxLayout="column"
+                        fxLayoutAlign="start" [formGroup]="switchOperationsFormGroup" fxFlex="1 0 auto"
+                        (ngSubmit)="switchOperationsSubmit();">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">{{title}}Switch Operations</div>
+
+                            <div class="panel-body">
+                              
+                              <div class="col-md-3">
+                                <mat-form-field fxFlex="30">
+                                  <mat-select placeholder="Switch Type"
+                                       [formControl]="switchOperationsFormGroup.controls['switchType']">
+                                       <mat-option
+                                            *ngFor="let switchType of pbSwitchType"
+                                            [value]="switchType">
+                                            {{ switchType}}
+                                       </mat-option>
+                                  </mat-select>
+                             </mat-form-field>
+                              </div>
+
+                              <div class="col-md-3" >                                                        
+                                <mat-checkbox [formControl]="switchOperationsFormGroup.controls['isNormallOpened']">Is Normal Opened</mat-checkbox>                                                          
+                              </div>
+
+                              <div class="col-md-3">
+                                <mat-form-field fxFlex="30">
+                                    <input matInput placeholder="Switch Id"  [formControl]="switchOperationsFormGroup.controls['switchId']" />
+                                </mat-form-field>
+                            </div>
+    
+    
+  
+    <div class="col-md-3 mt-15">
+      <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+        <button mat-raised-button color="accent" [disabled]="switchOperationsFormGroup.invalid"
+          class="submit-button" aria-label="Submit">
+          {{title}}
+        </button>
+      </div>
+      <div mat-dialog-actions class="pt-24 text-right">                        
+        <button class="mat-accent mr-16" mat-button (click)="dialogRef.close(false)">Close</button>
+    </div>
+    </div>
+    
+    </div>
+  </div>
+  </form>
+   </div>
+   <div class="example-header">
+    <div class="col-sm-4">
+        <mat-form-field>
+          <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="panel panel-primary"></div>
+    </div>
+            <div class="clear"></div>
+            <div class="mat-elevation-z8">
+              <mat-table [dataSource]="switchOperationsDataSource" matSort >
+                <ng-container matColumnDef="sno">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="switchType">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Switch Type</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.switchType}}</mat-cell>
+                </ng-container>
+               
+                <ng-container matColumnDef="switchId">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Switch Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="cursor: pointer">
+                    {{row.switchId}}</mat-cell>
+              </ng-container>
+                <ng-container matColumnDef="isNormallOpened">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Is Normall Opened</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.isNormallOpened}}</mat-cell>
+                </ng-container>
+                
+              
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+                            (click)="editSwitchItem(row.id)">
+                            <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                          </a>
+                          <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+                            (click)="deleteSwitchItem(row.id)">
+                            <mat-icon style="color: rgb(14, 3, 2);">delete</mat-icon>
+                          </button>
+                        </mat-cell>
+                </ng-container>                      
+                 <mat-header-row *matHeaderRowDef="switchOperationsDisplayColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: switchOperationsDisplayColumns;">
+                </mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> 
+            </div>
+        </div>
+    </div>

@@ -746,6 +746,8 @@ complianceItemSubmit () {
       comFilesInfor: any;
       compViewFilesDetails(id) {
         this.spinnerService.show();
+        localStorage.setItem('inspectionFileType', 'compliance');
+        localStorage.setItem('inspectionFileTypeId', id);
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION. GET_OBSERVATION_CONTENT_ID+ id).subscribe((response) => {
           this.comFilesInfor = response;
           this.spinnerService.hide();
