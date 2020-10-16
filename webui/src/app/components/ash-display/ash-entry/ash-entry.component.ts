@@ -155,7 +155,7 @@ export class AshEntryComponent implements OnInit {
       'Asset_Type': [null,],
       
       'Schedule': [null, Validators.compose([Validators.required])],
-      
+      //'0':[null, Validators.compose([Validators.required])],
       'Asset_Id': [null, Validators.compose([Validators.required])]
     });
 
@@ -253,19 +253,19 @@ export class AshEntryComponent implements OnInit {
     this.router.navigate(['../../'], { relativeTo: this.route });
   }
   onEntryScheduleReportSubmit() {
-    // this.isSubmit = true;
+   
     if (this.entryScheduleReportGroup.invalid) {
       this.isSubmit = false;
       return;
     }
-    this.spinnerService.show();
     if (this.save) {
-      // let assetIdAssetTypes = [];
-      // this.entryScheduleReportGroup.controls.Asset_Id.value.map(value => {
-      //   assetIdAssetTypes.push(value.assetId + "_" + value.assetType);
-      // })
-      console.log("while saving ash entery data is :::"+JSON.stringify(this.ashEntry))
-      let ele = this.entryScheduleReportGroup.value.Asset_Id;
+              
+      console.log("while saving ash entery data is :::"+JSON.stringify(this.ashEntry));
+      console.log(this.measureMap);
+      const convMap = {};
+      this.measureMap.forEach((val: string, key: string) => {
+      convMap[key] = val;
+});
       var saveAshModel = {
         'scheduleDate': this.entryScheduleReportGroup.value.Schedule_date,
         'depotName': this.entryScheduleReportGroup.value.Depot_Name,
@@ -281,9 +281,11 @@ export class AshEntryComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date(),
         "status": 'EntryPending',
-        "dataDiv": this.facility.division
+        "dataDiv": this.facility.division,
+        "measureMap":convMap
+        // "activityMap":
       }
-      console.log(" model for save ash entry:::" + saveAshModel);
+      console.log(" model for save ash entry:::" + JSON.stringify(saveAshModel));
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH_ENTRY.SAVE_ENTY, saveAshModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -302,5 +304,19 @@ export class AshEntryComponent implements OnInit {
       });
     }
   }
+  
+  updatedMeasures:String = "";
+  measureMap = new Map<string, string>();
+  //mastr=any;
+  changeMeasure(index,val) {
+    //this.measuresList[index].activityName=val;
+    this.updatedMeasures+=val+",";
+    //this.mmapastr+=","+val;
+    
+    this.measureMap.set(this.measuresList[index].activityPositionId,val);
+    console.log("updated value is::"+JSON.stringify(this.measureMap.get(this.measuresList[index].activityPositionId)));
+   
+  }
+  
 
 }

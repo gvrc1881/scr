@@ -2,6 +2,7 @@ package com.scr.message.request;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 /**
  * The persistent class for the assets_schedule_history database table.
@@ -62,7 +63,26 @@ public class ASHEntryRequest implements Serializable {
 
 	private String status;
 	
+	private HashMap<String,String> measureMap;
+	
+	private HashMap<String,String> activityMap;
+	
 
+	public HashMap<String, String> getMeasureMap() {
+		return measureMap;
+	}
+
+	public void setMeasureMap(HashMap<String, String> measureMap) {
+		this.measureMap = measureMap;
+	}
+
+	public HashMap<String, String> getActivityMap() {
+		return activityMap;
+	}
+
+	public void setActivityMap(HashMap<String, String> activityMap) {
+		this.activityMap = activityMap;
+	}
 
 	public String getDoneBy() {
 		return doneBy;

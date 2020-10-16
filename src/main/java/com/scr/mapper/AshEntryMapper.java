@@ -1,7 +1,10 @@
 package com.scr.mapper;
 
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,6 +21,8 @@ import com.scr.model.AssetScheduleActivityRecord;
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.Drives;
 import com.scr.model.Facility;
+
+import net.sf.jasperreports.data.FileDataAdapter;
 
 
 @Component
@@ -52,7 +57,35 @@ public class AshEntryMapper {
 			ashar.setInitialOfIncharge(ashRequest.getInitialOfIncharge());
 			ashar.setStatus(ashRequest.getStatus());
 			ashar.setDataDiv(ashRequest.getDataDiv());
+			
+			//set measures activity positions
+			Field[] fields=AssetScheduleActivityRecord.class.getDeclaredFields();
+			HashMap<String, String> measuresMap=ashRequest.getMeasureMap();
+			for (Map.Entry<String, String> entry : measuresMap.entrySet()) {
+
+				for (Field field : fields) {
+					
+					if (entry.getKey().equals(field.getName())) {
+						field.setAccessible(true);
+						field.set(ashar, entry.getValue());
+					}
+				}
+				
+			}
+//			HashMap<String, String> activityMap=ashRequest.getActivityMap();
+//			for (Map.Entry<String, String> entry : activityMap.entrySet()) {
+//
+//				for (Field field : fields) {
+//					
+//					if (entry.getKey().equals(field.getName())) {
+//						field.setAccessible(true);
+//						field.set(ashar, entry.getValue());
+//					}
+//				}
+//				
+//			}
 		}
+		System.out.println(ashar);
 		logger.info("Prepared ASHAR model object = "+ashar);
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());

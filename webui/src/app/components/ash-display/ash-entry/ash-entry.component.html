@@ -35,8 +35,8 @@
                                                         <input #schDate matInput [matDatepicker]="picker"
                                                             placeholder="Schedule date" [max]="today" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Schedule_date']">
-                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> 
-                                                 <mat-datepicker #picker  ></mat-datepicker>  
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> 
+                                                    <mat-datepicker #picker  ></mat-datepicker>  
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-2">
@@ -99,13 +99,20 @@
                                                       </mat-form-field>
                                                 </div> -->
                                                 <div fxLayout="row" fxLayoutGap="25px"
-                                                    *ngFor="let measure of measuresList">
+                                                    *ngFor="let measure of measuresList; let i = index">
+                                                    <!-- index --{{i}} ---{{measure.activityName}} -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="25">
-                                                            <input matInput placeholder={{measure.activityName}} style="background: lightgrey; border: 1px black solid" type="text"
-                                                                name="measure.activityName" value="any comment">
+                                                            <!-- <input matInput placeholder={{measure.activityName}} style="background: lightgrey; border: 1px black solid" type="text"
+                                                                 formControlName="entryScheduleReportGroup.controls[{{i}}]" name={{measure.activityName}} decimalNumber> -->
+
+                                                            <input matInput placeholder="{{measure.activityName}}" style="background: lightgrey; border: 1px black solid" type="text"
+                                                                 name="measure.activityName-i" (change)="changeMeasure(i,$event.target.value)" [(value)]="measure.activityName" decimalNumber>
+
                                                         </mat-form-field>
                                                     </div>
+                                                    <div ng-message='required' style="color:red">Required Range[ {{measure.seqId}} - {{measure.seqId}} ]</div>
+                                                    <div class="clear"> </div>
                                                 </div>
                                                 <!-- <mat-form-field fxFlex="30" style="margin-right:1rem; width: 83%"> 
                                                     <div class="col-md-3">
@@ -124,14 +131,7 @@
                                                     
                                                     </div>
                                                 </mat-form-field>-->
-                                                <!-- <div class="col-md-2">
-                                                    <mat-form-field fxFlex="30">
-                                                        <input #fromKm matInput
-                                                            placeholder="Check the length of skids bulb"
-                                                            [formControl]="entryScheduleReportGroup.controls['Schedule']" />
-                                                         
-                                                    </mat-form-field>
-                                                </div> -->
+                                                
                                             </div>
                                             <hr size="8" width="100%" color="balck">
                                             <p style="color:green">ACTIVITY</p>
@@ -152,29 +152,16 @@
                                                     </div>
                                                 </mat-form-field> -->
 
-                                                <!-- <mat-form-field fxFlex="10" >                                               
-                                                    <div class="col-md-4">
-                                                        <mat-checkbox [checked]="myModel" class="example-margin"
-                                                            labelPosition="before">
-                                                            <label>Check complete bracket of netural section for ny
-                                                                abnormolity</label>
-                                                        </mat-checkbox>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <input #fromKm matInput style="background: lightgrey; border: 1px black solid"
-                                                            [formControl]="entryScheduleReportGroup.controls['Schedule']" />
-                                                        
-                                                    </div>
-                                                </mat-form-field>  -->
-                                                <div fxLayout="row" fxLayoutGap="25px"
-                                                    *ngFor="let activity of activityList">
+                                               
+                                                <!-- <div fxLayout="row" fxLayoutGap="25px"
+                                                    *ngFor="let activity of activityList"> -->
 
                                                         <!-- <mat-form-field fxFlex="25">
                                                             <input matInput placeholder="{{activity.activityName}}" type="text"
                                                                 name="{{activity.activityName}}" value="{{activity.activityPositionId}}">
                                                         </mat-form-field> -->
 
-                                                        <mat-form-field fxFlex="30" >
+                                                        <!-- <mat-form-field fxFlex="30" >
                                                             <div class="col-md-5">
                                                             
                                                                 <mat-checkbox  class="example-margin"
@@ -184,13 +171,13 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <input matInput style="background: lightgrey; border: 1px black solid" type="text"
-                                                                name="{{activity.activityName}}" value="any comment">
+                                                                name="{{activity.activityName}}" value="any comment"> -->
                                                                 <!-- <input #fromKm matInput style="background: lightgrey; border: 1px black solid"
                                                                     [formControl]="entryScheduleReportGroup.controls['Schedule']" /> -->
                                                                
-                                                            </div> 
+                                                            <!-- </div> 
                                                         </mat-form-field>
-                                                </div>
+                                                </div> -->
                                                 
                                             </div>
                                             <hr size="6" width="100%" color="balck">
