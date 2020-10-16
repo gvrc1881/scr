@@ -72,7 +72,7 @@ public class CommonMapper {
 				contentManagement.setTopic(topic);
 				contentManagement.setDescription("");
 				contentManagement.setOriginalFileName(mf.getOriginalFilename());				
-				contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
+				contentManagement.setChangeFileName(rootLocation+"/"+changedFileName);
 				double bytes = mf.getSize();
 				logger.info("bytes = "+bytes);
 				double kilobytes = Math.round((bytes / 1024) * 100.0) / 100.0;
