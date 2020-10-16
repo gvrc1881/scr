@@ -10,6 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DriveDailyProgressModel } from 'src/app/models/drive.model';
 import { DriveModel } from 'src/app/models/drive.model';
+import { DriveProgressIdModel } from 'src/app/models/drive.model';
 
 @Component({
   selector: 'drive-daily-progress',
@@ -23,7 +24,7 @@ export class DriveDailyProgressComponent implements OnInit {
     dailyProgressDate: any;
     depotType: any;
     dataSource: MatTableDataSource<DriveModel>;
-    displayedColumns = ['sno', 'drive','alreadyDone','assetType','performedCount','depot','ids', 'actions'];
+    displayedColumns = ['sno', 'drive','alreadyDone','assetType','performedCount','ids', 'actions']; //,'depot'
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
     drivesList: any;
@@ -31,7 +32,8 @@ export class DriveDailyProgressComponent implements OnInit {
     resp: any;
     DDProgress: any;
     depotsList: any = JSON.parse(localStorage.getItem('depotData'));
-    facilityId: any
+    facilityId: any;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -49,7 +51,7 @@ export class DriveDailyProgressComponent implements OnInit {
         this.searchInputFormGroup = this.formBuilder.group({
             'fromDate': [null],
             'depotType' : [null],
-            'facilityId': [null]   
+            'facilityId': [null]
         });
         this.findDepoTypeList();
     }
@@ -57,13 +59,13 @@ export class DriveDailyProgressComponent implements OnInit {
     processSaveAction(row: any){
         var message = '';
         var failedMessage = ''; 
-        console.log('*** depot id **'+row.facilityId);
         let saveDriveDailyProgress = {
             id: 0,
             driveId: row.drive.id,
             performedCount: row.performedCount,
             performedDate: this.searchInputFormGroup.controls['fromDate'].value,
-            depot: row.facilityId
+            depot: this.searchInputFormGroup.controls['facilityId'].value,
+            createdBy : this.loggedUserData.username,
         }
         message = 'Saved';
         failedMessage = "Saving";
@@ -81,17 +83,21 @@ export class DriveDailyProgressComponent implements OnInit {
     }
     
     assetIdsDialog(row: any){
-        console.log('*** facility id***'+row.facilityId);
-        //console.log('*** facility id***'+this.dailyProgressFormGroup.controls['fromDate'].value);
-        //let fromDate = this.dailyProgressFormGroup.controls['fromDate'].value;
         const dialogRef = this.dialog.open(AddAssetIdsDriveDialogComponent, {
           height: '600px',
           width: '80%', 
           data: { driveId : row.drive.id,
                   performedCount: row.performedCount,
-                  facilityId: '10073',
-                  performedDate: this.searchInputFormGroup.controls['fromDate'].value
+                  facilityId: this.searchInputFormGroup.controls['facilityId'].value,
+                  performedDate: this.searchInputFormGroup.controls['fromDate'].value,
+                  depotType: row.drive.depotType.code,
+                  assetType : row.drive.assetType
                 }
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+            row.performedCount = 0;
+            row.performedCount = result;
         });
         
     }
@@ -115,17 +121,17 @@ export class DriveDailyProgressComponent implements OnInit {
             this.drivesList[i].sno = i + 1;
             this.drivesList[i].drive = this.drivesList[i];
              this.drivesList[i].performedCount;
-              console.log('*** id ***'+this.drivesList[i].id);
-              console.log('*** from date ***'+this.searchInputFormGroup.controls['fromDate'].value);
-             // this.DDProgress = '';
               this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
               +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
                   ).subscribe((data) =>{
+                      this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE
+                        +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
+                          ).subscribe((data) => {
+                             this.drivesList[i].alreadyDone = data;
+                          });
                       this.DDProgress = data;
                       if(this.DDProgress != null) {
-                          this.drivesList[i].alreadyDone = this.DDProgress.performedCount;
                           this.drivesList[i].facilityId = this.DDProgress.depot;
-                        console.log('data***'+this.DDProgress.performedCount);
                           }
                       });
           //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
@@ -141,20 +147,6 @@ export class DriveDailyProgressComponent implements OnInit {
         });
     }
     
-    createCheckListForm() {
-        this.dailyProgressFormGroup = this.formBuilder.group({
-          id: 0,
-          'drive': [null, Validators.compose([Validators.required])],
-          'activityType':[null],
-         // 'measureActivityList': [null, Validators.compose([Validators.required]),this.duplicateDriveActivityList.bind(this)],
-         // 'activityPositionId':[null,Validators.compose([Validators.required]),this.duplicateDrivePositionId.bind(this)],
-          'displayOrder': [null],
-          'lowerLimit': [null],
-          'upperLimit': [null],
-          'status': ['Yes']
-        });
-      }
-    
 }
 
 @Component({
@@ -166,7 +158,7 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     dailyProgressIdFormGroup: FormGroup;
     assetIdList: any;
     displayedColumns = ['sno', 'assetId', 'actions'];
-    dataSource: any;
+    dataSource: MatTableDataSource<DriveProgressIdModel>;
     facilityId: any;
     selectedAssetIdList: any [] = [];
     assetIdsExists: boolean;
@@ -176,20 +168,28 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     performedDate : any;
     resp: any;
     DDProgress: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+    performedCount: any;
+    enableSubmit: boolean;
+    depotType: any;
+    hideFields: boolean;
+    assetType: any;
 
   constructor(
-    public formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,  
-    private sendAndRequestService:SendAndRequestService,  
-    public dialogRef: MatDialogRef<AddAssetIdsDriveDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any) {
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<AddAssetIdsDriveDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
       
-    console.log('** data **'+JSON.stringify(data));
       if(data) {
           this.facilityId = data.facilityId;
           this.driveId = data.driveId;
           this.performedDate = data.performedDate;
-          console.log('*** facility Id from data **'+this.facilityId);
+          this.depotType = data.depotType;
+          this.assetType = data.assetType;
       }
   }
     
@@ -197,12 +197,25 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         this.dailyProgressIdFormGroup = this.formBuilder.group({
             fromKilometer:[null],
             toKilometer: [null],
-            assetId: [null]    
+            assetId: [null],
+            manual: [null],
+            assetType: [null]
         })
         this.getDriveProgressIdData();
+        if('TSS' === this.depotType || 'SSP' === this.depotType ||  'SP' === this.depotType){
+            this.hideFields = false;
+            this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETID_BASED_ON_ASSETTYPE_FACILITYID + this.assetType + '/'+this.facilityId).subscribe((data) => {
+              this.assetIdList = data;
+            }, error => {
+              this.spinnerService.hide();
+            });
+        }else {
+            this.hideFields = true;    
+        }
     }
     
     getDriveProgressIdData() {
+        const driveProgressId: DriveProgressIdModel[] = [];
         this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
               +this.driveId+'/'+this.performedDate
                   ).subscribe((data) =>{
@@ -213,21 +226,28 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
                                   +this.DDProgressId
                                       ).subscribe((data) =>{
                                           this.resp = data;
-                                          if(this.resp != null) {
-                                              
-                                            console.log('data count is***'+this.resp.length);
+                                          if(this.resp){
+                                              this.performedCount = this.resp.length;
+                                              for (let i = 0; i < this.resp.length; i++) {
+                                                this.resp[i].sno = i + 1;
+                                                driveProgressId.push(this.resp[i]);
                                               }
+                                            }
+                                          this.dataSource = new MatTableDataSource(driveProgressId);
                                           });
-                        console.log('data count is***'+this.DDProgress.id);
                           }
                       });    
     }
     
     addAssetIdsFormSubmit() {
+        this.enableSubmit = false;
+        this.assetIdsExists = false;
         let saveDriveDailyProgress = {
             id: 0,
             driveId: this.driveId,
-            performedDate: this.performedDate 
+            performedDate: this.performedDate,
+            depot: this.facilityId,
+            createdBy : this.loggedUserData.username,
         }
         this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
             this.spinnerService.hide();
@@ -239,39 +259,46 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
                 for(var i=0;i<this.selectedAssetIdList.length;i++){
                     formdata.append('assetIds', this.selectedAssetIdList[i]);
                 }
-               // formdata.append('tractionEnergyTariffId', saveDetails.tractionEnergyTariffId);
-                //formdata.append('contentCategory', saveDetails.contentCategory);
-                //formdata.append('driveDailyProgressId', saveDetails.description);
-               // formdata.append('createdDate', currentDate);
-                formdata.append('createdBy', this.loggedUserData.id);
-                formdata.append('driveDailyProgressId',this.DDProgressId)
+                formdata.append('createdBy', this.loggedUserData.username);
+                formdata.append('driveDailyProgressId',this.DDProgressId);
                 this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE_PROGRESS_ID.SAVE, formdata, true).subscribe(data => {
                         this.spinnerService.hide();
-                        console.log('after save ');
+                        this.selectedAssetIdList = [];
+                        this.getDriveProgressIdData();
+                        
                     }, error => {
                         console.log('ERROR >>>');
                         this.spinnerService.hide();
                     })
             }
-            console.log('response ddProgressId '+this.resp.id);
             
           });
         
     }
     
     addAssetIds() {
+        this.enableSubmit = true;
         let assetIds = this.dailyProgressIdFormGroup.value.assetId;
-       // console.log('ids list'+assetId1.toString());
-        if (assetIds.length > 0) { this.assetIdsExists = true; }
-        for (var i = 0; i < assetIds.length; i++) {
-            this.selectedAssetIdList.push(assetIds[i]);
+        if (assetIds) {
+             this.assetIdsExists = true;
+            for (var i = 0; i < assetIds.length; i++) {
+                this.selectedAssetIdList.push(assetIds[i]);
+            }
         }
-        //this.dailyProgressIdFormGroup.reset();
+        let manualEnteredData = this.dailyProgressIdFormGroup.value.manual;
+        if(manualEnteredData) {
+            this.assetIdsExists = true;
+            let manualArray = manualEnteredData.split(";");
+            for (var i = 0 ; i < manualArray.length; i++) {
+                if(manualArray[i]) {
+                    this.selectedAssetIdList.push(manualArray[i]);
+                }
+            }
+        }
+
         Object.keys(this.dailyProgressIdFormGroup.controls).forEach(key => {
             this.dailyProgressIdFormGroup.get(key).setValue(null) ;
         });
-       // this.assetIdList = '';
-        console.log('ids list'+this.selectedAssetIdList);    
     }
     
     removeAssetId(id) {
@@ -281,13 +308,9 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         }
     }
     
-    selectedAssetId($event) {
-        let assetId = $event.value;
-        console.log('selected asset id***'+assetId);    
-    }
     
     selectedFromKm(fKM) {
-      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/'+this.dailyProgressIdFormGroup.controls['fromKilometer'].value + '/'+this.dailyProgressIdFormGroup.controls['toKilometer'].value).subscribe((data) => {
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/'+this.dailyProgressIdFormGroup.controls['fromKilometer'].value + '/'+this.dailyProgressIdFormGroup.controls['fromKilometer'].value).subscribe((data) => {
         this.assetIdList = data;
       }, error => {
         this.spinnerService.hide();
@@ -295,12 +318,33 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
   }
     
     selectedToKm(tKM) {
-        console.log('value is****');
       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM + this.facilityId + '/' +this.dailyProgressIdFormGroup.controls['fromKilometer'].value + '/'+this.dailyProgressIdFormGroup.controls['toKilometer'].value).subscribe((data) => {
         this.assetIdList = data;
       }, error => {
         this.spinnerService.hide();
       });
+  }
+    
+  delete(id) {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE_PROGRESS_ID.DELETE ,id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted  Daily Progress Id Successfully");
+          this.getDriveProgressIdData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Drive Drive Progress Id Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
     
     

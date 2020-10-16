@@ -189,3 +189,15 @@ export interface ElectrificationTargetstModel {
     updatedBy: String;
     updatedOn: Date;
 }
+
+export interface DriveProgressIdModel{
+
+    assetId:number;
+    performedBy: string;
+   
+
+    createdBy: number;
+    createdOn: Date;
+    updatedBy: number;
+    updatedOn: Date;
+}

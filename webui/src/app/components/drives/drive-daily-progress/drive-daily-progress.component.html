@@ -107,18 +107,28 @@
 	                                        
 	                                        <ng-container matColumnDef="performedCount">
 	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
-	                                        	<mat-cell *matCellDef="let row">
+	                                        	<ng-container *matCellDef="let row" >
+	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock">
 	                                        		<mat-form-field fxFlex="30">
 														<input matInput placeholder="Count" [value]="row.performedCount" 
-												                 [(ngModel)]="row.performedCount" >
+												                 [(ngModel)]="row.performedCount" readonly>
 												    </mat-form-field>
 	                                        	<!-- <input matInput   decimalNumber [(ngModel)]="row.performedCount" /> -->
 	                                        	</mat-cell>
+	                                        	</ng-container>
+	                                        	<ng-template #isIdRequiredElseBlock>
+	                                            	<mat-cell  *matCellDef="let row">
+		                                        		<mat-form-field fxFlex="30">
+															<input matInput placeholder="Count" [value]="row.performedCount" 
+													                 [(ngModel)]="row.performedCount" >
+													    </mat-form-field>
+		                                        	</mat-cell>
+	                                            </ng-template>
 	                                        </ng-container>
 	                                        
 	                                        <!-- depots List -->
 	                                        
-	                                        <ng-container matColumnDef="depot">
+	                                        <!-- <ng-container matColumnDef="depot">
 	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
 	                                        	<mat-cell *matCellDef="let row">
 	                                        		<mat-form-field fxFlex="30" class="example-full-width">
@@ -130,7 +140,7 @@
                                                             </mat-select>                                                            
                                                     </mat-form-field>
 	                                        	</mat-cell>
-	                                        </ng-container>
+	                                        </ng-container> -->
 	                                        
 	                                        <ng-container matColumnDef="ids" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Ids</mat-header-cell>

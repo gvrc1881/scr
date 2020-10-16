@@ -21,4 +21,6 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 
 	Optional<DriveDailyProgress> findByDriveIdAndPerformedDate(Drives drives, Date fromDate);
 
+	List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanEqual(Drives drives, Date fromDate);
+
 }

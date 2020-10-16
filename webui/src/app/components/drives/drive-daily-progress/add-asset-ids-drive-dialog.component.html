@@ -1,14 +1,14 @@
 <div class="row">
 	<div class="col-12">
 		<div class="row-fluid">
-			<div class="close-box">
+			<!-- <div class="close-box">
             	<div mat-dialog-actions class="pt-24 ">                        
                 	<button class="mat-accent mr-16" mat-button (click)="dialogRef.close(false)"><i class="material-icons">
                     	close
                 	</i>
             		</button>
            		</div>
-           </div>
+           </div> -->
            	<div class="panel panel-primary">
                 <div class="panel-heading">Add Asset Ids</div>
                 	<div class="panel-body">
@@ -18,6 +18,7 @@
                                 	fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
                                     	[formGroup]="dailyProgressIdFormGroup" (ngSubmit)="addAssetIdsFormSubmit();">
                                 <div class="col-md-12">
+                                <div *ngIf = "hideFields ; else hideFieldsElseBlock"> 
                                 	<div class="col-md-3">
                                     	<mat-form-field fxFlex="30">
                                         	<input #fromKm matInput placeholder="From Kilometer"  
@@ -36,15 +37,64 @@
                                     			</span>
                                    		</mat-form-field>
                                    </div>
+                                </div>
+                                <ng-template #hideFieldsElseBlock>
+                                	<div class="col-md-3">
+	                                   <mat-form-field fxFlex="30">
+                                        	<input  matInput placeholder="Asset Type" [formControl]="dailyProgressIdFormGroup.controls['assetType']"  [(ngModel)]="assetType" readonly> 
+                                   		</mat-form-field>
+                                	</div>    		
+	                            </ng-template>    
                                    <div class="col-md-3">
-                                   	<mat-form-field appearance="fill" fxFlex="30">
+                                   	<mat-form-field  fxFlex="30">
                                     	<mat-label>Asset Id</mat-label>
                                         	<mat-select [formControl]="dailyProgressIdFormGroup.controls['assetId']"  multiple >
-                                                	<mat-option *ngFor="let assetIdObj of assetIdList" (onSelectionChange)="selectedAssetId($event)"
+                                                	<mat-option *ngFor="let assetIdObj of assetIdList" 
                                                     	[value]="assetIdObj.assetId">{{assetIdObj.assetId}}_{{assetIdObj.assetType}}</mat-option>
                                             </mat-select>
                                     </mat-form-field>
                                   </div>
+                                  <div class="col-md-3">
+                                    	<mat-form-field fxFlex="30">
+                                        	<input  matInput placeholder="Manual Entry"  
+                                            	[formControl]="dailyProgressIdFormGroup.controls['manual']"/> 
+                                   		</mat-form-field>
+                                   		<mat-hint><b>Hint:</b> Asset Id Saparated With Semicolon(;) </mat-hint>
+                                  </div>
+                                  <div class="col-md-3 mt-15">
+                                  	<div class="float-right" style="float: right;">
+                                  		<!-- <button class="mat-raised-button mat-accent" color="accent"
+                                  			class="d-inline" mat-raised-button="" (click)="addAssetIds()" > 
+                                  				Add
+                                  		</button>&nbsp;&nbsp;
+                                  		<button class="mat-raised-button mat-accent" color="accent"
+                                  			class="d-inline" mat-raised-button="" type="submit"> 
+                                  				Submit
+                                  		</button>&nbsp;&nbsp; -->
+                                  		<div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline" *ngIf="enableSubmit">
+	                                    	<button mat-raised-button color="accent" 
+	                                        	class="submit-button" aria-label="Submit">
+	                                            	Submit
+	                                         </button>
+	                                   </div>
+	                                   <div class="p-12 d-inline">
+	                                   	<span class="mat-raised-button mat-warn" (click)="addAssetIds()" color="warn"
+	                                   		mat-raised-button="">
+	                                    		Add
+	                                   	</span>
+	                                   </div>&nbsp;
+	                                   <button class="mat-raised-button" mat-button [mat-dialog-close]="performedCount" cdkFocusInitial color="accent">
+                                  			close
+                                  		</button>
+                                  		<!-- <span class="mat-raised-button mat-accent d-inline" [mat-dialog-close]="performedCount" 
+                                  			(click)="onGoBack()" color="warn" mat-raised-button="">
+                                  			Back
+                                  		</span> -->
+                                  		<!-- <button class="mat-raised-button" mat-button [mat-dialog-close]="performedCount" cdkFocusInitial color="accent">
+                                  			close
+                                  		</button> -->
+                                  	</div>
+                                  </div>  
                                   <div>
                                   	<table class="table" *ngIf="assetIdsExists">
                                   		<thead>
@@ -63,22 +113,6 @@
 					                        </tr>
 					                   </tbody>
                                   	</table>
-                                  </div>
-                                  <div class="col-md-3 mt-15">
-                                  	<div class="float-right" style="float: right;">
-                                  		<button class="mat-raised-button mat-accent" color="accent"
-                                  			class="d-inline" mat-raised-button="" (click)="addAssetIds()" type="submit"> 
-                                  				Add
-                                  		</button>&nbsp;&nbsp;
-                                  		<button class="mat-raised-button mat-accent" color="accent"
-                                  			class="d-inline" mat-raised-button="" type="submit"> 
-                                  				Submit
-                                  		</button>&nbsp;&nbsp;
-                                  		<span class="mat-raised-button mat-accent d-inline"
-                                  			(click)="onGoBack()" color="warn" mat-raised-button="">
-                                  			Back
-                                  		</span>
-                                  	</div>
                                   </div>
                                 </div>
                              </form>   
@@ -101,9 +135,9 @@
 	                                        <ng-container matColumnDef="actions">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
 	                                             <mat-cell *matCellDef="let row">
-	                                                <button mat-icon-button matTooltip="Delete" >
+	                                                <button mat-icon-button matTooltip="Delete"  (click)="delete(row.id)" >
 	                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-	                                                </button> <!-- (click)="delete(row.id)" -->
+	                                                </button>
 	                                            </mat-cell> 
 	                                        </ng-container>
 	                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -173,7 +173,6 @@ export const Constants = {
                 EXISTS_ACTIVITYNAME_AND_ID:'/existsActivityNameAndId/',
                 EXISTS_ACTIVITYNAME_UNITOFMEASURE_AND_ID:'/existsActivityNameAndUnitOfMeasureAndId/',
                 GET_ACTIVITY_TYPE:"/findActivityType",
-                GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID:"/getActivityNameBasedOnActivityId/"
 
             }
         },
@@ -329,8 +328,7 @@ export const Constants = {
                 UPDATE_ASSOC:"/updateAssetSchAssoc",
                 DELETE_ASSOC:"/deleteAssetSchAssoc/",
                 Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/",
-                Exist_ASSETTYPE_SCH_AND_ID:"/existAssetTypeScheduleAndId/",
-                GET_ASSETTYPE_SCHEDULE_CODE_BASED_ON_ID:"/getAssetTypeAndScheduleCodeBasedOnSeqId/"
+                Exist_ASSETTYPE_SCH_AND_ID:"/existAssetTypeScheduleAndId/"
 
 
             }
@@ -531,11 +529,13 @@ export const Constants = {
             EDIT:'/driveDailyProgressById/',
             DELETE:'/deleteDriveDailyProgress/',
             SAVE_DRIVE_DAILY_PROGRESS_RECORD:'/saveDriveDailyProgressRecord',
-            GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/'
+            GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/',
+            GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE: '/getAlreadyDoneCountBasedOnDiveAndFromDate/'
         },
         DRIVE_PROGRESS_ID:{
             SAVE:'/saveDriveProgressId',
             GET_DRIVE_PROGRESS_ID_DATA_BASED_ON_DRIVE_DAILY_PROGRESS:'/getDriveProgressIdDataBasedOnDriveDailyProgress/',
+            DELETE: '/deleteDriveProgressId/'
         },
         CONFIG:{
             MAKE:{  

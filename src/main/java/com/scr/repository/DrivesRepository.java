@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.Drives;
+import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.Make;
 
 @Repository
@@ -30,5 +31,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	List<Drives> findByFromDateAndDepotType(Date fromDate, String depotType);
 
 	List<Drives> findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(Date fromDate,Date toDate);
+
+	List<Drives> findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndDepotType(Date fromDate,
+			Date toDate, FunctionalLocationTypes functionalLocationTypes);
 
 }

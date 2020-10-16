@@ -1172,12 +1172,11 @@ public class DrivesController {
 		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
 		List<Drives> drivesList = null;
 		Date toDate = fromDate;
-		logger.info("** from date ***"+fromDate+"** to date**"+toDate);
 		try {			
 			logger.info("Calling service for dirves data");
 			Optional<Facility> facilityData = facilityService.findByFacilityId(facilityId);
 			if (facilityData.isPresent()) {
-				drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);	
+				drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType());	
 			}
 			
 			logger.info("Fetched drives size = "+drivesList.size());
@@ -1205,15 +1204,13 @@ public class DrivesController {
 	
 	@RequestMapping(value = "/getDDProgressBasedOnDirveAndFromDate/{driveId}/{fromDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<DriveDailyProgress> getDDProgressBasedOnDirveAndFromDate(@PathVariable("driveId") Long driveId,@PathVariable("fromDate") Date fromDate){
+		logger.info("Enter into getDDProgressBasedOnDirveAndFromDate function");
 		Optional<DriveDailyProgress> DDProgress= null;
-		logger.info("** driveId **"+driveId+"** from date **"+fromDate);
 		Optional<Drives> drive = service.findDriveById(driveId);
-		logger.info("*** before try block***");
 		try {
 			if (drive.isPresent()) {
 				DDProgress = service.findByDriveIdAndPerformedDate(drive.get(),fromDate);
 			}
-			logger.info("after if condition**");
 			if(DDProgress.isPresent())
 				return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.OK);
 			/*else
@@ -1261,6 +1258,45 @@ public class DrivesController {
 		}
 		logger.info("Exit from findDriveProgressIdDataByDriveDailyProgressId function");
 		return driveProgressIdList;
+	}
+	
+	@RequestMapping(value = "/deleteDriveProgressId/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseStatus deleteDriveProgressId(@PathVariable("id") Long id) throws JSONException {
+		logger.info("Enter into deleteDriveProgressId function with id*** "+id);
+		try {
+			 service.deleteDriveProgressId(id);
+	       	return Helper.findResponseStatus("Drive Progress Id Deleted Successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Progress Id Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("Drive Progress Id Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/getAlreadyDoneCountBasedOnDiveAndFromDate/{driveId}/{fromDate}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Double getAlreadyDoneCountBasedOnDiveAndFromDate(@PathVariable("driveId") Long driveId,@PathVariable("fromDate") Date fromDate){
+		logger.info("Enter into getAlreadyDoneCountBasedOnDiveAndFromDate function");
+		List<DriveDailyProgress> DDProgress= null;
+		Double alreadyDoneCount = 0D;
+		Optional<Drives> drive = service.findDriveById(driveId);
+		try {
+			if (drive.isPresent()) {
+				DDProgress = service.findByDriveIdAndPerformedDateLessThanEqual(drive.get(),fromDate);
+			}
+			for (DriveDailyProgress driveDailyProgress : DDProgress) {
+				alreadyDoneCount = alreadyDoneCount+driveDailyProgress.getPerformedCount();
+			}
+			logger.info("*** already done count***"+alreadyDoneCount);
+				return alreadyDoneCount;
+			/*else
+				return new ResponseEntity<DriveDailyProgress>(DDProgress.get(), HttpStatus.CONFLICT);*/
+				
+		} catch (Exception e) {
+			logger.error("Error while finding already done count:");
+			return alreadyDoneCount;
+		}
 	}
 	
 	

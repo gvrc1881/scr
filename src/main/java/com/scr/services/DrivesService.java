@@ -29,6 +29,7 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
+import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.InspectionType;
 import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
@@ -47,6 +48,7 @@ import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveStipulationRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
+import com.scr.repository.FunctionalLocationTypesRepository;
 import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
@@ -119,6 +121,9 @@ public class DrivesService {
 	
 	@Autowired
 	private DriveProgressIdRepository driveProgressIdRepository;
+	
+	@Autowired
+	private FunctionalLocationTypesRepository functionalLocationTypesRepository;
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -655,9 +660,10 @@ public class DrivesService {
 	}
 
 	public List<Drives> getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
-			Date fromDate,Date toDate ) {
+			Date fromDate,Date toDate, String depotType ) {
 		// TODO Auto-generated method stub
-		return driveRepository.findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate);
+		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(depotType);
+		return driveRepository.findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndDepotType(fromDate,toDate,functionalLocationType.get());
 	}
 
 	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
@@ -695,7 +701,13 @@ public class DrivesService {
 		return driveProgressIdRepository.findByDriveDailyProgressId(existsDriveDailyProgress.get());
 	}
 
-	
+	public void deleteDriveProgressId(Long id) {
+		driveProgressIdRepository.deleteById(id);
+	}
+
+	public List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanEqual(Drives drives, Date fromDate) {
+		return driveProgressRecordRepository.findByDriveIdAndPerformedDateLessThanEqual(drives,fromDate);
+	}
 
 	
 
