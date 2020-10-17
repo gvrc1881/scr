@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scr.message.response.AssetsScheduleHistoryResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -32,13 +31,13 @@ public class AssetMasterDataController {
 	@Autowired
 	private AssetMasterDataService assetMasterDataService;
 	
-	@RequestMapping(value = "/findAllAssetMasterItems" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public List<AssetMasterData> findAllAssetMasterItems(){
+	@RequestMapping(value = "/findAllAssetMasterItems/{from}/{to}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<AssetMasterData> findAllAssetMasterItems(@PathVariable("from") int from,@PathVariable("to") int to){
 		log.info("Enter into findAllAssetMasterItems function");
 		List<AssetMasterData> assetMasterItem = null;
 		try {
 			log.info("Calling service for  assetMasterItem data");
-			assetMasterItem = assetMasterDataService.findAll();
+			assetMasterItem = assetMasterDataService.findPaginated(from, to);
 			log.info("Fetched assetMasterItem data ***"+assetMasterItem.size());
 		}catch (NullPointerException npe) {
 			log.error("ERROR >>> while fetching the assetMaster data = "+npe.getMessage());
