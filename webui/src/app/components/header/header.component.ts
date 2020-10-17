@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+import { Component, OnInit, OnChanges, DoCheck, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/common/common.service';
 
@@ -23,10 +23,13 @@ export class HeaderComponent implements OnInit, DoCheck {
     private commonService: CommonService) {
 
   }
+  
   ngOnInit() {
-    
+   
   }
-  ngDoCheck() {
+ //  }
+  ngDoCheck() { 
+    this.loginValidate = this.commonService.loginValidate(window.location.pathname);
     if (!!localStorage.getItem('userData')) {
       this.userdata = JSON.parse(localStorage.getItem('userData'));
       this.userName = !!this.userdata && !!this.userdata.username && this.userdata.username;
@@ -36,9 +39,6 @@ export class HeaderComponent implements OnInit, DoCheck {
     if (!!localStorage.getItem("loggedUser")) {
       this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
       this.rolePermission = this.commonService.rolePermission();   
-   
-    
-    //console.log(JSON.stringify(this.loggedUser.menuPermissionResponses))
     
     this.MenusList = [
       { 
@@ -998,7 +998,7 @@ export class HeaderComponent implements OnInit, DoCheck {
  //   console.log("Menu List= "+JSON.stringify(this.MenusList));
   localStorage.setItem("MenusList",this.MenusList);
   }
-   this.loginValidate = this.commonService.loginValidate(window.location.pathname);
+   
   }
   logout() {
     // remove user from local storage to log user out
