@@ -144,8 +144,7 @@ export class AddDriveComponent implements OnInit {
 
       depoType: 5
     });
-    this.depotCode = 'TRD';
-    console.log('*** depot code'+this.depotCode);
+    this.depotCode = 'TRD';    
     this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
     this.functionalUnitList = [];
     this.getFunctionalUnits(this.depotCode);
@@ -226,8 +225,7 @@ export class AddDriveComponent implements OnInit {
     this.toMinDate = new Date($event.value);
   }
   findAssetTypeList(assertType) {
-    console.log('*** find asset typess***'+assertType);
-    this.assetTypeList = [];
+      this.assetTypeList = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ASSET_TYPES+assertType)
       .subscribe((assetTypes) => {
         this.assetTypeList = assetTypes;
@@ -259,8 +257,7 @@ export class AddDriveComponent implements OnInit {
   }
 
   getFunctionalUnits (depotType){
-    console.log('*** dept type in get functionalutints '+depotType);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
+       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
           this.functionalUnitList = data;
     });
   }
@@ -324,8 +321,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
-      console.log("asset==="+this.depotCode);
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
      

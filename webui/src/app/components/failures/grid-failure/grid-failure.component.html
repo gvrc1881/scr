@@ -74,7 +74,7 @@
                             <ng-container matColumnDef="duration">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     <span>Duration</span>
-                                    <input matInput type="text" disabled (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
+                                    <input matInput type="text"  (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.duration}}</mat-cell>
                             </ng-container>
@@ -111,7 +111,7 @@
                             <ng-container matColumnDef="maxDemand">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     <span>maxDemand</span>
-                                    <input matInput type="text" disabled (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
+                                    <input matInput type="text"  (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.maxDemand}}</mat-cell>
                             </ng-container>

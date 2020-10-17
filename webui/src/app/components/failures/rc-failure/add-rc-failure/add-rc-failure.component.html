@@ -63,14 +63,13 @@
                                                                 <span [owlDateTimeTrigger]="dt3"><i class="fa fa-calendar"></i></span>
                                                                 <mat-error
                                                                 *ngIf="addRcFailFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndOccurence')"
-                                                                class="alert alert-danger">
-                                                                Station And Place And Indication combination  Already Exists
-                                                              </mat-error>
-                                                              <mat-error
-                                                              *ngIf="addRcFailFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndOccurenceID')"
-                                                              class="alert alert-danger">
-                                                              Station And Place And Indication combination  Already Exists
-                                                            </mat-error>  
+                                                                class="alert alert-danger">Station And Place And Indication combination  Already Exists
+                                                            </mat-error>                                   
+                                                            <mat-error
+                                                                *ngIf="addRcFailFromGroup.controls['fromDateTime'].hasError('duplicateSubStationAndOccurenceID')"
+                                                                class="alert alert-danger">Station And Place And Indication combination  Already Exists
+                                                            </mat-error>
+                                                         
                                                         </mat-form-field>
                                                     </div>  
                                                     
@@ -101,12 +100,12 @@
                                                   
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addRcFailFromGroup.controls['divisionLocal']">Division/Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addRcFailFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addRcFailFromGroup.controls['internalExternal']">Internal/External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addRcFailFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
                                                       </div>
 
                                                      <!-- actionPlan -->

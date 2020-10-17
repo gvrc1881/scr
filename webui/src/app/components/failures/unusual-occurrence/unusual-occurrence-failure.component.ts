@@ -21,7 +21,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
-    'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions'];
+    'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions','failureActions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -39,18 +39,14 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   @ViewChild('filter', { static: true }) filterActions: ElementRef;
   ActionsFailListActions: any;
   facilityList;
-  filterData;
-  filterActionsData;
+  filterData; 
   gridData = [];
 
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
   }
-  updatePaginatn() {
-    this.filterActionsData.dataSource = this.filterActionsData.dataSource;
-    this.filterActionsData.dataSource.paginator = this.paginator;
-  }
+  
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -84,39 +80,17 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         { "Key": 'impact', "Value": " " },
         { "Key": 'remarks', "Value": " " },
         { "Key": 'divisionLocal', "Value": " " },
-        { "Key": 'internalExternal', "Value": " " },
-       
+        { "Key": 'internalExternal', "Value": " " },   
       
        
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
-      paginator: this.paginator,
-      sort: this.sort
+       paginator: this.paginator,
+       sort: this.sort
      
     }; 
-    this.filterActionsData = {
-      filterColumnNames: [
-        { "Key": 'sno', "Value": " " },
-        { "Key": 'failureActivity', "Value": " " },           
-        { "Key": 'fromTime', "Value": " " },
-        { "Key": 'thruTime', "Value": " " },
-        { "Key": 'by', "Value": " " },
-        { "Key": 'specialRemarks', "Value": " " },
-        { "Key": 'remarks', "Value": " " },
-        { "Key": 'location', "Value": " " },
-        { "Key": 'trainNo', "Value": " " },
-      
-       
-      
-       
-      ],
-      gridData: this.gridData,
-      dataSource: this.dataSource,
-      paginator: this.paginator,
-      sort: this.sort
-     
-    }; 
+
 
   }
   applyFilter(filterValue: string) {
@@ -144,9 +118,9 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       this.filterData.gridData = UnusualOccurrenceFail;
       this.dataSource = new MatTableDataSource(UnusualOccurrenceFail);
       this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
-      this.filterData.dataSource = this.dataSource;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+       this.filterData.dataSource = this.dataSource;
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -178,6 +152,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   }
 
 /******* ACTIONS */
+
 applyFilterActions(filterValue: string) {
   filterValue = filterValue.trim(); // Remove whitespace
   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -185,19 +160,18 @@ applyFilterActions(filterValue: string) {
 }
 getActionsFailureData() {
   const ActionsFail: any[] = [];
-  console.log("list"+this.ActionsFailListActions);
-  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE).subscribe((data) => {
-    this.ActionsFailListActions = data;
-    console.log(this.ActionsFailListActions)
+
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_ACTIONS).subscribe((data) => {
+    this.ActionsFailListActions = data;   
     for (let i = 0; i < this.ActionsFailListActions.length; i++) {
       this.ActionsFailListActions[i].sno = i + 1;
-      ActionsFail.push(this.ActionsFailListActions[i]);
+      this.ActionsFailListActions[i].fromTime = this.datePipe.transform(this.ActionsFailListActions[i].fromTime, 'dd-MM-yyyy hh:mm:ss');
+      this.ActionsFailListActions[i].thruTime = this.datePipe.transform(this.ActionsFailListActions[i].thruTime, 'dd-MM-yyyy hh:mm:ss');
+      
+      ActionsFail.push(this.ActionsFailListActions[i]);    
     }
 
-    this.filterActionsData.gridData = ActionsFail;
     this.dataSourceActions = new MatTableDataSource(ActionsFail);
-    this.commonService.updateDataSource(this.dataSourceActions, this.displayedColumnsActions);
-    this.filterActionsData.dataSourceActions = this.dataSource;
     this.dataSourceActions.paginator = this.paginator;
     this.dataSourceActions.sort = this.sort;
     this.spinnerService.hide();
@@ -206,7 +180,7 @@ getActionsFailureData() {
   });
 }
 processEditActions(id) {
-  this.router.navigate(['actions/' + id], { relativeTo: this.route });
+  this.router.navigate(['actions/'+ id], { relativeTo: this.route });
 }
 deleteActions(id) {
   this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
@@ -216,7 +190,7 @@ deleteActions(id) {
   this.confirmDialogRef.afterClosed().subscribe(result => {
     if (result) {
       this.spinnerService.show();
-      this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_FAILURE_TYPE_ID, id).subscribe(data => {
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.FAILURES.DELETE_ACTIONS,id).subscribe(data => {
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Deleted Actions Fail Record Successfully");
         this.getActionsFailureData();
@@ -229,6 +203,14 @@ deleteActions(id) {
     this.confirmDialogRef = null;
   });
 }
+
+// NewObservationItem (id) {
+//   console.log("observationItem"+id);
+//   this.insId = id;
+//   this.addObservation = true;
+//   this.inspetionDetails();
+// }
+
 ViewData(data){
   var result = {
     'title':'Unusual Occurence ',

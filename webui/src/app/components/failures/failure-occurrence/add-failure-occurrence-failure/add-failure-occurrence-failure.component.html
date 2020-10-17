@@ -59,7 +59,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
-                                                                (dateTimeChange)="addEvent($event)" 
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -80,7 +80,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"  [min]="minDate" 
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"  [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -104,12 +104,12 @@
                                                   
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['divisionLocal']">Division/Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['internalExternal']">Internal/External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
                                                       </div>
 
                                                      <!-- actionPlan -->

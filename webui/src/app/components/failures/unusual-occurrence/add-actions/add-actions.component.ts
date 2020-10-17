@@ -96,16 +96,7 @@ export class AddActionsComponent implements OnInit {
     }
   }
 
-  findFeedersList(){
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
-      .subscribe((response) => {
-        console.log(response)
-        this.feedersList = response;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
-  }
+
   createForm() {
     this.addActionsFailFromGroup
       = this.formBuilder.group({
@@ -134,15 +125,15 @@ export class AddActionsComponent implements OnInit {
   updateFeedOff($event){
     if ($event.value) {
       console.log($event.value);
-      if($event.value == 'Event'){
+      if($event.value === 'EVENT'){
         this.updateActions(true, true, false, false, false,true, false, false);
-      }else if($event.value == 'Repurcussion'){
+      }else if($event.value === 'REPURCUSSION'){
         this.updateActions(true, true, false, false, false,true, false, true);
-      }else if($event.value == 'Work Done'){
+      }else if($event.value === 'WORK DONE'){
         this.updateActions(true, true, false, false, false,true, false, false);
-      }else if($event.value == 'Damage'){
+      }else if($event.value === 'DAMAGE'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      }else if($event.value == 'Availability'){
+      }else if($event.value === 'AVAILABILITY'){
         this.updateActions(true, true, false, true, false,true, false, false);
       }
     }
@@ -161,7 +152,7 @@ export class AddActionsComponent implements OnInit {
     }
   }
   getActionsFailDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EDIT_ACTIONS+id)
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
@@ -172,8 +163,8 @@ export class AddActionsComponent implements OnInit {
           specialRemarks:this.resp.specialRemarks,
           trainNo:this.resp.trainNo,
           location:this.resp.location,
-          fromTime:new Date(this.resp.fromTime),
-          thruTime:new Date(this.resp.thruTime),
+          fromTime:!!this.resp.fromTime ? new Date(this.resp.fromTime) : '',
+          thruTime:!!this.resp.thruTime ? new Date(this.resp.thruTime) : '',
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -228,15 +219,15 @@ export class AddActionsComponent implements OnInit {
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
         'location':this.addActionsFailFromGroup.value.location,  
-        'fromTime': this.addActionsFailFromGroup.value.fromDateTime,
-        'thruTime': this.addActionsFailFromGroup.value.thruDateTime,
+        'fromTime': this.addActionsFailFromGroup.value.fromTime,
+        'thruTime': this.addActionsFailFromGroup.value.thruTime,
         'remarks': this.addActionsFailFromGroup.value.remarks,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
       message = 'Saved';
       failedMessage = "Saving";
-      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILURE_TYPE_SAVE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.SAVE_ACTIONS,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
@@ -258,15 +249,15 @@ export class AddActionsComponent implements OnInit {
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
         'location':this.addActionsFailFromGroup.value.location,  
-        'fromTime': this.addActionsFailFromGroup.value.fromDateTime,
-        'thruTime': this.addActionsFailFromGroup.value.thruDateTime,
+        'fromTime': this.addActionsFailFromGroup.value.fromTime,
+        'thruTime': this.addActionsFailFromGroup.value.thruTime,
         'remarks': this.addActionsFailFromGroup.value.remarks,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";
-      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
+      this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE_ACTIONS,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {

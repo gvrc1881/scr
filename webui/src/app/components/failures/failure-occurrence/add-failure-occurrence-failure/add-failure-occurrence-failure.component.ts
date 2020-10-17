@@ -33,6 +33,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
   divisionList:any;
   duration:any;
   minDate=new Date();
+  maxDate = new Date();
   dateFormat = 'MM-dd-yyyy HH:MM:SS';
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
@@ -197,8 +198,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal,
-          internalExternal:this.resp.internalExternal,
+          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
+          internalExternal:this.resp.internalExternal == 'External' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -245,8 +246,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
+        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
 
@@ -278,8 +279,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
+        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

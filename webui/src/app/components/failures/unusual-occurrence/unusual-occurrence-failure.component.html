@@ -150,6 +150,19 @@
                                                 </button>
                                             </mat-cell>
                                         </ng-container>
+
+                                        <ng-container matColumnDef="failureActions">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                        <span>failureActions</span>
+                                                        <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                                                    </mat-header-cell>
+                                                <mat-cell *matCellDef="let row">
+                                                  <span class="mat-raised-button mat-accent" [routerLink]="['add-actions']" 
+                                                  color="accent" mat-raised-button="">
+                                                   Add Actions
+                                                </span>                                              
+                                              </mat-cell>
+                                        </ng-container>
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>
@@ -167,10 +180,10 @@
                             <div class="panel-body">
                                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                                     <div class="p-24" style="text-align: right" > <!--*ngIf="addPermission"-->
-                                        <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                        <!-- <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-actions']"> 
                                             Add Actions
-                                        </button></div>
+                                        </button></div> -->
         
                                     <div class="p-24">
         
@@ -186,89 +199,54 @@
         
                                         <div class="example-container mat-elevation-z8">
         
-                                            <mat-table [dataSource]="filterActionsData.dataSource" matSort>
+                                            <mat-table [dataSource]="dataSourceActions" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span> Sno</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" disabled [(ngModel)]="filterActionsData.filterColumnNames[0].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>                                            
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-                                                </ng-container>  
+                                                </ng-container> 
 
                                                 <ng-container matColumnDef="failureActivity">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>failureActivity</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[1].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>failureActivity</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.failureActivity}}</mat-cell>
                                                 </ng-container>
-        
+
                                                 <ng-container matColumnDef="fromTime">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>fromTime</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[2].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>fromTime</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.fromTime}}</mat-cell>
-                                                </ng-container>
+                                                </ng-container> 
 
                                                 <ng-container matColumnDef="thruTime">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>thruTime</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[3].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>thruTime</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.thruTime}}</mat-cell>
-                                                </ng-container>
-                                               
+                                                </ng-container> 
+
                                                 <ng-container matColumnDef="by">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Staff Name</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[4].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Staff Name</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.by}}</mat-cell>
-                                                </ng-container>
-                                                
-        
+                                                </ng-container> 
+
                                                 <ng-container matColumnDef="specialRemarks">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Details</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[5].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Details</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.specialRemarks}}</mat-cell>
-                                                </ng-container>
- 
+                                                </ng-container> 
+                                           
                                                 <ng-container matColumnDef="remarks">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Remarks</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[6].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>
-                                                </ng-container>
-                                                
+                                                </ng-container> 
+                                               
                                                 <ng-container matColumnDef="location">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>location</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[7].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.location}}</mat-cell>
-                                                </ng-container>
-                                                
+                                                </ng-container> 
+                                               
                                                 <ng-container matColumnDef="trainNo">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>trainNo</span>
-                                                        <input matInput type="text" (keyup) ="updatePaginatn()" [(ngModel)]="filterActionsData.filterColumnNames[8].Value" [filter]="filterActionsData"/>
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>TrainNo</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.trainNo}}</mat-cell>
-                                                </ng-container>
-                                          
-                                              
-        
-                                              
+                                                </ng-container> 
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Actions</span>
-                                                        <input matInput type="text" disabled (keyup) ="updatePaginatn()" />
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
                                                             <button mat-icon-button matTooltip="Edit"

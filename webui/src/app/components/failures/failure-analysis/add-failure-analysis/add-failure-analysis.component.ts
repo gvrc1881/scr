@@ -26,6 +26,7 @@ export class AddFailureAnalysisComponent implements OnInit {
   reportedList=[];
   failureAnalysisFormErrors: any;
   resp: any;
+  maxDate = new Date();
   reportDescriptionFlag=false;
   toMinDate=new Date();
   completeMinDate=new Date();

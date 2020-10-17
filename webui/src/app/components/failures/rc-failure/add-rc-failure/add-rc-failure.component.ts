@@ -25,7 +25,7 @@ export class AddRcFailureComponent implements OnInit {
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   driveList = [];
   reportedList=[];
-  cbFailFormErrors: any;
+  rcFailFormErrors: any;
   feedersList:any;
   extendedFromList:any=[];
   resp: any;
@@ -49,7 +49,7 @@ export class AddRcFailureComponent implements OnInit {
     private sendAndRequestService: SendAndRequestService
   ) {
     // Reactive form errors
-    this.cbFailFormErrors = {
+    this.rcFailFormErrors = {
       subStation: {}, 
       relayIndication:{},
       fromDateTime: {},
@@ -99,7 +99,7 @@ export class AddRcFailureComponent implements OnInit {
 }
 
   timeDuration(){
-    console.log("duration")
+    
     var fromDateTime=this.addRcFailFromGroup.value.fromDateTime;
     
     var thruDateTime=this.addRcFailFromGroup.value.thruDateTime;
@@ -159,14 +159,14 @@ export class AddRcFailureComponent implements OnInit {
   }
 
   onFormValuesChanged() {
-    for (const field in this.addRcFailFromGroup) {
-      if (!this.addRcFailFromGroup.hasOwnProperty(field)) {
+    for (const field in this.rcFailFormErrors) {
+      if (!this.rcFailFormErrors.hasOwnProperty(field)) {
         continue;
       }
-      this.addRcFailFromGroup[field] = {};
-      const control = this.addRcFailFromGroup.get(field);
+      this.rcFailFormErrors[field] = {};
+      const control = this.rcFailFormErrors.get(field);
       if (control && control.dirty && !control.valid) {
-        this.addRcFailFromGroup[field] = control.errors;
+        this.rcFailFormErrors[field] = control.errors;
       }
     }
   }
@@ -184,8 +184,8 @@ export class AddRcFailureComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal,
-          internalExternal:this.resp.internalExternal,
+          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
+          internalExternal:this.resp.internalExternal == 'External' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -233,8 +233,8 @@ export class AddRcFailureComponent implements OnInit {
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 
-        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addRcFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
+        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.RC_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -264,8 +264,8 @@ export class AddRcFailureComponent implements OnInit {
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 
-        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addRcFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal  == true ?  'Local' : 'Division',
+        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

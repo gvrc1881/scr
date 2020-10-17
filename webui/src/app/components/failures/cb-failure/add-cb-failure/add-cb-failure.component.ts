@@ -210,7 +210,6 @@ export class AddCbFailureComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
         this.resp = resp;
-        console.log(this.resp);
         this.toMinDate = new Date(this.resp.fromDateTime);
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
@@ -231,8 +230,8 @@ export class AddCbFailureComponent implements OnInit {
           voltage:this.resp.voltage,
           phaseAngle:this.resp.phaseAngle,
           trippedIdentifiedFault:this.resp.trippedIdentifiedFault,
-          divisionLocal:this.resp.divisionLocal,
-          internalExternal:this.resp.internalExternal,
+          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
+          internalExternal:this.resp.internalExternal == 'External' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -351,8 +350,8 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault,
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal== true ?  'Local' : 'Division',
+        'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'External' : 'Internal', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -396,8 +395,8 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault,
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal,
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal, 
+        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
+        'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

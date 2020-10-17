@@ -33,7 +33,7 @@ export class AddGridFailureComponent implements OnInit {
   minDate=new Date();
   toMinDate=new Date();
   fMinDate=new Date();
-  dateFormat = 'MM-dd-yyyy HH:MM:SS';
+  dateFormat = 'mm-dd-yyyy HH:MM:SS';
   divisionList:any;
   duration:any;
   dur:any;
@@ -243,8 +243,8 @@ timDuration(){
           
           eduration: this.resp.feedExtendedDuration,
           maxDemand: this.resp.maxDemand,
-          dl: this.resp.divisionLocal,
-          ie: this.resp.internalExternal,
+          dl: this.resp.divisionLocal =='Local' ? true: false,
+          ie: this.resp.internalExternal == 'External' ? true : false,
           remarks: this.resp.remarks
         });
         this.facilityList.map(element => {
@@ -284,8 +284,8 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl,
-        "internalExternal": this.addGridFailFromGroup.value.ie,
+        "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'Local' : 'Division',
+        "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'External' : 'Internal',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.GRID_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -319,13 +319,15 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl,
-        "internalExternal": this.addGridFailFromGroup.value.ie,
+        "divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'Local' : 'Division',
+        "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'External' : 'Internal',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
-      }   
+      }  
+      console.log("checkboxdivision/loc===="+this.addGridFailFromGroup.value.dl) ;
+      console.log("checkboxin/ext===="+this.addGridFailFromGroup.value.ie) ;
       message = 'Updated';
       failedMessage = "Updating";
       this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {
