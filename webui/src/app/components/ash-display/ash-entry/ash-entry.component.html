@@ -114,23 +114,7 @@
                                                     <div ng-message='required' style="color:red">Required Range[ {{measure.seqId}} - {{measure.seqId}} ]</div>
                                                     <div class="clear"> </div>
                                                 </div>
-                                                <!-- <mat-form-field fxFlex="30" style="margin-right:1rem; width: 83%"> 
-                                                    <div class="col-md-3">
-                                                            <mat-checkbox [checked]="myModel" class="example-margin"
-                                                                labelPosition="before">
-                                                                <label>Check PTFE cover the of insulting rod </label>
-                                                            </mat-checkbox>
-                                                       
-                                                    </div> 
-                                                    <div class="col-md-4">
-                                                        
-                                                            <input #fromKm matInput style="background: lightgrey; border: 1px black solid"
-                                                                [formControl]="entryScheduleReportGroup.controls['Schedule']" >
-                                                                <label>Check PTFE cover the of insulting rod </label>
-                                                            </input>
-                                                    
-                                                    </div>
-                                                </mat-form-field>-->
+                                                
                                                 
                                             </div>
                                             <hr size="8" width="100%" color="balck">
@@ -138,30 +122,10 @@
                                             <hr size="8" width="100%" color="balck">
                                             <div class="col-md-12">
                                                 
-
-                                                <!-- <mat-form-field fxFlex="30" style="margin-right:1rem; width: 83%">
-                                                    <div class="col-md-3">
-                                                            <mat-checkbox [checked]="myModel" class="example-margin"
-                                                                labelPosition="before">
-                                                                <label>Check PTFE cover the of insulting rod </label>
-                                                            </mat-checkbox>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                          <input #fromKm matInput style="background: lightgrey; border: 1px black solid"
-                                                                [formControl]="entryScheduleReportGroup.controls['Schedule']" />
-                                                    </div>
-                                                </mat-form-field> -->
-
                                                
-                                                <!-- <div fxLayout="row" fxLayoutGap="25px"
-                                                    *ngFor="let activity of activityList"> -->
-
-                                                        <!-- <mat-form-field fxFlex="25">
-                                                            <input matInput placeholder="{{activity.activityName}}" type="text"
-                                                                name="{{activity.activityName}}" value="{{activity.activityPositionId}}">
-                                                        </mat-form-field> -->
-
-                                                        <!-- <mat-form-field fxFlex="30" >
+                                                <div fxLayout="row" fxLayoutGap="25px"
+                                                    *ngFor="let activity of activityList; let i = index"> 
+                                                         <mat-form-field fxFlex="30" >
                                                             <div class="col-md-5">
                                                             
                                                                 <mat-checkbox  class="example-margin"
@@ -170,14 +134,15 @@
                                                                 </mat-checkbox>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <input matInput style="background: lightgrey; border: 1px black solid" type="text"
-                                                                name="{{activity.activityName}}" value="any comment"> -->
+                                                                <!-- <input matInput style="background: lightgrey; border: 1px black solid" type="text"
+                                                                name="{{activity.activityName}}" value="any comment">  -->
                                                                 <!-- <input #fromKm matInput style="background: lightgrey; border: 1px black solid"
                                                                     [formControl]="entryScheduleReportGroup.controls['Schedule']" /> -->
-                                                               
-                                                            <!-- </div> 
+                                                                    <input matInput placeholder="{{activity.activityName}}" style="background: lightgrey; border: 1px black solid" type="text"
+                                                                    name="activity.activityName" (change)="changeActivity(i,$event.target.value)" [(value)]="activity.activityName" decimalNumber>
+                                                             </div> 
                                                         </mat-form-field>
-                                                </div> -->
+                                                </div>
                                                 
                                             </div>
                                             <hr size="6" width="100%" color="balck">

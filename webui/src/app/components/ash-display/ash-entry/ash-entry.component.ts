@@ -262,10 +262,15 @@ export class AshEntryComponent implements OnInit {
               
       console.log("while saving ash entery data is :::"+JSON.stringify(this.ashEntry));
       console.log(this.measureMap);
-      const convMap = {};
+      const convMeasureMap = {};
       this.measureMap.forEach((val: string, key: string) => {
-      convMap[key] = val;
-});
+      convMeasureMap[key] = val;
+      });
+
+      const convActivityMap = {};
+      this.activityMap.forEach((val: string, key: string) => {
+      convActivityMap[key] = val;
+      });
       var saveAshModel = {
         'scheduleDate': this.entryScheduleReportGroup.value.Schedule_date,
         'depotName': this.entryScheduleReportGroup.value.Depot_Name,
@@ -282,8 +287,8 @@ export class AshEntryComponent implements OnInit {
         "createdOn": new Date(),
         "status": 'EntryPending',
         "dataDiv": this.facility.division,
-        "measureMap":convMap
-        // "activityMap":
+        "measureMap":convMeasureMap,
+        "activityMap":convActivityMap
       }
       console.log(" model for save ash entry:::" + JSON.stringify(saveAshModel));
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ASH.ASH_ENTRY.SAVE_ENTY, saveAshModel, false).subscribe(response => {
@@ -317,6 +322,18 @@ export class AshEntryComponent implements OnInit {
     console.log("updated value is::"+JSON.stringify(this.measureMap.get(this.measuresList[index].activityPositionId)));
    
   }
+  activityMap = new Map<string, string>();
+  //mastr=any;
+  changeActivity(index,val) {
+    //this.measuresList[index].activityName=val;
+    this.updatedMeasures+=val+",";
+    //this.mmapastr+=","+val;
+    
+    this.activityMap.set(this.activityList[index].activityPositionId,val);
+    console.log("updated value is::"+JSON.stringify(this.activityMap.get(this.activityList[index].activityPositionId)));
+   
+  }
+  
   
 
 }

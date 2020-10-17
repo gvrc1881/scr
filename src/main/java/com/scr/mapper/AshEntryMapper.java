@@ -72,18 +72,18 @@ public class AshEntryMapper {
 				}
 				
 			}
-//			HashMap<String, String> activityMap=ashRequest.getActivityMap();
-//			for (Map.Entry<String, String> entry : activityMap.entrySet()) {
-//
-//				for (Field field : fields) {
-//					
-//					if (entry.getKey().equals(field.getName())) {
-//						field.setAccessible(true);
-//						field.set(ashar, entry.getValue());
-//					}
-//				}
-//				
-//			}
+			HashMap<String, String> activityMap=ashRequest.getActivityMap();
+			for (Map.Entry<String, String> entry : activityMap.entrySet()) {
+
+				for (Field field : fields) {
+					
+					if (entry.getKey().equals(field.getName())) {
+						field.setAccessible(true);
+						field.set(ashar, entry.getValue());
+					}
+				}
+				
+			}
 		}
 		System.out.println(ashar);
 		logger.info("Prepared ASHAR model object = "+ashar);
