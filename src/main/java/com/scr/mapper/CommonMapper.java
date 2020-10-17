@@ -70,7 +70,7 @@ public class CommonMapper {
 				contentManagement.setFunUnit("");
 				contentManagement.setGenOps(genops);
 				contentManagement.setTopic(topic);
-				contentManagement.setDescription("");
+				contentManagement.setDescription(description);
 				contentManagement.setOriginalFileName(mf.getOriginalFilename());				
 				contentManagement.setChangeFileName(rootLocation+"/"+changedFileName);
 				double bytes = mf.getSize();

@@ -56,7 +56,7 @@ export class ContentManagementDialogComponent implements OnInit {
         ContentManagementPayload.UPDATE_PAYLOAD.modifiedBy = this.userdata.id
        
         let payload = ContentManagementPayload.UPDATE_PAYLOAD;
-        this.sendAndRequestService.requestForPOST(Constants.app_urls.DOCS.UPDATE_DOCS, payload, false).subscribe(data =>{           
+        this.sendAndRequestService.requestForPUT(Constants.app_urls.DOCS.UPDATE_DOCS, payload, false).subscribe(data =>{           
             this.spinnerService.hide();
             this.commonService.showAlertMessage("Description Updated Successfully");            
             this.dialogRef.close('closed');

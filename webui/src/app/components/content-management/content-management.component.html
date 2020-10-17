@@ -19,7 +19,7 @@
                         <div class="col-md-12">
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <mat-select placeholder="Type" formControlName="GenOps" [(ngModel)]="selectedGenOps" (ngModelChange)="genOpsChange()">
+                              <mat-select placeholder="Type" formControlName="GenOps" [(ngModel)]="selectedGenOps" (ngModelChange)="genOpsChange()" (ngModelChange)="gen()">
                                 <mat-option *ngFor="let GenOps of GenOpsArray" [value]="GenOps.ID">
                                   {{ GenOps.VALUE}}
                                 </mat-option>
@@ -217,14 +217,14 @@
                   <ng-container matColumnDef="genOps">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
                           <span>Gen/Ops</span>
-                          <input matInput type="text" (ngModelChange)="gen()" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
+                          <input matInput type="text"  (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                       </mat-header-cell>
                       <mat-cell *matCellDef="let element"> {{element.genOps}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="assetTypeRlyId">                 
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                         <span>AssetType/Rly Id</span>
-                        <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
+                        <input matInput type="text" disabled   (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.assetTypeRlyId}} </mat-cell>
                 </ng-container>
@@ -237,7 +237,7 @@
                             {{ make.make }}
                         </mat-option>
                       </mat-select>  
-                        <!-- <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>   -->
+                        <input matInput type="text" disabled (ngModelChange)="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>   
                   </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.make}} </mat-cell>
               </ng-container>
@@ -250,7 +250,7 @@
                             {{ model.model }}
                         </mat-option>
                       </mat-select>
-                    <!-- <input matInput type="text" *ngIf="visible" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/> -->
+                    <input matInput type="text" disabled (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.model}} </mat-cell>
             </ng-container>
@@ -264,7 +264,10 @@
                   </ng-container>
 
                   <ng-container matColumnDef="actions">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      <span>Actions</span>
+                      <input matInput type="text" disabled (keyup) ="updatePagination()" />
+                  </mat-header-cell>
                     <mat-cell *matCellDef="let row">
                       <a mat-icon-button matTooltip="Edit"  *ngIf="editPermission"
                         (click)="editDescription(row.id)">

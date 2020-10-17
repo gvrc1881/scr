@@ -56,8 +56,7 @@ export class ContentManagementComponent implements OnInit {
     ngOnInit() {
         this.init();
        
-        //this.makeChanges();
-        //this.modelChanges();
+      
         this.filterData = {
             filterColumnNames: [
               { "Key": 'sno', "Value": " " },
@@ -77,8 +76,7 @@ export class ContentManagementComponent implements OnInit {
           };
     }
     updatePagination() {
-        console.log("value=="+JSON.stringify(this.filterData.filterColumnNames[5].Value));
-        console.log("model=="+JSON.stringify(this.filterData.filterColumnNames[6].Value));
+      
         this.filterData.dataSource = this.filterData.dataSource;
         this.filterData.dataSource.paginator = this.paginator;
       }
@@ -263,11 +261,13 @@ export class ContentManagementComponent implements OnInit {
     }
 
     gen(){
-        let opsId = this.contentManagementFormGroup.controls['GenOps'].value;        
+       
+        if(this.selectedGenOps){    
+            let id = this.selectedGenOps; 
         let ops = this.GenOpsArray.filter(function (value) {
-            return opsId == value.ID;
+            return id == value.ID;
         });
-        if(opsId==2)
+        if(this.selectedGenOps==2)
         {
             this.visible=true;
             this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_ALL).subscribe((data) => {
@@ -277,9 +277,12 @@ export class ContentManagementComponent implements OnInit {
                 this.modelList = data;
         });
     }
+
         else{
             this.visible=false;
         }
+        
+    }
     }
 
 

@@ -173,6 +173,7 @@ export const Constants = {
                 EXISTS_ACTIVITYNAME_AND_ID:'/existsActivityNameAndId/',
                 EXISTS_ACTIVITYNAME_UNITOFMEASURE_AND_ID:'/existsActivityNameAndUnitOfMeasureAndId/',
                 GET_ACTIVITY_TYPE:"/findActivityType",
+                GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID:"/getActivityNameBasedOnActivityId/",
 
             }
         },
@@ -328,7 +329,8 @@ export const Constants = {
                 UPDATE_ASSOC:"/updateAssetSchAssoc",
                 DELETE_ASSOC:"/deleteAssetSchAssoc/",
                 Exist_ASSETTYPE_SCH:"/existAssetTypeSchedule/",
-                Exist_ASSETTYPE_SCH_AND_ID:"/existAssetTypeScheduleAndId/"
+                Exist_ASSETTYPE_SCH_AND_ID:"/existAssetTypeScheduleAndId/",
+                GET_ASSETTYPE_SCHEDULE_CODE_BASED_ON_ID:"/getAssetTypeAndScheduleCodeBasedOnSeqId/"
 
 
             }
@@ -506,7 +508,9 @@ export const Constants = {
             FAILURE_TYPE_BY_ID:'/failureTypeById/',     
             FAILURE_TYPE_SAVE:'/saveFailureByType',
             FAILURE_TYPE_UPDATE:'/updateFailureByType', 
-            //FAILURE_EQUIPMENT:'/getEquipments',
+            GET_ACTIONS:'/actions',
+            SAVE_ACTIONS:'/saveActions',
+            DELETE_ACTIONS:'/deleteActions/',
             FAILURE_EQUIPMENT:'/getEquipments/',
             DELETE_FAILURE_TYPE_ID:'/deleteFailureTypeById/',
             EXIST_FEEDOF_FROMDATETIME:'/findByFeedOfAndFromDateTime/',

@@ -259,65 +259,106 @@
   </div>
   </div>
   <div class="clear"></div>
+  
   <div class="mat-elevation-z8">
-  <mat-table [dataSource]="assetSchActAssocDataSource" matSort>
-    <ng-container matColumnDef="sno">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="asaSeqId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Schedule</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.asaSeqId}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="activityId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.activityId}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="activityPositionId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Position</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.activityPositionId}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="makeCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>make</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.makeCode}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="modelCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>model</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.modelCode}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="activityFlag">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Flag</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.activityFlag}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="displayOrder">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Display Order</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.displayOrder}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="lowerLimit">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>lower Limit</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.lowerLimit}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="upperLimit">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>upper Limit</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.upperLimit}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-        <mat-cell *matCellDef="let row" style="cursor: pointer">
-          {{row.description}}</mat-cell>
-    </ng-container>
+
+    <mat-table [dataSource]="filterData.dataSource" matSort>
+        <ng-container matColumnDef="sno">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span> Sno</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
+    </mat-header-cell>                                            
+    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="asaSeqId">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Asset Schedule</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.asaSeqId}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="activityId">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Activity</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.activityId}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="activityPositionId">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Activity Position</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.activityPositionId}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="makeCode">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Make</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.makeCode}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="modelCode">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Model</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.modelCode}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="activityFlag">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>ActivityFlag</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.activityFlag}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="displayOrder">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>DisplayOrder</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.displayOrder}}</mat-cell>
+</ng-container>
+
+
+<ng-container matColumnDef="lowerLimit">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>LowerLimit</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.lowerLimit}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="upperLimit">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>UpperLimit</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.upperLimit}}</mat-cell>
+</ng-container>
+    
+ 
+<ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span>Description</span>
+        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
+</ng-container> 
+
     
     <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>Actions</span>
+            <input matInput type="text" disabled (keyup) ="updatePagination()" />
+        </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <button mat-icon-button matTooltip="View"
                 (click)="ViewData(row)">

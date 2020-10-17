@@ -50,6 +50,8 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     enableActivityId:any;
     enablePositionId:any;
     resp:any;
+    filterData;
+    gridData = [];
 
     constructor(  
         private formBuilder: FormBuilder,
@@ -86,7 +88,33 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
         this.getAllActivityAssocData();   
-        console.log("schlist==="+JSON.stringify(this.assetSchList));       
+
+        this.filterData = {
+          filterColumnNames: [
+            { "Key": 'sno', "Value": " " },
+            { "Key": 'asaSeqId', "Value": " " },           
+            { "Key": 'activityId', "Value": " " },
+            { "Key": 'activityPositionId', "Value": " " },
+            { "Key": 'makeCode', "Value": " " },
+            { "Key": 'modelCode', "Value": " " },
+            { "Key": 'activityFlag', "Value": " " },
+            { "Key": 'displayOrder', "Value": " " },
+            { "Key": 'lowerLimit', "Value": " " },
+            { "Key": 'upperLimit', "Value": " " },
+            { "Key": 'description', "Value": " " },
+           
+          ],
+          gridData: this.gridData,
+          dataSource: this.assetSchActAssocDataSource,
+          paginator: this.paginator,
+          sort: this.sort
+         
+        }; 
+              
+    }
+    updatePagination() {
+      this.filterData.dataSource = this.filterData.dataSource;
+      this.filterData.dataSource.paginator = this.paginator;
     }
             findAssetsSchedules()
             {
@@ -149,9 +177,15 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                   });
                 assoc.push(this.ActivityAssocList[i]);              
             }
-            this.assetSchActAssocDataSource = new MatTableDataSource(assoc);
-            this.assetSchActAssocDataSource.paginator = this.paginator;
-            this.assetSchActAssocDataSource.sort = this.sort;
+            // this.assetSchActAssocDataSource = new MatTableDataSource(assoc);
+            // this.assetSchActAssocDataSource.paginator = this.paginator;
+            // this.assetSchActAssocDataSource.sort = this.sort;
+            this.filterData.gridData = assoc;
+      this.assetSchActAssocDataSource = new MatTableDataSource(assoc);
+      this.commonService.updateDataSource(this.assetSchActAssocDataSource,this.assetSchActAssocDisplayColumns);
+      this.filterData.dataSource = this.assetSchActAssocDataSource;
+      this.assetSchActAssocDataSource.paginator = this.paginator;
+      this.assetSchActAssocDataSource.sort = this.sort;
 
         } , error => {});
 
