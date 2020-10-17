@@ -267,7 +267,8 @@ public class ReportController {
   	
   	@RequestMapping(value = "/getFacilitysBasedOnDepotType/{depotType}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<Facility>> getFacilitysBasedOnDepotType(@PathVariable("depotType") String depotType){
-		List<Facility> facilityList= reportService.getFacilitysBasedOnDepotType(depotType);
+		
+  		List<Facility> facilityList= reportService.getFacilitysBasedOnDepotType(depotType);
 			return new ResponseEntity<List<Facility>>(facilityList, HttpStatus.OK);		
 	}
   	@RequestMapping(value = "/getAllCrsEigInspectionDetails", method = RequestMethod.GET ,headers = "accept=application/json")	
