@@ -187,6 +187,13 @@ export class AddDriveTargetComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.EDIT + id)
       .subscribe((resp) => {
         this.resp = resp;
+          if(this.resp.unitType) {
+             this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE +this.resp.unitType).subscribe(response => {
+                this.spinnerService.hide();
+                this.functionalUnitList = [];
+                this.functionalUnitList = response;
+              })
+          }
                this.addDriveTargetFormGroup.patchValue({
           id: this.resp.id,
           unitType: this.resp.unitType,

@@ -45,6 +45,7 @@ export class ContentManagementComponent implements OnInit {
     contentManagementDialogRef: MatDialogRef<ContentManagementDialogComponent>;
     gridData = [];
     url=environment.apiUrl;
+    showButton: boolean;
     constructor(
         public dialog: MatDialog,
         private formBuilder: FormBuilder,
@@ -107,7 +108,8 @@ export class ContentManagementComponent implements OnInit {
         this.spinnerService.show();
         const uploadedFiles: ContentManagementModel[] = [];
         console.log("list==="+this.uploadedFilesList)
-        this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_UPLOAD_FILES+this.userdata.id+'/'+this.selected.replace(' ','-')).subscribe(data => {
+        //this.selected.replace(' ','-')
+        this.sendAndGetService.requestForGET(Constants.app_urls.DOCS.GET_UPLOAD_FILES+this.userdata.id+'/'+this.selected ).subscribe(data => {
             this.spinnerService.hide();
 
             this.uploadedFilesList = data;
@@ -136,13 +138,14 @@ export class ContentManagementComponent implements OnInit {
     public get f() { return this.contentManagementFormGroup.controls; }
 
     upload(event) {
-        if (event.target.files.length > 0) { this.filesExists = true; }
+        if (event.target.files.length > 0) { this.filesExists = true; this.showButton = true; }
         for (var i = 0; i < event.target.files.length; i++) {
             this.selectedFiles.push(event.target.files[i]);
         }
     }
     removeFile(id) {
         this.selectedFiles.splice(id, 1);
+        this.showButton = false;
     }
     onContentManagementSubmit() {
         if (this.onlyDrawing) {
@@ -204,6 +207,7 @@ export class ContentManagementComponent implements OnInit {
                 this.selectedFiles = [];
                 this.filesExists = false;
                 this.getUploadedFiles();
+                this.showButton = false;
                 this.contentManagementFormGroup.reset();
             }, error => {
                 console.log('ERROR >>>');
@@ -220,6 +224,7 @@ export class ContentManagementComponent implements OnInit {
             this.commonService.showAlertMessage("Files Uploaded and Deleted Successfully");
             this.selectedFiles = [];
             this.filesExists = false;
+            this.showButton = false;
             this.contentManagementFormGroup.reset();
             this.getUploadedFiles();
         }, error => {
