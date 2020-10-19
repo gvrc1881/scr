@@ -197,6 +197,14 @@ export class AddActionsComponent implements OnInit {
     });
   }
 
+  NewFailureAction (id) {
+    console.log("failureAction"+id);
+    this.save=true;
+    //this.insId = id;
+   // this.addObservation = true;
+    //this.inspetionDetails();
+  }
+
   addEvent($event) {
     this.minDate = new Date($event.value);
   }

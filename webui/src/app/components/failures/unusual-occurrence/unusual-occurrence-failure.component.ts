@@ -119,8 +119,8 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       this.dataSource = new MatTableDataSource(UnusualOccurrenceFail);
       this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
        this.filterData.dataSource = this.dataSource;
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+       this.dataSource.paginator = this.paginator;
+       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -172,8 +172,9 @@ getActionsFailureData() {
     }
 
     this.dataSourceActions = new MatTableDataSource(ActionsFail);
-    this.dataSourceActions.paginator = this.paginator;
-    this.dataSourceActions.sort = this.sort;
+    this.dataSource.paginator = this.paginatorActions;
+    this.dataSource.sort = this.sortActions;
+   
     this.spinnerService.hide();
   }, error => {
     this.spinnerService.hide();
@@ -204,12 +205,7 @@ deleteActions(id) {
   });
 }
 
-// NewObservationItem (id) {
-//   console.log("observationItem"+id);
-//   this.insId = id;
-//   this.addObservation = true;
-//   this.inspetionDetails();
-// }
+
 
 ViewData(data){
   var result = {

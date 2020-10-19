@@ -414,6 +414,11 @@ const routes: Routes = [
     loadChildren: './components/gantry/gantry.module#GantryModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'assets-schedule',
+    loadChildren: './components/assets-schedule/assets-schedule.module#AssetsScheduleModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

@@ -589,7 +589,17 @@ export const Constants = {
                         EXIST_FACILITYID_AND_ID:"/findByFacilityIdAndId/",
                         FIND_FACILITY_BY_FACILITYID:"/findFacilityByFacilityId/",
                         },
-            },
+                        ASSETS_SCHEDULE:{  
+                            GET_ASSET_SCHEDULES:"/findAllSchedule",
+                            SAVE_ASSET_SCHEDULE:"/addAssetSchedule",
+                            GET_ASSET_SCHEDULE_ID:"/findAssetScheduleById/",
+                            UPDATE_ASSET_SCHEDULE:"/updateAssetSchedule",
+                            DELETE_ASSET_SCHEDULE:"/deleteAssetSchedule/",
+                            EXIST_SCHEDULE_CODE:"/existScheduleCode/",
+                            EXIST_SCHEDULE_CODE_ID:"/existScheduleCodeById/"                          
+                            },
+                            
+                        },
             PRODUCTS:{
                 PRODUCT:{
                     GET_PRODUCT:"/findAllProducts",

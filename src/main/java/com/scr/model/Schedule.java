@@ -16,6 +16,7 @@ public class Schedule implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="created_by")
@@ -158,6 +159,15 @@ public class Schedule implements Serializable {
 
 	public void setSeqId(String seqId) {
 		this.seqId = seqId;
+	}
+
+	@Override
+	public String toString() {
+		return "Schedule [id=" + id + ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", createdStamp="
+				+ createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv + ", description="
+				+ description + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", scheduleCode=" + scheduleCode + ", scheduleName=" + scheduleName + ", scheduleType=" + scheduleType
+				+ ", seqId=" + seqId + "]";
 	}
 
 }
