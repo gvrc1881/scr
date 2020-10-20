@@ -111,11 +111,11 @@ const routes: Routes = [
     loadChildren: './components/energy-bill-payment/observation-check-list/observation-check-list.module#ObservationCheckListModule',
     canActivate: [AuthGuard]
   },
- {
+ /*{
     path: 'foot-patrolling-inspection',
     loadChildren: './components/energy-bill-payment/foot-patrolling-inspection/foot-patrolling-inspection.module#FootPatrollingInspectionModule',
     canActivate: [AuthGuard]
-  },
+  },*/
   {
     path: 'Observations',
     loadChildren: './components/energy-bill-payment/observations/observations.module#ObservationsModule',
@@ -412,6 +412,11 @@ const routes: Routes = [
   {
     path: 'gantry',
     loadChildren: './components/gantry/gantry.module#GantryModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'foot-patrolling-inspection',
+    loadChildren: './components/foot-patrolling-inspection/inspection.module#InspectionModule',
     canActivate: [AuthGuard]
   },
   {
