@@ -39,9 +39,9 @@
                                                             <mat-error
                                                              *ngIf=" addAssetsScheduleFormGroup.controls['scheduleCode'].hasError('required')"
                                                              class="alert alert-danger">
-                                                         Enter make code </mat-error>  
+                                                         Enter schedule code </mat-error>  
                                                          <mat-error
-                                                                 *ngIf="addAssetsScheduleFormGroup.controls['scheduleCode'].hasError('maxlength') && makeFormGroup.controls['makeCode'].hasError('pattern')"
+                                                                 *ngIf="addAssetsScheduleFormGroup.controls['scheduleCode'].hasError('maxlength') "
                                                                  class="alert alert-danger"> Max 255 characters only
                                                          </mat-error>
                                                         </mat-form-field>
@@ -52,7 +52,7 @@
                                                           <input matInput placeholder="Schedule Name"
                                                             [formControl]="addAssetsScheduleFormGroup.controls['scheduleName']" />
                                                             <mat-error
-                                                                 *ngIf="addAssetsScheduleFormGroup.controls['scheduleName'].hasError('maxlength') && makeFormGroup.controls['makeCode'].hasError('pattern')"
+                                                                 *ngIf="addAssetsScheduleFormGroup.controls['scheduleName'].hasError('maxlength') "
                                                                  class="alert alert-danger"> Max 255 characters only
                                                          </mat-error>
                                                         </mat-form-field>
@@ -63,7 +63,7 @@
                                                           <input matInput placeholder="Description"
                                                             [formControl]="addAssetsScheduleFormGroup.controls['description']" />
                                                             <mat-error
-                                                                 *ngIf="addAssetsScheduleFormGroup.controls['description'].hasError('maxlength') && makeFormGroup.controls['makeCode'].hasError('pattern')"
+                                                                 *ngIf="addAssetsScheduleFormGroup.controls['description'].hasError('maxlength')"
                                                                  class="alert alert-danger"> Max 255 characters only
                                                          </mat-error>
                                                         </mat-form-field>
