@@ -11,6 +11,7 @@ import { AddDriveCategoryAssociationComponent } from './add-drive-category-assoc
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime'; 
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -48,8 +49,7 @@ const routes: Routes = [
         DrivesComponent,
         AddDriveComponent,
         AddDriveCategoryComponent,
-        AddDriveCategoryAssociationComponent,
-        
+        AddDriveCategoryAssociationComponent,        
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -61,7 +61,8 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         OwlNativeDateTimeModule,
-        DecimalValidationsModule
+        DecimalValidationsModule,
+        MatNativeDateModule
     ],
     providers: [
         

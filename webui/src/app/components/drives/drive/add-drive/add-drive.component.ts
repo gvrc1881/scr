@@ -80,10 +80,10 @@ export class AddDriveComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getDriveDataById(this.id);
     } else {      
-      this.title = 'Save';      
+      this.title = Constants.EVENTS.ADD;      
     }  
     
   }
