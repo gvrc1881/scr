@@ -85,22 +85,39 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   }
   timeDuration(){
     
-    var fromDateTime=this.addUnusualOccurrenceFromGroup.value.fromDateTime;
+  //   var fromDateTime=this.addUnusualOccurrenceFromGroup.value.fromDateTime;
     
-    var thruDateTime=this.addUnusualOccurrenceFromGroup.value.thruDateTime;
+  //   var thruDateTime=this.addUnusualOccurrenceFromGroup.value.thruDateTime;
    
-    if(this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime()!="" && this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()!=""){
-   var diff=this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()-this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime();
-   let days=Math.floor(diff / (60*60*24*1000));
+  //   if(this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime()!="" && this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()!=""){
+  //  var diff=this.addUnusualOccurrenceFromGroup.value.thruDateTime.getTime()-this.addUnusualOccurrenceFromGroup.value.fromDateTime.getTime();
+  //  let days=Math.floor(diff / (60*60*24*1000));
    
-   let hours=Math.floor(diff / (60*60*1000))-(days*24);
-   let hour=hours+(days*24);
+  //  let hours=Math.floor(diff / (60*60*1000))-(days*24);
+  //  let hour=hours+(days*24);
   
-   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+  //  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
    
-   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  //  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
   
-   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+  //  this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+  //   }
+
+  var ffdate=this.addUnusualOccurrenceFromGroup.value.fromDateTime;
+  
+  var ftdate=this.addUnusualOccurrenceFromGroup.value.thruDateTime;
+
+  if(ffdate!=null && ftdate!=null)
+  {
+    if(ftdate > ffdate)
+    {
+     
+
+    this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
+    }
+
+    }else{
+      this.duration=""
     }
   }
   findFeedersList(){

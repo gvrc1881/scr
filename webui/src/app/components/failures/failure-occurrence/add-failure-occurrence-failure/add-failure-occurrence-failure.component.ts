@@ -84,25 +84,40 @@ export class AddFailureOccurrenceComponent implements OnInit {
   }
 
   timeDuration(){
-    console.log("duration")
-    var fromDateTime=this.addFailureOccurrenceFailFromGroup.value.fromDateTime;
     
-    var thruDateTime=this.addFailureOccurrenceFailFromGroup.value.thruDateTime;
+  //   var fromDateTime=this.addFailureOccurrenceFailFromGroup.value.fromDateTime;
+    
+  //   var thruDateTime=this.addFailureOccurrenceFailFromGroup.value.thruDateTime;
    
-    if(this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime()!="" && this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()!=""){
-   var diff=this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()-this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime();
+  //   if(this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime()!="" && this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()!=""){
+  //  var diff=this.addFailureOccurrenceFailFromGroup.value.thruDateTime.getTime()-this.addFailureOccurrenceFailFromGroup.value.fromDateTime.getTime();
 
-   let days=Math.floor(diff / (60*60*24*1000));
+  //  let days=Math.floor(diff / (60*60*24*1000));
    
-   let hours=Math.floor(diff / (60*60*1000))-(days*24);
-   let hour=hours+(days*24);
+  //  let hours=Math.floor(diff / (60*60*1000))-(days*24);
+  //  let hour=hours+(days*24);
   
-   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+  //  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
    
-   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  //  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
   
-   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
-    }
+  //  this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+  //   }
+    var ffdate=this.addFailureOccurrenceFailFromGroup.value.fromDateTime;
+  
+    var ftdate=this.addFailureOccurrenceFailFromGroup.value.thruDateTime;
+  
+    if(ffdate!=null && ftdate!=null)
+    {
+      if(ftdate > ffdate)    {
+       
+  
+      this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
+      }
+  
+      }else{
+        this.duration=""
+      }
   }
   findFeedersList(){
     this.spinnerService.show();

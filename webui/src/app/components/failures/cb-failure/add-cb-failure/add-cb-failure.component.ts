@@ -284,29 +284,45 @@ export class AddCbFailureComponent implements OnInit {
 
 timeDuration(){
     
-    var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
+  //   var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
     
-    var thruDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.thruDateTime);
+  //   var thruDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.thruDateTime);
    
    
-   if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
+  //  if(this.addCbFailFromGroup.value.fromDateTime.getTime()!="" && this.addCbFailFromGroup.value.thruDateTime.getTime()!=""){
    
     
-    let diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
+  //   let diff=this.addCbFailFromGroup.value.thruDateTime.getTime()-this.addCbFailFromGroup.value.fromDateTime.getTime();
   
 
-   let days=Math.floor(diff / (60*60*24*1000));
+  //  let days=Math.floor(diff / (60*60*24*1000));
    
-   let hours=Math.floor(diff / (60*60*1000))-(days*24);
-   let hour=hours+(days*24);
+  //  let hours=Math.floor(diff / (60*60*1000))-(days*24);
+  //  let hour=hours+(days*24);
   
-   let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+  //  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
    
-   let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  //  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
   
-   this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+  //  this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
    
-    }
+  //   }
+
+    var ffdate=this.addCbFailFromGroup.value.fromDateTime;
+  
+    var ftdate=this.addCbFailFromGroup.value.thruDateTime;
+  
+    if(ffdate!=null && ftdate!=null)
+    {
+      if(ftdate > ffdate)    {
+       
+  
+      this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
+      }
+  
+      }else{
+        this.duration=""
+      }
 }
 
 function(){

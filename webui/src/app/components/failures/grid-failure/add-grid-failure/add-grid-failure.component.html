@@ -71,11 +71,15 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"
-                                                                  [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
-                                                                [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()"  >                                                                
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date" 
+                                                                  [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)" 
+                                                                [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+                                                                <mat-error
+                                                                *ngIf="addGridFailFromGroup.controls['ftdate'].touched"
+                                                                class="alert alert-danger">thru date must be greater than from date
+                                                            </mat-error> 
                                                         </mat-form-field>
                                                     </div>
 
@@ -114,6 +118,10 @@
                                                                 <owl-date-time #dt4 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt4"><i class="fa fa-calendar"></i></span>
+                                                                <mat-error
+                                                                *ngIf="addGridFailFromGroup.controls['efdate'].touched"
+                                                                class="alert alert-danger">Please slect date
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>  
                                                     

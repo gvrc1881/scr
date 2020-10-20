@@ -61,7 +61,7 @@ export class FailureAnalysisComponent implements OnInit {
         { "Key": 'reported', "Value": " " },           
         { "Key": 'div', "Value": " " },
         { "Key": 'date', "Value": " " },
-        { "Key": 'failureSection', "Value": " " },
+        { "Key": 'section', "Value": " " },
         { "Key": 'assetType', "Value": " " },
         { "Key": 'assetId', "Value": " " },
         { "Key": 'rootCause', "Value": " " },

@@ -165,50 +165,85 @@ export class AddGridFailureComponent implements OnInit {
     }
   }
  
-timeDuration(){
+timeDuration(){ 
   
   var ffdate=this.addGridFailFromGroup.value.fromDateTime;
   
   var ftdate=this.addGridFailFromGroup.value.ftdate;
- 
-  if(this.addGridFailFromGroup.value.fromDateTime.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
- var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.fromDateTime.getTime();
- let days=Math.floor(diff / (60*60*24*1000));
-   
- let hours=Math.floor(diff / (60*60*1000))-(days*24);
- let hour=hours+(days*24);
 
- let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
- 
- let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+  if(ffdate!=null && ftdate!=null)
+  {
+    if(ftdate > ffdate)
+    {
+     
 
- this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+    this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
+    }
+
+    }else{
+      this.duration=""
+    }
 
   }
-}
+
+   
+ 
+//   if(this.addGridFailFromGroup.value.fromDateTime.getTime()!="" && this.addGridFailFromGroup.value.ftdate.getTime()!=""){
+//  var diff=this.addGridFailFromGroup.value.ftdate.getTime()-this.addGridFailFromGroup.value.fromDateTime.getTime();
+//  let days=Math.floor(diff / (60*60*24*1000));
+   
+//  let hours=Math.floor(diff / (60*60*1000))-(days*24);
+//  let hour=hours+(days*24);
+
+//  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+ 
+//  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+
+//  this.duration=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+
+//   }
+//this. duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
+ 
+  
+//}
 
 timDuration(){
-  
+
   var efdate=this.addGridFailFromGroup.value.efdate;
   
   var etdate=this.addGridFailFromGroup.value.etdate;
+
+  if(efdate!=null && etdate!=null)
+  {
+    if(etdate > efdate)
+    {
+    
+
+    this.dur =this.sendAndRequestService.Duration(efdate,etdate)
+    }
+
+    }else{
+      this.dur=""
+    }
+  
+
  
-  if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
- var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
+//   if(this.addGridFailFromGroup.value.efdate.getTime()!="" && this.addGridFailFromGroup.value.etdate.getTime()!=""){
+//  var diff=this.addGridFailFromGroup.value.etdate.getTime()-this.addGridFailFromGroup.value.efdate.getTime();
  
  
- let days=Math.floor(diff / (60*60*24*1000));
+//  let days=Math.floor(diff / (60*60*24*1000));
    
- let hours=Math.floor(diff / (60*60*1000))-(days*24);
- let hour=hours+(days*24);
+//  let hours=Math.floor(diff / (60*60*1000))-(days*24);
+//  let hour=hours+(days*24);
 
- let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+//  let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
  
- let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+//  let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
 
- this.dur=String(hour)+":" + String(minutes)+":" +String(seconds) ;
+//  this.dur=String(hour)+":" + String(minutes)+":" +String(seconds) ;
 
-  }
+//   }
 }
   updateFeedOff($event){
     if ($event.value) {
@@ -326,8 +361,7 @@ timDuration(){
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }  
-      console.log("checkboxdivision/loc===="+this.addGridFailFromGroup.value.dl) ;
-      console.log("checkboxin/ext===="+this.addGridFailFromGroup.value.ie) ;
+  
       message = 'Updated';
       failedMessage = "Updating";
       this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.FAILURE_TYPE_UPDATE,data, false).subscribe(response => {

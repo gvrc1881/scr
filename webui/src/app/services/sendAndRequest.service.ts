@@ -7,6 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
+import { OwlDateTime } from 'ng-pick-datetime/date-time/date-time.class';
+
 
 @Injectable()
 export class SendAndRequestService {
@@ -82,5 +84,31 @@ export class SendAndRequestService {
        
         return timestamp;
     }
+
+    Duration(fromdate:string,thrudate:string)
+    {
+        var fdate = new Date(fromdate);
+        var tdate = new Date(thrudate);      
+        
+            var diff=tdate.getTime()-fdate.getTime(); 
+ 
+            let days=Math.floor(diff / (60*60*24*1000));
+              
+            let hours=Math.floor(diff / (60*60*1000))-(days*24);
+
+            let hour=hours+(days*24);
+           
+            let minutes=Math.floor(diff /(60*1000)) -((days*24*60) + (hours*60));
+            
+            let seconds=Math.floor(diff / 1000) - ((days*24*60*60)+(hours*60*60)+(minutes*60))
+           
+            var duration =String(hour)+":" + String(minutes)+":" +String(seconds) ;
+               
+             console.log("duarionin send rq="+duration)
+             return  duration;
+       
+    }
+  
+
 }
 

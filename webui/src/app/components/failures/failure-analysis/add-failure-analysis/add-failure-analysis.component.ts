@@ -99,8 +99,8 @@ export class AddFailureAnalysisComponent implements OnInit {
         'reported': [null],
         "reportDescription":[null, Validators.maxLength(255)],
         'repurcussion': [null, Validators.maxLength(255)],
-        'date': [null],
-        'div': [null],
+        'date': [null,Validators.compose([Validators.required])],
+        'div': [null,Validators.compose([Validators.required])],
         'section': [null,Validators.maxLength(255)],
         'assetType': [null,Validators.maxLength(255)],
         'assetId': [null,Validators.maxLength(255)],
@@ -114,7 +114,11 @@ export class AddFailureAnalysisComponent implements OnInit {
         'approvedBy': [null,Validators.maxLength(255)],
         'actionTargetDate': [null],
         'actionCompletedDate': [null],
-        'actionDescription': [null, Validators.maxLength(255)]
+        'actionDescription': [null, Validators.compose([Validators.required, Validators.maxLength(255)])]
+      });
+      this.addFailureAnalysisFormGroup.patchValue({
+
+        reported: 'NO'
       });
   }
 
