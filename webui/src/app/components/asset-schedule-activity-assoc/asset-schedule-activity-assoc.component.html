@@ -182,7 +182,7 @@
             </div>    
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']"/>
+                    <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']" numbersOnly/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('duplicateasaSeqActivityDispaly')" 
                     class="alert alert-danger" >

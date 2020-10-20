@@ -7,7 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
-
+import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 const routes: Routes = [
     {
         path:'',
@@ -26,7 +26,8 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        CommonDirectivesModule,        
+        CommonDirectivesModule, 
+        NumberValidationsModule,    
         DecimalValidationsModule,
         
     ],
