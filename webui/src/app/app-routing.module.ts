@@ -424,6 +424,11 @@ const routes: Routes = [
     loadChildren: './components/assets-schedule/assets-schedule.module#AssetsScheduleModule',
     canActivate: [AuthGuard]
   },
+  // {
+  //   path: 'sectors',
+  //   loadChildren: './components/sectors/sectors.module#SectorsModule',
+  //   canActivate: [AuthGuard]
+  // },
 ];
 
 @NgModule({
