@@ -101,6 +101,9 @@ export class GridFailureComponent implements OnInit {
         this.gridFailList[i].thruDateTime = this.datePipe.transform(this.gridFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.gridFailList[i].feedExtendedFromDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedFromDateTime, 'dd-MM-yyyy hh:mm:ss');
         this.gridFailList[i].feedExtendedThruDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedThruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.gridFailList[i].divisionLocal=this.gridFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
+        this.gridFailList[i].internalExternal=this.gridFailList[i].internalExternal == 'true' ? 'External': 'Internal',
+        
      
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].feedOf).subscribe((data) => {
           this.spinnerService.hide();

@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { constants } from 'os';
 
 @Component({
   selector: 'app-add-rc-failure',
@@ -74,13 +75,13 @@ export class AddRcFailureComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getRcFailDataById(this.id);
     } else {
       this.createForm();
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
   findFacilities(){
@@ -125,7 +126,7 @@ export class AddRcFailureComponent implements OnInit {
 
   if(ffdate!=null && ftdate!=null)
   {
-    if(ftdate > ffdate)
+    if(ftdate >= ffdate)
     {
      
 
@@ -202,8 +203,8 @@ export class AddRcFailureComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
-          internalExternal:this.resp.internalExternal == 'External' ? true: false,
+          divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
+          internalExternal:this.resp.internalExternal == 'true' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -251,8 +252,8 @@ export class AddRcFailureComponent implements OnInit {
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 
-        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
-        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
+        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.RC_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -282,8 +283,8 @@ export class AddRcFailureComponent implements OnInit {
         'fromDateTime': this.addRcFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addRcFailFromGroup.value.thruDateTime,
         'duration': this.addRcFailFromGroup.value.duration, 
-        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal  == true ?  'Local' : 'Division',
-        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
+        'divisionLocal': this.addRcFailFromGroup.value.divisionLocal  == true ?  'true' : 'false',
+        'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

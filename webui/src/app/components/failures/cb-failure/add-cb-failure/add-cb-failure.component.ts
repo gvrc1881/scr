@@ -95,12 +95,12 @@ export class AddCbFailureComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';   
+      this.title = Constants.EVENTS.UPDATE;   
       
       this.getCbFailDataById(this.id);
     } else {
       this.createForm();
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   
      
@@ -230,8 +230,8 @@ export class AddCbFailureComponent implements OnInit {
           voltage:this.resp.voltage,
           phaseAngle:this.resp.phaseAngle,
           trippedIdentifiedFault:this.resp.trippedIdentifiedFault,
-          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
-          internalExternal:this.resp.internalExternal == 'External' ? true: false,
+          divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
+          internalExternal:this.resp.internalExternal == 'true' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -314,8 +314,8 @@ timeDuration(){
   
     if(ffdate!=null && ftdate!=null)
     {
-      if(ftdate > ffdate)    {
-       
+      if(ftdate >= ffdate)   
+       {       
   
       this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
       }
@@ -366,8 +366,8 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault,
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal== true ?  'Local' : 'Division',
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'External' : 'Internal', 
+        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal== true ?  'true' : 'false',
+        'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'true' : 'false', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -411,8 +411,8 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault,
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
+        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { constants } from 'os';
 
 @Component({
   selector: 'app-add-grid-failure',
@@ -81,13 +82,13 @@ export class AddGridFailureComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getGridFailDataById(this.id);
     } else {
       this.createForm();
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
   findFacilities(){
@@ -173,7 +174,7 @@ timeDuration(){
 
   if(ffdate!=null && ftdate!=null)
   {
-    if(ftdate > ffdate)
+    if(ftdate >= ffdate)
     {
      
 
@@ -215,7 +216,7 @@ timDuration(){
 
   if(efdate!=null && etdate!=null)
   {
-    if(etdate > efdate)
+    if(etdate >= efdate)
     {
     
 
@@ -278,8 +279,8 @@ timDuration(){
           
           eduration: this.resp.feedExtendedDuration,
           maxDemand: this.resp.maxDemand,
-          dl: this.resp.divisionLocal =='Local' ? true: false,
-          ie: this.resp.internalExternal == 'External' ? true : false,
+          dl: this.resp.divisionLocal =='true' ? true: false,
+          ie: this.resp.internalExternal == 'true' ? true : false,
           remarks: this.resp.remarks
         });
         this.facilityList.map(element => {
@@ -319,8 +320,8 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'Local' : 'Division',
-        "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'External' : 'Internal',
+        "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'true' : 'false',
+        "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'true' : 'false',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.GRID_FAILURE,
         "createdBy": this.loggedUserData.username,
@@ -354,8 +355,8 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'Local' : 'Division',
-        "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'External' : 'Internal',
+        "divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'true' : 'false',
+        "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'true' : 'false',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,

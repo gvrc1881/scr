@@ -73,13 +73,13 @@ export class AddFailureOccurrenceComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getFailureOccurrenceFailDataById(this.id);
     } else {
       this.createForm();
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
 
@@ -109,7 +109,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
   
     if(ffdate!=null && ftdate!=null)
     {
-      if(ftdate > ffdate)    {
+      if(ftdate >= ffdate)    {
        
   
       this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
@@ -213,8 +213,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal == 'Local' ? true: false,
-          internalExternal:this.resp.internalExternal == 'External' ? true: false,
+          divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
+          internalExternal:this.resp.internalExternal == 'true' ? true: false,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -261,8 +261,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
+        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
 
@@ -294,8 +294,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'Local' : 'Division',
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'External' : 'Internal', 
+        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "updatedBy": this.loggedUserData.username,
