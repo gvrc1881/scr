@@ -65,7 +65,7 @@
                         
                               <ng-container matColumnDef="thruDateTime">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Failure thruDateTime</span>
+                                    <span>Failure thru</span>
                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.thruDateTime}}</mat-cell>
@@ -88,7 +88,7 @@
                             </ng-container>
                             <ng-container matColumnDef="feedExtendedFromDateTime">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Feed Extended from</span>
+                                    <span>FeedExtendedfrom</span>
                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.feedExtendedFromDateTime}}</mat-cell>
@@ -103,7 +103,7 @@
                              
                             <ng-container matColumnDef="feedExtendedDuration">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>feedExtendedDuration</span>
+                                    <span>ExtendedDuration</span>
                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.feedExtendedDuration}}</mat-cell>
@@ -121,7 +121,7 @@
                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
-                            </ng-container> -->
+                            </ng-container> 
                             <ng-container matColumnDef="internalExternal">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     <span>internalExternal</span>
