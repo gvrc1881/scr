@@ -169,14 +169,12 @@ export class AddEnergyConsumptionComponent implements OnInit {
     }
   }
   findEnergyConsumptionById(id) {
-    /*  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
-       .subscribe((resp) => { */
-    this.resp = JSON.parse(localStorage.getItem("ec"));
+     this.resp = JSON.parse(localStorage.getItem("ec"));
     console.log(this.resp);
     this.addEnergyConsumptionFailFromGroup.patchValue({
       id: this.resp.id,
-      Feeder_Name: this.resp.feeder_name,
-      Multification_Factor: this.resp.multiplication_fac,
+      Feeder_Name: this.resp.Feeder_Name,
+      Multification_Factor: this.resp.Multification_Factor,
       Joint_Reading: this.resp.joint_meter == 'Yes' ? this.resp.joint_meter : '',
       cmd: this.resp.cmd,
       Old_KWH: this.resp.Old_KWH,

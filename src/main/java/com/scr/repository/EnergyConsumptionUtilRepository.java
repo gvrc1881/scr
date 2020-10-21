@@ -1,6 +1,7 @@
 
 package com.scr.repository;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.CollaboratingWorkbooksEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -487,28 +489,31 @@ public class EnergyConsumptionUtilRepository{
 		Connection con = null;
 		PreparedStatement psPreparedStatement = null;
 		ResultSet resultSet = null;
+		CallableStatement callableStatement = null;
 		try {
 			con = dataSource.getConnection();
 			if(toDate.equalsIgnoreCase("exact")) {
-				psPreparedStatement = con.prepareStatement(datesQ);
-				psPreparedStatement.setString(1, fromDate);
-				psPreparedStatement.setString(2, fromDate);
-				psPreparedStatement.setString(3, division);
-				psPreparedStatement.setString(4, fromDate);
-				psPreparedStatement.setString(5, fromDate);
+				//psPreparedStatement = con.prepareStatement(datesQ);
+				callableStatement = con.prepareCall("{call day_div_tss_energy_consumption_v(?,?)}");
+				callableStatement.setString(1, fromDate);
+				//callableStatement.setString(2, fromDate);
+				callableStatement.setString(2, division);
+				//callableStatement.setString(4, fromDate);
+				//callableStatement.setString(5, fromDate);
 				//psPreparedStatement.setString(6, fromDate);
 			}else {
-				psPreparedStatement = con.prepareStatement(sQuery);
-				psPreparedStatement.setString(1, fromDate);
-				psPreparedStatement.setString(2, toDate);
-				psPreparedStatement.setString(3, feederId);
+				//psPreparedStatement = con.prepareStatement(sQuery);
+				callableStatement = con.prepareCall("{call period_tss_energy_consumption_v(?,?,?)}");
+				callableStatement.setString(1, feederId);
+				callableStatement.setString(2, fromDate);
+				callableStatement.setString(3, toDate);
+				
 			}
-			resultSet = psPreparedStatement.executeQuery();
+			resultSet = callableStatement.executeQuery();
 			EnergyConsumptionResponse response = null;
 			while(resultSet != null && resultSet.next()) {
 				logger.info("feeder_id = "+resultSet.getString("feeder_id"));
 				response = new EnergyConsumptionResponse();
-				//response.setReq_date(resultSet.getDate("req_date"));
 				response.setFeeder_id(resultSet.getString("feeder_id"));
 				response.setFeeder_name(resultSet.getString("feeder_name"));
 				response.setMultiplication_fac(resultSet.getDouble("multiplication_fac"));

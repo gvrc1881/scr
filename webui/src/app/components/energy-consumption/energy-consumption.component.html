@@ -20,14 +20,14 @@
                     <div class="panel-heading">Energy Consumption Information</div>
                     <div class="panel-body">
                         <div class="p-24">
-                            <div class="col-sm-12">
-                                <div class="col-md-3">
+                            <div class="col-sm-12 filter">
+                                <div class="col-md-3 form-group">
                                     <mat-radio-group aria-label="Select an option" (change)="radioChange($event)">
                                        <mat-radio-button *ngFor="let op of radioList" 
                                         [checked]="op.checked" value="{{op.name}}" >{{ op.name}}</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-                                <div class="col-md-2" >
+                                <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="Zone" (selectionChange)="getDivisions(zoneCode)" [(ngModel)]="zoneCode" >
                                             <mat-option *ngFor="let facility of zoneData "
@@ -37,7 +37,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="Division" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">
                                             <mat-option *ngFor="let divisionsList of divisionsList "
@@ -60,8 +60,7 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="col-md-6" *ngIf="!exactDate">
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field fxFlex="30" class="example-full-width">
                                             <mat-select placeholder="Feeder Name"
                                                 (selectionChange)="updateFeederName($event)" [(ngModel)]="feederId">
@@ -72,7 +71,7 @@
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker3" placeholder="Choose From Date"
                                                 [(ngModel)]="selectedBWFrom" 
@@ -83,7 +82,7 @@
                                             <mat-datepicker #picker3></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
                                                 [min]="selectedBWFrom" [(ngModel)]="maxDate"
@@ -94,9 +93,9 @@
                                             <mat-datepicker #picker2></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <button class="mat-raised-button mat-accent" color="accent" class="d-inline"
+                                    <div class="clear"></div>
+                                <div class="col-md-12">
+                                    <button class="mat-raised-button mat-accent" color="mat-accent" class="d-inline go-btn pull-right"
                                         mat-raised-button="" type="button" (click)="executeQuery()">
                                         Go
                                     </button>
@@ -106,7 +105,7 @@
                             <div class="example-header">
                                 <div class="col-sm-4">
                                     <mat-form-field>
-                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" >
                                     </mat-form-field>
                                 </div>
                                 <div class="clear"> </div>

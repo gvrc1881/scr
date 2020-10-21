@@ -46,6 +46,7 @@ import { TestModule } from './components/test/test.module';
 import { AshDisplayModule } from './components/ash-display/ash-display.module';
 import { DataViewDialogComponent } from './components/data-view-dialog/data-view-dialog.component';
 import { SwitchOperationsComponent } from './components/switch-operations/switch-operations.component';
+import { RouterExtService } from './services/router-ext.service';
 //import { AshEntryComponent } from './src/app/components/ash-display/ash-entry/ash-entry.component';
 
 
@@ -128,6 +129,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DatePipe,
     SendAndRequestService,
     PreviousRouteService,
+    RouterExtService
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

@@ -664,6 +664,14 @@ export const Constants = {
         UPDATE:"UPDATE",
         DELETE:"DELETE"
     },
+    UI_FIELD_LABELS:{
+        SNO:'Sno.',
+        MAKE_CODE:'Make Code',
+        DESCRIPTION:'Description',
+        BRAND_NAME:'Brand Name',
+        MAKE_TYPE:'Make Type',
+        
+    },
     ACTIVE_STATE_ID :1,
     INACTIVE_STATE_ID :2,
     ROLE_PERMISSIONS:[

@@ -72,8 +72,7 @@ export class TimeIntervalComponent implements OnInit {
     private commonService: CommonService,
   ) {
     this.timeIntervalErrors = {      
-      startDate: {},
-      
+      startDate: {},      
       timeInterval: {},
     };
   }
