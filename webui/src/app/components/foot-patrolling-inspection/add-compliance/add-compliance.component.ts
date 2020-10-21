@@ -79,10 +79,7 @@ export class AddComplianceComponent implements OnInit {
       this.update = false;
       this.title = 'Save';
     }
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID + this.obsId).subscribe((data) => {
-      this.obsData = data;
-      console.log("obsData"+JSON.stringify(data));
-})
+    this.getObservationDetails(this.obsId);
   }
   statusList()
     {  
@@ -94,12 +91,20 @@ export class AddComplianceComponent implements OnInit {
    }
 
   public get f() { return this.addComplianceFormGroup.controls; }
-
+getObservationDetails(obsId:any){
+  this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID + obsId).subscribe((data) => {
+    this.obsData = data;
+    console.log("obsData"+JSON.stringify(data));
+})
+}
 
   getComplianceById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.GET_COMPLIANCE_ID + id)
       .subscribe((resp) => {
         this.resp = resp;
+        this.obsId = this.resp.obeservationSeqId;
+        console.log("this.obsid"+this.obsId);
+        this.getObservationDetails(this.obsId);
         this.addComplianceFormGroup.patchValue({
           id: this.resp.id,
           status: this.resp.status,

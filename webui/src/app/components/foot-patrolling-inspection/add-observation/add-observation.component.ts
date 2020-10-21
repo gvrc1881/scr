@@ -84,10 +84,7 @@ export class AddObservationComponent implements OnInit {
          error => {
       this.spinnerService.hide();
     }; 
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + this.insId).subscribe((data) => {
-      this.inspList = data;
-      console.log("inspList"+JSON.stringify(data))
-}) 
+    this.getInspectionDetails(this.insId);
   }
   categoryList()
         {  
@@ -103,13 +100,22 @@ export class AddObservationComponent implements OnInit {
                  this.observationItemData = data;
         		});
     }
-
+    getInspectionDetails(insId:any){
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + insId).subscribe((data) => {
+        this.inspList = data;
+        console.log("inspList"+JSON.stringify(data))
+  }) 
+    }
+    
   public get f() { return this.addObservationFormGroup.controls; }
 
 
   getObservationDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID+id).subscribe((resp) => {
         this.resp = resp;
+        this.insId = this.resp.inspectionSeqId;
+        console.log("this.insIdEdit"+this.insId);
+        this.getInspectionDetails(this.insId);
         this.addObservationFormGroup.patchValue({
           id: this.resp.id,
           location: this.resp.location,
@@ -122,6 +128,7 @@ export class AddObservationComponent implements OnInit {
         this.spinnerService.hide();
         this.findAttachedFiles(commonId);
       })
+     
   }
 
   findAttachedFiles(commonId){
