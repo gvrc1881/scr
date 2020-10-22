@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.scr.message.response.EnergyConsumptionResponse;
 import com.scr.util.CloseJDBCObjects;
+import com.scr.util.Helper;
 @Component
 public class EnergyConsumptionUtilRepository{
 
@@ -495,7 +496,7 @@ public class EnergyConsumptionUtilRepository{
 			if(toDate.equalsIgnoreCase("exact")) {
 				//psPreparedStatement = con.prepareStatement(datesQ);
 				callableStatement = con.prepareCall("{call day_div_tss_energy_consumption_v(?,?)}");
-				callableStatement.setString(1, fromDate);
+				callableStatement.setDate(1, Helper.convertStringToDate(fromDate));
 				//callableStatement.setString(2, fromDate);
 				callableStatement.setString(2, division);
 				//callableStatement.setString(4, fromDate);
@@ -505,8 +506,8 @@ public class EnergyConsumptionUtilRepository{
 				//psPreparedStatement = con.prepareStatement(sQuery);
 				callableStatement = con.prepareCall("{call period_tss_energy_consumption_v(?,?,?)}");
 				callableStatement.setString(1, feederId);
-				callableStatement.setString(2, fromDate);
-				callableStatement.setString(3, toDate);
+				callableStatement.setDate(2, Helper.convertStringToDate(fromDate));
+				callableStatement.setDate(3, Helper.convertStringToDate(toDate));
 				
 			}
 			resultSet = callableStatement.executeQuery();

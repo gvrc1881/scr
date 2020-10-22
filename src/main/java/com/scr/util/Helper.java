@@ -47,6 +47,10 @@ public class Helper {
 		return status;
 	}
 
+	public static java.sql.Date convertStringToDate(String date) {
+		return java.sql.Date.valueOf(date);
+	}
+
 	public static String convertDateToString(Date date) {
 		return date == null ? dateFormatNoTime.format(new Date()) : dateFormatNoTime.format(date);
 	}
@@ -286,5 +290,6 @@ public class Helper {
 		}
 		return 0;
 	}
+
 
 }
