@@ -24,7 +24,7 @@ export class AssetMasterDataComponent implements OnInit {
   addAssetMaster: boolean;
   assetMasterFormGroup: FormGroup;
   assetMasterDataList: any;
-  title: string = "Save";
+  title: string = "Add";
   AssocList: any;
   makeName: any;
   modelName: any;
@@ -546,7 +546,7 @@ export class AssetMasterDataComponent implements OnInit {
   editAssetNasterItem(id) {
     this.addAssetMaster = true;
     this.assetMasterItemEditAction(id);
-    this.title = 'Update';
+    this.title = Constants.EVENTS.UPDATE;
   }
 
   assetMasterItemEditAction(id: number) {
@@ -672,7 +672,7 @@ export class AssetMasterDataComponent implements OnInit {
   onGoBack() {
     this.assetMasterFormGroup.reset();
     this.addAssetMaster = false;
-    this.title = 'Save';
+    this.title = Constants.EVENTS.ADD;
   }
 
 

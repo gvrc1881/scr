@@ -20,7 +20,7 @@ export class GuidenceItemComponent implements OnInit{
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addGuidenceItem: boolean ;
-    title: string = "Save";
+    title: string = "Add";
     guidenceItemFormGroup: FormGroup;
     guidenceItemList : any;
     guidenceItemDataSource: MatTableDataSource<GuidenceItemModel>;
@@ -246,7 +246,7 @@ export class GuidenceItemComponent implements OnInit{
                 	this.getAllGuidenceItemData();
                 	this.guidenceItemFormGroup.reset();
                 	this.addGuidenceItem =  false;
-                	this.title = "Save";
+                	this.title = Constants.EVENTS.ADD;
                 }else {
                 	this.commonService.showAlertMessage("Guidance Item Data Updating Failed.");
                 }
@@ -262,7 +262,7 @@ export class GuidenceItemComponent implements OnInit{
     editGuidenceItem (id) {
         this.addGuidenceItem = true;
         this.guidenceItemEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     guidenceItemEditAction(id: number) {
@@ -320,7 +320,7 @@ export class GuidenceItemComponent implements OnInit{
     onGoBack() {
         this.guidenceItemFormGroup.reset();
         this.addGuidenceItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
     NewGuidenceItem () {
