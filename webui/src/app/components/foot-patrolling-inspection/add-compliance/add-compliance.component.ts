@@ -113,7 +113,7 @@ getObservationDetails(obsId:any){
           compliedDateTime:new Date(this.resp.compliedDateTime), 
           
         });
-        var commonId = !!this.resp.attachment && this.resp.attachment;
+        var commonId = !!this.resp.document && this.resp.document;
         this.spinnerService.hide();
         this.findAttachedFiles(commonId);
       })
@@ -150,7 +150,7 @@ getObservationDetails(obsId:any){
             'action':[''],
             'complianceBy': [''],
             'compliedDateTime' : [''],
-            'attachment'  :['']
+            'document'  :['']
       });
   }
   
@@ -203,7 +203,7 @@ getObservationDetails(obsId:any){
         action: this.addComplianceFormGroup.value.action,
         complianceBy: this.addComplianceFormGroup.value.complianceBy,
         compliedDateTime: this.addComplianceFormGroup.value.compliedDateTime,
-        attachment: this.resp.attachment,
+        document: this.resp.document,
         "updatedBy": this.loggedUserData.id,
       }
       let formdata: FormData = new FormData();
@@ -217,7 +217,7 @@ getObservationDetails(obsId:any){
       formdata.append('complianceBy', update.complianceBy);
       formdata.append('compliedDateTime', update.compliedDateTime);
       formdata.append('updatedBy', update.updatedBy);
-      formdata.append('attachment',update.attachment);
+      formdata.append('document',update.document);
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.UPDATE_COMPLIANCE,formdata,true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;

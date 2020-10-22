@@ -306,19 +306,16 @@
                                                                     {{row.compliedDateTime}}</mat-cell>
                                                   </ng-container>
                                                
-                                                <ng-container matColumnDef="attachment">
+                                                  <ng-container matColumnDef="document">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Documents</span>
-                                                    </mat-header-cell>
-                                                
-                                                <mat-cell *matCellDef="let row">
-                                                   <button mat-icon-button matTooltip="View Documents"
-                                                       (click)="ComplianceViewFilesDetails(row.attachment)">
-                                                       <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
-                                                   </button>
-        
-                                               </mat-cell>
-                                                    
+                                                     <span> Documents </span>
+                                                     </mat-header-cell>
+                                                     <mat-cell *matCellDef="let row">
+                                                        <button mat-icon-button matTooltip="View Documents"
+                                                            (click)="complianceFilesDetails(row.document)">
+                                                            <mat-icon style="color: rgb(0, 145, 234);">visibility</mat-icon>
+                                                        </button>
+                                                    </mat-cell>
                                                 </ng-container>
         
                                                 

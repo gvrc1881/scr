@@ -22,6 +22,7 @@ export interface ComplianceModel {
     obeservationSeqId:string;
     status: string,
     action: string;
+    document:string;
     complianceBy: string;
     compliedDateTime: Date;
 }

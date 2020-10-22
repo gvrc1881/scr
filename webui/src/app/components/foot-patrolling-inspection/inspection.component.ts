@@ -24,7 +24,7 @@ export class InspectionComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns  = ['sno' ,'facilityId','inspectionType' , 'section' , 'inspectionBy' , 'startTime' , 'stopTime' , 'actions','observation'] ;
   observationDisplayColumns = ['sno' ,'location','observationCategory' , 'observationItem' ,  'description' ,'actionRequired','attachment','actions','compliance'] ;
-  complianceDisplayColumns = ['sno','status','action' , 'complianceBy' ,  'compliedDateTime' ,'attachment', 'actions'] ;
+  complianceDisplayColumns = ['sno','status','action' , 'complianceBy' ,  'compliedDateTime' ,'document', 'actions'] ;
 
   dataSource: MatTableDataSource<FootPatrollingInspectionModel>;
   observationDataSource: MatTableDataSource<ObservationModel>;
@@ -230,7 +230,7 @@ export class InspectionComponent implements OnInit {
     })
   }
 
-  complianceEdit(id) {
+  complianceEdit(id:any) {
     this.router.navigate(['compliance/' + id], { relativeTo: this.route });
   }
   obsIdRelatedToCompliance(id) {
@@ -240,7 +240,7 @@ export class InspectionComponent implements OnInit {
     this.spinnerService.show();
     this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
       this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Drive compliance Successfully");
+      this.commonService.showAlertMessage("Deleted compliance Successfully");
       this.getComplianceData();
     }, error => {
       console.log('ERROR >>>');
@@ -250,10 +250,11 @@ export class InspectionComponent implements OnInit {
   }
   filesInfor: any;
   viewFilesDetails(id) {
+    alert("id"+id)
     this.spinnerService.show();
     localStorage.setItem('observationFileType', 'observation');
     localStorage.setItem('observationFileTypeId', id);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID+ id).subscribe((response) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();
       this.inspectionDocumentDialogRef = this.dialog.open(InspectionDocumentComponent, {
@@ -265,15 +266,16 @@ export class InspectionComponent implements OnInit {
     }, error => this.commonService.showAlertMessage(error));
 
 
-  }
-  ComplianceViewFilesDetails(id) {
+  } 
+  complianceFilesDetails(id) {
+    alert("comId"+id)
     this.spinnerService.show();
-    localStorage.setItem('complianceFileType', 'compliance');
-    localStorage.setItem('complianceFileTypeId', id);
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID+ id).subscribe((response) => {
+    localStorage.setItem('observationFileType', 'compliance');
+    localStorage.setItem('observationFileTypeId', id);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();
-      this.inspectionDocumentDialogRef = this.dialog.open(InspectionDocumentComponent, {
+      this.complianceDocumentDialogRef = this.dialog.open(ComplianceDocumentComponent, {
         disableClose: false,
         height: '600px',
         width: '80%',
@@ -282,6 +284,5 @@ export class InspectionComponent implements OnInit {
     }, error => this.commonService.showAlertMessage(error));
 
 
-  }
- 
+  } 
 }
