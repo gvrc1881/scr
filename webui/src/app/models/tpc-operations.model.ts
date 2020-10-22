@@ -31,3 +31,21 @@ export interface SwitchMaintenenceHistory {
 	tpcNoIoOpen: string;
 	tpcNoIoOpenDone: string;
 }
+
+export interface PbSwitchControl {
+
+	createdStamp: string;
+	createdTxStamp: string;
+	dataDiv: string;
+	isNormallyOpened: string;
+	lastUpdatedStamp: string;
+	lastUpdatedTxStamp: string;
+	line: string;
+	pbExtentCode: string;
+	pbExtentType: string;
+	seqId: string;
+	switchId: string;
+	switchType: string;
+	upDn: string;
+
+}
