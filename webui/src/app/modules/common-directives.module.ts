@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { filterDirective } from '../common/filter.directive';
 import { InputDisabledDirective } from '../common/input-disabled.directive';
+import { DateFilterPipe } from '../common/date-filter.pipe';
 
 
 @NgModule({
@@ -10,11 +11,13 @@ import { InputDisabledDirective } from '../common/input-disabled.directive';
     ],
     declarations: [
         filterDirective,
-        InputDisabledDirective
+        InputDisabledDirective,
+        DateFilterPipe
     ],
     exports: [
         filterDirective,
-        InputDisabledDirective
+        InputDisabledDirective,
+        DateFilterPipe
     ]
 })
 export class CommonDirectivesModule { }

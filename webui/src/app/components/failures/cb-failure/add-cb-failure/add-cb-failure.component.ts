@@ -5,25 +5,11 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-import { AppDateTimeAdapter, APP_DATE_TIME_FORMATS } from 'src/app/common/date-time.adapter';
-import { MatTableDataSource, MatDialogRef, MatPaginator, MatSort, MatRadioChange, DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
-
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE,OwlDateTimeModule } from 'ng-pick-datetime';
-
 
 @Component({
   selector: 'app-add-cb-failure',
   templateUrl: './add-cb-failure.component.html',
   styleUrls: ['./add-cb-failure.component.css'],
-  // providers: [
-  //   {
-  //       provide: OwlDateTimeModule, useClass: AppDateTimeAdapter
-  //   },
-  //   {
-  //       provide: OWL_DATE_TIME_FORMATS, useValue: APP_DATE_TIME_FORMATS
-  //   }
-  //   ]
-    
 })
 export class AddCbFailureComponent implements OnInit {
 

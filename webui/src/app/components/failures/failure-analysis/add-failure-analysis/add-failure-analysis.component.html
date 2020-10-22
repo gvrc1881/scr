@@ -74,7 +74,8 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Choose Date"
-                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
+                                                                [value]="currentDate | dateFilter:dateFormat"
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"                                                                
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['date']" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -249,8 +250,11 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose Action Target Date"
-                                                                (dateTimeChange)="addEventTargetDate($event)" [min]="toMinDate" 
+                                                                [owlDateTimeTrigger]="dt1" 
+                                                                placeholder="Choose Action Target Date"
+                                                                (dateTimeChange)="addEventTargetDate($event)" 
+                                                                [min]="toMinDate"
+                                                                [value]="targetDate | dateFilter:dateFormat"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']" >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -262,8 +266,11 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose Action Completed  Date"
+                                                                [owlDateTimeTrigger]="dt2" 
+                                                                placeholder="Choose Action Completed  Date"
                                                                [min]="completeMinDate"
+                                                               [value]="completeDate | dateFilter:dateFormat"
+                                                               (dateTimeChange)="addEventCompleteDate($event)"
                                                                 [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

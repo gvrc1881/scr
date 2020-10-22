@@ -20,7 +20,7 @@ export class GuidenceItemComponent implements OnInit{
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addGuidenceItem: boolean ;
-    title: string = "Add";
+    title: string = Constants.EVENTS.ADD;
     guidenceItemFormGroup: FormGroup;
     guidenceItemList : any;
     guidenceItemDataSource: MatTableDataSource<GuidenceItemModel>;

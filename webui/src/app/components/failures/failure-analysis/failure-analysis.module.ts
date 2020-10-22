@@ -8,6 +8,7 @@ import { AddFailureAnalysisComponent } from './add-failure-analysis/add-failure-
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { FailureAnalysisComponent } from './failure-analysis.component';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
+import { DateFilterPipe } from 'src/app/common/date-filter.pipe';
 
 const routes: Routes = [
     {
@@ -39,7 +40,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         OwlDateTimeModule, 
         CommonDirectivesModule,  
-        OwlNativeDateTimeModule,
+        OwlNativeDateTimeModule,        
     ],
     providers: [
         

@@ -5,12 +5,22 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 @Component({
   selector: 'app-add-drive-progress-record',
   templateUrl: './add-drive-progress-record.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddDriveProgressRecordComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

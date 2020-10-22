@@ -31,6 +31,10 @@ export class AddFailureAnalysisComponent implements OnInit {
   toMinDate=new Date();
   completeMinDate=new Date();
   divisionList:any;
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';
+  currentDate = new Date();
+  targetDate=new Date();
+  completeDate = new Date();
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -192,9 +196,14 @@ export class AddFailureAnalysisComponent implements OnInit {
   }
   addEvent($event) {
     this.toMinDate = new Date($event.value);
+    this.currentDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.completeMinDate = new Date($event.value);
+    this.completeMinDate = new Date($event.value);    
+    this.targetDate = new Date($event.value);
+  }
+  addEventCompleteDate($event){
+    this.completeDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addFailureAnalysisFormGroup.invalid) {

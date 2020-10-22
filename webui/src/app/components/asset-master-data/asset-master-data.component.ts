@@ -325,7 +325,7 @@ export class AssetMasterDataComponent implements OnInit {
     let warrantyAmcEndDate: Date = this.assetMasterFormGroup.value.warrantyAmcEndDate;
 
     this.addAssetMaster = false;
-    if (this.title == Constants.EVENTS.SAVE) {
+    if (this.title == Constants.EVENTS.ADD) {
       var saveAmdModel = {
         'type': type,
         'facilityId': facilityId,
