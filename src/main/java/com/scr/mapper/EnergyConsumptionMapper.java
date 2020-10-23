@@ -3,8 +3,6 @@ package com.scr.mapper;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
 import org.springframework.stereotype.Component;
 
 import com.scr.message.response.EnergyConsumptionResponse;
@@ -32,17 +30,8 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setJointMeter(request.getJointMeter());
 			energyConsumption.setPf(String.valueOf(request.getPf()));
 			energyConsumption.setCpf(String.valueOf(request.getCpf()));
-			
-			// energyConsumption.set
 			energyConsumption.setLastUpdatedStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			energyConsumption.setLastUpdatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
-			// energyConsumption.setCmd(String.valueOf(request.getCur_cmd()));
-			// energyConsumption.setCpf(String.valueOf(request.getCPF()));
-
-			// energyConsumption.setDataDiv(request.getdata);
-			// energyConsumption.setEnergyReadingDate(request.getRequested_reading_date());
-			// energyConsumption.setEnergyReadingDate(request.getRequested_reading_date());
-			// energyConsumption.setKvah(request.get);
 		}
 		return energyConsumption;
 	}
@@ -52,7 +41,6 @@ public class EnergyConsumptionMapper {
 		try {
 		if(request != null) {
 			energyConsumption = new EnergyConsumption();
-			System.out.println("id = "+list.getId());
 			energyConsumption.setId(list.getId()+1);
 			
 			energyConsumption.setKvah(request.getCurKvah() != null ? String.valueOf(request.getCurKvah()) : "0");
@@ -70,17 +58,7 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setJointMeter(request.getJointMeter());
 			energyConsumption.setPf(String.valueOf(request.getPf()));
 			energyConsumption.setCpf(String.valueOf(request.getCpf()));
-				/*
-				 * SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy"); Date date =
-				 * formatter.parse(request.getRequested_reading_date());
-				 * 
-				 * SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd"); String
-				 * dateString = formatter1.format(date);
-				 * 
-				 * System.out.println("dateString = "+dateString);
-				 */
-			System.out.println("energy reading date = "+request.getEnergyReadingDate());
-			 SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
 			energyConsumption.setEnergyReadingDate(formatter1.parse(request.getEnergyReadingDate()));
 			
 			energyConsumption.setCreatedBy(request.getUpdatedBy());
@@ -90,7 +68,6 @@ public class EnergyConsumptionMapper {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(energyConsumption);
 		return energyConsumption;
 	}
 

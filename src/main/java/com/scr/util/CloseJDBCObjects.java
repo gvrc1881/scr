@@ -78,7 +78,7 @@ public class CloseJDBCObjects {
 	 * @param callable statement
 	 *            - JDBC Statemenr
 	 */
-	public static void closeCallableStatement(final CallableStatement callstmt) {
+	public void closeCallableStatement(final CallableStatement callstmt) {
 		if (callstmt != null) {
 			try {
 				callstmt.close();
