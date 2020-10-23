@@ -23,13 +23,19 @@ export class HeaderComponent implements OnInit, DoCheck {
     private commonService: CommonService) {
 
   }
-  
-  ngOnInit() {
-   
-  }
- //  }
   ngDoCheck() { 
     this.loginValidate = this.commonService.loginValidate(window.location.pathname);
+    let refresh =  localStorage.getItem("headerRefresh");
+    if(refresh == 'refresh'){
+      window.location.reload();
+      localStorage.setItem("headerRefresh",'noRefresh');
+    }
+  }
+  ngOnInit() {
+   
+/*   }
+  ngDoCheck() { 
+ */    this.loginValidate = this.commonService.loginValidate(window.location.pathname);
     if (!!localStorage.getItem('userData')) {
       this.userdata = JSON.parse(localStorage.getItem('userData'));
       this.userName = !!this.userdata && !!this.userdata.username && this.userdata.username;
@@ -1020,6 +1026,7 @@ export class HeaderComponent implements OnInit, DoCheck {
   logout() {
     // remove user from local storage to log user out
     console.log('logout')
+    localStorage.setItem("headerRefresh","");
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userMenuList');
     localStorage.removeItem('userData');

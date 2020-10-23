@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit {
   matching_passwords_group: FormGroup;
   country_phone_group: FormGroup;
   user: UsersModel;
-  zoneList:  FacilityModel [] = [];
-  divisionList: FacilityModel [] = [];
-  subDivList: FacilityModel [] = [];
-  facilityList: FacilityModel [] = [];
+  zoneList: FacilityModel[] = [];
+  divisionList: FacilityModel[] = [];
+  subDivList: FacilityModel[] = [];
+  facilityList: FacilityModel[] = [];
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -97,47 +97,46 @@ export class LoginComponent implements OnInit {
         data => {
           this.authenticationService.getLoginUserData(userName, password)
             .subscribe(
-              userdata => {                
-                console.log('userdata: '+userdata);
-                this.router.navigate([this.returnUrl]);
+              userdata => {
                 this.authenticationService.getUserData(userdata.email, password).subscribe(response => {
                   localStorage.setItem("menus", response.menus);
                   localStorage.setItem("loggedUser", JSON.stringify(response));
                   this.user = response;
+                  this.router.navigate([this.returnUrl]);
                   // To get User Hierarchy 
-                  if(this.user){
+                  if (this.user) {
                     this.authenticationService.userHierarchy(this.user.userName)
                       .subscribe(response => {
-                    // console.log("**user hierarchy***"+JSON.stringify(response));
-                        localStorage.setItem("userHierarchy",JSON.stringify(response));
+                        localStorage.setItem("userHierarchy", JSON.stringify(response));
                         let userHierarchy = JSON.parse(localStorage.getItem('userHierarchy'));
                         for (let i = 0; i < userHierarchy.length; i++) {
-			            
-			               if (userHierarchy[i].depotType == 'ZONE')
-			               	this.zoneList.push(userHierarchy[i]);
-			            
-			               else if (userHierarchy[i].depotType == 'DIV')
-			               	this.divisionList.push(userHierarchy[i]);
-			            
-			               else if (userHierarchy[i].depotType == 'SUBDIV')
-			               	this.subDivList.push(userHierarchy[i]);
-			            
-			               else
-			               	this.facilityList.push(userHierarchy[i]);
-			               
-			            }
-			            
-			            localStorage.setItem("zoneData",JSON.stringify(this.zoneList));
-			            localStorage.setItem("divisionData",JSON.stringify(this.divisionList));
-			            localStorage.setItem("subDivData",JSON.stringify(this.subDivList));
-			            localStorage.setItem("depotData",JSON.stringify(this.facilityList));
-			            
-                      },error => {
-                        console.log("Trigger Function Not Available >>> "+error);
+
+                          if (userHierarchy[i].depotType == 'ZONE')
+                            this.zoneList.push(userHierarchy[i]);
+
+                          else if (userHierarchy[i].depotType == 'DIV')
+                            this.divisionList.push(userHierarchy[i]);
+
+                          else if (userHierarchy[i].depotType == 'SUBDIV')
+                            this.subDivList.push(userHierarchy[i]);
+
+                          else
+                            this.facilityList.push(userHierarchy[i]);
+
+                        }
+                        localStorage.setItem("headerRefresh","refresh");
+                        localStorage.setItem("zoneData", JSON.stringify(this.zoneList));
+                        localStorage.setItem("divisionData", JSON.stringify(this.divisionList));
+                        localStorage.setItem("subDivData", JSON.stringify(this.subDivList));
+                        localStorage.setItem("depotData", JSON.stringify(this.facilityList));
+                        
+                        
+                      }, error => {
+                        console.log("Trigger Function Not Available >>> " + error);
                       }
-                      );   
-                  }  
-                  this.spinnerService.hide();               
+                      );
+                  }
+                  this.spinnerService.hide();
                 }, error => {
                   console.log("ERROR >>> " + error)
                 });
@@ -162,6 +161,6 @@ export class LoginComponent implements OnInit {
         });
   }
 
-  
+
 
 }

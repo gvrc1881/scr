@@ -1,61 +1,56 @@
 <div class="header navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
-                <div class="row">
-                        <div class="col-md-2 col-sm-3 col-12">
-                            <div class="menu-left">
-                                <a class="brand" href="">
-                                    <img src="../../../assets/Images/logo.png" alt="">
-                                </a>
-                            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-12">
+                    <div class="menu-left">
+                        <a class="brand" href="">
+                            <img src="../../../assets/Images/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-6 col-12 text-center">
+                    <div class="menu-center">
+                        <img src="../../../assets/Images/scrlogo.jpg">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-12 text-right">
+                    <div class="menu-right" style="float: right;">
+                        <div class="right-img" *ngIf="!loginValidate">
+                            <img src="../../../assets/Images/right-logo.png" alt="">
                         </div>
-                        <div class="col-md-7 col-sm-6 col-12 text-center">
-                            <div class="menu-center">
-                                <img src="../../../assets/Images/scrlogo.jpg">
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-12 text-right">
-                            <div class="menu-right" style="float: right;">
-                                    <div class="right-img" *ngIf="!loginValidate">
-                                        <img src="../../../assets/Images/right-logo.png" alt="">
-                                   </div>
-                                    <div class="clearfix"></div>
-                                    <p class="LoginHide"></p>
-                                    <div class="dropdown user pull-right" style="margin-top:2%;" *ngIf="loginValidate">
-                                        <button mat-button [matMenuTriggerFor]="belowMenu">Welcome : <strong
-                                                class="ng-binding">{{userName}}</strong> <span class="dropmenu_icon"><i class="icon-angle-down"></i></span></button>
-                                        <div class="dropdown-menu" style="z-index:+9999; position:absolute;">
-                                            <mat-menu #belowMenu="matMenu" yPosition="below">
-                        
-                                                <button mat-menu-item><a [routerLink]="['changePassword']" ui-sref="changePassword">
-                                                        <i class="icon-user"></i>
-                                                        Change Password
-                                                    </a></button>
-                                                <button mat-menu-item><a href="" (click)="logout()">
-                                                        <i class="icon-key"></i>
-                                                        Log Out
-                                                    </a></button>
-                                            </mat-menu>
-                                        </div>
-                                    </div>
+                        <div class="clearfix"></div>
+                        <p class="LoginHide"></p>
+                        <div class="dropdown user pull-right" style="margin-top:2%;" *ngIf="loginValidate">
+                            <button mat-button [matMenuTriggerFor]="belowMenu">Welcome : <strong
+                                    class="ng-binding">{{userName}}</strong> <span class="dropmenu_icon"><i
+                                        class="icon-angle-down"></i></span></button>
+                            <div class="dropdown-menu" style="z-index:+9999; position:absolute;">
+                                <mat-menu #belowMenu="matMenu" yPosition="below">
+
+                                    <button mat-menu-item><a [routerLink]="['changePassword']" ui-sref="changePassword">
+                                            <i class="icon-user"></i>
+                                            Change Password
+                                        </a></button>
+                                    <button mat-menu-item><a href="" (click)="logout()">
+                                            <i class="icon-key"></i>
+                                            Log Out
+                                        </a></button>
+                                </mat-menu>
                             </div>
                         </div>
                     </div>
-           
-           
-
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="clearfix"></div>
-
-
-
     <div class="clearfix"></div>
     <div class="page-header" id="divMenuHeader" name="divMenuHeader" *ngIf="loginValidate">
         <nav class="navbar mega-menu" role="navigation">
             <div class="container-fluid">
-               
+
                 <div class="clearfix navbar-fixed-top">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                         data-target=".navbar-responsive-collapse">
@@ -66,14 +61,15 @@
                     </button>
                 </div>
                 <div id="menuDiv" class="nav-collapse collapse navbar-collapse navbar-responsive-collapse row">
-                    <ul *ngFor="let menuList of MenusList; let i = index" class="nav navbar-nav" >
-                        <li class="dropdown dropdown-fw dropdown-fw-disabled " 
-                            [ngClass]="[menuList.currentTab]" *ngIf="menuList.permission">
-                            <a class="text-uppercase" [routerLink]="[menuList.menuUrl]" >
-                                <span> <i class="{{menuList.icon}}"></i> </span> {{menuList.menuName}} 
+                    <ul *ngFor="let menuList of MenusList; let i = index" class="nav navbar-nav">
+                        <li class="dropdown dropdown-fw dropdown-fw-disabled " [ngClass]="[menuList.currentTab]"
+                            *ngIf="menuList.permission">
+                            <a class="text-uppercase" [routerLink]="[menuList.menuUrl]">
+                                <span> <i class="{{menuList.icon}}"></i> </span> {{menuList.menuName}}
                             </a>
-                            <ul  id="submenuul" class="dropdown-menu dropdown-menu-fw">
-                                <li *ngFor="let menu of menuList.subMenus; let j = index" [ngClass]="menu.subMenuName === 'Jobs Info' ? ['disabled active-item'] : menu.subMenuName === 'Divisions Info' ? ['disabled active-item'] : menu.currentSubMenu !== '' ? ['active-item'] : [''] ">
+                            <ul id="submenuul" class="dropdown-menu dropdown-menu-fw">
+                                <li *ngFor="let menu of menuList.subMenus; let j = index"
+                                    [ngClass]="menu.subMenuName === 'Jobs Info' ? ['disabled active-item'] : menu.subMenuName === 'Divisions Info' ? ['disabled active-item'] : menu.currentSubMenu !== '' ? ['active-item'] : [''] ">
                                     <a [routerLink]="[menu.subMenuURL]" *ngIf="menu.rolePermission && menu.permission">
                                         <span> <i class="{{menu.subMenuIcon}}"></i></span> {{menu.subMenuName}}
                                     </a>
@@ -86,20 +82,6 @@
                 </div>
             </div>
         </nav>
-       <!--  <div class="col-12" class="herader-breadcrumb" *ngIf="dashboard">
-                <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                          <li class="breadcrumb-item"><a href="#">Home</a></li>
-                          <li class="breadcrumb-item"><a href="#">Library</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">Data</li>
-                        </ol>
-                      </nav>
-        </div> -->
     </div>
-
-  
-
 </div>
-
 <div class="clear"> </div>
-
