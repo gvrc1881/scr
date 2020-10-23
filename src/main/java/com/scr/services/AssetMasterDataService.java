@@ -2,24 +2,34 @@ package com.scr.services;
 
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import com.scr.mapper.AssetMasterDataMapper;
+import com.scr.message.request.AssetMasterDataRequest;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
 import com.scr.repository.AssetMasterFormParameterRepository;
 import com.scr.repository.AssetMastersRepository;
+import com.scr.util.Constants;
 
 @Service
 public class AssetMasterDataService {
+	
+	static Logger logger = LogManager.getLogger(AssetMasterDataService.class);
+
 	
 	@Autowired
 	private AssetMastersRepository assetMastersRepository;
 	@Autowired
 	private AssetMasterFormParameterRepository assetMasterFormParameterRepository;
+	@Autowired
+	private AssetMasterDataMapper assetMasterDataMapper;
 	
 	public List<AssetMasterData> findPaginated(int from, int to) {
 		Pageable paging = PageRequest.of(from, to);
@@ -32,7 +42,30 @@ public class AssetMasterDataService {
 		
 		assetMastersRepository.save(assetMasterData);
 	}
-
+	
+	public @Valid boolean saveDriveData(@Valid AssetMasterDataRequest assetMasterDataRequest) throws Exception {
+		logger.info("Calling mapper for preparing the Asset Master model object");
+		AssetMasterData assetMasterData = assetMasterDataMapper.prepareAssetMasterDataModel(assetMasterDataRequest);
+		if (assetMasterData != null) {
+			logger.info("After prepared model object, saving to Asset Master table");
+			assetMasterData = assetMastersRepository.save(assetMasterData);
+			logger.info("Asset Master data saved successfully.");
+			return true;
+		} else {
+			logger.info("Preparing Asset Master Data model object failed");
+			return false;
+		}
+	}
+	public String updateAssetMasterData(@Valid AssetMasterDataRequest assetMasterDataRequest) {
+		Optional<AssetMasterData> assetMaster = assetMastersRepository.findById(assetMasterDataRequest.getId());
+		if(assetMaster.isPresent()) {
+			AssetMasterData assetMasterUpdate = assetMasterDataMapper.prepareAssetMasterUpdateData(assetMaster.get(), assetMasterDataRequest);
+			assetMasterUpdate = assetMastersRepository.save(assetMasterUpdate);
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Asset Master Id";
+		}
+	}
 	public Optional<AssetMasterData> findAssetMasterItemById(Long id) {
 		
 		return assetMastersRepository.findById(id);

@@ -380,8 +380,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'asset-master-data',
-    loadChildren: './components/asset-master-data/asset-master-data.module#AssetMasterDataModule',
+    path: 'amd',
+    loadChildren: './components/amd/amd.module#AmdModule',
     canActivate: [AuthGuard]
   },
  {

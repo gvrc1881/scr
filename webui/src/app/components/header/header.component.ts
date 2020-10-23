@@ -613,16 +613,16 @@ export class HeaderComponent implements OnInit, DoCheck {
         isSelected: true, 
         permission:this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
         currentTab: !!path && path.includes("electrification-targets")|| path.includes("sidings") 
-        || path.includes("track") || path.includes("asset-master-data")||path.includes("work") || path.includes("guidenceItem")|| path.includes("ohe-location")|| path.includes("gantry")
+        || path.includes("track") || path.includes("amd")||path.includes("work") || path.includes("guidenceItem")|| path.includes("ohe-location")|| path.includes("gantry")
         || path.includes("sectors")  ? "open" : "",  
         subMenus: [
           {
             subMenuName: "Asset Master",
-            subMenuURL: "asset-master-data",
+            subMenuURL: "amd",
             subMenuIcon: "fa fas fa-cloud",
             rolePermission:true,
             permission:true,
-            currentSubMenu: !!path && path.includes("asset-master-data") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("amd") ? "active-item" : "",
           },
           {
             subMenuName: "Electrification Targets",

@@ -2,6 +2,7 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.scr.message.request.AssetMasterDataRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -49,25 +50,24 @@ public class AssetMasterDataController {
 		return assetMasterItem;
 	}
 	
-	@RequestMapping(value = "/addAssetMasterItem" , method = RequestMethod.POST , headers = "Accept=application/json")
-	public ResponseStatus addAssetMasterItem(@RequestBody AssetMasterData assetMasterData) {
-		log.info("Enter into addAssetMasterItem function with below request parameters ");
-		log.info("Request Parameters = "+assetMasterData.toString());
-		try {
+	@RequestMapping(value = "/addAssetMasterItem", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveAssetMasterItem(@Valid @RequestBody AssetMasterDataRequest assetMasterDataRequest) throws JSONException {	
+		log.info("Enter into saveAssetMasterItem function with below request parameters ");
+		log.info("Request Parameters = "+assetMasterDataRequest.toString());
+		try {			
 			log.info("Calling service with request parameters.");
-			assetMasterDataService.save(assetMasterData);
+			assetMasterDataService.saveDriveData(assetMasterDataRequest);
 			log.info("Preparing the return response");
-			return Helper.findResponseStatus("AssetMaster added successfully", Constants.SUCCESS_CODE);
+			return Helper.findResponseStatus("AssetMaster Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {
-			log.error("ERROR >> While adding AssetMaster data. "+npe.getMessage());
-			return Helper.findResponseStatus("AssetMaster Data save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+			log.error("ERROR >> While adding drive data. "+npe.getMessage());
+			return Helper.findResponseStatus("AssetMaster Data Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
 		}
 		catch (Exception e) {
-			log.error("ERROR >> While adding AssetMaster data. "+e.getMessage());
-			return Helper.findResponseStatus("AssetMaster save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			log.error("ERROR >> While adding AssetMaster  data. "+e.getMessage());
+			return Helper.findResponseStatus("AssetMaster Data Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
 	
 	@RequestMapping(value = "/findAssetMasterItemById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<AssetMasterData> findAssetMasterItemById(@PathVariable Long id){
@@ -87,25 +87,21 @@ public class AssetMasterDataController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateAssetMasterData" ,method = RequestMethod.PUT , headers = "Accept=application/json")
-	public ResponseStatus updateAssetMasterData(@RequestBody AssetMasterData assetMasterData) {
+	@RequestMapping(value = "/updateAssetMasterData", method = RequestMethod.PUT, headers = "Accept=application/json")
+	public ResponseStatus updateAssetMasterData(@Valid @RequestBody AssetMasterDataRequest assetMasterDataRequest) throws JSONException {
 		log.info("Enter into updateAssetMasterData function with below request parameters ");
-		log.info("Request Parameters = "+assetMasterData.toString());
-		try {
+		try {	
 			log.info("Calling service with request parameters.");
-			assetMasterDataService.save(assetMasterData);
-			log.info("Preparing the return response");
-			return Helper.findResponseStatus("AssetMasterData updated successfully", Constants.SUCCESS_CODE);	
-		}catch(NullPointerException npe) {
-			log.error("ERROR >> While updating AssetMaster   data. "+npe.getMessage());
-			return Helper.findResponseStatus("Asset Master Data update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-		}
-		catch (Exception e) {
+			String status = assetMasterDataService.updateAssetMasterData(assetMasterDataRequest);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("AssetMaster Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
 			log.error("ERROR >> While updating AssetMaster data. "+e.getMessage());
-			return Helper.findResponseStatus("AssetMasterData update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			return Helper.findResponseStatus("AssetMasterData Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
 	@RequestMapping(value = "/deleteAssetMasterData/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
 	public ResponseStatus deleteAssetMasterDataById(@PathVariable Long id) {
 		log.info("Enter into deleteAssetMasterDataById function");
