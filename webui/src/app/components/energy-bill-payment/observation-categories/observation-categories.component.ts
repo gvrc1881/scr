@@ -4,16 +4,25 @@ import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationCategoriesModel } from 'src/app/models/observation-categories.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+
 @Component({
     selector: 'observation-categories',
     templateUrl: './observation-categories.component.html',
-    styleUrls: []
+    providers: [
+      {
+          provide: DateAdapter, useClass: AppDateAdapter
+      },
+      {
+          provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+      }
+      ]
 })
 export class ObservationCategoriesComponent implements OnInit{
 
@@ -131,8 +140,8 @@ export class ObservationCategoriesComponent implements OnInit{
             this.observationCategoriesList = data;
             for (let i = 0; i < this.observationCategoriesList.length; i++) {
                 this.observationCategoriesList[i].sno = i+1;
-                this.observationCategoriesList[i].fromDate = this.datePipe.transform(this.observationCategoriesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-                this.observationCategoriesList[i].thruDate = this.datePipe.transform(this.observationCategoriesList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
+                this.observationCategoriesList[i].fromDate = this.datePipe.transform(this.observationCategoriesList[i].fromDate, 'dd-MM-yyyy');
+                this.observationCategoriesList[i].thruDate = this.datePipe.transform(this.observationCategoriesList[i].thruDate, 'dd-MM-yyyy');
                 observationCategories.push(this.observationCategoriesList[i]);              
             }
             this.observationCategoriesItemDataSource = new MatTableDataSource(observationCategories);

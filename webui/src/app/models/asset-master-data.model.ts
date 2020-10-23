@@ -26,18 +26,18 @@ export interface AssetMasterDataModel {
     lastUpdatedTxStamp:any;
     dateOfCommision:string,
     dateOfManufacture:string,
-    dateOfReceived:Date,
+    dateOfReceived:string,
     elementarySection:string,
     end1Side1:string,
     end2Side2:string,
-    equippedDate:Date,
-    expiryDate:Date,
+    equippedDate:string,
+    expiryDate:string,
     facilityId:string,
     implantation:string,
     kilometer:string,
     line:string,
     locationPosition:string,
-    lugDate:Date,
+    lugDate:string,
     majorSection:string,
     make:string,
     model:string,
@@ -83,13 +83,13 @@ export interface AssetMasterDataModel {
     stay2InsulatorMake:string,
     stay3InsulatorBatch:string,
     stay3InsulatorMake:string,
-    stripDate:Date,
+    stripDate:string,
     structure:string,
     type:string,
     vendor:string,
     voltage:string,
     warrantyAmc:string,
-    warrantyAmcEndDate:Date
+    warrantyAmcEndDate:string
 
 
   }

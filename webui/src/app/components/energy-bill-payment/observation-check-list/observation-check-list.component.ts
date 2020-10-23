@@ -3,17 +3,25 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { ObservationsCheckListModel } from 'src/app/models/observations-check-list.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 @Component({
     selector: 'observation-check-list',
     templateUrl: './observation-check-list.component.html',
-    styleUrls: []
+    providers: [
+        {
+            provide: DateAdapter, useClass: AppDateAdapter
+        },
+        {
+            provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+        }
+        ]
 })
 export class ObservationCheckListComponent implements OnInit {
 
@@ -87,8 +95,8 @@ export class ObservationCheckListComponent implements OnInit {
             this.observationCheckList = data;
             for (let i = 0; i < this.observationCheckList.length; i++) {
                 this.observationCheckList[i].sno = i + 1;
-                this.observationCheckList[i].fromDate = this.datePipe.transform(this.observationCheckList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-                this.observationCheckList[i].thruDate = this.datePipe.transform(this.observationCheckList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
+                this.observationCheckList[i].fromDate = this.datePipe.transform(this.observationCheckList[i].fromDate, 'dd-MM-yyyy');
+                this.observationCheckList[i].thruDate = this.datePipe.transform(this.observationCheckList[i].thruDate, 'dd-MM-yyyy');
                 observationsCheckList.push(this.observationCheckList[i]);
             }
             this.observationCheckListItemDataSource = new MatTableDataSource(observationsCheckList);

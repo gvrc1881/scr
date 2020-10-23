@@ -3,8 +3,9 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import{SidingsModel} from 'src/app/models/sidings.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
@@ -14,7 +15,15 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-sidings',
     templateUrl: './sidings.component.html',
-    styleUrls: ['./sidings.component.scss']
+    styleUrls: ['./sidings.component.scss'],
+    providers: [
+      {
+          provide: DateAdapter, useClass: AppDateAdapter
+      },
+      {
+          provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+      }
+      ]
 })
 export class SidingsComponent implements OnInit {
     addPermission: boolean = true;
@@ -30,9 +39,9 @@ export class SidingsComponent implements OnInit {
     sidingsItemDataSource: MatTableDataSource<SidingsModel>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
-    sidingsItemDisplayColumns = ['sno' ,'zone','division','depot' ,'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
-    'privateRailway' ,'status',  'tkm','remarks','sidingProposed','proposedDate','approvalDate',
-    'workOrderDate','workProgressPercentage','workProgressRemark','completionDate','id' ] ;
+    sidingsItemDisplayColumns = ['sno' ,'station' , 'sidingCode' , 'section' , 'sectionEletrifiedStatus' , 'sidingEletrifiedStatus' , 
+    'privateRailway' ,'sidingProposed','proposedDate','approvalDate',
+    'workOrderDate','workProgressPercentage','completionDate','actions' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     sidingsItemFormGroup: FormGroup;
@@ -130,10 +139,10 @@ export class SidingsComponent implements OnInit {
             this.sidingsItemList = data;
             for (let i = 0; i < this.sidingsItemList.length; i++) {
                 this.sidingsItemList[i].sno = i+1;
-                this.sidingsItemList[i].proposedDate = this.datePipe.transform(this.sidingsItemList[i].proposedDate, 'dd-MM-yyyy hh:mm:ss');
-                this.sidingsItemList[i].approvalDate = this.datePipe.transform(this.sidingsItemList[i].approvalDate, 'dd-MM-yyyy hh:mm:ss');
-                this.sidingsItemList[i].workOrderDate = this.datePipe.transform(this.sidingsItemList[i].workOrderDate, 'dd-MM-yyyy hh:mm:ss');
-                this.sidingsItemList[i].completionDate = this.datePipe.transform(this.sidingsItemList[i].completionDate, 'dd-MM-yyyy hh:mm:ss');
+                this.sidingsItemList[i].proposedDate = this.datePipe.transform(this.sidingsItemList[i].proposedDate, 'dd-MM-yyyy');
+                this.sidingsItemList[i].approvalDate = this.datePipe.transform(this.sidingsItemList[i].approvalDate, 'dd-MM-yyyy');
+                this.sidingsItemList[i].workOrderDate = this.datePipe.transform(this.sidingsItemList[i].workOrderDate, 'dd-MM-yyyy');
+                this.sidingsItemList[i].completionDate = this.datePipe.transform(this.sidingsItemList[i].completionDate, 'dd-MM-yyyy');
                 sidingsDetails.push(this.sidingsItemList[i]);              
             }
             this.sidingsItemDataSource = new MatTableDataSource(sidingsDetails);

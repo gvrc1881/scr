@@ -93,7 +93,7 @@ export class OheLocationComponent implements OnInit {
       this.oheLocationList = data;
       for (let i = 0; i < this.oheLocationList.length; i++) {
         this.oheLocationList[i].sno = i + 1;
-        this.oheLocationList[i].date = this.datePipe.transform(this.oheLocationList[i].date, 'dd-MM-yyyy hh:mm:ss');
+        this.oheLocationList[i].date = this.datePipe.transform(this.oheLocationList[i].date, 'dd-MM-yyyy');
         oheLocation.push(this.oheLocationList[i]);
       }
       this.filterData.gridData = oheLocation;

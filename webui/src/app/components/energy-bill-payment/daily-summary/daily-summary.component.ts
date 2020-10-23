@@ -3,17 +3,25 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { DailySummaryModel } from 'src/app/models/daily-summary.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
     selector: 'daily-summary',
     templateUrl: './daily-summary.component.html',
-    styleUrls: []
+    providers: [
+        {
+            provide: DateAdapter, useClass: AppDateAdapter
+        },
+        {
+            provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+        }
+        ]
 })
 export class DailySummaryComponent implements OnInit{
 
@@ -129,7 +137,7 @@ export class DailySummaryComponent implements OnInit{
             this.dailySummaryList = data;
             for (let i = 0; i < this.dailySummaryList.length; i++) {
                 this.dailySummaryList[i].sno = i+1;
-                this.dailySummaryList[i].createdDate = this.datePipe.transform(this.dailySummaryList[i].createdDate, 'dd-MM-yyyy hh:mm:ss');
+                this.dailySummaryList[i].createdDate = this.datePipe.transform(this.dailySummaryList[i].createdDate, 'dd-MM-yyyy');
                 dailyProgressSummery.push(this.dailySummaryList[i]);              
             }
             this.dailySummaryDataSource = new MatTableDataSource(dailyProgressSummery);

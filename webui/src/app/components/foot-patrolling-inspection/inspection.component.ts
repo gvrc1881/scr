@@ -250,7 +250,6 @@ export class InspectionComponent implements OnInit {
   }
   filesInfor: any;
   viewFilesDetails(id) {
-    alert("id"+id)
     this.spinnerService.show();
     localStorage.setItem('observationFileType', 'observation');
     localStorage.setItem('observationFileTypeId', id);
@@ -268,7 +267,6 @@ export class InspectionComponent implements OnInit {
 
   } 
   complianceFilesDetails(id) {
-    alert("comId"+id)
     this.spinnerService.show();
     localStorage.setItem('observationFileType', 'compliance');
     localStorage.setItem('observationFileTypeId', id);

@@ -62,13 +62,11 @@ public class FootPatrollingInspection implements Serializable {
 	@Column(name="seq_id")
 	private String seqId;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name="start_time")
-	private Date startTime;
+	private Timestamp startTime;
 	
-	@Temporal(TemporalType.DATE)
 	@Column(name="stop_time")
-	private Date stopTime;
+	private Timestamp stopTime;
 
 	public FootPatrollingInspection() {
 	}
@@ -195,19 +193,19 @@ public class FootPatrollingInspection implements Serializable {
 
 	
 
-	public Date getStartTime() {
+	public Timestamp getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(Timestamp startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getStopTime() {
+	public Timestamp getStopTime() {
 		return stopTime;
 	}
 
-	public void setStopTime(Date stopTime) {
+	public void setStopTime(Timestamp stopTime) {
 		this.stopTime = stopTime;
 	}
 

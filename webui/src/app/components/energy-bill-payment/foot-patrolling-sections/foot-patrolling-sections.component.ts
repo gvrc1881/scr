@@ -3,7 +3,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder,Validators,FormControl } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { FootPatrollingSectionsModel } from 'src/app/models/foot-patrolling-sections.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -12,10 +12,19 @@ import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+
 @Component({
     selector: 'foot-patrolling-sections',
     templateUrl: './foot-patrolling-sections.component.html',
-    styleUrls: []
+    providers: [
+      {
+          provide: DateAdapter, useClass: AppDateAdapter
+      },
+      {
+          provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+      }
+      ]
 })
 export class FootPatrollingSectionsComponent implements OnInit{
 
@@ -119,8 +128,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
             this.fpSectionsList = data;
             for (let i = 0; i < this.fpSectionsList.length; i++) {
                 this.fpSectionsList[i].sno = i+1;
-                this.fpSectionsList[i].fromDate = this.datePipe.transform(this.fpSectionsList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-                this.fpSectionsList[i].toDate = this.datePipe.transform(this.fpSectionsList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
+                this.fpSectionsList[i].fromDate = this.datePipe.transform(this.fpSectionsList[i].fromDate, 'dd-MM-yyyy');
+                this.fpSectionsList[i].toDate = this.datePipe.transform(this.fpSectionsList[i].toDate, 'dd-MM-yyyy');
 
                 footPatrollingSections.push(this.fpSectionsList[i]);              
             }
