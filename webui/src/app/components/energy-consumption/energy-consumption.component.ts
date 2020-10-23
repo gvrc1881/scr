@@ -203,39 +203,39 @@ export class EnergyConsumptionComponent implements OnInit {
         for (let i = 0; i < this.energyConsumptionData.length; i++) {
 
           this.energyConsumptionData[i].sno = i + 1;
-          this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feeder_name;
-          this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].reading_gap_days.replace('days', '').trim();
-          this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multiplication_fac;
-          this.energyConsumptionData[i].cmd = this.energyConsumptionData[i].cur_cmd;
+          this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feederName;
+          this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].readingGapDays.replace('days', '').trim();
+          this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multiplicationFac;
+          this.energyConsumptionData[i].cmd = this.energyConsumptionData[i].curCmd;
 
-          this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prev_kwh;
-          this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].cur_kwh;
-          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].cur_kwh != 0 ? ((this.energyConsumptionData[i].cur_kwh - parseFloat(this.energyConsumptionData[i].prev_kwh)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
+          this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prevKwh;
+          this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].curKwh;
+          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].curKwh != 0 ? ((this.energyConsumptionData[i].curKwh - parseFloat(this.energyConsumptionData[i].prevKwh)) * parseFloat(this.energyConsumptionData[i].multiplicationRac)).toFixed(2) : 0;
           this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].Previous_Date.split('(')[0].length + 1;
           this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[0].length;
           this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[1].length;
 
-          this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prev_kvah;
-          this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].cur_kvah;
-          this.energyConsumptionData[i].Consumption_KVAH = this.energyConsumptionData[i].cur_kvah != 0 ? ((this.energyConsumptionData[i].cur_kvah - parseFloat(this.energyConsumptionData[i].prev_kvah)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
+          this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prevKvah;
+          this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].curKvah;
+          this.energyConsumptionData[i].Consumption_KVAH = this.energyConsumptionData[i].curKvah != 0 ? ((this.energyConsumptionData[i].curKvah - parseFloat(this.energyConsumptionData[i].prevKvah)) * parseFloat(this.energyConsumptionData[i].multiplicationFac)).toFixed(2) : 0;
 
-          this.energyConsumptionData[i].Old_RKVAH_Lag = this.energyConsumptionData[i].prev_rkvah_lag;
-          this.energyConsumptionData[i].Current_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag;
-          this.energyConsumptionData[i].Consumption_RKVAH_Lag = this.energyConsumptionData[i].cur_rkvah_lag != 0 ? ((this.energyConsumptionData[i].cur_rkvah_lag - parseFloat(this.energyConsumptionData[i].prev_rkvah_lag)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
+          this.energyConsumptionData[i].Old_RKVAH_Lag = this.energyConsumptionData[i].prevRkvahLag;
+          this.energyConsumptionData[i].Current_RKVAH_Lag = this.energyConsumptionData[i].curRkvahLag;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lag = this.energyConsumptionData[i].curRkvahLag != 0 ? ((this.energyConsumptionData[i].curRkvahLag - parseFloat(this.energyConsumptionData[i].prevRkvahLag)) * parseFloat(this.energyConsumptionData[i].multiplicationFac)).toFixed(2) : 0;
 
-          this.energyConsumptionData[i].Old_RKVAH_Lead = this.energyConsumptionData[i].prev_rkvah_lead;
-          this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead;
-          this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].cur_rkvah_lead != 0 ? ((this.energyConsumptionData[i].cur_rkvah_lead - parseFloat(this.energyConsumptionData[i].prev_rkvah_lead)) * parseFloat(this.energyConsumptionData[i].multiplication_fac)).toFixed(2) : 0;
+          this.energyConsumptionData[i].Old_RKVAH_Lead = this.energyConsumptionData[i].prevRkvahLead;
+          this.energyConsumptionData[i].Current_RKVAH_Lead = this.energyConsumptionData[i].curRkvahLead;
+          this.energyConsumptionData[i].Consumption_RKVAH_Lead = this.energyConsumptionData[i].curRkvahLead != 0 ? ((this.energyConsumptionData[i].curRkvahLead - parseFloat(this.energyConsumptionData[i].prevRkvahLead)) * parseFloat(this.energyConsumptionData[i].multiplicationFac)).toFixed(2) : 0;
 
           this.energyConsumptionData[i].pf = this.energyConsumptionData[i].Consumption_KVAH != 0 && this.energyConsumptionData[i].Consumption_KWH != 0 ? (this.energyConsumptionData[i].Consumption_KWH / this.energyConsumptionData[i].Consumption_KVAH).toFixed(2) : 0;
-          this.energyConsumptionData[i].cpf = this.energyConsumptionData[i].jr_kvah != 0 ? (this.energyConsumptionData[i].jr_kwh / this.energyConsumptionData[i].jr_kvah).toFixed(2) : 0;
+          this.energyConsumptionData[i].cpf = this.energyConsumptionData[i].jrKvah != 0 ? (this.energyConsumptionData[i].jrKwh / this.energyConsumptionData[i].jrKvah).toFixed(2) : 0;
 
-          this.energyConsumptionData[i].rmd = this.energyConsumptionData[i].cur_rmd;
-          this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].cur_vol_max;
-          this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].cur_vol_min;
-          this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].cur_max_load;
+          this.energyConsumptionData[i].rmd = this.energyConsumptionData[i].curRmd;
+          this.energyConsumptionData[i].Vol_Max = this.energyConsumptionData[i].curVolMax;
+          this.energyConsumptionData[i].Vol_Min = this.energyConsumptionData[i].curVolMin;
+          this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].curMaxLoad;
 
-          this.energyConsumptionData[i].energyReadingDate = this.energyConsumptionData[i].requested_reading_date;//this.exactDate == true ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') : this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') ;
+          this.energyConsumptionData[i].energyReadingDate = this.energyConsumptionData[i].requestedReadingDate;//this.exactDate == true ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') : this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') ;
           this.energyConsumptionData[i].id = this.energyConsumptionData[i].curId;
           this.energyConsumptionData[i].editable = false;
           this.stipulations.push(this.energyConsumptionData[i]);
