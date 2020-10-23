@@ -154,7 +154,7 @@ energy_consume_date ,
 	 em.feeder_name from v_energy_meter em ,  
 	-- (select generate_series(from_date::date,  to_date::date, interval '1 day')::date as energy_consume_date )dt   
 	 (select generate_series( from_date::date,  to_date::date, interval '1 day')::date as energy_consume_date )dt   
-	where em.feeder_id = '118' --tss_id    
+	where em.feeder_id = tss_id    
 	 )  a  
    left outer join v_energy_consumption rec on rec.energy_reading_date = ( SELECT max(cur1.energy_reading_date) AS max  
 		FROM v_energy_consumption cur1  
