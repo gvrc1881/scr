@@ -18,18 +18,18 @@ public class EnergyConsumptionMapper {
 			EnergyConsumption energyConsumption) {
 
 		if (request != null) {
-			energyConsumption.setKvah(request.getCur_kvah() != null ? String.valueOf(request.getCur_kvah()) : "0");
-			energyConsumption.setKwh(request.getCur_kwh() != null ? String.valueOf(request.getCur_kwh()) : "0");
-			energyConsumption.setRkvahLag(request.getCur_rkvah_lag() != null ? String.valueOf(request.getCur_rkvah_lag()) : "0");
-			energyConsumption.setRkvahLead(request.getCur_rkvah_lead() != null ? String.valueOf(request.getCur_rkvah_lead()) : "0");
+			energyConsumption.setKvah(request.getCurKvah() != null ? String.valueOf(request.getCurKvah()) : "0");
+			energyConsumption.setKwh(request.getCurKwh() != null ? String.valueOf(request.getCurKwh()) : "0");
+			energyConsumption.setRkvahLag(request.getCurRkvahLag() != null ? String.valueOf(request.getCurRkvahLag()) : "0");
+			energyConsumption.setRkvahLead(request.getCurRkvahLead() != null ? String.valueOf(request.getCurRkvahLead()) : "0");
 
 			energyConsumption.setRmd(request.getRmd() != null ? String.valueOf(request.getRmd()) : "0");
-			energyConsumption.setVolMin(request.getCur_vol_min() != null ? String.valueOf(request.getCur_vol_min()) : "0");
-			energyConsumption.setVolMax(request.getCur_vol_max() != null ? String.valueOf(request.getCur_vol_max()) : "0");
-			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
-			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
+			energyConsumption.setVolMin(request.getCurVolMin() != null ? String.valueOf(request.getCurVolMin()) : "0");
+			energyConsumption.setVolMax(request.getCurVolMax() != null ? String.valueOf(request.getCurVolMax()) : "0");
+			energyConsumption.setMaxLoad(request.getCurMaxLoad() != null ? String.valueOf(request.getCurMaxLoad()) : "0");
+			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMaxLoadTimeHhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
-			energyConsumption.setJointMeter(request.getJoint_meter());
+			energyConsumption.setJointMeter(request.getJointMeter());
 			energyConsumption.setPf(String.valueOf(request.getPf()));
 			energyConsumption.setCpf(String.valueOf(request.getCpf()));
 			
@@ -55,19 +55,19 @@ public class EnergyConsumptionMapper {
 			System.out.println("id = "+list.getId());
 			energyConsumption.setId(list.getId()+1);
 			
-			energyConsumption.setKvah(request.getCur_kvah() != null ? String.valueOf(request.getCur_kvah()) : "0");
-			energyConsumption.setKwh(request.getCur_kwh() != null ? String.valueOf(request.getCur_kwh()) : "0");
-			energyConsumption.setRkvahLag(request.getCur_rkvah_lag() != null ? String.valueOf(request.getCur_rkvah_lag()) : "0");
-			energyConsumption.setRkvahLead(request.getCur_rkvah_lead() != null ? String.valueOf(request.getCur_rkvah_lead()) : "0");
-			energyConsumption.setLocation(request.getFeeder_name());
+			energyConsumption.setKvah(request.getCurKvah() != null ? String.valueOf(request.getCurKvah()) : "0");
+			energyConsumption.setKwh(request.getCurKwh() != null ? String.valueOf(request.getCurKwh()) : "0");
+			energyConsumption.setRkvahLag(request.getCurRkvahLag() != null ? String.valueOf(request.getCurRkvahLag()) : "0");
+			energyConsumption.setRkvahLead(request.getCurRkvahLead() != null ? String.valueOf(request.getCurRkvahLead()) : "0");
+			energyConsumption.setLocation(request.getFeederName());
 			energyConsumption.setRmd(request.getRmd() != null ? String.valueOf(request.getRmd()) : "0");
-			energyConsumption.setVolMin(request.getCur_vol_min() != null ? String.valueOf(request.getCur_vol_min()) : "0");
-			energyConsumption.setVolMax(request.getCur_vol_max() != null ? String.valueOf(request.getCur_vol_max()) : "0");
-			energyConsumption.setMaxLoad(request.getCur_max_load() != null ? String.valueOf(request.getCur_max_load()) : "0");
-			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMax_load_time_hhmm()));
+			energyConsumption.setVolMin(request.getCurVolMin() != null ? String.valueOf(request.getCurVolMin()) : "0");
+			energyConsumption.setVolMax(request.getCurVolMax() != null ? String.valueOf(request.getCurVolMax()) : "0");
+			energyConsumption.setMaxLoad(request.getCurMaxLoad() != null ? String.valueOf(request.getCurMaxLoad()) : "0");
+			energyConsumption.setMaxLoadTime(Helper.convertStringToTimestampec(request.getMaxLoadTimeHhmm()));
 			energyConsumption.setRemarks(request.getRemarks());
-			energyConsumption.setDataDiv(request.getData_div().toLowerCase());
-			energyConsumption.setJointMeter(request.getJoint_meter());
+			energyConsumption.setDataDiv(request.getDataDiv().toLowerCase());
+			energyConsumption.setJointMeter(request.getJointMeter());
 			energyConsumption.setPf(String.valueOf(request.getPf()));
 			energyConsumption.setCpf(String.valueOf(request.getCpf()));
 				/*

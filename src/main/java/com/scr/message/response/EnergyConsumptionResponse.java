@@ -7,40 +7,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnergyConsumptionResponse {
 	private Long id;
-	private Date req_date;
-	private String feeder_id;
-	private String feeder_name;
-	private Double multiplication_fac;
-	private String requested_reading_date;
-	private String first_reading_after_meter_fix;
-	private Date meter_start_date;
-	private String recent_reading_date;
-	private String no_of_days_lapsed_reading;
-	private String reading_gap_days;
+	private Date reqDate;
+	private String feederId;
+	private String feederName;
+	private Double multiplicationFac;
+	private String requestedReadingDate;
+	private String firstReadingAfterMeterFix;
+	private Date meterStartDate;
+	private String recentReadingDate;
+	private String noOfDaysLapsedReading;
+	private String readingGapDays;
 	
-	private String data_div;
+	private String dataDiv;
 	
-	private String prev_kwh;
-	private Double cur_kwh;
-	private Double consumption_kwh;
+	private String prevKwh;
+	private Double curKwh;
+	private Double consumptionKwh;
 	
-	private String prev_kvah;
-	private Double cur_kvah;
-	private Double consumption_kvah;
+	private String prevKvah;
+	private Double curKvah;
+	private Double consumptionKvah;
 	
-	private String prev_rkvah_lag;
-	private Double cur_rkvah_lag;
-	private Double consumption_rkvah_lag;
+	private String prevRkvahLag;
+	private Double curRkvahLag;
+	private Double consumptionRkvahLag;
 	
-	private String prev_rkvah_lead;
-	private Double cur_rkvah_lead;
-	private Double consumption_rkvah_lead;
+	private String prevRkvahLead;
+	private Double curRkvahLead;
+	private Double consumptionRkvahLead;
 	
-	private Double cur_cmd;
-	private Double cur_rmd;
-	private Double cur_vol_max;
-	private Double cur_vol_min;
-	private Double cur_max_load;
+	private Double curCmd;
+	private Double curRmd;
+	private Double curVolMax;
+	private Double curVolMin;
+	private Double curMaxLoad;
 	
 	private Double rmd;
 	private Double cpf;
@@ -49,271 +49,201 @@ public class EnergyConsumptionResponse {
 	private Date updatedOn;
 	private String updatedBy;
 	
-	private Date joint_reading_date;
-	private Integer no_of_days_lapsed_j_reading;
-	private Double jr_kwh;
-	private Double jr_kvah;
-	private Double jr_rkvah_lag;
-	private Double jr_rkvah_lead;
+	private Date jointReadingDate;
+	private Integer noOfDaysLapsedJReading;
+	private Double jrKwh;
+	private Double jrKvah;
+	private Double jrRkvahLag;
+	private Double jrRkvahLead;
 	
-	private String max_load_time_hhmm;
-	private String remarks;
+	private String mavgReadingDate;
+	private Double mavgKwhValue;
+	private Double mavgKvahValue;
+	private Double mavgRkvahLagValue;
+	private Double mavgRkvahLeadValue;
 	
-	private String joint_meter;
+	private Double avgKwh;
+	private Double avgKvah;
+	private Double avgRkvahLag;
+	private Double avgRkvahLead;
 	
+	private String maxLoadTimeHhmm;
+	private String remarks;	
+	private String jointMeter;	
 	private String energyReadingDate;
-	
-	public Date getReq_date() {
-		return req_date;
-	}
-	public void setReq_date(Date req_date) {
-		this.req_date = req_date;
-	}
-	public String getFeeder_id() {
-		return feeder_id;
-	}
-	public void setFeeder_id(String feeder_id) {
-		this.feeder_id = feeder_id;
-	}
-	public String getFeeder_name() {
-		return feeder_name;
-	}
-	public void setFeeder_name(String feeder_name) {
-		this.feeder_name = feeder_name;
-	}
-	public Double getMultiplication_fac() {
-		return multiplication_fac;
-	}
-	public void setMultiplication_fac(Double multiplication_fac) {
-		this.multiplication_fac = multiplication_fac;
-	}
-	public String getRequested_reading_date() {
-		return requested_reading_date;
-	}
-	public void setRequested_reading_date(String requested_reading_date) {
-		this.requested_reading_date = requested_reading_date;
-	}
-	public String getFirst_reading_after_meter_fix() {
-		return first_reading_after_meter_fix;
-	}
-	public void setFirst_reading_after_meter_fix(String first_reading_after_meter_fix) {
-		this.first_reading_after_meter_fix = first_reading_after_meter_fix;
-	}
-	public Date getMeter_start_date() {
-		return meter_start_date;
-	}
-	public void setMeter_start_date(Date meter_start_date) {
-		this.meter_start_date = meter_start_date;
-	}
-	public String getRecent_reading_date() {
-		return recent_reading_date;
-	}
-	public void setRecent_reading_date(String recent_reading_date) {
-		this.recent_reading_date = recent_reading_date;
-	}
-	public String getNo_of_days_lapsed_reading() {
-		return no_of_days_lapsed_reading;
-	}
-	public void setNo_of_days_lapsed_reading(String no_of_days_lapsed_reading) {
-		this.no_of_days_lapsed_reading = no_of_days_lapsed_reading;
-	}
-	
-	
-	public Double getCur_kwh() {
-		return cur_kwh;
-	}
-	public void setCur_kwh(Double cur_kwh) {
-		this.cur_kwh = cur_kwh;
-	}
-	
-	public Double getCur_rkvah_lag() {
-		return cur_rkvah_lag;
-	}
-	public void setCur_rkvah_lag(Double cur_rkvah_lag) {
-		this.cur_rkvah_lag = cur_rkvah_lag;
-	}
-	
-	public Double getCur_rkvah_lead() {
-		return cur_rkvah_lead;
-	}
-	public void setCur_rkvah_lead(Double cur_rkvah_lead) {
-		this.cur_rkvah_lead = cur_rkvah_lead;
-	}
-	public Double getCur_cmd() {
-		return cur_cmd;
-	}
-	public void setCur_cmd(Double cur_cmd) {
-		this.cur_cmd = cur_cmd;
-	}
-	public Double getCur_rmd() {
-		return cur_rmd;
-	}
-	public void setCur_rmd(Double cur_rmd) {
-		this.cur_rmd = cur_rmd;
-	}
-	public Double getCur_vol_max() {
-		return cur_vol_max;
-	}
-	public void setCur_vol_max(Double cur_vol_max) {
-		this.cur_vol_max = cur_vol_max;
-	}
-	public Double getCur_vol_min() {
-		return cur_vol_min;
-	}
-	public void setCur_vol_min(Double cur_vol_min) {
-		this.cur_vol_min = cur_vol_min;
-	}
-	public Double getCur_max_load() {
-		return cur_max_load;
-	}
-	public void setCur_max_load(Double cur_max_load) {
-		this.cur_max_load = cur_max_load;
-	}
-	public String getPrev_kwh() {
-		return prev_kwh;
-	}
-	public void setPrev_kwh(String prev_kwh) {
-		this.prev_kwh = prev_kwh;
-	}
-	public String getPrev_kvah() {
-		return prev_kvah;
-	}
-	public void setPrev_kvah(String prev_kvah) {
-		this.prev_kvah = prev_kvah;
-	}
-	public Double getCur_kvah() {
-		return cur_kvah;
-	}
-	public void setCur_kvah(Double cur_kvah) {
-		this.cur_kvah = cur_kvah;
-	}
-	public String getPrev_rkvah_lag() {
-		return prev_rkvah_lag;
-	}
-	public void setPrev_rkvah_lag(String prev_rkvah_lag) {
-		this.prev_rkvah_lag = prev_rkvah_lag;
-	}
-	public String getPrev_rkvah_lead() {
-		return prev_rkvah_lead;
-	}
-	public void setPrev_rkvah_lead(String prev_rkvah_lead) {
-		this.prev_rkvah_lead = prev_rkvah_lead;
-	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Double getConsumption_kwh() {
-		return consumption_kwh;
+	public Date getReqDate() {
+		return reqDate;
 	}
-	public void setConsumption_kwh(Double consumption_kwh) {
-		this.consumption_kwh = consumption_kwh;
+	public void setReqDate(Date reqDate) {
+		this.reqDate = reqDate;
 	}
-	public Double getConsumption_kvah() {
-		return consumption_kvah;
+	public String getFeederId() {
+		return feederId;
 	}
-	public void setConsumption_kvah(Double consumption_kvah) {
-		this.consumption_kvah = consumption_kvah;
+	public void setFeederId(String feederId) {
+		this.feederId = feederId;
 	}
-	public Double getConsumption_rkvah_lag() {
-		return consumption_rkvah_lag;
+	public String getFeederName() {
+		return feederName;
 	}
-	public void setConsumption_rkvah_lag(Double consumption_rkvah_lag) {
-		this.consumption_rkvah_lag = consumption_rkvah_lag;
+	public void setFeederName(String feederName) {
+		this.feederName = feederName;
 	}
-	public Double getConsumption_rkvah_lead() {
-		return consumption_rkvah_lead;
+	public Double getMultiplicationFac() {
+		return multiplicationFac;
 	}
-	public void setConsumption_rkvah_lead(Double consumption_rkvah_lead) {
-		this.consumption_rkvah_lead = consumption_rkvah_lead;
+	public void setMultiplicationFac(Double multiplicationFac) {
+		this.multiplicationFac = multiplicationFac;
 	}
-	public Date getUpdatedOn() {
-		return updatedOn;
+	public String getRequestedReadingDate() {
+		return requestedReadingDate;
 	}
-	public void setUpdatedOn(Date updatedOn) {
-		this.updatedOn = updatedOn;
+	public void setRequestedReadingDate(String requestedReadingDate) {
+		this.requestedReadingDate = requestedReadingDate;
 	}
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getFirstReadingAfterMeterFix() {
+		return firstReadingAfterMeterFix;
 	}
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
+	public void setFirstReadingAfterMeterFix(String firstReadingAfterMeterFix) {
+		this.firstReadingAfterMeterFix = firstReadingAfterMeterFix;
 	}
-	public String getReading_gap_days() {
-		return reading_gap_days;
+	public Date getMeterStartDate() {
+		return meterStartDate;
 	}
-	public void setReading_gap_days(String reading_gap_days) {
-		this.reading_gap_days = reading_gap_days;
+	public void setMeterStartDate(Date meterStartDate) {
+		this.meterStartDate = meterStartDate;
 	}
-	
-	public Date getJoint_reading_date() {
-		return joint_reading_date;
+	public String getRecentReadingDate() {
+		return recentReadingDate;
 	}
-	public void setJoint_reading_date(Date joint_reading_date) {
-		this.joint_reading_date = joint_reading_date;
+	public void setRecentReadingDate(String recentReadingDate) {
+		this.recentReadingDate = recentReadingDate;
 	}
-	public Integer getNo_of_days_lapsed_j_reading() {
-		return no_of_days_lapsed_j_reading;
+	public String getNoOfDaysLapsedReading() {
+		return noOfDaysLapsedReading;
 	}
-	public void setNo_of_days_lapsed_j_reading(Integer no_of_days_lapsed_j_reading) {
-		this.no_of_days_lapsed_j_reading = no_of_days_lapsed_j_reading;
+	public void setNoOfDaysLapsedReading(String noOfDaysLapsedReading) {
+		this.noOfDaysLapsedReading = noOfDaysLapsedReading;
 	}
-	public Double getJr_kwh() {
-		return jr_kwh;
+	public String getReadingGapDays() {
+		return readingGapDays;
 	}
-	public void setJr_kwh(Double jr_kwh) {
-		this.jr_kwh = jr_kwh;
+	public void setReadingGapDays(String readingGapDays) {
+		this.readingGapDays = readingGapDays;
 	}
-	public Double getJr_kvah() {
-		return jr_kvah;
+	public String getDataDiv() {
+		return dataDiv;
 	}
-	public void setJr_kvah(Double jr_kvah) {
-		this.jr_kvah = jr_kvah;
+	public void setDataDiv(String dataDiv) {
+		this.dataDiv = dataDiv;
 	}
-	public Double getJr_rkvah_lag() {
-		return jr_rkvah_lag;
+	public String getPrevKwh() {
+		return prevKwh;
 	}
-	public void setJr_rkvah_lag(Double jr_rkvah_lag) {
-		this.jr_rkvah_lag = jr_rkvah_lag;
+	public void setPrevKwh(String prevKwh) {
+		this.prevKwh = prevKwh;
 	}
-	public Double getJr_rkvah_lead() {
-		return jr_rkvah_lead;
+	public Double getCurKwh() {
+		return curKwh;
 	}
-	public void setJr_rkvah_lead(Double jr_rkvah_lead) {
-		this.jr_rkvah_lead = jr_rkvah_lead;
+	public void setCurKwh(Double curKwh) {
+		this.curKwh = curKwh;
 	}
-	public String getMax_load_time_hhmm() {
-		return max_load_time_hhmm;
+	public Double getConsumptionKwh() {
+		return consumptionKwh;
 	}
-	public void setMax_load_time_hhmm(String max_load_time_hhmm) {
-		this.max_load_time_hhmm = max_load_time_hhmm;
+	public void setConsumptionKwh(Double consumptionKwh) {
+		this.consumptionKwh = consumptionKwh;
 	}
-	public String getRemarks() {
-		return remarks;
+	public String getPrevKvah() {
+		return prevKvah;
 	}
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setPrevKvah(String prevKvah) {
+		this.prevKvah = prevKvah;
 	}
-	
-	public String getJoint_meter() {
-		return joint_meter;
+	public Double getCurKvah() {
+		return curKvah;
 	}
-	public void setJoint_meter(String joint_meter) {
-		this.joint_meter = joint_meter;
+	public void setCurKvah(Double curKvah) {
+		this.curKvah = curKvah;
 	}
-	public String getData_div() {
-		return data_div;
+	public Double getConsumptionKvah() {
+		return consumptionKvah;
 	}
-	public void setData_div(String data_div) {
-		this.data_div = data_div;
+	public void setConsumptionKvah(Double consumptionKvah) {
+		this.consumptionKvah = consumptionKvah;
 	}
-	public String getEnergyReadingDate() {
-		return energyReadingDate;
+	public String getPrevRkvahLag() {
+		return prevRkvahLag;
 	}
-	public void setEnergyReadingDate(String energyReadingDate) {
-		this.energyReadingDate = energyReadingDate;
+	public void setPrevRkvahLag(String prevRkvahLag) {
+		this.prevRkvahLag = prevRkvahLag;
+	}
+	public Double getCurRkvahLag() {
+		return curRkvahLag;
+	}
+	public void setCurRkvahLag(Double curRkvahLag) {
+		this.curRkvahLag = curRkvahLag;
+	}
+	public Double getConsumptionRkvahLag() {
+		return consumptionRkvahLag;
+	}
+	public void setConsumptionRkvahLag(Double consumptionRkvahLag) {
+		this.consumptionRkvahLag = consumptionRkvahLag;
+	}
+	public String getPrevRkvahLead() {
+		return prevRkvahLead;
+	}
+	public void setPrevRkvahLead(String prevRkvahLead) {
+		this.prevRkvahLead = prevRkvahLead;
+	}
+	public Double getCurRkvahLead() {
+		return curRkvahLead;
+	}
+	public void setCurRkvahLead(Double curRkvahLead) {
+		this.curRkvahLead = curRkvahLead;
+	}
+	public Double getConsumptionRkvahLead() {
+		return consumptionRkvahLead;
+	}
+	public void setConsumptionRkvahLead(Double consumptionRkvahLead) {
+		this.consumptionRkvahLead = consumptionRkvahLead;
+	}
+	public Double getCurCmd() {
+		return curCmd;
+	}
+	public void setCurCmd(Double curCmd) {
+		this.curCmd = curCmd;
+	}
+	public Double getCurRmd() {
+		return curRmd;
+	}
+	public void setCurRmd(Double curRmd) {
+		this.curRmd = curRmd;
+	}
+	public Double getCurVolMax() {
+		return curVolMax;
+	}
+	public void setCurVolMax(Double curVolMax) {
+		this.curVolMax = curVolMax;
+	}
+	public Double getCurVolMin() {
+		return curVolMin;
+	}
+	public void setCurVolMin(Double curVolMin) {
+		this.curVolMin = curVolMin;
+	}
+	public Double getCurMaxLoad() {
+		return curMaxLoad;
+	}
+	public void setCurMaxLoad(Double curMaxLoad) {
+		this.curMaxLoad = curMaxLoad;
 	}
 	public Double getRmd() {
 		return rmd;
@@ -333,26 +263,154 @@ public class EnergyConsumptionResponse {
 	public void setPf(Double pf) {
 		this.pf = pf;
 	}
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public Date getJointReadingDate() {
+		return jointReadingDate;
+	}
+	public void setJointReadingDate(Date jointReadingDate) {
+		this.jointReadingDate = jointReadingDate;
+	}
+	public Integer getNoOfDaysLapsedJReading() {
+		return noOfDaysLapsedJReading;
+	}
+	public void setNoOfDaysLapsedJReading(Integer noOfDaysLapsedJReading) {
+		this.noOfDaysLapsedJReading = noOfDaysLapsedJReading;
+	}
+	public Double getJrKwh() {
+		return jrKwh;
+	}
+	public void setJrKwh(Double jrKwh) {
+		this.jrKwh = jrKwh;
+	}
+	public Double getJrKvah() {
+		return jrKvah;
+	}
+	public void setJrKvah(Double jrKvah) {
+		this.jrKvah = jrKvah;
+	}
+	public Double getJrRkvahLag() {
+		return jrRkvahLag;
+	}
+	public void setJrRkvahLag(Double jrRkvahLag) {
+		this.jrRkvahLag = jrRkvahLag;
+	}
+	public Double getJrRkvahLead() {
+		return jrRkvahLead;
+	}
+	public void setJrRkvahLead(Double jrRkvahLead) {
+		this.jrRkvahLead = jrRkvahLead;
+	}
+	public String getMavgReadingDate() {
+		return mavgReadingDate;
+	}
+	public void setMavgReadingDate(String mavgReadingDate) {
+		this.mavgReadingDate = mavgReadingDate;
+	}
+	public Double getMavgKwhValue() {
+		return mavgKwhValue;
+	}
+	public void setMavgKwhValue(Double mavgKwhValue) {
+		this.mavgKwhValue = mavgKwhValue;
+	}
+	public Double getMavgKvahValue() {
+		return mavgKvahValue;
+	}
+	public void setMavgKvahValue(Double mavgKvahValue) {
+		this.mavgKvahValue = mavgKvahValue;
+	}
+	public Double getMavgRkvahLagValue() {
+		return mavgRkvahLagValue;
+	}
+	public void setMavgRkvahLagValue(Double mavgRkvahLagValue) {
+		this.mavgRkvahLagValue = mavgRkvahLagValue;
+	}
+	public Double getMavgRkvahLeadValue() {
+		return mavgRkvahLeadValue;
+	}
+	public void setMavgRkvahLeadValue(Double mavgRkvahLeadValue) {
+		this.mavgRkvahLeadValue = mavgRkvahLeadValue;
+	}
+	public Double getAvgKwh() {
+		return avgKwh;
+	}
+	public void setAvgKwh(Double avgKwh) {
+		this.avgKwh = avgKwh;
+	}
+	public Double getAvgKvah() {
+		return avgKvah;
+	}
+	public void setAvgKvah(Double avgKvah) {
+		this.avgKvah = avgKvah;
+	}
+	public Double getAvgRkvahLag() {
+		return avgRkvahLag;
+	}
+	public void setAvgRkvahLag(Double avgRkvahLag) {
+		this.avgRkvahLag = avgRkvahLag;
+	}
+	public Double getAvgRkvahLead() {
+		return avgRkvahLead;
+	}
+	public void setAvgRkvahLead(Double avgRkvahLead) {
+		this.avgRkvahLead = avgRkvahLead;
+	}
+	public String getMaxLoadTimeHhmm() {
+		return maxLoadTimeHhmm;
+	}
+	public void setMaxLoadTimeHhmm(String maxLoadTimeHhmm) {
+		this.maxLoadTimeHhmm = maxLoadTimeHhmm;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public String getJointMeter() {
+		return jointMeter;
+	}
+	public void setJointMeter(String jointMeter) {
+		this.jointMeter = jointMeter;
+	}
+	public String getEnergyReadingDate() {
+		return energyReadingDate;
+	}
+	public void setEnergyReadingDate(String energyReadingDate) {
+		this.energyReadingDate = energyReadingDate;
+	}
 	@Override
 	public String toString() {
-		return "EnergyConsumptionResponse [id=" + id + ", req_date=" + req_date + ", feeder_id=" + feeder_id
-				+ ", feeder_name=" + feeder_name + ", multiplication_fac=" + multiplication_fac
-				+ ", requested_reading_date=" + requested_reading_date + ", first_reading_after_meter_fix="
-				+ first_reading_after_meter_fix + ", meter_start_date=" + meter_start_date + ", recent_reading_date="
-				+ recent_reading_date + ", no_of_days_lapsed_reading=" + no_of_days_lapsed_reading
-				+ ", reading_gap_days=" + reading_gap_days + ", data_div=" + data_div + ", prev_kwh=" + prev_kwh
-				+ ", cur_kwh=" + cur_kwh + ", consumption_kwh=" + consumption_kwh + ", prev_kvah=" + prev_kvah
-				+ ", cur_kvah=" + cur_kvah + ", consumption_kvah=" + consumption_kvah + ", prev_rkvah_lag="
-				+ prev_rkvah_lag + ", cur_rkvah_lag=" + cur_rkvah_lag + ", consumption_rkvah_lag="
-				+ consumption_rkvah_lag + ", prev_rkvah_lead=" + prev_rkvah_lead + ", cur_rkvah_lead=" + cur_rkvah_lead
-				+ ", consumption_rkvah_lead=" + consumption_rkvah_lead + ", cur_cmd=" + cur_cmd + ", cur_rmd=" + cur_rmd
-				+ ", cur_vol_max=" + cur_vol_max + ", cur_vol_min=" + cur_vol_min + ", cur_max_load=" + cur_max_load
-				+ ", rmd=" + rmd + ", cpf=" + cpf + ", pf=" + pf + ", updatedOn=" + updatedOn + ", updatedBy="
-				+ updatedBy + ", joint_reading_date=" + joint_reading_date + ", no_of_days_lapsed_j_reading="
-				+ no_of_days_lapsed_j_reading + ", jr_kwh=" + jr_kwh + ", jr_kvah=" + jr_kvah + ", jr_rkvah_lag="
-				+ jr_rkvah_lag + ", jr_rkvah_lead=" + jr_rkvah_lead + ", max_load_time_hhmm=" + max_load_time_hhmm
-				+ ", remarks=" + remarks + ", joint_meter=" + joint_meter + ", energyReadingDate=" + energyReadingDate
-				+ "]";
+		return "EnergyConsumptionResponse [id=" + id + ", reqDate=" + reqDate + ", feederId=" + feederId
+				+ ", feederName=" + feederName + ", multiplicationFac=" + multiplicationFac + ", requestedReadingDate="
+				+ requestedReadingDate + ", firstReadingAfterMeterFix=" + firstReadingAfterMeterFix
+				+ ", meterStartDate=" + meterStartDate + ", recentReadingDate=" + recentReadingDate
+				+ ", noOfDaysLapsedReading=" + noOfDaysLapsedReading + ", readingGapDays=" + readingGapDays
+				+ ", dataDiv=" + dataDiv + ", prevKwh=" + prevKwh + ", curKwh=" + curKwh + ", consumptionKwh="
+				+ consumptionKwh + ", prevKvah=" + prevKvah + ", curKvah=" + curKvah + ", consumptionKvah="
+				+ consumptionKvah + ", prevRkvahLag=" + prevRkvahLag + ", curRkvahLag=" + curRkvahLag
+				+ ", consumptionRkvahLag=" + consumptionRkvahLag + ", prevRkvahLead=" + prevRkvahLead
+				+ ", curRkvahLead=" + curRkvahLead + ", consumptionRkvahLead=" + consumptionRkvahLead + ", curCmd="
+				+ curCmd + ", curRmd=" + curRmd + ", curVolMax=" + curVolMax + ", curVolMin=" + curVolMin
+				+ ", curMaxLoad=" + curMaxLoad + ", rmd=" + rmd + ", cpf=" + cpf + ", pf=" + pf + ", updatedOn="
+				+ updatedOn + ", updatedBy=" + updatedBy + ", jointReadingDate=" + jointReadingDate
+				+ ", noOfDaysLapsedJReading=" + noOfDaysLapsedJReading + ", jrKwh=" + jrKwh + ", jrKvah=" + jrKvah
+				+ ", jrRkvahLag=" + jrRkvahLag + ", jrRkvahLead=" + jrRkvahLead + ", mavgReadingDate=" + mavgReadingDate
+				+ ", mavgKwhValue=" + mavgKwhValue + ", mavgKvahValue=" + mavgKvahValue + ", mavgRkvahLagValue="
+				+ mavgRkvahLagValue + ", mavgRkvahLeadValue=" + mavgRkvahLeadValue + ", avgKwh=" + avgKwh + ", avgKvah="
+				+ avgKvah + ", avgRkvahLag=" + avgRkvahLag + ", avgRkvahLead=" + avgRkvahLead + ", maxLoadTimeHhmm="
+				+ maxLoadTimeHhmm + ", remarks=" + remarks + ", jointMeter=" + jointMeter + ", energyReadingDate="
+				+ energyReadingDate + "]";
 	}
 	
 	

@@ -515,43 +515,53 @@ public class EnergyConsumptionUtilRepository{
 			while(resultSet != null && resultSet.next()) {
 				logger.info("feeder_id = "+resultSet.getString("feeder_id"));
 				response = new EnergyConsumptionResponse();
-				response.setFeeder_id(resultSet.getString("feeder_id"));
-				response.setFeeder_name(resultSet.getString("feeder_name"));
-				response.setMultiplication_fac(resultSet.getDouble("multiplication_fac"));
-				response.setRequested_reading_date(resultSet.getString("requested_reading_date"));
-				response.setFirst_reading_after_meter_fix(resultSet.getString("first_reading_after_meter_fix"));
-				response.setMeter_start_date(resultSet.getDate("meter_start_date"));
-				response.setReading_gap_days(resultSet.getString("reading_gap_days"));
-				response.setRecent_reading_date(resultSet.getString("recent_reading_date"));
-				response.setNo_of_days_lapsed_reading(resultSet.getString("no_of_days_lapsed_reading"));
-				response.setPrev_kwh(resultSet.getString("prev_kwh"));
-				response.setCur_kwh(resultSet.getDouble("cur_kwh"));
-				response.setPrev_kvah(resultSet.getString("prev_kvah"));
-				response.setCur_kvah(resultSet.getDouble("cur_kvah"));
-				response.setPrev_rkvah_lag(resultSet.getString("prev_rkvah_lag"));
-				response.setCur_rkvah_lag(resultSet.getDouble("cur_rkvah_lag"));
-				response.setPrev_rkvah_lead(resultSet.getString("prev_rkvah_lead"));
-				response.setCur_rkvah_lead(resultSet.getDouble("cur_rkvah_lead"));
-				response.setCur_cmd(resultSet.getDouble("cur_cmd"));
-				response.setCur_rmd(resultSet.getDouble("cur_rmd"));
-				response.setCur_vol_max(resultSet.getDouble("cur_vol_max"));
-				response.setCur_vol_min(resultSet.getDouble("cur_vol_min"));
-				response.setCur_max_load(resultSet.getDouble("cur_max_load"));
+				response.setFeederId(resultSet.getString("feeder_id"));
+				response.setFeederName(resultSet.getString("feeder_name"));
+				response.setMultiplicationFac(resultSet.getDouble("multiplication_fac"));
+				response.setRequestedReadingDate(resultSet.getString("requested_reading_date"));
+				response.setFirstReadingAfterMeterFix(resultSet.getString("first_reading_after_meter_fix"));
+				response.setMeterStartDate(resultSet.getDate("meter_start_date"));
+				response.setReadingGapDays(resultSet.getString("reading_gap_days"));
+				response.setRecentReadingDate(resultSet.getString("recent_reading_date"));
+				response.setNoOfDaysLapsedReading(resultSet.getString("no_of_days_lapsed_reading"));
+				response.setPrevKwh(resultSet.getString("prev_kwh"));
+				response.setCurKwh(resultSet.getDouble("cur_kwh"));
+				response.setPrevKvah(resultSet.getString("prev_kvah"));
+				response.setCurKvah(resultSet.getDouble("cur_kvah"));
+				response.setPrevRkvahLag(resultSet.getString("prev_rkvah_lag"));
+				response.setCurRkvahLag(resultSet.getDouble("cur_rkvah_lag"));
+				response.setPrevRkvahLead(resultSet.getString("prev_rkvah_lead"));
+				response.setCurRkvahLead(resultSet.getDouble("cur_rkvah_lead"));
+				response.setCurCmd(resultSet.getDouble("cur_cmd"));
+				response.setCurRmd(resultSet.getDouble("cur_rmd"));
+				response.setCurVolMax(resultSet.getDouble("cur_vol_max"));
+				response.setCurVolMin(resultSet.getDouble("cur_vol_min"));
+				response.setCurMaxLoad(resultSet.getDouble("cur_max_load"));
 				
-				response.setJoint_meter(resultSet.getString("joint_meter"));
+				response.setJointMeter(resultSet.getString("joint_meter"));
 				
-				response.setJoint_reading_date(resultSet.getDate("joint_reading_date"));
-				response.setNo_of_days_lapsed_j_reading(resultSet.getInt("no_of_days_lapsed_j_reading"));
-				response.setJr_kvah(resultSet.getDouble("jr_kvah"));
-				response.setJr_kwh(resultSet.getDouble("jr_kwh"));
-				response.setJr_rkvah_lag(resultSet.getDouble("jr_rkvah_lag"));
-				response.setJr_rkvah_lead(resultSet.getDouble("jr_rkvah_lead"));
+				response.setJointReadingDate(resultSet.getDate("joint_reading_date"));
+				response.setNoOfDaysLapsedJReading(resultSet.getInt("no_of_days_lapsed_j_reading"));
+				response.setJrKvah(resultSet.getDouble("jr_kvah"));
+				response.setJrKwh(resultSet.getDouble("jr_kwh"));
+				response.setJrRkvahLag(resultSet.getDouble("jr_rkvah_lag"));
+				response.setJrRkvahLead(resultSet.getDouble("jr_rkvah_lead"));
 				
 				response.setId(resultSet.getLong("curid"));
-				response.setMax_load_time_hhmm(resultSet.getString("max_load_time_hhmm"));
-				response.setRemarks(resultSet.getString("remarks"));
+				response.setMaxLoadTimeHhmm(resultSet.getString("max_load_time_hhmm"));
+				response.setRemarks(resultSet.getString("remarks"));				
+				response.setDataDiv(division);
 				
-				response.setData_div(division);
+				response.setJrKwh(resultSet.getDouble("jr_kwh"));
+				response.setJrKvah(resultSet.getDouble("jr_kvah"));
+				response.setJrRkvahLag(resultSet.getDouble("jr_rkvah_lag"));
+				response.setJrRkvahLead(resultSet.getDouble("jr_rkvah_lead"));
+				
+				response.setMavgReadingDate(resultSet.getString("mavg_reading_date"));
+				response.setMavgKwhValue(resultSet.getDouble("mavg_kwh_value"));
+				response.setMavgKvahValue(resultSet.getDouble("mavg_kvah_value"));
+				response.setMavgRkvahLagValue(resultSet.getDouble("mavg_rkvah_lag_value"));
+				response.setMavgRkvahLeadValue(resultSet.getDouble("mavg_rkvah_lead_value"));
 				
 				list.add(response);
 			}
