@@ -18,7 +18,7 @@ export class AuthenticationService {
 
   checkUsersExists() {
     return this.http.get<any>(environment.apiUrl + "/auth/checkUsersExists", { headers: this.header })
-      .map(data => {
+      .map(data => {        
         return data;
       });
   }
@@ -701,9 +701,9 @@ export class AuthenticationService {
         console.log("error")
       });
   }
-  findMenusAndSubMenus(data) {
+  findMenusAndSubMenus() {
 
-    let Menus: any = [];
+    /* let Menus: any = [];
     let SubMenus: any = [];
     for (let Menu of data) {
       if (Menu.SubMenuId != null) {
@@ -733,9 +733,10 @@ export class AuthenticationService {
           }
         }
       });
-    }
-    localStorage.setItem('userMenuList', JSON.stringify(Menus));
-
+    } */
+    //localStorage.setItem('userMenuList', JSON.stringify(Menus));
+    let menus = localStorage.getItem("MenusList");
+    return menus;
   }
 
   forgotPassword(email: string) {    

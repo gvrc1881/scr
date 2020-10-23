@@ -46,6 +46,7 @@
     </div>
 
     <div class="clearfix"></div>
+
     <div class="clearfix"></div>
     <div class="page-header" id="divMenuHeader" name="divMenuHeader" *ngIf="loginValidate">
         <nav class="navbar mega-menu" role="navigation">
@@ -63,7 +64,7 @@
                 <div id="menuDiv" class="nav-collapse collapse navbar-collapse navbar-responsive-collapse row">
                     <ul *ngFor="let menuList of MenusList; let i = index" class="nav navbar-nav">
                         <li class="dropdown dropdown-fw dropdown-fw-disabled " [ngClass]="[menuList.currentTab]"
-                            *ngIf="menuList.permission">
+                            *ngIf="menuList.permission" (click)="select(menuList.ID)">
                             <a class="text-uppercase" [routerLink]="[menuList.menuUrl]">
                                 <span> <i class="{{menuList.icon}}"></i> </span> {{menuList.menuName}}
                             </a>
