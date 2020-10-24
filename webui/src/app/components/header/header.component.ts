@@ -40,6 +40,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
     if (refresh == 'refresh') {
      const path = window.location.pathname;
       this.findMenus(path);
+      this.userdata = JSON.parse(localStorage.getItem('userData'));
+      this.userName = !!this.userdata && !!this.userdata.username && this.userdata.username;
       localStorage.setItem("headerRefresh", 'noRefresh');
     }
   }
@@ -63,6 +65,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   findMenus(path) {
+    this.MenusList = [];
     this.MenusList = [
       {
         ID: 1,
