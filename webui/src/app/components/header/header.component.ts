@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
     this.loginValidate = this.commonService.loginValidate(window.location.pathname);
     let refresh = localStorage.getItem("headerRefresh");
     if (refresh == 'refresh') {
-      window.location.reload();
+     const path = window.location.pathname;
+      this.findMenus(path);
       localStorage.setItem("headerRefresh", 'noRefresh');
     }
   }
