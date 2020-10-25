@@ -59,11 +59,12 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       this.findMenus(path);
     }
   }
-  select(i) {
-    const path = window.location.pathname;
-    this.findMenus(path);
+  select(i, path) {
+   // const path = window.location.pathname;
+   //console.log(path)
+    this.clicked = i;
+   // this.findMenus(path);
   }
-
   findMenus(path) {
     this.MenusList = [];
     this.MenusList = [
