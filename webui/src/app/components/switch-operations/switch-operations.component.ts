@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import * as core from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder} from '@angular/forms';
@@ -8,6 +8,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
+import { Location } from '@angular/common';
+
 
 @Component({
     selector: 'app-switch-operations',
@@ -23,11 +25,13 @@ export class SwitchOperationsComponent implements OnInit {
     switchOperationsFormGroup: FormGroup;
     switchOperationsList : any;
     facilityData:any;
+    public MaterialModule:any;
     public dialogRef: MatDialogRef<SwitchOperationsComponent>;
     switchOperationsDataSource: MatTableDataSource<PbSwitchModel>;
     switchOperationsDisplayColumns = ['sno' ,'switchType','switchId' , 'isNormallOpened' , 'id' ] ;
     @core.ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @core.ViewChild(MatSort, { static: true }) sort: MatSort;
+
     editSwitchOperationsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
@@ -36,7 +40,9 @@ export class SwitchOperationsComponent implements OnInit {
         private commonService: CommonService,
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
-        private sendAndRequestService:SendAndRequestService
+        private sendAndRequestService:SendAndRequestService,
+        private location: Location,
+
     ){
         
     }
@@ -89,7 +95,6 @@ export class SwitchOperationsComponent implements OnInit {
                 this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.SAVE_FP_SECTIONS, saveSwitchModel, false).subscribe(response => {
                   this.commonService.showAlertMessage('Successfully saved');
                 this.getAllPbSwitchData();
-                this.switchOperationsFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editSwitchOperationsResponse.id;
@@ -160,8 +165,10 @@ export class SwitchOperationsComponent implements OnInit {
         this.switchOperationsDataSource.filter = filterValue;
     }
 
-    
-    
+    onGoBack() {
+        this.switchOperationsFormGroup.reset();
+        this.location.back();
+    }
 
     public pbSwitchType = ['REMOTE', 'MANUAL'];
 

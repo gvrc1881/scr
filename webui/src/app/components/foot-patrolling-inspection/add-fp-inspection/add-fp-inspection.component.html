@@ -75,7 +75,7 @@
                           <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                    [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
+                                    [owlDateTimeTrigger]="dt1" placeholder="Choose From Date" [max]="toMinDate"
                                     (dateTimeChange)="addEvent($event)" 
                                     [formControl]="fpInspectionItemFormGroup.controls['startTime']" >                                                                
                                     <owl-date-time #dt1 [showSecondsTimer]=true

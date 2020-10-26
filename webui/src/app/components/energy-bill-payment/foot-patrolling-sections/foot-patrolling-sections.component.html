@@ -96,7 +96,7 @@
                       <div class="col-md-3">
                         <mat-form-field>
                           <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
-                            placeholder="Choose From Date" [formControl]="fpSectionsItemFormGroup.controls['fromDate']"
+                            placeholder="Choose From Date" [formControl]="fpSectionsItemFormGroup.controls['fromDate']" [max]="toMinDate"
                             required>
                           <mat-datepicker-toggle matSuffix [for]="picker1">
                           </mat-datepicker-toggle>
@@ -107,7 +107,7 @@
                       <!-- To DATE -->
                       <div class="col-md-3">
                         <mat-form-field>
-                          <input matInput [matDatepicker]="picker" placeholder="Choose Valid Till Date"
+                          <input matInput [matDatepicker]="picker" placeholder="Choose Valid Till Date" [max]="toMinDate"
                             [min]="toMinDate" [formControl]="fpSectionsItemFormGroup.controls['toDate']">
                           <mat-datepicker-toggle matSuffix [for]="picker">
                           </mat-datepicker-toggle>

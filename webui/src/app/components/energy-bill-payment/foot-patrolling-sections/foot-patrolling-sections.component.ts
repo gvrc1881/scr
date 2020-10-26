@@ -283,7 +283,8 @@ export class FootPatrollingSectionsComponent implements OnInit{
       var result = {
         'title':'Foot Patrolling Sections',
         'dataSource':[{label:'Depot',value:data.facilityDepot},{label:'FP Section',value:data.fpSection},
-                      {label:'From Location', value:data.fromLocation},{label:'To Location',value:data.toLocation}]
+                      {label:'From Location', value:data.fromLocation},{label:'To Location',value:data.toLocation},{label:'From Date',value:data.fromDate},
+                      {label:'To Date',value:data.toDate}]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
         disableClose: false,

@@ -99,16 +99,17 @@ export class GantryComponent implements OnInit {
       });
       gantry.push(this.gantryList[i]);
     }
-      this.dataSource = new MatTableDataSource(gantry);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
-      this.filterData.dataSource = this.dataSource;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.spinnerService.hide();
-    }, error => {
-      this.spinnerService.hide();
-    });
-  }
+    this.filterData.gridData = gantry;
+    this.dataSource = new MatTableDataSource(gantry);
+    this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+    this.filterData.dataSource = this.dataSource;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.spinnerService.hide();
+  }, error => {
+    this.spinnerService.hide();
+  });
+}
   processEditAction(id) {
     this.router.navigate([id], { relativeTo: this.route });
   }
