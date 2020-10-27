@@ -720,7 +720,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: this.commonService.findPermission('Energy Meter', 'submenu', 'view'),
+            permission: this.commonService.findPermission('ENERGY METER', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("energyMeter") ? "active-item" : "",
           },
           {
@@ -737,9 +737,9 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 16,
+        ID: 17,
         menuName: 'TRD CONFIG',
-        menuUrl: 'asset-schedule-activity-assoc',
+        menuUrl: 'tpc-board',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -752,7 +752,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "asset-schedule-activity-assoc",
             subMenuIcon: "fa fa-align-left",
             rolePermission: true,
-            permission: this.commonService.findPermission('ASSET SCHEDULE ACTIVITY ASSOC', 'submenu', 'view'),
+            permission: this.commonService.findPermission('ASSET SCHEDULE ACTIVITY ASSOCIATION', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-schedule-activity-assoc") ? "active-item" : "",
           },
           {
@@ -777,7 +777,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "measure-activity",
             subMenuIcon: "fa fa-align-left",
             rolePermission: true,
-            permission: this.commonService.findPermission('Activity Master', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Measure activity', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("measure-activity") ? "active-item" : "",
           },
           {
