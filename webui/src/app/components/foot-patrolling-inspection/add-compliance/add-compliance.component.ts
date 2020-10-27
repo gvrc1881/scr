@@ -7,7 +7,6 @@ import { MatDatepickerInputEvent, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-import { InspectionstModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
@@ -45,7 +44,6 @@ export class AddComplianceComponent implements OnInit {
   attachedImages:any;
   statusTypeData:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  crsEigInspections: InspectionstModel[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,7 +69,7 @@ export class AddComplianceComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.obsId = +this.route.snapshot.params['obsId'];
     this.statusList();
-    this.createStipulationForm();
+    this.createComplianceForm();
     if (!isNaN(this.id)) {
       this.addComplianceFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -149,7 +147,7 @@ getObservationDetails(obsId:any){
     }
   }
 
-  createStipulationForm() {
+  createComplianceForm() {
     this.addComplianceFormGroup
       = this.formBuilder.group({
         id: 0,

@@ -18,6 +18,8 @@ export class AddOheLocationComponent implements OnInit {
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   resp: any;
+  oheFounData:any;
+  structureTypeData:any;
   title:string;
   productCateData:any;
   productCateTypeData:any;
@@ -36,6 +38,8 @@ export class AddOheLocationComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+    this.oheFoundationDetails();
+    this.mastStructureDetails();
     this.createOheLocationForm();
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
@@ -218,5 +222,20 @@ export class AddOheLocationComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
-  
+  oheFoundationDetails(){
+    var statusTypeId='OHE_FOUNDATION_TYPE'
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + statusTypeId).subscribe((data) => {
+      this.oheFounData = data;
+  }
+  );
+}
+mastStructureDetails(){
+  var statusTypeId = 'MAST_STRUCTURE_TYPE'
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + statusTypeId).subscribe((data) => {
+      this.structureTypeData = data;
+      console.log("structureTypeData"+JSON.stringify(this.structureTypeData))
+  }
+  );
+
+}
 }

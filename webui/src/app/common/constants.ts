@@ -719,7 +719,7 @@ export const Constants = {
         'ONLY_ALPHA_WITH_SPACE':'^[a-zA-Z]+(\s[a-zA-Z]+)?$'
     },
     STATUS_ITEMS:{
-        "GAUGE_TYPE":"GAUGE_TYPE LIST",
+        "GAUGE_TYPE":"Gauge_type list",
         "ELECTRIFICATION_EXEC_AGENCY_TYPE":"ELECTRIFICATION_EXEC_AGENCY",
         "DOUBLE_TRIPLE_TYPE":"DOUBLE_TRIPLE_ETC_ELEC",
         "YES_NO_TYPE":"YESNO_STATUS",

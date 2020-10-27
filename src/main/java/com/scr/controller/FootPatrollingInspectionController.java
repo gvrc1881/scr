@@ -404,9 +404,9 @@ public class FootPatrollingInspectionController {
 				@RequestParam("complianceBy") String complianceBy,
 				@RequestParam("compliedDateTime") String compliedDateTime,
 				@RequestParam("updatedBy") String updatedBy,
-				@RequestParam("attachment") String attachment) {
+				@RequestParam("document") String document) {
 			try {
-				log.info("Update Observations");
+				log.info("Update Compliances");
 				InspectionRequest compliancesRequest = new InspectionRequest();
 				compliancesRequest.setId(id);
 				compliancesRequest.setObeservationSeqId(obeservationSeqId);
@@ -415,8 +415,8 @@ public class FootPatrollingInspectionController {
 				compliancesRequest.setComplianceBy(complianceBy);
 				compliancesRequest.setCompliedDateTime(Helper.convertStringToTimestamp(compliedDateTime));
 				compliancesRequest.setUpdatedBy(updatedBy);
-				compliancesRequest.setAttachment(attachment);
-				log.info("calling update observations");
+				compliancesRequest.setDocument(document);
+				log.info("calling update Compliances");
 				String ComStatus = footPatrollingInspectionService.updateCompliancesData(compliancesRequest, file);
 				if(ComStatus.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 					return Helper.findResponseStatus("Compliances Data Updated Successfully", Constants.SUCCESS_CODE);

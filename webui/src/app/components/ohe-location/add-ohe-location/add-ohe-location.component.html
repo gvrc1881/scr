@@ -65,17 +65,27 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="oheMast"
-                                                                [formControl]="addOheLocationFormGroup.controls['oheMast']"></textarea>  
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select Ohe Mast Type" 
+                                                            [formControl]="addOheLocationFormGroup.controls['oheMast']" required>
+                                                            <mat-option *ngFor="let oheFounData of oheFounData"
+                                                              [value]="oheFounData.statusCode">
+                                                              {{ oheFounData.statusCode }}
+                                                            </mat-option>
+                                                          </mat-select>
                                                         </mat-form-field>
-                                                    </div>
+                                                      </div>
                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Structure Type"
-                                                                [formControl]="addOheLocationFormGroup.controls['structureType']"></textarea>  
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                          <mat-select placeholder="Select Structure Type" 
+                                                            [formControl]="addOheLocationFormGroup.controls['structureType']" required>
+                                                            <mat-option *ngFor="let structureTypeData of structureTypeData"
+                                                              [value]="structureTypeData.statusCode">
+                                                              {{ structureTypeData.statusCode }}
+                                                            </mat-option>
+                                                          </mat-select>
                                                         </mat-form-field>
-                                                    </div>
+                                                      </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="Eng Feature"

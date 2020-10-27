@@ -78,7 +78,7 @@ const routes: Routes = [
   },
   {
     path: 'sidings',
-    loadChildren: './components/energy-bill-payment/sidings/sidings.module#SidingsModule',
+    loadChildren: './components/siding-details/siding-details.module#SidingDetailsModule',
     canActivate: [AuthGuard]
   },
   {
@@ -117,13 +117,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },*/
   {
-    path: 'Observations',
-    loadChildren: './components/energy-bill-payment/observations/observations.module#ObservationsModule',
+    path: 'observation-details',
+    loadChildren: './components/energy-bill-payment/observation-details/observation-details.module#ObservationDetailsModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'Compliances',
-    loadChildren: './components/energy-bill-payment/compliances/compliances.module#CompliancesModule',
+    path: 'compliance-details',
+    loadChildren: './components/energy-bill-payment/compliances-details/compliance-details.module#ComplianceDetailsModule',
     canActivate: [AuthGuard]
   },
   {

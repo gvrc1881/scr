@@ -663,21 +663,21 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           },
           {
             subMenuName: "Observations",
-            subMenuURL: "Observations",
+            subMenuURL: "observation-details",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
             permission: true,
-            currentSubMenu: !!path && path.includes("Observations") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("observation-details") ? "active-item" : "",
           },
           {
             subMenuName: "Compliances",
-            subMenuURL: "Compliances",
+            subMenuURL: "compliance-details",
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
             permission: true,
-            currentSubMenu: !!path && path.includes("Compliances") ? "active-item" : "",
+            currentSubMenu: !!path && path.includes("compliance-details") ? "active-item" : "",
           }
 
 

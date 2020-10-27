@@ -35,7 +35,7 @@ export class AddFpInspectionComponent implements OnInit {
   resp: any;
   toMinDate = new Date();
   currentDate = new Date();
-  dateFormat = 'MM-dd-yyyy ';
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';
   scheduleList:any;
   depotCode: any;
   
@@ -111,6 +111,8 @@ export class AddFpInspectionComponent implements OnInit {
   
   addEvent($event) {
     this.toMinDate = new Date($event.value);
+    this.currentDate = new Date($event.value);
+
   }
   
   

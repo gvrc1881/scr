@@ -104,8 +104,8 @@ export class InspectionComponent implements OnInit {
   }
 
   complianceApplyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
     this.complianceDataSource.filter = filterValue;
   }
   depotTypeForOhe()
