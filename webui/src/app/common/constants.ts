@@ -638,7 +638,9 @@ export const Constants = {
         		GET_PB_SWITCH_CONTROL_BASED_ON_EXTEND_TYPE_AND_EXTEND_CODE:"/findByExtentTypeAndExtentCode"
         	},
         	SWITCH_MAINTENENCE_HISTORY:{
-        		SAVE_SWITCH_MAINTENENCE_HISTORY:"/addSwitchMaintenenceHistory"
+        		SAVE_SWITCH_MAINTENENCE_HISTORY:"/addSwitchMaintenenceHistory",
+        		GET_SMH_DATA_BASED_ON_PBID:"/getSMHDataBasedOnPbId/",
+        		GET_SMH_DATA_FOR_OPERATION:"/getSMHDataForOperation/"
         	}
         },
         ASSET_REGISTER:{

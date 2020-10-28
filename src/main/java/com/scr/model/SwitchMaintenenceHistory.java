@@ -349,4 +349,23 @@ public class SwitchMaintenenceHistory implements Serializable {
 		this.tpcNoIoOpenDone = tpcNoIoOpenDone;
 	}
 
+	@Override
+	public String toString() {
+		return "SwitchMaintenenceHistory [id=" + id + ", closeDoneTimeLapse=" + closeDoneTimeLapse + ", closeTimeLapse="
+				+ closeTimeLapse + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", deleteStatus=" + deleteStatus + ", fieldNoIoClose=" + fieldNoIoClose
+				+ ", fieldNoIoCloseDone=" + fieldNoIoCloseDone + ", fieldNoIoOpen=" + fieldNoIoOpen
+				+ ", fieldNoIoOpenDone=" + fieldNoIoOpenDone + ", ioClosedBy=" + ioClosedBy + ", ioClosedDateTime="
+				+ ioClosedDateTime + ", ioClosedDateTimeDone=" + ioClosedDateTimeDone + ", ioLocation=" + ioLocation
+				+ ", ioOpenedBy=" + ioOpenedBy + ", ioOpenedDateTime=" + ioOpenedDateTime + ", ioOpenedDateTimeDone="
+				+ ioOpenedDateTimeDone + ", ioType=" + ioType + ", isFieldOperated=" + isFieldOperated
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", openDoneTimeLapse=" + openDoneTimeLapse + ", openTimeLapse=" + openTimeLapse
+				+ ", pbOperationSeqId=" + pbOperationSeqId + ", seqId=" + seqId + ", tpcNoIoClose=" + tpcNoIoClose
+				+ ", tpcNoIoCloseDone=" + tpcNoIoCloseDone + ", tpcNoIoOpen=" + tpcNoIoOpen + ", tpcNoIoOpenDone="
+				+ tpcNoIoOpenDone + "]";
+	}
+	
+	
+
 }

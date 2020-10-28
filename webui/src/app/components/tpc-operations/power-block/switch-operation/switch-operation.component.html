@@ -16,28 +16,149 @@
              	<div class="panel panel-primary">
              		<div class="panel-heading">Switch Operation Information</div>
              		<div class="panel-body">
-             			<!-- <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-             				<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
-                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="searchInputFormGroup"
-                                (ngSubmit)="getDriveDailyProgress();">
-                                
-                            </form>     
-             			</div> -->
+             			<div class="alert alert-info" role="alert">
+						  <strong><b>Power Block Details</b></strong><br><strong>Depot: </strong>{{depot}} <strong> Section: </strong>{{powerBlockData.section}} 
+						  <strong> Section Code: </strong>{{powerBlockData.elementarySectionCode}} <strong> Request By:</strong>{{powerBlockData.reqnBy}} 
+						</div>
              		</div>
+             		<div class="clear"> </div>
+             		<div>
+                    	<table class="table" >
+                        	<thead>
+					        	<th>PTW Issue</th>
+					        	<th>Tpc No</th>
+				            	<th>Field No</th>
+				            	<th>Save</th>
+				            	<th>PTW Return</th>
+					        	<th>Tpc No</th>
+				            	<th>Field No</th>
+			                </thead>
+			                <tbody>
+						        <tr>
+							        <td>
+							        	<mat-form-field style="width:100px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="ptwAvailedFromDateOnlyTime" readonly >
+	                            			<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getPtwIssueDate()">
+		    								<mat-icon>access_time</mat-icon>
+		  									</button>
+  										</mat-form-field>
+							        </td>
+							        <td>
+							        	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="tpcNoPtwIssue"  readonly>
+  										</mat-form-field>
+							        </td>
+							        <td>
+							        	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="fieldNoPtwIssue"  >
+  										</mat-form-field>
+							        </td>
+							        <td>
+							        	<a mat-icon-button matTooltip="Save" >
+	                        				<button mat-icon-button matTooltip="Save"
+	                        					(click)="pbSaveAction()">
+	                        					<mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
+	                        				</button>
+	                        			</a>
+							        </td>
+							        <td>
+							        	<mat-form-field style="width:100px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="ptwAvailedThruDateOnlyTime"  readonly>
+	                            			<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getPtwReturnDate()">
+		    								<mat-icon>access_time</mat-icon>
+		  									</button>
+  										</mat-form-field>
+							        </td>
+							        <td>
+							        	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="tpcNoPtwReturn"  readonly>
+  										</mat-form-field>
+							        </td>
+							        <td>
+							        	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="fieldNoPtwReturn"  >
+  										</mat-form-field>
+							        </td>
+						        </tr>
+					        </tbody>
+                    	</table>
+                    </div>
+             		<!-- <div class="mat-elevation-z8">
+             			<mat-table [dataSource]="pbDataSource" >
+             				<ng-container matColumnDef="ptwIssue">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>PTW Issue</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.ptwAvailedFromDateTime" readonly >
+	                            			<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getPtwIssueDate(row)">
+		    								<mat-icon>access_time</mat-icon>
+		  									</button>
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <ng-container matColumnDef="tpcNo">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.tpcNoPtwIssue"  readonly>
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <ng-container matColumnDef="fieldNo">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>field No</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.fieldNoPtwIssue"  >
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <ng-container matColumnDef="ptwReturn">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>PTW Return</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.ptwAvailedThruDateTime"  readonly>
+	                            			<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getPtwReturnDate(row)">
+		    								<mat-icon>access_time</mat-icon>
+		  									</button>
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <ng-container matColumnDef="tpcNoPtwReturn">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.tpcNoPtwReturn"  readonly>
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <ng-container matColumnDef="fieldNo">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>field No</mat-header-cell>
+		                            <mat-cell *matCellDef="let row">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            			<input matInput type="text" [(ngModel)]="row.fieldNoPtwReturn"  >
+  										</mat-form-field>
+		                            </mat-cell>
+	                        </ng-container>
+	                        <mat-header-row *matHeaderRowDef="pbDisplayedColums"></mat-header-row>
+	                        <mat-row *matRowDef="let row; columns: pbDisplayedColums">
+	                        </mat-row> 
+             			</mat-table>
+             		
+             		</div> -->
              		<div class="clear"> </div>
              		<div class="mat-elevation-z8">
              			<mat-table [dataSource]="dataSource" matSort>
              				<ng-container matColumnDef="switchId">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Switch Id</mat-header-cell>
-	                            <mat-cell *matCellDef="let row"> {{row.switchId}}</mat-cell>
+	                            <mat-cell *matCellDef="let row"> {{row.ioLocation}}</mat-cell>
 	                        </ng-container>
 	                        
 	                        <!-- io open date time  -->
-	                        
+
 	                        <ng-container matColumnDef="openDate">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Open Date</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
-		                            <mat-cell *ngIf="row.switchType === 'MANUAL'; else ioOpenedDateTimeElseBlock">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioOpenedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
 		                            	<input matInput type="text" [(ngModel)]="row.ioOpenedDateTime" readonly >
 	  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getOpenDate(row)">
@@ -51,14 +172,30 @@
 	                            </ng-template>
 	                        </ng-container>
 	                        
+	                       <!-- tpc no io open  -->
+	                        
+	                       <ng-container matColumnDef="tpcNoIoOpen">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Open</mat-header-cell>
+	                        	<ng-container *matCellDef="let row">
+	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoOpenElseBlock">
+	                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            	<input matInput type="text" [(ngModel)]="row.tpcNoIoOpen" readonly >
+  									</mat-form-field>
+	                            </mat-cell>
+	                            </ng-container>
+	                            <ng-template #tpcNoIoOpenElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
+	                        </ng-container>
+	                        
 	                        <!-- field num io open -->
 	                        
 	                        <ng-container matColumnDef="fieldNumOpen">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Open</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
-		                            <mat-cell *ngIf="row.switchType === 'MANUAL'; else fieldNoIoOpenElseBlock">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNoIoOpenElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
-	                            			<input matInput type="text" [(ngModel)]="row.fieldNoIoOpen" readonly >
+	                            			<input matInput type="text" [(ngModel)]="row.fieldNoIoOpen"  >
   										</mat-form-field>
 		                            </mat-cell>
 	                            </ng-container>
@@ -89,15 +226,36 @@
 	                            </mat-cell>
 	                        </ng-container>
 	                        
+	                        <!-- tpc no io open done -->
+	                        
+	                       <ng-container matColumnDef="tpcNoIoOpenDone">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Open Done</mat-header-cell>
+	                            <ng-container *matCellDef="let row">
+	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoOpenDoneElseBlock">
+	                            	<mat-form-field style="width:50px !important; text-align: left">
+	                            	<input matInput type="text" [(ngModel)]="row.tpcNoIoOpenDone" readonly >
+  									</mat-form-field>
+	                            </mat-cell>
+	                            <ng-template #tpcNoIoOpenDoneElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
+	                            </ng-container>
+	                        </ng-container>
+	                        
 	                        <!-- field no io open done -->
 	                        
 	                        <ng-container matColumnDef="fieldNumOpenDone">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Opene Done</mat-header-cell>
-	                            <mat-cell *matCellDef="let row">
+	                            <ng-container *matCellDef="let row">
+	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNumOpenDoneElseBlock">
 	                            	<mat-form-field style="width:50px !important; text-align: left">
-	                            	<input matInput type="text" [(ngModel)]="row.fieldNoIoOpenDone" readonly >
+	                            	<input matInput type="text" [(ngModel)]="row.fieldNoIoOpenDone"  >
   									</mat-form-field>
 	                            </mat-cell>
+	                            </ng-container>
+	                            <ng-template #fieldNumOpenDoneElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
 	                        </ng-container>
 	                        
 	                        <!-- io opened by -->
@@ -115,7 +273,7 @@
 	                        <ng-container matColumnDef="closeDate">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Close</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
-		                            <mat-cell *ngIf="row.switchType === 'MANUAL'; else ioClosedDateTimeElseBlock">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioClosedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
 		                            	<input matInput type="text" [(ngModel)]="row.ioClosedDateTime" readonly >
 	  									<button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="getCloseDate(row)">
@@ -129,14 +287,30 @@
 	                            </ng-template>
 	                        </ng-container>
 	                        
+	                        <!-- tpc no io close  -->
+	                        
+	                       <ng-container matColumnDef="tpcNoIoClose">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Close</mat-header-cell>
+	                            <ng-container *matCellDef="let row">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoCloseElseBlock">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+		                            	<input matInput type="text" [(ngModel)]="row.tpcNoIoClose" readonly >
+	  									</mat-form-field>
+		                            </mat-cell>
+	                            </ng-container>
+	                            <ng-template #tpcNoIoCloseElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
+	                        </ng-container>
+	                        
 	                        <!-- field no io close -->
 	                        
 	                        <ng-container matColumnDef="fieldNumClose">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Close</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
-		                            <mat-cell *ngIf="row.switchType === 'MANUAL'; else fieldNoIoCloseElseBlock">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNoIoCloseElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
-	                            			<input matInput type="text" [(ngModel)]="row.fieldNoIoClose" readonly >
+	                            			<input matInput type="text" [(ngModel)]="row.fieldNoIoClose"  >
   										</mat-form-field>
 		                            </mat-cell>
 	                            </ng-container>
@@ -159,15 +333,36 @@
 	                            </mat-cell>
 	                        </ng-container>
 	                        
+	                        <!-- tpc no io close Done -->
+	                        
+	                       <ng-container matColumnDef="tpcNoIoCloseDone">
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Close Done</mat-header-cell>
+	                            <ng-container *matCellDef="let row">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoCloseDoneElseBlock">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+		                            	<input matInput type="text" [(ngModel)]="tpcNoIoCloseDone" readonly >
+	  									</mat-form-field>
+		                            </mat-cell>
+	                            </ng-container>
+	                            <ng-template #tpcNoIoCloseDoneElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
+	                        </ng-container>
+	                        
 	                        <!-- Field no close done -->
 	                        
 	                        <ng-container matColumnDef="fieldNumCloseDone">
 	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Close Done</mat-header-cell>
-	                            <mat-cell *matCellDef="let row">
-	                            	<mat-form-field style="width:50px !important; text-align: left">
-	                            	<input matInput type="text" [(ngModel)]="row.fieldNoIoCloseDone" readonly >
-  									</mat-form-field>
-	                            </mat-cell>
+	                            <ng-container *matCellDef="let row">
+		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNumCloseDoneElseBlock">
+		                            	<mat-form-field style="width:50px !important; text-align: left">
+		                            	<input matInput type="text" [(ngModel)]="row.fieldNoIoCloseDone"  >
+	  									</mat-form-field>
+		                            </mat-cell>
+	                            </ng-container>
+	                            <ng-template #fieldNumCloseDoneElseBlock>
+		                            <mat-cell></mat-cell>
+	                            </ng-template>
 	                        </ng-container>
 	                        
 	                         <!-- io closed by -->
