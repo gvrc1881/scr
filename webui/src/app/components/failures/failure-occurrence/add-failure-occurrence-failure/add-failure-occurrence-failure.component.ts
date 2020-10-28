@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 
+
 @Component({
   selector: 'app-add-failure-occurrence',
   templateUrl: './add-failure-occurrence-failure.component.html',
@@ -32,9 +33,11 @@ export class AddFailureOccurrenceComponent implements OnInit {
   reportDescriptionFlag=false;
   divisionList:any;
   duration:any;
+  currentDate=new Date();
+  failToDate=new Date();
   minDate=new Date();
   maxDate = new Date();
-  dateFormat = 'MM-dd-yyyy HH:MM:SS';
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';  
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
@@ -119,16 +122,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
         this.duration=""
       }
   }
-  findFeedersList(){
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
-      .subscribe((response) => {
-        console.log(response)
-        this.feedersList = response;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
-  }
+
   createForm() {
     this.addFailureOccurrenceFailFromGroup
       = this.formBuilder.group({
@@ -172,19 +166,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
       }
     }
   }
- 
-  updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value)
-      this.extendedFromList = [];
-      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.feedersList.map(element => {
-        if(element.feederName != $event.value){
-          this.extendedFromList.push(element);
-        }
-      });
-    }
-  }
+
   findFacilities(){
    
     this.facilityList=[];    
@@ -226,24 +208,15 @@ export class AddFailureOccurrenceComponent implements OnInit {
 
       })
   }
-  findRelayIndicationStatus(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.RELAY_INDICATION)
-    .subscribe((resp) => {
-      this.relayIndicationList = resp;
-    });
-  }
-
-  findNatureOfCloseStatus(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.NATURE_OF_CLOSE)
-    .subscribe((resp) => {
-      this.natureOfCloseList = resp;
-    });
-  }
-
   addEvent($event) {
     this.minDate = new Date($event.value);
+    this.currentDate = new Date($event.value);
   }
- 
+  addEventFailToDate($event) {
+   
+    this.failToDate=new Date($event.value);
+  }
+  
   onAddFailureAnalysisFormSubmit() {
     if (this.addFailureOccurrenceFailFromGroup.invalid) {
       this.isSubmit = false;

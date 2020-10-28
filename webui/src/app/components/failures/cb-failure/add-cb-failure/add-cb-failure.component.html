@@ -71,6 +71,7 @@
                                                         <mat-form-field fxFlex="30">
                                                              <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="Trip Time" 
+                                                                [value]="currentDate | dateFilter:dateFormat" 
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addCbFailFromGroup.controls['fromDateTime']"(ngModelChange)="timeDuration()" required >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
@@ -93,6 +94,8 @@
                                                         <mat-form-field fxFlex="30">                                                      
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                               [owlDateTimeTrigger]="dt2" placeholder="Close Time"
+                                                              (dateTimeChange)="addEventCloseDate($event)" 
+                                                              [value]="closeDate | dateFilter:dateFormat" 
                                                               [max]="maxDate"  [min]="toMinDate"
                                                               [formControl]="addCbFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                               <owl-date-time #dt2 [showSecondsTimer]=true
@@ -111,6 +114,7 @@
                                                                 [formControl]="addCbFailFromGroup.controls['duration']"  [(ngModel)]="duration" >                                                               
                                                                                                                      
                                                         </mat-form-field>
+                                                       
                                                     </div>
                                                    
 
@@ -158,9 +162,9 @@
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="z Constant" readonly
                                                                 [formControl]="addCbFailFromGroup.controls['zConstant']"
-                                                                [(ngModel)]="result"    > 
-                                                                                                                         
-                                                        </mat-form-field>
+                                                                 [(ngModel)]="result"      >
+                                                                                                                          
+                                                        </mat-form-field> 
                                                     </div>
 
                                                     <div class="col-md-3">

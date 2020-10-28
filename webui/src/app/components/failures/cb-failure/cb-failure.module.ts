@@ -10,6 +10,8 @@ import { AddCbFailureComponent } from './add-cb-failure/add-cb-failure.component
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { DateFilterPipe } from 'src/app/common/date-filter.pipe';
+
 const routes: Routes = [
     {
         path: '',

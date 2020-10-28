@@ -33,7 +33,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   reportDescriptionFlag=false;
   maxDate = new Date();
   minDate=new Date();
-  dateFormat = 'MM-dd-yyyy ';
+  currentDate = new Date();
+  resolveDate=new Date(); 
+  toMinDate=new Date();
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';     
   divisionList:any;
   duration:any;
   facilityList:any;
@@ -207,25 +210,15 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
 
       })
   }
-  findRelayIndicationStatus(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.RELAY_INDICATION)
-    .subscribe((resp) => {
-      this.relayIndicationList = resp;
-    });
-  }
 
-  findNatureOfCloseStatus(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.NATURE_OF_CLOSE)
-    .subscribe((resp) => {
-      this.natureOfCloseList = resp;
-    });
-  }
 
   addEvent($event) {
     this.minDate = new Date($event.value);
+    this.currentDate=new Date($event.value);
   }
-  addEventTargetDate($event) {
-    this.minDate = new Date($event.value);
+  addResloveEvent($event) {
+    this.toMinDate = new Date($event.value);
+    this.resolveDate=new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addUnusualOccurrenceFromGroup.invalid) {

@@ -59,7 +59,7 @@ export class MeasureActivityComponent implements OnInit{
 
     ngOnInit () {
 
-        var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","Measure activity") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","Measure activity") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

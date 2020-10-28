@@ -56,6 +56,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Occurred Date"
+                                                                [value]="currentDate | dateFilter:dateFormat" 
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
@@ -76,7 +77,8 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Rectified Date"  [min]="minDate"  [max]="maxDate"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="Rectified Date" 
+                                                                [value]="rectifiedDate | dateFilter:dateFormat"  (dateTimeChange)="addEventTargetDate($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

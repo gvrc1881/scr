@@ -31,9 +31,11 @@ export class AddCbFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
+  currentDate = new Date();
+  closeDate=new Date();
   maxDate = new Date();
   toMinDate=new Date();
-  dateFormat = 'MM-dd-yyyy hh:mm:ss';  
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';  
   failureList:any;
   failurecasList:any;
   difference:any;
@@ -259,9 +261,11 @@ export class AddCbFailureComponent implements OnInit {
 
   addEvent($event) {
     this.toMinDate = new Date($event.value);
+    this.currentDate = new Date($event.value);
   }
-  addEventTargetDate($event) {
+  addEventCloseDate($event) {
     this.toMinDate = new Date($event.value);
+    this.closeDate=new Date($event.value);
   }
 
 
@@ -329,9 +333,9 @@ function(){
   var R=resp2*resp2;
   var resp1=this.addCbFailFromGroup.value.xValue;
   var X=resp1*resp1; 
-  var z=R+X;
-  this.result=String(Math.sqrt(z));
-  
+  var z=R+X;  
+  this.result=String(Math.round(Math.sqrt(z)*100)/100);
+ 
   }
 
   onAddFailureAnalysisFormSubmit() {

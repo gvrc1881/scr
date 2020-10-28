@@ -30,11 +30,15 @@ export class AddGridFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
+  currentDate=new Date();
+  toDate=new Date();
+  exFromDate=new Date();
+  exToDate=new Date();
   maxDate = new Date();
   minDate=new Date();
   toMinDate=new Date();
   fMinDate=new Date();
-  dateFormat = 'mm-dd-yyyy HH:MM:SS';
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';
   divisionList:any;
   duration:any;
   dur:any;
@@ -105,16 +109,7 @@ export class AddGridFailureComponent implements OnInit {
            }
         }
 }
-  findFeedersList(){
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
-      .subscribe((response) => {
-        console.log(response)
-        this.feedersList = response;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
-  }
+
   createForm() {
     this.addGridFailFromGroup
       = this.formBuilder.group({
@@ -294,11 +289,15 @@ timDuration(){
   }
   addEvent($event) {
     this.minDate  = new Date($event.value);
+    this.currentDate = new Date($event.value);
     //this.fMinDate  = new Date($event.value);
   }
   addEventTargetDate($event) {
     this.fMinDate  = new Date($event.value);
     this.toMinDate  = new Date($event.value);
+    this.toDate = new Date($event.value);
+    this.exFromDate = new Date($event.value);
+    this.exToDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addGridFailFromGroup.invalid) {

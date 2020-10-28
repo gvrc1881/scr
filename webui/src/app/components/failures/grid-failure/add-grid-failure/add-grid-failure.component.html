@@ -49,6 +49,7 @@
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
+                                                                [value]="currentDate | dateFilter:dateFormat"
                                                                 [formControl]="addGridFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required >                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -72,6 +73,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="Failure To Date" 
+                                                                [value]="toDate | dateFilter:dateFormat"
                                                                   [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)" 
                                                                 [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true></owl-date-time>
@@ -113,6 +115,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt4" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt4" placeholder="Extended From Date"
+                                                                [value]="exFromDate | dateFilter:dateFormat"
                                                                 (dateTimeChange)="addEventTargetDate($event)" [max]="maxDate" [min]="fMinDate"
                                                                 [formControl]="addGridFailFromGroup.controls['efdate']" (ngModelChange)="timDuration()" >                                                                
                                                                 <owl-date-time #dt4 [showSecondsTimer]=true
@@ -129,6 +132,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt5" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt5" placeholder="Extended To Date"
+                                                                [value]="exToDate | dateFilter:dateFormat"
                                                                  [min]="toMinDate"  [max]="maxDate"
                                                                 [formControl]="addGridFailFromGroup.controls['etdate']" (ngModelChange)="timDuration()" >                                                                
                                                                 <owl-date-time #dt5 [showSecondsTimer]=true

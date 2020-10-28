@@ -31,9 +31,11 @@ export class AddRcFailureComponent implements OnInit {
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
+  currentDate = new Date();
+  rectifiedDate=new Date();
   maxDate = new Date();
   minDate=new Date();
-  dateFormat = 'MM-dd-yyyy HH:MM:SS';
+dateFormat = 'dd-MM-yyyy hh:mm:ss';
   divisionList:any;
   duration:any;
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
@@ -232,9 +234,11 @@ export class AddRcFailureComponent implements OnInit {
 
   addEvent($event) {
     this.minDate = new Date($event.value);
+    this.currentDate = new Date($event.value);
   }
   addEventTargetDate($event) {
     this.minDate = new Date($event.value);
+    this.rectifiedDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addRcFailFromGroup.invalid) {
