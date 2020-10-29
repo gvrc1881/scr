@@ -27,13 +27,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.mapper.UserMapper;
 import com.scr.message.request.LoginForm;
 import com.scr.message.response.LoggedUserResponse;
 import com.scr.message.response.MenuPermissionResponse;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Facility;
 import com.scr.model.MasterRoles;
-import com.scr.model.Menu;
 import com.scr.model.PageRolePermission;
 import com.scr.model.Permissions;
 import com.scr.model.RolePermissions;
@@ -77,6 +78,9 @@ public class UserController {
 	@Autowired
 	private PasswordEncryption passwordEncryption;
 	
+	@Autowired
+	private CommonUtility commonUtility;
+	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/userData", method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseEntity<User> getUserData(@Valid @RequestBody LoginForm loginRequest) throws JSONException {
@@ -99,6 +103,10 @@ public class UserController {
 	public LoggedUserResponse getLoggedUserData(@Valid @RequestBody LoginForm loginRequest) throws JSONException {
 		User userData = null;
 		LoggedUserResponse response = new LoggedUserResponse();
+		List<Facility> zoneFacilities = new ArrayList<>();
+		List<Facility> divisionFacilities = new ArrayList<>();
+		List<Facility> subDivisionFacilities = new ArrayList<>();
+		List<Facility> depotFacilities = new ArrayList<>();
 		try {			
 			Optional<User> users = userServices.findByEmail(loginRequest.getEmail());
 			if (users != null) {
@@ -125,6 +133,23 @@ public class UserController {
 				List<RolePermissions> rolePermissionsList = rolePermissionService.findAllByStatusId(Constants.ACTIVE_STATUS_ID);
 				response = userMapper.prepareLoggedUserData(userData, permissionsList, rolesList, rolePermissionsList);;
 				response.setMenuPermissionResponses(menuResponses);
+				List<Facility> facilities = commonUtility.findUserHierarchy(response.getUserName());
+				for (Facility facility : facilities) {
+					if ("ZONE".equals(facility.getDepotType())) {
+						zoneFacilities.add(facility);
+					} else if("DIV".equals(facility.getDepotType())) {
+						divisionFacilities.add(facility);
+					}else if("SUBDIV".equals(facility.getDepotType())) {
+						subDivisionFacilities.add(facility);
+					}else {
+						depotFacilities.add(facility);
+					}
+						
+				}
+				response.setZoneList(zoneFacilities);
+				response.setDivisionList(divisionFacilities);
+				response.setSubDivisionList(subDivisionFacilities);
+				response.setDepotList(depotFacilities);
 				return response;
 			}
 		} catch (NullPointerException e) {			

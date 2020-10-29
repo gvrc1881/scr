@@ -5,7 +5,7 @@ package com.scr.message.response;
 
 import java.util.List;
 
-import lombok.Data;
+import com.scr.model.Facility;
 
 /**
  * @author vt1056
@@ -24,6 +24,14 @@ public class LoggedUserResponse {
 	 private String menus;
 	 
 	 private List<MenuPermissionResponse> menuPermissionResponses;
+	 
+	 private List<Facility> zoneList;
+	 
+	 private List<Facility> divisionList;
+	 
+	 private List<Facility> subDivisionList;
+	 
+	 private List<Facility> depotList;
 	 
 	public List<MenuPermissionResponse> getMenuPermissionResponses() {
 		return menuPermissionResponses;
@@ -90,6 +98,30 @@ public class LoggedUserResponse {
 	}
 	public void setMenus(String menus) {
 		this.menus = menus;
+	}
+	public List<Facility> getZoneList() {
+		return zoneList;
+	}
+	public void setZoneList(List<Facility> zoneList) {
+		this.zoneList = zoneList;
+	}
+	public List<Facility> getDivisionList() {
+		return divisionList;
+	}
+	public void setDivisionList(List<Facility> divisionList) {
+		this.divisionList = divisionList;
+	}
+	public List<Facility> getSubDivisionList() {
+		return subDivisionList;
+	}
+	public void setSubDivisionList(List<Facility> subDivisionList) {
+		this.subDivisionList = subDivisionList;
+	}
+	public List<Facility> getDepotList() {
+		return depotList;
+	}
+	public void setDepotList(List<Facility> depotList) {
+		this.depotList = depotList;
 	}
 	 
 }

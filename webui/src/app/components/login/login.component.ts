@@ -103,7 +103,13 @@ export class LoginComponent implements OnInit {
                   localStorage.setItem("loggedUser", JSON.stringify(response));
                   this.user = response;
                   this.router.navigate([this.returnUrl]);
+                    localStorage.setItem("headerRefresh","refresh");
+                        localStorage.setItem("zoneData", JSON.stringify(response.zoneList));
+                        localStorage.setItem("divisionData", JSON.stringify(response.divisionList));
+                        localStorage.setItem("subDivData", JSON.stringify(response.subDivisionList));
+                        localStorage.setItem("depotData", JSON.stringify(response.depotList));
                   // To get User Hierarchy 
+                    /*
                   if (this.user) {
                     this.authenticationService.userHierarchy(this.user.userName)
                       .subscribe(response => {
@@ -135,7 +141,7 @@ export class LoginComponent implements OnInit {
                         console.log("Trigger Function Not Available >>> " + error);
                       }
                       );
-                  }
+                  } */
                   this.spinnerService.hide();
                 }, error => {
                   console.log("ERROR >>> " + error)
