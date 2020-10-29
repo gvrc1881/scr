@@ -23,7 +23,7 @@ export class WorksComponent implements OnInit {
     workFormGroup: FormGroup;
     addWork: boolean = false;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     workList: any;
     editWorkResponse: any;
     workDataSource: MatTableDataSource<WorksModel>;
@@ -144,7 +144,7 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.workName = this.workFormGroup.value.workName;
         WorksPayload.ADD_PAYLOAD.yearOfSanction = this.workFormGroup.value.yearOfSanction;
         WorksPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
-        if (this.title == Constants.EVENTS.SAVE) {
+        if (this.title == Constants.EVENTS.ADD) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.SAVE_WORK, WorksPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.workResponse = data;
                 if(this.workResponse.code == 200 && !!this.workResponse) {
@@ -190,7 +190,7 @@ export class WorksComponent implements OnInit {
                 	this.getAllWorksData();
                 	this.workFormGroup.reset();
                 	this.addWork = false;
-                	this.title = "Save";
+                	this.title = Constants.EVENTS.ADD;
                 }else {
                 	this.commonService.showAlertMessage("Work Data Updating Failed.");
                 }	
@@ -223,7 +223,7 @@ export class WorksComponent implements OnInit {
     onGoBack() {
         this.workFormGroup.reset();
         this.addWork = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     
     editWork(id) {
@@ -289,7 +289,7 @@ export class WorksComponent implements OnInit {
         if (!isNaN(this.id)) {
             this.title = 'Update';
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
     

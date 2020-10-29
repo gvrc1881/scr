@@ -1,11 +1,12 @@
-<div class="content">
-	<div class="">
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+	<div class="row">
 		<div class="col-12">
 			<div class="breadcrumb-section">
 	            <nav aria-label="breadcrumb">
 	                <ol class="breadcrumb">
 	                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-	                         <li class="breadcrumb-item"><a [routerLink]="['/work']">Work</a></li> 
+	                         <li class="breadcrumb-item"><a [routerLink]="['/electrification-targets']">Electrification Targets</a></li> 
 	                          <li class="breadcrumb-item active" aria-current="page">Work</li>
 	                </ol>
 	            </nav>
@@ -285,7 +286,7 @@
                                             	<mat-row *matRowDef="let row; columns: workDisplayedColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="[ 20, 40, 60, 80, 100]"></mat-paginator>
                                     	</div>
 										
 								</div>

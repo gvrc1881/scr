@@ -92,8 +92,9 @@ export class GuidenceItemComponent implements OnInit{
     public get f() { return this.contentManagementFormGroup.controls; }
     
     onContentManagementSubmit () {
-    	console.log('*** guidence item id ***'+this.guidenceItemId);
+    	//console.log('*** guidence item id ***'+this.guidenceItemId);
     	let category = this.contentManagementFormGroup.value.contentCategory;
+        this.uploadFile = false;
     	let saveDetails = {
     		'guidenceItemId': this.guidenceItemId,
                 'description': this.contentManagementFormGroup.value.description,
@@ -196,7 +197,7 @@ export class GuidenceItemComponent implements OnInit{
         let closedRemark: string = this.guidenceItemFormGroup.value.closedRemark;
         this.addGuidenceItem = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD ) {
                 var guidenceItemModel ={
                     'agencyRbRdso':agencyRbRdso,
                     'detailsOfIssue': detailsOfIssue,

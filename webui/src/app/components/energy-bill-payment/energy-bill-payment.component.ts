@@ -22,7 +22,7 @@ export class EnergyBillPaymentComponent implements OnInit{
     addEnergyBillPayment: boolean = false;
     saveEnergyBillPayment: boolean;
     energyBillPaymentFormGroup: FormGroup;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     data: any;
     energyBillPaymentDataSource: MatTableDataSource<EnergyBillPaymentModel>;
     eneBillPaymentList: any;
@@ -102,7 +102,7 @@ export class EnergyBillPaymentComponent implements OnInit{
         // this.saveEnergyBillPayment = false;
        // this.cloneupdate = true;
         this.addEnergyBillPayment = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
       }
 
     getEnergyBillPaymentData() {
@@ -130,7 +130,7 @@ export class EnergyBillPaymentComponent implements OnInit{
         let year: string = this.energyBillPaymentFormGroup.value.year;
         let reference: string = this.energyBillPaymentFormGroup.value.reference;
         let toPayment: string = this.energyBillPaymentFormGroup.value.toPayment;
-        if (this.title == Constants.EVENTS.SAVE) {
+        if (this.title == Constants.EVENTS.ADD) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.SAVE,{
                 "amount":amount,
                 "dateOfPayment":dateOfPayment,

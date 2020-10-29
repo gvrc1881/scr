@@ -7,7 +7,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { ContentManagementDialogComponent } from '../content-management-edit-dialog/content-management-edit-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
-import {environment} from './../../../environments/environment'
+import {environment} from './../../../environments/environment';
+import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'content-management',
@@ -36,6 +37,7 @@ export class ContentManagementComponent implements OnInit {
     progress: { percentage: number } = { percentage: 0 }
     pattern = "[a-zA-Z][a-zA-Z ]*";
     GenOpsArray = [{ ID: 1, VALUE: 'Circulars' }, { ID: 2, VALUE: 'Drawing' }, { ID: 3, VALUE: 'Tech Specs' }, { ID: 4, VALUE: 'Operational Manual' }, { ID: 5, VALUE: 'User manuals' }];
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
     displayedColumns = ['sno', 'originalFileName','size', 'genOps','assetTypeRlyId','make','model', 'description', 'actions'];
     dataSource: MatTableDataSource<ContentManagementModel>;
@@ -219,19 +221,27 @@ export class ContentManagementComponent implements OnInit {
 
     deleteFile(id: number) {
         this.spinnerService.show();
-        this.sendAndGetService.requestForDELETE(Constants.app_urls.DOCS.DELETE_DOCS,id).subscribe(data => {
-            this.spinnerService.hide();
-            this.commonService.showAlertMessage("Files Uploaded and Deleted Successfully");
-            this.selectedFiles = [];
-            this.filesExists = false;
-            this.showButton = false;
-            this.contentManagementFormGroup.reset();
-            this.getUploadedFiles();
-        }, error => {
-            console.log('ERROR >>>');
-            this.spinnerService.hide();
-            this.commonService.showAlertMessage("Files Uploading Failed.");
-        })
+        this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+          });
+         this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the Document item?";
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if(result){
+                this.sendAndGetService.requestForDELETE(Constants.app_urls.DOCS.DELETE_DOCS,id).subscribe(data => {
+                    this.spinnerService.hide();
+                    this.commonService.showAlertMessage("Files Uploaded and Deleted Successfully");
+                    this.selectedFiles = [];
+                    this.filesExists = false;
+                    this.showButton = false;
+                    this.contentManagementFormGroup.reset();
+                    this.getUploadedFiles();
+                }, error => {
+                    console.log('ERROR >>>');
+                    this.spinnerService.hide();
+                    this.commonService.showAlertMessage("Files Deleting Failed.");
+                })
+            }
+       })         
     }
     editDescription(id: number) {
         let selectedRow = this.dataSource.filteredData.filter(data => {
