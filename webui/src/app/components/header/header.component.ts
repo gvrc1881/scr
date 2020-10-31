@@ -18,16 +18,15 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
   userdata: any;
   loggedUser: any;
   rolePermission: boolean = true;
-  clicked = 1;
+  clicked = 'dashboard';
   mySubscription: any;
   constructor(
     private route: Router,
     private commonService: CommonService,
     private authService: AuthenticationService
   ) {
-    console.log('outside..........................')
+    this.clicked = window.location.pathname.substring(1);
   }
-
   ngOnDestroy() {
     if (this.mySubscription) {
       this.mySubscription.unsubscribe();
@@ -57,11 +56,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
       this.rolePermission = this.commonService.rolePermission();
       this.findMenus(path);
+    }else{
+      //this.findMenus(path);
+      console.log('path ='+path)
+      this.clicked = path;
     }
   }
   select(i, path) {
    // const path = window.location.pathname;
-   //console.log(path)
     this.clicked = i;
    // this.findMenus(path);
   }

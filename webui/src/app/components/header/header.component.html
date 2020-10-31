@@ -63,8 +63,8 @@
                 </div>
                 <div id="menuDiv" class="nav-collapse collapse navbar-collapse navbar-responsive-collapse row">
                     <ul *ngFor="let menuList of MenusList; let i = index" class="nav navbar-nav">
-                        <li class="dropdown dropdown-fw dropdown-fw-disabled " [ngClass]="clicked === menuList.ID ? 'open' : ''"
-                            *ngIf="menuList.permission" (click)="select(menuList.ID,menuList.menuUrl)">
+                        <li class="dropdown dropdown-fw dropdown-fw-disabled " [ngClass]="clicked === menuList.menuUrl ? 'open' : ''"
+                            *ngIf="menuList.permission" (click)="select(menuList.menuUrl,menuList.menuUrl)">
                             <a class="text-uppercase" [routerLink]="[menuList.menuUrl]">
                                 <span> <i class="{{menuList.icon}}"></i> </span> {{menuList.menuName}}
                             </a>

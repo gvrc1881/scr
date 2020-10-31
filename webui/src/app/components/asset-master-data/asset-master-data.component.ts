@@ -211,6 +211,7 @@ export class AssetMasterDataComponent implements OnInit {
     }
   }
   public get f() { return this.assetMasterFormGroup.controls; }
+  
   getAllAssetMasterData(from: number, to: number) {
     this.spinnerService.show();
     const assetMasterData: AssetMasterDataModel[] = [];
@@ -232,7 +233,6 @@ export class AssetMasterDataComponent implements OnInit {
         this.assetMasterDataSource.paginator = this.paginator;
         this.assetMasterDataSource.sort = this.sort;
       }
-
     }, error => { });
 
   }

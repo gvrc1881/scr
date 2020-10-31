@@ -252,10 +252,10 @@
                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" 
                                                                 placeholder="Choose Action Target Date"
+                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']" 
                                                                 (dateTimeChange)="addEventTargetDate($event)" 
                                                                 [min]="toMinDate"
-                                                                [value]="targetDate | dateFilter:dateFormat"
-                                                                [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']" >                                                                
+                                                                [value]="targetDate | dateFilter:dateFormat" >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
                                                                 <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
