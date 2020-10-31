@@ -100,6 +100,11 @@ const routes: Routes = [
     path: 'daily-summary', 
     loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'daily-summary-forecast', 
+    loadChildren: './components/energy-bill-payment/daily-summary/daily-summary.module#DailySummaryModule',
+    canActivate: [AuthGuard]
   }, 
   {
     path: 'observation-categories',

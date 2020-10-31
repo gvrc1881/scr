@@ -5,11 +5,20 @@ import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 
 @Component({
   selector: 'app-add-drive-electrification-targets',
   templateUrl: './add-drive-electrification-targets.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddDriveElectrificationTargetsComponent implements OnInit {
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
@@ -20,7 +29,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   title:string;
   addDriveElectrificationTargetsFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  public stateList = ['Yes','No'];
   toMinDate = new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';

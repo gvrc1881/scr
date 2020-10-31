@@ -199,8 +199,8 @@
                                                             <mat-select placeholder="State"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['state']">
                                                                 <mat-option *ngFor="let state of stateList"
-                                                                    [value]="state.id">
-                                                                    {{ state.value}}
+                                                                    [value]="state">
+                                                                    {{ state}}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>

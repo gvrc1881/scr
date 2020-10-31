@@ -95,6 +95,7 @@ export class AddFpInspectionComponent implements OnInit {
   createInspectionForm() {
     this.fpInspectionItemFormGroup = this.formBuilder.group({
       id: 0,
+            'seqId':[null],
             'facilityId':[null],
             'inspectionType':[null, Validators.compose([Validators.required, Validators.maxLength(250)])],
             'section': [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
@@ -111,8 +112,6 @@ export class AddFpInspectionComponent implements OnInit {
   
   addEvent($event) {
     this.toMinDate = new Date($event.value);
-    this.currentDate = new Date($event.value);
-
   }
   
   
@@ -130,7 +129,7 @@ export class AddFpInspectionComponent implements OnInit {
           inspectionType:this.resp.inspectionType,
           section: this.resp.section,
           inspectionBy: this.resp.inspectionBy,
-          startTime: this.resp.startTime,
+          startTime: new Date(this.resp.startTime),
           stopTime: !!this.resp.stopTime ? new Date(this.resp.stopTime) : ''
           
         });
@@ -148,6 +147,7 @@ export class AddFpInspectionComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveFpInspecModel = {
+        "seqId":this.fpInspectionItemFormGroup.value.id,
         "facilityId": this.fpInspectionItemFormGroup.value.facilityId,
         "inspectionType": this.fpInspectionItemFormGroup.value.inspectionType,
         "section": this.fpInspectionItemFormGroup.value.section,
@@ -175,6 +175,7 @@ export class AddFpInspectionComponent implements OnInit {
       });
     } else if (this.update) {
       var updateFpInspectModel = {
+        "seqId":this.id,
         "id": this.id,
         "facilityId": this.fpInspectionItemFormGroup.value.facilityId,
         "inspectionType": this.fpInspectionItemFormGroup.value.inspectionType,

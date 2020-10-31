@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
+import {environment} from './../../../environments/environment'
 import { InspectionDocumentComponent } from '../inpection-document-dialog/inspection-document-dialog.component';
 import { ComplianceDocumentComponent } from '../compliance-document-dialog/compliance-document-dialog.component';
 @Component({
@@ -33,6 +34,7 @@ export class InspectionComponent implements OnInit {
   inspectionDocumentDialogRef: MatDialogRef<InspectionDocumentComponent>;
   complianceDocumentDialogRef: MatDialogRef<ComplianceDocumentComponent>;
   gridData = [];
+  url=environment.apiUrl;
   filterData;
   facilityList: any;
   facilityData:any;
@@ -73,6 +75,7 @@ export class InspectionComponent implements OnInit {
     this.getFpInspectionsData();
 
     this.getObservationData();
+    
     this.getComplianceData();
 
     this.filterData = {
@@ -157,8 +160,6 @@ export class InspectionComponent implements OnInit {
                     observation.push(this.observationList[i]);              
                 }
       this.observationDataSource = new MatTableDataSource(observation);
-      this.observationDataSource.paginator = this.observationPaginator;
-      this.observationDataSource.sort = this.observationSort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -210,25 +211,35 @@ export class InspectionComponent implements OnInit {
       this.confirmDialogRef = null;
     });
   }
-
+  observationDelete(id) {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+      
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Observation Successfully");
+          this.getFpInspectionsData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Observation Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
+  }
   observationEdit(id) {
     this.router.navigate(['observation/' + id], { relativeTo: this.route });
   }
   insIdRelatedToObser(id) {
     this.router.navigate(['add-observation/' + id], { relativeTo: this.route });
   }
-  observationDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Observation Successfully");
-      this.getObservationData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Observation Deletion Failed.");
-    })
-  }
+  
 
   complianceEdit(id:any) {
     this.router.navigate(['compliance/' + id], { relativeTo: this.route });
@@ -237,16 +248,26 @@ export class InspectionComponent implements OnInit {
     this.router.navigate(['add-compliance/' + id], { relativeTo: this.route });
   }
   complianceDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted compliance Successfully");
-      this.getComplianceData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("compliance Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+      
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted compliance Successfully");
+          this.getFpInspectionsData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("compliance Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
   filesInfor: any;
   viewFilesDetails(id) {
@@ -268,8 +289,8 @@ export class InspectionComponent implements OnInit {
   } 
   complianceFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('observationFileType', 'compliance');
-    localStorage.setItem('observationFileTypeId', id);
+    localStorage.setItem('complianceFileType', 'compliance');
+    localStorage.setItem('complianceFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();

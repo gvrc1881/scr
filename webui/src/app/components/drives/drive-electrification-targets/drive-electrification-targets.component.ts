@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ElectrificationTargetstModel } from 'src/app/models/drive.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog} from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { MatDatepickerInputEvent } from '@angular/material';
 import { Constants } from 'src/app/common/constants';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-drive-electrification-targets',
   templateUrl: './drive-electrification-targets.component.html',
@@ -39,6 +40,8 @@ export class DriveElectrificationTargetsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private datePipe: DatePipe,
+
   ) { }
 
   ngOnInit() {
@@ -64,6 +67,8 @@ export class DriveElectrificationTargetsComponent implements OnInit {
         this.electrificationTargetsList[i].sno = i + 1;
         this.electrificationTargetsList[i].TKM = this.electrificationTargetsList[i].tkm;
         this.electrificationTargetsList[i].RKM = this.electrificationTargetsList[i].rkm;
+        this.electrificationTargetsList[i].targetDate = this.datePipe.transform(this.electrificationTargetsList[i].targetDate, 'dd-MM-yyyy');
+        this.electrificationTargetsList[i].dateOfCompletion = this.datePipe.transform(this.electrificationTargetsList[i].dateOfCompletion, 'dd-MM-yyyy');
         electrificationTargets.push(this.electrificationTargetsList[i]);
       }
 

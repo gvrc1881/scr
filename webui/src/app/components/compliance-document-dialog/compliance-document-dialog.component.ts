@@ -35,7 +35,7 @@ export class ComplianceDocumentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.type = localStorage.getItem("observationFileType");
+        this.type = localStorage.getItem("complianceFileType");
         this.prepareTable();
     }
     downloadFile(path, fileName) {

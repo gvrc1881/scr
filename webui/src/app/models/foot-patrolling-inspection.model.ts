@@ -1,5 +1,6 @@
 export interface FootPatrollingInspectionModel{
     id: number;
+    seqId:any;
     facilityId:any,
     inspectionType: string,
     section: string,
