@@ -27,5 +27,7 @@ public interface ChecklistRepository extends JpaRepository<DriveCheckList, Long>
 	@Query(value = "SELECT case when count(dcl)> 0 then true else false  end  FROM DriveCheckList dcl WHERE dcl.driveId = :driveId and dcl.activityPositionId = :activityPositionId")
 	Boolean existsByDriveIdAndActivityPositionId(@Param("driveId")Drives driveId, @Param("activityPositionId") String activityPositionId );
 
+	List<DriveCheckList> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
+
 
 }

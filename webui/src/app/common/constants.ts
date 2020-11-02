@@ -357,7 +357,8 @@ export const Constants = {
                 DELETE_DRIVE:"/deleteDrive/",
                 EXISTS_DRIVE_NAME:"/existsDriveName/",
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/",
-                GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT:"/getDrivesBasedOnFromDateAndDepot/"
+                GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT:"/getDrivesBasedOnFromDateAndDepot/",
+                GET_DRIVES_BASED_ON_CHECKLIST:"/getDriveCheckList",
                
             },
             DRIVE_CATEGORY:{
@@ -375,7 +376,8 @@ export const Constants = {
                 SAVE_DRIVE_CATEGORY_ASSOC:"/saveDriveCategoryAsso",
                 UPDATE_DRIVE_CATEGORY_ASSOC:"/updateDriveCategoryAsso",
                 DELETE_DRIVE_CATEGORY_ASSOC:"/deleteDriveCategoryAsso/",
-                EXISTS_DRIVE_CATEGORY_ASSOC:"/existsDriveCategoryAssoc/"
+                EXISTS_DRIVE_CATEGORY_ASSOC:"/existsDriveCategoryAssoc/",
+                EXISTS_DRIVE_CATEGORY_ASSOC_ID:"/existsDriveCategoryAssocAndId/"
             },
             DRIVE_CHECK_LIST :{
                 GET_CHECK_LIST:'/checklist',

@@ -87,6 +87,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
+        //this.getAllActivityAssocData(0, 30);
         this.getAllActivityAssocData();   
 
         this.filterData = {
@@ -157,9 +158,12 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
 
             }
    
+          //  getAllActivityAssocData(from: number, to: number)
         getAllActivityAssocData() {
-            const assoc : AssetScheduleActivityAssocModel[] = [];
-        
+
+          this.spinnerService.show();
+            const assoc : AssetScheduleActivityAssocModel[] = [];     
+           // this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. GET_ASSET_SCH_ACT_ASSOC+ '/' + from + '/' + to)   
         this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. GET_ASSET_SCH_ACT_ASSOC)
         .subscribe((data) => {
             this.ActivityAssocList = data;
@@ -250,12 +254,15 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                                'lowerLimit':lowerLimit,
                                'upperLimit':upperLimit,
                                'description':description,                
-                               "createdBy" : this.loggedUserData.username
+                               "createdBy" : this.loggedUserData.username,
+                               "createdStamp": new Date(),
+                                "createdTxStamp": new Date(),
        }              
        this.sendAndRequestService.requestForPOST(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.SAVE_ASSET_SCH_ACT_ASSOC,saveActAssocModel, false).subscribe(data => {
            this.assetSchActassocResponse = data;
            if(this.assetSchActassocResponse.code == 200 && !!this.assetSchActassocResponse) {
                this.commonService.showAlertMessage(this.assetSchActassocResponse.message);
+               //this.getAllActivityAssocData(0, 30);
                this.getAllActivityAssocData();
                this.assetSchActAssocFormGroup.reset();
            }else {
@@ -284,7 +291,9 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                                'displayOrder':displayOrder,
                                'lowerLimit':lowerLimit,
                                'upperLimit':upperLimit,
-                               'description':description
+                               'description':description,
+                               "lastUpdatedStamp": new Date(),
+                               "lastUpdatedTxStamp": new Date(),
                                        
                                     }    
                this.sendAndRequestService.requestForPUT(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC.UPDATE_ASSET_SCH_ACT_ASSOC,updateActAssocModel, false).
@@ -293,7 +302,8 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                                    if(this.assetSchActassocResponse.code == 200 && !!this.assetSchActassocResponse)
                                    {
                                        this.commonService.showAlertMessage(this.assetSchActassocResponse.message);
-                                       this.getAllActivityAssocData();
+                                      // this.getAllActivityAssocData(0, 30);
+                                      this.getAllActivityAssocData();
                                        this.assetSchActAssocFormGroup.reset();
                                        this.addSchActAssoc=  false;
                                        this.title = "Save";
@@ -322,6 +332,7 @@ deleteAssetActSchAssoc(id) {
                 
                     if(this.assetSchActassocResponse.code == 200 && !!this.assetSchActassocResponse) {
                         this.commonService.showAlertMessage(this.assetSchActassocResponse.message);
+                         //this.getAllActivityAssocData(0, 30);
                          this.getAllActivityAssocData();
                      } else {
                          this.commonService.showAlertMessage("Activity ScheduleAssoc Deletion Failed.");
@@ -566,6 +577,14 @@ ActAssocEditAction(id: number) {
       data:result,  
     });            
   }
+
+  getServerData($event) {
+    console.log($event);
+    console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
+    if (((parseInt($event.pageIndex) + 1) * parseInt($event.pageSize)) == $event.length) {
+      //this.getAllActivityAssocData($event.length + 1, $event.length + 30);
+    }
+  } 
 
 }
 

@@ -36,8 +36,9 @@ export class AddDriveComponent implements OnInit {
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   assetTypeList = [];
-  functionalUnitList: any;
-  allFunctionalUnitsList: any;
+  functionalUnitsList: any;
+  functionalUnitList: any; 
+  allFunctionalUnitsList:any; 
   driveFormErrors: any;
   resp: any;
   toMinDate = new Date();
@@ -78,7 +79,7 @@ export class AddDriveComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-   // this.findFunctionalUnits();
+    this.findFunctionalUnits();
     this.findDepoTypeList();
     this.createDriveForm();    
     this.findScheduleList();
@@ -87,7 +88,9 @@ export class AddDriveComponent implements OnInit {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
+      console.log("save==="+this.save);
       this.save = false;
+      console.log("saved==="+this.save);
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getDriveDataById(this.id);
@@ -155,7 +158,7 @@ export class AddDriveComponent implements OnInit {
     });
     this.depotCode = 'TRD';    
     this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
-    this.functionalUnitList = [];
+    this.functionalUnitsList = [];
     this.getFunctionalUnits(this.depotCode);
 
   }
@@ -241,12 +244,12 @@ export class AddDriveComponent implements OnInit {
       })
   }
 
-  // findFunctionalUnits() {
-  //   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
-  //     .subscribe((units) => {
-  //       this.allFunctionalUnitsList = units;
-  //     })
-  // }
+  findFunctionalUnits() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
+      .subscribe((units) => {
+        this.allFunctionalUnitsList = units;
+      })
+  }
   
   updateAssertType($event) {
     if ($event.value) {
@@ -254,8 +257,7 @@ export class AddDriveComponent implements OnInit {
         if(element.id === $event.value){
             this.depotCode = element.code;
         }
-      });
-   
+      });  
       
       this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
       this.functionalUnitList = [];
@@ -265,8 +267,9 @@ export class AddDriveComponent implements OnInit {
     }
   }
 
-  getFunctionalUnits (depotType){
-       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
+  getFunctionalUnits (depotType){    
+
+          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
           this.functionalUnitList = data;
     });
   }
@@ -295,6 +298,9 @@ export class AddDriveComponent implements OnInit {
           status: this.resp.active
           
         });
+        this.IsRequire();
+        //this.save = false;
+        console.log("this.save==="+this.save);
       this.toMinDate = new Date(this.resp.fromDate);
         if (this.resp.depotType != null) {
           this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['code']]);
@@ -305,6 +311,7 @@ export class AddDriveComponent implements OnInit {
   typeId = [];
   assertTypeId = [];
   onAddDriveFormSubmit() {
+    
     this.isSubmit = true;
     if (this.addDriveFormGroup.invalid) {
       this.isSubmit = false;
@@ -330,6 +337,7 @@ export class AddDriveComponent implements OnInit {
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }
+      
         this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.SAVE_DRIVE, saveDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -383,11 +391,24 @@ export class AddDriveComponent implements OnInit {
     }
   }
   IsRequire(){
-  if(this.addDriveFormGroup.controls['isIdRequired'].value=='Yes')
-  {
-    if(this.addDriveFormGroup.controls['assetType'].value==null)
-    this.creatDriveForm();
+    console.log('*** in function ***');
+  if(this.addDriveFormGroup.controls['isIdRequired'].value=='Yes'&&this.addDriveFormGroup.controls['assetType'].value==null)
+  {  
+    console.log('*** in if condition ***');
+    this.save = false;   
+    this.commonService.showAlertMessage("Please select asset type.");
+    }
+   
+  else{
+    console.log('*** in else condition ***');
+    if(!isNaN(this.id)) {
+      this.update =true
+    }else {
+      this.save = true;
+    }
+    
   }
+  
 }
   onGoBack() {
     if (this.save) {

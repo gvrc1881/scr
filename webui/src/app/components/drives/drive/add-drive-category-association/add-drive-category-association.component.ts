@@ -46,19 +46,22 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
     this.getDriveCategoryData();
-    this.createDriveForm();
+    
 
     if (!isNaN(this.id)) {
+      this.getDriveCategoryAssoDataById(this.id);
+      this.updateDriveForm();      
       this.addDriveCategoryAssoFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
-      this.getDriveCategoryAssoDataById(this.id);
+      this.title = Constants.EVENTS.UPDATE;;
+      
     } else {
-      this.title = 'Save';
+      this.createDriveForm();
+      this.title =Constants.EVENTS.ADD;;
     }
   }
   getDrivesData() {
@@ -98,21 +101,36 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
       'active': [null, Validators.required]
     });
   }
+  updateDriveForm() {
+    this.addDriveCategoryAssoFormGroup = this.formBuilder.group({
+      id: 0,
+      'drive': [null, Validators.compose([Validators.required])],
+      'driveCategory': [null, Validators.compose([Validators.required]),this.duplicateDriveCatAssocAndId.bind(this)],
+      'active': [null, Validators.required]
+    });
+  }
 
   public get f() { return this.addDriveCategoryAssoFormGroup.controls; }
 
 
   getDriveCategoryAssoDataById(id) {
+    this.addDriveCategoryAssoFormGroup = this.formBuilder.group({
+      id: 0,
+      'drive': [null, Validators.compose([Validators.required])],
+      'driveCategory': [null, Validators.compose([Validators.required]),this.duplicateDriveCatAssocAndId.bind(this)],
+      'active': [null, Validators.required]
+    });
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC_ID+id)
       .subscribe((resp) => {
-        this.resp = resp;
+        this.resp = resp;      
+           
         this.addDriveCategoryAssoFormGroup.patchValue({
           id: this.resp.id,
+          drive : this.resp.driveId.id,
           driveCategory: this.resp.driveCategoryId['id'],
-          drive : this.resp.driveId['id'],     
           active: this.resp.active,
         });
-
+      
         this.spinnerService.hide();
       })
   }
@@ -174,7 +192,8 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
     }
   }
   duplicateDriveCatAssoc() {
-    let driveId= this.addDriveCategoryAssoFormGroup.controls['drive'].value;
+
+       let driveId= this.addDriveCategoryAssoFormGroup.controls['drive'].value;
     let driveCategoryId= this.addDriveCategoryAssoFormGroup.controls['driveCategory'].value;
 
    
@@ -191,6 +210,29 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
          resolve(null);
        }
      }, () => { resolve({ 'duplicateDriveCatAssoc': true }); });
+   });
+   return q;
+  }
+  duplicateDriveCatAssocAndId() {
+
+     let id=this.id;
+    
+     let driveId= this.addDriveCategoryAssoFormGroup.controls['drive'].value;
+     let driveCategoryId= this.addDriveCategoryAssoFormGroup.controls['driveCategory'].value;  
+   
+    const q = new Promise((resolve, reject) => {          
+
+      this.sendAndRequestService.requestForGET(
+             Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION. EXISTS_DRIVE_CATEGORY_ASSOC_ID+id+'/'+driveId
+             +'/'+driveCategoryId
+            ).subscribe
+             ((duplicate) => {
+       if (duplicate) {
+         resolve({ 'duplicateDriveCatAssocAndId': true });
+       } else {
+         resolve(null);
+       }
+     }, () => { resolve({ 'duplicateDriveCatAssocAndId': true }); });
    });
    return q;
   }

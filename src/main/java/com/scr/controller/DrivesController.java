@@ -42,9 +42,16 @@ import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
+import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
+import com.scr.repository.ChecklistRepository;
+import com.scr.repository.DriveCategoryAssoRepository;
+import com.scr.repository.DriveCategoryRepository;
+import com.scr.repository.DriveProgressRecordRepository;
+import com.scr.repository.DriveTargetRepository;
+import com.scr.repository.DrivesRepository;
 import com.scr.services.DrivesService;
 import com.scr.services.FacilityService;
 import com.scr.services.MeasureOrActivityListService;
@@ -65,6 +72,23 @@ public class DrivesController {
 	
 	@Autowired
 	private FacilityService facilityService;
+	
+
+	@Autowired
+	private DriveCategoryAssoRepository driveCategoryAssoRepository; 
+
+	@Autowired
+	private DrivesRepository driveRepository;
+	
+	@Autowired
+	private ChecklistRepository checklistRepository;
+	
+	@Autowired
+	private DriveTargetRepository driveTargetRepository;
+	
+	@Autowired
+	private DriveProgressRecordRepository driveProgressRecordRepository;
+	
 	
 	
 	
@@ -120,19 +144,51 @@ public class DrivesController {
 	
 	@RequestMapping(value = "/deleteDrive/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseStatus deleteDrive(@PathVariable("id") Long id) throws JSONException {
+		
+		List <DriveCategoryAsso> drivecatassocList = driveCategoryAssoRepository.getByDriveIdAndStatusId(driveRepository.findById(id).get(), Constants.ACTIVE_STATUS_ID);
+		List <DriveCheckList> drivecheckList = checklistRepository.getByDriveIdAndStatusId(driveRepository.findById(id).get(), Constants.ACTIVE_STATUS_ID);
+		List <DriveTarget> drivetargetList = driveTargetRepository.getByDriveIdAndStatusId(driveRepository.findById(id).get(), Constants.ACTIVE_STATUS_ID);
+		List <DriveDailyProgress> driveprogressList = driveProgressRecordRepository.getByDriveIdAndStatusId(driveRepository.findById(id).get(), Constants.ACTIVE_STATUS_ID);
+		String result="";
+		logger.info("delete function==");
+		logger.info("drivetargetList=="+drivetargetList.size()+"drivecheckList=="+drivecheckList.size()+"driveprogressList=="+driveprogressList.size());
+		if( drivecatassocList.size() == 0 && drivecheckList.size()== 0 && drivetargetList.size() == 0 && driveprogressList.size() == 0 )
+		{
+			logger.info("drivecatassocList=="+drivecatassocList);
+			
 		try {
 			String status = service.deleteDrive(id);
 			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
 				return Helper.findResponseStatus("Drive Deleted Successfully", Constants.SUCCESS_CODE);
-			else
-				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
-		} catch (NullPointerException e) {
+		
+			/*else
+				return Helper.findResponseStatus("Drive have dependency", Constants.FAILURE_CODE);*/
+		}
+		catch (NullPointerException e) {
 			logger.error(e);
 			return Helper.findResponseStatus("Drive Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		} catch (Exception e) {
 			logger.error(e);
 			return Helper.findResponseStatus("Drive Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
+		}
+		else if(drivecatassocList.size() == 1)
+		{
+			 result="This Drive is Associated with Drive Category Assoc";
+		}
+		else if(drivecheckList.size() == 1)
+		{
+			 result="This Drive is Associated with Drive Check list";
+		}
+		else if(drivetargetList.size() == 1)
+		{
+			 result="This Drive is Associated with Drive target list";
+		}
+		else if(driveprogressList.size() == 1)
+		{
+			 result="This Drive is Associated with Drive Daily Progress list";
+		}
+		return Helper.findResponseStatus("Drive have dependency ", Constants.FAILURE_CODE);	
 	}
 	
 	@RequestMapping(value = "/driveById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
@@ -359,9 +415,12 @@ public class DrivesController {
 			
 	@RequestMapping(value = "/checklist", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveCheckList>> findAllChecklist() throws JSONException {
+		logger.info("Enter into findAllDrives function");
 		List<DriveCheckList> checkList = null;
-		try {			
-			checkList = service.findAllCheckLists();			
+		try {		
+			logger.info("Calling service for dirves data");
+			checkList = service.findAllCheckLists();	
+			logger.info("Fetched driveschecklist data = "+checkList);
 		} catch (NullPointerException e) {			
 			logger.error(e);
 		} catch (Exception e) {			
@@ -1300,4 +1359,35 @@ public class DrivesController {
 	}
 	
 	
+	@RequestMapping(value = "/existsDriveCategoryAssocAndId/{id}/{driveId}/{driveCategoryId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsDriveCategoryAssocAndId(@PathVariable("id") Long id,@PathVariable("driveId") Long driveId,@PathVariable("driveCategoryId") Long driveCategoryId){
+		
+		logger.info("id=="+id+"driveId=="+driveId+"driveCategoryId=="+driveCategoryId);
+		Boolean result;
+		try {
+			Optional<DriveCategoryAsso> assocData = service.findByDriveIdAndDriveCategoryId(service.findDrivesById(driveId).get(),service.findDrivesCategoryById(driveCategoryId).get());
+			
+			if(assocData.isPresent()) {
+				DriveCategoryAsso assoc = assocData.get();
+				logger.info("***id ***"+assoc.getId());
+				if (id.equals(assoc.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and driveId and driveCategoryId..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/getDriveCheckList",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<Drives>> getDrives(){
+		List<Drives> driveList= service.getDrives();
+		logger.info("driveList"+driveList.size());
+			return new ResponseEntity<List<Drives>>(driveList, HttpStatus.OK);		
+	}
 }

@@ -64,8 +64,7 @@ export class DriveChecklistComponent implements OnInit {
         this.drivesCheckList[i].measureActivityList = this.drivesCheckList[i].activityId['activityName'];
     
         drive.push(this.drivesCheckList[i]);
-      }
-
+            }
       this.dataSource = new MatTableDataSource(drive);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

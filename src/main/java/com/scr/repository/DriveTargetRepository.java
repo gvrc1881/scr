@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.scr.model.DriveTarget;
+import com.scr.model.Drives;
 import com.scr.model.Make;
 
 public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
@@ -21,4 +22,6 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 	Boolean findByUnitNameAndUnitType(@Param("unitType")String unitType, @Param("unitName") String unitName);
 	*/
 	Optional<DriveTarget> findByUnitTypeAndUnitName(String unitType,String unitName);
+
+	List<DriveTarget> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
 }

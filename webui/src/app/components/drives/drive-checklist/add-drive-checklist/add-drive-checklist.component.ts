@@ -66,12 +66,12 @@ export class AddDriveChecklistComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getCheckListData(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     
   }
@@ -102,7 +102,7 @@ export class AddDriveChecklistComponent implements OnInit {
   }
 
   getDrivesData() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES_BASED_ON_CHECKLIST).subscribe((data) => {
       this.driveList = data;
       this.spinnerService.hide();
     }, error => {
@@ -170,8 +170,7 @@ export class AddDriveChecklistComponent implements OnInit {
       this.isSubmit = false;
       return;
     }
-    console.log("activity=="+this.addDriveChecklistFormGroup.value.activityPositionId);
-    this.spinnerService.show();
+       this.spinnerService.show();
     if (this.save) {
       let save = {
         driveId: this.addDriveChecklistFormGroup.value.drive,  
@@ -183,6 +182,7 @@ export class AddDriveChecklistComponent implements OnInit {
         active: this.addDriveChecklistFormGroup.value.status,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
+        
       }
       this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.SAVE_CHECK_LIST ,save, false).subscribe(response => {
         this.spinnerService.hide();
@@ -236,8 +236,7 @@ export class AddDriveChecklistComponent implements OnInit {
     let driveId= this.addDriveChecklistFormGroup.controls['drive'].value;
     let activityId = this.addDriveChecklistFormGroup.controls['measureActivityList'].value;
     
-console.log("driveId=="+driveId+"activityId==="+activityId);
-    const q = new Promise((resolve, reject) => {          
+   const q = new Promise((resolve, reject) => {          
 
        this.sendAndRequestService.requestForGET(
               Constants.app_urls.DRIVE.DRIVE_CHECK_LIST. EXIST_DRIVE_ACTIVITYLIST+driveId+'/'+activityId).subscribe

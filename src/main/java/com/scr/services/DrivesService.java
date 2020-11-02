@@ -709,6 +709,15 @@ public class DrivesService {
 		return driveProgressRecordRepository.findByDriveIdAndPerformedDateLessThanEqual(drives,fromDate);
 	}
 
+	public Optional<DriveCategoryAsso> findByDriveIdAndDriveCategoryId(Drives driveId, DriveCategory driveCategoryId) {
+		// TODO Auto-generated method stub
+		return driveCategoryAssoRepository.findByDriveIdAndDriveCategoryId(driveId,driveCategoryId);
+	}
 	
+	 public List<Drives> getDrives() {
+		    List<Drives> driveList= driveRepository.getDrives();	
+		       return driveList;
+		    
+		  }
 
 }

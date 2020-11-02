@@ -250,4 +250,16 @@ public class AssetScheduleActivityAssoc implements Serializable {
 		this.upperLimit = upperLimit;
 	}
 
+	@Override
+	public String toString() {
+		return "AssetScheduleActivityAssoc [id=" + id + ", activityFlag=" + activityFlag + ", activityId=" + activityId
+				+ ", activityPositionId=" + activityPositionId + ", asaSeqId=" + asaSeqId + ", createdBy=" + createdBy
+				+ ", createdOn=" + createdOn + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", description=" + description + ", displayOrder=" + displayOrder
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", lowerLimit=" + lowerLimit + ", makeCode=" + makeCode + ", modelCode=" + modelCode
+				+ ", reportColumnHeader=" + reportColumnHeader + ", seqId=" + seqId + ", subAssetType=" + subAssetType
+				+ ", upperLimit=" + upperLimit + "]";
+	}
+
 }

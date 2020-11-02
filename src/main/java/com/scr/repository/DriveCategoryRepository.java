@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.DriveCategory;
+import com.scr.model.Drives;
 
 @Repository
 public interface DriveCategoryRepository extends JpaRepository<DriveCategory, Long>{
@@ -19,6 +20,8 @@ public interface DriveCategoryRepository extends JpaRepository<DriveCategory, Lo
 
 	Boolean existsByDescriptionAndStatusId(String description, Integer statusId);
 	
-	Optional<DriveCategory> findById(Long driveCategoryId);
+	Optional<DriveCategory> findById(Long driveCategoryId);	
+
+	//List<DriveCategory> getByDriveIdAndStatusId(Drives drives, int activeStatusId);
 
 }

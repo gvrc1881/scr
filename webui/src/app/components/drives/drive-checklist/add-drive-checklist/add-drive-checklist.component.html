@@ -110,6 +110,15 @@
                                                          </mat-form-field>
                                                     </div>
 
+                                                       <!-- LOWER LIMIT -->
+                                                       <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="Lower Limit" decimalNumber
+                                                                [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
+                                                                >                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
                                                     <!-- UPPER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
@@ -119,14 +128,7 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                    <!-- LOWER LIMIT -->
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Lower Limit" decimalNumber
-                                                                [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
-                                                                >                                                           
-                                                        </mat-form-field>
-                                                    </div>
+                                                 
                                                     
                                                     <!-- STATUS -->
                                                     <div class="col-md-3">
@@ -152,12 +154,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addDriveChecklistFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                            {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

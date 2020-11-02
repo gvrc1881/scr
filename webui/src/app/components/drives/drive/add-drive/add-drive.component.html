@@ -167,12 +167,26 @@
                                                             </mat-select>
                                                         </mat-form-field>
                                                     </div>
+                                                      <!-- Is Id Required -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Is Id Required"
+                                                                [formControl]="addDriveFormGroup.controls['isIdRequired']" (ngModelChange)="IsRequire()">
+                                                                <mat-option
+                                                                    *ngFor="let isIdRequired of isIdRequiredsList"
+                                                                    [value]="isIdRequired.value">
+                                                                    {{ isIdRequired.value}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                           
+                                                        </mat-form-field>
+                                                    </div>
 
                                                     <!-- ASSET TYPE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Asset Type"
-                                                                [formControl]="addDriveFormGroup.controls['assetType']">
+                                                                [formControl]="addDriveFormGroup.controls['assetType']" (ngModelChange)="IsRequire()">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
                                                                     [value]="assetType.productId">
                                                                     {{ assetType.productId }}
@@ -183,9 +197,21 @@
                                                             class="alert alert-danger">Please select Asset type
                                                         </mat-error>
                                                         </mat-form-field>
-                                                    </div>
-
-                                                    
+                                                    </div>       
+                                                     <!-- FUNCTIONAL UNIT -->
+                                                     <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Select Functional Unit"
+                                                                [formControl]="addDriveFormGroup.controls['functionalUnit']">
+                                                                <mat-option
+                                                                    *ngFor="let functionalUnit of functionalUnitList"
+                                                                    [value]="functionalUnit.facilityName"
+                                                                    id="functionalUnit.id">
+                                                                    {{ functionalUnit.facilityName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>                                            
 
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
@@ -207,36 +233,9 @@
                                                                 [formControl]="addDriveFormGroup.controls['targetQuantity']">
                                                         </mat-form-field>
                                                     </div>
+                                                  
 
-                                                    <!-- Is Id Required -->
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Is Id Required"
-                                                                [formControl]="addDriveFormGroup.controls['isIdRequired']" (ngModelChange)="IsRequire()">
-                                                                <mat-option
-                                                                    *ngFor="let isIdRequired of isIdRequiredsList"
-                                                                    [value]="isIdRequired.value">
-                                                                    {{ isIdRequired.value}}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                           
-                                                        </mat-form-field>
-                                                    </div>
-
-                                                    <!-- FUNCTIONAL UNIT -->
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Functional Unit"
-                                                                [formControl]="addDriveFormGroup.controls['functionalUnit']">
-                                                                <mat-option
-                                                                    *ngFor="let functionalUnit of functionalUnitList"
-                                                                    [value]="functionalUnit.facilityName"
-                                                                    id="functionalUnit.id">
-                                                                    {{ functionalUnit.facilityName }}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
-                                                    </div>
+                                                   
 
                                                     <!-- CHECKLIST -->
                                                     <div class="col-md-3">
@@ -275,7 +274,7 @@
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="addDriveFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                           {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

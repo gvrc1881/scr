@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.scr.model.Drives;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.Make;
+import com.scr.model.Product;
 
 @Repository
 public interface DrivesRepository extends JpaRepository<Drives, Long> {
@@ -35,4 +36,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	List<Drives> findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndDepotType(Date fromDate,
 			Date toDate, FunctionalLocationTypes functionalLocationTypes);
 
+
+	@Query(value = " FROM Drives where checklist='Yes' and statusId=1")            
+	List<Drives> getDrives();
+	
 }

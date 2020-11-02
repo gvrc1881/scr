@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.message.request.AssetScheduleActivityAssocRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.AssetScheduleAssoc;
@@ -36,18 +39,22 @@ public class AssetScheduleActivityAssocController {
 	@Autowired 
 	AssetScheduleActivityAssocService assetScheduleActivityAssocService;
 	
+
+	
 	@RequestMapping(value = "/addAssetSchActAssoc" , method = RequestMethod.POST , headers = "Accept=application/json")
-	public ResponseStatus addAssetSchActAssoc(@RequestBody AssetScheduleActivityAssoc assetScheduleActivityAssoc) {
+	public ResponseStatus addAssetSchActAssoc(@Valid @RequestBody AssetScheduleActivityAssocRequest assetScheduleActivityAssoc) throws JSONException {
 		
 		logger.info("Enter into save function with below request parameters ");
 		
-		logger.info("Request Parameters = "+assetScheduleActivityAssoc.toString());
-		
+		logger.info("Request Parameters = "+assetScheduleActivityAssoc.toString());	
 	
 		try {
 			logger.info("Calling service with request parameters.");
-			
-			assetScheduleActivityAssocService.save(assetScheduleActivityAssoc);
+			 AssetScheduleActivityAssoc asaa = assetScheduleActivityAssocService.saveAssocData(assetScheduleActivityAssoc);
+			 logger.info("*** id **"+asaa.getId());
+			 logger.info("*** id **"+asaa.getId().toString());
+			 asaa.setSeqId(asaa.getId().toString());
+			 assetScheduleActivityAssocService.save(asaa);
 		logger.info("Preparing the return response");
 		return Helper.findResponseStatus("AssetScheActivityAssoc added successfully", Constants.SUCCESS_CODE);
 		}
@@ -63,23 +70,22 @@ public class AssetScheduleActivityAssocController {
 	}
 	
 	@RequestMapping(value = "/updateAssetSchActAssoc" ,method = RequestMethod.PUT , headers = "Accept=application/json")
-	public ResponseStatus updateAssetSchActAssoc(@RequestBody AssetScheduleActivityAssoc assetScheduleActivityAssoc) {
+	public ResponseStatus updateAssetSchActAssoc(@Valid @RequestBody AssetScheduleActivityAssocRequest assetScheduleActivityAssocReq) {
 		logger.info("Enter into update function with below request parameters ");
-		logger.info("Request Parameters = "+assetScheduleActivityAssoc.toString());
+		logger.info("Request Parameters = "+assetScheduleActivityAssocReq.toString());
 		try {
 			logger.info("Calling service with request parameters.");
-			assetScheduleActivityAssocService.save(assetScheduleActivityAssoc);
-		logger.info("Preparing the return response");
-		return Helper.findResponseStatus("AssetScheActivityAssoc updated successfully", Constants.SUCCESS_CODE);
-	}catch(NullPointerException npe) {
-		logger.error("ERROR >> While updating AssetScheActivityAssoc data. "+npe.getMessage());
-		return Helper.findResponseStatus("AssetScheActivityAssoc update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-	}
-	catch (Exception e) {
-		logger.error("ERROR >> While updating AssetScheAssoc data. "+e.getMessage());
-		return Helper.findResponseStatus("AssetScheActivityAssoc update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
-	}
+			String status=assetScheduleActivityAssocService.updateAssocData(assetScheduleActivityAssocReq);
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("AssetSchActivityAssoc Data Updated Successfully", Constants.SUCCESS_CODE);
+			else
+				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While updating AssetSchActivityAssoc data. "+e.getMessage());
+			return Helper.findResponseStatus("AssetSchActivityAssoc Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
+	}
+	
 	
 
 	@RequestMapping(value = "/deleteAssetSchActAssoc/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
@@ -97,13 +103,38 @@ public class AssetScheduleActivityAssocController {
 		return Helper.findResponseStatus("AssetScheActivityAssoc Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 	}
 }
+	
+
 	 @RequestMapping(value = "/findAllAssetSchActAssoc" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc() throws JSONException {
+		public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc() throws JSONException {
+			 List<AssetScheduleActivityAssoc> assetAssocList = null;
+			 try {
+				   logger.info("Calling service for make data");	
+			
+				   assetAssocList = assetScheduleActivityAssocService.findAll();
+			 logger.info("Fetched AssetScheActivityAssoc data***"+assetAssocList.size());
+			return assetAssocList;
+		}catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the AssetScheActivityAssoc data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			logger.error("ERROR >>> while fetching the AssetScheActivityAssoc data = "+e.getMessage());
+		}
+			 logger.info("Exit from AssetScheActivityAssoc function");
+		return assetAssocList;	
+	}
+	 
+	
+	/* @RequestMapping(value = "/findAllAssetSchActAssoc/{from}/{to}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc(@PathVariable("from") int from,@PathVariable("to") int to)  {
+		 
+		 logger.info("\"Enter into AllAssetSchActAssoc function");
+		 
 		 List<AssetScheduleActivityAssoc> assetAssocList = null;
 		 try {
-			   logger.info("Calling service for make data");	
+			   logger.info("Calling service for Asset Sch Activity Assoc data");	
 		
-			   assetAssocList = assetScheduleActivityAssocService.findAll();
+			   assetAssocList = assetScheduleActivityAssocService.findPaginated(from, to);;
 		 logger.info("Fetched AssetScheActivityAssoc data***"+assetAssocList.size());
 		return assetAssocList;
 	}catch (NullPointerException npe) {
@@ -114,7 +145,7 @@ public class AssetScheduleActivityAssocController {
 	}
 		 logger.info("Exit from AssetScheActivityAssoc function");
 	return assetAssocList;	
-}
+}*/
 	
 	@RequestMapping(value = "/findAssetSchActAssocById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<AssetScheduleActivityAssoc> findAssetSchActAssocById(@PathVariable("id") Long id){
