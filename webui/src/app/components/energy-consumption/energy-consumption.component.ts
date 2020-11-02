@@ -204,16 +204,16 @@ export class EnergyConsumptionComponent implements OnInit {
 
           this.energyConsumptionData[i].sno = i + 1;
           this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feederName;
-          this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].readingGapDays.replace('days', '').trim();
+          this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].readingGapDays != null ? this.energyConsumptionData[i].readingGapDays : '';
           this.energyConsumptionData[i].Multification_Factor = this.energyConsumptionData[i].multiplicationFac;
           this.energyConsumptionData[i].cmd = this.energyConsumptionData[i].curCmd;
 
           this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prevKwh;
           this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].curKwh;
           this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].curKwh != 0 ? ((this.energyConsumptionData[i].curKwh - parseFloat(this.energyConsumptionData[i].prevKwh)) * parseFloat(this.energyConsumptionData[i].multiplicationRac)).toFixed(2) : 0;
-          this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].Previous_Date.split('(')[0].length + 1;
-          this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[0].length;
-          this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[1].length;
+          this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].Previous_Date != null ? this.energyConsumptionData[i].Previous_Date.split('(')[0].length + 1 : new Date();
+          this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].Previous_Date.includes("(") && this.energyConsumptionData[i].Previous_Date.split('(').length > 1 ? this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[0].length : '';
+          this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].Previous_Date.includes("(") && this.energyConsumptionData[i].Previous_Date.split('(').length > 1 ? this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[1].length : '';
 
           this.energyConsumptionData[i].Old_KVAH = this.energyConsumptionData[i].prevKvah;
           this.energyConsumptionData[i].Current_KVAH = this.energyConsumptionData[i].curKvah;
@@ -259,7 +259,7 @@ export class EnergyConsumptionComponent implements OnInit {
 
   processEditAction(id) {
     var row = this.dataSource.filteredData.find((item, index) => {
-      return item.feeder_id == id;
+      return item.feederId == id;
     })
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
@@ -286,17 +286,17 @@ export class EnergyConsumptionComponent implements OnInit {
       this.exactDate = false;
       this.selectedBWFrom = new Date();
       this.selectedBWTo = this.maxDate;
-      console.log(this.selectedDivision)
+   //   console.log(this.selectedDivision)
       this.selectedFeederId = '';
       this.feedersList = this.feedersOriginalList.filter(value => {
         return value.dataDiv.toLowerCase() == this.selectedDivision.toLowerCase();
       });
-      console.log(this.feedersList[0]);
+     // console.log(this.feedersList[0]);
       this.feederId = this.feedersList != null && this.feedersList.length > 0 ? this.feedersList[0].feederId : '';
       var query = "";
       this.selectedFeederId = this.feederId;
       query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.feederId + '/' + this.selectedDivision;
-      console.log(query)
+      //console.log(query)
       if(this.feederId){
          this.findEnergyConsumptionData(query);
       }
