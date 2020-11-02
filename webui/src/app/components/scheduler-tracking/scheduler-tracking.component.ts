@@ -33,6 +33,7 @@ export class SchedulerTrackingComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) schedulerPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+  pagination=Constants.PAGINATION_NUMBERS;
   constructor(
     public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -53,7 +54,6 @@ export class SchedulerTrackingComponent implements OnInit {
     const schedulerData: SchedulerTrackingModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.GET_JOBS).subscribe((data) => {
       this.schedulerData = data;
-      console.log('schedulerData: '+JSON.stringify(data))
       for (let i = 0; i < this.schedulerData.length; i++) {
 
         if (!this.rolePermission) {
@@ -91,7 +91,6 @@ export class SchedulerTrackingComponent implements OnInit {
         }
 
       }
-     // console.log('schedulerData: ' + JSON.stringify(schedulerData))
       this.schedulerDataSource = new MatTableDataSource(schedulerData);
       this.schedulerDataSource.paginator = this.schedulerPaginator;
       this.schedulerDataSource.sort = this.sort;
@@ -114,13 +113,7 @@ export class SchedulerTrackingComponent implements OnInit {
 
   runSchedulerJobById(jobId, runTypeId, processedDate) {
     var date = new Date(processedDate);
-    //console.log('date: '+this.convert(date));
-    //console.log('date: '+date.toLocaleTimeString());
-    //console.log('date: '+date.getMilliseconds());
     var dataString = this.convert(date)+" "+date.toLocaleTimeString()+"."+date.getMilliseconds();
-    console.log('dataString: '+dataString);
-     //date.format('%Y-%m-%d %H:%M:%S')
-   // return false;
     this.confirmDialogRef = this.dialog.open(RemarkDialogComponent, {
       disableClose: false,
       height: '',
@@ -128,7 +121,6 @@ export class SchedulerTrackingComponent implements OnInit {
       data:{"jobId":jobId, "runTypeId":runTypeId}
     });
     
-//date.toString("MMM dd"); // "Dec 20"
    this.confirmDialogRef.afterClosed().subscribe(remark => {
       if (remark) {
         this.spinnerService.show();
@@ -141,7 +133,6 @@ export class SchedulerTrackingComponent implements OnInit {
       }
          this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.RERUN_WITH_REMARK,remarkDetails, false).subscribe((response) => {
           this.schedulerResponse = response;
-          console.log(JSON.stringify(response));
           this.spinnerService.hide();
           setTimeout(() => {
             this.findAllJobInfo()
@@ -173,7 +164,6 @@ export class SchedulerTrackingComponent implements OnInit {
   }
 
   operationTypes(trackingId){
-  //  console.log(trackingId);
     this.router.navigate(['jobs/'+trackingId]);
                
   }

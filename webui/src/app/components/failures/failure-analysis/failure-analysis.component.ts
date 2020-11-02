@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
   selector: 'app-failure-analysis',
   templateUrl: './failure-analysis.component.html',
@@ -141,16 +142,27 @@ export class FailureAnalysisComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Failure Analysis',
-      'dataSource':[{label:'Reported',value:data.reported},{label:'Division',value:data.div},
-      {label:'ReportDescription',value:data.reportDescription},{label:'Repurcussion',value:data.repurcussion},
-      {label:'Date',value:data.date},{label:'Failure scetion',value:data.section},{label:'AssetType',value:data.assetType},
-      {label:'AssetId',value:data.assetId},{label:'SubAssetType',value:data.subAssetType},{label:'SubAssetId',value:data.subAssetId},
-      {label:'Make',value:data.make},{label:'Model',value:data.model},{label:'RootCause',value:data.rootCause},      
-      {label:'ActionPlan',value:data.actionPlan},{label:'ActionStatus',value:data.actionStatus},
-      {label:'ApprovedBy',value:data.approvedBy},{label:'ActionTargetDate',value:data.actionTargetDate},
-      {label:'ActionCompletedDate',value:data.actionCompletedDate},
-      {label:'ActionDescription',value:data.actionDescription}
+      'title': FieldLabelsConstant.TITLE.FAILURE_ANALYSIS,
+      'dataSource':[
+        { label:FieldLabelsConstant.LABELS.REPORTED, value:data.reported},
+        { label:FieldLabelsConstant.LABELS.DIVISION, value:data.div},
+        { label:FieldLabelsConstant.LABELS.REPORT_DESCRIPTION, value:data.reportDescription},
+        { label:FieldLabelsConstant.LABELS.REPERCUSSION, value:data.repurcussion},
+        { label:FieldLabelsConstant.LABELS.DATE, value:data.date},
+        { label:FieldLabelsConstant.LABELS.FAILURE_SECTION, value:data.section},
+        { label:FieldLabelsConstant.LABELS.ASSET_TYPE, value:data.assetType},
+        { label:FieldLabelsConstant.LABELS.ASSET_ID, value:data.assetId},
+        { label:FieldLabelsConstant.LABELS.SUB_ASSET_TYPE, value:data.subAssetType},
+        { label:FieldLabelsConstant.LABELS.SUB_ASSET_ID, value:data.subAssetId},
+        { label:FieldLabelsConstant.LABELS.MAKE, value:data.make},
+        { label:FieldLabelsConstant.LABELS.MODEL, value:data.model},
+        { label:FieldLabelsConstant.LABELS.ROOT_CAUSE, value:data.rootCause},      
+        { label:FieldLabelsConstant.LABELS.ACTION_PLAN, value:data.actionPlan},
+        { label:FieldLabelsConstant.LABELS.ACTION_STATUS, value:data.actionStatus},
+        { label:FieldLabelsConstant.LABELS.APPROVED_BY, value:data.approvedBy},
+        { label:FieldLabelsConstant.LABELS.ACTION_TARGET_DATE, value:data.actionTargetDate},
+        { label:FieldLabelsConstant.LABELS.ACTION_COMPLETED_DATE, value:data.actionCompletedDate},
+        { label:FieldLabelsConstant.LABELS.ACTION_DESCRIPTION, value:data.actionDescription}
     ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {

@@ -730,5 +730,7 @@ export const Constants = {
         "RELAY_INDICATION":"CB_RELAY_INDICATOR",
         "NATURE_OF_CLOSE":"CB_NATURE_OF_CLOSURE",
         "ACTION":"UUO_ACTIVITY"
-    }
+    },
+    PAGINATION_NUMBERS:[30, 60, 100, 150, 200, 250]
+
 };
