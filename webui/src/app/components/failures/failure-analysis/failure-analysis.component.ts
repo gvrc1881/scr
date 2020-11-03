@@ -16,7 +16,9 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
   styleUrls: []
 })
 export class FailureAnalysisComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+  pagination=Constants.PAGINATION_NUMBERS;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

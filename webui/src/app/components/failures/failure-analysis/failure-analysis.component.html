@@ -20,7 +20,7 @@
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
-                                    [routerLink]="['add-failure-analysis']"> 
+                                    [routerLink]="['add-failure-analysis']">
                                     Add Failure Analysis
                                 </button></div>
 
@@ -39,178 +39,151 @@
 
 
                                     <mat-table [dataSource]="filterData.dataSource" matSort>
-                                            <ng-container matColumnDef="sno">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span> Sno</span>
-                                            <input matInput type="text" (keyup) ="updatePagination()" disabled [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
-                                        </mat-header-cell>                                            
-                                        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-                                    </ng-container>                        
-                                  
-                          
-                                  <ng-container matColumnDef="reported">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Reported</span>
-                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
-                                    </mat-header-cell>
-                                    <mat-cell *matCellDef="let row"> {{row.reported}}</mat-cell>
-                                </ng-container>
-
-                                <!-- <ng-container matColumnDef="reportDescription">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>ReportDescription</span>
-                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                    </mat-header-cell>
-                                    <mat-cell *matCellDef="let row"> {{row.reportDescription}}</mat-cell>
-                                </ng-container>
-                          
-                                <ng-container matColumnDef="repurcussion">
-                                  <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                      <span>Repurcussion</span>
-                                      <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                     
-                                  </mat-header-cell>
-                                  <mat-cell *matCellDef="let row"> {{row.repurcussion}}</mat-cell>
-                              </ng-container>
-                           -->
-
-                           <ng-container matColumnDef="div">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                <span>Division</span>
-                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row"> {{row.div}}</mat-cell>
-                        </ng-container>
-                        
-                              <ng-container matColumnDef="date">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Date</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.date}}</mat-cell>
-                            </ng-container>
-
-                           
-
-                            <ng-container matColumnDef="failureSection">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Failure section</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="assetType">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>AssetType</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="assetId">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>AssetId</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.assetId}}</mat-cell>
-                            </ng-container>
-                            <!-- <ng-container matColumnDef="subAssetType">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>SubAssetType</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.subAssetType}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="subAssetId">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>SubAssetId</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.subAssetId}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="make">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Make</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.make}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="model">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Model</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.model}}</mat-cell>
-                            </ng-container> -->
-                            <ng-container matColumnDef="rootCause">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>RootCause</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.rootCause}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="actionPlan">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>ActionPlan</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.actionPlan}}</mat-cell>
-                            </ng-container>
-                       
-                        <ng-container matColumnDef="actionStatus">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                <span>ActionStatus</span>
-                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let row"> {{row.actionStatus}}</mat-cell>
-                        </ng-container>
-                            <!-- <ng-container matColumnDef="approvedBy">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>ApprovedBy</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.approvedBy}}</mat-cell>
-                            </ng-container> -->
-                            <ng-container matColumnDef="actionTargetDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>ActionTargetDate</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.actionTargetDate}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="actionCompletedDate">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>ActionCompletedDate</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[11].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.actionCompletedDate}}</mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="actionDescription">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>ActionDescription</span>
-                                    <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[12].Value" [filter]="filterData"/>
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let row"> {{row.actionDescription}}</mat-cell>
-                            </ng-container>                            
+                                        <ng-container matColumnDef="sno">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span> {{FiledLabels.S_NO}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()" disabled
+                                                    [(ngModel)]="filterData.filterColumnNames[0].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                                        </ng-container>
 
 
-                            <ng-container matColumnDef="actions">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Actions</span>
-                                    <input matInput type="text" disabled (keyup) ="updatePagination()" />
-                                </mat-header-cell>
+                                        <ng-container matColumnDef="reported">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.REPORTED}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[1].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.reported}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="div">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.DIVISION}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[2].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.div}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="date">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.DATE}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[3].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.date}}</mat-cell>
+                                        </ng-container>
+
+
+
+                                        <ng-container matColumnDef="failureSection">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.FAILURE_SECTION}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[4].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="assetType">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ASSET_TYPE}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[5].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="assetId">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ASSET_ID}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[6].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.assetId}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="rootCause">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ROOT_CAUSE}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[7].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.rootCause}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actionPlan">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION_PLAN}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[8].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.actionPlan}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="actionStatus">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION_STATUS}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[9].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.actionStatus}}</mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="actionTargetDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION_TARGET_DATE}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[10].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.actionTargetDate}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actionCompletedDate">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION_COMPLETED_DATE}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[11].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.actionCompletedDate}}</mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="actionDescription">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION_DESCRIPTION}}</span>
+                                                <input matInput type="text" (keyup)="updatePagination()"
+                                                    [(ngModel)]="filterData.filterColumnNames[12].Value"
+                                                    [filter]="filterData" />
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.actionDescription}}</mat-cell>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="actions">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                <span>{{FiledLabels.ACTION}}</span>
+                                                <input matInput type="text" disabled (keyup)="updatePagination()" />
+                                            </mat-header-cell>
                                             <mat-cell *matCellDef="let row">
-                                                <button mat-icon-button matTooltip="View"
-                                                    (click)="ViewData(row)">
-                                                <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
-                                                    </button>
+                                                <button mat-icon-button matTooltip="View" (click)="ViewData(row)">
+                                                    <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                </button>
                                                 <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">
                                                         <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                                                     </button>
                                                 </a>
-                                                <button mat-icon-button matTooltip="Delete"
-                                                    (click)="delete(row.id)"
+                                                <button mat-icon-button matTooltip="Delete" (click)="delete(row.id)"
                                                     *ngIf="deletePermission">
                                                     <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                 </button>
@@ -220,8 +193,8 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>
                                     </mat-table>
-                                   
-                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+                                    <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                 </div>
                             </div>
                         </div>

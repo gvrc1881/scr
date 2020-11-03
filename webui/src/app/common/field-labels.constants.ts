@@ -374,5 +374,6 @@ export const FieldLabelsConstant = {
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
+     FAILURE:'Failure',
    }
 };

@@ -13,7 +13,6 @@ export class FuseConfirmDialogComponent implements OnInit
     constructor(public dialogRef: MatDialogRef<FuseConfirmDialogComponent>)
     {
     }
-
     ngOnInit()
     {
     }

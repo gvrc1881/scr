@@ -10,6 +10,7 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FuseConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-drives',
@@ -23,7 +24,7 @@ export class DrivesComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType','frequency',
+  displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType', 'frequency',
     'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
     'checkList', 'active', 'actions'];
   driveCategoryDisplayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'authority', 'actions'];
@@ -32,10 +33,10 @@ export class DrivesComponent implements OnInit {
   dataSource: MatTableDataSource<DriveModel>;
   driveCategoryDataSource: MatTableDataSource<DriveCategoryModel>;
   driveCategoryAssoDataSource: MatTableDataSource<DriveCategoryAssoModel>;
-   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+  dataViewDialogRef: MatDialogRef<DataViewDialogComponent>;
   depoTypeList = [];
   assetTypeList = [];
-  scheduleList=[];
+  scheduleList = [];
 
   functionalUnitList: any;
   allFunctionalUnitsList: any;
@@ -62,12 +63,12 @@ export class DrivesComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private datePipe: DatePipe,
-    private sendAndRequestService:SendAndRequestService
+    private sendAndRequestService: SendAndRequestService
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("DRIVES","DRIVES") ;
-  	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
+    var permissionName = this.commonService.getPermissionNameByLoggedData("DRIVES", "DRIVES");
+    this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
 
@@ -109,7 +110,7 @@ export class DrivesComponent implements OnInit {
         this.assetTypeList = assetTypes;
       })
   }
- 
+
   findFunctionalUnits() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
@@ -131,7 +132,7 @@ export class DrivesComponent implements OnInit {
         this.drivesList[i].targetQuantity = this.drivesList[i].target_qty;
         this.drivesList[i].status = this.drivesList[i].active;
         this.drivesList[i].checkList = this.drivesList[i].checklist;
-        
+
         this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['code'] : '';
         this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
         this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
@@ -194,36 +195,35 @@ export class DrivesComponent implements OnInit {
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
-      
+
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        
+
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE.DELETE_DRIVE, id).subscribe((data) => {
           this.resp = data;
-        
-        if(this.resp.code === 200 ){
 
-          this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-            disableClose: false
-            
-          });
-          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
-         // this.commonService.showAlertMessage(this.resp.message);
-          //this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
-        }else{
-           this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-            disableClose: false
-            
-          });
-          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
-         // this.commonService.showAlertMessage(this.resp.message);
-         // this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
-        }
+          if (this.resp.code === 200) {
+
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+            // this.commonService.showAlertMessage(this.resp.message);
+            //this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
+          } else {
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+            // this.commonService.showAlertMessage(this.resp.message);
+            // this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
+          }
           this.spinnerService.hide();
-         // this.commonService.showAlertMessage("Deleted Drive Successfully");
+          // this.commonService.showAlertMessage("Deleted Drive Successfully");
           this.getDrivesData();
         }, error => {
           console.log('ERROR >>>');
@@ -239,195 +239,216 @@ export class DrivesComponent implements OnInit {
     this.router.navigate(['drive-category/' + id], { relativeTo: this.route });
   }
   driveCategoryDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY.DELETE_DRIVE_CATEGORY, id).subscribe(data => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Drive Category Successfully");
-      this.getDriveCategoryData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Drive Category Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY.DELETE_DRIVE_CATEGORY, id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Drive Category Successfully");
+          this.getDriveCategoryData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Drive Category Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   driveCategoryAssoEdit(id) {
     this.router.navigate(['drive-category-association/' + id], { relativeTo: this.route });
   }
   driveCategoryAssoDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.DELETE_DRIVE_CATEGORY_ASSOC, id).subscribe(data => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
-      this.getDriveCategoryAssoData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Drive Category Asso Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.DELETE_DRIVE_CATEGORY_ASSOC, id).subscribe(data => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Drive Category Asso Successfully");
+          this.getDriveCategoryAssoData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Drive Category Asso Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
-  ViewData(data){
+  ViewData(data) {
     var result = {
-      'title':'Drives',
-      'dataSource':[{label:'Name',value:data.name},{label:'Description',value:data.description},
-      {label:'FromDate', value:data.fromDate},{label:'ToDate', value:data.toDate},
-      {label:'DepotType', value:data.depoType},{label:'AssetType',value:data.assetType},
-      {label:'Frequency',value:data.frequency},{label:'AssetDescription',value:data.assetDescription},
-      {label:'Criteria',value:data.criteria},{label:'TargetQuantity',value:data.targetQuantity},
-      {label:'IsIdRequired',value:data.isIdRequired},{label:'FunctionalUnit',value:data.functionalUnit},
-      {label:'CheckList', value:data.checkList},{label:'Active', value:data.active} ]
+      'title': 'Drives',
+      'dataSource': [{ label: 'Name', value: data.name }, { label: 'Description', value: data.description },
+      { label: 'FromDate', value: data.fromDate }, { label: 'ToDate', value: data.toDate },
+      { label: 'DepotType', value: data.depoType }, { label: 'AssetType', value: data.assetType },
+      { label: 'Frequency', value: data.frequency }, { label: 'AssetDescription', value: data.assetDescription },
+      { label: 'Criteria', value: data.criteria }, { label: 'TargetQuantity', value: data.targetQuantity },
+      { label: 'IsIdRequired', value: data.isIdRequired }, { label: 'FunctionalUnit', value: data.functionalUnit },
+      { label: 'CheckList', value: data.checkList }, { label: 'Active', value: data.active }]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
       height: '400px',
-      width: '80%',       
-      data:result,  
-    });            
+      width: '80%',
+      data: result,
+    });
   }
-  ViewDataDriveCat(data){
+  ViewDataDriveCat(data) {
     var result = {
-      'title':'Drives',
-      'dataSource':[{label:'Name',value:data.name},{label:'Description',value:data.description},
-      {label:'FromDate',value:data.fromDate},{label:'ToDate',value:data.toDate},
-      {label:'Authority',value:data.authority}]
+      'title': 'Drives',
+      'dataSource': [{ label: 'Name', value: data.name }, { label: 'Description', value: data.description },
+      { label: 'FromDate', value: data.fromDate }, { label: 'ToDate', value: data.toDate },
+      { label: 'Authority', value: data.authority }]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
       height: '400px',
-      width: '80%',       
-      data:result,  
-    });            
+      width: '80%',
+      data: result,
+    });
   }
-  
+
   copy() {
     const dialogRef = this.dialog.open(CopyDrivesComponent, {
-        height: '400px',
-        width: '80%', 
-        });
+      height: '400px',
+      width: '80%',
+    });
     dialogRef.afterClosed().subscribe(result => {
-        this.ngOnInit();
-    });  
+      this.ngOnInit();
+    });
   }
-  
+
 }
 
 @Component({
-    selector: 'copy-drives',
-    templateUrl: 'copy-drives.component.html',  
+  selector: 'copy-drives',
+  templateUrl: 'copy-drives.component.html',
 })
 export class CopyDrivesComponent implements OnInit {
-        
-    
-    driveFormGroup: FormGroup;
-    driveCategoryList = [];
-    drivesList = [];
-    allDrives = [];
-    drivesExists: boolean;
-    dataSource:  MatTableDataSource<DriveModel>;
-    displayedColumns = ['sno', 'check', 'oldDriveName', 'newDriveName'];
-    selectedDrives = [];
-    year: any;
-    driveCategory: any;
-    createDrives: boolean;
-    
-        
-    constructor(
-        private formBuilder: FormBuilder,
-        private spinnerService: Ng4LoadingSpinnerService,
-        private sendAndRequestService:SendAndRequestService,
-        private dialogRef: MatDialogRef<CopyDrivesComponent>,
-        private commonService: CommonService
-        ){}
-    
-    ngOnInit(){
-        this.getDriveCategoryData();
-        this.createDrives = false;
-        this.driveFormGroup = this.formBuilder.group({
-            driveCategory: [null],
-            newDriveName: [null],
-            oldDriveName:[null]
-        })
-        this.year = new Date().getFullYear();
+
+
+  driveFormGroup: FormGroup;
+  driveCategoryList = [];
+  drivesList = [];
+  allDrives = [];
+  drivesExists: boolean;
+  dataSource: MatTableDataSource<DriveModel>;
+  displayedColumns = ['sno', 'check', 'oldDriveName', 'newDriveName'];
+  selectedDrives = [];
+  year: any;
+  driveCategory: any;
+  createDrives: boolean;
+
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private sendAndRequestService: SendAndRequestService,
+    private dialogRef: MatDialogRef<CopyDrivesComponent>,
+    private commonService: CommonService
+  ) { }
+
+  ngOnInit() {
+    this.getDriveCategoryData();
+    this.createDrives = false;
+    this.driveFormGroup = this.formBuilder.group({
+      driveCategory: [null],
+      newDriveName: [null],
+      oldDriveName: [null]
+    })
+    this.year = new Date().getFullYear();
+  }
+
+  saveAction() {
+    this.allDrives = [];
+    this.dataSource = new MatTableDataSource(this.allDrives);
+    const drives: DriveModel[] = [];
+    for (var i = 0; i < this.selectedDrives.length; i++) {
+      this.selectedDrives[i].driveId.id = 0;
+      this.selectedDrives[i].driveId.name = this.selectedDrives[i].newDriveName;
+      drives.push(this.selectedDrives[i].driveId);
     }
-    
-    saveAction() {
-        this.allDrives = [];
-        this.dataSource = new MatTableDataSource(this.allDrives);
-        const drives: DriveModel[] = [];
-        for(var i=0;i<this.selectedDrives.length;i++){
-            this.selectedDrives[i].driveId.id = 0;
-            this.selectedDrives[i].driveId.name = this.selectedDrives[i].newDriveName;
-            drives.push(this.selectedDrives[i].driveId);
-        }
-        let copyObject = {
-            drives: drives,
-            driveCategory: this.driveCategory
-        };
-        if(this.selectedDrives.length > 0 ) {
-            this.driveCategory.id = 0;
-            this.driveCategory.driveCategoryName = this.driveCategory.driveCategoryName+'_'+this.year
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.COPY_DRIVES, copyObject, true).subscribe(data => {
-                this.spinnerService.hide();
-                this.commonService.showAlertMessage("Drives Created Successfully");
-                this.selectedDrives = [];
-                this.drivesList = [];
-                this.createDrives = false;
-                this.getDriveCategoryData();
-            }, error => {
-                console.log('ERROR >>>');
-                this.spinnerService.hide();
-            })    
-        }
-    }
-        
-    
-    onCheckboxChange(e,row) {
-        if(e.target.checked) {
-            this.selectedDrives.push(row); 
-            this.createDrives = true;   
-        }else {
-            this.selectedDrives.splice(row.index,1);
-            if(this.selectedDrives.length == 0) {
-                this.createDrives = false;
-            }    
-        }
-    }
-    
-    copyDrivesFormSubmit() {
-        this.driveCategory = this.driveFormGroup.controls['driveCategory'].value;
+    let copyObject = {
+      drives: drives,
+      driveCategory: this.driveCategory
+    };
+    if (this.selectedDrives.length > 0) {
+      this.driveCategory.id = 0;
+      this.driveCategory.driveCategoryName = this.driveCategory.driveCategoryName + '_' + this.year
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.COPY_DRIVES, copyObject, true).subscribe(data => {
+        this.spinnerService.hide();
+        this.commonService.showAlertMessage("Drives Created Successfully");
+        this.selectedDrives = [];
         this.drivesList = [];
-        this.allDrives = [];
-        this.dataSource = new MatTableDataSource(this.allDrives);
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVES_BASED_ON_CATEGORY+this.driveCategory.id).subscribe((data) => {
-          this.drivesList = data;
-            if(data) {
-                this.drivesExists = true;
-                for (var i = 0; i < this.drivesList.length; i++) {
-                    this.drivesList[i].sno = i+1;
-                    this.drivesList[i].index = i;
-                    this.drivesList[i].driveId.name = this.drivesList[i].driveId.name
-                    this.drivesList[i].newDriveName = this.drivesList[i].driveId.name+'_'+this.year
-                    this.allDrives.push(this.drivesList[i]);
-                }
-                this.dataSource = new MatTableDataSource(this.allDrives);
-            }
-          this.spinnerService.hide();
-        }, error => {
-          this.spinnerService.hide();
-        });
+        this.createDrives = false;
+        this.getDriveCategoryData();
+      }, error => {
+        console.log('ERROR >>>');
+        this.spinnerService.hide();
+      })
     }
-    
-    getDriveCategoryData() {
-        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
-          this.driveCategoryList = data;
-          this.spinnerService.hide();
-        }, error => {
-          this.spinnerService.hide();
-        });
+  }
+
+
+  onCheckboxChange(e, row) {
+    if (e.target.checked) {
+      this.selectedDrives.push(row);
+      this.createDrives = true;
+    } else {
+      this.selectedDrives.splice(row.index, 1);
+      if (this.selectedDrives.length == 0) {
+        this.createDrives = false;
       }
-    
-    onGoBack(): void {
-        this.dialogRef.close();
+    }
+  }
+
+  copyDrivesFormSubmit() {
+    this.driveCategory = this.driveFormGroup.controls['driveCategory'].value;
+    this.drivesList = [];
+    this.allDrives = [];
+    this.dataSource = new MatTableDataSource(this.allDrives);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVES_BASED_ON_CATEGORY + this.driveCategory.id).subscribe((data) => {
+      this.drivesList = data;
+      if (data) {
+        this.drivesExists = true;
+        for (var i = 0; i < this.drivesList.length; i++) {
+          this.drivesList[i].sno = i + 1;
+          this.drivesList[i].index = i;
+          this.drivesList[i].driveId.name = this.drivesList[i].driveId.name
+          this.drivesList[i].newDriveName = this.drivesList[i].driveId.name + '_' + this.year
+          this.allDrives.push(this.drivesList[i]);
+        }
+        this.dataSource = new MatTableDataSource(this.allDrives);
       }
-    
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
+  getDriveCategoryData() {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
+      this.driveCategoryList = data;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
+  onGoBack(): void {
+    this.dialogRef.close();
+  }
+
 }
