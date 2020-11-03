@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-drives',
@@ -275,4 +276,136 @@ export class DrivesComponent implements OnInit {
       data:result,  
     });            
   }
+  
+  copy() {
+    const dialogRef = this.dialog.open(CopyDrivesComponent, {
+        height: '400px',
+        width: '80%', 
+        });
+    dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+    });  
+  }
+  
+}
+
+@Component({
+    selector: 'copy-drives',
+    templateUrl: 'copy-drives.component.html',  
+})
+export class CopyDrivesComponent implements OnInit {
+        
+    
+    driveFormGroup: FormGroup;
+    driveCategoryList = [];
+    drivesList = [];
+    allDrives = [];
+    drivesExists: boolean;
+    dataSource:  MatTableDataSource<DriveModel>;
+    displayedColumns = ['sno', 'check', 'oldDriveName', 'newDriveName'];
+    selectedDrives = [];
+    year: any;
+    driveCategory: any;
+    createDrives: boolean;
+    
+        
+    constructor(
+        private formBuilder: FormBuilder,
+        private spinnerService: Ng4LoadingSpinnerService,
+        private sendAndRequestService:SendAndRequestService,
+        private dialogRef: MatDialogRef<CopyDrivesComponent>,
+        private commonService: CommonService
+        ){}
+    
+    ngOnInit(){
+        this.getDriveCategoryData();
+        this.createDrives = false;
+        this.driveFormGroup = this.formBuilder.group({
+            driveCategory: [null],
+            newDriveName: [null],
+            oldDriveName:[null]
+        })
+        this.year = new Date().getFullYear();
+    }
+    
+    saveAction() {
+        this.allDrives = [];
+        this.dataSource = new MatTableDataSource(this.allDrives);
+        const drives: DriveModel[] = [];
+        for(var i=0;i<this.selectedDrives.length;i++){
+            this.selectedDrives[i].driveId.id = 0;
+            this.selectedDrives[i].driveId.name = this.selectedDrives[i].newDriveName;
+            drives.push(this.selectedDrives[i].driveId);
+        }
+        let copyObject = {
+            drives: drives,
+            driveCategory: this.driveCategory
+        };
+        if(this.selectedDrives.length > 0 ) {
+            this.driveCategory.id = 0;
+            this.driveCategory.driveCategoryName = this.driveCategory.driveCategoryName+'_'+this.year
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.DRIVE.COPY_DRIVES, copyObject, true).subscribe(data => {
+                this.spinnerService.hide();
+                this.commonService.showAlertMessage("Drives Created Successfully");
+                this.selectedDrives = [];
+                this.drivesList = [];
+                this.createDrives = false;
+                this.getDriveCategoryData();
+            }, error => {
+                console.log('ERROR >>>');
+                this.spinnerService.hide();
+            })    
+        }
+    }
+        
+    
+    onCheckboxChange(e,row) {
+        if(e.target.checked) {
+            this.selectedDrives.push(row); 
+            this.createDrives = true;   
+        }else {
+            this.selectedDrives.splice(row.index,1);
+            if(this.selectedDrives.length == 0) {
+                this.createDrives = false;
+            }    
+        }
+    }
+    
+    copyDrivesFormSubmit() {
+        this.driveCategory = this.driveFormGroup.controls['driveCategory'].value;
+        this.drivesList = [];
+        this.allDrives = [];
+        this.dataSource = new MatTableDataSource(this.allDrives);
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVES_BASED_ON_CATEGORY+this.driveCategory.id).subscribe((data) => {
+          this.drivesList = data;
+            if(data) {
+                this.drivesExists = true;
+                for (var i = 0; i < this.drivesList.length; i++) {
+                    this.drivesList[i].sno = i+1;
+                    this.drivesList[i].index = i;
+                    this.drivesList[i].driveId.name = this.drivesList[i].driveId.name
+                    this.drivesList[i].newDriveName = this.drivesList[i].driveId.name+'_'+this.year
+                    this.allDrives.push(this.drivesList[i]);
+                }
+                this.dataSource = new MatTableDataSource(this.allDrives);
+            }
+          this.spinnerService.hide();
+        }, error => {
+          this.spinnerService.hide();
+        });
+    }
+    
+    getDriveCategoryData() {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
+          this.driveCategoryList = data;
+          this.spinnerService.hide();
+        }, error => {
+          this.spinnerService.hide();
+        });
+      }
+    
+    onGoBack(): void {
+        this.dialogRef.close();
+      }
+    
 }

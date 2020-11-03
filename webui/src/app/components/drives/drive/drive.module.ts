@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DrivesComponent } from './drives.component';
+import { DrivesComponent,CopyDrivesComponent } from './drives.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -49,7 +49,8 @@ const routes: Routes = [
         DrivesComponent,
         AddDriveComponent,
         AddDriveCategoryComponent,
-        AddDriveCategoryAssociationComponent,        
+        AddDriveCategoryAssociationComponent,
+        CopyDrivesComponent,       
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -70,6 +71,7 @@ const routes: Routes = [
     exports: [
         DrivesComponent,
     ],
+    entryComponents: [ CopyDrivesComponent ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DriveModule {

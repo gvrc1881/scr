@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.mapper.CommonMapper;
 import com.scr.mapper.DriveMapper;
+import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
@@ -31,7 +32,6 @@ import com.scr.model.ElectrificationTargets;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.InspectionType;
-import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
@@ -719,5 +719,24 @@ public class DrivesService {
 		       return driveList;
 		    
 		  }
+	 
+	public List<DriveCategoryAsso> findByDriveCategoryId(DriveCategory driveCategory) {
+		return driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+	}
+
+	public void saveDrives(CopyDrivesRequest copyDrivesRequest) {
+		List<Drives> drives = copyDrivesRequest.getDrives();
+		DriveCategory driveCategory = driveCategoryRepository.save(copyDrivesRequest.getDriveCategory());
+		for (Drives drive : drives) {
+			drive = driveRepository.save(drive);
+			DriveCategoryAsso DCAsso = new DriveCategoryAsso();
+			DCAsso.setDriveCategoryId(driveCategory);
+			DCAsso.setDriveId(drive);
+			DCAsso.setCreatedBy(drive.getCreatedBy());
+			DCAsso.setStatusId(Constants.ACTIVE_STATUS_ID);
+			driveCategoryAssoRepository.save(DCAsso);
+		}
+
+	}
 
 }

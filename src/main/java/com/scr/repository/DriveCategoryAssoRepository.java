@@ -29,5 +29,7 @@ public interface DriveCategoryAssoRepository extends JpaRepository<DriveCategory
 	
 
 	List<DriveCategoryAsso> getByDriveIdAndStatusId(Drives drives, int activeStatusId);
+	
+	List<DriveCategoryAsso> findByDriveCategoryId(DriveCategory driveCategory);
 
 }

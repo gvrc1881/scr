@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.ResponseStatus;
@@ -42,13 +43,11 @@ import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.InspectionType;
-import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.DriveCategoryAssoRepository;
-import com.scr.repository.DriveCategoryRepository;
 import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
@@ -1390,4 +1389,45 @@ public class DrivesController {
 		logger.info("driveList"+driveList.size());
 			return new ResponseEntity<List<Drives>>(driveList, HttpStatus.OK);		
 	}
+	
+	@RequestMapping(value = "/getDrivesBasedOnCategory/{categoryId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<DriveCategoryAsso>> getDrivesBasedOnCategory(@PathVariable("categoryId") Long categoryId) throws JSONException {
+		logger.info("Enter into getDrivesBasedOnCategory function");
+		Optional<DriveCategory> driveCategory = service.findDriveCategoryById(categoryId);
+		List<DriveCategoryAsso> driveCategoryAssoList = null;
+		try {			
+			if (driveCategory.isPresent()) {
+				driveCategoryAssoList = service.findByDriveCategoryId(driveCategory.get());
+			}
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		logger.info("Exit from getDrivesBasedOnCategory function");
+		return ResponseEntity.ok((driveCategoryAssoList));
+	}
+	
+	@PostMapping(value="/copyDrives")
+	@ResponseBody
+	public ResponseStatus copyDrives(@RequestBody CopyDrivesRequest copyDrivesRequest) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		
+		logger.info("*** drive category **"+copyDrivesRequest.getDriveCategory()+"*** drives size **"+copyDrivesRequest.getDrives().size());
+
+		try {			
+			logger.info("Calling service with request parameters.");
+			service.saveDrives(copyDrivesRequest);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("Drive Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding drive data. "+npe.getMessage());
+			return Helper.findResponseStatus("Drive Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding drive data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
 }

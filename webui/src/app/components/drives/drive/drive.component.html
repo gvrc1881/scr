@@ -288,6 +288,10 @@
                                     fusePerfectScrollbar>
                                     <div class="p-24" style="text-align: right" *ngIf="addPermission">
                                         <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                            (click)="copy()">
+                                            Copy
+                                        </button>&nbsp;
+                                        <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-drive-category-association']">
                                             Add Drive Category Asso
                                         </button>
