@@ -17,6 +17,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: []
 })
 export class DrivesComponent implements OnInit {
+  resp: any;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -198,10 +199,31 @@ export class DrivesComponent implements OnInit {
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
+        
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE.DELETE_DRIVE, id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE.DRIVE.DELETE_DRIVE, id).subscribe((data) => {
+          this.resp = data;
+        
+        if(this.resp.code === 200 ){
+
+          this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+            
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+         // this.commonService.showAlertMessage(this.resp.message);
+          //this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
+        }else{
+           this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
+            
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+         // this.commonService.showAlertMessage(this.resp.message);
+         // this.confirmDialogRef.componentInstance.confirmMessage=this.resp.message;
+        }
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Drive Successfully");
+         // this.commonService.showAlertMessage("Deleted Drive Successfully");
           this.getDrivesData();
         }, error => {
           console.log('ERROR >>>');

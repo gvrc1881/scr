@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.request.AssetScheduleActivityAssocRequest;
+import com.scr.message.request.AssetScheduleAssocRequest;
+import com.scr.message.request.MeasureOrActivityListRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.AssetScheduleAssoc;
@@ -106,7 +108,8 @@ public class AssetScheduleActivityAssocController {
 	
 
 	 @RequestMapping(value = "/findAllAssetSchActAssoc" , method = RequestMethod.GET , headers = "Accept=application/json")
-		public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc() throws JSONException {
+		public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc() 
+						throws JSONException {
 			 List<AssetScheduleActivityAssoc> assetAssocList = null;
 			 try {
 				   logger.info("Calling service for make data");	
@@ -123,7 +126,6 @@ public class AssetScheduleActivityAssocController {
 			 logger.info("Exit from AssetScheActivityAssoc function");
 		return assetAssocList;	
 	}
-	 
 	
 	/* @RequestMapping(value = "/findAllAssetSchActAssoc/{from}/{to}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<AssetScheduleActivityAssoc> findAllAssetSchActAssoc(@PathVariable("from") int from,@PathVariable("to") int to)  {

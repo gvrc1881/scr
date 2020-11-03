@@ -2,6 +2,7 @@ package com.scr.services;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.scr.mapper.AssetScheduleActivityAssocMapper;
 import com.scr.message.request.AssetScheduleActivityAssocRequest;
+import com.scr.message.request.AssetScheduleAssocRequest;
+import com.scr.message.request.MeasureOrActivityListRequest;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.repository.AssetScheduleActivityAssocRepository;
 import com.scr.util.Constants;
@@ -39,10 +42,10 @@ public class AssetScheduleActivityAssocService {
 		return pagedResult.getContent();
 	}*/
 
-	public List<AssetScheduleActivityAssoc> findAll() {
+	/*public List<AssetScheduleActivityAssoc> findAll() {
 		// TODO Auto-generated method stub
 		return assetSchActivityAssocRepository.findAll();
-	}
+	}*/
 
 	
 	public AssetScheduleActivityAssoc saveAssocData(@Valid AssetScheduleActivityAssocRequest assetScheduleActivityAssoc) throws Exception {
@@ -121,6 +124,19 @@ public class AssetScheduleActivityAssocService {
 	public void save(AssetScheduleActivityAssoc asaa) {
 		// TODO Auto-generated method stub
 		assetSchActivityAssocRepository.save(asaa);
+	}
+
+
+	public List<AssetScheduleActivityAssoc> findAll() {
+		logger.info("Calling mapper for preparing to get All Asset schedule activity assoc model object");
+		List<AssetScheduleActivityAssoc> asaa = new ArrayList<>();
+		List<AssetScheduleActivityAssoc> assetScheduleActivityAssocs = assetSchActivityAssocRepository.findAll();
+		for (AssetScheduleActivityAssoc assetScheduleActivityAssoc : assetScheduleActivityAssocs) {
+			assetScheduleActivityAssoc = assetSchActivityAssocDataMapper.prepareAssetSchActivityData(assetScheduleActivityAssoc);
+			asaa.add(assetScheduleActivityAssoc);
+		}
+		//AssetScheduleActivityAssoc assetschassocData = assetSchActivityAssocDataMapper.prepareAssetSchActivityData(assetScheduleActivityAssocRequest,assetSchassDataRequest,measuresDataRequest);
+		 return asaa;
 	}
 
 }

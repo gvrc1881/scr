@@ -171,23 +171,15 @@ public class DrivesController {
 			return Helper.findResponseStatus("Drive Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 		}
-		else if(drivecatassocList.size() == 1)
-		{
+		if(drivecatassocList.size() > 0 )
 			 result="This Drive is Associated with Drive Category Assoc";
-		}
-		else if(drivecheckList.size() == 1)
-		{
+		else if(drivecheckList.size() > 0 )
 			 result="This Drive is Associated with Drive Check list";
-		}
-		else if(drivetargetList.size() == 1)
-		{
+		else if(drivetargetList.size() > 0 )
 			 result="This Drive is Associated with Drive target list";
-		}
-		else if(driveprogressList.size() == 1)
-		{
+		else if(driveprogressList.size() > 0 )
 			 result="This Drive is Associated with Drive Daily Progress list";
-		}
-		return Helper.findResponseStatus("Drive have dependency ", Constants.FAILURE_CODE);	
+		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
 	}
 	
 	@RequestMapping(value = "/driveById/{id}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	

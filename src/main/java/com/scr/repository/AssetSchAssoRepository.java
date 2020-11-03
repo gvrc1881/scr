@@ -28,4 +28,6 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
     Optional<AssetScheduleAssoc>findByAssetTypeAndScheduleCode(String assetType,String scheduleCode);
     
     Optional<AssetScheduleAssoc> findByAsaSeqId(String asaSeqId);
+
+	
 }

@@ -160,7 +160,6 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
    
           //  getAllActivityAssocData(from: number, to: number)
         getAllActivityAssocData() {
-
           this.spinnerService.show();
             const assoc : AssetScheduleActivityAssocModel[] = [];     
            // this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. GET_ASSET_SCH_ACT_ASSOC+ '/' + from + '/' + to)   
@@ -169,16 +168,18 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
             this.ActivityAssocList = data;
             for (let i = 0; i < this.ActivityAssocList.length; i++) {
                 this.ActivityAssocList[i].sno = i+1;
-                      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_ASSETTYPE_SCHEDULE_CODE_BASED_ON_ID+this.ActivityAssocList[i].asaSeqId).subscribe((data) => {
-                     this.spinnerService.hide();
-                     this.resp = data;
-                     this.ActivityAssocList[i].asaSeqId = this.resp.assetType+'-'+ this.resp.scheduleCode;
-                   });
-                  this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID+this.ActivityAssocList[i].activityId).subscribe((data) => {
-                   this.spinnerService.hide();
-                    this.resp = data;
-                    this.ActivityAssocList[i].activityId = this.resp.activityName;
-                  });
+                  //     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_ASSETTYPE_SCHEDULE_CODE_BASED_ON_ID+this.ActivityAssocList[i].asaSeqId).subscribe((data) => {
+                  //    this.spinnerService.hide();
+                  //    this.resp = data;
+                  //    this.ActivityAssocList[i].asaSeqId = this.resp.assetType+'-'+ this.resp.scheduleCode;
+                  //  });
+                  // this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID+this.ActivityAssocList[i].activityId).subscribe((data) => {
+                  //  this.spinnerService.hide();
+                  //   this.resp = data;
+                  //   this.ActivityAssocList[i].activityId = this.resp.activityName;
+                  // });
+                  this.ActivityAssocList[i].activityId = this.ActivityAssocList[i].activityId;
+                  this.ActivityAssocList[i].asaSeqId = this.ActivityAssocList[i].asaSeqId; 
                 assoc.push(this.ActivityAssocList[i]);              
             }
             // this.assetSchActAssocDataSource = new MatTableDataSource(assoc);

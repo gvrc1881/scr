@@ -12,10 +12,14 @@ package com.scr.mapper;
 
 	import com.scr.model.AssetScheduleActivityAssoc;
 	import com.scr.model.AssetScheduleAssoc;
-	import com.scr.repository.AssetSchAssoRepository;
+import com.scr.model.CrsEigInspections;
+import com.scr.model.MeasureOrActivityList;
+import com.scr.repository.AssetSchAssoRepository;
 	import com.scr.repository.MeasureOrActivityListRepository;
 	import com.scr.util.Constants;
 	import com.scr.message.request.AssetScheduleActivityAssocRequest;
+import com.scr.message.request.AssetScheduleAssocRequest;
+import com.scr.message.request.MeasureOrActivityListRequest;
 
 	@Component
 	public class AssetScheduleActivityAssocMapper {
@@ -92,6 +96,87 @@ package com.scr.mapper;
 				
 			}
 			return assetSchActivityData;
+		}
+		
+		/*public AssetScheduleActivityAssoc prepareAssetSchActivityData(AssetScheduleActivityAssoc assetSchActivityAssData,
+				@Valid AssetScheduleActivityAssocRequest assetSchDataRequest, @Valid AssetScheduleAssocRequest assetSchassDataRequest, 
+				@Valid MeasureOrActivityListRequest measuresDataRequest) {
+
+			//Optional<AssetScheduleAssoc> asa = assetSchAssocRepository.findByAsaSeqId(assetSchassDataRequest.getAsaSeqId());
+			//Optional<MeasureOrActivityList> measure = measureOrActivityListRepository.findByActivityId(measuresDataRequest.getActivityId());
+			
+			
+
+				logger.info(assetSchDataRequest);		
+							
+				
+				assetSchassDataRequest.getAsaSeqId();
+				measuresDataRequest.getActivityId();
+				assetSchActivityAssData.getActivityPositionId();
+				assetSchActivityAssData.getMakeCode();
+				assetSchActivityAssData.getModelCode();
+				assetSchActivityAssData.getActivityFlag();
+				assetSchActivityAssData.getDisplayOrder();
+				assetSchActivityAssData.getLowerLimit();
+				assetSchActivityAssData.getUpperLimit();
+				assetSchActivityAssData.getDescription();
+				assetSchActivityAssData.getCreatedBy();
+				assetSchActivityAssData.getCreatedOn();
+				assetSchActivityAssData.getLastUpdatedStamp();
+				assetSchActivityAssData.getLastUpdatedTxStamp();
+				
+				return assetSchActivityAssData;
+
+				
+			
+			
+		}*/
+
+		/*public AssetScheduleActivityAssoc prepareAssetSchActivityData(
+				@Valid AssetScheduleActivityAssocRequest assetScheduleActivityAssocRequest,
+				@Valid AssetScheduleAssocRequest assetSchassDataRequest,
+				@Valid MeasureOrActivityListRequest measuresDataRequest) {
+
+			logger.info(assetScheduleActivityAssocRequest);		
+			AssetScheduleActivityAssoc assetScheduleActivityAssoc = new AssetScheduleActivityAssoc();
+			
+				//if(assetScheduleActivityAssoc != null)		
+			
+			//assetScheduleActivityAssoc.getAsaSeqId(assetSchassDataRequest.getAsaSeqId());
+			//assetScheduleActivityAssoc.getActivityId(measuresDataRequest.getActivityId());
+			assetScheduleActivityAssoc.getActivityPositionId();
+			assetScheduleActivityAssoc.getMakeCode();
+			assetScheduleActivityAssoc.getModelCode();
+			assetScheduleActivityAssoc.getActivityFlag();
+			assetScheduleActivityAssoc.getDisplayOrder();
+			assetScheduleActivityAssoc.getLowerLimit();
+			assetScheduleActivityAssoc.getUpperLimit();
+			assetScheduleActivityAssoc.getDescription();
+			assetScheduleActivityAssoc.getCreatedBy();
+			assetScheduleActivityAssoc.getCreatedOn();
+			assetScheduleActivityAssoc.getLastUpdatedStamp();
+			assetScheduleActivityAssoc.getLastUpdatedTxStamp();
+			
+			return assetScheduleActivityAssoc;
+		}*/
+
+		public AssetScheduleActivityAssoc prepareAssetSchActivityData(
+				AssetScheduleActivityAssoc assetScheduleActivityAssoc) {
+			// TODO Auto-generated method stub
+			if (assetScheduleActivityAssoc.getAsaSeqId() != null) {
+				Optional<AssetScheduleAssoc> asa =assetSchAssocRepository.findByAsaSeqId(assetScheduleActivityAssoc.getAsaSeqId());
+				if (asa.isPresent()) {
+					assetScheduleActivityAssoc.setAsaSeqId(asa.get().getAssetType()+"_"+asa.get().getScheduleCode());
+				}
+			}
+			if (assetScheduleActivityAssoc.getActivityId() != null ) {
+				Optional<MeasureOrActivityList> moal  = measureOrActivityListRepository.findByActivityId(assetScheduleActivityAssoc.getActivityId());
+				if (moal.isPresent()) {
+					assetScheduleActivityAssoc.setActivityId(moal.get().getActivityName());
+				}
+			}
+			
+			return assetScheduleActivityAssoc;
 		}
 
 	}
