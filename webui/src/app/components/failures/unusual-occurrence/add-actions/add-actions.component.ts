@@ -21,6 +21,8 @@ export class AddActionsComponent implements OnInit {
   relayIndicationList = [];
   natureOfCloseList = [];
   addActionsFailFromGroup: FormGroup;
+  currentDate = new Date();
+  resolveDate=new Date(); 
   pattern = "[a-zA-Z][a-zA-Z ]*";
   //actionsList = [{ 'id': 1, "value": 'Event' }, { 'id': 2, "value": 'Repurcussion' },
                // {'id': 3, "value": 'Work Done' }, { 'id': 4, "value": 'Damage' },
@@ -43,7 +45,7 @@ export class AddActionsComponent implements OnInit {
   trainNo:boolean=false;
   maxDate = new Date();
   minDate=new Date();
-  dateFormat = 'MM-dd-yyyy ';
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';
 
   constructor(
     private formBuilder: FormBuilder,    
@@ -207,9 +209,11 @@ export class AddActionsComponent implements OnInit {
 
   addEvent($event) {
     this.minDate = new Date($event.value);
+    this.currentDate=new Date($event.value);
   }
   addEventTargetDate($event) {
     this.minDate = new Date($event.value);
+    this.resolveDate=new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {
     if (this.addActionsFailFromGroup.invalid) {

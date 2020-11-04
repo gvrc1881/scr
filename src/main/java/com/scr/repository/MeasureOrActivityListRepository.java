@@ -26,5 +26,7 @@ public interface MeasureOrActivityListRepository extends JpaRepository<MeasureOr
 	Optional<MeasureOrActivityList> findByActivityName(String activityName);
 	
 	Optional<MeasureOrActivityList> findByActivityNameAndId(String activityName,String unitOfMeasure);
+	
+	Optional<MeasureOrActivityList> getByActivityType(String activityId);
 
 }

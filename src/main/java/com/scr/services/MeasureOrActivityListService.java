@@ -62,6 +62,11 @@ public class MeasureOrActivityListService {
 		// TODO Auto-generated method stub
 		return measureRepository.findByActivityNameAndId(activityName,unitOfMeasure);
 	}
+
+	public Optional<MeasureOrActivityList> findByActivityType(String activityId) {
+		// TODO Auto-generated method stub
+		 return measureRepository.getByActivityType(activityId);
+	}
 	
 
 }

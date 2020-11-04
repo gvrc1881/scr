@@ -29,5 +29,10 @@ public interface ChecklistRepository extends JpaRepository<DriveCheckList, Long>
 
 	List<DriveCheckList> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
 
+	Optional<DriveCheckList> findByDriveIdAndActivityId(Drives drives, MeasureOrActivityList measureOrActivityList);
+
+	Optional<DriveCheckList> findByDriveIdAndActivityPositionId(Drives drives, String activityPositionId);
+
+
 
 }

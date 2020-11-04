@@ -174,6 +174,7 @@ export const Constants = {
                 EXISTS_ACTIVITYNAME_UNITOFMEASURE_AND_ID:'/existsActivityNameAndUnitOfMeasureAndId/',
                 GET_ACTIVITY_TYPE:"/findActivityType",
                 GET_ACTIVITYNAME_BASED_ON_ACTIVITY_ID:"/getActivityNameBasedOnActivityId/",
+                GET_ACTIVITYTYPE_BASED_ON_ACTIVITY_ID:"/getActivityTypeBasedOnActivityId/"
 
             }
         },
@@ -391,7 +392,9 @@ export const Constants = {
                 UPDATE_CHECK_LIST:'/updateCheckList',
                 DELETE_CHECK_LIST_BY_ID:'/deleteCheckList/',
                 EXIST_DRIVE_ACTIVITYLIST:'/existsByDriveIdActivityId/',
-                EXIST_DRIVE_POSITION_ID:'/existByDriveIdPositionId/'
+                EXIST_DRIVE_POSITION_ID:'/existByDriveIdPositionId/',
+                EXIST_DRIVE_ACTIVITYLIST_AND_ID:'/existsByDriveIdActivityIdAndId/',
+                EXIST_DRIVE_POSITION_ID_AND_ID:'/existByDriveIdPositionIdAndId/'
             },
             ELECTRIFICATION_TARGETS:{
                 GET_ELECTRIFICATION_TARGETS:'/electrificationTargets',

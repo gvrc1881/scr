@@ -739,4 +739,15 @@ public class DrivesService {
 
 	}
 
+	public Optional<DriveCheckList> findByDriveIdAndActivityId(Drives drives,
+			MeasureOrActivityList measureOrActivityList) {
+		// TODO Auto-generated method stub
+		return checklistRepository.findByDriveIdAndActivityId(drives,measureOrActivityList);
+	}
+
+	public Optional<DriveCheckList> findByDriveIdAndActivityPositionId(Drives drives, String activityPositionId) {
+		// TODO Auto-generated method stub
+		return checklistRepository.findByDriveIdAndActivityPositionId(drives,activityPositionId);
+	}
+
 }

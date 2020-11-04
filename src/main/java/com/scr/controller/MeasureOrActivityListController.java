@@ -256,4 +256,23 @@ public ResponseEntity<MeasureOrActivityList> getAssetTypeAndScheduleCodeBasedOnS
 	}
 
 }
+
+@RequestMapping(value = "/getActivityTypeBasedOnActivityId/{activityId}", method = RequestMethod.GET, headers = "accept=application/json")
+public ResponseEntity<MeasureOrActivityList> getActivityTypeBasedOnActivityId(@PathVariable("activityId") String activityId) {
+	log.info("** Enter into getActivityTypeBasedOnActivityId function ***");
+	Optional<MeasureOrActivityList> measure = null;
+	try {
+		log.info("** activityId = " + activityId);
+		measure = measureService.findByActivityId(activityId);
+		if (measure.isPresent()) {
+			return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.OK);
+		} else
+			return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.CONFLICT);
+
+	} catch (Exception e) {
+		log.error("Error >>  while find measure Details by activityId, " + e.getMessage());
+		return new ResponseEntity<MeasureOrActivityList>(measure.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+}
 }

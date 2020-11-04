@@ -48,6 +48,7 @@
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                             [owlDateTimeTrigger]="dt3" placeholder="From Time"
+                                                            [value]="currentDate | dateFilter:dateFormat"
                                                             (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                             [formControl]="addActionsFailFromGroup.controls['fromTime']" >                                                                
                                                             <owl-date-time #dt3 [showSecondsTimer]=true
@@ -59,7 +60,8 @@
                                                 <div class="col-md-3" *ngIf="thruTime">
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                            [owlDateTimeTrigger]="dt2" placeholder="Thru Time" [min]="minDate"  [max]="maxDate"
+                                                            [owlDateTimeTrigger]="dt2" placeholder="Thru Time"
+                                                            [value]="resolveDate | dateFilter:dateFormat" [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
                                                             [formControl]="addActionsFailFromGroup.controls['thruTime']" >                                                                
                                                             <owl-date-time #dt2 [showSecondsTimer]=true
                                                                 ></owl-date-time>

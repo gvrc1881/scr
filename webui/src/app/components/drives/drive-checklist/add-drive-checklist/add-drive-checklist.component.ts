@@ -27,6 +27,8 @@ export class AddDriveChecklistComponent implements OnInit {
   activityTypeList:any;
   activityPositionList:any;
   activityType:any;
+  mesureList: any;
+  activityTypes=[{ id: 1, activityType: 'measurement' }, { id: 2, activityType: 'activity' }];
   
 
   checkListFormErrors: any;
@@ -54,21 +56,26 @@ export class AddDriveChecklistComponent implements OnInit {
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
     this.getDrivesData();
-    //this.findMeasureActivityList();
+    //this.findMeasureActivityListBasedOnActivityType(this.activityType);
     this.findYesNoStatus();
-    this.createCheckListForm();
+   
     this.findActivityPositionList();
     
-    this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
-      this.onFormValuesChanged();
-  });
-    if (!isNaN(this.id)) {     
+  
+    if (!isNaN(this.id)) {   
+      this.getCheckListData(this.id);
+      this.updateCheckListForm();    
+      this.addDriveChecklistFormGroup.valueChanges.subscribe(() => {
+        this.onFormValuesChanged();
+    });
+       
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
-      this.getCheckListData(this.id);
+      
     } else {
+      this.createCheckListForm();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
@@ -86,19 +93,29 @@ export class AddDriveChecklistComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_CHECKLIST_BY_ID +  id)
       .subscribe((resp) => {
         this.resp = resp;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.MEASURE_ACTIVITY.GET_ACTIVITYTYPE_BASED_ON_ACTIVITY_ID+this.resp.activityId['activityId']).subscribe((response) => {
+          this.mesureList = response;
+          console.log('** list ***'+this.mesureList.activityType);
+          if(this.mesureList) {
+            this.findMeasureActivityListBasedOnActivityType(this.mesureList.activityType);
+            this.addDriveChecklistFormGroup.patchValue({ activityType: this.mesureList.activityType })       	
+          }
+           
+ });
         this.addDriveChecklistFormGroup.patchValue({
           id: this.resp.id,
           drive: this.resp.driveId['id'],
-          activityType:this.resp.activityType,
+         // activityType:this.mesureList.activityType,
           measureActivityList: this.resp.activityId['activityId'],
           activityPositionId:this.resp.activityPositionId,
           displayOrder: this.resp.displayOrder,
           lowerLimit: this.resp.lowerLimit,
           upperLimit: this.resp.upperLimit,
           status: this.resp.active
-        });
+        }); 
         this.spinnerService.hide();
       })
+     
   }
 
   getDrivesData() {
@@ -125,9 +142,19 @@ export class AddDriveChecklistComponent implements OnInit {
   //     this.activityTypeList = resp;
   //     });
   // }
+
+  findMeasureActivityListBasedOnActivityType(activityType: string) { 
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE+activityType).subscribe((data) => {
+      this.measureActivityList = data;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
  
 
-  findMeasureActivityList() {    
+  findMeasureActivityList() { 
+    console.log(this.addDriveChecklistFormGroup.controls['activityType'].value);   
     this.activityType = this.addDriveChecklistFormGroup.controls['activityType'].value;   
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ACTIVITY_NAME_BASED_ON_ACTIVITY_TYPE+this.activityType).subscribe((data) => {
       this.measureActivityList = data;
@@ -150,7 +177,19 @@ export class AddDriveChecklistComponent implements OnInit {
       }
     }
   }
-
+  updateCheckListForm() {
+    this.addDriveChecklistFormGroup = this.formBuilder.group({
+      id: 0,
+      'drive': [null, Validators.compose([Validators.required])],
+      'activityType':[null],
+      'measureActivityList': [null, Validators.compose([Validators.required]),this.duplicateDriveActivityListAndId.bind(this)],
+      'activityPositionId':[null,Validators.compose([Validators.required]),this.duplicateDrivePositionIdAndId.bind(this)],
+      'displayOrder': [null],
+      'lowerLimit': [null],
+      'upperLimit': [null],
+      'status': ['Yes']
+    });
+  }
 
   createCheckListForm() {
     this.addDriveChecklistFormGroup = this.formBuilder.group({
@@ -268,6 +307,47 @@ export class AddDriveChecklistComponent implements OnInit {
           resolve(null);
         }
       }, () => { resolve({ 'duplicateDrivePositionId': true }); });
+    });
+    return q;
+  }
+  
+  duplicateDriveActivityListAndId() {
+    let id=this.id;
+    let driveId= this.addDriveChecklistFormGroup.controls['drive'].value;
+    let activityId = this.addDriveChecklistFormGroup.controls['measureActivityList'].value;
+    
+   const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.DRIVE.DRIVE_CHECK_LIST. EXIST_DRIVE_ACTIVITYLIST_AND_ID+id+'/'+driveId+'/'+activityId).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDriveActivityListAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDriveActivityListAndId': true }); });
+    });
+    return q;
+  }
+
+  duplicateDrivePositionIdAndId() {
+    let id=this.id;
+    let driveId= this.addDriveChecklistFormGroup.controls['drive'].value;
+    let activityPositionId = this.addDriveChecklistFormGroup.controls['activityPositionId'].value;   
+   
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.DRIVE.DRIVE_CHECK_LIST. EXIST_DRIVE_POSITION_ID_AND_ID+id+'/'+driveId+'/'+activityPositionId).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateDrivePositionIdAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateDrivePositionIdAndId': true }); });
     });
     return q;
   }

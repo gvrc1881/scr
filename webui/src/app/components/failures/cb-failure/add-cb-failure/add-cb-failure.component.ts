@@ -5,13 +5,16 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { DatePipe } from '@angular/common';
+import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { MY_CUSTOM_FORMATS } from 'src/app/common/date-filter.pipe';
 
 @Component({
   selector: 'app-add-cb-failure',
   templateUrl: './add-cb-failure.component.html',
   styleUrls: ['./add-cb-failure.component.css'],
 })
-export class AddCbFailureComponent implements OnInit {
+export class AddCbFailureComponent implements OnInit { 
 
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;

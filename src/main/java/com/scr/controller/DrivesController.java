@@ -1422,4 +1422,54 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/existsByDriveIdActivityIdAndId/{id}/{driveId}/{activityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsByDriveIdActivityIdAndId(@PathVariable("id") Long id,@PathVariable("driveId") Long driveId,@PathVariable("activityId") String activityId){
+		
+		logger.info("id=="+id+"driveId=="+driveId+"activityId=="+activityId);
+		Boolean result;
+		try {
+			Optional<DriveCheckList> checkListData = service.findByDriveIdAndActivityId(service.findDrivesById(driveId).get(),measureService.findByActivityId(activityId).get());
+			
+			if(checkListData.isPresent()) {
+				DriveCheckList checkData = checkListData.get();
+				logger.info("***id ***"+checkData.getId());
+				if (id.equals(checkData.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and driveId and activityId..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existByDriveIdPositionIdAndId/{id}/{driveId}/{activityPositionId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existByDriveIdPositionIdAndId(@PathVariable("id") Long id,@PathVariable("driveId") Long driveId,@PathVariable("activityPositionId") String activityPositionId){
+		
+		logger.info("id=="+id+"driveId=="+driveId+"activityPositionId=="+activityPositionId);
+		Boolean result;
+		try {
+			Optional<DriveCheckList> checkLstData = service.findByDriveIdAndActivityPositionId(service.findDrivesById(driveId).get(),activityPositionId);
+			
+			if(checkLstData.isPresent()) {
+				DriveCheckList cData = checkLstData.get();
+				logger.info("***id ***"+cData.getId());
+				if (id.equals(cData.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and driveId and activityPositionId..."+e.getMessage());
+			return false;
+		}
+	}
+	
 }

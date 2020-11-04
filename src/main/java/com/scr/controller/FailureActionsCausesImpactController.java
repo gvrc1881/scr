@@ -82,7 +82,7 @@ public class FailureActionsCausesImpactController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateActions", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/updateActions", method = RequestMethod.PUT, headers = "Accept=application/json")
 	public ResponseStatus updateActions(@RequestBody FailureActionsCausesImpact failureRequest) throws JSONException {	
 		
 		logger.info("Request Parameters = "+failureRequest.toString());

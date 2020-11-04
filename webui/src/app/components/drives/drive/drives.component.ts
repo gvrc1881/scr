@@ -134,8 +134,8 @@ export class DrivesComponent implements OnInit {
         this.drivesList[i].checkList = this.drivesList[i].checklist;
 
         this.drivesList[i].depoType = !!this.drivesList[i].depotType ? this.drivesList[i].depotType['code'] : '';
-        this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-        this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
+        this.drivesList[i].fromDate = this.datePipe.transform(this.drivesList[i].fromDate, 'dd-MM-yyyy ');
+        this.drivesList[i].toDate = this.datePipe.transform(this.drivesList[i].toDate, 'dd-MM-yyyy ');
         drive.push(this.drivesList[i]);
       }
 
@@ -155,8 +155,8 @@ export class DrivesComponent implements OnInit {
       for (let i = 0; i < this.driveCategoryList.length; i++) {
         this.driveCategoryList[i].sno = i + 1;
         this.driveCategoryList[i].name = this.driveCategoryList[i].driveCategoryName;
-        this.driveCategoryList[i].fromDate = this.datePipe.transform(this.driveCategoryList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-        this.driveCategoryList[i].toDate = this.datePipe.transform(this.driveCategoryList[i].toDate, 'dd-MM-yyyy hh:mm:ss');
+        this.driveCategoryList[i].fromDate = this.datePipe.transform(this.driveCategoryList[i].fromDate, 'dd-MM-yyyy ');
+        this.driveCategoryList[i].toDate = this.datePipe.transform(this.driveCategoryList[i].toDate, 'dd-MM-yyyy ');
         drive.push(this.driveCategoryList[i]);
       }
       this.driveCategoryDataSource = new MatTableDataSource(drive);
