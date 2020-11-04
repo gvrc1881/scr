@@ -73,7 +73,7 @@
                                         <div class="col-md-3">
                                             <mat-form-field>
                                                 <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                    [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.CHOOSE_DATE}}"
+                                                    [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.DATE}}"
                                                     [value]="currentDate | dateFilter:dateFormat"
                                                     (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['date']"
@@ -243,7 +243,7 @@
                                         <div class="col-md-3">
                                             <mat-form-field>
                                                 <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                    [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.CHOOSE_ACTION_TARGET_DATE}}"
+                                                    [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.ACTION_TARGET_DATE}}"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['actionTargetDate']"
                                                     (dateTimeChange)="addEventTargetDate($event)" [min]="toMinDate"
                                                     [value]="targetDate | dateFilter:dateFormat">
@@ -257,7 +257,7 @@
                                             <mat-form-field>
                                                 <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                     [owlDateTimeTrigger]="dt2"
-                                                    placeholder="{{FiledLabels.CHOOSE_ACTION_COMPLETED_DATE}}Choose Action Completed  Date" [min]="completeMinDate"
+                                                    placeholder="{{FiledLabels.ACTION_COMPLETED_DATE}}Choose Action Completed  Date" [min]="completeMinDate"
                                                     [value]="completeDate | dateFilter:dateFormat"
                                                     (dateTimeChange)="addEventCompleteDate($event)"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']">
