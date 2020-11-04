@@ -57,12 +57,12 @@
                                             <mat-cell *matCellDef="let row"> {{row.type}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="depot">
+                                        <ng-container matColumnDef="facilityId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>facility Name</span>
+                                                <span>Depot</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.depot}}</mat-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
                                         </ng-container>
                                         
                                         <ng-container matColumnDef="assetType">
@@ -156,9 +156,7 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>
                                     </mat-table>
-                                   
-                                    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageNo" [pageSizeOptions]="[10, 20, 30, 200]"
-                                    (page)="getServerData($event)"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
                                 </div>
                             </div>
                         </div>

@@ -236,9 +236,10 @@ export class AddAmdComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_ID + id)
     .subscribe((resp) => {
         this.resp = resp;
+        this.getFunctionalUnits(this.resp.type['code'] );
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
-        type: this.resp.type,
+        type: !!this.resp.type ? this.resp.type['id'] : '',          
         facilityId: this.resp.facilityId,
         adeeSection: this.resp.adeeSection,
         majorSection: this.resp.majorSection,
@@ -326,8 +327,11 @@ export class AddAmdComponent implements OnInit {
           
         });
         
+        if (this.resp.type != null) {
+          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.type['code']]);
+        }
         this.spinnerService.hide();
-      }, error => { })
+      })
   }
   
   onAddAmdFormSubmit() {

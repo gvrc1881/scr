@@ -2,19 +2,23 @@ package com.scr.mapper;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.scr.message.request.AssetMasterDataRequest;
 import com.scr.model.AssetMasterData;
+import com.scr.model.Facility;
+import com.scr.repository.FacilityRepository;
 
 @Component
 public class AssetMasterDataMapper {
 	
 	static Logger logger = LogManager.getLogger(AssetMasterDataMapper.class);
-
+	@Autowired
+	private FacilityRepository facilityRepository;
 	
 	public AssetMasterData prepareAssetMasterDataModel(@Valid AssetMasterDataRequest assetMasterDataRequest) throws Exception {
 		AssetMasterData assetMasterData = null;
@@ -97,17 +101,6 @@ public class AssetMasterDataMapper {
 			assetMasterData.setStagger3(assetMasterDataRequest.getStagger3());
 			assetMasterData.setStation(assetMasterDataRequest.getStation());
 			assetMasterData.setStay1InsulatorBatch(assetMasterDataRequest.getStay1InsulatorBatch());
-
-
-
-
-			
-			/*if (driveRequest.getDepotType() != null && !driveRequest.getDepotType().isEmpty()) {
-				//Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-				Optional<FunctionalLocationTypes> functional = functionLocationTypesRepository.findByCode(driveRequest.getDepotType());
-				drive.setDepotType(functional.get());
-			}*/
-
 			assetMasterData.setStay1InsulatorMake(assetMasterDataRequest.getStay1InsulatorMake());
 			assetMasterData.setStay2InsulatorBatch(assetMasterDataRequest.getStay2InsulatorBatch());
 			assetMasterData.setStay2InsulatorMake(assetMasterDataRequest.getStay2InsulatorMake());
@@ -209,11 +202,6 @@ public class AssetMasterDataMapper {
 			assetMasterData.setStagger3(assetMasterDataRequest.getStagger3());
 			assetMasterData.setStation(assetMasterDataRequest.getStation());
 			assetMasterData.setStay1InsulatorBatch(assetMasterDataRequest.getStay1InsulatorBatch());
-			/*if (driveRequest.getDepotType() != null && !driveRequest.getDepotType().isEmpty()) {
-				//Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
-				Optional<FunctionalLocationTypes> functional = functionLocationTypesRepository.findByCode(driveRequest.getDepotType());
-				drive.setDepotType(functional.get());
-			}*/
 			assetMasterData.setStay1InsulatorMake(assetMasterDataRequest.getStay1InsulatorMake());
 			assetMasterData.setStay2InsulatorBatch(assetMasterDataRequest.getStay2InsulatorBatch());
 			assetMasterData.setStay2InsulatorMake(assetMasterDataRequest.getStay2InsulatorMake());
@@ -227,6 +215,17 @@ public class AssetMasterDataMapper {
 			assetMasterData.setWarrantyAmc(assetMasterDataRequest.getWarrantyAmc());
 			assetMasterData.setWarrantyAmcEndDate(assetMasterDataRequest.getWarrantyAmcEndDate());
 		}
+		return assetMasterData;
+	}
+	public AssetMasterData prepareAssetMasterData(AssetMasterData assetMasterData) {
+		// TODO Auto-generated method stub
+		if (assetMasterData.getFacilityId() != null ) {
+			Optional<Facility> facility  = facilityRepository.findByFacilityId(assetMasterData.getFacilityId());
+			if (facility.isPresent()) {
+				assetMasterData.setFacilityId(facility.get().getFacilityName());
+			}
+		}
+		
 		return assetMasterData;
 	}
 

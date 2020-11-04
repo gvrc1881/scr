@@ -50,13 +50,32 @@ public class AssetMasterDataController {
 		return assetMasterItem;
 	}
 	
+	@RequestMapping(value = "/findAllAssetMasterDataItems" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<AssetMasterData> findAllAssetMasterDataItems() throws JSONException {
+		 List<AssetMasterData> assetMasterList = null;
+		 try {
+			   log.info("Calling service for assetMasterList data");	
+		
+			   assetMasterList = assetMasterDataService.findAll();
+		 log.info("Fetched AssetMaster data***"+assetMasterList.size());
+		return assetMasterList;
+	}catch (NullPointerException npe) {
+		log.error("ERROR >>> while fetching the  AssetMaster data = "+npe.getMessage());
+	}
+	catch (Exception e) {
+		log.error("ERROR >>> while fetching the AssetMaster data = "+e.getMessage());
+	}
+		 log.info("Exit from AssetMaster function");
+	return assetMasterList;	
+}
+	
 	@RequestMapping(value = "/addAssetMasterItem", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveAssetMasterItem(@Valid @RequestBody AssetMasterDataRequest assetMasterDataRequest) throws JSONException {	
 		log.info("Enter into saveAssetMasterItem function with below request parameters ");
 		log.info("Request Parameters = "+assetMasterDataRequest.toString());
 		try {			
 			log.info("Calling service with request parameters.");
-			assetMasterDataService.saveDriveData(assetMasterDataRequest);
+			assetMasterDataService.saveAssetMasterData(assetMasterDataRequest);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetMaster Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {

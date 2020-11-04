@@ -159,12 +159,16 @@ export class InspectionComponent implements OnInit {
                     this.observationList[i].sno = i+1;
                     observation.push(this.observationList[i]);              
                 }
-      this.observationDataSource = new MatTableDataSource(observation);
-      this.spinnerService.hide();
-    }, error => {
-      this.spinnerService.hide();
-    });
-  }
+                this.observationDataSource = new MatTableDataSource(observation);
+                
+                this.observationDataSource.paginator = this.observationPaginator;
+                console.log('*** page ***'+this.observationDataSource.paginator);
+                this.observationDataSource.sort = this.observationSort;
+                this.spinnerService.hide();
+              }, error => {
+                this.spinnerService.hide();
+              });
+            }
 
   getComplianceData() {
     const compliances : ComplianceModel[] = [];

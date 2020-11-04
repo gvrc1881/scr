@@ -25,7 +25,7 @@ export class AmdComponent implements OnInit {
     reportModel: ReportModel;
     pageSize: number;
     pageNo: number;
-  	displayedColumns =['sno', 'type', 'depot', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition' , 'kilometer', 'elementarySection', 'actions'];
+  	displayedColumns =['sno', 'type', 'facilityId', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition' , 'kilometer', 'elementarySection', 'actions'];
   	confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   	facilityData: any;
     dataSource: MatTableDataSource<AssetMasterDataModel>;
@@ -51,7 +51,7 @@ export class AmdComponent implements OnInit {
     this.pageSize = 10;
     this.pageNo = 0;
     this.reportModel = new ReportModel();
-    this.getAllAssetMasterData(0, 30);
+    this.getAllAssetMasterData();
     var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER", "OHE ASSET MASTER") ;
     this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -63,7 +63,7 @@ export class AmdComponent implements OnInit {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
         { "Key": 'type', "Value": " " },
-        { "Key": 'depot', "Value": " " },
+        { "Key": 'facilityId', "Value": " " },
         { "Key": 'assetType', "Value": " " },
         { "Key": 'assetId', "Value": "" },
         { "Key": 'adeeSection', "Value": " " },
@@ -100,26 +100,24 @@ export class AmdComponent implements OnInit {
         this.allFunctionalUnitsList = units;
       })
   }
-  getAllAssetMasterData(from: number, to: number) {
-    const assetMasterData: AssetMasterDataModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA + '/' + from + '/' + to).subscribe((data) => {
-      if (data.length != 0){
+  getAllAssetMasterData() {
+    this.spinnerService.show();
+    const assetMasterData: AssetMasterDataModel[] = [];  
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ALL_ASSET_MASTER_DATA ).subscribe((data) => {
       this.amdList = data;
       for (let i = 0; i < this.amdList.length; i++) {
-        this.amdList[i].sno = i + 1;
-        assetMasterData.push(this.amdList[i]);
-      }
+          this.amdList[i].sno = i+1;
+          this.amdList[i].facilityId = this.amdList[i].facilityId;
+          assetMasterData.push(this.amdList[i]);
+        }
       this.filterData.gridData = assetMasterData;
       this.dataSource = new MatTableDataSource(assetMasterData);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.commonService.updateDataSource(this.dataSource,this.displayedColumns);
       this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.spinnerService.hide();
-    }
-    }, error => {
-      this.spinnerService.hide();
-    });
+  } , error => {});
+
   }
   processEditAction(id) {
     this.router.navigate([id], { relativeTo: this.route });
@@ -137,7 +135,7 @@ export class AmdComponent implements OnInit {
         .subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Asset MasterData Successfully");
-          this.getAllAssetMasterData(0, 30);
+          this.getAllAssetMasterData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
@@ -171,13 +169,13 @@ export class AmdComponent implements OnInit {
       data: result,
     });
   }
-  getServerData($event) {
+  /*getServerData($event) {
     console.log($event);
     console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
     if (((parseInt($event.pageIndex) + 1) * parseInt($event.pageSize)) == $event.length) {
       this.getAllAssetMasterData($event.length + 1, $event.length + 30);
     }
-  }
+  }*/
 }
 
 

@@ -22,6 +22,7 @@ public class AssetMasterDataRequest {
 	private String end2Side2;
 	private Timestamp equippedDate;
 	private Timestamp expiryDate;
+	private String facilityName;
 	private String facilityId;
 	private String implantation;
 	private Double kilometer;
@@ -215,6 +216,13 @@ public class AssetMasterDataRequest {
 	}
 	public void setFacilityId(String facilityId) {
 		this.facilityId = facilityId;
+	}
+	
+	public String getFacilityName() {
+		return facilityName;
+	}
+	public void setFacilityName(String facilityName) {
+		this.facilityName = facilityName;
 	}
 	public String getImplantation() {
 		return implantation;

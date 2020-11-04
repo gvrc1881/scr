@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -38,12 +39,18 @@ public class AssetMasterDataService {
 		return pagedResult.getContent();
 	}
 
-	public void save(AssetMasterData assetMasterData) {
-		
-		assetMastersRepository.save(assetMasterData);
+	public List<AssetMasterData> findAll() {
+		logger.info("Calling mapper class for find All assetMaster Data");
+		List<AssetMasterData> assetMasterList = new ArrayList<>();
+		List<AssetMasterData> assetMasterDataList = assetMastersRepository.findAll();
+		for (AssetMasterData assetMasterData : assetMasterDataList) {
+			assetMasterData = assetMasterDataMapper.prepareAssetMasterData(assetMasterData);
+			assetMasterList.add(assetMasterData);
+		}
+		 return assetMasterList;
 	}
 	
-	public @Valid boolean saveDriveData(@Valid AssetMasterDataRequest assetMasterDataRequest) throws Exception {
+	public @Valid boolean saveAssetMasterData(@Valid AssetMasterDataRequest assetMasterDataRequest) throws Exception {
 		logger.info("Calling mapper for preparing the Asset Master model object");
 		AssetMasterData assetMasterData = assetMasterDataMapper.prepareAssetMasterDataModel(assetMasterDataRequest);
 		if (assetMasterData != null) {

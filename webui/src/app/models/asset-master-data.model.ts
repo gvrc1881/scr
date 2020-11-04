@@ -32,7 +32,7 @@ export interface AssetMasterDataModel {
     end2Side2:string,
     equippedDate:string,
     expiryDate:string,
-    facilityId:string,
+    facilityId:any,
     implantation:string,
     kilometer:string,
     line:string,

@@ -213,6 +213,7 @@ export const Constants = {
             },
             ASSETMASTERDATA:{
                 GET_ASSET_MASTER_DATA:"/findAllAssetMasterItems",
+                GET_ALL_ASSET_MASTER_DATA:"/findAllAssetMasterDataItems",
                 GET_ASSET_MASTER_DATA_ID:"/findAssetMasterItemById/",
                 SAVE_ASSET_MASTER_DATA:"/addAssetMasterItem",
                 UPDATE_ASSET_MASTER_DATA:"/updateAssetMasterData",

@@ -119,12 +119,12 @@ getObservationDetails(obsId:any){
           compliedDateTime:new Date(this.resp.compliedDateTime), 
           
         });
-        var commonId = !!this.resp.document && this.resp.document;
+        var commonId = !!this.resp.attachment && this.resp.document;
         this.spinnerService.hide();
         this.findAttachedFiles(commonId);
       })
   }
-
+  
   findAttachedFiles(commonId){
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + commonId)
     .subscribe((resp) => {
