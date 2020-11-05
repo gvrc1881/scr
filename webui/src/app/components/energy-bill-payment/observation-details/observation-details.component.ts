@@ -118,18 +118,27 @@ export class ObservationDetailsComponent implements OnInit {
   }
   
   observationDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Observation Successfully");
-      this.getObservationData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Observation Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+      
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.DELETE_OBSERVATION, id).subscribe(response => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted Observation Successfully");
+          this.getObservationData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Observation Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
-
   
   filesInfor: any;
   viewFilesDetails(id) {
@@ -146,7 +155,6 @@ export class ObservationDetailsComponent implements OnInit {
         data: this.filesInfor,
       });
     }, error => this.commonService.showAlertMessage(error));
-
 
   } 
   

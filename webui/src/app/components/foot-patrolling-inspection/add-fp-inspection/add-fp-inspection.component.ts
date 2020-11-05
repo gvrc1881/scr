@@ -147,7 +147,7 @@ export class AddFpInspectionComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveFpInspecModel = {
-        "seqId":this.fpInspectionItemFormGroup.value.id,
+        "seqId":this.fpInspectionItemFormGroup.value.seqId,
         "facilityId": this.fpInspectionItemFormGroup.value.facilityId,
         "inspectionType": this.fpInspectionItemFormGroup.value.inspectionType,
         "section": this.fpInspectionItemFormGroup.value.section,

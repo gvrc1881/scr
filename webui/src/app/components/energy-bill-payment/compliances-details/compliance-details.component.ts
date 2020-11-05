@@ -107,16 +107,26 @@ export class ComplianceDetailsComponent implements OnInit {
     this.router.navigate([id], { relativeTo: this.route });
   }
   complianceDelete(id) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted compliance Successfully");
-      this.getComplianceData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("compliance Deletion Failed.");
-    })
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+      
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.spinnerService.show();
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.DAILY_SUMMARY.COMPLIANCES.DELETE_COMPLIANCE, id).subscribe(response => {
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Deleted compliance Successfully");
+          this.getComplianceData();
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("compliance Deletion Failed.");
+        })
+      }
+      this.confirmDialogRef = null;
+    });
   }
   filesInfor: any;
   complianceFilesDetails(id) {

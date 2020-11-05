@@ -109,7 +109,7 @@ export class AddObservationDetailsComponent implements OnInit {
           observationCategory: this.resp.observationCategory,
           observationItem: this.resp.observationItem,
           description: this.resp.description,
-          actionRequired: this.resp.actionRequired,
+          actionRequired:this.resp.actionRequired == 'true' ? true: false,
         });
         var commonId = !!this.resp.attachment && this.resp.attachment;
         this.spinnerService.hide();
@@ -172,7 +172,7 @@ export class AddObservationDetailsComponent implements OnInit {
         observationCategory: this.addObservationFormGroup.value.observationCategory,
         observationItem: this.addObservationFormGroup.value.observationItem,
         description: this.addObservationFormGroup.value.description,
-        actionRequired: this.addObservationFormGroup.value.actionRequired,
+        'actionRequired': this.addObservationFormGroup.value.actionRequired == true ? 'true' : 'false', 
         "createdBy": this.loggedUserData.id,
       }
       let formdata: FormData = new FormData();
@@ -208,7 +208,7 @@ export class AddObservationDetailsComponent implements OnInit {
         observationCategory: this.addObservationFormGroup.value.observationCategory,
         observationItem: this.addObservationFormGroup.value.observationItem,
         description: this.addObservationFormGroup.value.description,
-        actionRequired: this.addObservationFormGroup.value.actionRequired,
+        'actionRequired': this.addObservationFormGroup.value.actionRequired == true ? 'true' : 'false', 
         attachment: this.resp.attachment,
         "updatedBy": this.loggedUserData.id,
       }
