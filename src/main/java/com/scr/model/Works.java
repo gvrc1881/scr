@@ -76,18 +76,44 @@ public class Works implements Serializable {
 
 	@Column(name = "year_of_sanction")
 	private Integer yearOfSanction;
-	
+
 	@Column(name = "created_by")
 	private String createdBy;
-	
+
 	@Column(name = "updated_by")
 	private String updatedBy;
-	
+
 	@Column(name = "created_on")
 	private Timestamp createdOn;
-	
+
 	@Column(name = "updated_on")
 	private Timestamp updatedOn;
+
+	@Column(name = "loa_no")
+	private String loaNo;
+
+	@Column(name = "loa_date")
+	@Temporal(TemporalType.DATE)
+	private Date loaDate;
+
+	@Column(name = "start_km")
+	private Double startKm;
+
+	@Column(name = "end_km")
+	private Double endKm;
+
+	@Column(name = "tender_value")
+	private Double tenderValue;
+
+	@Column(name = "commencement_date")
+	@Temporal(TemporalType.DATE)
+	private Date commencementDate;
+
+	@Column(name = "expected_completion")
+	@Temporal(TemporalType.DATE)
+	private Date expectedCompletion;
+
+	private String lineType;
 
 	public Works() {
 	}
@@ -292,6 +318,70 @@ public class Works implements Serializable {
 		this.tkm = tkm;
 	}
 
+	public String getLoaNo() {
+		return loaNo;
+	}
+
+	public void setLoaNo(String loaNo) {
+		this.loaNo = loaNo;
+	}
+
+	public Date getLoaDate() {
+		return loaDate;
+	}
+
+	public void setLoaDate(Date loaDate) {
+		this.loaDate = loaDate;
+	}
+
+	public Double getStartKm() {
+		return startKm;
+	}
+
+	public void setStartKm(Double startKm) {
+		this.startKm = startKm;
+	}
+
+	public Double getEndKm() {
+		return endKm;
+	}
+
+	public void setEndKm(Double endKm) {
+		this.endKm = endKm;
+	}
+
+	public Double getTenderValue() {
+		return tenderValue;
+	}
+
+	public void setTenderValue(Double tenderValue) {
+		this.tenderValue = tenderValue;
+	}
+
+	public Date getCommencementDate() {
+		return commencementDate;
+	}
+
+	public void setCommencementDate(Date commencementDate) {
+		this.commencementDate = commencementDate;
+	}
+
+	public Date getExpectedCompletion() {
+		return expectedCompletion;
+	}
+
+	public void setExpectedCompletion(Date expectedCompletion) {
+		this.expectedCompletion = expectedCompletion;
+	}
+
+	public String getLineType() {
+		return lineType;
+	}
+
+	public void setLineType(String lineType) {
+		this.lineType = lineType;
+	}
+
 	@Override
 	public String toString() {
 		return "Works [id=" + id + ", allocation=" + allocation + ", division=" + division + ", estdLatestAnticCost="
@@ -302,9 +392,10 @@ public class Works implements Serializable {
 				+ ", reWorks=" + reWorks + ", rkm=" + rkm + ", sanctionCost=" + sanctionCost + ", section=" + section
 				+ ", statusRemarks=" + statusRemarks + ", targetDateOfCompletion=" + targetDateOfCompletion + ", tkm="
 				+ tkm + ", workName=" + workName + ", yearOfSanction=" + yearOfSanction + ", createdBy=" + createdBy
-				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", loaNo="
+				+ loaNo + ", loaDate=" + loaDate + ", startKm=" + startKm + ", endKm=" + endKm + ", tenderValue="
+				+ tenderValue + ", commencementDate=" + commencementDate + ", expectedCompletion=" + expectedCompletion
+				+ ", lineType=" + lineType + "]";
 	}
-	
-	
 
 }
