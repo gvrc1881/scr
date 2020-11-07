@@ -8,6 +8,8 @@ import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import{ProductModel} from 'src/app/models/product.model'
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'product',
@@ -15,7 +17,8 @@ import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog
   styleUrls: []
 })
 export class ProductComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 	addPermission: boolean = true;
   	editPermission: boolean = true;
     deletePermission: boolean = true;
@@ -122,11 +125,17 @@ export class ProductComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Product Data',
-      'dataSource':[{label:'Product Id',value:data.productId},{label:'Rly Id',value:data.rlyId},{label:'Pl No',value:data.plNo},
-                    {label:'Quantity UomId', value:data.quantityUomId},{label:'Material Classification', value:data.materialClassification},
-                    {label:'Product Type Id',value:data.productTypeId},
-                    {label:'Primary Product Category Id',value:data.primaryProductCategoryId}]
+      'title':this.Titles.PRODUCT_DATA,
+      'dataSource':[
+                  
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId },
+                    { label:FieldLabelsConstant.LABELS.RLY_ID, value:data.rlyId },
+                    { label:FieldLabelsConstant.LABELS.PL_NO, value:data.plNo },
+                    { label:FieldLabelsConstant.LABELS.QUANTITY_UOM_ID, value:data.quantityUomId },
+                    { label:FieldLabelsConstant.LABELS.MATERIAL_CLASSIFICATION, value:data.materialClassification },
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_TYPE_ID, value:data.productTypeId },
+                    { label:FieldLabelsConstant.LABELS.PRIMARY_PRODUCT_CATEGORY_ID, value:data.primaryProductCategoryId }                  
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

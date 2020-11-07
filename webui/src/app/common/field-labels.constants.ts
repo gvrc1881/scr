@@ -375,5 +375,11 @@ export const FieldLabelsConstant = {
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
      FAILURE:'Failure',
+     MODEL:"Model",
+     MAKE:"Make",
+     PRODUCT_DATA:'Product_Data',
+     PRODUCT_CATEGORY_DATA:'Product Category_Data',
+     PRODUCT_CATEGORY_FORM:'Product Category Form',
+     PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form'
    }
 };

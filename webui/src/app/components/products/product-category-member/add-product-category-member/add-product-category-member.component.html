@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}}Product Category Member Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.PRODUCT_CATEGORY_MEMBER_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -31,7 +31,7 @@
                                                 <div class="col-md-12">
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Product Category Id"
+                                                            <mat-select placeholder="{{FiledLabels.PRODUCT_CATEGORY_ID}}"
     
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['productCategoryId']">
                                                                 <mat-option *ngFor="let productCategoryData of productCategoryData"
@@ -46,7 +46,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Product Id"
+                                                            <mat-select placeholder="{{FiledLabels.PRODUCT_ID}}"
     
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['productId']">
                                                                 <mat-option *ngFor="let productData of productData"
@@ -63,7 +63,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose From Date" [max]="today"
+                                                                placeholder="{{FiledLabels.FROM_DATE}}" [max]="today"
                                                                 (dateChange)="addEvent($event)" 
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['fromDate']" required>
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -75,7 +75,7 @@
                                                        <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose To Date"
+                                                                placeholder="{{FiledLabels.TO_DATE}}"
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['thruDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
@@ -86,14 +86,14 @@
                                                    
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Quantity" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.QUANTITY}}" decimalNumber
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['quantity']">
                                                         </mat-form-field>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Comments"
+                                                            <textarea matInput placeholder="{{FiledLabels.COMMENTS}}"
                                                                 [formControl]="addProductCategoryMemberFormGroup.controls['comments']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>

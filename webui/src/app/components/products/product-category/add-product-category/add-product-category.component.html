@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}}Product Category Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.PRODUCT_CATEGORY_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Product CategoryId"
+                                                            <textarea matInput placeholder="{{FiledLabels.PRODUCT_CATEGORY_ID}}"
                                                                 [formControl]="addProductCategoryFormGroup.controls['productCategoryId']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -55,7 +55,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Category Name"
+                                                            <textarea matInput placeholder="{{FiledLabels.CATEGORY_NAME}}"
                                                                 [formControl]="addProductCategoryFormGroup.controls['categoryName']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -78,7 +78,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Product Category Type Id"
+                                                            <mat-select placeholder="{{FiledLabels.PRODUCT_CATEGORY_TYPE_ID}}"
     
                                                                 [formControl]="addProductCategoryFormGroup.controls['productCategoryTypeId']">
                                                                 <mat-option *ngFor="let productCateTypeData of productCateTypeData"
@@ -90,7 +90,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Primary Parent CategoryId"
+                                                            <mat-select placeholder="{{FiledLabels.PRIMARY_PARENT_CATEGORY_ID}}"
     
                                                                 [formControl]="addProductCategoryFormGroup.controls['primaryParentCategoryId']">
                                                                 <mat-option *ngFor="let productData of productCateData"
@@ -104,7 +104,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Description"
+                                                            <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}"
                                                                 [formControl]="addProductCategoryFormGroup.controls['description']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>

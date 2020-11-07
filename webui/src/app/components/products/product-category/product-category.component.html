@@ -42,7 +42,7 @@
 
                                         <ng-container matColumnDef="sno">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Sl No</span>
+                                                <span>{{FiledLabels.S NO}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -50,7 +50,7 @@
 
                                         <ng-container matColumnDef="productCategoryId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Product Category Id</span>
+                                                <span>{{FiledLabels.PRODUCT_CATEGORY_ID}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.productCategoryId}}</mat-cell>
@@ -58,7 +58,7 @@
 
                                         <ng-container matColumnDef="categoryName">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Category Name</span>
+                                                <span>{{FiledLabels.CATEGORY_NAME}}Category Name</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.categoryName}}</mat-cell>
@@ -66,7 +66,7 @@
 
                                         <ng-container matColumnDef="productCategoryTypeId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Product Category TypeId</span>
+                                                <span>{{FiledLabels.PRODUCT_CATEGORY_TYPE_ID}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.productCategoryTypeId}}</mat-cell>
@@ -74,7 +74,7 @@
 
                                         <ng-container matColumnDef="primaryParentCategoryId">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Primary Parent CategoryId</span>
+                                                <span>{{FiledLabels.PRIMARY_PARENT_CATEGORY_ID}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.primaryParentCategoryId}}</mat-cell>

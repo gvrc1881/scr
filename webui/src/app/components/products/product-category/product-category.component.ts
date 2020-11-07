@@ -8,14 +8,15 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
-
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.component.html',
   styleUrls: []
 })
 export class ProductCategoryComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -121,9 +122,16 @@ export class ProductCategoryComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Product Category Data',
-      'dataSource':[{label:'Product Category Id',value:data.productCategoryId},{label:'Category Name',value:data.categoryName},
-                    {label:'Product Category TypeId', value:data.productCategoryTypeId},{label:'Primary Parent CategoryId', value:data.primaryParentCategoryId}]
+      'title':this.Titles.PRODUCT_CATEGORY_DATA,
+      'dataSource':[
+                  
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_ID, value:data.productCategoryId },
+                    { label:FieldLabelsConstant.LABELS.CATEGORY_NAME, value:data.categoryName },
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_TYPE_ID, value:data.productCategoryTypeId },
+                    { label:FieldLabelsConstant.LABELS.PRIMARY_PARENT_CATEGORY_ID, value:data.primaryParentCategoryId }
+                    
+                  
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

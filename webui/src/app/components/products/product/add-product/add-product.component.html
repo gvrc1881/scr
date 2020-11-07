@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Product Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.PRODUCT_DATA}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Product  Id"
+                                                            <input matInput placeholder="{{FiledLabels.PRODUCT_ID}}"
                                                                 [formControl]="addProductFormGroup.controls['productId']"
                                                                 required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                             <mat-error
@@ -50,7 +50,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Rly Id"
+                                                            <input matInput placeholder="{{FiledLabels.RLY_ID}}"
                                                                 [formControl]="addProductFormGroup.controls['rlyId']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
@@ -66,7 +66,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Pl No"
+                                                            <input matInput placeholder="{{FiledLabels.PL_NO}}"
                                                                 [formControl]="addProductFormGroup.controls['plNo']"
                                                                  pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                             <mat-error
@@ -82,7 +82,7 @@
                                                      <!-- DESCRIPTION -->
                                                  <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <textarea matInput placeholder="Description"
+                                                        <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}"
                                                             [formControl]="addProductFormGroup.controls['description']"
                                                             required 
                                                             pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -98,7 +98,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <textarea matInput placeholder="Quantity Uom Id"
+                                                        <textarea matInput placeholder="{{FiledLabels.QUANTITY_UOM_ID}}"
                                                             [formControl]="addProductFormGroup.controls['quantityUomId']"
                                                             required 
                                                             pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -114,7 +114,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <input matInput placeholder="Material Classification"
+                                                        <input matInput placeholder="{{FiledLabels.MATERIAL_CLASSIFICATION}}"
                                                             [formControl]="addProductFormGroup.controls['materialClassification']"
                                                              pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                         <mat-error
@@ -129,7 +129,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <input matInput placeholder="Product Type Id"
+                                                        <input matInput placeholder="{{FiledLabels.PRODUCT_TYPE_ID}}"
                                                             [formControl]="addProductFormGroup.controls['productTypeId']"
                                                             required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                         <mat-error
@@ -147,7 +147,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <input matInput placeholder="Primary Product CategoryId"
+                                                        <input matInput placeholder="{{FiledLabels.PRIMARY_PRODUCT_CATEGORY_ID}}"
                                                             [formControl]="addProductFormGroup.controls['primaryProductCategoryId']"
                                                              pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
                                                         <mat-error

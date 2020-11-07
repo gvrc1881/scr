@@ -31,14 +31,14 @@
   fxLayoutAlign="start" [formGroup]="modelFormGroup" fxFlex="1 0 auto"
   (ngSubmit)="modelSubmit();">
   <div class="panel panel-primary">
-    <div class="panel-heading">{{title}} model</div>
+    <div class="panel-heading">{{title}} {{Titles.MODEL}}</div>
     <div class="panel-body">
         <div class="col-md-12">
         
         
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Model Code" [formControl]="modelFormGroup.controls['modelCode']" required
+                    <input matInput placeholder="{{FiledLabels.MODEL_CODE}}" [formControl]="modelFormGroup.controls['modelCode']" required
                     oninput="this.value = this.value.toUpperCase()"/>
         
                        <mat-error
@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Description" [formControl]="modelFormGroup.controls['description']"/>
+                    <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="modelFormGroup.controls['description']"/>
                     <mat-error
                     *ngIf="modelFormGroup.controls['description'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Brand Name" [formControl]="modelFormGroup.controls['brandName']"/>
+                    <input matInput placeholder="{{FiledLabels.BRAND_NAME}}" [formControl]="modelFormGroup.controls['brandName']"/>
                     <mat-error
                     *ngIf="modelFormGroup.controls['brandName'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -83,7 +83,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Model Type" [formControl]="modelFormGroup.controls['modelType']" />
+                    <input matInput placeholder="{{FiledLabels.MODEL_TYPE}}" [formControl]="modelFormGroup.controls['modelType']" />
                     <mat-error
                     *ngIf="modelFormGroup.controls['modelType'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -122,27 +122,27 @@
   <div class="mat-elevation-z8">
   <mat-table [dataSource]="modelDataSource" matSort>
     <ng-container matColumnDef="sno">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}.</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="modelCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>model Code</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MODEL_CODE}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.modelCode}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.description}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="brandName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>brand Name</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.BRAND_NAME}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.brandName}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="modelType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>model Type</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MODEL_TYPE}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.modelType}}</mat-cell>
     </ng-container>

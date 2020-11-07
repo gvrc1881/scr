@@ -9,6 +9,7 @@ import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-product-category-member',
@@ -16,7 +17,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: []
 })
 export class ProductCategoryMemberComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -126,9 +128,15 @@ export class ProductCategoryMemberComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Product Category Data',
-      'dataSource':[{label:'Product CategoryId',value:data.productCategoryId},{label:'Product Id',value:data.productId},
-                    {label:'Quantity', value:data.quantity},{label:'From Date', value:data.fromDate},{label:'Thru Date', value:data.thruDate},]
+      'title':this.Titles.PRODUCT_CATEGORY_DATA,
+      'dataSource':[                                 
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_ID, value:data.productCategoryId },
+                    { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId },
+                    { label:FieldLabelsConstant.LABELS.QUANTITY, value:data.quantity },
+                    { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
+                    { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.toDate },
+                    
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

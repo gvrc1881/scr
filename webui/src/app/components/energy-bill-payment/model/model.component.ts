@@ -10,6 +10,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class ModelComponent implements OnInit{
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
@@ -322,9 +325,13 @@ export class ModelComponent implements OnInit{
      
       ViewData(data){
         var result = {
-          'title':'Model',
-          'dataSource':[{label:'modelCode',value:data.modelCode},{label:'description',value:data.description},
-          {label:'brandName',value:data.brandName},{label:'modelType',value:data.modelType}]
+          'title':this.Titles.MODEL,
+          'dataSource':[        
+            { label:FieldLabelsConstant.LABELS.MODEL_CODE, value:data.modelCode },
+            { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+            { label:FieldLabelsConstant.LABELS.BRAND_NAME, value:data.brandName },
+            { label:FieldLabelsConstant.LABELS.MODEL_TYPE, value:data.modelType }       
+        ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,
