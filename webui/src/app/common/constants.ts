@@ -544,7 +544,8 @@ export const Constants = {
             DELETE:'/deleteDriveDailyProgress/',
             SAVE_DRIVE_DAILY_PROGRESS_RECORD:'/saveDriveDailyProgressRecord',
             GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE:'/getDDProgressBasedOnDirveAndFromDate/',
-            GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE: '/getAlreadyDoneCountBasedOnDiveAndFromDate/'
+            GET_ALREADY_DONE_COUNT_BASED_ON_DRIVE_FROM_DATE: '/getAlreadyDoneCountBasedOnDiveAndFromDate/',
+            GET_DDPROGRESS_DATA_BASED_ON_DRIVE:'/getDDProgressDataBasedOnDrive/'
         },
         DRIVE_PROGRESS_ID:{
             SAVE:'/saveDriveProgressId',

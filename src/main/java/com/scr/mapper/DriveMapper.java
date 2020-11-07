@@ -655,11 +655,12 @@ public class DriveMapper {
 	}
 
 	public DriveProgressId prepareDriveProgressIdModel(String assetId, DriveDailyProgress driveDailyProgress,
-			String createdBy) {
+			String createdBy, Timestamp createdOn) {
 		DriveProgressId driveProgressId = new DriveProgressId();
 		driveProgressId.setAssetId(assetId);
 		driveProgressId.setDriveDailyProgressId(driveDailyProgress);
 		driveProgressId.setCreatedBy(createdBy);
+		driveProgressId.setCreatedOn(createdOn);
 		return driveProgressId;
 	}
 	

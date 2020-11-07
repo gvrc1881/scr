@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -1278,15 +1279,14 @@ public class DrivesController {
 	public ResponseStatus saveDriveProgressId(
 			@RequestParam("assetIds") List<String> assetIds,
 			@RequestParam("driveDailyProgressId") Long driveProgressid,
-			@RequestParam("createdBy") String createdBy) {
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("createdOn") String createdOn) {
 		ResponseStatus responseStatus = new ResponseStatus();
 		
 		logger.info("*** drive Id**"+driveProgressid+"*** created by **"+createdBy);
-		for (String assetId : assetIds) {
-			logger.info("*** asset id ***"+assetId);
-		}
+		
 		try {
-			service.saveDriveProgressId(assetIds,driveProgressid,createdBy);
+			service.saveDriveProgressId(assetIds,driveProgressid,createdBy,Helper.convertStringToTimestamp(createdOn));
 			return Helper.findResponseStatus("success fully saved ", Constants.SUCCESS_CODE);			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1314,6 +1314,16 @@ public class DrivesController {
 	public ResponseStatus deleteDriveProgressId(@PathVariable("id") Long id) throws JSONException {
 		logger.info("Enter into deleteDriveProgressId function with id*** "+id);
 		try {
+			Optional<DriveProgressId> driveProgressId = service.findByDriveProgressId(id);
+			 if (driveProgressId.isPresent()) {
+				DriveProgressId DProgressId = driveProgressId.get();
+				Optional<DriveDailyProgress> DDP = service.findById(DProgressId.getDriveDailyProgressId().getId());
+				if (DDP.isPresent()) {
+					DriveDailyProgress driveDailyProgress = DDP.get();
+					driveDailyProgress.setPerformedCount(driveDailyProgress.getPerformedCount() - 1);
+					service.saveDriveDailyProgress(driveDailyProgress);
+				}
+			}
 			 service.deleteDriveProgressId(id);
 	       	return Helper.findResponseStatus("Drive Progress Id Deleted Successfully", Constants.SUCCESS_CODE);
 		} catch (NullPointerException e) {
@@ -1333,7 +1343,7 @@ public class DrivesController {
 		Optional<Drives> drive = service.findDriveById(driveId);
 		try {
 			if (drive.isPresent()) {
-				DDProgress = service.findByDriveIdAndPerformedDateLessThanEqual(drive.get(),fromDate);
+				DDProgress = service.findByDriveIdAndPerformedDateLessThan(drive.get(),fromDate);
 			}
 			for (DriveDailyProgress driveDailyProgress : DDProgress) {
 				alreadyDoneCount = alreadyDoneCount+driveDailyProgress.getPerformedCount();
@@ -1470,6 +1480,32 @@ public class DrivesController {
 			logger.error("Error while checking exists id and driveId and activityPositionId..."+e.getMessage());
 			return false;
 		}
+	}
+	
+	@RequestMapping(value = "/getDDProgressDataBasedOnDrive/{driveId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<DriveDailyProgress> getDDProgressDataBasedOnDrive(@PathVariable("driveId") Long driveId) {
+		logger.info("Enter into getDDProgressDataBasedOnDrive function");
+		List<DriveDailyProgress> DDProgress = new ArrayList<DriveDailyProgress>();
+		Optional<Drives> drive = service.findDriveById(driveId);
+		try {
+			if (drive.isPresent()) {
+				List<DriveDailyProgress> dDailyProgresses = service.findByDriveId(drive.get());
+				for (DriveDailyProgress driveDailyProgress : dDailyProgresses) {
+					if (driveDailyProgress.getDepot() != null) {
+						Optional<Facility> facility = facilityService.findByFacilityId(driveDailyProgress.getDepot());
+
+						if (facility.isPresent()) {
+							driveDailyProgress.setDepot(facility.get().getFacilityName());
+						}
+					}
+					DDProgress.add(driveDailyProgress);
+				}
+			}
+			return DDProgress;
+		} catch (Exception e) {
+			logger.error("Error while find Drive Daily Progress Details by id");
+		}
+		return DDProgress;
 	}
 	
 }

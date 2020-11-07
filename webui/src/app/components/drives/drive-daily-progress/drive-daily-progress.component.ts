@@ -11,6 +11,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DriveDailyProgressModel } from 'src/app/models/drive.model';
 import { DriveModel } from 'src/app/models/drive.model';
 import { DriveProgressIdModel } from 'src/app/models/drive.model';
+import { DatePipe } from '@angular/common';
+import { ViewDriveDailyProgressComponent } from './view-drive-daily-progress/view-drive-daily-progress.component';
 
 @Component({
   selector: 'drive-daily-progress',
@@ -24,7 +26,7 @@ export class DriveDailyProgressComponent implements OnInit {
     dailyProgressDate: any;
     depotType: any;
     dataSource: MatTableDataSource<DriveModel>;
-    displayedColumns = ['sno', 'drive','alreadyDone','assetType','performedCount','ids', 'actions']; //,'depot'
+    displayedColumns = ['sno', 'drive','description','assetType','alreadyDone','performedCount','ids', 'actions']; //,'depot'
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
     drivesList: any;
@@ -34,6 +36,7 @@ export class DriveDailyProgressComponent implements OnInit {
     depotsList: any = JSON.parse(localStorage.getItem('depotData'));
     facilityId: any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    driveDailyProgressDialogRef:MatDialogRef<ViewDriveDailyProgressComponent>;
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -72,13 +75,9 @@ export class DriveDailyProgressComponent implements OnInit {
         this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
             this.spinnerService.hide();
             this.resp = response;
-            if (this.resp.code == Constants.CODES.SUCCESS) {
-            this.commonService.showAlertMessage("Drive Daily Progress Data "+message+" Successfully");
-            //this.router.navigate(['../'], { relativeTo: this.route });
-            }else{
-              this.commonService.showAlertMessage("Drive Daily Progress Data "+failedMessage+" Failed.");
+            if(this.resp) {
+				this.commonService.showAlertMessage("Drive Daily Progress Data Saved Successfully");            
             }
-            
           });  
     }
     
@@ -147,6 +146,19 @@ export class DriveDailyProgressComponent implements OnInit {
         });
     }
     
+    viewDialog(driveId) {
+    	this.spinnerService.show();    
+	    this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_DATA_BASED_ON_DRIVE + driveId).subscribe((response) => {     
+	      this.spinnerService.hide(); 
+	       this.driveDailyProgressDialogRef = this.dialog.open(ViewDriveDailyProgressComponent, {
+	        disableClose: false,
+	        height: '600px',
+	        width: '80%',       
+	        data:response,       
+	      });            
+	    }, error => this.commonService.showAlertMessage(error));
+    }
+    
 }
 
 @Component({
@@ -170,10 +182,14 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     DDProgress: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     performedCount: any;
-    enableSubmit: boolean;
     depotType: any;
     hideFields: boolean;
     assetType: any;
+    driveData: any;
+    driveName: any;
+    fromDate: any;
+    toDate: any;
+    enableSubmit: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -182,7 +198,9 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     private dialog: MatDialog,
     private commonService: CommonService,
     private dialogRef: MatDialogRef<AddAssetIdsDriveDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
+    ) {
       
       if(data) {
           this.facilityId = data.facilityId;
@@ -212,6 +230,13 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         }else {
             this.hideFields = true;    
         }
+        this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+this.driveId)
+	    .subscribe((resp) => {
+	        this.driveData = resp;
+	        this.driveName = this.driveData.name;
+	        this.fromDate = this.datePipe.transform(this.driveData.fromDate,'dd-MM-yyyy hh:mm:ss');
+	        this.toDate = this.datePipe.transform(this.driveData.toDate,'dd-MM-yyyy hh:mm:ss');
+	    });
     }
     
     getDriveProgressIdData() {
@@ -235,19 +260,23 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
                                             }
                                           this.dataSource = new MatTableDataSource(driveProgressId);
                                           });
-                          }
+                          }else {
+             				this.performedCount = 0;
+ 				          }
                       });    
     }
     
     addAssetIdsFormSubmit() {
         this.enableSubmit = false;
         this.assetIdsExists = false;
+        this.performedCount = this.performedCount + this.selectedAssetIdList.length;
         let saveDriveDailyProgress = {
             id: 0,
             driveId: this.driveId,
             performedDate: this.performedDate,
             depot: this.facilityId,
             createdBy : this.loggedUserData.username,
+            performedCount: this.performedCount
         }
         this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
             this.spinnerService.hide();
@@ -260,6 +289,7 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
                     formdata.append('assetIds', this.selectedAssetIdList[i]);
                 }
                 formdata.append('createdBy', this.loggedUserData.username);
+                formdata.append('createdOn', new Date().toLocaleDateString());
                 formdata.append('driveDailyProgressId',this.DDProgressId);
                 this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE_PROGRESS_ID.SAVE, formdata, true).subscribe(data => {
                         this.spinnerService.hide();
@@ -277,10 +307,10 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     }
     
     addAssetIds() {
-        this.enableSubmit = true;
         let assetIds = this.dailyProgressIdFormGroup.value.assetId;
         if (assetIds) {
              this.assetIdsExists = true;
+             this.enableSubmit = true;
             for (var i = 0; i < assetIds.length; i++) {
                 this.selectedAssetIdList.push(assetIds[i]);
             }
@@ -288,6 +318,7 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         let manualEnteredData = this.dailyProgressIdFormGroup.value.manual;
         if(manualEnteredData) {
             this.assetIdsExists = true;
+            this.enableSubmit = true;
             let manualArray = manualEnteredData.split(";");
             for (var i = 0 ; i < manualArray.length; i++) {
                 if(manualArray[i]) {
@@ -305,6 +336,7 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         this.selectedAssetIdList.splice(id, 1);
         if(this.selectedAssetIdList.length === 0) {
             this.assetIdsExists = false;
+            this.enableSubmit = false;
         }
     }
     

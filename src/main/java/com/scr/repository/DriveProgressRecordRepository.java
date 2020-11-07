@@ -17,12 +17,14 @@ public interface DriveProgressRecordRepository extends JpaRepository<DriveDailyP
 
 	List<DriveDailyProgress> findByStatusId(Integer statusId);
 
-	Optional<DriveDailyProgress> findByDriveId(Drives driveId);
+	//Optional<DriveDailyProgress> findByDriveId(Drives driveId);
 
 	Optional<DriveDailyProgress> findByDriveIdAndPerformedDate(Drives drives, Date fromDate);
 
-	List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanEqual(Drives drives, Date fromDate);
+	List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThan(Drives drives, Date fromDate);
 
 	List<DriveDailyProgress> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
+	
+	List<DriveDailyProgress> findByDriveId(Drives driveId);
 
 }

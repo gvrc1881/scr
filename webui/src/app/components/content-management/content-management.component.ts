@@ -229,7 +229,7 @@ export class ContentManagementComponent implements OnInit {
             if(result){
                 this.sendAndGetService.requestForDELETE(Constants.app_urls.DOCS.DELETE_DOCS,id).subscribe(data => {
                     this.spinnerService.hide();
-                    this.commonService.showAlertMessage("Files Uploaded and Deleted Successfully");
+                    this.commonService.showAlertMessage("Deleted Successfully");
                     this.selectedFiles = [];
                     this.filesExists = false;
                     this.showButton = false;

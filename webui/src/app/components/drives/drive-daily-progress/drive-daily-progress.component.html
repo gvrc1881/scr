@@ -70,18 +70,40 @@
                                 <div class="clear"> </div>
                                  <div class="mat-elevation-z8">
                                         <mat-table [dataSource]="dataSource" matSort>
-                                            <ng-container matColumnDef="sno">
+                                            <ng-container matColumnDef="sno" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                        </ng-container>
-	
+											
 	                                        <ng-container matColumnDef="drive">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> 
-	                                            	<mat-form-field fxFlex="30">
+	                                            <mat-cell *matCellDef="let row">
+	                                            		{{row.name}}
+	                                            	<!-- <mat-form-field fxFlex="10">
 														<input matInput  [value]="row.name" 
 												                 [(ngModel)]="row.name" readonly>
-												    </mat-form-field>
+												    </mat-form-field> -->
+	                                            </mat-cell>
+	                                        </ng-container>
+	                                        <ng-container matColumnDef="description">
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row">
+	                                            		{{row.description}}
+	                                            	<!-- <mat-form-field fxFlex="10">
+														<input matInput  [value]="row.name" 
+												                 [(ngModel)]="row.name" readonly>
+												    </mat-form-field> -->
+	                                            </mat-cell>
+	                                        </ng-container>
+	                                        
+	                                        <ng-container matColumnDef="assetType">
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</mat-header-cell>
+	                                            <mat-cell *matCellDef="let row">
+	                                            	{{row.assetType}}
+	                                            	<!-- <mat-form-field floatLabel="never">
+														<input matInput  [value]="row.assetType" 
+												                 [(ngModel)]="row.assetType" readonly>
+												    </mat-form-field> -->
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        
@@ -95,35 +117,25 @@
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        
-	                                        <ng-container matColumnDef="assetType">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row">
-	                                            	<mat-form-field floatLabel="never">
-														<input matInput  [value]="row.assetType" 
-												                 [(ngModel)]="row.assetType" readonly>
-												    </mat-form-field>
-	                                            </mat-cell>
-	                                        </ng-container>
-	                                        
 	                                        <ng-container matColumnDef="performedCount">
 	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
 	                                        	<ng-container *matCellDef="let row" >
-	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock">
+	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else idReqElseBlock">
 	                                        		<mat-form-field fxFlex="30">
 														<input matInput placeholder="Count" [value]="row.performedCount" 
 												                 [(ngModel)]="row.performedCount" readonly>
 												    </mat-form-field>
 	                                        	<!-- <input matInput   decimalNumber [(ngModel)]="row.performedCount" /> -->
 	                                        	</mat-cell>
-	                                        	</ng-container>
-	                                        	<ng-template #isIdRequiredElseBlock>
-	                                            	<mat-cell  *matCellDef="let row">
+	                                        	<ng-template #idReqElseBlock>
+	                                            	<mat-cell>
 		                                        		<mat-form-field fxFlex="30">
 															<input matInput placeholder="Count" [value]="row.performedCount" 
 													                 [(ngModel)]="row.performedCount" >
 													    </mat-form-field>
 		                                        	</mat-cell>
 	                                            </ng-template>
+	                                            </ng-container>
 	                                        </ng-container>
 	                                        
 	                                        <!-- depots List -->
@@ -147,66 +159,52 @@
 	                                            <ng-container *matCellDef="let row" >
 	                                            	<!-- <mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock" style="cursor: pointer;text-decoration: underline;font-weight: 600;color: #014884;"
 	                                            	  [routerLink]="['/divisions/'+row.operationId+'/'+row.jobType]" > {{row.isIdRequired}}</mat-cell> -->
-	                                            	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock">
+	                                            	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else idRequiredElseBlock">
 	                                            		<button mat-raised-button (click)="assetIdsDialog(row)">assetId</button>
 	                                            	</mat-cell>
-	                                            </ng-container>
-	                                            <ng-template #isIdRequiredElseBlock>
+	                                            <ng-template #idRequiredElseBlock>
 	                                            	<mat-cell></mat-cell>
 	                                            </ng-template>
+	                                            </ng-container>
 	                                        </ng-container>
-	<!-- 
-	                                        <ng-container matColumnDef="actionDone">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Action Done</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.performedDate | date :  "yyyy-MM-dd hh:mm:ss"}}</mat-cell>
-	                                        </ng-container> -->
-	
-	                                        <!-- <ng-container matColumnDef="division">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Division
+	                                        <!-- <ng-container matColumnDef="details">
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header style="max-width:70px">
+	                                                Details
 	                                            </mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.division}}</mat-cell>
-	                                        </ng-container>
-	                                       
-	                                        <ng-container matColumnDef="depot">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.depot}}</mat-cell>
-	                                        </ng-container>
-	
-	                                        <ng-container matColumnDef="section">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
-	                                        </ng-container> -->
-	<!-- 
-	                                        <ng-container matColumnDef="performedCount">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.performedCount}}</mat-cell>
-	                                        </ng-container> -->
-	
-	                                        <!-- <ng-container matColumnDef="supervisor">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.supervisor}}</mat-cell>
-	                                        </ng-container>
-	
-	                                        <ng-container matColumnDef="driveId">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
-	                                            <mat-cell *matCellDef="let row"> {{row.driveId}}</mat-cell>
+	                                            <mat-cell *matCellDef="let row">
+		                                             <a mat-icon-button matTooltip="View" > 
+	                                                    <button mat-icon-button matTooltip="View"
+	                                                        (click)="viewDialog(row.id)">
+	                                                        <mat-icon style="color: rgb(0, 145, 234);">details</mat-icon>
+	                                                    </button>
+	                                                </a>
+                                                </mat-cell>
 	                                        </ng-container> -->
 	                                        <ng-container matColumnDef="actions">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
-	                                             <mat-cell *matCellDef="let row">
-	                                                <a mat-icon-button matTooltip="Save" >
-	                                                    <button mat-icon-button matTooltip="Save"
-	                                                        (click)="processSaveAction(row)">
-	                                                        <mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
-	                                                    </button>
-	                                                </a>
-	                                               
-	                                                <!-- <button mat-icon-button matTooltip="Delete"
-	                                                    (click)="delete(row.id)"
-	                                                   *ngIf="deletePermission">
-	                                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-	                                                </button> -->
-	                                            </mat-cell> 
+	                                            	<ng-container *matCellDef="let row">
+	                                            		<mat-cell *ngIf = "row.isIdRequired =='Yes' ; else idRequiredElseBlock">
+			                                                    <button mat-icon-button matTooltip="Details"
+			                                                        (click)="viewDialog(row.id)">
+			                                                        <mat-icon style="color: rgb(0, 145, 234);">view_list</mat-icon>
+			                                                    </button>
+			                                            </mat-cell>
+			                                            <ng-template #idRequiredElseBlock>
+			                                            	<!-- <a mat-icon-button matTooltip="View" > -->  
+			                                                    <button mat-icon-button matTooltip="Details"
+			                                                        (click)="viewDialog(row.id)">
+			                                                        <mat-icon style="color: rgb(0, 145, 234);">view_list</mat-icon>
+			                                                    </button>
+			                                               <!--  </a> -->
+			                                                <a mat-icon-button matTooltip="Save" >
+			                                                    <button mat-icon-button matTooltip="Save"
+			                                                        (click)="processSaveAction(row)">
+			                                                        <mat-icon style="color: rgb(0, 145, 234);">save</mat-icon>
+			                                                    </button>
+			                                                </a>
+			                                            </ng-template>		
+	                                            	</ng-container>
+	                                              
 	                                        </ng-container>
 	                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                        <mat-row *matRowDef="let row; columns: displayedColumns;">

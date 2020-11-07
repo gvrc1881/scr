@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -685,12 +686,12 @@ public class DrivesService {
 		return driveProgressRecordRepository.findByDriveIdAndPerformedDate(drives,fromDate);
 	}
 
-	public void saveDriveProgressId(List<String> assetIds, Long driveProgressId, String createdBy) {
+	public void saveDriveProgressId(List<String> assetIds, Long driveProgressId, String createdBy, Timestamp createdOn) {
 		// TODO Auto-generated method stub
 		Optional<DriveDailyProgress> existsDriveDailyProgress = driveProgressRecordRepository.findById(driveProgressId);
 		
 		for (String assetId : assetIds) {
-			DriveProgressId drProgressId = driveMapper.prepareDriveProgressIdModel(assetId,existsDriveDailyProgress.get(),createdBy);
+			DriveProgressId drProgressId = driveMapper.prepareDriveProgressIdModel(assetId,existsDriveDailyProgress.get(),createdBy,createdOn);
 			driveProgressIdRepository.save(drProgressId);
 		}
 		
@@ -705,8 +706,8 @@ public class DrivesService {
 		driveProgressIdRepository.deleteById(id);
 	}
 
-	public List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThanEqual(Drives drives, Date fromDate) {
-		return driveProgressRecordRepository.findByDriveIdAndPerformedDateLessThanEqual(drives,fromDate);
+	public List<DriveDailyProgress> findByDriveIdAndPerformedDateLessThan(Drives drives, Date fromDate) {
+		return driveProgressRecordRepository.findByDriveIdAndPerformedDateLessThan(drives,fromDate);
 	}
 
 	public Optional<DriveCategoryAsso> findByDriveIdAndDriveCategoryId(Drives driveId, DriveCategory driveCategoryId) {
@@ -748,6 +749,22 @@ public class DrivesService {
 	public Optional<DriveCheckList> findByDriveIdAndActivityPositionId(Drives drives, String activityPositionId) {
 		// TODO Auto-generated method stub
 		return checklistRepository.findByDriveIdAndActivityPositionId(drives,activityPositionId);
+	}
+	
+	public List<DriveDailyProgress> findByDriveId(Drives drive) {
+		return driveProgressRecordRepository.findByDriveId(drive);
+	}
+
+	public Optional<DriveProgressId> findByDriveProgressId(Long id) {
+		return driveProgressIdRepository.findById(id);
+	}
+
+	public Optional<DriveDailyProgress> findById(Long id) {
+		return driveProgressRecordRepository.findById(id);
+	}
+
+	public void saveDriveDailyProgress(DriveDailyProgress driveDailyProgress) {
+		driveProgressRecordRepository.save(driveDailyProgress);
 	}
 
 }

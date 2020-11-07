@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
+import { ViewDriveDailyProgressComponent } from './view-drive-daily-progress/view-drive-daily-progress.component';
 
 const routes: Routes = [ 
     {
@@ -18,7 +19,8 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         DriveDailyProgressComponent,
-        AddAssetIdsDriveDialogComponent
+        AddAssetIdsDriveDialogComponent,
+        ViewDriveDailyProgressComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -36,7 +38,7 @@ const routes: Routes = [
     exports:[
         DriveDailyProgressComponent
     ],
-    entryComponents: [ AddAssetIdsDriveDialogComponent ],
+    entryComponents: [ AddAssetIdsDriveDialogComponent,ViewDriveDailyProgressComponent ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DriveDailyProgressModule {

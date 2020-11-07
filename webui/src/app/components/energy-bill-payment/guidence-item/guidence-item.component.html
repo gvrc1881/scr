@@ -206,15 +206,15 @@
 					                              </table>
 					                            </div>
 						                      <button *ngIf="uploadFile" class="mat-raised-button mat-accent" color="accent" class="d-inline"
-							                        mat-raised-button="" type="submit">
+							                        mat-raised-button="" [disabled]="contentManagementFormGroup.invalid" type="submit">
 							                        Submit
-							                    </button>
+							                    </button>&nbsp;&nbsp;
 							                    <div class="p-12 d-inline">
-	                                                                    <span class="mat-raised-button mat-warn" (click)="close()" color="warn"
-	                                                                      mat-raised-button="">
-	                                                                      Close
-	                                                                    </span>
-	                                                                  </div>      
+	                                            	<span class="mat-raised-button mat-warn" (click)="close()" color="warn"
+	                                                	mat-raised-button="">
+	                                                    Close
+	                                                </span>
+	                                            </div>      
 						                    </form>      
 										</div> 
                                     <div class="example-header">
@@ -239,17 +239,42 @@
                                             <ng-container matColumnDef="date">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                      {{row.date | date}}</mat-cell>
+                                                      {{row.date }}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="heading">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Heading</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.heading}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="letterNo">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Letter No</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.letterNo}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="reportContinue">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Report Continue</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.reportContinue}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="status">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.status}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="detailsOfIssue">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Details Of Issue</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.detailsOfIssue}}</mat-cell>
                                             </ng-container>
-                                           <ng-container matColumnDef="heading">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Heading</mat-header-cell>
+                                            <ng-container matColumnDef="reponse">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Reponse</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                  {{row.heading}}</mat-cell>
+                                                  {{row.reponse}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="shortDescription">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Short Description</mat-header-cell>
+                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                                                  {{row.shortDescription}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="closedRemark">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Closed Remark</mat-header-cell>
@@ -261,11 +286,6 @@
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.letterNo}} </mat-cell>
                                             </ng-container> -->
-                                            <ng-container matColumnDef="status">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                  {{row.status}} </mat-cell>
-                                            </ng-container>
                                             <ng-container matColumnDef="id">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">

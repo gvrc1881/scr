@@ -8,6 +8,7 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'guidence-item',
@@ -24,7 +25,7 @@ export class GuidenceItemComponent implements OnInit{
     guidenceItemFormGroup: FormGroup;
     guidenceItemList : any;
     guidenceItemDataSource: MatTableDataSource<GuidenceItemModel>;
-    guidenceItemDisplayColumns = ['sno' , 'agencyRbRdso' , 'date' , 'detailsOfIssue' , 'heading' , 'closedRemark' , 'status' , 'id' ] ;
+    guidenceItemDisplayColumns = ['sno' , 'agencyRbRdso' , 'date' , 'heading' , 'letterNo' , 'reportContinue'  , 'status'  ,    'detailsOfIssue' , 'reponse' , 'shortDescription' , 'closedRemark' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editguidenceItemResponse: any;
@@ -47,7 +48,8 @@ export class GuidenceItemComponent implements OnInit{
         private formBuilder: FormBuilder,
         private dialog: MatDialog,
         private spinnerService: Ng4LoadingSpinnerService,
-        private sendAndRequestService:SendAndRequestService
+        private sendAndRequestService:SendAndRequestService,
+        private datePipe: DatePipe
 
     ){
 
@@ -82,10 +84,10 @@ export class GuidenceItemComponent implements OnInit{
     	this.addPermission = false;
     	this.guidenceItemId = id;
     	this.contentManagementFormGroup = this.formBuilder.group({
-            contentCategory: ['', Validators.required],
+            contentCategory: [''],
             description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
             uploadFiles: ['', Validators.required],
-            contentTopic: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            contentTopic: [''],
         });
     }
     
@@ -143,6 +145,7 @@ export class GuidenceItemComponent implements OnInit{
         this.selectedFiles.splice(id, 1);
         if(this.selectedFiles.length === 0) {
         	this.filesExists = false;
+            this.contentManagementFormGroup.reset();
         }
     }
     
@@ -174,6 +177,7 @@ export class GuidenceItemComponent implements OnInit{
             this.guidenceItemList = data;
             for (let i = 0; i < this.guidenceItemList.length; i++) {
                 this.guidenceItemList[i].sno = i+1;
+                this.guidenceItemList[i].date = this.datePipe.transform(this.guidenceItemList[i].date, 'dd-MM-yyyy');
                 guidenceItem.push(this.guidenceItemList[i]);              
             }
             this.guidenceItemDataSource = new MatTableDataSource(guidenceItem);
@@ -238,7 +242,8 @@ export class GuidenceItemComponent implements OnInit{
                 'response' : response,
                 'shortDescription' : shortDescription,
                 'status' : status,
-                'closedRemark' : closedRemark
+                'closedRemark' : closedRemark,
+                'contentLink': this.editguidenceItemResponse.contentLink
             }
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.UPDATE_GUIDENCE_ITEM,updateguidenceItemModel, false).subscribe(data => {
             	this.guidenceItemResponse = data
