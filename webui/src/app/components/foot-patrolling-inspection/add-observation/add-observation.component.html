@@ -35,8 +35,8 @@
                                             <div class="col-md-3">Inspection Type:{{inspList.inspectionType}}</div>
                                             <div class="col-md-3">Section:{{inspList.section}}</div>
                                             <div class="col-md-3">Inspection By:{{inspList.inspectionBy}}</div>
-                                            <div class="col-md-3">Start Time:{{inspList.startTime}}</div>
-                                            <div class="col-md-3">Stop Time:{{inspList.stopTime}}</div>
+                                            <div class="col-md-3">Start Time:{{inspList.startTime | date:'dd-MM-yyyy hh:mm'}}</div>
+                                            <div class="col-md-3">Stop Time:{{inspList.stopTime | date:'dd-MM-yyyy hh:mm'}}</div>
                                                 
                                                 	<div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

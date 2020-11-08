@@ -877,7 +877,28 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           },
         ]
       },
+      {
+        ID: 14,
+        menuName: 'TPC',
+        menuUrl: 'Tpc Board',
+        icon: "fa fa-file",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('TPC', 'menu', 'view'),
+        currentTab: !!path && path.includes("Tpc Board")  ? "open" : "",
+        subMenus: [
+          {
+            subMenuName: "TPC BOARD",
+            subMenuURL: "Tpc Board",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('TPC BOARD', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("Tpc Board") ? "active-item" : "",
+          },
+        
 
+        ]
+      },
     ];
     localStorage.setItem("MenusList", this.MenusList);
   }

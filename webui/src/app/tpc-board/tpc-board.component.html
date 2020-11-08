@@ -1,0 +1,58 @@
+<div class="content">
+	<div class="">
+		<div class="col-12">
+			<div class="breadcrumb-section">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li> 
+                          <li class="breadcrumb-item active" aria-current="page">TPC Board</li>
+                </ol>
+            </nav>
+          </div>
+      </div>
+        <div class="clear"></div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">TPC Board Information</div>
+                    <div class="panel-body">
+                            <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                                <div class="p-24">
+                                    <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                       
+                                        <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"  fxLayout="column"
+                                                fxLayoutAlign="start" [formGroup]="tpcBoardFormGroup" fxFlex="1 0 auto">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <mat-form-field fxFlex="30">
+                                                                    <mat-select placeholder="Select Tpc Board" [formControl]="tpcBoardFormGroup.controls['tpcBoard']" (selectionChange)="getFacilityList()">
+                                                                        <mat-option *ngFor="let tpcBoard of tpcBoardData"
+                                                                            [value]="tpcBoard.tpcBoard">
+                                                                            {{ tpcBoard.tpcBoard}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                         </div>
+                                                            
+                                                                <div class="p-12 d-inline">
+                                                                    <span class="mat-raised-button mat-warn" (click)="onGoBack()" color="warn"
+                                                                      mat-raised-button="">
+                                                                      Back
+                                                                    </span>
+                                                                  </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        </form>
+                                    </div>
+                                   
+                                   
+                                   
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>      

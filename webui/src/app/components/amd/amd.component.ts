@@ -51,7 +51,7 @@ export class AmdComponent implements OnInit {
     this.pageSize = 10;
     this.pageNo = 0;
     this.reportModel = new ReportModel();
-    this.getAllAssetMasterData();
+    this.getAllAssetMasterData(0, 30);
     var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER", "OHE ASSET MASTER") ;
     this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -100,10 +100,10 @@ export class AmdComponent implements OnInit {
         this.allFunctionalUnitsList = units;
       })
   }
-  getAllAssetMasterData() {
+  getAllAssetMasterData(from: number, to: number) {
     this.spinnerService.show();
     const assetMasterData: AssetMasterDataModel[] = [];  
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ALL_ASSET_MASTER_DATA ).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA + '/' + from + '/' + to).subscribe((data) => {
       this.amdList = data;
       for (let i = 0; i < this.amdList.length; i++) {
           this.amdList[i].sno = i+1;
@@ -135,7 +135,7 @@ export class AmdComponent implements OnInit {
         .subscribe(data => {
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Deleted Asset MasterData Successfully");
-          this.getAllAssetMasterData();
+          this.getAllAssetMasterData(0, 30);
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
@@ -169,13 +169,13 @@ export class AmdComponent implements OnInit {
       data: result,
     });
   }
-  /*getServerData($event) {
+  getServerData($event) {
     console.log($event);
     console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
     if (((parseInt($event.pageIndex) + 1) * parseInt($event.pageSize)) == $event.length) {
       this.getAllAssetMasterData($event.length + 1, $event.length + 30);
     }
-  }*/
+  }
 }
 
 

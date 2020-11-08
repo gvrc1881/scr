@@ -103,12 +103,20 @@ export class AddObservationDetailsComponent implements OnInit {
   getObservationDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID+id).subscribe((resp) => {
         this.resp = resp;
+        if(this.resp.observationCategory) {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE +this.resp.observationCategory).subscribe(response => {
+             this.spinnerService.hide();
+             this.observationItemData = response;
+           })
+       }
         this.addObservationFormGroup.patchValue({
           id: this.resp.id,
           location: this.resp.location,
           observationCategory: this.resp.observationCategory,
           observationItem: this.resp.observationItem,
           description: this.resp.description,
+          severity:this.resp.severity,
+          priority:this.resp.priority,
           actionRequired:this.resp.actionRequired == 'true' ? true: false,
         });
         var commonId = !!this.resp.attachment && this.resp.attachment;

@@ -429,6 +429,11 @@ const routes: Routes = [
     loadChildren: './components/assets-schedule/assets-schedule.module#AssetsScheduleModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'Tpc Board',
+    loadChildren: './tpc-board/tpc-board.module#TPCBoardModule',
+    canActivate: [AuthGuard]
+  },
   // {
   //   path: 'sectors',
   //   loadChildren: './components/sectors/sectors.module#SectorsModule',

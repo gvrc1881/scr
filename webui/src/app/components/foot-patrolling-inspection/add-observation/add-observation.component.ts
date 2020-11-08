@@ -29,6 +29,7 @@ export class AddObservationComponent implements OnInit {
   filesExists: boolean = false;
   addObservationFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
+  dateFormat = 'dd-MM-yyyy hh:mm:ss';
   observationFormErrors: any;
   stateList: any;
   assertTypeList: any;
@@ -113,6 +114,12 @@ export class AddObservationComponent implements OnInit {
   getObservationDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID+id).subscribe((resp) => {
         this.resp = resp;
+        if(this.resp.observationCategory) {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE +this.resp.observationCategory).subscribe(response => {
+             this.spinnerService.hide();
+             this.observationItemData = response;
+           })
+       }
         this.insId = this.resp.inspectionSeqId;
         console.log("this.insIdEdit"+this.insId);
         this.getInspectionDetails(this.insId);

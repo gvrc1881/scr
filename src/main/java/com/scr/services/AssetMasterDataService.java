@@ -36,7 +36,12 @@ public class AssetMasterDataService {
 		Pageable paging = PageRequest.of(from, to);
 		Page<AssetMasterData> pagedResult = assetMastersRepository.findAll(paging);
 		//return assetMastersRepository.findAll();
-		return pagedResult.getContent();
+		List<AssetMasterData> amdList = pagedResult.getContent();
+		for (AssetMasterData assetMasterData : amdList) {
+			assetMasterData = assetMasterDataMapper.prepareAssetMasterData(assetMasterData);
+			amdList.add(assetMasterData);
+		}
+		return amdList;
 	}
 
 	public List<AssetMasterData> findAll() {

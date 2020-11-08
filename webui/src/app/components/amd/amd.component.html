@@ -156,7 +156,8 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">
                                         </mat-row>
                                     </mat-table>
-                                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+                                    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageNo" [pageSizeOptions]="[10, 20, 30, 200]"
+                                    (page)="getServerData($event)" showFirstLastButtons></mat-paginator>
                                 </div>
                             </div>
                         </div>
