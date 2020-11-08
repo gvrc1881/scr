@@ -75,7 +75,8 @@ export const Constants = {
             GET_PRODUCTID:"/getProductIdAndDescription",
 			GET_PRODUCT_ID_BASED_ON_CATEGORY_MEM_ID:"/getProductIdAndDescriptionBasedOnProductCategoryId/",
             GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
-            GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType"
+            GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
+            GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
         },        
         MASTERS:{
             ROLE_TYPE:{
