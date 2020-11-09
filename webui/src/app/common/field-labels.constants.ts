@@ -389,7 +389,9 @@ export const FieldLabelsConstant = {
      FAILURE_OCCURRENCE_FORM:'Failure Occurrence Form',
      UNUSUAL_OCCURRENCE:'Unusual Occurence ',
     UNUSUAL_OCCURRENCE_FAILURE_FORM:'Unusual Occurrence Failure Form',
-    ACTION_FORM:'Action Form'
+    ACTIONS_FORM:'Actions Form',
+    CB_FAILURE_FORM:'CB_FAILURE_FORM',
+    GRID_FAILURE_FORM:'GRID_FAILURE_FORM'
 
    }
 };

@@ -42,7 +42,7 @@
 
                                         <ng-container matColumnDef="sno">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.S NO}}</span>
+                                                <span>{{FiledLabels.S_NO}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>

@@ -60,7 +60,7 @@
                                                 <div class="col-md-3" *ngIf="thruTime">
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                            [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.thru_time}}"
+                                                            [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.THRU_TIME}}"
                                                             [value]="resolveDate | dateFilter:dateFormat" [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
                                                             [formControl]="addActionsFailFromGroup.controls['thruTime']" >                                                                
                                                             <owl-date-time #dt2 [showSecondsTimer]=true
@@ -72,7 +72,7 @@
 
                                                     <div class="col-md-3" *ngIf="by">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{FiledLabels.STAFF_NAME}}" 
+                                                            <input matInput placeholder="{{FiledLabels.NAME_OF_STAFF}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['by']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -113,7 +113,7 @@
 
                                                     <div class="col-md-3" *ngIf="trainNo">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{TRAIN_NO}}" 
+                                                            <input matInput placeholder="{{FiledLabels.TRAIN_NO}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['trainNo']"
                                                                 >                                                           
                                                         </mat-form-field>

@@ -62,7 +62,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FROM_TIME_DATE}}"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FROM_DATE_TIME}}"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [value]="currentDate | dateFilter:dateFormat" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
@@ -85,7 +85,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"                                                             
-                                                                [owlDateTimeTrigger]="dt2" placeholder="{{RESOLVE_TIME}}"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.RESOLVE_TIME}}"
                                                                 [value]="resolveDate | dateFilter:dateFormat"  (dateTimeChange)="addResloveEvent($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true

@@ -50,7 +50,7 @@
 
                                         <ng-container matColumnDef="occurrence">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.OCCURRENCE}}</span>
+                                                <span>{{FiledLabels.OCCURENCE}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.occurrence}}</mat-cell>
@@ -75,7 +75,7 @@
                                         
                                         <ng-container matColumnDef="fromDateTime">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.FROM_DATE_DATE}}</span>
+                                                <span>{{FiledLabels.FROM_DATE_TIME}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.fromDateTime}}</mat-cell>
