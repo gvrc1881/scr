@@ -10,6 +10,9 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
     selector: 'tss-feeder',
@@ -18,13 +21,15 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 export class TssFeederComponent implements OnInit{
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     addTssFeeder:boolean;
     tssFeederFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string= Constants.EVENTS.ADD;
     feederList:any;    
     editFeederResponse: any;  
     feederErrors : any;
@@ -82,7 +87,7 @@ export class TssFeederComponent implements OnInit{
               
    
        this.addTssFeeder=false;
-       if (this.title ==  Constants.EVENTS.SAVE) {
+       if (this.title ==  Constants.EVENTS.ADD) {
         var saveFeederModel={
                                 
                                 'dataDiv':dataDiv,
@@ -129,7 +134,7 @@ export class TssFeederComponent implements OnInit{
                                         this.getAllFeedersData();
                                         this.tssFeederFormGroup.reset();
                                         this.addTssFeeder =  false;
-                                        this.title = "Save";
+                                        this.title = Constants.EVENTS.ADD;
                                         
                                     }
                                     else {
@@ -168,7 +173,7 @@ export class TssFeederComponent implements OnInit{
     onGoBack() {
         this.tssFeederFormGroup.reset();
         this.addTssFeeder = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
         this.displayHierarchyFields();
     }
 
@@ -222,7 +227,7 @@ export class TssFeederComponent implements OnInit{
     editTssFeeder (id) {
         this.addTssFeeder = true;
         this.feederEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     
     }
     feederEditAction(id: number) {
@@ -250,9 +255,9 @@ export class TssFeederComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
       onFormValuesChanged() {
@@ -350,9 +355,15 @@ findDivisions(){
 
 ViewData(data){
   var result = {
-    'title':'TSS FEEDER MASTER',
-    'dataSource':[{label:'Division',value:data.dataDiv},{label:'feederName',value:data.feederName},
-    {label:'description',value:data.description},{label:'StateElectricityBoard',value:data.stateElectricityBoard}]
+    'title':this.Titles.TSS_FEEDER_MASTER,
+    'dataSource':[
+      
+    { label:FieldLabelsConstant.LABELS.DIVISION, value:data.dataDiv },
+    { label:FieldLabelsConstant.LABELS.FEEDER, value:data.feederName },
+    { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+    { label:FieldLabelsConstant.LABELS.STATE_ELECTRICITY_BOARD, value:data.stateElectricityBoard }
+    
+  ]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

@@ -31,12 +31,12 @@
   fxLayoutAlign="start" [formGroup]="tssFeederFormGroup" fxFlex="1 0 auto"
   (ngSubmit)="tssFeederSubmit();">
   <div class="panel panel-primary">
-    <div class="panel-heading">{{title}} Feeder</div>
+    <div class="panel-heading">{{title}} {{Titles.FEEDER}}</div>
     <div class="panel-body">
         <div class="col-md-12">
           <div class="col-md-3"  *ngIf = "enableZone">
             <mat-form-field fxFlex="30" class="example-full-width">
-              <mat-select placeholder="Select zone" 
+              <mat-select placeholder="{{FiledLabels.ZONE}}" 
                 [formControl]="tssFeederFormGroup.controls['zone']" (ngModelChange)="findDivisions()">
                 <mat-option *ngFor="let zoneData of zoneHierarchy"
                   [value]="zoneData.facilityName">
@@ -47,7 +47,7 @@
           </div>
           <div class="col-md-3"  *ngIf = "enableDivision" >
             <mat-form-field fxFlex="30" class="example-full-width">
-              <mat-select placeholder="Select Division" 
+              <mat-select placeholder="{{FiledLabels.DIVISION}}" 
                 [formControl]="tssFeederFormGroup.controls['dataDiv']" >
                 <mat-option *ngFor="let divisionData of divisionHierarchy"
                   [value]="divisionData.facilityName">
@@ -59,7 +59,7 @@
             
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="feeder Name" [formControl]="tssFeederFormGroup.controls['feederName']" required
+                    <input matInput placeholder="{{FiledLabels.FEEDER}}" [formControl]="tssFeederFormGroup.controls['feederName']" required
                     oninput="this.value = this.value.toUpperCase()" required/>
         
                        <mat-error
@@ -84,7 +84,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="description" [formControl]="tssFeederFormGroup.controls['description']"/>
+                    <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="tssFeederFormGroup.controls['description']"/>
                     <mat-error
                     *ngIf=" tssFeederFormGroup.controls['description'].hasError('required')"
                     class="alert alert-danger">
@@ -99,7 +99,7 @@
             </div>
             <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="state Electricity Board" [formControl]="tssFeederFormGroup.controls['stateElectricityBoard']"/>
+                  <input matInput placeholder="{{FiledLabels.STATE_ELECTRICITY_BOARD}}" [formControl]="tssFeederFormGroup.controls['stateElectricityBoard']"/>
                 
                <mat-error
                   *ngIf="tssFeederFormGroup.controls['stateElectricityBoard'].hasError('maxlength')"
@@ -141,26 +141,26 @@
   <div class="mat-elevation-z8">
   <mat-table [dataSource]="tssFeederDataSource" matSort>
     <ng-container matColumnDef="sno">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="division">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>division</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.dataDiv}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="feederName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>feeder Name</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FEEDER}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.feederName}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.description}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="stateElectricityBoard">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>stateElectricityBoard</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATE_ELECTRICITY_BOARD}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.stateElectricityBoard}}</mat-cell>
   </ng-container>
@@ -168,7 +168,7 @@
    
     
     <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
             <mat-cell *matCellDef="let row">
               <button mat-icon-button matTooltip="View"
                 (click)="ViewData(row)">
@@ -190,7 +190,7 @@
     <mat-row *matRowDef="let row; columns: feederDisplayColumns;">
     </mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
   </div>
   </div>
   </div>

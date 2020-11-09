@@ -8,6 +8,11 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
+
 @Component({
     selector: 'tpc-board-depot-assoc',
     templateUrl: './tpc-board-depot-assoc.component.html',
@@ -15,11 +20,13 @@ import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog
 })
 export class TPCBoardDepotAssocComponent implements OnInit{
 
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addTPCBoardDepotAssoc: boolean ;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     tpcBoardDepotAssocFormGroup: FormGroup;
     tpcBoardDepotAssocList : any;
     id: number = 0;
@@ -123,7 +130,7 @@ duplicateTpcBoard() {
 
         this.addTPCBoardDepotAssoc = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveTPCBoardAssocModel ={
                 'tpcBoard':tpcBoard,
                 'unitType':unitType,
@@ -157,7 +164,7 @@ duplicateTpcBoard() {
     editTPCBoardDepotAssoc (id) {
         this.addTPCBoardDepotAssoc = true;
         this.tpcBoardDepotAssocEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     tpcBoardDepotAssocEditAction(id: number) {
@@ -182,9 +189,9 @@ duplicateTpcBoard() {
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 
@@ -232,7 +239,7 @@ duplicateTpcBoard() {
     onGoBack() {
         this.tpcBoardDepotAssocFormGroup.reset();
         this.addTPCBoardDepotAssoc = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
     NewTPCBoardDepotAssoc () {
@@ -248,9 +255,16 @@ duplicateTpcBoard() {
     }
     ViewData(data){
         var result = {
-          'title':'Tpc Board Depot Assoc Data',
-          'dataSource':[{label:'tpcBoard',value:data.tpcBoard},{label:'Unit Type',value:data.unitType},{label:'Unit Name',value:data.unitName},
-                        {label:'Description', value:data.description}]
+          'title':this.Titles.TPC_BOARD_ASSOC_DATA,
+          'dataSource':[
+           
+                        { label:FieldLabelsConstant.LABELS.TPC_BOARD, value:data.tpcBoard },
+                        { label:FieldLabelsConstant.LABELS.UNIT_TYPE, value:data.unitType },
+                        { label:FieldLabelsConstant.LABELS.UNIT_NAME, value:data.unitName },
+                        { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
+                        
+                    
+                    ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

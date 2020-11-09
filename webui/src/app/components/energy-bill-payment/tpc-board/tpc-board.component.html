@@ -29,12 +29,12 @@
                                                 fxLayoutAlign="start" [formGroup]="tpcBoardFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="tpcBoardSubmit();">
                                                 <div class="panel panel-primary">
-                                                    <div class="panel-heading">{{title}} TPC Board</div>
+                                                    <div class="panel-heading">{{title}} {{Titles.TPC_BOARD}}</div>
                                                     <div class="panel-body">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="TPC Board"  [formControl]="tpcBoardFormGroup.controls['tpcBoard']" required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"/>
+                                                                    <input matInput placeholder="{{FiledLabels.TPC_BOARD}}"  [formControl]="tpcBoardFormGroup.controls['tpcBoard']" required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"/>
                                                                     <mat-error
                                                                 *ngIf="tpcBoardFormGroup.controls['tpcBoard'].hasError('required') && tpcBoardFormGroup.controls['tpcBoard'].touched"
                                                                 class="alert alert-danger">Enter Tpc Board</mat-error>
@@ -51,7 +51,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                                    <mat-select placeholder="Select Division"
+                                                                    <mat-select placeholder="{{FiledLabels.DIVISION}}"
                                                                         [formControl]="tpcBoardFormGroup.controls['dataDiv']" required>
                                                                         <mat-option *ngFor="let divisionsList of divisionsList"
                                                                             [value]="divisionsList.code">
@@ -72,7 +72,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Description" [formControl]="tpcBoardFormGroup.controls['description']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="tpcBoardFormGroup.controls['description']" ></textarea>
                                                                     <mat-error
                                                                         *ngIf="tpcBoardFormGroup.controls['description'].hasError('maxlength') && tpcBoardFormGroup.controls['description'].touched"
                                                                         class="alert alert-danger">Max 250 characters only
@@ -110,27 +110,27 @@
                                     <div class="mat-elevation-z8">
                                         <mat-table [dataSource]="tpcBoardDataSource" matSort>
                                             <ng-container matColumnDef="sno">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="tpcBoard">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>TPC Board</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TPC_BOARD}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.tpcBoard}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dataDiv">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.dataDiv}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="description">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.description}}</mat-cell>
                                             </ng-container>
                                           
                                             <ng-container matColumnDef="id">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                     <button mat-icon-button matTooltip="View"
                                                        (click)="ViewData(row)">
@@ -150,7 +150,7 @@
                                             <mat-row *matRowDef="let row; columns: tpcBoardDisplayColumns;">
                                             </mat-row>
                                         </mat-table>
-                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                        <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                     </div>
                                 </div>
                             </div>

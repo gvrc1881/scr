@@ -39,27 +39,27 @@
                                 <div class="mat-elevation-z8">
                                     <mat-table [dataSource]="assetsScheduleDataSource" matSort>
                                       <ng-container matColumnDef="sno">
-                                          <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                           <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                       </ng-container>
                                       <ng-container matColumnDef="scheduleCode">
-                                          <mat-header-cell *matHeaderCellDef mat-sort-header>schedule code</mat-header-cell>
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCHEDULE_CODE}}</mat-header-cell>
                                           <mat-cell *matCellDef="let row" style="cursor: pointer">
                                             {{row.scheduleCode}}</mat-cell>
                                       </ng-container>
                                       <ng-container matColumnDef="scheduleName">
-                                          <mat-header-cell *matHeaderCellDef mat-sort-header>schedule name</mat-header-cell>
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCHEDULE_NAME}}</mat-header-cell>
                                           <mat-cell *matCellDef="let row" style="cursor: pointer">
                                             {{row.scheduleName}}</mat-cell>
                                       </ng-container>
                                       <ng-container matColumnDef="description">
-                                          <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+                                          <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
                                           <mat-cell *matCellDef="let row" style="cursor: pointer">
                                             {{row.description}}</mat-cell>
                                       </ng-container>                                                                            
                             
                                       <ng-container matColumnDef="actions">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
                                             <button mat-icon-button matTooltip="View"
                                                    (click)="ViewData(row)">
@@ -84,7 +84,7 @@
                                       <mat-row *matRowDef="let row; columns: assetsScheduleDisplayColumns;">
                                       </mat-row>
                                     </mat-table>
-                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                     </div>
                             </div>
                         </div>

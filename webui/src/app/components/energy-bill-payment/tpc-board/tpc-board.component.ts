@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
-
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -19,12 +19,14 @@ import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog
 })
 export class TPCBoardComponent implements OnInit{
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addTPCBoard: boolean ;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     tpcBoardFormGroup: FormGroup;
     tpcBoardList : any;
     divisionsList:any;
@@ -171,7 +173,7 @@ export class TPCBoardComponent implements OnInit{
     editTPCBoard (id) {
         this.addTPCBoard = true;
         this.tpcBoardEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     tpcBoardEditAction(id: number) {
@@ -194,9 +196,9 @@ export class TPCBoardComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 
@@ -249,9 +251,16 @@ export class TPCBoardComponent implements OnInit{
     }
     ViewData(data){
       var result = {
-        'title':'Tpc Board  Data',
-        'dataSource':[{label:'tpcBoard',value:data.tpcBoard},{label:'Division',value:data.dataDiv},
-                      {label:'Description', value:data.description}]
+        'title':this.Titles.TPC_BOARD_DATA,
+        'dataSource':[
+          
+                    
+                      { label:FieldLabelsConstant.LABELS.TPC_BOARD, value:data.tpcBoard },
+                      { label:FieldLabelsConstant.LABELS.DIVISION, value:data.dataDiv },
+                      { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+                      { label:FieldLabelsConstant.LABELS.ACTIONS, value:data.actions }
+                      
+                    ]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
         disableClose: false,

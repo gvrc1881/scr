@@ -9,7 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
-
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -18,6 +18,8 @@ import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.co
   styleUrls: []
 })
 export class AssetsScheduleComponent implements OnInit {
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -103,9 +105,14 @@ delete(id) {
 }
 ViewData(data){
   var result = {
-    'title':'Assets Schedule Data',
-    'dataSource':[{label:'Schedule Code',value:data.scheduleCode},{label:'Schedule Name',value:data.scheduleName},
-                  {label:'Description', value:data.description}]
+    'title':this.Titles.ASSETS_SCHEDULE_DATA,
+    'dataSource':[
+      
+                  { label:FieldLabelsConstant.LABELS.SCHEDULE_CODE, value:data.scheduleCode },
+                  { label:FieldLabelsConstant.LABELS.SCHEDULE_NAME, value:data.scheduleName },
+                  { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
+                  
+                ]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

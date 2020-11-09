@@ -29,12 +29,12 @@
                                                 fxLayoutAlign="start" [formGroup]="stationsSectionsFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="stationsSectionsSubmit();">
                                                 <div class="panel panel-primary">
-                                                    <div class="panel-heading">{{title}} Stations Sections</div>
+                                                    <div class="panel-heading">{{title}} {{Titles.STATIONS_SECTIONS}}</div>
                                                     <div class="panel-body">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Station Code" [formControl]="stationsSectionsFormGroup.controls['stationCode']" required></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.STATION_CODE}}" [formControl]="stationsSectionsFormGroup.controls['stationCode']" required></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['stationCode'].hasError('maxlength') && stationsSectionsFormGroup.controls['stationCode'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -53,7 +53,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Station Name" [formControl]="stationsSectionsFormGroup.controls['stationName']" required></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.STATION}}" [formControl]="stationsSectionsFormGroup.controls['stationName']" required></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['stationName'].hasError('maxlength') && stationsSectionsFormGroup.controls['stationName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -72,7 +72,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Major SectionRoute" [formControl]="stationsSectionsFormGroup.controls['majorSectionRoute']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.MAJOR_SECTION_ROUTE}}" [formControl]="stationsSectionsFormGroup.controls['majorSectionRoute']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['majorSectionRoute'].hasError('maxlength') && stationsSectionsFormGroup.controls['majorSectionRoute'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -81,7 +81,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="UP Section" [formControl]="stationsSectionsFormGroup.controls['upSection']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.UP_SECTION}}" [formControl]="stationsSectionsFormGroup.controls['upSection']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['upSection'].hasError('maxlength') && stationsSectionsFormGroup.controls['upSection'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -90,7 +90,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="UP Section Name" [formControl]="stationsSectionsFormGroup.controls['upSectionName']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.UP_SECTION_NAME}}" [formControl]="stationsSectionsFormGroup.controls['upSectionName']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['upSectionName'].hasError('maxlength') && stationsSectionsFormGroup.controls['upSectionName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -99,7 +99,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Down Section" [formControl]="stationsSectionsFormGroup.controls['dnSection']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.DN_SECTION}}" [formControl]="stationsSectionsFormGroup.controls['dnSection']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['dnSection'].hasError('maxlength') && stationsSectionsFormGroup.controls['dnSection'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -108,7 +108,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <textarea matInput placeholder="Down Section Name" [formControl]="stationsSectionsFormGroup.controls['dnSectionName']" ></textarea>
+                                                                    <textarea matInput placeholder="{{FiledLabels.DN_SECTION_NAME}}" [formControl]="stationsSectionsFormGroup.controls['dnSectionName']" ></textarea>
                                                                     <mat-error 
                                                                     *ngIf="stationsSectionsFormGroup.controls['dnSectionName'].hasError('maxlength') && stationsSectionsFormGroup.controls['dnSectionName'].touched"
                                                                      class="alert alert-danger">Max 250 characters only
@@ -117,7 +117,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                                    <mat-select placeholder="Select Division"
+                                                                    <mat-select placeholder="{{FiledLabels.DIVISION}}"
                                                                         [formControl]="stationsSectionsFormGroup.controls['division']" required>
                                                                         <mat-option *ngFor="let divisionsList of divisionsList"
                                                                             [value]="divisionsList.code">
@@ -156,51 +156,51 @@
                                     <div class="mat-elevation-z8">
                                         <mat-table [dataSource]="stationsSectionsDataSource" matSort>
                                             <ng-container matColumnDef="sno">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="stationCode">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Station Code</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATION_CODE}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.stationCode}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="stationName">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Station Name</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SECTION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.stationName}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="majorSectionRoute">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>MajorSectionRoute</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MAJOR_SECTION_ROUTE}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.majorSectionRoute}}</mat-cell>
                                             </ng-container>
                                            <ng-container matColumnDef="upSection">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>UPSection</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UP_SECTION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.upSection}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="upSectionName">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>UPSection Name</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UP_SECTION_NAME}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.upSectionName}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dnSection">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>DownSection</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DOWN_SECTION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.dnSection}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dnSectionName">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Down Section Name</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DOWN_SECTION_NAME}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.dnSectionName}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="division">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.division}} </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="id">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTION}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                     <button mat-icon-button matTooltip="View"
                                                        (click)="ViewData(row)">
@@ -220,7 +220,7 @@
                                             <mat-row *matRowDef="let row; columns: stationsSectionsDisplayColumns;">
                                             </mat-row>
                                         </mat-table>
-                                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                        <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                     </div>
                                 </div>
                             </div>
