@@ -58,7 +58,7 @@
 
                                         <ng-container matColumnDef="categoryName">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>{{FiledLabels.CATEGORY_NAME}}Category Name</span>
+                                                <span>{{FiledLabels.CATEGORY_NAME}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.categoryName}}</mat-cell>
@@ -104,7 +104,7 @@
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                 </div>
                             </div>
                         </div>
