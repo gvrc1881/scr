@@ -8,13 +8,16 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 @Component({
   selector: 'app-rc-failure',
   templateUrl: './rc-failure.component.html',
   styleUrls: ['./rc-failure.component.css']
 })
 export class RcFailureComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -138,11 +141,20 @@ export class RcFailureComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'RC Failures',
-      'dataSource':[{label:'SubStation',value:data.subStation},{label:'relayIndication',value:data.relayIndication},
-      {label:'fromDateTime', value:data.fromDateTime},{label:'thruDateTime', value:data.thruDateTime},
-     {label:'Duration',value:data.duration},{label:'DivisionLocal',value:data.divisionLocal},
-      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+      'title':this.Titles.RC_Failures,
+      'dataSource':[
+    
+      { label:FieldLabelsConstant.LABELS.SUB_STATION, value:data.subStation },
+      { label:FieldLabelsConstant.LABELS.RELAY_INDICATION, value:data.relayIndication },
+      { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
+      { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime },
+      { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks }
+      
+        
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

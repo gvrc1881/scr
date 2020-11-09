@@ -20,7 +20,7 @@
                     <div class="panel-body">-->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar> 
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Grid Failure Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.GRID_FAILURE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Feed Off" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="{{FiledLabels.FEED_OF}}" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addGridFailFromGroup.controls['feedOff']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
                                                                     [value]="depot.facilityId">
@@ -47,7 +47,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FAILURE_FROM_DATE}}"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [value]="currentDate | dateFilter:dateFormat"
                                                                 [formControl]="addGridFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required >                                                                
@@ -72,7 +72,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date" 
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.FAILURE_TO_DATE}}" 
                                                                 [value]="toDate | dateFilter:dateFormat"
                                                                   [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)" 
                                                                 [formControl]="addGridFailFromGroup.controls['ftdate']"(ngModelChange)="timeDuration()" >                                                                
@@ -90,7 +90,7 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                            <input matInput placeholder="DURATION (HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['fduration']"
                                                                 [(ngModel)]="duration"  >   
                                                                                                                         
@@ -100,7 +100,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Extended From" 
+                                                            <mat-select placeholder="{{FiledLabels.EXTENDED_FROM}}" 
                                                                 [formControl]="addGridFailFromGroup.controls['extendedFrom']">
                                                                 <mat-option *ngFor="let extendedFrom of extendedFromList"
                                                                     [value]="extendedFrom.facilityId">
@@ -114,7 +114,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt4" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt4" placeholder="Extended From Date"
+                                                                [owlDateTimeTrigger]="dt4" placeholder="{{FiledLabels.EXTENDED_FROM_DATE}}"
                                                                 [value]="exFromDate | dateFilter:dateFormat"
                                                                 (dateTimeChange)="addEventTargetDate($event)" [max]="maxDate" [min]="fMinDate"
                                                                 [formControl]="addGridFailFromGroup.controls['efdate']" (ngModelChange)="timDuration()" >                                                                
@@ -131,7 +131,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt5" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt5" placeholder="Extended To Date"
+                                                                [owlDateTimeTrigger]="dt5" placeholder="{{FiledLabels.EXTENDED_TO_DATE}}"
                                                                 [value]="exToDate | dateFilter:dateFormat"
                                                                  [min]="toMinDate"  [max]="maxDate"
                                                                 [formControl]="addGridFailFromGroup.controls['etdate']" (ngModelChange)="timDuration()" >                                                                
@@ -146,7 +146,7 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly
+                                                            <input matInput placeholder="DURATION (HH:MM:SS)" readonly
                                                                 [formControl]="addGridFailFromGroup.controls['eduration']"
                                                                 [(ngModel)]="dur" >  
                                                                                                                         
@@ -156,9 +156,8 @@
                                                      <!-- assetType -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Max Demand" decimalNumber
-                                                                [formControl]="addGridFailFromGroup.controls['maxDemand']"
-                                                                >                                                           
+                                                            <input matInput placeholder="{{FiledLabels.MAX_DEMAND}}" decimalNumber
+                                                                [formControl]="addGridFailFromGroup.controls['maxDemand']"                                                          >                                                           
                                                         </mat-form-field>
                                                     </div>
 
@@ -175,7 +174,7 @@
                                                      <!-- actionPlan -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addGridFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error

@@ -20,7 +20,7 @@
                     <div class="panel-body"> -->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Cb Failure Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.CB_FAILURE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Sub Station" (ngModelChange)="findEquipments()"
+                                                            <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
                                                                 [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
                                                                     [value]="depot.facilityId">
@@ -45,7 +45,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Equipment"
+                                                            <mat-select placeholder="{{FiledLabels.EQUIPMENT}}"
                                                                 [formControl]="addCbFailFromGroup.controls['equipment']" required>
                                                                 <mat-option *ngFor="let master of failureList"
                                                                     [value]="master.assetId">
@@ -57,7 +57,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Cas Cade Assets"  multiple="true"
+                                                            <mat-select placeholder="{{FiledLabels.CASCADE_ASSETS}}"  multiple="true"
                                                                 [formControl]="addCbFailFromGroup.controls['cascadeAssets']" required>
                                                                 <mat-option *ngFor="let master of failurecasList"
                                                                     [value]="master.assetId">
@@ -70,7 +70,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                              <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt1" placeholder="Trip Time" 
+                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE_TIME}}" 
                                                                 [value]="currentDate | dateFilter:dateFormat" 
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addCbFailFromGroup.controls['fromDateTime']"(ngModelChange)="timeDuration()" required >                                                                
@@ -93,7 +93,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">                                                      
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                              [owlDateTimeTrigger]="dt2" placeholder="Close Time"
+                                                              [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.CLOSE_TIME}}"
                                                               (dateTimeChange)="addEventCloseDate($event)" 
                                                               [value]="closeDate | dateFilter:dateFormat" 
                                                               [max]="maxDate"  [min]="toMinDate"
@@ -110,7 +110,7 @@
                                                      <!-- failureSection -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Duration (HH:MM:SS)" readonly 
+                                                            <input matInput placeholder="DURATION (HH:MM:SS)" readonly 
                                                                 [formControl]="addCbFailFromGroup.controls['duration']"  [(ngModel)]="duration" >                                                               
                                                                                                                      
                                                         </mat-form-field>
@@ -120,7 +120,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Relay Indication"
+                                                            <mat-select placeholder="{{FiledLabels.RELAY_INDICATION}}"
                                                                 [formControl]="addCbFailFromGroup.controls['relayIndication']">
                                                                 <mat-option *ngFor="let relayIndication of relayIndicationList"
                                                                     [value]="relayIndication.statusCode">
@@ -132,7 +132,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Nature Of Closure"
+                                                            <mat-select placeholder="{{FiledLabels.NATURE_OF_CLOSURE}}"
                                                                 [formControl]="addCbFailFromGroup.controls['natureOfClosure']">
                                                                 <mat-option *ngFor="let natureOfClose of natureOfCloseList"
                                                                     [value]="natureOfClose.statusCode">
@@ -144,7 +144,7 @@
                                                      <!-- assetType -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="R Value" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.R_VALUE}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['rValue']"
                                                                 (ngModelChange)="function()">                                                           
                                                         </mat-form-field>
@@ -152,7 +152,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="X Value" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.X_VALUE}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['xValue']"
                                                                 (ngModelChange)="function()">                                                           
                                                         </mat-form-field>
@@ -160,7 +160,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="z Constant" readonly
+                                                            <input matInput placeholder="{{FiledLabels.Z_CONSTANT}}" readonly
                                                                 [formControl]="addCbFailFromGroup.controls['zConstant']"
                                                                  [(ngModel)]="result"      >
                                                                                                                           
@@ -169,7 +169,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Fault Distance" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.FAULT_DISTANCE}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['faultDistance']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -177,7 +177,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Actual Fault Distance" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.ACTUAL_FAULT_DISTANCE}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['actualFaultDistance']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -185,7 +185,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Current" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.CURRENT}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['current']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -193,7 +193,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Voltage" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.VOLTAGE}}" decimalNumber
                                                                 [formControl]="addCbFailFromGroup.controls['voltage']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -201,7 +201,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Phase Angle"
+                                                            <input matInput placeholder="{{FiledLabels.PHASE_ANGLE}}"
                                                                 [formControl]="addCbFailFromGroup.controls['phaseAngle']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -225,7 +225,7 @@
                                                      <!-- actionPlan -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addCbFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error

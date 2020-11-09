@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-grid-failure',
@@ -16,7 +17,8 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
   styleUrls: ['./grid-failure.component.css']
 })
 export class GridFailureComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -161,14 +163,23 @@ export class GridFailureComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'GRID Failure',
-      'dataSource':[{label:'FeedOf',value:data.feedOf},{label:'FromDateTime',value:data.fromDateTime},
-      {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration', value:data.duration},
-      {label:'ExtendedOf', value:data.extendedOf},{label:'FeedExtendedFromDateTime',value:data.feedExtendedFromDateTime},
-      {label:'FeedExtendedThruDateTime',value:data.feedExtendedThruDateTime},{label:'FeedExtendedDuration',value:data.feedExtendedDuration},
-      {label:'MaxDemand',value:data.maxDemand},{label:'Division/Local',value:data.divisionLocal},
-      {label:'Internal/External',value:data.internalExternal},{label:'Remarks',value:data.remarks},
-      {label:'TypeOfFailure', value:data.typeOfFailure} ]
+      'title':this.Titles.GRID_FAILURE,
+      'dataSource':[    
+      { label:FieldLabelsConstant.LABELS.FEED_OF, value:data.feedOf },
+      { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
+      { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime },
+      { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+      { label:FieldLabelsConstant.LABELS.EXTENDED_OFF, value:data.extendedOf },
+      { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_FROM_DATE_TIME, value:data.feedExtendedFromDateTime },
+      { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_THRU_DATE_TIME, value:data.feedExtendedThruDateTime },
+      { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_DURATION, value:data.feedExtendedDuration },
+      { label:FieldLabelsConstant.LABELS.MAX_DEMAND, value:data.maxDemand },
+      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+      { label:FieldLabelsConstant.LABELS.TYPE_OF_FAILURE, value:data.typeOfFailure }
+         
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

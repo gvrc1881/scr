@@ -8,13 +8,16 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
   selector: 'app-cb-failure',
   templateUrl: './cb-failure.component.html',
   styleUrls: ['./cb-failure.component.css']
 })
 export class CbFailureComponent implements OnInit {
-
+  
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -156,17 +159,33 @@ export class CbFailureComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'CB Failures',
-      'dataSource':[{label:'SubStation',value:data.subStation},{label:'Equipment',value:data.equipment},
-      {label:'CascadeAssets', value:data.cascadeAssets},{label:'FromDateTime', value:data.fromDateTime},
-      {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},
-      {label:'RelayIndication',value:data.relayIndication},{label:'NatureOfClosure',value:data.natureOfClosure},
-      {label:'RValue',value:data.rValue},{label:'XValue',value:data.xValue},
-      {label:'zConstant',value:data.zConstant},{label:'FaultDistance',value:data.faultDistance},
-      {label:'ActualFaultDistance', value:data.actualFaultDistance},{label:'Current', value:data.current},
-      {label:'Voltage',value:data.voltage},{label:'PhaseAngle',value:data.phaseAngle},
-      {label:'TrippedIdentifiedFault',value:data.trippedIdentifiedFault},{label:'DivisionLocal',value:data.divisionLocal},
-      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+      'title':this.Titles.CB_FAILURES,
+      'dataSource':[
+      
+      { label:FieldLabelsConstant.LABELS.SUB_STATION, value:data.subStation },
+      { label:FieldLabelsConstant.LABELS.EQUIPMENT, value:data.equipment },
+      { label:FieldLabelsConstant.LABELS.CASCADE_ASSETS, value:data.cascadeAssets },
+      { label:FieldLabelsConstant.LABELS.TRIP_TIME, value:data.fromDateTime },
+      { label:FieldLabelsConstant.LABELS.CLOSE_TIME, value:data.thruDateTime },
+      { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+      { label:FieldLabelsConstant.LABELS.RELAY_INDICATION, value:data.relayIndication },
+      { label:FieldLabelsConstant.LABELS.NATURE_OF_CLOSURE, value:data.natureOfClosure },
+      { label:FieldLabelsConstant.LABELS.R_VALUE, value:data.rValue },
+      { label:FieldLabelsConstant.LABELS.X_VALUE, value:data.xValue },
+      { label:FieldLabelsConstant.LABELS.Z_CONSTANT, value:data.zConstant },
+      { label:FieldLabelsConstant.LABELS.FAULT_DISTANCE, value:data.faultDistance },
+      { label:FieldLabelsConstant.LABELS.ACTUAL_FAULT_DISTANCE, value:data.actualFaultDistance },
+      { label:FieldLabelsConstant.LABELS.CURRENT, value:data.current },
+      { label:FieldLabelsConstant.LABELS.VOLTAGE, value:data.voltage },
+      { label:FieldLabelsConstant.LABELS.PHASE_ANGLE, value:data.phaseAngle },
+      { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.TRIPPED_IDENTIFIED_FAULT, value:data.trippedIdentifiedFault },
+      { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
+      { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime }
+      
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

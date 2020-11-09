@@ -20,7 +20,7 @@
                     <div class="panel-body"> -->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Actions Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.ACTIONS_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
                                                      
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Actions" (selectionChange)="updateFeedOff($event)"
+                                                            <mat-select placeholder="{{FiledLabels.ACTIONS}}" (selectionChange)="updateFeedOff($event)"
                                                                 [formControl]="addActionsFailFromGroup.controls['failureActivity']">
                                                                 <mat-option *ngFor="let actions of actionsList"
                                                                     [value]="actions.statusCode">
@@ -47,7 +47,7 @@
                                                   <div class="col-md-3" *ngIf="fromTime">
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                            [owlDateTimeTrigger]="dt3" placeholder="From Time"
+                                                            [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FROM_TIME}}"
                                                             [value]="currentDate | dateFilter:dateFormat"
                                                             (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                             [formControl]="addActionsFailFromGroup.controls['fromTime']" >                                                                
@@ -60,7 +60,7 @@
                                                 <div class="col-md-3" *ngIf="thruTime">
                                                     <mat-form-field>
                                                          <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                            [owlDateTimeTrigger]="dt2" placeholder="Thru Time"
+                                                            [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.thru_time}}"
                                                             [value]="resolveDate | dateFilter:dateFormat" [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventTargetDate($event)"
                                                             [formControl]="addActionsFailFromGroup.controls['thruTime']" >                                                                
                                                             <owl-date-time #dt2 [showSecondsTimer]=true
@@ -72,7 +72,7 @@
 
                                                     <div class="col-md-3" *ngIf="by">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Staff Name" 
+                                                            <input matInput placeholder="{{FiledLabels.STAFF_NAME}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['by']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -80,7 +80,7 @@
 
                                                     <div class="col-md-3" *ngIf="specialRemarks">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Details" 
+                                                            <input matInput placeholder="{{FiledLabels.DETAILS}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['specialRemarks']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -88,7 +88,7 @@
 
                                                     <div class="col-md-3" *ngIf="remarks">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error
@@ -105,7 +105,7 @@
 
                                                     <div class="col-md-3" *ngIf="location">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Location" 
+                                                            <input matInput placeholder="{{FiledLabels.LOCATION}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['location']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -113,7 +113,7 @@
 
                                                     <div class="col-md-3" *ngIf="trainNo">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Train No" 
+                                                            <input matInput placeholder="{{TRAIN_NO}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['trainNo']"
                                                                 >                                                           
                                                         </mat-form-field>

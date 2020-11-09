@@ -20,7 +20,7 @@
                     <div class="panel-body"> -->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Unusual Occurrence Failure Form</div>
+                                <div class="panel-heading">{{title}} {{{Titles.UNUSUAL_OCCURRENCE_FAILURE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Depot" 
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
                                                                     [value]="depot.facilityId">
@@ -46,14 +46,14 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Location"
+                                                            <input matInput placeholder="{{FiledLabels.LOCATION}}"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['location']" required>                                                           
                                                         </mat-form-field>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Root Cause" 
+                                                            <textarea matInput placeholder="{{FiledLabels.CAUSE_OF_FAILURE}}" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['causeOfFailure']"> </textarea>                                                                                                             
                                                         </mat-form-field>
                                                     </div>
@@ -62,7 +62,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="From Time"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FROM_TIME_DATE}}"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [value]="currentDate | dateFilter:dateFormat" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
@@ -85,7 +85,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"                                                             
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Resolve Time"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{RESOLVE_TIME}}"
                                                                 [value]="resolveDate | dateFilter:dateFormat"  (dateTimeChange)="addResloveEvent($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
@@ -118,7 +118,7 @@
 
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Impact" 
+                                                            <textarea matInput placeholder="{{FiledLabels.IMPACT}}" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['impact']"
                                                                 > </textarea>                                                                                                             
                                                         </mat-form-field>
@@ -128,7 +128,7 @@
                                                      <div class="clearfix"></div>
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error

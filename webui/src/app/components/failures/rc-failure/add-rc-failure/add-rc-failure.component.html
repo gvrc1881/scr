@@ -20,7 +20,7 @@
                     <div class="panel-body"> -->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Rc Failure Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.RC_FAILURES_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Switching Station" 
+                                                            <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" 
                                                                 [formControl]="addRcFailFromGroup.controls['subStation']" >
                                                                 <mat-option *ngFor="let depot of facilityList"
                                                                     [value]="depot.facilityId">
@@ -45,7 +45,7 @@
                                                     
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Indication" 
+                                                            <input matInput placeholder="{{FiledLabels.INDICATION}}" 
                                                                 [formControl]="addRcFailFromGroup.controls['relayIndication']"
                                                                 required > 
                                                                                                                         
@@ -55,7 +55,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Occurred Date"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.OCCURRED_DATE}}"
                                                                 [value]="currentDate | dateFilter:dateFormat" 
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
@@ -77,7 +77,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Rectified Date" 
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.RECTIFIED_DATE}}" 
                                                                 [value]="rectifiedDate | dateFilter:dateFormat"  (dateTimeChange)="addEventTargetDate($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
@@ -113,7 +113,7 @@
                                                      <!-- actionPlan -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addRcFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error

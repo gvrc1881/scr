@@ -8,6 +8,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 @Component({
   selector: 'app-unusual-occurrence-failure',
   templateUrl: './unusual-occurrence-failure.component.html',
@@ -15,6 +17,8 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 export class UnusualOccurrenceFailureComponent implements OnInit {
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -210,12 +214,27 @@ deleteActions(id) {
 
 ViewData(data){
   var result = {
-    'title':'Unusual Occurence ',
-    'dataSource':[{label:'SubStation',value:data.subStation},{label:'location',value:data.location},
-    {label:'CauseOfFailure',value:data.causeOfFailure},{label:'FromDateTime', value:data.fromDateTime},
-    {label:'ThruDateTime', value:data.thruDateTime},{label:'Duration',value:data.duration},
-    {label:'DivisionLocal',value:data.divisionLocal},{label:'InternalExternal', value:data.internalExternal},
-    {label:'Impact',value:data.impact},{label:'Remarks', value:data.remarks} ]
+    'title':this.Titles.UNUSUAL_OCCURRENCE,
+        'dataSource':[
+
+          { label:FieldLabelsConstant.LABELS.STATION, value:data.subStation },
+          { label:FieldLabelsConstant.LABELS.LOCATION, value:data.location },
+          { label:FieldLabelsConstant.LABELS.CAUSE_OF_FAILURE, value:data.causeOfFailure },
+          { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
+          { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime },
+          { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+          { label:FieldLabelsConstant.LABELS.IMPACT, value:data.impact },
+          { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+          { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+          { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+          { label:FieldLabelsConstant.LABELS.ACTIONS, value:data.actions },
+          { label:FieldLabelsConstant.LABELS.FAILURE_ACTIONS, value:data.failureActions }
+
+  
+  
+  
+  
+  ]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

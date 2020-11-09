@@ -5,6 +5,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: ['./add-grid-failure.component.css']
 })
 export class AddGridFailureComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;

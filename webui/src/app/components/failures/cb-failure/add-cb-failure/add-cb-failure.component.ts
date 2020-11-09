@@ -8,6 +8,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { MY_CUSTOM_FORMATS } from 'src/app/common/date-filter.pipe';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-add-cb-failure',
@@ -15,7 +16,8 @@ import { MY_CUSTOM_FORMATS } from 'src/app/common/date-filter.pipe';
   styleUrls: ['./add-cb-failure.component.css'],
 })
 export class AddCbFailureComponent implements OnInit { 
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;

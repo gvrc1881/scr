@@ -380,6 +380,16 @@ export const FieldLabelsConstant = {
      PRODUCT_DATA:'Product_Data',
      PRODUCT_CATEGORY_DATA:'Product Category_Data',
      PRODUCT_CATEGORY_FORM:'Product Category Form',
-     PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form'
+     PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form',
+     GRID_FAILURE:'GRID Failure',
+     CB_FAILURES:'CB Failures',
+     RC_Failures:'RC Failures',
+     RC_FAILURES_FORM:'Rc Failure Form',
+     FAILURE_OCCURENCE:'Failure Occurence',
+     FAILURE_OCCURRENCE_FORM:'Failure Occurrence Form',
+     UNUSUAL_OCCURRENCE:'Unusual Occurence ',
+    UNUSUAL_OCCURRENCE_FAILURE_FORM:'Unusual Occurrence Failure Form',
+    ACTION_FORM:'Action Form'
+
    }
 };

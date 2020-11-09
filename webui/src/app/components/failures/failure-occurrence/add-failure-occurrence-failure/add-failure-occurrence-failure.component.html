@@ -20,7 +20,7 @@
                     <div class="panel-body"> -->
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Failure Occurrence Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.FAILURE_OCCURRENCE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
                                                                                                                                                      
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Occurrence" 
+                                                            <input matInput placeholder="{{FiledLabels.OCCURENCE}}" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['occurrence']"
                                                                required >                                                           
                                                         </mat-form-field>
@@ -41,7 +41,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Train No" 
+                                                            <input matInput placeholder="{{FiledLabels.TRAIN_NO}}" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['trainNo']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -49,7 +49,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Place" 
+                                                            <input matInput placeholder="{{FiledLabels.PLACE}}" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['place']"
                                                                 required >                                                           
                                                         </mat-form-field>
@@ -58,7 +58,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="Failure From Date"
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FAILURE_FROM_DATE}}"
                                                                 (dateTimeChange)="addEvent($event)" [max]="maxDate"
                                                                 [value]="currentDate | dateFilter:dateFormat" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
@@ -81,7 +81,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Failure To Date"  
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.FAILURE_TO_DATE}}"  
                                                                 [value]="failToDate | dateFilter:dateFormat" 
                                                                 [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventFailToDate($event)"
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
@@ -119,7 +119,7 @@
                                                      <div class="clearfix"></div>
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" 
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['remarks']"
                                                                 > </textarea>                       
                                                                 <mat-error

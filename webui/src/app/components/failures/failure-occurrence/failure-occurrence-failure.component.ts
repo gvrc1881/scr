@@ -8,13 +8,18 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 @Component({
   selector: 'app-failure-occurrence',
   templateUrl: './failure-occurrence-failure.component.html',
   styleUrls: ['./failure-occurrence-failure.component.css']
 })
 export class FailureOccurrenceComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -137,11 +142,28 @@ export class FailureOccurrenceComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Failure Occurence',
-      'dataSource':[{label:'Occurrence',value:data.occurrence},{label:'TrainNo',value:data.trainNo},
+      'title':this.Titles.FAILURE_OCCURENCE,
+      'dataSource':[
+        
+      {label:'Occurrence',value:data.occurrence},{label:'TrainNo',value:data.trainNo},
       {label:'Place', value:data.place},{label:'FromDateTime', value:data.fromDateTime},{label:'ThruDateTime', value:data.thruDateTime},
      {label:'Duration',value:data.duration},{label:'DivisionLocal',value:data.divisionLocal},
-      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ]
+      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ,
+    
+      { label:FieldLabelsConstant.LABELS.OCCURENCE, value:data.occurrence },
+      { label:FieldLabelsConstant.LABELS.TRAIN_NO, value:data.trainNo },
+      { label:FieldLabelsConstant.LABELS.PLACE, value:data.place },
+      { label:FieldLabelsConstant.LABELS.FAILURE_FROM_DATE, value:data.fromDateTime },
+      { label:FieldLabelsConstant.LABELS.FAILURE_TO_DATE, value:data.thruDateTime },
+      { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks }
+      
+    
+    
+    
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

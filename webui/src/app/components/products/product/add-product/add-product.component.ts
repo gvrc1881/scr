@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'app-add-product',
@@ -13,6 +15,9 @@ import { FacilityModel } from 'src/app/models/facility.model';
   styleUrls: []
 })
 export class AddProductComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     save: boolean = true;
     update: boolean = false;
