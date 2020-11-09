@@ -8,6 +8,9 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 
 @Component({
@@ -17,13 +20,16 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class MeasureActivityComponent implements OnInit{
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     addMeasureActivity:boolean;
     measureActivityFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     measureList:any;    
     editMeasureResponse: any;  
     measureErrors : any;
@@ -95,7 +101,7 @@ export class MeasureActivityComponent implements OnInit{
               
    
        this.addMeasureActivity=false;
-       if (this.title ==  Constants.EVENTS.SAVE) {
+       if (this.title ==  Constants.EVENTS.ADD) {
         var saveMeasureModel={
                                 'activityId':activityId,
                                 'activityName': activityName,
@@ -140,7 +146,7 @@ export class MeasureActivityComponent implements OnInit{
                                         this.getAllMeasureData();
                                         this.measureActivityFormGroup.reset();
                                         this.addMeasureActivity =  false;
-                                        this.title = "Save";
+                                        this.title = Constants.EVENTS.ADD;
                                     }
                                     else {
                                             this.commonService.showAlertMessage("Measure Activity Data Updating Failed.");
@@ -183,7 +189,7 @@ export class MeasureActivityComponent implements OnInit{
     onGoBack() {
         this.measureActivityFormGroup.reset();
         this.addMeasureActivity = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
 
@@ -235,7 +241,7 @@ export class MeasureActivityComponent implements OnInit{
     editMeasurreActivity (id) {
         this.addMeasureActivity = true;
         this.measureEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     
     }
     measureEditAction(id: number) {
@@ -261,9 +267,9 @@ export class MeasureActivityComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title =Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
       onFormValuesChanged() {
@@ -416,9 +422,15 @@ if (unitOfMeasure==null) {
 }
 ViewData(data){
   var result = {
-    'title':'Measures/Activities',
-    'dataSource':[{label:'ActivityId',value:data.activityId},{label:'ActivityName',value:data.activityName},
-    {label:'ActivityType',value:data.activityType},{label:'UnitOfMeasure', value:data.unitOfMeasure}]
+    'title':this.Titles.MEASURES_ACTIVITIES,
+    'dataSource':[  
+  
+    { label:FieldLabelsConstant.LABELS.ACTIVITY_ID, value:data.activityId },
+    { label:FieldLabelsConstant.LABELS.ACTIVITY_NAME, value:data.activityName },
+    { label:FieldLabelsConstant.LABELS.ACTIVITY_TYPE, value:data.activityType },
+    { label:FieldLabelsConstant.LABELS.UNIT_OF_MEASURE, value:data.unitOfMeasure }
+    
+  ]
   }
   this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
     disableClose: false,

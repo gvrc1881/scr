@@ -31,7 +31,7 @@
   fxLayoutAlign="start" [formGroup]="assetSchActAssocFormGroup" fxFlex="1 0 auto"
   (ngSubmit)="assetSchActAssocSubmit();">
   <div class="panel panel-primary">
-    <div class="panel-heading">{{title}} Asset Sch Activity Assoc</div>
+    <div class="panel-heading">{{title}} {{Titles.ASSET_SCHEDULE_ACTIVITY_ASSOC}}</div>
     <div class="panel-body">
         <div class="col-md-12">
              <div *ngIf ="enableAsaSeqId">
@@ -39,7 +39,7 @@
             <div *ngIf="!enableAsaSeqId; else AsaSeqIdElseBlock">
              <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Asset Type-Schedule Name" 
+                    <mat-select placeholder="{{FiledLabels.ASSET_TYPE_SCHEDULE_NAME}}" 
                         [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required>
                         <mat-option *ngFor="let assetType of assetSchList"
                             [value]="assetType.asaSeqId" >
@@ -58,7 +58,7 @@
             <ng-template #AsaSeqIdElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
-                        <input matInput placeholder = "Asset Type-Schedule Name" [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required [readonly]="true"/>
+                        <input matInput placeholder = "{{FiledLabels.ASSET_TYPE_SCHEDULE_NAME}}" [formControl]="assetSchActAssocFormGroup.controls['asaSeqId']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
           </ng-template>  
@@ -68,7 +68,7 @@
         <div *ngIf="!enableActivityId; else ActivityIdElseBlock">
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Activity Name" 
+                    <mat-select placeholder="{{FiledLabels.ACTIVITY_NAME}}" 
                         [formControl]="assetSchActAssocFormGroup.controls['activityId']" required>
                         <mat-option *ngFor="let activity of activityList"
                             [value]="activity.activityId">
@@ -86,7 +86,7 @@
             <ng-template #ActivityIdElseBlock>
                 <div class = "col-md-2" >
                     <mat-form-field fxFlex="30">
-                        <input matInput placeholder = "Activity Name" [formControl]="assetSchActAssocFormGroup.controls['activityId']" required [readonly]="true"/>
+                        <input matInput placeholder = "{{FiledLabels.ACTIVITY_NAME}}" [formControl]="assetSchActAssocFormGroup.controls['activityId']" required [readonly]="true"/>
                     </mat-form-field>
                   </div>
           </ng-template>
@@ -96,7 +96,7 @@
         <div *ngIf="!enablePositionId; else PositionIdElseBlock">
         <div class="col-md-3">
             <mat-form-field fxFlex="30" class="example-full-width">
-                <mat-select placeholder="Activity-position seq" 
+                <mat-select placeholder="{{FiledLabels.ACTIVITY_POSITION_SEQ}}" 
                     [formControl]="assetSchActAssocFormGroup.controls['activityPositionId']"  required>
                     <mat-option *ngFor="let measure of measuresList"
                             [value]="measure.measureActivity">
@@ -123,13 +123,13 @@
     <ng-template #PositionIdElseBlock>
         <div class = "col-md-2" >
             <mat-form-field fxFlex="30">
-                <input matInput placeholder = "Activity-position seq" [formControl]="assetSchActAssocFormGroup.controls['activityPositionId']" required [readonly]="true"/>
+                <input matInput placeholder = "{{FiledLabels.ACTIVITY_POSITION_SEQ}}" [formControl]="assetSchActAssocFormGroup.controls['activityPositionId']" required [readonly]="true"/>
             </mat-form-field>
           </div>
   </ng-template>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">            
-                    <mat-select placeholder="Make" 
+                    <mat-select placeholder="{{FiledLabels.MAKE}}" 
                         [formControl]="assetSchActAssocFormGroup.controls['makeCode']">
                         <mat-option *ngFor="let make of makeList"
                             [value]="make.makeCode">
@@ -144,7 +144,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">            
-                    <mat-select placeholder="Model" 
+                    <mat-select placeholder="{{FiledLabels.MODEL}}" 
                         [formControl]="assetSchActAssocFormGroup.controls['modelCode']" >
                         <mat-option *ngFor="let model of modelList"
                             [value]="model.modelCode">
@@ -169,7 +169,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Active/in-active" 
+                    <mat-select placeholder="{{FiledLabels.ACTIVE_IN_ACTIVE}}" 
                         [formControl]="assetSchActAssocFormGroup.controls['activityFlag']"required>
                         <mat-option value="Yes">Yes</mat-option>
                         <mat-option value="No">No</mat-option>                                 
@@ -182,7 +182,7 @@
             </div>    
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Display Order" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']" numbersOnly/>
+                    <input matInput placeholder="{{FiledLabels.DISPLAY_ORDER}}" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']" numbersOnly/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('duplicateasaSeqActivityDispaly')" 
                     class="alert alert-danger" >
@@ -202,7 +202,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Measure Lower Limit" [formControl]="assetSchActAssocFormGroup.controls['lowerLimit']"/>
+                    <input matInput placeholder="{{FiledLabels.MEASURE_LOWER_LIMIT}}" [formControl]="assetSchActAssocFormGroup.controls['lowerLimit']"/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['lowerLimit'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -212,7 +212,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Measure Upper Limit" [formControl]="assetSchActAssocFormGroup.controls['upperLimit']"/>
+                    <input matInput placeholder="{{FiledLabels.MEASURE_UPPER_LIMIT}}" [formControl]="assetSchActAssocFormGroup.controls['upperLimit']"/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['upperLimit'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -222,7 +222,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Description" [formControl]="assetSchActAssocFormGroup.controls['description']"/>
+                    <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="assetSchActAssocFormGroup.controls['description']"/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['description'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -265,7 +265,7 @@
     <mat-table [dataSource]="filterData.dataSource" matSort>
         <ng-container matColumnDef="sno">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span> Sno</span>
+        <span> {{FiledLabels.S_NO}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
     </mat-header-cell>                                            
     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -273,7 +273,7 @@
 
 <ng-container matColumnDef="asaSeqId">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Asset Schedule</span>
+        <span>{{FiledLabels.ASSET_SCHEDULE}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.asaSeqId}}</mat-cell>
@@ -281,7 +281,7 @@
 
 <ng-container matColumnDef="activityId">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Activity</span>
+        <span>{{FiledLabels.ACTIVITY}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.activityId}}</mat-cell>
@@ -289,7 +289,7 @@
 
 <ng-container matColumnDef="activityPositionId">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Activity Position</span>
+        <span>{{FiledLabels.ACTIVITY_POSITION}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.activityPositionId}}</mat-cell>
@@ -297,7 +297,7 @@
 
 <ng-container matColumnDef="makeCode">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Make</span>
+        <span>{{FiledLabels.MAKE}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.makeCode}}</mat-cell>
@@ -305,7 +305,7 @@
 
 <ng-container matColumnDef="modelCode">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Model</span>
+        <span>{{FiledLabels.MODEL}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.modelCode}}</mat-cell>
@@ -313,7 +313,7 @@
 
 <ng-container matColumnDef="activityFlag">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>ActivityFlag</span>
+        <span>{{FiledLabels.ACTIVITY_FLAG}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.activityFlag}}</mat-cell>
@@ -321,7 +321,7 @@
 
 <ng-container matColumnDef="displayOrder">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>DisplayOrder</span>
+        <span>{{FiledLabels.DISPLAY_ORDER}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.displayOrder}}</mat-cell>
@@ -330,7 +330,7 @@
 
 <ng-container matColumnDef="lowerLimit">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>LowerLimit</span>
+        <span>{{FiledLabels.LOWER_LIMIT}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.lowerLimit}}</mat-cell>
@@ -338,7 +338,7 @@
 
 <ng-container matColumnDef="upperLimit">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>UpperLimit</span>
+        <span>{{FiledLabels.UPPER_LIMIT}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.upperLimit}}</mat-cell>
@@ -347,7 +347,7 @@
  
 <ng-container matColumnDef="description">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>Description</span>
+        <span>{{FiledLabels.DESCRIPTION}}</span>
         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
     </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
@@ -356,7 +356,7 @@
     
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-            <span>Actions</span>
+            <span>{{FiledLabels.ACTIONS}}</span>
             <input matInput type="text" disabled (keyup) ="updatePagination()" />
         </mat-header-cell>
             <mat-cell *matCellDef="let row">
@@ -380,7 +380,7 @@
     <mat-row *matRowDef="let row; columns: assetSchActAssocDisplayColumns;">
     </mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[ 20, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
   </div>
   </div>
   </div>

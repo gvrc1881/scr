@@ -31,12 +31,12 @@
   fxLayoutAlign="start" [formGroup]="assetSchAssocFormGroup" fxFlex="1 0 auto"
   (ngSubmit)="assetSchAssocSubmit();">
   <div class="panel panel-primary">
-    <div class="panel-heading">{{title}} Asset Sch Assoc</div>
+    <div class="panel-heading">{{title}} {{Titles.ASSET_SCHEDULE_ASSOC}}</div>
     <div class="panel-body">
         <div class="col-md-12">
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Asset Type" 
+                    <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}" 
                         [formControl]="assetSchAssocFormGroup.controls['assetType']" required>
                         <mat-option *ngFor="let assetType of assetsList"
                             [value]="assetType.productId">
@@ -48,7 +48,7 @@
         
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Schedule Name" 
+                    <mat-select placeholder="{{FiledLabels.SCHEDULE_NAME}}" 
                         [formControl]="assetSchAssocFormGroup.controls['scheduleCode']" required >
                         <mat-option *ngFor="let schedule of scheduleList"
                             [value]="schedule.scheduleCode">
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-3">
             <mat-form-field fxFlex="30" class="example-full-width">
-                <mat-select placeholder="Target plan" 
+                <mat-select placeholder="{{FiledLabels.TARGET_PLAN}}" 
                     [formControl]="assetSchAssocFormGroup.controls['targetPlanMonths']">
                     <mat-option value="1 month">1 month</mat-option>
                     <mat-option value="2 months">2 months</mat-option>
@@ -93,7 +93,7 @@
         </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Sequence code" [formControl]="assetSchAssocFormGroup.controls['sequenceCode']"/>
+                    <input matInput placeholder="{{FiledLabels.SEQUENCE_CODE}}" [formControl]="assetSchAssocFormGroup.controls['sequenceCode']"/>
                     <mat-error
                     *ngIf="assetSchAssocFormGroup.controls['sequenceCode'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -103,7 +103,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Duration" [formControl]="assetSchAssocFormGroup.controls['duration']" />
+                    <input matInput placeholder="{{FiledLabels.DURATION}}" [formControl]="assetSchAssocFormGroup.controls['duration']" />
                     <mat-error
                     *ngIf="assetSchAssocFormGroup.controls['duration'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -113,7 +113,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30" class="example-full-width">
-                    <mat-select placeholder="Units" 
+                    <mat-select placeholder="{{FiledLabels.UNITS}}" 
                         [formControl]="assetSchAssocFormGroup.controls['uomOfDuration']">
                         <mat-option value="Time in Days">Time in Days</mat-option>
                         <mat-option value="Time in Hours">Time in Hours</mat-option>
@@ -128,7 +128,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Description" [formControl]="assetSchAssocFormGroup.controls['description']"/>
+                    <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="assetSchAssocFormGroup.controls['description']"/>
                     <mat-error
                     *ngIf="assetSchAssocFormGroup.controls['description'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -138,7 +138,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Asa seq Id" [formControl]="assetSchAssocFormGroup.controls['asaSeqId']"/>
+                    <input matInput placeholder="{{FiledLabels.ASA_SEQ_ID}}" [formControl]="assetSchAssocFormGroup.controls['asaSeqId']"/>
                     <mat-error
                     *ngIf="assetSchAssocFormGroup.controls['asaSeqId'].hasError('maxlength')"
                     class="alert alert-danger">
@@ -177,57 +177,57 @@
   <div class="mat-elevation-z8">
   <mat-table [dataSource]="assetSchAssocDataSource" matSort>
     <ng-container matColumnDef="sno">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="assetType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>asset Type</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASSET_TYPE}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.assetType}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="scheduleCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>schedule Code</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SCHEDULE_CODE}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.scheduleCode}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="isDpr">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>is Dpr</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.IS_DPR}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.isDpr}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="targetPlanMonths">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>target Plan</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_PLAN}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.targetPlanMonths}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="sequenceCode">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>sequence Code</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SEQUENCE_CODE}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.sequenceCode}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="duration">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>duration</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DURATION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.duration}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="uomOfDuration">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>uom Of Duration</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UOM_OF_DURATION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.uomOfDuration}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.description}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="asaSeqId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>asa SeqId</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASA_SEQ_ID}}</mat-header-cell>
         <mat-cell *matCellDef="let row" style="cursor: pointer">
           {{row.asaSeqId}}</mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
             <mat-cell *matCellDef="let row">
               <button mat-icon-button matTooltip="View"
                 (click)="ViewData(row)">
@@ -249,7 +249,7 @@
     <mat-row *matRowDef="let row; columns: assetSchAssocDisplayColumns;">
     </mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
   </div>
   </div>
   </div>

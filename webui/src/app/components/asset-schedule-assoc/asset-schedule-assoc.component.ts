@@ -9,6 +9,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -18,13 +19,16 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class AssetScheduleAssocComponent implements OnInit{
+
+ FiledLabels = FieldLabelsConstant.LABELS;
+ Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     addSchAssoc:boolean;
     assetSchAssocFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     AssocList:any;
     editAssetSchAssocResponse: any;
     responseStatus: any;
@@ -98,7 +102,7 @@ export class AssetScheduleAssocComponent implements OnInit{
         let description: string=this.assetSchAssocFormGroup.value.description;
         let asaSeqId: string=this.assetSchAssocFormGroup.value.asaSeqId;
 
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveAssocModel={
                                     'assetType':assetType,
                                     'scheduleCode': scheduleCode,
@@ -154,7 +158,7 @@ export class AssetScheduleAssocComponent implements OnInit{
                                             this.getAllAssocData();
                                             this.assetSchAssocFormGroup.reset();
                                             this.addSchAssoc=  false;
-                                            this.title = "Save";
+                                            this.title = Constants.EVENTS.ADD;
                                         }
                                         else {
                                                 this.commonService.showAlertMessage("Asset Schedule Assoc Data Updating Failed.");
@@ -190,7 +194,7 @@ export class AssetScheduleAssocComponent implements OnInit{
     onGoBack() {
         this.assetSchAssocFormGroup.reset();
         this.addSchAssoc= false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
 
@@ -246,7 +250,7 @@ export class AssetScheduleAssocComponent implements OnInit{
       editAssetSchAssoc (id) {
         this.addSchAssoc = true;
         this.AssocEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     
     }
     AssocEditAction(id: number) {
@@ -282,9 +286,9 @@ export class AssetScheduleAssocComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
       onFormValuesChanged() {
@@ -343,10 +347,20 @@ export class AssetScheduleAssocComponent implements OnInit{
       }
       ViewData(data){
         var result = {
-          'title':'Asset Schedule Assoc',
-          'dataSource':[{label:'assetType',value:data.assetType},{label:'scheduleCode',value:data.scheduleCode},{label:'isDpr',value:data.isDpr},
-          {label:'targetPlanMonths',value:data.targetPlanMonths},{label:'sequenceCode',value:data.sequenceCode},{label:'duration',value:data.duration},
-          {label:'uomOfDuration',value:data.uomOfDuration},{label:'asaSeqId',value:data.asaSeqId},{label:'description',value:data.description}]
+          'title':this.Titles.ASSET_SCHEDULE_ASSOC,
+          'dataSource':[
+        
+          { label:FieldLabelsConstant.LABELS.ASSET_TYPE, value:data.assetType },
+          { label:FieldLabelsConstant.LABELS.SCHEDULE_CODE, value:data.scheduleCode },
+          { label:FieldLabelsConstant.LABELS.IS_DPR, value:data.isDpr },
+          { label:FieldLabelsConstant.LABELS.TARGET_PLAN_MONTHS, value:data.targetPlanMonths },
+          { label:FieldLabelsConstant.LABELS.SEQUENCE_CODE, value:data.sequenceCode },
+          { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
+          { label:FieldLabelsConstant.LABELS.UOM_OF_DURATION, value:data.uomOfDuration },
+          { label:FieldLabelsConstant.LABELS.ASA_SEQ_ID, value:data.asaSeqId },
+          { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
+        
+        ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

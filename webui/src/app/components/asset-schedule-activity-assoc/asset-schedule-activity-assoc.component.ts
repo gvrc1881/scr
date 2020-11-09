@@ -9,6 +9,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -18,13 +19,15 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class AssetScheduleActivityAssocComponent implements OnInit{
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     addSchActAssoc:boolean;
     assetSchActAssocFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     ActivityAssocList:any;
     editAssetSchActAssocResponse: any;
     responseStatus: any;
@@ -199,7 +202,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
         onGoBack() {
             this.assetSchActAssocFormGroup.reset();
             this.addSchActAssoc= false;
-            this.title = 'Save';
+            this.title = Constants.EVENTS.ADD;
         }  
 
         NewAssetSchActAssoc(){
@@ -243,7 +246,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
    let upperLimit: string=this.assetSchActAssocFormGroup.value.upperLimit;
    let description: string=this.assetSchActAssocFormGroup.value.description;
 
-   if (this.title ==  Constants.EVENTS.SAVE) {
+   if (this.title ==  Constants.EVENTS.ADD) {
        var saveActAssocModel={
                                'asaSeqId':asaSeqId,
                                'activityId': activityId,
@@ -307,7 +310,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
                                       this.getAllActivityAssocData();
                                        this.assetSchActAssocFormGroup.reset();
                                        this.addSchActAssoc=  false;
-                                       this.title = "Save";
+                                       this.title = Constants.EVENTS.ADD;
                                    }
                                    else {
                                            this.commonService.showAlertMessage("Asset Schedule Activity Assoc Data Updating Failed.");
@@ -350,7 +353,7 @@ deleteAssetActSchAssoc(id) {
 editAssetSchActAssoc(id) {
     this.addSchActAssoc = true;
     this.ActAssocEditAction(id);
-    this.title = 'Update';
+    this.title = Constants.EVENTS.UPDATE;
     this.enableAsaSeqId=true;
     this.enableActivityId=true;
     this.enablePositionId=true;
@@ -408,9 +411,9 @@ ActAssocEditAction(id: number) {
     } ,error => {})
     this.id=id;
     if (!isNaN(this.id)) {
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
       } else {
-        this.title = 'Save';      
+        this.title = Constants.EVENTS.ADD;      
       }
 }
   onFormValuesChanged() {
@@ -564,12 +567,21 @@ ActAssocEditAction(id: number) {
 
   ViewData(data){
     var result = {
-      'title':'Asset Schedule Activity Assoc',
-      'dataSource':[{label:'Asset Schedule',value:data.asaSeqId},{label:'activity',value:data.activityId},
-      {label:'activityPosition',value:data.activityPositionId},{label:'makeCode',value:data.makeCode},
-      {label:'modelCode',value:data.modelCode},{label:'activityFlag',value:data.activityFlag},
-      {label:'displayOrder',value:data.displayOrder},{label:'lowerLimit',value:data.lowerLimit},
-      {label:'upperLimit',value:data.upperLimit},{label:'description',value:data.description}]
+      'title':this.Titles.ASSET_SCHEDULE_ACTIVITY_ASSOC,
+      'dataSource':[
+    
+      { label:FieldLabelsConstant.LABELS.ASSET_SCHEDULE, value:data.assetSchedule },
+      { label:FieldLabelsConstant.LABELS.ACTIVITY, value:data.activityId },
+      { label:FieldLabelsConstant.LABELS.ACTIVITY_POSITION, value:data.activityPosition },
+      { label:FieldLabelsConstant.LABELS.MAKE_CODE, value:data.makeCode },
+      { label:FieldLabelsConstant.LABELS.MODEL_CODE, value:data.modelCode },
+      { label:FieldLabelsConstant.LABELS.ACTIVITY_FLAG, value:data.activityFlag },
+      { label:FieldLabelsConstant.LABELS.DISPLAY_ORDER, value:data.displayOrder },
+      { label:FieldLabelsConstant.LABELS.LOWER_LIMIT, value:data.lowerLimit },
+      { label:FieldLabelsConstant.LABELS.UPPER_LIMIT, value:data.upperLimit },
+      { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
+      
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

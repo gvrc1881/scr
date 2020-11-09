@@ -9,6 +9,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+ 
 
 
 @Component({
@@ -18,14 +22,16 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class FacilityComponent implements OnInit{
-    
+
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addFacility:boolean;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     facilityFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     FacilityList:any;
     editFacilityResponse: any;
     responseStatus: any;
@@ -131,7 +137,7 @@ export class FacilityComponent implements OnInit{
 
           
    
-           if (this.title ==  Constants.EVENTS.SAVE) {
+           if (this.title ==  Constants.EVENTS.ADD) {
                var saveFacilityModel={
                                        'facilityId':facilityId,
                                        'facilityName': facilityName,
@@ -223,7 +229,7 @@ export class FacilityComponent implements OnInit{
        onGoBack() {
            this.facilityFormGroup.reset();
            this.addFacility= false;
-           this.title = 'Save';
+           this.title = Constants.EVENTS.ADD;
            this.enableDivision = false;
         this.enableSubDivision = false;
         
@@ -286,7 +292,7 @@ export class FacilityComponent implements OnInit{
          editFacility (id) {
            this.addFacility = true;
            this.FacilityEditAction(id);
-           this.title = 'Update';
+           this.title = Constants.EVENTS.UPDATE;
            this.enableZone=false;
            this.enableDivision=false;
            this.enableSubDivision=false;
@@ -330,9 +336,9 @@ export class FacilityComponent implements OnInit{
            this.findDivisions();
            this.findSubDivisions();
            if (!isNaN(this.id)) {
-               this.title = 'Update';
+               this.title = Constants.EVENTS.UPDATE;
              } else {
-               this.title = 'Save';      
+               this.title = Constants.EVENTS.ADD;      
              }
        }
          onFormValuesChanged() {
@@ -481,12 +487,21 @@ export class FacilityComponent implements OnInit{
         
       ViewData(data){
         var result = {
-          'title':'Functional Unit',
-          'dataSource':[{label:'Zone',value:data.zone},{label:'Division',value:data.division},
-          {label:'Sub_Div',value:data.subDivision},
-          {label:'functional Unit Id',value:data.facilityId},{label:'Functional unit name',value:data.facilityName},
-          {label:'facilityTypeId',value:data.facilityTypeId},{label:'Functional Type',value:data.depotType},
-          {label:'Parent Fun Unit',value:data.parentDepot}, {label:'description',value:data.description}]
+          'title':this.Titles.FUNCTIONAL_UNIT,
+          'dataSource':[
+        
+          { label:FieldLabelsConstant.LABELS.ZONE, value:data.zone },
+          { label:FieldLabelsConstant.LABELS.DIVISION, value:data.division },
+          { label:FieldLabelsConstant.LABELS.SUB_DIV, value:data.subDivision },
+          { label:FieldLabelsConstant.LABELS.FUNCTIONAL_UNIT_ID, value:data.facilityId },
+          { label:FieldLabelsConstant.LABELS.FUNCTIONAL_UNIT_NAME, value:data.facilityName },
+          { label:FieldLabelsConstant.LABELS.FACILITY_TYPE_ID, value:data.facilityTypeId },
+          { label:FieldLabelsConstant.LABELS.FUNCTIONAL_TYPE, value:data.depotType },
+          { label:FieldLabelsConstant.LABELS.PARENT_FUN_UNIT, value:data.parentDepot },
+          { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
+          
+       
+        ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

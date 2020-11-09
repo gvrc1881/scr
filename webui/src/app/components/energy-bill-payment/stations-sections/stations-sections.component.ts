@@ -7,6 +7,9 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
   selector: 'stations-sections',
@@ -15,12 +18,14 @@ import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog
 })
 export class StationsSectionsComponent implements OnInit {
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   addPermission: boolean = true;
   editPermission: boolean = true;
   deletePermission: boolean = true;
   addStationsSections: boolean;
   id: number = 0;
-  title: string = "Save";
+  title: string = Constants.EVENTS.ADD;
   stationsSectionsFormGroup: FormGroup;
   stationsSectionsList: any;
   divisionsList: any;
@@ -201,7 +206,7 @@ export class StationsSectionsComponent implements OnInit {
   editStationsSections(id) {
     this.addStationsSections = true;
     this.stationsSectionsEditAction(id);
-    this.title = 'Update';
+    this.title = Constants.EVENTS.UPDATE;
   }
 
   stationsSectionsEditAction(id: number) {
@@ -232,9 +237,9 @@ export class StationsSectionsComponent implements OnInit {
     }, error => { })
     this.id = id;
     if (!isNaN(this.id)) {
-      this.title = 'Update';
+      this.title = Constants.EVENTS.UPDATE;
     } else {
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
 
@@ -268,7 +273,7 @@ export class StationsSectionsComponent implements OnInit {
   onGoBack() {
     this.stationsSectionsFormGroup.reset();
     this.addStationsSections = false;
-    this.title = 'Save';
+    this.title = Constants.EVENTS.ADD;
   }
 
 
@@ -288,10 +293,21 @@ export class StationsSectionsComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Station Sections  Data',
-      'dataSource':[{label:'Station Code',value:data.stationCode},{label:'Station Name',value:data.stationName},{label:'Major Section Route',value:data.majorSectionRoute},
-                    {label:'Up Section', value:data.upSection},{label:'Up Section Name', value:data.upSectionName},{label:'Dn Section', value:data.dnSection},
-                    {label:'Dn Section Name', value:data.dnSectionName},{label:'Division', value:data.division} ]
+      'title':this.Titles.STATION_SECTIONS_DATA,
+      'dataSource':[
+        
+                         
+                    { label:FieldLabelsConstant.LABELS.STATION_CODE, value:data.stationCode },
+                    { label:FieldLabelsConstant.LABELS.STATION, value:data.stationName },
+                    { label:FieldLabelsConstant.LABELS.MAJOR_SECTION_ROUTE, value:data.majorSectionRoute },
+                    { label:FieldLabelsConstant.LABELS.UP_SECTION, value:data.uPSection },
+                    { label:FieldLabelsConstant.LABELS.UP_SECTION_NAME, value:data.uPSectionName },
+                    { label:FieldLabelsConstant.LABELS.DN_SECTION, value:data.dNSection },
+                    { label:FieldLabelsConstant.LABELS.DN_SECTION_NAME, value:data.dNSectionName },
+                    { label:FieldLabelsConstant.LABELS.DIVISION, value:data.division },
+                    
+
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

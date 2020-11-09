@@ -388,10 +388,28 @@ export const FieldLabelsConstant = {
      FAILURE_OCCURENCE:'Failure Occurence',
      FAILURE_OCCURRENCE_FORM:'Failure Occurrence Form',
      UNUSUAL_OCCURRENCE:'Unusual Occurence ',
-    UNUSUAL_OCCURRENCE_FAILURE_FORM:'Unusual Occurrence Failure Form',
-    ACTIONS_FORM:'Actions Form',
-    CB_FAILURE_FORM:'CB_FAILURE_FORM',
-    GRID_FAILURE_FORM:'GRID_FAILURE_FORM'
-
+     UNUSUAL_OCCURRENCE_FAILURE_FORM:'Unusual Occurrence Failure Form',
+     ACTIONS_FORM:'Actions Form',
+     CB_FAILURE_FORM:'CB_FAILURE_FORM',
+     GRID_FAILURE_FORM:'GRID_FAILURE_FORM',
+     ASSET_SCHEDULE_ACTIVITY_ASSOC:'Asset Schedule Activity Assoc',
+     ASSET_SCHEDULE_ASSOC:'Asset Schedule Assoc',
+     FUNCTIONAL_UNIT:'Functional Unit',
+     MEASURES_ACTIVITIES:'Measures Activities',
+     MEASURE_OR_ACTIVITY:'Measure or Activity',
+     STATION_SECTIONS_DATA:'Station Sections  Data',
+     STATIONS_SECTIONS:'Stations Sections',
+     TPC_BOARD_ASSOC_DATA:'Tpc Board Depot Assoc Data',
+     TPC_BOARD_DEPOT_ASSOC:'Tpc Board Depot Assoc',
+     TPC_BOARD:'TPC Board',
+     TPC_BOARD_DATA:'Tpc Board  Data',
+     TSS_FEEDER_MASTER:'TSS FEEDER MASTER',
+     FEEDER:'Feeder',
+     ASSETS_SCHEDULE_DATA:'Assets Schedule Data',
+     ASSETS_SCHEDULE_FORM:'Assets schedule Form',
+     DRIVES:'DRIVES',
+     DRIVE_FORM:'Drive Form',
+     DRIVE_CATEGORY_FORM:'Drive Category Form'
+     
    }
 };

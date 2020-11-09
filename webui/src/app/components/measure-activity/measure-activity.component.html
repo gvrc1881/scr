@@ -28,12 +28,12 @@
                                                 fxLayoutAlign="start" [formGroup]="measureActivityFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="measureActivitySubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} Measure or Activity</div>
+                                            		<div class="panel-heading">{{title}} {{Titles.MEASURE_OR_ACTIVITY}}</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
                                                         <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <input matInput placeholder="Activity Id" decimalNumber [formControl]="measureActivityFormGroup.controls['activityId']" required  />
+                                                              <input matInput placeholder="{{FiledLabels.ACTIVITY_ID}}" decimalNumber [formControl]="measureActivityFormGroup.controls['activityId']" required  />
                                                   
                                                                  <mat-error
                                                                   *ngIf=" measureActivityFormGroup.controls['activityId'].hasError('required')"
@@ -58,7 +58,7 @@
                                           
 	                                                    <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="activity name" [formControl]="measureActivityFormGroup.controls['activityName']" required/>
+                                                            <input matInput placeholder="{{FiledLabels.ACTIVITY_NAME}}" [formControl]="measureActivityFormGroup.controls['activityName']" required/>
                                                             <mat-error
                                                             *ngIf=" measureActivityFormGroup.controls['activityName'].hasError('required')"
                                                             class="alert alert-danger">
@@ -83,7 +83,7 @@
                                         
                                                     <div class="col-md-3">
                                                       <mat-form-field fxFlex="30">
-                                                        <mat-select placeholder="Select activityType" [formControl]="measureActivityFormGroup.controls['activityType']" required>
+                                                        <mat-select placeholder="{{FiledLabels.ACTIVITY_TYPE}}" [formControl]="measureActivityFormGroup.controls['activityType']" required>
                                                           <mat-option value="measurement">measurement</mat-option>
                                                           <mat-option value="activity">activity</mat-option>
                                                           </mat-select>               
@@ -93,7 +93,7 @@
                                       
                                                   <div class="col-md-3">
                                                     <mat-form-field fxFlex="30">
-                                                        <input matInput placeholder="unit Of Measure" [formControl]="measureActivityFormGroup.controls['unitOfMeasure']" (ngModelChange)="duplicateActivityNameAndUnitOfMeasure()"/>
+                                                        <input matInput placeholder="{{FiledLabels.UNIT_OF_MEASURE}}" [formControl]="measureActivityFormGroup.controls['unitOfMeasure']" (ngModelChange)="duplicateActivityNameAndUnitOfMeasure()"/>
                                                         <mat-error
                                                         *ngIf="measureActivityFormGroup.controls['unitOfMeasure'].hasError('maxlength')"
                                                         class="alert alert-danger">
@@ -146,7 +146,7 @@
                                         <mat-table [dataSource]="filterData.dataSource" matSort>
                                     			<ng-container matColumnDef="sno">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span> Sno</span>
+                                                <span>{{FiledLabels.S_NO}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                                             </mat-header-cell>                                            
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -154,7 +154,7 @@
                               
                                         <ng-container matColumnDef="activityId">
                                           <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                              <span>ActivityId</span>
+                                              <span>{{FiledLabels.ACTIVITY_ID}}</span>
                                               <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                           </mat-header-cell>
                                           <mat-cell *matCellDef="let row"> {{row.activityId}}</mat-cell>
@@ -162,7 +162,7 @@
                               
                                       <ng-container matColumnDef="activityName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>ActivityName</span>
+                                            <span>{{FiledLabels.ACTIVITY_NAME}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.activityName}}</mat-cell>
@@ -170,7 +170,7 @@
                               
                                     <ng-container matColumnDef="activityType">
                                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                          <span>ActivityType</span>
+                                          <span>{{FiledLabels.ACTIVITY_TYPE}}</span>
                                           <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                          
                                       </mat-header-cell>
@@ -179,7 +179,7 @@
                               
                                   <ng-container matColumnDef="unitOfMeasure">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Unit of measure</span>
+                                        <span>{{FiledLabels.UNIT_OF_MEASURE}}e</span>
                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                     </mat-header-cell>
                                     <mat-cell *matCellDef="let row"> {{row.unitOfMeasure}}</mat-cell>
@@ -187,7 +187,7 @@
                               
                                 <ng-container matColumnDef="id">
                                   <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    <span>Actions</span>
+                                    <span>{{FiledLabels.ACTIONS}}</span>
                                     <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                 </mat-header-cell>
                                   
@@ -210,7 +210,7 @@
                                             	<mat-row *matRowDef="let row; columns: measureDisplayColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                     	</div>
 										
 								</div>
