@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "",
         isSelected: true,
         permission: this.commonService.findPermission('Dashboard', 'menu', 'view'),
-        currentTab: !!path && path.includes("dashboard") || path.includes('stock-quantities') || path.includes('energy-graph') ? "open" : "",
+        currentTab: !!path && path.includes("dashboard") || path.includes('stock-quantities') || path.includes('energy-graph') || path.includes('dash-board')|| path.includes('project-summary')? "open" : "",
         subMenus: [
           {
             subMenuName: "Dashboard",
@@ -106,6 +106,24 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: true,
             permission: this.commonService.findPermission('Energy Consumption Graph', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("energy-graph") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Dash Board",
+            subMenuURL: "dash-board",
+            color: "#1285EE",
+            subMenuIcon: "fa fa-home",
+            rolePermission: true,
+            permission: this.commonService.findPermission('Dash Board', 'submenu', 'view'),
+            currentSubMenu: !!path && (path.includes("dash-board")) ? "active-item" : "",
+          },
+          {
+            subMenuName: "Project Summary",
+            subMenuURL: "project-summary",
+            color: "#1285EE",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('Project Summary', 'submenu', 'view'),
+            currentSubMenu: !!path && (path.includes("project-summary")) ? "active-item" : "",
           }
         ]
       },
@@ -120,7 +138,9 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         currentTab: !!path && (path.includes("report-names") || path.includes("daily-progress-reports") ||
           path.includes("asset-reports") || path.includes("asset-master-reports")) ||
           path.includes("inventory-reports") || path.includes("psi-reports") ||
-          path.includes("zonal-reports") || path.includes("zmms-reports") ? "open" : "",
+          path.includes("zonal-reports") || path.includes("zmms-reports")|| path.includes("day-progress-reports")
+          || path.includes("master-report") || path.includes("ask-rate-reports") || path.includes("s&t-reports") || path.includes("cpd-reports")
+          || path.includes("project-progress-report") || path.includes("yard-siding-reports") || path.includes("proj-progress-percentage") || path.includes("month-progress") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Daily Progress Reports",
@@ -186,7 +206,100 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('ZMMS Reports', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("zmms-reports") ? "active-item" : "",
 
+          },   
+          {
+            subMenuName: "Day Progress Reports",
+            subMenuURL: "day-progress-reports",
+            color: "#1285EE",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('Day Progress Reports', 'submenu', 'view'),
+            currentSubMenu: !!path && (path.includes("day-progress-reports")) ? "active-item" : "",
           },
+          {
+            subMenuName: "Master Reports",
+            subMenuURL: "master-report",
+            color: "#1285EE",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('Master Reports', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("master-report") ? "active-item" : "",
+          },
+          // {
+          //   subMenuName: "Assets Master Reports",
+          //   subMenuURL: "assets-master-reports",
+          //   color: "#1285EE",
+          //   subMenuIcon: "fa fa-file",
+          //   rolePermission: true,
+          //   permission: this.commonService.findPermission('Assets Master Reports', 'submenu', 'view'),
+          //   currentSubMenu: !!path && path.includes("assets-master-reports") ? "active-item" : "",
+          // },  
+
+            {
+              subMenuName: "Ask Rate Reports",
+              subMenuURL: "ask-rate-reports",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('Ask Rate Reports', 'submenu', 'view'),
+              currentSubMenu: !!path && (path.includes("ask-rate-reports")) ? "active-item" : "",
+            },
+            {
+              subMenuName: "S&T Reports",
+              subMenuURL: "s&t-reports",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('S&T Reports', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("s&t-reports") ? "active-item" : "",
+            },
+            {
+              subMenuName: "CPD Reports",
+              subMenuURL: "cpd-reports",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('CPD Reports', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("cpd-reports") ? "active-item" : "",
+            },
+            {
+              subMenuName: "Project Progress Report",
+              subMenuURL: "project-progress-report",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('Project Progress Report', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("project-progress-report") ? "active-item" : "",
+            },
+            {
+              subMenuName: "Yard Siding Reports",
+              subMenuURL: "yard-siding-reports",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('Yard Siding Reports', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("yard-siding-reports") ? "active-item" : "",
+            },     
+            {
+              subMenuName: "Month Progress",
+              subMenuURL: "month-progress",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('Month Progress', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("month-progress") ? "active-item" : "",
+
+            },  
+            {
+              subMenuName: "Proj Progress Percentage",
+              subMenuURL: "proj-progress-percentage",
+              color: "#1285EE",
+              subMenuIcon: "fa fa-file",
+              rolePermission: true,
+              permission: this.commonService.findPermission('Proj Progress Percentage', 'submenu', 'view'),
+              currentSubMenu: !!path && path.includes("proj-progress-percentage") ? "active-item" : "",
+
+            }, 
         ]
       },
       {
@@ -389,7 +502,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('Inspections', 'menu', 'view'),
-        currentTab: !!path && path.includes("ins") || path.includes("ins-stipulation") ? "open" : "",
+        currentTab: !!path && path.includes("ins") || path.includes("ins-stipulation")
+        || path.includes("tw-check") || path.includes("lt-check") || path.includes("ls-wire-check") ? "open" : "",
         subMenus: [
           {
             subMenuName: "CRS EIG Inspections",
@@ -406,6 +520,30 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: true,
             permission: this.commonService.findPermission('Stipulations', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("ins-stipulation") ? "active-item" : "",
+          },
+          {
+            subMenuName: "TW Check",
+            subMenuURL: "tw-check",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('TW Check', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("tw-check") ? "active-item" : "",
+          },
+          {
+            subMenuName: "LT Check",
+            subMenuURL: "lt-check",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('LT Check', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("lt-check") ? "active-item" : "",
+          },
+          {
+            subMenuName: "LS Wire Check",
+            subMenuURL: "ls-wire-check",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('LS Wire Check', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("ls-wire-check") ? "active-item" : "",
           }
         ]
       },
@@ -533,7 +671,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
         currentTab: !!path && path.includes("electrification-targets") || path.includes("sidings")
           || path.includes("track") || path.includes("amd") || path.includes("work") || path.includes("guidenceItem") || path.includes("ohe-location") || path.includes("gantry")
-          || path.includes("sectors") || path.includes("copy-wp-and-wpa")  || path.includes("work-daily-progress") ? "open" : "",
+          || path.includes("sectors") || path.includes("copy-wp-and-wpa") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Asset Master",
@@ -616,18 +754,9 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "copy-wp-and-wpa",
             subMenuIcon: "",
             rolePermission: true,
-            permission: this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
+           permission: this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
           },
-          {
-            subMenuName: "projectDailyProgress",
-            subMenuURL: "work-daily-progress",
-            subMenuIcon: "",
-            rolePermission: true,
-            permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
-          },
-
         ]
       },
       {
@@ -913,6 +1042,115 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           },
         
 
+        ]
+      },
+      {
+        ID: 15,
+        menuName: 'PROJECT ADMIN',
+        menuUrl: 'Projects',
+        icon: "fa fa-file",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('PROJECT ADMIN', 'menu', 'view'),
+        currentTab: !!path && path.includes("projects") || path.includes("phases") || path.includes("phase-activity") 
+        || path.includes("groups-sections") || path.includes("population") || path.includes("targets") 
+        || path.includes("STD-phases") || path.includes("STD-phase-activity")  ? "open" : "",
+        subMenus: [
+          {
+            subMenuName: "Projects",
+            subMenuURL: "projects",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Projects', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("projects") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Phases",
+            subMenuURL: "phases",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Phases', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("phases") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Phase Activity",
+            subMenuURL: "phase-activity",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Phase Activity', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("phase-activity") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Groups Sections",
+            subMenuURL: "groups-sections",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Groups Sections', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("groups-sections") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Population",
+            subMenuURL: "population",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Population', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("population") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Targets",
+            subMenuURL: "targets",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Targets', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("targets") ? "active-item" : "",
+          },
+          {
+            subMenuName: "STD Phases",
+            subMenuURL: "STD-phases",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('STD Phases', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("STD-phases") ? "active-item" : "",
+          },
+          {
+            subMenuName: "STD Phase Activity",
+            subMenuURL: "STD-phase-activity",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('STD Phase Activity', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("STD-phase-activity") ? "active-item" : "",
+          },
+        
+
+        ]
+      },
+      {
+        ID: 16,
+        menuName: 'DAILY PROGRESS',
+        menuUrl: 'Progress',
+        icon: "fa fa-file",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('DAILY PROGRESS', 'menu', 'view'),
+        currentTab: !!path && path.includes("progress") || path.includes("guidence")  ? "open" : "",
+        subMenus: [
+          {
+            subMenuName: "Progress",
+            subMenuURL: "progress",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Progress', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("progress") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Guidence",
+            subMenuURL: "guidence",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Guidence', 'submenu', 'view'),
+            rolePermission: true,
+            currentSubMenu: !!path && path.includes("guidence") ? "active-item" : "",
+          },
+          
         ]
       },
     ];
