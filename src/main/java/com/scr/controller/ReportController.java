@@ -49,6 +49,8 @@ import com.scr.model.ProductMakeModelAssociation;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
 import com.scr.model.Section;
+import com.scr.model.StandardPhaseActivity;
+import com.scr.model.StandardPhases;
 import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
@@ -537,6 +539,23 @@ public class ReportController {
 		List<ProductCategoryType> productCategoryTypeDetails= reportService.findProductCategoryType();
 		return new ResponseEntity<List<ProductCategoryType>>(productCategoryTypeDetails,HttpStatus.OK);	
 		
+	}
+	
+	@RequestMapping(value = "/getAllStandardPhases", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<StandardPhases>> getAllStandardPhases(){
+		log.info("** Enter into getAllStandardPhases functions ***");
+		List<StandardPhases> standardPhases= reportService.findAllStandardPhases();
+		log.info("** preparing response and getAllStandardPhases function end ***");
+		return new ResponseEntity<List<StandardPhases>>(standardPhases,HttpStatus.OK);	
+		
+	}
+	
+	@RequestMapping(value = "/getSPABasedOnSP", method = RequestMethod.POST ,headers = "accept=application/json")	
+	public ResponseEntity<List<StandardPhaseActivity>> getSPABasedOnSP(@RequestBody List<StandardPhases> standardPhases){
+		log.info("** Enter into getSPABasedOnSP  functions ***");
+		List<StandardPhaseActivity> standardPhaseActivities = reportService.findByStandardPhaseId(standardPhases);
+		log.info("** preparing response and  getSPABasedOnSP function end ***");
+		return new ResponseEntity<List<StandardPhaseActivity>>(standardPhaseActivities,HttpStatus.OK);	
 	}
 	
 }

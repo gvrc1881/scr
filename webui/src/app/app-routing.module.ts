@@ -434,6 +434,11 @@ const routes: Routes = [
     loadChildren: './tpc-board/tpc-board.module#TPCBoardModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'copy-wp-and-wpa',
+    loadChildren: './components/copy-wp-and-wpa/copy-wp-and-wpa.module#CopyWPAndWPAModule',
+    canActivate: [AuthGuard]
+  },
   // {
   //   path: 'sectors',
   //   loadChildren: './components/sectors/sectors.module#SectorsModule',

@@ -202,7 +202,8 @@ export const Constants = {
                 UPDATE_WORK:"/updateWork",
                 DELETE_WORK:"/deleteWork/",
                 EXISTS_WORK_NAME:'/existsWorkName/',
-                EXISTS_WORK_NAME_AND_ID: '/existsWorkNameAndId/'
+                EXISTS_WORK_NAME_AND_ID: '/existsWorkNameAndId/',
+                COPY_WP_AND_WPA: '/copyWPAndWPA'
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",
@@ -666,7 +667,13 @@ export const Constants = {
         	SECTORS:{
         		GET_SECTORS:"/findAllSector"
         	},
-        }          
+        },
+        STANDARD_PHASES:{
+        	GET_STANDARD_PHASES:"/getAllStandardPhases"
+        },
+        STANDARD_PHASE_ACTIVITY:{
+        	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"
+        }         
     },
     EVENTS:{
         ADD:"Add",

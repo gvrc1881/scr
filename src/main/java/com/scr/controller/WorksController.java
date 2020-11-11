@@ -12,12 +12,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.message.request.CopyDrivesRequest;
+import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Make;
 import com.scr.model.Works;
@@ -168,6 +171,26 @@ public class WorksController {
 			return false;
 		}
 		
+	}
+	
+	@PostMapping(value="/copyWPAndWPA")
+	@ResponseBody
+	public ResponseStatus copyWPAndWPA(@RequestBody CopyWPAndWPA copyWPAndWPA) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		log.info("*** Enter into copyWPAndWPA function ***");
+		log.info("*** standard phases size**"+copyWPAndWPA.getStandardPhases().size()+"*** standard phase activity**"+copyWPAndWPA.getStandardPhaseActivities().size());
+		try {			
+			worksServices.saveDrives(copyWPAndWPA);
+			log.info("Preparing the return response and copyWPAndWPA function end ");
+			return Helper.findResponseStatus("WP Data And WPA Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While adding WP Data And WPA Data. "+npe.getMessage());
+			return Helper.findResponseStatus("WP  And WPA  Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While adding WP Data And WPA Data. "+e.getMessage());
+			return Helper.findResponseStatus("WP  And WPA  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 
 }

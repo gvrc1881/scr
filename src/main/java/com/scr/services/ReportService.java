@@ -40,6 +40,8 @@ import com.scr.model.ProductMakeModelAssociation;
 import com.scr.model.ReportParameter;
 import com.scr.model.ReportRepository;
 import com.scr.model.Section;
+import com.scr.model.StandardPhaseActivity;
+import com.scr.model.StandardPhases;
 import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
@@ -79,6 +81,8 @@ import com.scr.repository.ProductMakeModelAssocRepository;
 import com.scr.repository.ReportParametersRepository;
 import com.scr.repository.ReportRepositoryRepository;
 import com.scr.repository.SectionRepository;
+import com.scr.repository.StandardPhaseActivityRepository;
+import com.scr.repository.StandardPhasesRepository;
 import com.scr.repository.StatusItemRepository;
 import com.scr.repository.StipulationRepository;
 import com.scr.repository.SubDivisionRepository;
@@ -177,6 +181,12 @@ public class ReportService {
 	
 	@Autowired
 	private TssFeederMasterService tssFeederMasterService;
+	
+	@Autowired
+	private StandardPhasesRepository standardPhasesRepository;
+	
+	@Autowired
+	private StandardPhaseActivityRepository standardPhaseActivityRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -428,4 +438,11 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<ProductCategoryType>findProductCategoryType() {	
 		   return productCategoryTypeRepository.findAllOrderByProductCategoryTypeIdAsc();
 		}
+
+	public List<StandardPhases> findAllStandardPhases() {
+		return standardPhasesRepository.findAll();
+	}
+	public List<StandardPhaseActivity> findByStandardPhaseId(List<StandardPhases> standardPhases) {
+		return standardPhaseActivityRepository.findByStandardPhaseIdIn(standardPhases);
+	}
 }

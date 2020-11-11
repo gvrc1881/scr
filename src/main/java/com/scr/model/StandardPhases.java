@@ -28,8 +28,9 @@ public class StandardPhases {
 
 	@Column(name = "dependency_to_start")
 	private String dependencyToStart;
-
-	private double weightage;
+	
+	@Column( nullable = true )
+	private Double weightage;
 
 	public Integer getId() {
 		return id;
@@ -79,11 +80,11 @@ public class StandardPhases {
 		this.dependencyToStart = dependencyToStart;
 	}
 
-	public double getWeightage() {
+	public Double getWeightage() {
 		return weightage;
 	}
 
-	public void setWeightage(double weightage) {
+	public void setWeightage(Double weightage) {
 		this.weightage = weightage;
 	}
 

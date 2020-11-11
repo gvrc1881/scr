@@ -21,3 +21,13 @@ export interface WorksModel{
   workName: string;
   yearOfSanction: number;
 }
+export interface standardPhaseActivityModel{
+    id: number;
+    assetType: string;
+    depotType: string;
+    isCheckList: string;
+    isObjectIdRequired: string;
+    name: string;
+    uom: string;
+    standardPhaseId: any;    
+}
