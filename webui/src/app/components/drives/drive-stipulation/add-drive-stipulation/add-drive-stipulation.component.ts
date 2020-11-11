@@ -9,6 +9,9 @@ import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/co
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { InspectionstModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
   selector: 'app-add-drive-stipulation',
@@ -17,10 +20,13 @@ import { DatePipe } from '@angular/common';
 })
 
 export class AddDriveStipulationComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string;
+  title: string = Constants.EVENTS.ADD;
   id: number = 0;
   isSubmit: boolean = false;
   resp: any;
@@ -73,13 +79,13 @@ export class AddDriveStipulationComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getStipulationDataById(this.id);
 
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
       let crsEigInss = data;

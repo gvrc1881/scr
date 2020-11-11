@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-drive-checklist',
@@ -14,7 +15,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class DriveChecklistComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

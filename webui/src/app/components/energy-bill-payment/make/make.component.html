@@ -31,7 +31,7 @@
 fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
 (ngSubmit)="makeSubmit();">
 <div class="panel panel-primary">
-  <div class="panel-heading">{{title}} make</div>
+  <div class="panel-heading">{{title}} {{Titles.MAKE}}</div>
   <div class="panel-body">
       <div class="col-md-12">
           <!-- <div class="col-md-3">
@@ -59,7 +59,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
       
           <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="Make Code" [formControl]="makeFormGroup.controls['makeCode']" required
+                  <input matInput placeholder="{{FiledLabels.MAKE_CODE}}" [formControl]="makeFormGroup.controls['makeCode']" required
                   oninput="this.value = this.value.toUpperCase()"/>
       
                      <mat-error
@@ -84,7 +84,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
           </div>
           <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="Description" [formControl]="makeFormGroup.controls['description']"/>
+                  <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="makeFormGroup.controls['description']"/>
                   <mat-error
                   *ngIf="makeFormGroup.controls['description'].hasError('maxlength')"
                   class="alert alert-danger">
@@ -94,7 +94,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
           </div>
           <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="Brand Name" [formControl]="makeFormGroup.controls['brandName']"/>
+                  <input matInput placeholder="{{FiledLabels.BRAND_NAME}}" [formControl]="makeFormGroup.controls['brandName']"/>
                   <mat-error
                   *ngIf="makeFormGroup.controls['brandName'].hasError('maxlength')"
                   class="alert alert-danger">
@@ -104,7 +104,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
           </div>
           <div class="col-md-3">
               <mat-form-field fxFlex="30">
-                  <input matInput placeholder="Make Type" [formControl]="makeFormGroup.controls['makeType']" />
+                  <input matInput placeholder="{{FiledLabels.MAKE_TYPE}}" [formControl]="makeFormGroup.controls['makeType']" />
                   <mat-error
                   *ngIf="makeFormGroup.controls['makeType'].hasError('maxlength')"
                   class="alert alert-danger">
@@ -143,37 +143,37 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
 <div class="mat-elevation-z8">
 <mat-table [dataSource]="makeDataSource" matSort>
   <ng-container matColumnDef="sno">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="makeName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>make Name</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MAKE}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.makeName}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="makeCode">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>make Code</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MAKE_CODE}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.makeCode}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.description}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="brandName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>brand Name</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.BRAND_NAME}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.brandName}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="makeType">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>make Type</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MAKE_TYPE}}</mat-header-cell>
       <mat-cell *matCellDef="let row" style="cursor: pointer">
         {{row.makeType}}</mat-cell>
   </ng-container>
   
   <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
           <mat-cell *matCellDef="let row">
             <button mat-icon-button matTooltip="View"
                 (click)="ViewData(row)">
@@ -196,7 +196,7 @@ fxLayoutAlign="start" [formGroup]="makeFormGroup" fxFlex="1 0 auto"
   <mat-row *matRowDef="let row; columns: makeDisplayColumns;">
   </mat-row>
 </mat-table>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
 </div>
 </div>
 </div>

@@ -41,37 +41,37 @@
                                     <mat-table [dataSource]="dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="unitType">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Unit Type</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UNIT_TYPE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.unitType}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="unitName">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UNIT_NAME}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.unitName}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="target">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Target
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.target}}</mat-cell>
                                         </ng-container>
                                        
                                         <ng-container matColumnDef="poulation">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Poulation</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.POPULATION}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.poulation}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="driveId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DRIVE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.driveId}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="actions">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
                                                 <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"> 
                                                     <button mat-icon-button matTooltip="Edit"
@@ -91,7 +91,7 @@
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                 </div>
                             </div>
                         </div>

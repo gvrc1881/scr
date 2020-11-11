@@ -286,12 +286,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addProductFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="addProductFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

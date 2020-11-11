@@ -13,6 +13,10 @@ import { DriveModel } from 'src/app/models/drive.model';
 import { DriveProgressIdModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { ViewDriveDailyProgressComponent } from './view-drive-daily-progress/view-drive-daily-progress.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 
 @Component({
   selector: 'drive-daily-progress',
@@ -21,7 +25,8 @@ import { ViewDriveDailyProgressComponent } from './view-drive-daily-progress/vie
 })
 export class DriveDailyProgressComponent implements OnInit {
         
-    
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     dailyProgressFormGroup: FormGroup;
     dailyProgressDate: any;
     depotType: any;
@@ -166,7 +171,8 @@ export class DriveDailyProgressComponent implements OnInit {
   templateUrl: 'add-asset-ids-drive-dialog.component.html',
 })
 export class AddAssetIdsDriveDialogComponent implements OnInit  {
-        
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;  
     dailyProgressIdFormGroup: FormGroup;
     assetIdList: any;
     displayedColumns = ['sno', 'assetId', 'actions'];

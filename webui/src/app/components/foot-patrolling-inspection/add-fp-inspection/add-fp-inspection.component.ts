@@ -7,6 +7,9 @@ import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 
 @Component({
@@ -22,10 +25,13 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
     ]
 })
 export class AddFpInspectionComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string = '';
+  title: string = Constants.EVENTS.ADD;
   isSubmit: boolean = false;
   fpInspectionItemFormGroup: FormGroup;
   id: number = 0;
@@ -71,10 +77,10 @@ export class AddFpInspectionComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getFpInspectionDataById(this.id);
     } else {
-      this.title = 'Save';      
+      this.title = Constants.EVENTS.ADD;      
     }
   }
   onFormValuesChanged() {

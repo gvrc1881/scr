@@ -21,7 +21,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Drive Daily Progress Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.DRIVE_DAILY_PROGRESS_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -35,7 +35,7 @@
                                                     <!-- activityId -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Activity Id" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.ACTIVITY_ID}}" decimalNumber
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['activityId']"
                                                                 required >
                                                             <mat-error
@@ -49,7 +49,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Performe Date" [max]="maxDate"
+                                                                placeholder="{{FiledLabels.PERFORMED_DATE}}" [max]="maxDate"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['performedDate']"
                                                                 >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -67,7 +67,7 @@
                                                     <!-- division -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Division" required
+                                                            <mat-select placeholder="{{FiledLabels.DIVISION}}" required
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['division']" >
                                                                 <mat-option *ngFor="let division of divisionList"
                                                                     [value]="division.code">
@@ -87,7 +87,7 @@
                                                     <!-- depot -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Depot"
+                                                            <input matInput placeholder="{{FiledLabels.DEPOT}}"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['depot']"
                                                                 required>
                                                             <mat-error
@@ -103,7 +103,7 @@
                                                      <!-- section -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Section"
+                                                            <input matInput placeholder="{{FiledLabels.SECTION}}"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['section']"
                                                                 required >
                                                             <mat-error
@@ -121,7 +121,7 @@
                                                 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Performed Count" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" decimalNumber
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['performedCount']"
                                                                 required>
                                                             <mat-error
@@ -134,7 +134,7 @@
                                                     <!-- supervisor -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Supervisor"
+                                                            <input matInput placeholder="{{FiledLabels.SUPERVISOR}}"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['supervisor']"
                                                                 required>
                                                             <mat-error
@@ -152,7 +152,7 @@
                                                     <!-- DRIVE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Drive"
+                                                            <mat-select placeholder="{{FiledLabels.DRIVE}}"
                                                                 [formControl]="addDriveDailyProgressFormGroup.controls['drive']">
                                                                 <mat-option *ngFor="let drive of driveList"
                                                                     [value]="drive.id">
@@ -171,12 +171,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addDriveDailyProgressFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

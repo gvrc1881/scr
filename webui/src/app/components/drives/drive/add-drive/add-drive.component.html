@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Drive Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.DRIVE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -33,7 +33,7 @@
                                                     <!-- NAME -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Name"
+                                                            <input matInput placeholder="{{FiledLabels.NAME}}"
                                                                 [formControl]="addDriveFormGroup.controls['name']"
                                                                 required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 oninput="this.value = this.value.toUpperCase()">
@@ -58,7 +58,7 @@
                                                     <!-- DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Description"
+                                                            <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}"
                                                                 [formControl]="addDriveFormGroup.controls['description']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -84,7 +84,7 @@
                                                     <!-- ASSET DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Asset Description"
+                                                            <textarea matInput placeholder="{{FiledLabels.ASSET_DESCRIPTION}}"
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveFormGroup.controls['assetDescription']"> </textarea>
                                                             <mat-error
@@ -101,7 +101,7 @@
                                                     <!-- CRITERIA -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Criteria"
+                                                            <textarea matInput placeholder="{{FiledLabels.CRITERIA}}"
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
                                                                 [formControl]="addDriveFormGroup.controls['criteria']"> </textarea>
                                                             <mat-error
@@ -120,7 +120,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose From Date"
+                                                                placeholder="{{FiledLabels.FROM_DATE}}"
                                                                 (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveFormGroup.controls['fromDate']" required>
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -132,7 +132,7 @@
                                                        <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose To Date"
+                                                                placeholder="{{FiledLabels.TO_DATE}}"
                                                                 [min]="toMinDate"
                                                                 [formControl]="addDriveFormGroup.controls['toDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -156,7 +156,7 @@
                                                     <!-- DEPO TYPE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Depo Type"
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}"
                                                                 (selectionChange)="updateAssertType($event)"
                                                                 [formControl]="addDriveFormGroup.controls['depoType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
@@ -170,7 +170,7 @@
                                                       <!-- Is Id Required -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Is Id Required"
+                                                            <mat-select placeholder="{{FiledLabels.IS_ID_REQUIRED}}"
                                                                 [formControl]="addDriveFormGroup.controls['isIdRequired']" (ngModelChange)="IsRequire()">
                                                                 <mat-option
                                                                     *ngFor="let isIdRequired of isIdRequiredsList"
@@ -185,7 +185,7 @@
                                                     <!-- ASSET TYPE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Asset Type"
+                                                            <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}"
                                                                 [formControl]="addDriveFormGroup.controls['assetType']" (ngModelChange)="IsRequire()">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
                                                                     [value]="assetType.productId">
@@ -201,7 +201,7 @@
                                                      <!-- FUNCTIONAL UNIT -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Functional Unit"
+                                                            <mat-select placeholder="{{FiledLabels.FUNCTIONAL_UNIT}}"
                                                                 [formControl]="addDriveFormGroup.controls['functionalUnit']">
                                                                 <mat-option
                                                                     *ngFor="let functionalUnit of functionalUnitList"
@@ -215,7 +215,7 @@
 
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Frequency" 
+                                                            <mat-select placeholder="{{FiledLabels.FREQUENCY}}" 
                                                                 [formControl]="addDriveFormGroup.controls['frequency']"  >
                                                                 <mat-option *ngFor="let frequency of scheduleList"
                                                                     [value]="frequency.scheduleCode">
@@ -229,7 +229,7 @@
                                                     <!-- TARGET QUANTITY -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Quantity" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.TARGET_QUANTITY}}" decimalNumber
                                                                 [formControl]="addDriveFormGroup.controls['targetQuantity']">
                                                         </mat-form-field>
                                                     </div>
@@ -240,7 +240,7 @@
                                                     <!-- CHECKLIST -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Checklist"
+                                                            <mat-select placeholder="{{FiledLabels.CHECK_LIST}}"
                                                                 [formControl]="addDriveFormGroup.controls['checklist']">
                                                                 <mat-option *ngFor="let Checklist of CheckList"
                                                                     [value]="Checklist.value">
@@ -252,7 +252,7 @@
                                                     <!-- STATUS -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Status"
+                                                            <mat-select placeholder="{{FiledLabels.STATUS}}"
                                                                 [formControl]="addDriveFormGroup.controls['status']">
                                                                 <mat-option *ngFor="let status of statusList"
                                                                     [value]="status.value">

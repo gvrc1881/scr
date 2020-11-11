@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Checklist Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.CHECK_LIST_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -34,7 +34,7 @@
                                                     <!-- DRIVE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Drive"
+                                                            <mat-select placeholder="{{FiledLabels.DRIVE}}"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['drive']" required>
                                                                 <mat-option *ngFor="let drive of driveList"
                                                                     [value]="drive.id">
@@ -49,7 +49,7 @@
                                                 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <mat-select placeholder="Select activityType" [formControl]="addDriveChecklistFormGroup.controls['activityType']" (selectionChange)="findMeasureActivityList()" >
+                                                          <mat-select placeholder="{{FiledLabels.ACTIVITY_TYPE}}" [formControl]="addDriveChecklistFormGroup.controls['activityType']" (selectionChange)="findMeasureActivityList()" >
                                                             <mat-option value="measurement">measurement</mat-option>
                                                             <mat-option value="activity">activity</mat-option>
                                                             </mat-select>               
@@ -61,7 +61,7 @@
                                                     <!-- measureActivityList -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Measure Activity List"
+                                                            <mat-select placeholder="{{FiledLabels.MEASURE_ACTIVITY_LIST}}"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['measureActivityList']" required>
                                                                 <mat-option *ngFor="let measureActivity of measureActivityList"
                                                                     [value]="measureActivity.activityId">
@@ -81,7 +81,7 @@
 
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="activityPositionId" 
+                                                            <mat-select placeholder="{{FiledLabels.ACTIVITY_POSITION_ID}}" 
                                                                 [formControl]="addDriveChecklistFormGroup.controls['activityPositionId']" required>
                                                                 <mat-option *ngFor="let measure of activityPositionList"
                                                                         [value]="measure.measureActivity">
@@ -101,7 +101,7 @@
                                                     <!-- DISPLAY ORDER -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Display Order" numbersOnly                                                              
+                                                            <input matInput placeholder="{{FiledLabels.DISPLAY_ORDER}}" numbersOnly                                                              
                                                                 [formControl]="addDriveChecklistFormGroup.controls['displayOrder']"
                                                                 >
                                                             <mat-error
@@ -113,7 +113,7 @@
                                                        <!-- LOWER LIMIT -->
                                                        <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Lower Limit" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.LOWER_LIMIT}}" decimalNumber
                                                                 [formControl]="addDriveChecklistFormGroup.controls['lowerLimit']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -122,7 +122,7 @@
                                                     <!-- UPPER LIMIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Upper Limit" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.UPPER_LIMIT}}" decimalNumber
                                                                 [formControl]="addDriveChecklistFormGroup.controls['upperLimit']"
                                                                 >                                                            
                                                         </mat-form-field>
@@ -133,7 +133,7 @@
                                                     <!-- STATUS -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Status"
+                                                            <mat-select placeholder="{{FiledLabels.STATUS}}"
                                                                 [formControl]="addDriveChecklistFormGroup.controls['status']">
                                                                 <mat-option *ngFor="let status of statusList"
                                                                     [value]="status.statusCode">

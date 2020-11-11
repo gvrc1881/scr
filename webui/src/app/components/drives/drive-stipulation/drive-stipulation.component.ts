@@ -9,6 +9,8 @@ import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'app-drive-stipulation',
@@ -17,6 +19,8 @@ import { DatePipe } from '@angular/common';
 })
 export class DriveStipulationComponent implements OnInit {
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

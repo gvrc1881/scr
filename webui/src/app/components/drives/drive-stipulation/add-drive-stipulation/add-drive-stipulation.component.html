@@ -21,7 +21,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Stipulation Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.STIPULATION_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -38,7 +38,7 @@
                                                             <!-- <input matInput placeholder="Inspection Id"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['inspectionId']"
                                                                 required> -->
-                                                            <mat-select placeholder=" Choose Inspection" 
+                                                            <mat-select placeholder="{{FiledLabels.INSPECTION}}" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['inspectionId']" > 
                                                                 <mat-option *ngFor="let crsEigInspection of crsEigInspections"
                                                                     [value]="crsEigInspection.id">
@@ -60,7 +60,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose Date Of Stipulation"
+                                                                placeholder="{{FiledLabels.DATE_OF_STIPULATION}}"
                                                                 (dateChange)="addEvent($event)" [max]="maxDate"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateOfStipulation']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -90,7 +90,7 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Date Complied"
+                                                                placeholder="{{FiledLabels.COMPLIED_DATE}}"
                                                                 [min]="minDateComplied" [max]="maxDate"
                                                                 [formControl]="addDriveStipulationFormGroup.controls['dateComplied']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -114,7 +114,7 @@
                                                      <!-- stipulation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                        	<textarea matInput placeholder="Stipulation" [formControl]="addDriveStipulationFormGroup.controls['stipulation']" required pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
+                                                        	<textarea matInput placeholder="{{FiledLabels.STIPULATION}}" [formControl]="addDriveStipulationFormGroup.controls['stipulation']" required pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
                                                             <!-- <input matInput placeholder="Stipulation" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['stipulation']"
                                                                 required pattern="^[a-zA-Z,._-]+(\s[a-zA-Z,._-]+)?$"> -->
@@ -132,7 +132,7 @@
                                                      <!-- compliance -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                        	<textarea matInput placeholder="Compliance" [formControl]="addDriveStipulationFormGroup.controls['compliance']" pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
+                                                        	<textarea matInput placeholder="{{FiledLabels.COMPLIANCE}}" [formControl]="addDriveStipulationFormGroup.controls['compliance']" pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" ></textarea>
                                                             <!-- <input matInput placeholder="Compliance" 
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliance']"
                                                                 pattern="^[a-zA-Z,\s._-]+(\s[a-zA-Z,._-]+)?$" > -->
@@ -147,7 +147,7 @@
                                                      <!-- size="12"maxlength="12" -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Complied By" 
+                                                            <input matInput placeholder="{{FiledLabels.COMPLIED_BY}}" 
                                                             
                                                                 [formControl]="addDriveStipulationFormGroup.controls['compliedBy']"
                                                                 >
@@ -194,12 +194,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addDriveStipulationFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

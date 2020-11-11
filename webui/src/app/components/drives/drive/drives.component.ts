@@ -11,6 +11,10 @@ import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/co
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FuseConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 
 @Component({
   selector: 'app-drives',
@@ -18,6 +22,9 @@ import { FuseConfirmPopupComponent } from '../../confirm-popup/confirm-popup.com
   styleUrls: []
 })
 export class DrivesComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   resp: any;
   editPermission: boolean = true;
   addPermission: boolean = true;
@@ -307,10 +314,26 @@ export class DrivesComponent implements OnInit {
   }
   ViewDataDriveCat(data) {
     var result = {
-      'title': 'Drives',
-      'dataSource': [{ label: 'Name', value: data.name }, { label: 'Description', value: data.description },
-      { label: 'FromDate', value: data.fromDate }, { label: 'ToDate', value: data.toDate },
-      { label: 'Authority', value: data.authority }]
+      'title':this.Titles.DRIVES,
+      'dataSource': [
+        
+{ label:FieldLabelsConstant.LABELS.NAME, value:data.name },
+{ label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+{ label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
+{ label:FieldLabelsConstant.LABELS.TO_DATE, value:data.toDate },
+{ label:FieldLabelsConstant.LABELS.DEPOT_TYPE, value:data.depotType },
+{ label:FieldLabelsConstant.LABELS.ASSET_TYPE, value:data.assetType },
+{ label:FieldLabelsConstant.LABELS.FREQUENCY, value:data.frequency },
+{ label:FieldLabelsConstant.LABELS.ASSET_DESCRIPTION, value:data.assetDescription },
+{ label:FieldLabelsConstant.LABELS.CRITERIA, value:data.criteria },
+{ label:FieldLabelsConstant.LABELS.TARGET_QUANTITY, value:data.targetQuantity },
+{ label:FieldLabelsConstant.LABELS.IS_ID_REQUIRED, value:data.isIdRequired },
+{ label:FieldLabelsConstant.LABELS.FUNCTIONAL_UNIT, value:data.functionalUnit },
+{ label:FieldLabelsConstant.LABELS.CHECK_LIST, value:data.checkList },
+{ label:FieldLabelsConstant.LABELS.ACTIVE, value:data.active },
+{ label:FieldLabelsConstant.LABELS.AUTHORITY, value:data.authority }
+
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
@@ -337,7 +360,8 @@ export class DrivesComponent implements OnInit {
   templateUrl: 'copy-drives.component.html',
 })
 export class CopyDrivesComponent implements OnInit {
-
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 
   driveFormGroup: FormGroup;
   driveCategoryList = [];

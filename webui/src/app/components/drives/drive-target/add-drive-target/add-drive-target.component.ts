@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { DriveTargetModel } from 'src/app/models/drive.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'app-add-drive-target',
@@ -13,13 +15,15 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class AddDriveTargetComponent implements OnInit {
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
   
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   addDriveTargetFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
@@ -62,12 +66,12 @@ export class AddDriveTargetComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getDriveTargetDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
       this.createForm();
     }
   }

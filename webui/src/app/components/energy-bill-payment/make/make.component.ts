@@ -10,6 +10,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 
 @Component({
     selector: 'make',
@@ -18,13 +22,16 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 
 export class MakeComponent implements OnInit{
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     addMake:boolean;
     makeFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     makeList:any;
     updatedata: boolean = true;
     cloneupdate: boolean = true;
@@ -79,7 +86,7 @@ export class MakeComponent implements OnInit{
    
        this.addMake=false;
 
-       if(this.title == Constants.EVENTS.SAVE)
+       if(this.title == Constants.EVENTS.ADD)
        {
            
             MakePayload.ADD_PAYLOAD.makeCode =makeCode;
@@ -107,7 +114,7 @@ export class MakeComponent implements OnInit{
     this.commonService.showAlertMessage("Make Data Saving Failed.");
     })
   }
-       else if (this.title == "Update") {
+       else if (this.title == Constants.EVENTS.UPDATE) {
         
         this.saveMake = false;
         
@@ -130,7 +137,7 @@ export class MakeComponent implements OnInit{
             this.makeFormGroup.reset();
            
             this.addMake = false;
-            this.title = "Save";
+            this.title = Constants.EVENTS.ADD;
             this.saveMake = false;
             this.updatedata = true;
             }else {
@@ -166,7 +173,7 @@ export class MakeComponent implements OnInit{
     onGoBack() {
         this.makeFormGroup.reset();
         this.addMake = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
 
@@ -221,7 +228,7 @@ export class MakeComponent implements OnInit{
         this.cloneupdate = false;
        
         this.MakeEditAction(id);
-        this.title = "Update";
+        this.title = Constants.EVENTS.UPDATE;
        this.spinnerService.hide();
       }
 
@@ -264,9 +271,9 @@ export class MakeComponent implements OnInit{
               this.onFormValuesChanged();
             });
            
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
       }
 
@@ -327,12 +334,13 @@ export class MakeComponent implements OnInit{
 
       ViewData(data){
         var result = {
-          'title':'Make',
+          'title':this.Titles.MAKE,
           'dataSource':[
             { label:Constants.UI_FIELD_LABELS.MAKE_CODE, value:data.makeCode },
             { label:Constants.UI_FIELD_LABELS.DESCRIPTION, value:data.description },
             { label:Constants.UI_FIELD_LABELS.BRAND_NAME ,value:data.brandName },
-            { label:Constants.UI_FIELD_LABELS.MAKE_TYPE,value:data.makeType }
+            { label:Constants.UI_FIELD_LABELS.MAKE_TYPE,value:data.makeType },
+
           ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {

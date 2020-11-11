@@ -7,6 +7,7 @@ import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -23,6 +24,9 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
     ]
 })
 export class AddDriveComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;

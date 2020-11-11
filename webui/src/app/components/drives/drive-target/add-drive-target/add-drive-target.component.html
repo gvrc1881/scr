@@ -35,7 +35,7 @@
                                                     <!-- unitType -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Unit Type" required
+                                                            <mat-select placeholder="{{FiledLabels.UNIT_TYPE}}" required
                                                                 (selectionChange)="updateAssertType($event)"
                                                                 [formControl]="addDriveTargetFormGroup.controls['unitType']">
                                                                 <mat-option *ngFor="let depoType of depoTypeList"
@@ -54,7 +54,7 @@
                                                     <!-- FUNCTIONAL UNIT -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Unit Name " required
+                                                            <mat-select placeholder="{{FiledLabels.UNIT_NAME}}" required
                                                                 [formControl]="addDriveTargetFormGroup.controls['unitName']">
                                                                 <mat-option
                                                                     *ngFor="let functionalUnit of functionalUnitList"
@@ -82,7 +82,7 @@
                                                     <!-- target -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.TARGET}}" decimalNumber
                                                                 [formControl]="addDriveTargetFormGroup.controls['target']"
                                                                 >
                                                         </mat-form-field>
@@ -91,7 +91,7 @@
                                                      <!-- poulation -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Poulation" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.POPULATION}}" decimalNumber
                                                                 [formControl]="addDriveTargetFormGroup.controls['poulation']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -100,7 +100,7 @@
                                                     <!-- DRIVE -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Drive"
+                                                            <mat-select placeholder="{{FiledLabels.DRIVE}}"
                                                                 [formControl]="addDriveTargetFormGroup.controls['drive']">
                                                                 <mat-option *ngFor="let drive of driveList"
                                                                     [value]="drive.id">
@@ -116,12 +116,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addDriveTargetFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                            {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

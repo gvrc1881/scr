@@ -49,100 +49,99 @@
                                             <mat-table [dataSource]="dataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.
-                                                    </mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="name">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NAME}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="description">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="fromDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>From Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         {{row.fromDate }}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="toDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_DATE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         {{row.toDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="depoType">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Depo Type
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT_TYPE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.depoType}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="assetType">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASSET_TYPE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="frequency">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Frequency
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FREQUENCY}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.frequency}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="assetDescription">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Description
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASSET_DESCRIPTION}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.assetDescription}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="criteria">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Criteria
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CRITERIA}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.criteria}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="targetQuantity">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Target Quantity
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_QUANTITY}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.targetQuantity}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="isIdRequired">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Is Id Required
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.IS_ID_REQUIRED}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.isIdRequired}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="functionalUnit">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Unit
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FUNCTIONAL_UNIT}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.functionalUnit}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="checkList">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>CheckList
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CHECK_LIST}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.checkList}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="active">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Active
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIVE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.active}}</mat-cell>
                                                 </ng-container>
 
 
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <button mat-icon-button matTooltip="View"
@@ -169,7 +168,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="[20, 100]"></mat-paginator>
+                                            <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                         </div>
                                     </div>
                                 </div>
@@ -206,46 +205,46 @@
                                             <mat-table [dataSource]="driveCategoryDataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}
                                                     </mat-header-cell>
 
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="name">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NAME}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="description">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="fromDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>From Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         {{row.fromDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="toDate">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_DATE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         {{row.toDate}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="authority">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Authority
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.AUTHORITY}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.authority}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <button mat-icon-button matTooltip="View"
@@ -272,7 +271,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="[20, 100]"></mat-paginator>
+                                            <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                         </div>
                                     </div>
                                 </div>
@@ -314,32 +313,32 @@
                                             <mat-table [dataSource]="driveCategoryAssoDataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}
                                                     </mat-header-cell>
 
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="drive">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Drive
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DRIVE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.drive}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="driveCategory">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Drive Category
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DRIVE_CATEGORY}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.driveCategory}}</mat-cell>
                                                 </ng-container>
                                                 
                                                 <ng-container matColumnDef="active">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Active
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIVE}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.active}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="actions">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
@@ -361,7 +360,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="[20, 100]"></mat-paginator>
+                                            <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                         </div>
                                     </div>
                                 </div>

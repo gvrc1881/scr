@@ -28,7 +28,7 @@ export class ModelComponent implements OnInit{
     addModel:boolean;
     modelFormGroup:FormGroup;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     modelList:any;
     updatedata: boolean = true;
     cloneupdate: boolean = true;
@@ -86,7 +86,7 @@ export class ModelComponent implements OnInit{
        
        this.addModel=false;
 
-       if(this.title == Constants.EVENTS.SAVE)
+       if(this.title == Constants.EVENTS.ADD)
        {
            
             
@@ -114,7 +114,7 @@ export class ModelComponent implements OnInit{
     this.commonService.showAlertMessage("Model Data Saving Failed.");
     })
   }
-       else if (this.title == "Update") {
+       else if (this.title == Constants.EVENTS.UPDATE) {
         
         this.saveModel = false;
         let id: number = this.editModelResponse.id;
@@ -137,7 +137,7 @@ export class ModelComponent implements OnInit{
             this.modelFormGroup.reset();
            
             this.addModel = false;
-            this.title = "Save";
+            this.title = Constants.EVENTS.ADD;
             this.saveModel = false;
             this.updatedata = true;
             }else {
@@ -172,7 +172,7 @@ export class ModelComponent implements OnInit{
     onGoBack() {
         this.modelFormGroup.reset();
         this.addModel = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
 
@@ -225,7 +225,7 @@ export class ModelComponent implements OnInit{
         this.addModel = true;
         this.cloneupdate = false;
         this.ModelEditAction(id);
-        this.title = "Update";
+        this.title = Constants.EVENTS.UPDATE;
        this.spinnerService.hide();
       }
 
@@ -262,9 +262,9 @@ export class ModelComponent implements OnInit{
             this.modelFormGroup.valueChanges.subscribe(() => {
               this.onFormValuesChanged();
             });
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
       }
 

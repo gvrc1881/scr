@@ -41,48 +41,48 @@
                                     <mat-table [dataSource]="dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="drive">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DRIVE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.drive}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="measureActivityList">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Measure Activity List</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MEASURE_ACTIVITY_LIST}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.measureActivityList}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="activityPositionId">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Activity Position Id</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIVITY_POSITION_ID}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.activityPositionId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="displayOrder">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Display Order
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DISPLAY_ORDER}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.displayOrder}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="lowerLimit">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Lower Limit
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.LOWER_LIMIT}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.lowerLimit}}</mat-cell>
                                         </ng-container>
                                        
                                         <ng-container matColumnDef="upperLimit">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Upper Limit</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.UPPER_LIMIT}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.upperLimit}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="active">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIVE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.active}}</mat-cell>
                                         </ng-container>
 
 
                                         <ng-container matColumnDef="actions">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
                                                 <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
                                                     <button mat-icon-button matTooltip="Edit"
@@ -102,7 +102,7 @@
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[20, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                 </div>
                             </div>
                         </div>

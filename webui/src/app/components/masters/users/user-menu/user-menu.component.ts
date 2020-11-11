@@ -50,10 +50,11 @@ export class UserMenuComponent implements OnInit {
         private sendAndRequestService :SendAndRequestService
     ) { }
 
-    ngOnInit() {                
-        this.addPermission = this.commonService.getPermission("Add");
-        this.editPermission = this.commonService.getPermission("Edit");
-        this.deletePermission = this.commonService.getPermission("Delete");     
+    ngOnInit() { 
+        var permissionName = this.commonService.getPermissionNameByLoggedData("MASTERS","USERS") ;               
+        this.addPermission = this.commonService.getPermissionByType("Add",permissionName);
+        this.editPermission = this.commonService.getPermissionByType("Edit",permissionName);
+        this.deletePermission = this.commonService.getPermissionByType("Delete",permissionName);     
     
         this.rolePermission = this.commonService.rolePermission();
         this.spinnerService.show();        

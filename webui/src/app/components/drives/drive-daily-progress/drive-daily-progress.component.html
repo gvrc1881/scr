@@ -23,7 +23,7 @@
                                 <div class="col-md-3">
                                 	<mat-form-field>
                                     	<input matInput [matDatepicker]="picker1"
-                                        	placeholder="Choose From Date"
+                                        	placeholder="{{FiledLabels.FROM_DATE}}"
                                             [formControl]="searchInputFormGroup.controls['fromDate']" >
                                         	<mat-datepicker-toggle matSuffix [for]="picker1">
                                             </mat-datepicker-toggle>
@@ -71,12 +71,12 @@
                                  <div class="mat-elevation-z8">
                                         <mat-table [dataSource]="dataSource" matSort>
                                             <ng-container matColumnDef="sno" >
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                        </ng-container>
 											
 	                                        <ng-container matColumnDef="drive">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Drive</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DRIVE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row">
 	                                            		{{row.name}}
 	                                            	<!-- <mat-form-field fxFlex="10">
@@ -86,7 +86,7 @@
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        <ng-container matColumnDef="description">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row">
 	                                            		{{row.description}}
 	                                            	<!-- <mat-form-field fxFlex="10">
@@ -97,7 +97,7 @@
 	                                        </ng-container>
 	                                        
 	                                        <ng-container matColumnDef="assetType">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Type</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASSET_TYPE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row">
 	                                            	{{row.assetType}}
 	                                            	<!-- <mat-form-field floatLabel="never">
@@ -108,7 +108,7 @@
 	                                        </ng-container>
 	                                        
 	                                        <ng-container matColumnDef="alreadyDone" >
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Already Done</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> 
 	                                            	<mat-form-field fxFlex="30">
 														<input matInput  [value]="row.alreadyDone" 
@@ -122,7 +122,7 @@
 	                                        	<ng-container *matCellDef="let row" >
 	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else idReqElseBlock">
 	                                        		<mat-form-field fxFlex="30">
-														<input matInput placeholder="Count" [value]="row.performedCount" 
+														<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" [value]="row.performedCount" 
 												                 [(ngModel)]="row.performedCount" readonly>
 												    </mat-form-field>
 	                                        	<!-- <input matInput   decimalNumber [(ngModel)]="row.performedCount" /> -->
@@ -130,7 +130,7 @@
 	                                        	<ng-template #idReqElseBlock>
 	                                            	<mat-cell>
 		                                        		<mat-form-field fxFlex="30">
-															<input matInput placeholder="Count" [value]="row.performedCount" 
+															<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" [value]="row.performedCount" 
 													                 [(ngModel)]="row.performedCount" >
 													    </mat-form-field>
 		                                        	</mat-cell>
@@ -155,7 +155,7 @@
 	                                        </ng-container> -->
 	                                        
 	                                        <ng-container matColumnDef="ids" >
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Ids</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.IDS}}</mat-header-cell>
 	                                            <ng-container *matCellDef="let row" >
 	                                            	<!-- <mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else isIdRequiredElseBlock" style="cursor: pointer;text-decoration: underline;font-weight: 600;color: #014884;"
 	                                            	  [routerLink]="['/divisions/'+row.operationId+'/'+row.jobType]" > {{row.isIdRequired}}</mat-cell> -->
@@ -181,7 +181,7 @@
                                                 </mat-cell>
 	                                        </ng-container> -->
 	                                        <ng-container matColumnDef="actions">
-	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                                            	<ng-container *matCellDef="let row">
 	                                            		<mat-cell *ngIf = "row.isIdRequired =='Yes' ; else idRequiredElseBlock">
 			                                                    <button mat-icon-button matTooltip="Details"

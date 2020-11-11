@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Drive Category Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.DRIVE_CATEGORY_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -34,7 +34,7 @@
                                                     <!-- NAME -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Name"
+                                                            <input matInput placeholder="{{FiledLabels.NAME}}"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['name']"
                                                                 oninput="this.value = this.value.toUpperCase()"
                                                                 required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
@@ -60,7 +60,7 @@
                                                     <!-- DESCRIPTION -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Description"
+                                                            <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['description']"
                                                                 oninput="this.value = this.value.toUpperCase()"
                                                                 required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"></textarea>
@@ -86,7 +86,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose From Date"
+                                                                placeholder="{{FiledLabels.FROM_DATE}}"
                                                                 (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveCategoryFormGroup.controls['fromDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -113,7 +113,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose To Date"
+                                                                placeholder="{{FiledLabels.TO_DATE}}"
                                                                 [min]="toMinDate"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['toDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -137,7 +137,7 @@
                                                     <!-- Authority -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Authority"
+                                                            <input matInput placeholder="{{FiledLabels.AUTHORITY}}"
                                                                 [formControl]="addDriveCategoryFormGroup.controls['authority']">  
                                                                 <mat-error
                                                                 *ngIf="addDriveCategoryFormGroup.controls['authority'].hasError('maxlength') && addDriveCategoryFormGroup.controls['authority'].touched"

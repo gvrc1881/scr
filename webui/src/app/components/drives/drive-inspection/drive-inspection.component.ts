@@ -10,6 +10,9 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 
 @Component({
@@ -19,6 +22,8 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 })
 export class DriveInspectionComponent implements OnInit {
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

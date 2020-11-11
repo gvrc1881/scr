@@ -44,7 +44,6 @@ export const FieldLabelsConstant = {
       CHAINAGE: "Chainage",
       CHAINAGE_REMARK: "Chainage Remark",
       CHARGING_DATE: "Charging Date",
-      CHECK: "Check",
       CHECK_LIST: "Check List",
       CLOSE_TIME: "Close Time",
       CLOSED_REMARKS: "Closed Remarks",
@@ -200,6 +199,7 @@ export const FieldLabelsConstant = {
       MODEL_TYPE: "Model Type",
       MONTH: "Month",
       MULTIPLICATION_FACTOR: "Multiplication Factor",
+      MANUAL_ENTRY:"Manual Entry",
       NAME: "Name",
       NAME_OF_STAFF: "Name Of Staff",
       NATURE_OF_CLOSURE: "Nature Of Closure",
@@ -279,6 +279,8 @@ export const FieldLabelsConstant = {
       SANCTION_BY_BOARD: "Sanction By Board",
       SANCTION_COST: "Sanction Cost",
       SATELLITES: "Satellites",
+      STANDARD_PHASE_NAME: "Standard Phase Name",
+      STANDARD_PHASE_ACTIVITY_NAME: "Standard Phase Activity Name",
       SCHEDULE: "Schedule",
       SCHEDULE_CODE: "Schedule Code",
       SCHEDULE_DATE: "Schedule date",
@@ -301,8 +303,6 @@ export const FieldLabelsConstant = {
       SPECIFICATION: "Specification",
       SPEED: "Speed",
       STAFF_STRENGTH: "Staff Strength",
-      STANDARD_PHASE_NAME: "Standard Phase Name",
-      STANDARD_PHASE_ACTIVITY_NAME: "Standard Phase Activity Name",
       START_DATE: "Start Date",
       START_KVAH: "Start KVAH",
       START_KWH: "Start KWH",
@@ -374,6 +374,10 @@ export const FieldLabelsConstant = {
       YEAR_OF_SANCTION: "Year Of Sanction",
       Z_CONSTANT: "Z Constant",
       ZONE: "Zone",
+      DRIVE_CATEGORY:"Drive Category",
+      OLD_DRIVE_NAME:"Old Drive Name",
+      NEW_DRIVE_NAME:"New Drive Name",
+      CHECK:"Check",
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -389,7 +393,7 @@ export const FieldLabelsConstant = {
      RC_Failures:'RC Failures',
      RC_FAILURES_FORM:'Rc Failure Form',
      FAILURE_OCCURENCE:'Failure Occurence',
-     FAILURE_OCCURRENCE_FORM:'Failure Occurrence Form',
+     FAILURE_OCCURRENCE_FORM:'Failure Occurence Form',
      UNUSUAL_OCCURRENCE:'Unusual Occurence ',
      UNUSUAL_OCCURRENCE_FAILURE_FORM:'Unusual Occurrence Failure Form',
      ACTIONS_FORM:'Actions Form',
@@ -412,7 +416,11 @@ export const FieldLabelsConstant = {
      ASSETS_SCHEDULE_FORM:'Assets schedule Form',
      DRIVES:'DRIVES',
      DRIVE_FORM:'Drive Form',
-     DRIVE_CATEGORY_FORM:'Drive Category Form'
+     DRIVE_CATEGORY_FORM:'Drive Category Form',
+     CHECK_LIST_FORM:'Check List Form',
+     DRIVE_DAILY_PROGRESS_FORM:'Drive Daily Progress Form',
+     STIPULATION_FORM:'Stipulation Form',
+     INSPECTION_FORM:'Inspection Form'
      
    }
 };

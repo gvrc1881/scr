@@ -2,6 +2,11 @@ import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { DriveProgressIdModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
+
 
 @Component({
     selector: 'view-drive-daily-progress-dialog',
@@ -9,6 +14,9 @@ import { DatePipe } from '@angular/common';
     //styleUrls: ['./view-drive-daily-progress.component.scss']
 })
 export class ViewDriveDailyProgressComponent implements OnInit {
+
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     public response:any=[];
     DDProgressDisplayedColumns = ['sno', 'drive', 'depot', 'date', 'performedCount'];
     DDProgressDataSource: MatTableDataSource<DriveProgressIdModel>;

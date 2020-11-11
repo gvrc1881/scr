@@ -37,18 +37,18 @@
                                  <div class="mat-elevation-z8">
                                  	<mat-table [dataSource]="dataSource" matSort>
                                  		<ng-container matColumnDef="sno">
-	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                        <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                    </ng-container>
 	                                    	
 	                                    <ng-container matColumnDef="check">
-	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>Check</mat-header-cell>
+	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CHECK}}</mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		<input type="checkbox"  (change)="onCheckboxChange($event,row)" />
 	                                    	</mat-cell>
 	                                    </ng-container>
 	                                    <ng-container matColumnDef="oldDriveName">
-	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>Old Drive Name</mat-header-cell>
+	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OLD_DRIVE_NAME}}</mat-header-cell>
 	                                        	<mat-cell *matCellDef="let row">
 	                                            	<mat-form-field floatLabel="never">
 														<input matInput  [value]="row.driveId.name" 
@@ -57,7 +57,7 @@
 	                                            </mat-cell>
 	                                    </ng-container>
 	                                    <ng-container matColumnDef="newDriveName">
-	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>New Drive Name</mat-header-cell>
+	                                    	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_DRIVE_NAME}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row">
 	                                            	<mat-form-field floatLabel="never">
 														<input matInput  [value]="row.newDriveName" 

@@ -42,7 +42,7 @@
 
                                         <ng-container matColumnDef="sno">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>Sno</span>
+                                            <span>{{FiledLabels.S_NO}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -50,7 +50,7 @@
 
                                         <ng-container matColumnDef="inspectionType">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Inspection Type</span>
+                                                <span>{{FiledLabels.INSPECTION_TYPE}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                                 </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.inspectionType}}</mat-cell>
@@ -58,7 +58,7 @@
 
                                         <ng-container matColumnDef="section">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Section</span>
+                                                <span>{{FiledLabels.SECTION}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
@@ -66,7 +66,7 @@
 
                                         <ng-container matColumnDef="sectionStartLocation">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Section Start Location</span>
+                                                <span>{{FiledLabels.SECTION_START_LOCATION}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sectionStartLocation}}</mat-cell>
@@ -74,7 +74,7 @@
                                        
                                         <ng-container matColumnDef="sectionEndLocation">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Section End Location</span>
+                                                <span>{{FiledLabels.SECTION_END_LOCATION}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sectionEndLocation}}</mat-cell>
@@ -82,7 +82,7 @@
 
                                         <ng-container matColumnDef="dateOfInspection">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Date Of Inspection</span>
+                                                <span>{{FiledLabels.DATE_OF_INSPECTION}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.dateOfInspection }}</mat-cell>
@@ -90,7 +90,7 @@
 
                                         <ng-container matColumnDef="RKM">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>RKM</span>
+                                                <span>{{FiledLabels.RKM}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.RKM}}</mat-cell>
@@ -98,7 +98,7 @@
 
                                         <ng-container matColumnDef="TKM">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>TKM</span>
+                                                <span>{{FiledLabels.TKM}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.TKM}}</mat-cell>
@@ -106,7 +106,7 @@
 
                                         <ng-container matColumnDef="remarks">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Remarks</span>
+                                                <span>{{FiledLabels.REMARKS}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>
@@ -114,7 +114,7 @@
 
                                         <ng-container matColumnDef="authorisationDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Authorisation Date</span>
+                                                <span>{{FiledLabels.AUTHORISATION_DATE}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.authorisationDate}}</mat-cell>
@@ -122,7 +122,7 @@
 
                                         <ng-container matColumnDef="chargingDate">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Charging Date</span>
+                                                <span>{{FiledLabels.CHARGING_DATE}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.chargingDate}}</mat-cell>
@@ -130,7 +130,7 @@
 
                                         <ng-container matColumnDef="attachment">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Documents</span>
+                                                <span>{{FiledLabels.DOCUMENTS}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[11].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                         
@@ -146,14 +146,14 @@
 
                                         <ng-container matColumnDef="station">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Station</span>
+                                                <span>{{FiledLabels.STATION}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[12].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.station}}</mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>Actions</span>
+                                                <span>{{FiledLabels.ACTIONS}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[13].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row">
@@ -175,7 +175,7 @@
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
                                 </div>
                             </div>
                         </div>

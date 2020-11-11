@@ -275,7 +275,7 @@ this.resp = resp;
                 "status_id": 1,
                 "divisionCode":repositoryCode    
                 }         
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS, saveUsersModel, false).subscribe((data) => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.SAVE_USER, saveUsersModel, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage('User Added Successfully.')
                 if (this.data) {

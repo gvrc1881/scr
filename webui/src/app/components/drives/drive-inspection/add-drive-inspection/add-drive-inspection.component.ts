@@ -7,16 +7,23 @@ import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+ 
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
   styleUrls: []
 })
 export class AddDriveInspectionComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   id:number=0;
   isSubmit: boolean = false;
   resp:any;
@@ -71,12 +78,12 @@ export class AddDriveInspectionComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getInspectionDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save'
+      this.title = Constants.EVENTS.ADD
     }    
   }
   

@@ -5,6 +5,11 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
+
 
 @Component({
   selector: 'app-add-drive-checklist',
@@ -12,6 +17,9 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class AddDriveChecklistComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

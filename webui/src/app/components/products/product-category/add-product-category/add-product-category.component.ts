@@ -23,7 +23,7 @@ export class AddProductCategoryComponent implements OnInit {
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   resp: any;
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   productCateData:any;
   productCateTypeData:any;
   addProductCategoryFormGroup: FormGroup;
@@ -48,12 +48,12 @@ export class AddProductCategoryComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getProductCategoryDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     
   }

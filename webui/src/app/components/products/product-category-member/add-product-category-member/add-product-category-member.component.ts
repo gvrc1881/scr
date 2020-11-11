@@ -23,7 +23,7 @@ export class AddProductCategoryMemberComponent implements OnInit {
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   resp: any;
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   addProductCategoryMemberFormGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   toMinDate = new Date();
@@ -53,12 +53,12 @@ export class AddProductCategoryMemberComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
        this.getProductCategoryMemberDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
   
