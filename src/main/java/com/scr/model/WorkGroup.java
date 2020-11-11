@@ -24,8 +24,8 @@ public class WorkGroup  implements Serializable{
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "group")
-	private String group;
+	@Column(name = "work_group")
+	private String workGroup;
 
 	@Column(name = "section")
 	private String section;
@@ -68,12 +68,12 @@ public class WorkGroup  implements Serializable{
 		this.id = id;
 	}
 
-	public String getGroup() {
-		return group;
+	public String getWorkGroup() {
+		return workGroup;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setWorkGroup(String workGroup) {
+		this.workGroup = workGroup;
 	}
 
 	public String getSection() {
