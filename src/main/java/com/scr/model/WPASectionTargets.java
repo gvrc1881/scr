@@ -15,20 +15,21 @@ import java.util.Date;
 @NamedQuery(name = "WPASectionTargets.findAll", query = "SELECT w FROM WPASectionTargets w")
 
 public class WPASectionTargets implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "work_phase_activity_id")
-	private String workPhaseActivityId;
+	@ManyToOne
+	@JoinColumn(name = "work_phase_activity_id", foreignKey = @ForeignKey(name = "fk_wpa_section_targets_work_phase_activity"))
+	private WorkPhaseActivity workPhaseActivityId;
 
-	@Column(name = "work_grade_id")
-	private String workGradeId;
+	@ManyToOne
+	@JoinColumn(name = "work_group_id", foreignKey = @ForeignKey(name = "fk_wpa_section_targets_work_group"))
+	private WorkGroup workGroupId;
 
 	@Column(name = "year_type")
 	private String yearType;
@@ -41,7 +42,7 @@ public class WPASectionTargets implements Serializable {
 
 	@Column(name = "may")
 	private Double may;
-	
+
 	@Column(name = "jun")
 	private Double jun;;
 
@@ -53,22 +54,22 @@ public class WPASectionTargets implements Serializable {
 
 	@Column(name = "sep")
 	private Double sep;
-	
+
 	@Column(name = "oct")
 	private Double oct;
-	
+
 	@Column(name = "nov")
 	private Double nov;
-	
+
 	@Column(name = "dec")
 	private Double dec;
-	
+
 	@Column(name = "jan")
 	private Double jan;
-	
+
 	@Column(name = "feb")
 	private Double feb;
-	
+
 	@Column(name = "mar")
 	private Double mar;
 
@@ -81,22 +82,6 @@ public class WPASectionTargets implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getWorkPhaseActivityId() {
-		return workPhaseActivityId;
-	}
-
-	public void setWorkPhaseActivityId(String workPhaseActivityId) {
-		this.workPhaseActivityId = workPhaseActivityId;
-	}
-
-	public String getWorkGradeId() {
-		return workGradeId;
-	}
-
-	public void setWorkGradeId(String workGradeId) {
-		this.workGradeId = workGradeId;
 	}
 
 	public String getYearType() {
@@ -211,5 +196,20 @@ public class WPASectionTargets implements Serializable {
 		this.mar = mar;
 	}
 
+	public WorkPhaseActivity getWorkPhaseActivityId() {
+		return workPhaseActivityId;
+	}
+
+	public void setWorkPhaseActivityId(WorkPhaseActivity workPhaseActivityId) {
+		this.workPhaseActivityId = workPhaseActivityId;
+	}
+
+	public WorkGroup getWorkGroupId() {
+		return workGroupId;
+	}
+
+	public void setWorkGroupId(WorkGroup workGroupId) {
+		this.workGroupId = workGroupId;
+	}
 
 }

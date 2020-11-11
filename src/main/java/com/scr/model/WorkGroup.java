@@ -1,4 +1,5 @@
 package com.scr.model;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,11 +14,9 @@ import java.util.Date;
 @Table(name = "work_group")
 @NamedQuery(name = "WorkGroup.findAll", query = "SELECT w FROM WorkGroup w")
 
-public class WorkGroup  implements Serializable{
-	
+public class WorkGroup implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,9 +52,13 @@ public class WorkGroup  implements Serializable{
 
 	@Column(name = "rkm")
 	private Double rkm;
-	
+
 	@Column(name = "tkm")
 	private Double tkm;
+
+	@ManyToOne
+	@JoinColumn(name = "work_id", foreignKey = @ForeignKey(name = "fk_work_gorup_works"))
+	private Works workId;
 
 	public WorkGroup() {
 	}
@@ -63,7 +66,7 @@ public class WorkGroup  implements Serializable{
 	public Integer getId() {
 		return id;
 	}
-  
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -156,8 +159,12 @@ public class WorkGroup  implements Serializable{
 		this.tkm = tkm;
 	}
 
-	
+	public Works getWorkId() {
+		return workId;
+	}
 
-	
+	public void setWorkId(Works workId) {
+		this.workId = workId;
+	}
 
 }
