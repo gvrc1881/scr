@@ -80,6 +80,7 @@ public class WorksServices {
 					workPhaseActivity.setIsCheckList(standardPhaseActivity.getIsCheckList());
 					workPhaseActivity.setIsObjectIdRequired(standardPhaseActivity.getIsObjectIdRequired());
 					workPhaseActivity.setName(standardPhaseActivity.getName());
+					workPhaseActivity.setUom(standardPhaseActivity.getUom());
 					workPhaseActivityRepository.save(workPhaseActivity);
 				}
 			}

@@ -34,6 +34,8 @@ public class WorkPhaseActivity {
 	private Double sequence;
 
 	private String dependencyToStart;
+	
+	private String uom;
 
 	@ManyToOne
 	@JoinColumn(name = "work_phase_id", foreignKey = @ForeignKey(name = "fk_work_phase_activity_work_phases"))
@@ -125,6 +127,14 @@ public class WorkPhaseActivity {
 				+ assetType + ", isObjectIdRequired=" + isObjectIdRequired + ", isCheckList=" + isCheckList
 				+ ", description=" + description + ", sequence=" + sequence + ", dependencyToStart=" + dependencyToStart
 				+ ", workPhaseId=" + workPhaseId + "]";
+	}
+
+	public String getUom() {
+		return uom;
+	}
+
+	public void setUom(String uom) {
+		this.uom = uom;
 	}
 
 }

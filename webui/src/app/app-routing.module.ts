@@ -439,6 +439,11 @@ const routes: Routes = [
     loadChildren: './components/copy-wp-and-wpa/copy-wp-and-wpa.module#CopyWPAndWPAModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'work-daily-progress',
+    loadChildren: './components/wpa-daily-progress/wpa-daily-progress.module#WPADailyProgressModule',
+    canActivate: [AuthGuard]
+  },
   // {
   //   path: 'sectors',
   //   loadChildren: './components/sectors/sectors.module#SectorsModule',

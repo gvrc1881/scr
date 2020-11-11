@@ -533,7 +533,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
         currentTab: !!path && path.includes("electrification-targets") || path.includes("sidings")
           || path.includes("track") || path.includes("amd") || path.includes("work") || path.includes("guidenceItem") || path.includes("ohe-location") || path.includes("gantry")
-          || path.includes("sectors") || path.includes("copy-wp-and-wpa") ? "open" : "",
+          || path.includes("sectors") || path.includes("copy-wp-and-wpa")  || path.includes("work-daily-progress") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Asset Master",
@@ -618,6 +618,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: true,
             permission: this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
+          },
+          {
+            subMenuName: "projectDailyProgress",
+            subMenuURL: "work-daily-progress",
+            subMenuIcon: "",
+            rolePermission: true,
+            permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
           },
 
         ]
