@@ -13,8 +13,9 @@ import { Location } from '@angular/common';
 })
 export class TpcBoardComponent implements OnInit {
 tpcBoardData:any;
-facilityData: any = JSON.parse(localStorage.getItem('facilityData'));
 tpcBoardFormGroup: FormGroup;
+depotData:any;
+facilityData:any;
 loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
 
@@ -48,9 +49,11 @@ userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
    }
    getFacilityList(){
     var tpcBoard = this.tpcBoardFormGroup.value.tpcBoard ;
-  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_TPC_BOARD + tpcBoard).subscribe((data) => {
-             this.facilityData = data;
-             console.log("TpcBoardFacility"+JSON.stringify(data));
+  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_TPC_BOARD + tpcBoard).subscribe((response) => {
+             this.facilityData = response;
+             localStorage.setItem("facilityData", JSON.stringify(response));
+             let depotData=JSON.parse(localStorage.getItem('facilityData'));
+             console.log("depotData"+JSON.stringify(depotData));
         });
 }
 onGoBack() {

@@ -42,14 +42,14 @@ export class InspectionComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   fpInspectionsList: any;
-
-  @ViewChild(MatPaginator, { static: true }) observationPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) observationSort: MatSort;
+  
+  @ViewChild('ObservationPaginator', { static: true }) observationPaginator: MatPaginator;
+  @ViewChild('ObservationSort', { static: true }) observationSort: MatSort;
   @ViewChild('filter', { static: true }) observationFilter: ElementRef;
   observationList: any;
 
-  @ViewChild(MatPaginator, { static: true }) compliancePaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) complianceSort: MatSort;
+  @ViewChild('CompliancePaginator', { static: true }) compliancePaginator: MatPaginator;
+  @ViewChild('ComplianceSort', { static: true }) complianceSort: MatSort;
   @ViewChild('filter', { static: true }) complianceFilter: ElementRef;
   complianceList: any;
 

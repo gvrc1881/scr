@@ -671,7 +671,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('ASSET REGISTER', 'menu', 'view'),
         currentTab: !!path && path.includes("electrification-targets") || path.includes("sidings")
           || path.includes("track") || path.includes("amd") || path.includes("work") || path.includes("guidenceItem") || path.includes("ohe-location") || path.includes("gantry")
-          || path.includes("sectors") || path.includes("copy-wp-and-wpa") ? "open" : "",
+          || path.includes("sectors") || path.includes("copy-wp-and-wpa") || path.includes("sub-sectors") || path.includes("elementary-sections") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Asset Master",
@@ -742,6 +742,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("gantry") ? "active-item" : "",
           },
           {
+            subMenuName: "CopyWPAndWPA",
+            subMenuURL: "copy-wp-and-wpa",
+            subMenuIcon: "",
+            rolePermission: true,
+           permission: true,
+            currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
+          },
+          {
             subMenuName: "Sectors",
             subMenuURL: "sectors",
             subMenuIcon: "fa fa-track",
@@ -750,12 +758,20 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("sectors") ? "active-item" : "",
           },
           {
-            subMenuName: "CopyWPAndWPA",
-            subMenuURL: "copy-wp-and-wpa",
-            subMenuIcon: "",
+            subMenuName: "Sub Sectors",
+            subMenuURL: "sub-sectors",
+            subMenuIcon: "fa fa-track",
             rolePermission: true,
-           permission: this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
+            permission: this.commonService.findPermission('sub sector', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("sub-sectors") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Elementary Sections",
+            subMenuURL: "elementary-sections",
+            subMenuIcon: "fa fa-track",
+            rolePermission: true,
+            permission: true,
+            currentSubMenu: !!path && path.includes("elementary-sections") ? "active-item" : "",
           },
         ]
       },

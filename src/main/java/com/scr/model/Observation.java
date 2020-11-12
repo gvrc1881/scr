@@ -77,6 +77,10 @@ public class Observation implements Serializable {
 
 	@Column(name="seq_id")
 	private String seqId;
+	
+	@ManyToOne
+	@JoinColumn(name = "footPatrollingInspectionId", foreignKey = @ForeignKey(name = "fk_observation_footPatrollingInspection_id"))
+	private FootPatrollingInspection footPatrollingInspectionId;
 
 	public Observation() {
 	}

@@ -444,11 +444,21 @@ const routes: Routes = [
     loadChildren: './components/wpa-daily-progress/wpa-daily-progress.module#WPADailyProgressModule',
     canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'sectors',
-  //   loadChildren: './components/sectors/sectors.module#SectorsModule',
-  //   canActivate: [AuthGuard]
-  // },
+  {
+    path: 'sectors',
+    loadChildren: './components/sector/sector.module#SectorModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'sub-sectors',
+    loadChildren: './components/sub-sector/sub-sector.module#SubSectorModule',
+    canActivate: [AuthGuard]
+  },
+   {
+    path: 'elementary-sections',
+    loadChildren: './components/elementary-sections/elementary-section.module#ElementarySectionModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

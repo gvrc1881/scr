@@ -1,5 +1,4 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
-import * as core from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
@@ -29,9 +28,9 @@ export class SwitchOperationsComponent implements OnInit {
     public dialogRef: MatDialogRef<SwitchOperationsComponent>;
     switchOperationsDataSource: MatTableDataSource<PbSwitchModel>;
     switchOperationsDisplayColumns = ['sno' ,'switchType','switchId' , 'isNormallOpened' , 'id' ] ;
-    @core.ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-    @core.ViewChild(MatSort, { static: true }) sort: MatSort;
-
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) sort: MatSort;
+    
     editSwitchOperationsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
@@ -57,7 +56,7 @@ export class SwitchOperationsComponent implements OnInit {
             id: 0,
             'switchType':[null],
             'switchId':[null],
-            'isNormallOpened': ['false'],
+            'isNormallOpened': [''],
             
         });  
     }
@@ -84,7 +83,8 @@ export class SwitchOperationsComponent implements OnInit {
     switchOperationsSubmit () {
         let switchType: string = this.switchOperationsFormGroup.value.switchType;
         let switchId: string = this.switchOperationsFormGroup.value.switchId;
-        let isNormallOpened: string = this.switchOperationsFormGroup.value.isNormallOpened;
+        let isNormallOpened: string = this.switchOperationsFormGroup.value.isNormallOpened == true ? 'true' : 'false';
+        
         
         if (this.title ==  Constants.EVENTS.SAVE) {
                 var saveSwitchModel ={
@@ -123,7 +123,7 @@ export class SwitchOperationsComponent implements OnInit {
             id: 0,
             'switchType':[null],
             'switchId':[null],
-            'isNormallOpened': ['false']
+            'isNormallOpened': ['']
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.GET_SWITCH_ID+id).subscribe((responseData) => {
             this.editSwitchOperationsResponse = responseData;
@@ -131,7 +131,8 @@ export class SwitchOperationsComponent implements OnInit {
                 id: this.editSwitchOperationsResponse.id,
                 switchType:this.editSwitchOperationsResponse.switchType,
                 switchId:this.editSwitchOperationsResponse.switchId,
-                isNormallOpened: this.editSwitchOperationsResponse.isNormallOpened,
+                isNormallOpened:this.editSwitchOperationsResponse.isNormallOpened == 'true' ? true: false,
+
             });
         } ,error => {})
         this.id=id;
@@ -165,11 +166,7 @@ export class SwitchOperationsComponent implements OnInit {
         this.switchOperationsDataSource.filter = filterValue;
     }
 
-    onGoBack() {
-        this.switchOperationsFormGroup.reset();
-        this.location.back();
-    }
-
+    
     public pbSwitchType = ['REMOTE', 'MANUAL'];
 
 }

@@ -27,7 +27,7 @@ import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
 import com.scr.model.ElectricEnergySuppliers;
 import com.scr.model.ElectrificationTargets;
-import com.scr.model.ElementarySection;
+import com.scr.model.ElementarySections;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
@@ -145,9 +145,9 @@ public class ReportController {
 		
 	}
 	@RequestMapping(value = "/getElementarySectionsBasedOnFacilityId/{facilityId}", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<ElementarySection>> findAllElementarySection(@PathVariable("facilityId") String facilityId){
-		List<ElementarySection> elementarySections= reportService.findAllElementarySection(facilityId);
-		return new ResponseEntity<List<ElementarySection>>(elementarySections,HttpStatus.OK);	
+	public ResponseEntity<List<ElementarySections>> findAllElementarySection(@PathVariable("facilityId") String facilityId){
+		List<ElementarySections> elementarySections= reportService.findAllElementarySection(facilityId);
+		return new ResponseEntity<List<ElementarySections>>(elementarySections,HttpStatus.OK);	
 		
 	}
 	@RequestMapping(value = "/getAllObservationCategories", method = RequestMethod.GET ,headers = "accept=application/json")	

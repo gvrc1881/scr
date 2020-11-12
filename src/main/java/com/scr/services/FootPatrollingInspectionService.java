@@ -58,10 +58,9 @@ public class FootPatrollingInspectionService {
 		// TODO Auto-generated method stub
 		return footPatrollingInspectionRepository.findAll();
 	}
-	
-	public void save(FootPatrollingInspection footPatrollingInspection) {
+	public FootPatrollingInspection save(FootPatrollingInspection footPatrollingInspection) {
 		// TODO Auto-generated method stub
-		footPatrollingInspectionRepository.save(footPatrollingInspection);
+		return footPatrollingInspectionRepository.save(footPatrollingInspection);
 	}
 	public Optional<FootPatrollingInspection> findFPInspectionItemById(Long id) {
 		// TODO Auto-generated method stub

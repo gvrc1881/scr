@@ -70,8 +70,6 @@ export class AddSidingDetailsComponent implements OnInit {
     ngOnInit() {
       this.id = +this.route.snapshot.params['id'];
     this.createSidingsForm();
-    this.displayHierarchyFields();
-
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
       this.save = false;
@@ -144,50 +142,7 @@ export class AddSidingDetailsComponent implements OnInit {
             this.depotData = data;
           })
       }
-      displayHierarchyFields(){
-        this.zoneList = [];
-        this.divisionList = [];
-        this.facilityList = [];
-        for (let i = 0; i < this.userHierarchy.length; i++) {
-               if(this.userHierarchy[i].depotType == 'ZONE'){
-                   this.zoneList.push(this.userHierarchy[i]);
-                   this.enableZone = true;
-               }
-            }
-           
-       
-    }
-    
-    
-    
-    findDivisions(){
-        let zone: string = this.sidingsItemFormGroup.value.zone;
-        this.divisionList=[];
-    
-        for (let i = 0; i < this.userHierarchy.length; i++) {
-            
-               if(this.userHierarchy[i].zone == zone && this.userHierarchy[i].depotType == 'DIV'){
-               
-                   this.divisionList.push(this.userHierarchy[i]);
-                   this.enableDivision = true;
-               }
-            }
-    }
-    
-    
-    
-    findDepots(){
-        let division: string = this.sidingsItemFormGroup.value.division;
-       this.facilityList=[];
-        for (let i = 0; i < this.userHierarchy.length; i++) {
-           
-               if(this.userHierarchy[i].division == division  &&(this.userHierarchy[i].depotType =='OHE') ){
-                
-                   this.facilityList.push(this.userHierarchy[i]);
-                   this.enableDepot = true;
-               }
-            }
-    }
+      
     statusChange() {
       if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'yes') {     
           this.onlyYes = false;

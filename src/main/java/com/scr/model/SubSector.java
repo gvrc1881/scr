@@ -16,6 +16,7 @@ public class SubSector implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="created_stamp")
@@ -219,6 +220,17 @@ public class SubSector implements Serializable {
 
 	public void setToLocationType(String toLocationType) {
 		this.toLocationType = toLocationType;
+	}
+
+	@Override
+	public String toString() {
+		return "SubSector [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", description=" + description + ", division=" + division + ", facilityId="
+				+ facilityId + ", fromLocation=" + fromLocation + ", fromLocationType=" + fromLocationType
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", line1="
+				+ line1 + ", line2=" + line2 + ", remark=" + remark + ", sector=" + sector + ", seqId=" + seqId
+				+ ", subSectorCode=" + subSectorCode + ", toLocation=" + toLocation + ", toLocationType="
+				+ toLocationType + "]";
 	}
 
 }

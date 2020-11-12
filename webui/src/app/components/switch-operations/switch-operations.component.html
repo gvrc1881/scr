@@ -23,14 +23,17 @@
                              </mat-form-field>
                               </div>
 
-                              <div class="col-md-3" >                                                        
-                                <radio-button>dfdf</radio-button>
-                              </div>
+                              
+
+                              <div class="col-md-2">
+                                <mat-form-field fxFlex="30">
+                                      <input matInput placeholder="Switch Id"  [formControl]="switchOperationsFormGroup.controls['switchId']" />
+                                </mat-form-field>
+                            </div>
 
                               <div class="col-md-3">
-                                <mat-form-field fxFlex="30">
-                                    <input matInput placeholder="Switch Id"  [formControl]="switchOperationsFormGroup.controls['switchId']" />
-                                </mat-form-field>
+                                Normally Opened:
+                                    <input type="checkbox"  [formControl]="switchOperationsFormGroup.controls['isNormallOpened']" />
                             </div>
     
     

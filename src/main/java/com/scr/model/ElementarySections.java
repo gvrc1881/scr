@@ -14,11 +14,12 @@ import java.sql.Timestamp;
 
 @Table(name = "elementary_sections" , uniqueConstraints={@UniqueConstraint(name = "old_pk_elementary_sections_uniq", columnNames ={"data_div", "seq_id"})})
 //
-@NamedQuery(name="ElementarySection.findAll", query="SELECT e FROM ElementarySection e")
-public class ElementarySection implements Serializable {
+@NamedQuery(name="ElementarySections.findAll", query="SELECT e FROM ElementarySections e")
+public class ElementarySections implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="alternate_supply")
@@ -109,7 +110,7 @@ public class ElementarySection implements Serializable {
 	@Column(name="track_code")
 	private String trackCode;
 
-	public ElementarySection() {
+	public ElementarySections() {
 	}
 
 	public Long getId() {
@@ -358,6 +359,21 @@ public class ElementarySection implements Serializable {
 
 	public void setTrackCode(String trackCode) {
 		this.trackCode = trackCode;
+	}
+
+	@Override
+	public String toString() {
+		return "ElementarySections [id=" + id + ", alternateSupply=" + alternateSupply + ", createdStamp="
+				+ createdStamp + ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv + ", description="
+				+ description + ", devisionId=" + devisionId + ", elementarySectionCode=" + elementarySectionCode
+				+ ", facilityId=" + facilityId + ", fromKm=" + fromKm + ", fromSeq=" + fromSeq + ", isAutoDead="
+				+ isAutoDead + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", longitudinal=" + longitudinal + ", longitudinalDn=" + longitudinalDn + ", multiEsRemark="
+				+ multiEsRemark + ", protectionCrossover=" + protectionCrossover + ", protectionTurnout="
+				+ protectionTurnout + ", remarksNo=" + remarksNo + ", remarksShunting=" + remarksShunting
+				+ ", sectionCode=" + sectionCode + ", sectorCode=" + sectorCode + ", seqId=" + seqId + ", sidingMain="
+				+ sidingMain + ", stationCode=" + stationCode + ", subSectorCode=" + subSectorCode + ", toKm=" + toKm
+				+ ", toSeq=" + toSeq + ", tpcBoard=" + tpcBoard + ", trackCode=" + trackCode + "]";
 	}
 
 }

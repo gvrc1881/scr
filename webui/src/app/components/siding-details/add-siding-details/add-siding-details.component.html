@@ -187,29 +187,7 @@
                                                           </mat-form-field>
                                                       </div>
 
-                                                      <div class="col-md-3"  *ngIf = "enableZone">
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select zone" 
-                                                            [formControl]="sidingsItemFormGroup.controls['zone']" (ngModelChange)="findDivisions()">
-                                                            <mat-option *ngFor="let zoneData of zoneList"
-                                                              [value]="zoneData.facilityName">
-                                                              {{ zoneData.facilityName }}
-                                                            </mat-option>
-                                                          </mat-select>
-                                                        </mat-form-field>
-                                                      </div>
-                                                      <div class="col-md-3"  *ngIf = "enableDivision" >
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Division" 
-                                                            [formControl]="sidingsItemFormGroup.controls['division']" (ngModelChange)="findDepots()">
-                                                            <mat-option *ngFor="let divisionData of divisionList"
-                                                              [value]="divisionData.facilityName">
-                                                              {{ divisionData.facilityName }}
-                                                            </mat-option>
-                                                          </mat-select>
-                                                        </mat-form-field>
-                                                      </div>
-                                                    
+                                                  
                                                       <div class="col-md-3" *ngIf = "enableDepot">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="Select Depot" 

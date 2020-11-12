@@ -77,6 +77,8 @@ public class FootPatrollingInspectionController {
 		log.info("Request Parameters = "+footPatrollingInspection.toString());
 		try {
 			log.info("Calling service with request parameters.");
+			FootPatrollingInspection fpins=footPatrollingInspectionService.save(footPatrollingInspection);
+			footPatrollingInspection.setSeqId(fpins.getId().toString());
 			footPatrollingInspectionService.save(footPatrollingInspection);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("Foot PatrollingInspection added successfully", Constants.SUCCESS_CODE);

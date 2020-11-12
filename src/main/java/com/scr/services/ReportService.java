@@ -3,12 +3,10 @@ package com.scr.services;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
 import com.scr.model.AssetMasterData;
@@ -18,7 +16,7 @@ import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
 import com.scr.model.ElectricEnergySuppliers;
 import com.scr.model.ElectrificationTargets;
-import com.scr.model.ElementarySection;
+import com.scr.model.ElementarySections;
 import com.scr.model.Facility;
 import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
@@ -222,7 +220,7 @@ public class ReportService {
 	public List<PbSwitchControl> findAllPBSwitch() {	
 		   return pbSwitchControlRepository.findAll();
 		}
-	public List<ElementarySection>findAllElementarySection(String facilityId) {	
+	public List<ElementarySections>findAllElementarySection(String facilityId) {	
 		   return elementarySectionsRepository.findByFacilityId(facilityId);
 		}
 	public List<ObservationCategory>findDepartments() {	

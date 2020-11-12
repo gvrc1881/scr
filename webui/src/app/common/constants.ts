@@ -242,6 +242,30 @@ export const Constants = {
                 UPDATE_GANTRY:"/updateGantryItem",
                 DELETE_GANTRY:"/deleteGantryItem/"
             },
+            SECTOR:{
+                GET_SECTOR:"/findAllSector",
+                GET_SECTOR_ID:"/findSectorById/",
+                SAVE_SECTOR:"/addSector",
+                UPDATE_SECTOR:"/updateSector",
+                DELETE_SECTOR:"/deleteSector/",
+                GET_LINE_CODE:"/findAllLineCodes"
+
+            },
+            SUBSECTOR:{
+                GET_SUB_SECTOR:"/findAllSubSector",
+                GET_SUB_SECTOR_ID:"/findSubSectorById/",
+                SAVE_SUB_SECTOR:"/addSubSector",
+                UPDATE_SUB_SECTOR:"/updateSubSector",
+                DELETE_SUB_SECTOR:"/deleteSubSector/",
+
+            },
+            ELEMENTARYSECTIONS:{
+                GET_ELEMENTARY_SECTIONS:"/findAllEleSections",
+                GET_ELEMENTARY_SECTIONS_ID:"/findElementarySectionsById/",
+                SAVE_ELEMENTARY_SECTIONS:"/addElementarySections",
+                UPDATE_ELEMENTARY_SECTIONS:"/updateElementarySections",
+                DELETE_ELEMENTARY_SECTIONS:"/deleteElementarySections/"
+            },
             PBSWITCH:{
                 GET_SWITCH:"/findAllPbSwitchControl",
                 GET_SWITCH_ID:"/findPbSwitchById/",
