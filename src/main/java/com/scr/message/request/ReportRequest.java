@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.Division;
-import com.scr.model.ElementarySection;
+import com.scr.model.ElementarySections;
 import com.scr.model.Facility;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
@@ -46,7 +46,7 @@ public class ReportRequest {
 	private String activityType;
 	private String pbSwitchType;
 	private PbSwitchControl pbExtentCode;
-	private ElementarySection elementarySectionCode;
+	private ElementarySections elementarySectionCode;
 	private String fromkm;
 	private String tokm;
 	private LocalDate Date;
@@ -220,11 +220,11 @@ public class ReportRequest {
 		this.pbExtentCode = pbExtentCode;
 	}
 
-	public ElementarySection getElementarySectionCode() {
+	public ElementarySections getElementarySectionCode() {
 		return elementarySectionCode;
 	}
 
-	public void setElementarySectionCode(ElementarySection elementarySectionCode) {
+	public void setElementarySectionCode(ElementarySections elementarySectionCode) {
 		this.elementarySectionCode = elementarySectionCode;
 	}
 
