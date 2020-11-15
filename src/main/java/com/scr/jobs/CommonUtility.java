@@ -21,6 +21,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jdt.internal.compiler.ast.IfStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -699,7 +700,14 @@ public class CommonUtility {
 						List<Facility> zoneFacilityList = facilityService.findByZone(currentFacility.getFacilityName());
 						facilityList.addAll(zoneFacilityList);
 					}else if("DIV".equals(currentFacility.getDepotType())) {
-						List<Facility> divFacilityList = facilityService.findByDivision(currentFacility.getFacilityName());
+						String facilityName  = null; 
+						if(currentFacility.getFacilityName().contains("_")){
+							String facilityNameArray[] = currentFacility.getFacilityName().split("_");
+							facilityName = facilityNameArray[0];
+						} else 
+							facilityName = currentFacility.getFacilityName();
+						
+						List<Facility> divFacilityList = facilityService.findByDivision(facilityName);
 							facilityList.addAll(divFacilityList);
 					}else if("SUBDIV".equals(currentFacility.getDepotType()) ) {
 						List<Facility> subDivFacilityList = facilityService.findBySubDivision(currentFacility.getFacilityName());

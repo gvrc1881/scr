@@ -31,8 +31,8 @@ public class WPASectionPopulation implements Serializable {
 	@JoinColumn(name = "work_group_id", foreignKey = @ForeignKey(name = "fk_wpa_section_population_work_group"))
 	private WorkGroup workGroupId;
 
-	@Column(name = "Population")
-	private String Population;
+	@Column(name = "population")
+	private String population;
 
 	public WPASectionPopulation() {
 	}
@@ -62,11 +62,11 @@ public class WPASectionPopulation implements Serializable {
 	}
 
 	public String getPopulation() {
-		return Population;
+		return population;
 	}
 
 	public void setPopulation(String population) {
-		Population = population;
+		this.population = population;
 	}
 
 }

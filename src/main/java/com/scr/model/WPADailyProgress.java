@@ -80,4 +80,20 @@ public class WPADailyProgress implements Serializable {
 		this.remark = remark;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	@Override
+	public String toString() {
+		return "WPADailyProgress [id=" + id + ", workPhaseActivityId=" + workPhaseActivityId + ", workGroupId="
+				+ workGroupId + ", date=" + date + ", performedCount=" + performedCount + ", remark=" + remark + "]";
+	}
+
+	
+
 }

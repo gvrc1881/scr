@@ -2,8 +2,10 @@ package com.scr.controller;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.ResponseStatus;
-import com.scr.model.Make;
+import com.scr.message.response.WPADailyProgressResponse;
+import com.scr.model.WPADailyProgress;
+import com.scr.model.WorkGroup;
+import com.scr.model.WorkPhases;
 import com.scr.model.Works;
 import com.scr.services.WorksServices;
 import com.scr.util.Constants;
@@ -190,6 +194,70 @@ public class WorksController {
 		catch (Exception e) {
 			log.error("ERROR >> While adding WP Data And WPA Data. "+e.getMessage());
 			return Helper.findResponseStatus("WP  And WPA  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/getWorkGroupsBasedOnWork/{workId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<WorkGroup> getWorkGroupsBasedOnWork(@PathVariable("workId") Integer workId){
+		log.info("Enter into getWorkGroupsBasedOnWork function ");
+		List<WorkGroup> workGroups = null;
+		try {
+			Optional<Works> work = worksServices.findById(workId);
+			if (work.isPresent()) {
+				workGroups = worksServices.getWorkGroupsBasedOnWork(work.get());
+			}
+			return workGroups;
+		} catch (Exception e) {
+			log.error("Error >>  while find work Group Details by work id, "+e.getMessage());
+		}
+		return workGroups;
+	}
+	
+	@RequestMapping(value = "/getWorkPhasesBasedOnWork/{workId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<WorkPhases> getWorkPhasesBasedOnWork(@PathVariable("workId") Integer workId){
+		log.info("Enter into getWorkPhasesBasedOnWork function ");
+		List<WorkPhases> workGroups = null;
+		try {
+			Optional<Works> work = worksServices.findById(workId);
+			if (work.isPresent()) {
+				workGroups = worksServices.getWorkPhasesBasedOnWork(work.get());
+			}
+			return workGroups;
+		} catch (Exception e) {
+			log.error("Error >>  while find work phase Details by work id, "+e.getMessage());
+		}
+		return workGroups;
+	}
+	
+	@RequestMapping(value = "/getWPADailyProgressBasedOnGroupActivity/{workId}/{workGroupId}/{workPhaseId}/{date}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<WPADailyProgressResponse> getWPADailyProgressBasedOnGroupActivity(@PathVariable("workId") Integer workId,@PathVariable("workGroupId") Integer workGroupId,@PathVariable("workPhaseId") Integer workPhaseId,@PathVariable("date") Date date){
+		log.info("Enter into getWorkPhasesBasedOnWork function Id***"+workId+"groupId"+workGroupId+"** phase Id ***"+workPhaseId+"**date***"+date);
+		List<WPADailyProgressResponse> wpaDailyProgresses = null;
+		
+		try {
+			wpaDailyProgresses = worksServices.getWPADailyProgressBasedOnGroupActivity(workId,workGroupId,workPhaseId,date);
+			return wpaDailyProgresses;
+		} catch (Exception e) {
+			log.error("Error >>  while find WPA daily progess data by group and activity, "+e.getMessage());
+		}
+		return wpaDailyProgresses;
+	}
+	
+	@PostMapping(value="/saveWPADailyProgress")
+	@ResponseBody
+	public ResponseStatus saveWPADailyProgress(@RequestBody List<WPADailyProgress> wpaDailyProgressRequest) {
+		log.info("*** Enter into saveWPADailyProgress function ***");
+		try {			
+			worksServices.saveWPADailyProgress(wpaDailyProgressRequest);
+			log.info("Preparing the return response and saveWPADailyProgress function end ");
+			return Helper.findResponseStatus("WPA daily progress Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While adding WPA daily progress Data. "+npe.getMessage());
+			return Helper.findResponseStatus("WPA daily progress Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While adding WPA daily progress Data. "+e.getMessage());
+			return Helper.findResponseStatus("WPA daily progress   Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
 

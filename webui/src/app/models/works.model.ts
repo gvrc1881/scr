@@ -31,3 +31,14 @@ export interface standardPhaseActivityModel{
     uom: string;
     standardPhaseId: any;    
 }
+
+export interface WPADailyProgressModel {
+    
+    id: number;
+    performedCount: number;
+    workGroupId: any;
+    workPhaseActivity: any;
+    date: any;
+    alreadyDoneCount: number;
+        
+}

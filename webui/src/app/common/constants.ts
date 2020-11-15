@@ -203,7 +203,11 @@ export const Constants = {
                 DELETE_WORK:"/deleteWork/",
                 EXISTS_WORK_NAME:'/existsWorkName/',
                 EXISTS_WORK_NAME_AND_ID: '/existsWorkNameAndId/',
-                COPY_WP_AND_WPA: '/copyWPAndWPA'
+                COPY_WP_AND_WPA: '/copyWPAndWPA',
+                GET_WORK_GROUPS_BASED_ON_WORK : "/getWorkGroupsBasedOnWork/",
+                GET_WORK_PHASES_BASED_ON_WORK : "/getWorkPhasesBasedOnWork/",
+                GET_WPA_DAILY_PROGRESS_BASED_ON_GROUP_ACTIVITY : "/getWPADailyProgressBasedOnGroupActivity/",
+                SAVE_WPA_DAILY_PROGRESS: "/saveWPADailyProgress"
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",
