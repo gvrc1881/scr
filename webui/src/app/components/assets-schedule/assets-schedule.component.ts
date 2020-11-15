@@ -67,8 +67,7 @@ getAssetsScheduleData() {
     this.assetsScheduleList = data;
     for (let i = 0; i < this.assetsScheduleList.length; i++) {
       this.assetsScheduleList[i].sno = i + 1;
-
-    schedule.push(this.assetsScheduleList[i]);
+      schedule.push(this.assetsScheduleList[i]);
   }
   this.assetsScheduleDataSource = new MatTableDataSource(schedule);
   this.assetsScheduleDataSource.paginator = this.paginator;
@@ -90,7 +89,7 @@ delete(id) {
     if (result) {
       this.spinnerService.show();
       this.sendAndRequestService.requestForDELETE(Constants.app_urls.CONFIG.ASSETS_SCHEDULE.DELETE_ASSET_SCHEDULE, id).subscribe(data => {
-        console.log(JSON.stringify(data));
+      //  console.log(JSON.stringify(data));
         this.spinnerService.hide();
         this.commonService.showAlertMessage("Deleted Assets Schedule Successfully");
         this.getAssetsScheduleData();

@@ -1,6 +1,6 @@
-import { OnInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { OnInit, Component, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { AssetMasterDataModel } from 'src/app/models/asset-master-data.model';
 import { Constants } from 'src/app/common/constants';
@@ -10,13 +10,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { ReportModel } from 'src/app/models/report.model';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 
-
 @Component({
   selector: 'asset-master-data',
   templateUrl: './asset-master-data.component.html',
   styleUrls: []
 })
-
 export class AssetMasterDataComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
@@ -24,7 +22,7 @@ export class AssetMasterDataComponent implements OnInit {
   addAssetMaster: boolean;
   assetMasterFormGroup: FormGroup;
   assetMasterDataList: any;
-  title: string = "Add";
+  title: string = Constants.EVENTS.ADD;
   AssocList: any;
   makeName: any;
   modelName: any;
@@ -72,7 +70,6 @@ export class AssetMasterDataComponent implements OnInit {
     private sendAndRequestService: SendAndRequestService,
     public dialog: MatDialog
   ) {
-
     this.amdErrors = {
       createdOn: {},
       dateOfCommision: {},
@@ -84,7 +81,6 @@ export class AssetMasterDataComponent implements OnInit {
       stripDate: {},
       warrantyAmcEndDate: {},
     };
-
   }
 
   ngOnInit() {
@@ -660,22 +656,18 @@ export class AssetMasterDataComponent implements OnInit {
       }
     });
   }
-
-
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
+    console.log('filterValue : '+filterValue);
+    alert("hello");
     filterValue = filterValue.toLowerCase();
     this.assetMasterDataSource.filter = filterValue;
   }
-
-
   onGoBack() {
     this.assetMasterFormGroup.reset();
     this.addAssetMaster = false;
     this.title = Constants.EVENTS.ADD;
   }
-
-
   NewAssetMaster() {
     this.addAssetMaster = true;
   }
@@ -721,8 +713,6 @@ export class AssetMasterDataComponent implements OnInit {
     this.sendAndRequestService.requestForPOST(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION, this.division, false).subscribe((data) => {
       this.subDivisionList = data;
     });
-
-
   }
   findDepoTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
