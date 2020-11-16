@@ -46,7 +46,7 @@
 
                   <ng-container matColumnDef="sno">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Sno</span>
+                    <span>{{FiledLabels.S_NO}}</span>
                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -54,7 +54,7 @@
 
                   <ng-container matColumnDef="status">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Status</span>
+                    <span>{{FiledLabels.STATUS}}</span>
                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
@@ -62,7 +62,7 @@
 
                   <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Action</span>
+                    <span>{{FiledLabels.ACTIONS}}</span>
                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.action}}</mat-cell>
@@ -70,7 +70,7 @@
 
                   <ng-container matColumnDef="complianceBy">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Compliance By</span>
+                    <span>{{FiledLabels.COMPLIANCE_BY}}</span>
                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.complianceBy}}</mat-cell>
@@ -78,7 +78,7 @@
 
                   <ng-container matColumnDef="compliedDateTime">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Complied Date</span>
+                    <span>{{FiledLabels.COMPLIED_DATE}}</span>
                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.compliedDateTime}}</mat-cell>
@@ -86,7 +86,7 @@
                      
                         <ng-container matColumnDef="document">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>
-                           <span> Documents </span>
+                           <span> {{FiledLabels.DOCUMENTS}} </span>
                            <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" disabled [filter]="filterData"/>
                            </mat-header-cell>
                            <mat-cell *matCellDef="let row">
@@ -100,7 +100,7 @@
                       
                       <ng-container matColumnDef="actions">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>
-                              <span>Actions</span>
+                              <span>{{FiledLabels.ACTIONS}}</span>
                               <input matInput type="text" disabled (keyup) ="updatePagination()" />
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row">
@@ -121,7 +121,7 @@
                       </mat-row>
                   </mat-table>
                  
-                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
               </div>
           </div>
       </div>

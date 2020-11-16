@@ -14,12 +14,13 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 export class AddDriveCategoryAssociationComponent implements OnInit {
 
+  pagination=Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string = '';
+  title: string = Constants.EVENTS.ADD;
   isSubmit: boolean = false;
   addDriveCategoryAssoFormGroup: FormGroup;
   id: number = 0;
@@ -61,11 +62,11 @@ export class AddDriveCategoryAssociationComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = Constants.EVENTS.UPDATE;;
+      this.title = Constants.EVENTS.UPDATE;
       
     } else {
       this.createDriveForm();
-      this.title =Constants.EVENTS.ADD;;
+      this.title = Constants.EVENTS.ADD;
     }
   }
   getDrivesData() {

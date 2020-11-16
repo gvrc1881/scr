@@ -8,6 +8,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { PbSwitchControl, SwitchMaintenenceHistory , PowerBlockModel } from 'src/app/models/tpc-operations.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -16,9 +17,12 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT
   styleUrls: []
 })
 export class SwitchOperationComponent implements OnInit {
-	
+  
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 	pbId: number = 0;
-    resp: any;
+  resp: any;
 	powerBlockData: any;
 	pbSwitchControl: any;
     dataSource: MatTableDataSource<SwitchMaintenenceHistory>;

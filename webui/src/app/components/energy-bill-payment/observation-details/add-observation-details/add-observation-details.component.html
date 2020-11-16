@@ -22,7 +22,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Observation Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.OBSERVATIONS_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -36,13 +36,13 @@
                                                 
                                                 	<div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                        <textarea matInput placeholder="location" [formControl]="addObservationFormGroup.controls['location']"></textarea>
+                                                        <textarea matInput placeholder="{{FiledLabels.LOCATION}}" [formControl]="addObservationFormGroup.controls['location']"></textarea>
                                                         </mat-form-field>
                                                         </div>
 
                                                         <div class="col-md-3">
                                                           <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Observation Category" 
+                                                            <mat-select placeholder="{{FiledLabels.OBSERVATION_CATEGORY}}" 
                                                               [formControl]="addObservationFormGroup.controls['observationCategory']" (selectionChange)="getObsCheckList()" required>
                                                               <mat-option *ngFor="let observationCategoryData of observationCategoryData"
                                                                 [value]="observationCategoryData.observationCategory">
@@ -54,7 +54,7 @@
 
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select Observation Item"
+                                                                <mat-select placeholder="{{FiledLabels.OBSERVATION_ITEM}}"
                                                                     [formControl]="addObservationFormGroup.controls['observationItem']" required>
                                                                     <mat-option *ngFor="let observationItem of observationItemData"
                                                                         [value]="observationItem.observationItem">
@@ -65,7 +65,7 @@
                                                           </div>
                                                           <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select  Severity"
+                                                                <mat-select placeholder="{{FiledLabels.SEVERITY}}"
                                                                     [formControl]="addObservationFormGroup.controls['severity']">
                                                                     <mat-option *ngFor="let observationItem of observationItemData"
                                                                         [value]="observationItem.severity">
@@ -76,7 +76,7 @@
                                                           </div>
                                                           <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select  Priority"
+                                                                <mat-select placeholder="{{FiledLabels.PRIORITY}}"
                                                                     [formControl]="addObservationFormGroup.controls['priority']">
                                                                     <mat-option *ngFor="let observationItem of observationItemData"
                                                                         [value]="observationItem.priority">
@@ -88,7 +88,7 @@
                                                           <div class="col-md-3">
                                                             
                                                             <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks" [formControl]="addObservationFormGroup.controls['description']" required></textarea>
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="addObservationFormGroup.controls['description']" required></textarea>
                                                             </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3" fxFlex="30">                                                        
@@ -130,12 +130,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addObservationFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                           {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

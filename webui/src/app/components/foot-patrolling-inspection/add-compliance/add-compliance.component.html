@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Compliance Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.COMPLIANCE_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         
@@ -39,7 +39,7 @@
                                             <div class="col-md-3">Description:{{obsData.description}}</div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Status" 
+                                                          <mat-select placeholder="{{FiledLabels.STATUS}}" 
                                                             [formControl]="addComplianceFormGroup.controls['status']" >
                                                             <mat-option *ngFor="let statusTypeData of statusTypeData"
                                                               [value]="statusTypeData.statusCode">
@@ -50,12 +50,12 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Action" [formControl]="addComplianceFormGroup.controls['action']" ></textarea>
+                                                          <textarea matInput placeholder="{{FiledLabels.ACTION}}" [formControl]="addComplianceFormGroup.controls['action']" ></textarea>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Compliance By" [formControl]="addComplianceFormGroup.controls['complianceBy']" required></textarea>
+                                                          <textarea matInput placeholder="{{FiledLabels.COMPLIANCE_BY}}" [formControl]="addComplianceFormGroup.controls['complianceBy']" required></textarea>
                                                         </mat-form-field>
                                                       </div>
                                                     
@@ -63,7 +63,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose Compiled Date" [max]="toMinDate"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.COMPLIED_DATE}}" [max]="toMinDate"
                                                                 [formControl]="addComplianceFormGroup.controls['compliedDateTime']" >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -109,12 +109,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addComplianceFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                          {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                           {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

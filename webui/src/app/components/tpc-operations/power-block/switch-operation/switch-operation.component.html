@@ -149,14 +149,14 @@
              		<div class="mat-elevation-z8">
              			<mat-table [dataSource]="dataSource" matSort>
              				<ng-container matColumnDef="switchId">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Switch Id</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SWITCH_ID}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row"> {{row.ioLocation}}</mat-cell>
 	                        </ng-container>
 	                        
 	                        <!-- io open date time  -->
 
 	                        <ng-container matColumnDef="openDate">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Open Date</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OPEN_DATE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioOpenedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
@@ -175,7 +175,7 @@
 	                       <!-- tpc no io open  -->
 	                        
 	                       <ng-container matColumnDef="tpcNoIoOpen">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Open</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TPC_NO_OPEN}}</mat-header-cell>
 	                        	<ng-container *matCellDef="let row">
 	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoOpenElseBlock">
 	                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -191,7 +191,7 @@
 	                        <!-- field num io open -->
 	                        
 	                        <ng-container matColumnDef="fieldNumOpen">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Open</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.F_NO_OPEN}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNoIoOpenElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -215,7 +215,7 @@
 	                        <!-- io open done date -->
 	                        
 	                        <ng-container matColumnDef="openDoneDate">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Open Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OPEN_DONE}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:100px !important; text-align: left">
 	                            	<input matInput type="text" [(ngModel)]="row.ioOpenedDateTimeDone" readonly >
@@ -229,7 +229,7 @@
 	                        <!-- tpc no io open done -->
 	                        
 	                       <ng-container matColumnDef="tpcNoIoOpenDone">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Open Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TPC_NO_OPEN_DONE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoOpenDoneElseBlock">
 	                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -245,7 +245,7 @@
 	                        <!-- field no io open done -->
 	                        
 	                        <ng-container matColumnDef="fieldNumOpenDone">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Opene Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.F_NO_OPEN_DONE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 	                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNumOpenDoneElseBlock">
 	                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -261,7 +261,7 @@
 	                        <!-- io opened by -->
 	                        
 	                        <ng-container matColumnDef="openBy">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Open By</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OPEN_BY}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:120px !important; text-align: left">
 	                            	<input matInput type="text" [(ngModel)]="row.ioOpenedBy"  >
@@ -271,7 +271,7 @@
 	                        
 	                        <!-- io close date time  -->
 	                        <ng-container matColumnDef="closeDate">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Close</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CLOSE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else ioClosedDateTimeElseBlock">
 		                            	<mat-form-field style="width:100px !important; text-align: left">
@@ -290,7 +290,7 @@
 	                        <!-- tpc no io close  -->
 	                        
 	                       <ng-container matColumnDef="tpcNoIoClose">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Close</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TPC_NO_CLOSE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoCloseElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -306,7 +306,7 @@
 	                        <!-- field no io close -->
 	                        
 	                        <ng-container matColumnDef="fieldNumClose">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Close</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.F_NO_CLOSE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNoIoCloseElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -322,7 +322,7 @@
 	                        <!-- io close done date -->
 	                        
 	                        <ng-container matColumnDef="closeDoneDate">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Close Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CLOSE_DONE}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:100px !important; text-align: left">
 	                            	<input matInput type="text" [(ngModel)]="row.ioClosedDateTimeDone" readonly >
@@ -336,7 +336,7 @@
 	                        <!-- tpc no io close Done -->
 	                        
 	                       <ng-container matColumnDef="tpcNoIoCloseDone">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>tpc No Close Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TPC_NO_CLOSE_DONE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else tpcNoIoCloseDoneElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -352,7 +352,7 @@
 	                        <!-- Field no close done -->
 	                        
 	                        <ng-container matColumnDef="fieldNumCloseDone">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>F No Close Done</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.F_NO_CLOSE_DONE}}</mat-header-cell>
 	                            <ng-container *matCellDef="let row">
 		                            <mat-cell *ngIf="row.ioType === 'MANUAL'; else fieldNumCloseDoneElseBlock">
 		                            	<mat-form-field style="width:50px !important; text-align: left">
@@ -368,7 +368,7 @@
 	                         <!-- io closed by -->
 	                        
 	                        <ng-container matColumnDef="closeBy">
-	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Close By</mat-header-cell>
+	                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CLOSE_BY}}</mat-header-cell>
 	                            <mat-cell *matCellDef="let row">
 	                            	<mat-form-field style="width:120px !important; text-align: left">
 	                            	<input matInput type="text" [(ngModel)]="row.ioClosedBy"  >
@@ -379,7 +379,7 @@
 	                        <!-- actions -->
 	                        
 	                        <ng-container matColumnDef="actions">
-						    	<mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+						    	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                        		<mat-cell *matCellDef="let row">
 	                        			<a mat-icon-button matTooltip="Save" >
 	                        				<button mat-icon-button matTooltip="Save"

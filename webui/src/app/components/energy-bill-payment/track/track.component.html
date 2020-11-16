@@ -28,7 +28,7 @@
                                                 fxLayoutAlign="start" [formGroup]="trackFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onTrackSubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} Track</div>
+                                            		<div class="panel-heading">{{title}} {{Titles.TRACK}}</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
 	                                                        <!-- <div class="col-md-3">
@@ -38,7 +38,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3" *ngIf="enableDepotType">
 			                                                        <mat-form-field fxFlex="30">
-			                                                            <mat-select placeholder="Select Depot Type" [formControl]="trackFormGroup.controls['depotType']" (selectionChange)="getFacilitys()" >
+			                                                            <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}" [formControl]="trackFormGroup.controls['depotType']" (selectionChange)="getFacilitys()" >
 			                                                                <mat-option *ngFor="let depotType of funLocTypeData"
 			                                                                    [value]="depotType">
 			                                                                    {{ depotType.code}}
@@ -49,7 +49,7 @@
 			                                                 <div *ngIf="enableDepots else depotsElseBlock">
 			                                                 	<div class="col-md-3">
 			                                                        <mat-form-field fxFlex="30">
-			                                                            <mat-select placeholder="Select Depot"
+			                                                            <mat-select placeholder="{{FiledLabels.DEPOT}}"
 			                                                                [formControl]="trackFormGroup.controls['facilityId']" required>
 			                                                                <mat-option *ngFor="let facilityId of facilityData"
 			                                                                    [value]="facilityId">
@@ -75,13 +75,13 @@
 															 <ng-template #depotsElseBlock>
 															 	<div class = "col-md-3" >
                                                       				<mat-form-field fxFlex="30">
-                                                      					<input matInput placeholder = "Depot" [formControl]="trackFormGroup.controls['facilityId']" required [readonly]="true"/>
+                                                      					<input matInput placeholder = "{{FiledLabels.DEPOT}}" [formControl]="trackFormGroup.controls['facilityId']" required [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 															 </ng-template>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" required decimalNumber [formControl]="trackFormGroup.controls['tkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.TKM}}" required decimalNumber [formControl]="trackFormGroup.controls['tkm']" />
 	                                                                <mat-error *ngIf="trackFormGroup.controls['tkm'].hasError('required')">
 										                                Enter TKM
 										                            </mat-error>
@@ -89,7 +89,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Electrified TKM" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedTkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.ELECTRIFIED_TKM}}" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedTkm']" />
 	                                                                <mat-error *ngIf="trackFormGroup.controls['electrifiedTkm'].hasError('required')">
 										                                Enter Electrified TKM
 										                            </mat-error>
@@ -97,7 +97,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM" required decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.RKM}}" required decimalNumber [formControl]="trackFormGroup.controls['rkm']" />
 	                                                                <mat-error *ngIf="trackFormGroup.controls['rkm'].hasError('required')">
 										                                Enter RKM
 										                            </mat-error>
@@ -105,7 +105,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Electrified RKM" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedRkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.ELECTRIFIED_RKM}}" required decimalNumber [formControl]="trackFormGroup.controls['electrifiedRkm']" />
 	                                                                <mat-error *ngIf="trackFormGroup.controls['electrifiedRkm'].hasError('required')">
 										                                Enter Electrified RKM
 										                            </mat-error>
@@ -113,7 +113,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <textarea matInput placeholder="Remark" [formControl]="trackFormGroup.controls['remark']" ></textarea>
+	                                                                <textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="trackFormGroup.controls['remark']" ></textarea>
 	                                                                <mat-error
 		                                                                *ngIf="trackFormGroup.controls['remark']"
 		                                                                class="alert alert-danger">Max 250 characters only
@@ -153,41 +153,41 @@
                                     	<div class="mat-elevation-z8">
                                     		<mat-table [dataSource]="trackDataSource" matSort>
                                     			<ng-container matColumnDef="sno">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="depot">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.depot}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="TKM">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>TKM</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TKM}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.tkm}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="electrifiedTKM">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Electrified TKM</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ELECTRIFIED_TKM}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.electrifiedTkm}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="RKM">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>RKM</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.RKM}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.rkm}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="electrifiedRKM">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Electrified RKM</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ELECTRIFIED_RKM}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.electrifiedRkm}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="remarks">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.remark}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="id">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
 	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
 	                                                        (click)="editTrack(row.id)">
@@ -203,7 +203,7 @@
                                             	<mat-row *matRowDef="let row; columns: trackDisplayedColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     	</div>
 								</div>
 							</div>

@@ -10,12 +10,17 @@ import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/dat
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { DatePipe } from '@angular/common';
 import { ComplianceDocumentComponent } from '../../compliance-document-dialog/compliance-document-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 @Component({
   selector: 'app-compliance-details',
   templateUrl: './compliance-details.component.html',
   styleUrls: []
 })
 export class ComplianceDetailsComponent implements OnInit {
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

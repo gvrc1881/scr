@@ -8,6 +8,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DatePipe } from '@angular/common';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 @Component({
   selector: 'app-add-ash',
   templateUrl: './add-ash.component.html',
@@ -15,8 +19,11 @@ import { ErrorStateMatcher } from '@angular/material/core';
 })
 export class AddAshComponent implements OnInit {
 
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+  pagination =Constants.PAGINATION_NUMBERS;
   id: number = 0;
-  title: string;
+  title: string =  Constants.EVENTS.ADD;
   save: boolean = true;
   update: boolean = false;
   today = new Date();
@@ -119,12 +126,12 @@ export class AddAshComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title =  Constants.EVENTS.UPDATE;
       this.getAshDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title =  Constants.EVENTS.ADD;
     }
   
 

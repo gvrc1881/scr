@@ -257,7 +257,7 @@
                                             <mat-form-field>
                                                 <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                     [owlDateTimeTrigger]="dt2"
-                                                    placeholder="{{FiledLabels.ACTION_COMPLETED_DATE}}Choose Action Completed  Date" [min]="completeMinDate"
+                                                    placeholder="{{FiledLabels.ACTION_COMPLETED_DATE}}" [min]="completeMinDate"
                                                     [value]="completeDate | dateFilter:dateFormat"
                                                     (dateTimeChange)="addEventCompleteDate($event)"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['actionCompletedDate']">

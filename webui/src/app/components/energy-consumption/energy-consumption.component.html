@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="Zone" (selectionChange)="getDivisions(zoneCode)" [(ngModel)]="zoneCode" >
+                                        <mat-select placeholder="{{FiledLabels.ZONE}}" (selectionChange)="getDivisions(zoneCode)" [(ngModel)]="zoneCode" >
                                             <mat-option *ngFor="let facility of zoneData "
                                                 [value]="facility.zone">
                                                 {{ facility.zone}}
@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="Division" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">
+                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">
                                             <mat-option *ngFor="let divisionsList of divisionsList "
                                                 [value]="divisionsList.code">
                                                 {{ divisionsList.code}}
@@ -50,7 +50,7 @@
                                 <div class="col-md-3" *ngIf="exactDate">
                                     <mat-form-field>
                                         <input matInput [matDatepicker]="picker1" 
-                                            placeholder="Choose Date"
+                                            placeholder="{{FiledLabels.DATE}}"
                                             [(ngModel)]="selectedExactDate" 
                                             (dateChange)="exactDateEvent($event)"
                                             [max]="maxDate">
@@ -62,7 +62,7 @@
 
                                     <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                            <mat-select placeholder="Feeder Name"
+                                            <mat-select placeholder="{{FiledLabels.FEEDER}}"
                                                 (selectionChange)="updateFeederName($event)" [(ngModel)]="feederId">
                                                 <mat-option *ngFor="let feeders of feedersList"
                                                     [value]="feeders.feederId">
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field>
-                                            <input matInput [matDatepicker]="picker3" placeholder="Choose From Date"
+                                            <input matInput [matDatepicker]="picker3" placeholder="{{FiledLabels.FROM_DATE}}"
                                                 [(ngModel)]="selectedBWFrom" 
                                                 (dateChange)="bwFromDateEvent($event)"
                                                 [max]="maxDate">
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="col-md-3" *ngIf="!exactDate">
                                         <mat-form-field>
-                                            <input matInput [matDatepicker]="picker2" placeholder="Choose To Date"
+                                            <input matInput [matDatepicker]="picker2" placeholder="{{FiledLabels.TO_DATE}}"
                                                 [min]="selectedBWFrom" [(ngModel)]="maxDate"
                                                 (dateChange)="bwToDateEvent($event)"
                                                 [max]="maxDate">
@@ -116,7 +116,7 @@
 
                                     <ng-container matColumnDef="sno">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header [attr.rowspan]="2">
-                                            <span> Sno</span>
+                                            <span>{{FiledLabels.S_NO}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             {{row.sno}}
@@ -125,7 +125,7 @@
 
                                     <ng-container matColumnDef="Feeder_Name">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>Feeder Name</span>
+                                            <span>{{FiledLabels.FEEDER}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             {{row.Feeder_Name}}
@@ -134,7 +134,7 @@
 
                                     <ng-container matColumnDef="Previous_Date">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>Date</span>
+                                            <span>{{FiledLabels.DATE}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             {{row.requestedReadingDate}} :
@@ -146,21 +146,21 @@
 
                                     <ng-container matColumnDef="Multification_Factor">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>MF </span>
+                                            <span>{{FiledLabels.MF}} </span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> {{row.Multification_Factor}}</td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="Joint_Reading">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>JMR </span>
+                                            <span>{{FiledLabels.JMR}} </span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> {{row.joint_meter }}</td>
                                     </ng-container>
 
                                <ng-container matColumnDef="Old_KWH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span> KWH Old</span>
+                                            <span>{{FiledLabels.KWH_OLD}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> 
                                           <span style="color:#FF7F50">  {{row.Old_KWH}} </span>          
@@ -169,7 +169,7 @@
 
                                     <ng-container matColumnDef="Current_KWH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span> KWH Current</span>
+                                            <span> {{FiledLabels.KWH_CURRENT}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color: blue;">{{row.Current_KWH}}</span>
@@ -179,7 +179,7 @@
 
                                     <ng-container matColumnDef="Consumption_KWH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>KWH Consumption</span>
+                                            <span>{{FiledLabels.KWH_CONSUMPTION}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50">
                                          {{row.Consumption_KWH}} </span></td>
@@ -187,7 +187,7 @@
 
                                     <ng-container matColumnDef="Old_KVAH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span> KVAH Old</span>
+                                            <span>{{FiledLabels.KVAH_OLD}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50;">
                                             {{row.Old_KVAH}}
@@ -197,7 +197,7 @@
 
                                     <ng-container matColumnDef="Current_KVAH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>KVAH Current</span>
+                                            <span>{{FiledLabels.KVAH_CURRENT}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color: blue;">
@@ -208,7 +208,7 @@
 
                                     <ng-container matColumnDef="Consumption_KVAH">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>KVAH Consumption</span>
+                                            <span>{{FiledLabels.KVAH_CONSUMPTION}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> 
                                             <span style="color:#FF7F50"> {{row.Consumption_KVAH}}
@@ -217,7 +217,7 @@
 
                                     <ng-container matColumnDef="Old_RKVAH_Lag">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lag Old</span>
+                                            <span>{{FiledLabels.RKVAH_LAG_OLD}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">  <span style="color:#FF7F50">
                                         {{row.Old_RKVAH_Lag}}</span>
@@ -226,7 +226,7 @@
 
                                     <ng-container matColumnDef="Current_RKVAH_Lag">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lag Current</span>
+                                            <span>{{FiledLabels.RKVAH_LAG_CURRENT}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color: blue;">
@@ -239,7 +239,7 @@
 
                                     <ng-container matColumnDef="Consumption_RKVAH_Lag">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lag Consumption</span>
+                                            <span>{{FiledLabels.RKVAH_LAG_CONSUMPTION}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color:#FF7F50"> {{row.Consumption_RKVAH_Lag}}
@@ -249,7 +249,7 @@
 
                                     <ng-container matColumnDef="Old_RKVAH_Lead">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lead Old</span>
+                                            <span>{{FiledLabels.RKVAH_LEAD_OLD}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row"> <span style="color:#FF7F50">
                                          {{row.Old_RKVAH_Lead}} </span>
@@ -258,7 +258,7 @@
 
                                     <ng-container matColumnDef="Current_RKVAH_Lead">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lead Current</span>
+                                            <span>{{FiledLabels.RKVAH_LEAD_CURRENT}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color: blue;">
@@ -270,7 +270,7 @@
 
                                     <ng-container matColumnDef="Consumption_RKVAH_Lead">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>RKVAH Lead Consumption</span>
+                                            <span>{{FiledLabels.RKVAH_LEAD_CONSUMPTION}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <span style="color:#FF7F50">
@@ -281,7 +281,7 @@
 
                                      <ng-container matColumnDef="actions">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <span>Actions</span>
+                                            <span>{{FiledLabels.ACTIONS}}</span>
                                         </th>
                                         <td mat-cell *matCellDef="let row">
                                             <a mat-icon-button matTooltip="Edit"
@@ -317,7 +317,7 @@
                                     </tr>
                                 </table>
 
-                                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                             </div>
                         </div>
                     </div>

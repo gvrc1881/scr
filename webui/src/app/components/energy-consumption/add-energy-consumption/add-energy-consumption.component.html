@@ -20,7 +20,7 @@
                
                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                     <div class="panel panel-primary">
-                        <div class="panel-heading">{{title}} Energy Consumption</div>
+                        <div class="panel-heading">{{title}} {{Titles.ENERGY_CONSUMPTION}}</div>
                         <div class="panel-body">
                             <div class="p-24">
                                 <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -34,14 +34,14 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="Feeder Name" 
+                                                    <input matInput placeholder="{{FiledLabels.FEEDER}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Feeder_Name']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="MF" 
+                                                    <input matInput placeholder="{{FiledLabels.MF}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Multification_Factor']">
                                                 </mat-form-field>
                                             </div>
@@ -59,14 +59,14 @@
                                         <div class="clear"></div>
                                             <div class="col-md-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Old KWH" 
+                                                    <input matInput placeholder="{{FiledLabels.OLD_KWH}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KWH']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Current KWH" decimalNumber (keyup)="updateKWH($event)"
+                                                    <input matInput placeholder="{{FiledLabels.CURRENT_KWH}}" decimalNumber (keyup)="updateKWH($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KWH']" required>
                                                 </mat-form-field>
                                                 <mat-error
@@ -78,21 +78,21 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="Consumption KWH" 
+                                                    <input matInput placeholder="{{FiledLabels.CONSUMPTION_KWH}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_KWH']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
-                                                    <input matInput placeholder="Old KVAH" 
+                                                    <input matInput placeholder="{{FiledLabels.OLD_KVAH}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_KVAH']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Current KVAH" decimalNumber 
+                                                    <input matInput placeholder="{{FiledLabels.CURRENT_KVAH}}" decimalNumber 
                                                         (keyup)="updateKVAH($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_KVAH']" required>
                                                 </mat-form-field>
@@ -105,21 +105,21 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption KVAH" 
+                                                    <input matInput placeholder="{{FiledLabels.CONSUMPTION_KVAH}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_KVAH']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Old_RKVAH Lag" 
+                                                    <input matInput placeholder="{{FiledLabels.OLD_RKVAH_LAG}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lag']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Current RKVAH Lag" decimalNumber (keyup)="updateRKVAHLag($event)"
+                                                    <input matInput placeholder="{{FiledLabels.CURRENT_RKVAH_LAG}}" decimalNumber (keyup)="updateRKVAHLag($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lag']">
                                                 </mat-form-field>
                                                 <mat-error
@@ -130,21 +130,21 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption RKVAH Lag" 
+                                                    <input matInput placeholder="{{FiledLabels.CONSUMPTION_RKVAH_LAG}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lag']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Old RKVAH Lead" 
+                                                    <input matInput placeholder="{{FiledLabels.OLD_RKVAH_LEAD}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Old_RKVAH_Lead']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Current RKVAH Lead" decimalNumber (keyup)="updateRKVAHLead($event)"
+                                                    <input matInput placeholder="{{FiledLabels.CURRENT_RKVAH_LEAD}}" decimalNumber (keyup)="updateRKVAHLead($event)"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Current_RKVAH_Lead']" required>
                                                 </mat-form-field>
                                                 <mat-error
@@ -155,7 +155,7 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Consumption RKVAH Lead" 
+                                                    <input matInput placeholder="{{FiledLabels.CONSUMPTION_RKVAH_LEAD}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Consumption_RKVAH_Lead']">
                                                 </mat-form-field>
                                             </div>
@@ -163,56 +163,56 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="CMD" 
+                                                    <input matInput placeholder="{{FiledLabels.CMD}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['cmd']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="PF" decimalNumber 
+                                                    <input matInput placeholder="{{FiledLabels.PF}}" decimalNumber 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['pf']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="CPF" decimalNumber 
+                                                    <input matInput placeholder="{{FiledLabels.CPF}}" decimalNumber 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['cpf']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Joint Reading Date"
+                                                    <input matInput placeholder="{{FiledLabels.JOINT_READING_DATE}}"
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['jointReadingDate']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4" fxFlex="30">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="rmd" decimalNumber
+                                                    <input matInput placeholder="{{FiledLabels.RMD}}" decimalNumber
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['rmd']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Vol Max" decimalNumber
+                                                    <input matInput placeholder="{{FiledLabels.VOL_MAX}}" decimalNumber
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Vol_Max']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Vol Min" decimalNumber
+                                                    <input matInput placeholder="{{FiledLabels.VOL_MIN}}" decimalNumber
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Vol_Min']">
                                                 </mat-form-field>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <input matInput placeholder="Max Load" decimalNumber
+                                                    <input matInput placeholder="{{FiledLabels.MAX_LOAD}}" decimalNumber
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Max_Load']">
                                                 </mat-form-field>
                                             </div>
@@ -220,7 +220,7 @@
                                             <div class="col-md-4">
                                                 <mat-form-field>
                                                      <input matInput [owlDateTime]="dt5" style="width: 94%;"
-                                                        [owlDateTimeTrigger]="dt5" placeholder="Max Load Time"                                                       
+                                                        [owlDateTimeTrigger]="dt5" placeholder={{FiledLabels.MAX_LOAD_TIME}}"                                                       
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['maxLoadTime']" 
                                                         [min]="minDateMax"
                                                         [max]="maxDateMax">                                                                
@@ -232,7 +232,7 @@
 
                                             <div class="col-md-4">
                                                 <mat-form-field fxFlex="30">
-                                                    <textarea matInput placeholder="Remarks" 
+                                                    <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['remarks']"
                                                         > </textarea>                       
                                                         <mat-error
@@ -254,11 +254,11 @@
                                                         class="d-inline" mat-raised-button="" type="submit"
                                                         [disabled]="addEnergyConsumptionFailFromGroup.invalid"
                                                         *ngIf="save">
-                                                        Submit
+                                                        {{title}}
                                                     </button>
                                                     <button class="mat-raised-button mat-accent  d-inline"
                                                         color="accent" mat-raised-button="" *ngIf="update">
-                                                        Update
+                                                       {{title}}
                                                     </button>&nbsp;&nbsp;
                                                     <span class="mat-raised-button mat-accent d-inline"
                                                         (click)="onGoBack()" color="warn" mat-raised-button="">

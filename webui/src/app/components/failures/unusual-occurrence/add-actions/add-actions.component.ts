@@ -22,7 +22,7 @@ export class AddActionsComponent implements OnInit {
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   relayIndicationList = [];
   natureOfCloseList = [];
   addActionsFailFromGroup: FormGroup;
@@ -94,12 +94,12 @@ export class AddActionsComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getActionsFailDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
 

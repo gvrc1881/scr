@@ -11,6 +11,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
+
 @Component({
     selector: 'observation-check-list',
     templateUrl: './observation-check-list.component.html',
@@ -25,11 +30,14 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 })
 export class ObservationCheckListComponent implements OnInit {
 
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addObservationCheckListItem: boolean;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD ;
     ObservationCheckListItemFormGroup: FormGroup;
     observationCheckList: any;
     inspectionTypeData: any;
@@ -118,7 +126,7 @@ export class ObservationCheckListComponent implements OnInit {
         let thruDate: Date = this.ObservationCheckListItemFormGroup.value.thruDate;
         this.addObservationCheckListItem = false;
 
-        if (this.title == Constants.EVENTS.SAVE) {
+        if (this.title == Constants.EVENTS.ADD) {
             var saveObsCheckListModel = {
                 'inspectionType': inspectionType,
                 'observationCategory': observationCategory,
@@ -160,7 +168,7 @@ export class ObservationCheckListComponent implements OnInit {
     editObservationsCheckListItem(id) {
         this.addObservationCheckListItem = true;
         this.observationCheckListEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     observationCheckListEditAction(id: number) {
@@ -207,7 +215,7 @@ export class ObservationCheckListComponent implements OnInit {
     onGoBack() {
         this.ObservationCheckListItemFormGroup.reset();
         this.addObservationCheckListItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     observationCategories() {
 

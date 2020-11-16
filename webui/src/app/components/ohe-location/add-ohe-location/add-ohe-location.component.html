@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}}Ohe Location Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.OHE_LOCATION_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Division"
+                                                            <textarea matInput placeholder="{{FiledLabels.DIVISION}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['division']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -43,7 +43,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Section"
+                                                            <textarea matInput placeholder="{{FiledLabels.SECTION}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['section']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"></textarea>
@@ -54,19 +54,19 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="pwi"
+                                                            <textarea matInput placeholder="{{FiledLabels.PWI}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['pwi']"></textarea>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="trackLine"
+                                                            <textarea matInput placeholder="{{FiledLabels.TRACK_LINE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['trackLine']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Ohe Mast Type" 
+                                                          <mat-select placeholder="{{FiledLabels.OHE_MAST_TYPE}}" 
                                                             [formControl]="addOheLocationFormGroup.controls['oheMast']" required>
                                                             <mat-option *ngFor="let oheFounData of oheFounData"
                                                               [value]="oheFounData.statusCode">
@@ -77,7 +77,7 @@
                                                       </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Structure Type" 
+                                                          <mat-select placeholder="{{FiledLabels.STRUCTURE_TYPE}}" 
                                                             [formControl]="addOheLocationFormGroup.controls['structureType']" required>
                                                             <mat-option *ngFor="let structureTypeData of structureTypeData"
                                                               [value]="structureTypeData.statusCode">
@@ -88,38 +88,38 @@
                                                       </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Eng Feature"
+                                                            <textarea matInput placeholder="{{FiledLabels.ENG_FEATURE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['engFeature']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Ohe Feature"
+                                                            <textarea matInput placeholder="{{FiledLabels.OHE_FEATURE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['oheFeature']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Longitude"
+                                                            <textarea matInput placeholder="{{FiledLabels.LONGITUDE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['longitude']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Latitude"
+                                                            <textarea matInput placeholder="{{FiledLabels.LATITUDE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['latitude']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Altitude"
+                                                            <textarea matInput placeholder="{{FiledLabels.ALTITUDE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['altitude']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1" 
-                                                                placeholder="Date"
+                                                                placeholder="{{FiledLabels.DATE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['date']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
@@ -128,67 +128,67 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Validity"
+                                                            <textarea matInput placeholder="{{FiledLabels.VALIDITY}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['validity']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Satellites"
+                                                            <textarea matInput placeholder="{{FiledLabels.SATELLITES}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['satellites']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Speed"
+                                                            <textarea matInput placeholder="{{FiledLabels.SPEED}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['speed']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Heading"
+                                                            <textarea matInput placeholder="{{FiledLabels.HEADING}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['heading']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remark One"
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARK_ONE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['remarkOne']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remark Two"
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARK_TWO}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['remarkTwo']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Ohe Sequence"
+                                                            <textarea matInput placeholder="{{FiledLabels.OHE_SEQUENCE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['oheSequence']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Curvature"
+                                                            <textarea matInput placeholder="{{FiledLabels.CURVATURE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['curvature']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Curvature Remark"
+                                                            <textarea matInput placeholder="{{FiledLabels.CURVATURE_REMARK}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['curvatureRemark']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Chainage"
+                                                            <textarea matInput placeholder="{{FiledLabels.CHAINAGE}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['chainage']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Chainage Remark"
+                                                            <textarea matInput placeholder="{{FiledLabels.CHAINAGE_REMARK}}"
                                                                 [formControl]="addOheLocationFormGroup.controls['chainageRemark']"></textarea>  
                                                         </mat-form-field>
                                                     </div>
@@ -201,12 +201,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addOheLocationFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="addOheLocationFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

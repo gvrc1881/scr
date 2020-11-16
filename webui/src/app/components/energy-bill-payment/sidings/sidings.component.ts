@@ -11,6 +11,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
     selector: 'app-sidings',
@@ -26,13 +28,17 @@ import { DatePipe } from '@angular/common';
       ]
 })
 export class SidingsComponent implements OnInit {
+    
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addSidingsItem: boolean ;
     stationCodeData:any;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     sidingsItemList : any;
     toMinDate=new Date();
     today=new Date();
@@ -174,7 +180,7 @@ export class SidingsComponent implements OnInit {
         let division: string = this.sidingsItemFormGroup.value.division;
         let depot: string = this.sidingsItemFormGroup.value.depot;
         this.addSidingsItem = false;
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveSidingsModel ={
                 'station':station,
                 'sidingCode': sidingCode,
@@ -244,7 +250,7 @@ export class SidingsComponent implements OnInit {
     editSidingsItem (id) {
         this.addSidingsItem = true;
         this.sidingsItemEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
         this.enableZone = false;
         this.enableDivision = false;
        this.enableDepot = false;
@@ -308,9 +314,9 @@ export class SidingsComponent implements OnInit {
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 
@@ -341,7 +347,7 @@ export class SidingsComponent implements OnInit {
     onGoBack() {
         this.sidingsItemFormGroup.reset();
         this.addSidingsItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
         this.enableDivision = false;
        
         this.enableDepot = false;
@@ -430,11 +436,25 @@ findDepots(){
 }
 ViewData(data){
     var result = {
-      'title':'Sidings  Data',
-      'dataSource':[{label:'Station',value:data.station},{label:'Siding Code',value:data.sidingCode},{label:'Section',value:data.section},
-                    {label:'Section Eletrified Status', value:data.sectionEletrifiedStatus},{label:'Siding Eletrified Status', value:data.sidingEletrifiedStatus},{label:'Private Railway', value:data.privateRailway},
-                    {label:'status', value:data.status},{label:'Tkm', value:data.tkm},{label:'Remarks', value:data.remarks},
-                    {label:'proposedDate', value:data.proposedDate},{label:'ApprovalDate', value:data.approvalDate},{label:'WorkOrderDate', value:data.workOrderDate}, ]
+      'title':this.Titles.SIDINGS_DATA,
+      'dataSource':[
+
+                    { label:FieldLabelsConstant.LABELS.STATION, value:data.station },
+                    { label:FieldLabelsConstant.LABELS.SIDING_CODE, value:data.sidingCode },
+                    { label:FieldLabelsConstant.LABELS.SECTION, value:data.section },
+                    { label:FieldLabelsConstant.LABELS.SIDING_ELECTRIFIED_STATUS, value:data.sidingEletrifiedStatus},
+                    { label:FieldLabelsConstant.LABELS.SECTION_ELECTRIFIED_STATUS, value:data.sectionEletrifiedStatus},
+                    { label:FieldLabelsConstant.LABELS.PRIVATE_RAILWAY, value:data.privateRailway },
+                    { label:FieldLabelsConstant.LABELS.STATUS, value:data.status },
+                    { label:FieldLabelsConstant.LABELS.TKM, value:data.tkm },
+                    { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+                    { label:FieldLabelsConstant.LABELS.ENERGISED_DATE, value:data.energisedDate },
+                    { label:FieldLabelsConstant.LABELS.ZONE, value:data.zone },
+                    { label:FieldLabelsConstant.LABELS.PROPOSED_DATE, value:data.proposedDate },
+                    { label:FieldLabelsConstant.LABELS.APPROVAL_DATE, value:data.approvalDate },
+                    { label:FieldLabelsConstant.LABELS.WORK_ORDER_DATE, value:data.workOrderDate }
+                  
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

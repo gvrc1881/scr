@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSourc
 import { DriveProgressIdModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { Constants } from 'src/app/common/constants';
 
 
 
@@ -14,7 +15,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
     //styleUrls: ['./view-drive-daily-progress.component.scss']
 })
 export class ViewDriveDailyProgressComponent implements OnInit {
-
+    pagination = Constants.PAGINATION_NUMBERS;
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     public response:any=[];

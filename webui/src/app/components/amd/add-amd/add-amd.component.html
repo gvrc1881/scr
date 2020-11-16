@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Asset Master Data Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.ASSET_MASTER_DATA_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Zone"
+                                                            <mat-select placeholder="{{FiledLabels.ZONE}}"
                                                                 [formControl]="assetMasterFormGroup.controls['zone']"
                                                                 (ngModelChange)="getDivisions()">
                                                                 <mat-option *ngFor="let zone of zoneList" [value]="zone">
@@ -43,7 +43,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Division"
+                                                            <mat-select placeholder="{{FiledLabels.DIVISION}}"
                                                                 [formControl]="assetMasterFormGroup.controls['division']"
                                                                 (ngModelChange)="getSubDivisions()">
                                                                 <mat-option *ngFor="let divisions of divisionsList"
@@ -55,7 +55,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select SubDivision"
+                                                            <mat-select placeholder="{{FiledLabels.SUB_DIV}}"
                                                                 [formControl]="assetMasterFormGroup.controls['subDivision']">
                                                                 <mat-option *ngFor="let subDivision of subDivisionList"
                                                                     [value]="subDivision">
@@ -66,7 +66,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Select Depot Type"
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}"
                                                                 [formControl]="assetMasterFormGroup.controls['type']"
                                                                 required (selectionChange)="updateAssertType($event)">
                                                                 <mat-option *ngFor="let depotType of depoTypeList"
@@ -78,7 +78,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Select Depot"
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT}}"
                                                                 [formControl]="assetMasterFormGroup.controls['facilityId']"
                                                                 required>
                                                                 <mat-option
@@ -92,7 +92,7 @@
     
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select placeholder="Select Asset Type"
+                                                            <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}"
                                                                 [formControl]="assetMasterFormGroup.controls['assetType']"
                                                                 required (selectionChange)="getAssetTypes()">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
@@ -107,122 +107,122 @@
                                                     <ul *ngFor="let names of assetTypeParametersData">
                                                         <div class="col-md-3" *ngIf="(names.columnName=='adee_section')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Adee Section"
+                                                                <textarea matInput placeholder="{{FiledLabels.ADEE_SECTION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['adeeSection']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='asset_id')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Asset Id"
+                                                                <textarea matInput placeholder="{{FiledLabels.ASSET_ID}}"
                                                                     [formControl]="assetMasterFormGroup.controls['assetId']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Batch"
+                                                                <textarea matInput placeholder="{{FiledLabels.BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['batch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket1InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET1_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket1InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket1_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket1 Insulator Make"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket1InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket2_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket2 Insulator Batch"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET2_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket2InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket2_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket2 Insulator Make"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket2InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket3_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket3InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET3_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket3InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='bracket3_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Bracket3 Insulator Make"
+                                                                <textarea matInput placeholder="{{FiledLabels.BRACKET3_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['bracket3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='capacity_rating')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Capacity Rating"
+                                                                <textarea matInput placeholder="{{FiledLabels.CAPACITY_RATING}}"
                                                                     [formControl]="assetMasterFormGroup.controls['capacityRating']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='codal_life')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="CodalLife"
+                                                                <textarea matInput placeholder="{{FiledLabels.CODEL_LIFE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['codalLife']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core1InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE1_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core1InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core1_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core1 Insulator Make"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core1InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core2_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core2InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE2_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core2InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core2_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core2 Insulator Make"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE2_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core2InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core3_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core3InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE3_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core3InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='core3_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Core3InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.CORE3_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['core3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='created_on')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Created On"
+                                                                    placeholder="{{FiledLabels.CREATED_ON}}"
                                                                     [formControl]="assetMasterFormGroup.controls['createdOn']"
                                                                     required>
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -234,7 +234,7 @@
                                                             *ngIf="(names.columnName=='date_of_commision')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Date of Commision"
+                                                                    placeholder="{{FiledLabels.DATE_OF_COMMISSION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['dateOfCommision']"
                                                                     required>
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -246,7 +246,7 @@
                                                             *ngIf="(names.columnName=='date_of_manufacture')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Date of Manufacture"
+                                                                    placeholder="{{FiledLabels.DATE_OF_MANUFACTURE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['dateOfManufacture']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -257,7 +257,7 @@
                                                             *ngIf="(names.columnName=='date_of_received')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Date of Received"
+                                                                    placeholder="{{FiledLabels.DATE_OF_RECEIVED}}"
                                                                     [formControl]="assetMasterFormGroup.controls['dateOfReceived']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -267,26 +267,26 @@
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='elementary_section')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Elementary Section"
+                                                                <textarea matInput placeholder="{{FiledLabels.ELEMENTARY_SECTION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['elementarySection']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='end1_side1')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="End1Side1"
+                                                                <textarea matInput placeholder="{{FiledLabels.END1_SIDE1}}"
                                                                     [formControl]="assetMasterFormGroup.controls['end1Side1']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='end2_side2')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="End2Side2"
+                                                                <textarea matInput placeholder="{{FiledLabels.END2_SIDE2}}"
                                                                     [formControl]="assetMasterFormGroup.controls['end2Side2']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='equipped_date')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Equipped Date"
+                                                                    placeholder="{{FiledLabels.EQUIPPED_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['equippedDate']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -296,7 +296,7 @@
                                                         <div class="col-md-3" *ngIf="(names.columnName=='expiry_date')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Expiry Date"
+                                                                    placeholder="{{FiledLabels.EXPIRY_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['expiryDate']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -305,32 +305,32 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='implantation')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Implantation"
+                                                                <textarea matInput placeholder="{{FiledLabels.IMPLANTATION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['implantation']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='kilometer')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Kilometer" decimalNumber
+                                                                <textarea matInput placeholder="{{FiledLabels.KILOMETER}}" decimalNumber
                                                                     [formControl]="assetMasterFormGroup.controls['kilometer']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='line')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Line"
+                                                                <textarea matInput placeholder="{{FiledLabels.LINE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['line']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='location_position')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Location Position"
+                                                                <textarea matInput placeholder="{{FiledLabels.LOCATION_POSITION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['locationPosition']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='major_section')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Major Section"
+                                                                <textarea matInput placeholder="{{FiledLabels.MAJOR_SECTION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['majorSection']"></textarea>
                                                             </mat-form-field>
                                                         </div>
@@ -338,7 +338,7 @@
                                                         <div class="col-md-3" *ngIf="(names.columnName=='lug_date')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Lug Date"
+                                                                    placeholder="{{FiledLabels.LUG_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['lugDate']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -347,7 +347,7 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select Make"
+                                                                <mat-select placeholder="{{FiledLabels.MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['make']">
                                                                     <mat-option *ngFor="let makeName of makeName"
                                                                         [value]="makeName.makeCode">
@@ -358,7 +358,7 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='model')">
                                                             <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Select Model"
+                                                                <mat-select placeholder="{{FiledLabels.MODEL}}"
                                                                     [formControl]="assetMasterFormGroup.controls['model']">
                                                                     <mat-option *ngFor="let modelName of modelName"
                                                                         [value]="modelName.modelCode">
@@ -370,287 +370,287 @@
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='name_plate_details')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="NamePlateDetails"
+                                                                <textarea matInput placeholder="{{FiledLabels.NAME_PLATE_DETAILS}}"
                                                                     [formControl]="assetMasterFormGroup.controls['namePlateDetails']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='oem_serial')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="OemSerial"
+                                                                <textarea matInput placeholder="{{FiledLabels.OEM_SERIAL}}"
                                                                     [formControl]="assetMasterFormGroup.controls['oemSerial']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='parent_asset_type')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="ParentAssetType"
+                                                                <textarea matInput placeholder="{{FiledLabels.PARENT_ASSET_TYPE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['parentAssetType']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='parent_asset_type_id')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="ParentAssetTypeId"
+                                                                <textarea matInput placeholder="{{FiledLabels.PARENT_ASSET_TYPE_ID}}"
                                                                     [formControl]="assetMasterFormGroup.controls['parentAssetTypeId']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='part1')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part1"
+                                                                <textarea matInput placeholder="{{FiledLabels.PART1}}"
                                                                     [formControl]="assetMasterFormGroup.controls['part1']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='part2')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part2"
+                                                                <textarea matInput placeholder="{{FiledLabels.PART2}}"
                                                                     [formControl]="assetMasterFormGroup.controls['part2']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='part3')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Part3"
+                                                                <textarea matInput placeholder="{{FiledLabels.PART3}}"
                                                                     [formControl]="assetMasterFormGroup.controls['part3']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal1InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL1_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal1InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal1_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal1InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal1InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal2_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal2InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL2_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal2InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal2_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="pedestal2InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL2_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal2InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal3_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal3InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL3_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal3InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='pedestal3_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Pedestal3InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.PEDESTALL3_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['pedestal3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='position_id')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="PositionId"
+                                                                <textarea matInput placeholder="{{FiledLabels.POSITION_ID}}"
                                                                     [formControl]="assetMasterFormGroup.controls['positionId']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='remark1')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Remark1"
+                                                                <textarea matInput placeholder="{{FiledLabels.REMARK1}}"
                                                                     [formControl]="assetMasterFormGroup.controls['remark1']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='remark2')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Remark2"
+                                                                <textarea matInput placeholder="{{FiledLabels.REMARK2}}"
                                                                     [formControl]="assetMasterFormGroup.controls['remark2']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rly_assigned_serial')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="RlyAssignedSerial"
+                                                                <textarea matInput placeholder="{{FiledLabels.RLY_ASSIGNED_SERIAL}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rlyAssignedSerial']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod1InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD1_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod1InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod1_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="rod1InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod1InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod2_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod2InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD2_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod2InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod2_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod2InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD2_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod2InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod3_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod3InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD3_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod3InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='rod3_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Rod3InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.ROD3_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['rod3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='section')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Section"
+                                                                <textarea matInput placeholder="{{FiledLabels.SECTION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['section']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='source')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Source"
+                                                                <textarea matInput placeholder="{{FiledLabels.SOURCE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['source']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag1_ton9_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag1Ton9InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG1_TON9_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag1_ton9_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag1Ton9InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG1_TON9_INSULATOR_MAKE}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag1Ton9InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag2_ton9_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag2Ton9InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG2_TON9_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag2Ton9InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag2_ton9_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stag2Ton9InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG2_TON9_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag2Ton9InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag3_ton9_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="stag3Ton9InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG3_TON9_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag3Ton9InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stag3_ton9_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="stag3Ton9InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAG3_TON9_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stag3Ton9InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='stagger')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stagger"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAGGER}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stagger']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='stagger1')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stagger1"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAGGER1}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stagger1']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='stagger2')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stagger2"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAGGER2}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stagger2']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='stagger3')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stagger3"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAGGER3}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stagger3']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='station')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="station"
+                                                                <textarea matInput placeholder="{{FiledLabels.STATION}}"
                                                                     [formControl]="assetMasterFormGroup.controls['station']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay1_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay1InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY1_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay1InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay1_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay1InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY1_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay1InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay2_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay2InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY2_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay2InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay2_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay2InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY2_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay2InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay3_insulator_batch')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay3InsulatorBatch"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY3_INSULATOR_BATCH}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay3InsulatorBatch']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='stay3_insulator_make')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Stay3InsulatorMake"
+                                                                <textarea matInput placeholder="{{FiledLabels.STAY3_INSULATOR_MAKE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stay3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='strip_date')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Strip Date"
+                                                                    placeholder="{{FiledLabels.STRIP_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stripDate']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -659,25 +659,25 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='structure')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Structure"
+                                                                <textarea matInput placeholder="{{FiledLabels.STRUCTURE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['structure']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='vendor')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Vendor"
+                                                                <textarea matInput placeholder="{{FiledLabels.VENDOR}}"
                                                                     [formControl]="assetMasterFormGroup.controls['vendor']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='voltage')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="Voltage"
+                                                                <textarea matInput placeholder="{{FiledLabels.VOLTAGE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['voltage']"></textarea>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='warranty_amc')">
                                                             <mat-form-field fxFlex="30">
-                                                                <textarea matInput placeholder="WarrantyAmc"
+                                                                <textarea matInput placeholder="{{FiledLabels.WARRANTY_AMC}}"
                                                                     [formControl]="assetMasterFormGroup.controls['warrantyAmc']"></textarea>
                                                             </mat-form-field>
                                                         </div>
@@ -685,7 +685,7 @@
                                                             *ngIf="(names.columnName=='warranty_amc_end_date')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="Warranty Amc EndDate"
+                                                                    placeholder="{{FiledLabels.WARRANTY_AMC_ENDDATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['warrantyAmcEndDate']">
                                                                 <mat-datepicker-toggle matSuffix [for]="picker1">
                                                                 </mat-datepicker-toggle>
@@ -706,12 +706,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="assetMasterFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="assetMasterFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

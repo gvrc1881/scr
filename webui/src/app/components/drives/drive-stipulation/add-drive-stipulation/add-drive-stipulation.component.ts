@@ -21,6 +21,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 export class AddDriveStipulationComponent implements OnInit {
 
+  pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));

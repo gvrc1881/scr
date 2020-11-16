@@ -17,6 +17,8 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
   styleUrls: ['./grid-failure.component.css']
 })
 export class GridFailureComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;

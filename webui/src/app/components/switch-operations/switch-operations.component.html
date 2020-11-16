@@ -6,7 +6,7 @@
                         fxLayoutAlign="start" [formGroup]="switchOperationsFormGroup" fxFlex="1 0 auto"
                         (ngSubmit)="switchOperationsSubmit();">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">{{title}}Switch Operations</div>
+                             <div class="panel-heading">{{title}} {{Titles.SWITCH_OPERATIONS}}</div>
 
                             <div class="panel-body">
                               
@@ -66,29 +66,29 @@
             <div class="mat-elevation-z8">
               <mat-table [dataSource]="switchOperationsDataSource" matSort >
                 <ng-container matColumnDef="sno">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="switchType">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Switch Type</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SWITCH_TYPE}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.switchType}}</mat-cell>
                 </ng-container>
                
                 <ng-container matColumnDef="switchId">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Switch Id</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SWITCH_ID}}</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="cursor: pointer">
                     {{row.switchId}}</mat-cell>
               </ng-container>
                 <ng-container matColumnDef="isNormallOpened">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Is Normall Opened</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.IS_NORMALLY_OPENED}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.isNormallOpened}}</mat-cell>
                 </ng-container>
                 
               
                 <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                           <a mat-icon-button matTooltip="Edit" 
                             (click)="editSwitchItem(row.id)">
@@ -104,7 +104,7 @@
                 <mat-row *matRowDef="let row; columns: switchOperationsDisplayColumns;">
                 </mat-row>
             </mat-table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> 
+           <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
             </div>
         </div>
     </div>

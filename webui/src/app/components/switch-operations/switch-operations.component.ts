@@ -8,6 +8,7 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { Location } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 
 @Component({
@@ -16,11 +17,15 @@ import { Location } from '@angular/common';
     styleUrls: ['./switch-operations.component.scss']
 })
 export class SwitchOperationsComponent implements OnInit {
+
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;    
+	title: string =  Constants.EVENTS.ADD;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     id: number = 0;
-    title: string = "Save";
     switchOperationsFormGroup: FormGroup;
     switchOperationsList : any;
     facilityData:any;
@@ -86,7 +91,7 @@ export class SwitchOperationsComponent implements OnInit {
         let isNormallOpened: string = this.switchOperationsFormGroup.value.isNormallOpened == true ? 'true' : 'false';
         
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
                 var saveSwitchModel ={
                     'switchType':switchType,
                     'switchId':switchId,
@@ -115,7 +120,7 @@ export class SwitchOperationsComponent implements OnInit {
 
     editSwitchItem (id) {
         this.switchEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     switchEditAction(id: number) {
@@ -137,9 +142,9 @@ export class SwitchOperationsComponent implements OnInit {
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 

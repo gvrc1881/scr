@@ -32,7 +32,7 @@
                                                 	<!-- Created Date -->
                                                 	<div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput [matDatepicker]="picker" placeholder="Choose date" [formControl]="addPowerBlockFormGroup.controls['createdDate']">
+                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [formControl]="addPowerBlockFormGroup.controls['createdDate']">
                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                     <mat-datepicker #picker  ></mat-datepicker> 
                                                               </mat-form-field>
@@ -40,7 +40,7 @@
                                                     <!-- Depot -->
                                                 	<div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Depot"
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT}}"
                                                                 [formControl]="addPowerBlockFormGroup.controls['facilityId']">
                                                                 <mat-option *ngFor="let facility of facilityList"
                                                                     [value]="facility.facilityId">
@@ -64,7 +64,7 @@
 													<ng-template #updateSectionEleBlock>
 																  <div class = "col-md-3" >
                                                       				<mat-form-field fxFlex="30">
-                                                      					<input matInput placeholder = "Section" [formControl]="addPowerBlockFormGroup.controls['section']"  [readonly]="true"/>
+                                                      					<input matInput placeholder = "{{FiledLabels.SECTION}}" [formControl]="addPowerBlockFormGroup.controls['section']"  [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 													</ng-template>
@@ -72,7 +72,7 @@
                                                 	<div *ngIf="!update; else updatePBSectionEleBlock">
 	                                                    <div class="col-md-3">
 	                                                        <mat-form-field fxFlex="30">
-	                                                            <mat-select placeholder="PB Section" [multiple]="true"
+	                                                            <mat-select placeholder="{{FiledLabels.PB_SECTION}}" [multiple]="true"
 	                                                                [formControl]="addPowerBlockFormGroup.controls['elementarySectionCode']">
 	                                                                <mat-option *ngFor="let PBSections of PBSections"
 	                                                                    [value]="PBSections">
@@ -85,14 +85,14 @@
                                                     <ng-template #updatePBSectionEleBlock>
 																  <div class = "col-md-3" >
                                                       				<mat-form-field fxFlex="30">
-                                                      					<input matInput placeholder = "PB Section" [formControl]="addPowerBlockFormGroup.controls['elementarySectionCode']"  [readonly]="true"/>
+                                                      					<input matInput placeholder = "{{FiledLabels.PB_SECTION}}" [formControl]="addPowerBlockFormGroup.controls['elementarySectionCode']"  [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 													</ng-template>
                                                     <!--Request By -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Request By"
+                                                            <mat-select placeholder="{{FiledLabels.REQUEST_BY}}"
                                                                 [formControl]="addPowerBlockFormGroup.controls['reqnBy']">
                                                                 <mat-option *ngFor="let reqnBy of reqnBy"
                                                                     [value]="reqnBy">
@@ -104,7 +104,7 @@
                                                     <!-- Request Department -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Request Department"
+                                                            <mat-select placeholder="{{FiledLabels.REQUEST_DEPARTMENT}}"
                                                                 [formControl]="addPowerBlockFormGroup.controls['reqDepartment']">
                                                                 <mat-option *ngFor="let reqDepartment of reqDepartment"
                                                                     [value]="reqDepartment">
@@ -116,7 +116,7 @@
                                                     <!-- purpose -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="Purpose"
+                                                            <mat-select placeholder="{{FiledLabels.PURPOSE}}"
                                                                 [formControl]="addPowerBlockFormGroup.controls['purpose']">
                                                                 <mat-option *ngFor="let purpose of purpose"
                                                                     [value]="purpose">
@@ -127,17 +127,17 @@
                                                     </div>
                                                     <div class="col-md-3">
 	                                                 <mat-form-field fxFlex="30">
-	                                                         <input matInput placeholder="Request Period In MIN"  numbersOnly [formControl]="addPowerBlockFormGroup.controls['reqPeriod']" />
+	                                                         <input matInput placeholder="{{FiledLabels.REQUEST_PERIOD_IN_MIN}}"  numbersOnly [formControl]="addPowerBlockFormGroup.controls['reqPeriod']" />
 	                                                 </mat-form-field>
 	                                               </div>
 	                                               <div class="col-md-3">
 	                                                 <mat-form-field fxFlex="30">
-	                                                         <input matInput placeholder="Between Trains"   [formControl]="addPowerBlockFormGroup.controls['betweenTrains']" />
+	                                                         <input matInput placeholder="{{FiledLabels.BETWEEN_TRAINS}}"   [formControl]="addPowerBlockFormGroup.controls['betweenTrains']" />
 	                                                 </mat-form-field>
 	                                               </div>
 	                                               <div class="col-md-3">
 	                                                 <mat-form-field fxFlex="30">
-	                                                         <input matInput placeholder="Supervisor"   [formControl]="addPowerBlockFormGroup.controls['supervisorIncharge']" />
+	                                                         <input matInput placeholder="{{FiledLabels.SUPERVISOR}}"   [formControl]="addPowerBlockFormGroup.controls['supervisorIncharge']" />
 	                                                 </mat-form-field>
 	                                               </div>
                                                 </div>
@@ -147,12 +147,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                              *ngIf="save">
-                                                            Submit
+                                                          {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                           {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

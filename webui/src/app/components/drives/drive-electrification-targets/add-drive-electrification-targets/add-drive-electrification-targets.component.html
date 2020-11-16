@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Electrification Targets Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.ELECTRIFICATION_TARGETS_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -34,7 +34,7 @@
                                                     <!-- section -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Section"
+                                                            <input matInput placeholder="{{FiledLabels.SECTION}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['section']"
                                                                 required>
                                                             <mat-error
@@ -55,7 +55,7 @@
                                                     <!-- guage -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <mat-select placeholder="Guage"
+                                                          <mat-select placeholder="{{FiledLabels.GUAGE}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['guage']" required>
                                                                 <mat-option *ngFor="let guage of guageList"
                                                                     [value]="guage.statusCode">
@@ -87,7 +87,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
-                                                                placeholder="Choose Target Date"
+                                                                placeholder="{{FiledLabels.TARGET_DATE}}"
                                                                 (dateChange)="addEvent($event)" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetDate']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
@@ -102,7 +102,7 @@
                                                      <!-- status -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Status"
+                                                            <input matInput placeholder="{{FiledLabels.STATUS}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['status']"
                                                                 >                                                            
                                                         </mat-form-field>
@@ -111,7 +111,7 @@
                                                      <!-- division -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Division"
+                                                                <mat-select placeholder="{{FiledLabels.DIVISION}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['division']" required>
                                                                 <mat-option *ngFor="let division of divisionList"
                                                                     [value]="division.code">
@@ -124,7 +124,7 @@
                                                      <!-- executionAgency -->
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Execution Agency"
+                                                                <mat-select placeholder="{{FiledLabels.EXECUTION_AGENCY}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['executionAgency']">
                                                                 <mat-option *ngFor="let executionAgency of executionAgencyList"
                                                                     [value]="executionAgency.statusCode">
@@ -138,7 +138,7 @@
                                                     <!-- TKM -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="TKM" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.TKM}}" decimalNumber
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['TKM']"
                                                                 >                                                           
                                                         </mat-form-field>
@@ -147,7 +147,7 @@
                                                     <!-- RKM -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="RKM" decimalNumber
+                                                            <input matInput placeholder="{{FiledLabels.RKM}}" decimalNumber
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['RKM']"
                                                                 >                                                          
                                                         </mat-form-field>
@@ -156,7 +156,7 @@
                                                     <!-- crsInspection -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="CRS Inspection"
+                                                            <input matInput placeholder="{{FiledLabels.CRS_INSPECTION}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['crsInspection']"
                                                                 >
                                                         </mat-form-field>
@@ -165,7 +165,7 @@
                                                     <!-- crsAuthorisation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="CRS Authorisation"
+                                                            <input matInput placeholder="{{FiledLabels.CRS_AUTHORISATION}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['crsAuthorisation']"
                                                                 >
                                                         </mat-form-field>
@@ -174,7 +174,7 @@
                                                     <!-- targetSetBy -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Target Set By"
+                                                            <input matInput placeholder="{{FiledLabels.TARGET_SET_BY}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['targetSetBy']"
                                                                 >
                                                         </mat-form-field>
@@ -183,7 +183,7 @@
                                                     <!-- doublingTrippling -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                                <mat-select placeholder="Doubling Trippling"
+                                                                <mat-select placeholder="{{FiledLabels.DOUBLING_TRIPPLING}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['doublingTrippling']">
                                                                 <mat-option *ngFor="let doublingTrippling of doublingTripplingList"
                                                                     [value]="doublingTrippling.statusCode">
@@ -196,7 +196,7 @@
                                                     <!-- state -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="State"
+                                                            <mat-select placeholder="{{FiledLabels.STATE}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['state']">
                                                                 <mat-option *ngFor="let state of stateList"
                                                                     [value]="state">
@@ -209,7 +209,7 @@
                                                     <!-- phase -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Phase"
+                                                            <input matInput placeholder="{{FiledLabels.PHASE}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['phase']"
                                                                 >  
                                                                 <mat-error
@@ -223,7 +223,7 @@
                                                     <!-- proposalScheme -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Proposal Scheme"
+                                                            <input matInput placeholder="{{FiledLabels.PROPOSAL_SCHEME}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['proposalScheme']"
                                                                 > 
                                                                 <mat-error
@@ -236,7 +236,7 @@
                                                     <!-- sanctionByBoard -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Sanction By Board"
+                                                            <input matInput placeholder="{{FiledLabels.SANCTION_BY_BOARD}}"
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['sanctionByBoard']"
                                                                 >                                                            
                                                         </mat-form-field>
@@ -245,7 +245,7 @@
                                                     <!-- yearOfSanction -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Year Of Sanction" numbersOnly
+                                                            <input matInput placeholder="{{FiledLabels.YEAR_OF_SANCTION}}" numbersOnly
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['yearOfSanction']"
                                                                 >
                                                         </mat-form-field>
@@ -266,7 +266,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="Choose Date Of Completion"
+                                                                placeholder="{{FiledLabels.DATE_OF_COMPLETION}}"
                                                                 [min]="toMinDate" 
                                                                 [formControl]="addDriveElectrificationTargetsFormGroup.controls['dateOfCompletion']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
@@ -281,12 +281,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addDriveElectrificationTargetsFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

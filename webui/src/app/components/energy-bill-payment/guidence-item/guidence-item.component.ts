@@ -9,6 +9,9 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
     selector: 'guidence-item',
@@ -17,6 +20,9 @@ import { DatePipe } from '@angular/common';
 })
 export class GuidenceItemComponent implements OnInit{
 
+    pagination =Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;

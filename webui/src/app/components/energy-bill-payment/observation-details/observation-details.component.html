@@ -46,7 +46,7 @@
                       
                                         <ng-container matColumnDef="sno">
                                           <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                          <span>Sno</span>
+                                          <span>{{FiledLabels.S_NO}}</span>
                                               <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                                           </mat-header-cell>
                                           <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -54,7 +54,7 @@
 
                                       <ng-container matColumnDef="location">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Location</span>
+                                        <span>{{FiledLabels.LOCATION}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.location}}</mat-cell>
@@ -62,7 +62,7 @@
 
                                       <ng-container matColumnDef="observationCategory">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Observation Category</span>
+                                        <span>{{FiledLabels.OBSERVATION_CATEGORY}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.observationCategory}}</mat-cell>
@@ -70,7 +70,7 @@
 
                                       <ng-container matColumnDef="observationItem">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Observation Item</span>
+                                        <span>{{FiledLabels.OBSERVATION_ITEM}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.observationItem}}</mat-cell>
@@ -78,7 +78,7 @@
 
                                       <ng-container matColumnDef="description">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Description</span>
+                                        <span>{{FiledLabels.DESCRIPTION}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
@@ -86,7 +86,7 @@
 
                                       <ng-container matColumnDef="actionRequired">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        <span>Action Required</span>
+                                        <span>{{FiledLabels.ACTION_REQUIRED}}</span>
                                             <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let row"> {{row.actionRequired}}</mat-cell>
@@ -94,7 +94,7 @@
 
                                             <ng-container matColumnDef="attachment">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                 <span> Documents </span>
+                                                 <span> {{FiledLabels.DOCUMENTS}} </span>
                                                  <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" disabled [filter]="filterData"/>
                                                  </mat-header-cell>
                                                  <mat-cell *matCellDef="let row">
@@ -107,7 +107,7 @@
                                             
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    <span>Actions</span>
+                                                    <span>{{FiledLabels.ACTIONS}}</span>
                                                     <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
@@ -129,7 +129,7 @@
                                             </mat-row>
                                         </mat-table>
                       
-                                        <mat-paginator [pageSizeOptions]="[20,50,100]" showFirstLastButtons></mat-paginator>
+                                        <mat-paginator [pageSizeOptions]="pagination" showFirstLastButtons></mat-paginator>
                                     </div>
                                 </div>
                             </div>

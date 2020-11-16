@@ -29,11 +29,11 @@
                                               fxLayoutAlign="start" [formGroup]="observationCategoriesFormGroup" fxFlex="1 0 auto"
                                               (ngSubmit)="observationCategoriesSubmit();">
                                               <div class="panel panel-primary">
-                                                  <div class="panel-heading">{{title}}Observation Categories</div>
+                                                  <div class="panel-heading">{{title}} {{Titles.OBSERVATION_CATEGORY}}</div>
                                                   <div class="panel-body">
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30" class="example-full-width">
-                              <mat-select placeholder="Select Inspection Type" 
+                              <mat-select placeholder="{{FiledLabels.INSPECTION_TYPE}}" 
                                 [formControl]="observationCategoriesFormGroup.controls['inspectionType']" required>
                                 <mat-option *ngFor="let inspectionTypeData of inspectionTypeData"
                                   [value]="inspectionTypeData.inspectionType">
@@ -44,7 +44,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <textarea matInput placeholder="Department" [formControl]="observationCategoriesFormGroup.controls['department']" required></textarea>
+                              <textarea matInput placeholder="{{FiledLabels.REQUEST_DEPARTMENT}}" [formControl]="observationCategoriesFormGroup.controls['department']" required></textarea>
                               <mat-error
                               *ngIf="observationCategoriesFormGroup.controls['department'].hasError('maxlength') && observationCategoriesFormGroup.controls['department'].touched"
                               class="alert alert-danger">Max 250 characters only
@@ -53,7 +53,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <textarea matInput placeholder="Observation Category" [formControl]="observationCategoriesFormGroup.controls['observationCategory']" required></textarea>
+                              <textarea matInput placeholder="{{FiledLabels.OBSERVATION_CATEGORY}}" [formControl]="observationCategoriesFormGroup.controls['observationCategory']" required></textarea>
                               <mat-error
                               *ngIf="observationCategoriesFormGroup.controls['observationCategory'].hasError('maxlength') && observationCategoriesFormGroup.controls['observationCategory'].touched"
                               class="alert alert-danger">Max 250 Characters only
@@ -72,7 +72,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <textarea matInput placeholder="description" [formControl]="observationCategoriesFormGroup.controls['description']" ></textarea>
+                              <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="observationCategoriesFormGroup.controls['description']" ></textarea>
                               <mat-error
                               *ngIf="observationCategoriesFormGroup.controls['description'].hasError('maxlength') && observationCategoriesFormGroup.controls['description'].touched"
                               class="alert alert-danger">Max 250 characters only
@@ -81,7 +81,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <textarea matInput placeholder="Remarks" [formControl]="observationCategoriesFormGroup.controls['remark']" ></textarea>
+                              <textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="observationCategoriesFormGroup.controls['remark']" ></textarea>
                               <mat-error
                               *ngIf="observationCategoriesFormGroup.controls['remark'].hasError('maxlength') && observationCategoriesFormGroup.controls['remark'].touched"
                               class="alert alert-danger">Max 250 characters only
@@ -92,7 +92,7 @@
                         <div class="col-md-3">
                           <mat-form-field>
                               <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
-                                  placeholder="Choose From Date"
+                                  placeholder="{{FiledLabels.FROM_DATE}}"
                                   [formControl]="observationCategoriesFormGroup.controls['fromDate']" required>
                               <mat-datepicker-toggle matSuffix [for]="picker1">
                               </mat-datepicker-toggle>
@@ -104,7 +104,7 @@
                       <div class="col-md-3">
                           <mat-form-field>
                               <input matInput [matDatepicker]="picker"
-                                  placeholder="Choose to Date" [min]="toMinDate"
+                                  placeholder="{{FiledLabels.TO_DATE}}" [min]="toMinDate"
                                   [formControl]="observationCategoriesFormGroup.controls['thruDate']" required>
                               <mat-datepicker-toggle matSuffix [for]="picker">
                               </mat-datepicker-toggle>
@@ -142,48 +142,48 @@
                                   <div class="mat-elevation-z8">
                                       <mat-table [dataSource]="observationCategoriesItemDataSource" matSort>
                                           <ng-container matColumnDef="sno">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="inspectionType">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>InspectionType</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.INSPECTION_TYPE}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.inspectionType}}</mat-cell>
                                           </ng-container>
                                           
                                           <ng-container matColumnDef="department">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REQUEST_DEPARTMENT}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.department}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="observationCategory">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Observation Category</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OBSERVATION_CATEGORY}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.observationCategory}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="description">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.description}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="remark">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                               {{row.remark}} </mat-cell>
                                         </ng-container>
                     <ng-container matColumnDef="fromDate">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}</mat-header-cell>
                       <mat-cell *matCellDef="let row" style="cursor: pointer">
                         {{row.fromDate}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="thruDate">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_DATE}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.thruDate}}</mat-cell>
                 </ng-container>
                                                                                   
                                           <ng-container matColumnDef="id">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                                   <mat-cell *matCellDef="let row">
                                                     <button mat-icon-button matTooltip="View"
                                                        (click)="ViewData(row)">
@@ -203,7 +203,7 @@
                                           <mat-row *matRowDef="let row; columns: observationCategoriesDisplayColumns;">
                                           </mat-row>
                                       </mat-table>
-                                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                      <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                   </div>
                               </div>
                           </div>

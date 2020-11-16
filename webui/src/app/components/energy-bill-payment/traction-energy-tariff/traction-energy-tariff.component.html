@@ -28,7 +28,7 @@
                                                 fxLayoutAlign="start" [formGroup]="tractionEnergyTariffFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onTractionEneTariffSubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} Traction Energy Tariff</div>
+                                            		<div class="panel-heading">{{title}} {{Titles.TRACTION_ENERGY_TARIFF}}</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
 	                                                        <!-- <div class="col-md-3">
@@ -38,7 +38,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3" *ngIf="enableSupplier; else supplierElseBlock">
 									                            <mat-form-field fxFlex="30">
-									                              <mat-select placeholder="Select Suppliers" formControlName="supplier" required >
+									                              <mat-select placeholder="{{FiledLabels.SUPPLIER}}" formControlName="supplier" required >
 									                                <mat-option *ngFor="let eleEngSupplier of eleEnergySuppliersList" [value]="eleEngSupplier.code">
 									                                  {{ eleEngSupplier.code}}
 									                                </mat-option>
@@ -53,7 +53,7 @@
 									                          <ng-template #supplierElseBlock>
 																  <div class = "col-md-2" >
                                                       				<mat-form-field fxFlex="30">
-                                                      					<input matInput placeholder = "Suppliers" formControlName="supplier" required [readonly]="true"/>
+                                                      					<input matInput placeholder = "{{FiledLabels.SUPPLIER}}" formControlName="supplier" required [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 															</ng-template> 
@@ -65,7 +65,7 @@
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt1" placeholder="Choose From Date"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE}}"
                                                                 (dateTimeChange)="addEvent($event)" 
                                                                 [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']" required>                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
@@ -88,13 +88,13 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Rate" decimalNumber [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
+	                                                                <input matInput placeholder="{{FiledLabels.RATE}}" decimalNumber [formControl]="tractionEnergyTariffFormGroup.controls['rate']" required/>
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="Choose Thru Date"
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.THRU_DATE}}"
                                                                 [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -103,7 +103,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <textarea matInput placeholder="Specification" 
+	                                                                <textarea matInput placeholder="{{FiledLabels.SPECIFICATION}}" 
 	                                                                [formControl]="tractionEnergyTariffFormGroup.controls['specification']"
 	                                                                pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
 	                                                                <!-- <input matInput placeholder="Specification" [formControl]="tractionEnergyTariffFormGroup.controls['specification']" /> -->
@@ -115,7 +115,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="Condition" 
+	                                                            	<textarea matInput placeholder="{{FiledLabels.CONDITION}}" 
 	                                                            	[formControl]="tractionEnergyTariffFormGroup.controls['condition']" 
 	                                                            	pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
 	                                                                <!-- <input matInput placeholder="Condition" [formControl]="tractionEnergyTariffFormGroup.controls['condition']" /> -->
@@ -176,7 +176,7 @@
 						                            <mat-form-field fxFlex="30">
 						                              <!-- <input matInput placeholder="Description" formControlName="description"
 						                                required /> -->
-						                              <textarea matInput placeholder="Description" [formControl]="contentManagementFormGroup.controls['description']" required></textarea>
+						                              <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="contentManagementFormGroup.controls['description']" required></textarea>
 						                              <mat-error *ngIf="f.description.errors && f.description.errors.required"
 						                                class="alert alert-danger">Description required</mat-error>
 						                              <mat-error *ngIf="f.description.errors && f.description.errors.pattern"
@@ -215,7 +215,7 @@
 					                            </div>
 						                      <button *ngIf="uploadFile" class="mat-raised-button mat-accent" color="accent" class="d-inline"
 							                        mat-raised-button="" type="submit">
-							                        Submit
+							                       {{title}}
 							                    </button>
 							                    <div class="p-12 d-inline">
 	                                                                    <span class="mat-raised-button mat-warn" (click)="close()" color="warn"
@@ -236,11 +236,11 @@
                                     	<div class="mat-elevation-z8">
                                     		<mat-table [dataSource]="tractionEnergyTariffDataSource" matSort>
                                     			<ng-container matColumnDef="sno">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="supplier">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SUPPLIER}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.supplier}}</mat-cell>
 	                                            </ng-container>
@@ -250,32 +250,32 @@
 	                                                      {{row.year}}</mat-cell>
 	                                            </ng-container> -->
 	                                            <ng-container matColumnDef="rate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Rate</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.RATE}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.rate}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="fromDate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.fromDate}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="thruDate">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Thru Date</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.THRU_DATE}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.thruDate}}</mat-cell>
 	                                            </ng-container>
 	                                           <ng-container matColumnDef="specification">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Specification</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SPECIFICATION}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.specification}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="condition">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Condition</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CONDITION}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.condition}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="id">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
 	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
 	                                                        (click)="editTractionEneTariff(row.id)">
@@ -300,7 +300,7 @@
                                             	<mat-row *matRowDef="let row; columns: TractionEneTariffDisplayedColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     	</div>
 								</div>
 							</div>

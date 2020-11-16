@@ -9,12 +9,21 @@ import { Constants } from 'src/app/common/constants';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { InspectionDocumentComponent } from '../../inpection-document-dialog/inspection-document-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 @Component({
   selector: 'app-observation-details',
   templateUrl: './observation-details.component.html',
-  styleUrls: []
+  styleUrls: ['./observation-details.component.css']
 })
 export class ObservationDetailsComponent implements OnInit {
+  
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

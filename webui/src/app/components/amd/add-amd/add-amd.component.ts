@@ -6,6 +6,9 @@ import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 
 @Component({
@@ -14,10 +17,14 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class AddAmdComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string = '';
+  title: string = Constants.EVENTS.ADD;
   isSubmit: boolean = false;
   assetMasterFormGroup: FormGroup;
   id: number = 0;

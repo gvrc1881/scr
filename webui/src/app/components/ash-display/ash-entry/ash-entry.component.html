@@ -33,7 +33,7 @@
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30">
                                                         <input #schDate matInput [matDatepicker]="picker"
-                                                            placeholder="Schedule date" [max]="today" [readonly]="true"
+                                                            placeholder="{{FiledLabels.SCHEDULE_DATE}}" [max]="today" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Schedule_date']">
                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> 
                                                     <mat-datepicker #picker  ></mat-datepicker>  
@@ -41,7 +41,7 @@
                                                 </div>
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30">
-                                                        <input #fromKm matInput placeholder="Power Block"
+                                                        <input #fromKm matInput placeholder="{{FiledLabels.POWER_BLOCK}}"
                                                             [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Power_Block']"
                                                             [(ngModel)]="PwrBlock" />
@@ -53,7 +53,7 @@
 
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30">
-                                                        <input #fromKm matInput placeholder="Asset Type"
+                                                        <input #fromKm matInput placeholder="{{FiledLabels.ASSET_TYPE}}"
                                                             [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Asset_Type']"
                                                             [(ngModel)]="AssetTyp" />
@@ -63,7 +63,7 @@
 
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30">
-                                                        <input #fromKm matInput placeholder="Asset Id" [readonly]="true"
+                                                        <input #fromKm matInput placeholder="{{FiledLabels.ASSET_ID}}" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Asset_Id']"
                                                             [(ngModel)]="AsstId" />
                                                     </mat-form-field>
@@ -72,14 +72,14 @@
 
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30">
-                                                        <input #fromKm matInput placeholder="Schedule" [readonly]="true"
+                                                        <input #fromKm matInput placeholder="{{FiledLabels.SCHEDULE}}" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Schedule']"
                                                             [(ngModel)]="SchCode" />
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <mat-form-field fxFlex="30"  class="invisible example-full-width">
-                                                        <input #fromKm matInput placeholder="Depot Name" [readonly]="true"
+                                                        <input #fromKm matInput placeholder="{{FiledLabels.DEPOT_NAME}}" [readonly]="true"
                                                             [formControl]="entryScheduleReportGroup.controls['Depot_Name']"
                                                             [(ngModel)]="DepotName" />
                                                     </mat-form-field>
@@ -151,11 +151,11 @@
                                                     <button class="mat-raised-button mat-accent" color="accent"
                                                         class="d-inline" mat-raised-button="" type="submit"
                                                         [disabled]="update">
-                                                        Submit
+                                                        {{title}}
                                                     </button>
                                                     <button class="mat-raised-button mat-accent  d-inline"
                                                         color="accent" mat-raised-button="" *ngIf="update">
-                                                        Update
+                                                       {{title}}
                                                     </button>&nbsp;&nbsp;
                                                     <span class="mat-raised-button mat-accent d-inline"
                                                         (click)="onGoBack()" color="warn" mat-raised-button="">

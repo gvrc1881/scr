@@ -13,10 +13,12 @@ import {map} from 'rxjs/operators/map';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
     selector: 'foot-patrolling-sections',
     templateUrl: './foot-patrolling-sections.component.html',
+    styleUrls: ['./foot-patrolling-sections.component.css'],
     providers: [
       {
           provide: DateAdapter, useClass: AppDateAdapter
@@ -28,12 +30,15 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 })
 export class FootPatrollingSectionsComponent implements OnInit{
 
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addFPSectionsItem: boolean ;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     fpSectionsItemFormGroup: FormGroup;
     fpSectionsList : any;
     toMinDate=new Date();
@@ -151,7 +156,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
         let remarks: string = this.fpSectionsItemFormGroup.value.remarks;
         this.addFPSectionsItem = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title == Constants.EVENTS.ADD) {
                 var saveFpSectCionsModel ={
                     'facilityDepot':facilityDepot,
                     'fpSection':fpSection,
@@ -192,7 +197,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     editFPSectionsItem (id) {
         this.addFPSectionsItem = true;
         this.fpSectionsItemEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     fpSectionsItemEditAction(id: number) {
@@ -223,9 +228,9 @@ export class FootPatrollingSectionsComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 
@@ -255,7 +260,7 @@ export class FootPatrollingSectionsComponent implements OnInit{
     onGoBack() {
         this.fpSectionsItemFormGroup.reset();
         this.addFPSectionsItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     depotTypeForOhe()
         {  
@@ -282,9 +287,15 @@ export class FootPatrollingSectionsComponent implements OnInit{
     ViewData(data){
       var result = {
         'title':'Foot Patrolling Sections',
-        'dataSource':[{label:'Depot',value:data.facilityDepot},{label:'FP Section',value:data.fpSection},
-                      {label:'From Location', value:data.fromLocation},{label:'To Location',value:data.toLocation},{label:'From Date',value:data.fromDate},
-                      {label:'To Date',value:data.toDate}]
+        'dataSource':[        
+          { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
+          { label:FieldLabelsConstant.LABELS.FP_SECTION, value:data.fPSection },
+          { label:FieldLabelsConstant.LABELS.FROM_LOCATION, value:data.fromLocation },
+          { label:FieldLabelsConstant.LABELS.TO_LOCATION, value:data.toLocation },
+          { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
+          { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.toDate },
+
+        ]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
         disableClose: false,

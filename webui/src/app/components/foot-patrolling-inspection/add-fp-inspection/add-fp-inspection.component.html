@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Foot Patrolling Inspection Item</div>
+                                <div class="panel-heading">{{title}} {{Titles.FOOT_PATROLLING_INSPECTION_ITEM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -31,7 +31,7 @@
                                                 <div class="col-md-12">
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Depot" 
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="fpInspectionItemFormGroup.controls['facilityId']" required>
                                                             <mat-option *ngFor="let facilityList of facilityList"
                                                               [value]="facilityList.facilityId">
@@ -43,7 +43,7 @@
 
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Inspection" [formControl]="fpInspectionItemFormGroup.controls['inspectionType']"></textarea>
+                                                          <textarea matInput placeholder="{{FiledLabels.INSPECTION}}" [formControl]="fpInspectionItemFormGroup.controls['inspectionType']"></textarea>
                                                           <mat-error 
                                                                  *ngIf="fpInspectionItemFormGroup.controls['inspectionType'].hasError('maxlength') && fpInspectionItemFormGroup.controls['inspectionType'].touched"
                                                                   class="alert alert-danger">Max 250 characters only
@@ -53,7 +53,7 @@
 
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Section" [formControl]="fpInspectionItemFormGroup.controls['section']" ></textarea>
+                                                          <textarea matInput placeholder="{{FiledLabels.SECTION}}" [formControl]="fpInspectionItemFormGroup.controls['section']" ></textarea>
                                                           <mat-error 
                                                                  *ngIf="fpInspectionItemFormGroup.controls['section'].hasError('maxlength') && fpInspectionItemFormGroup.controls['section'].touched"
                                                                   class="alert alert-danger">Max 250 characters only
@@ -63,7 +63,7 @@
 
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <textarea matInput placeholder="Name" [formControl]="fpInspectionItemFormGroup.controls['inspectionBy']" required></textarea>
+                                                          <textarea matInput placeholder="{{FiledLabels.NAME}}" [formControl]="fpInspectionItemFormGroup.controls['inspectionBy']" required></textarea>
                                                           <mat-error 
                                                                  *ngIf="fpInspectionItemFormGroup.controls['inspectionBy'].hasError('maxlength') && fpInspectionItemFormGroup.controls['inspectionBy'].touched"
                                                                   class="alert alert-danger">Max 250 characters only
@@ -75,7 +75,7 @@
                           <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                    [owlDateTimeTrigger]="dt1" placeholder="Choose From Date" 
+                                    [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE}}" 
                                     [max]="toMinDate" (dateTimeChange)="addEvent($event)" 
                                     [formControl]="fpInspectionItemFormGroup.controls['startTime']" >                                                                
                                     <owl-date-time #dt1 [showSecondsTimer]=true
@@ -88,7 +88,7 @@
                         <div class="col-md-3">
                             <mat-form-field>
                                 <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                    [owlDateTimeTrigger]="dt2" placeholder="Choose To Date" [min]="toMinDate"
+                                    [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.TO_DATE}}" [min]="toMinDate"
                                     [formControl]="fpInspectionItemFormGroup.controls['stopTime']" >                                                                
                                     <owl-date-time #dt2 [showSecondsTimer]=true
                                         ></owl-date-time>
@@ -102,12 +102,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="fpInspectionItemFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="fpInspectionItemFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

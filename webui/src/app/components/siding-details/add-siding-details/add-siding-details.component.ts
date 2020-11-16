@@ -8,6 +8,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { MatDatepickerInputEvent,DateAdapter, MAT_DATE_FORMATS  } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-add-siding-details',
@@ -22,6 +23,11 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
     ]
 })
 export class AddSidingDetailsComponent implements OnInit {
+
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
+    pagination =Constants.PAGINATION_NUMBERS;    
+    title: string =  Constants.EVENTS.ADD;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     save: boolean = true;
     update: boolean = false;
@@ -74,12 +80,12 @@ export class AddSidingDetailsComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.this.title =  Constants.EVENTS.UPDATE;;
       this.getSidingsDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.this.title =  Constants.EVENTS.ADD;;
     }
     }  
     

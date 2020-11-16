@@ -21,6 +21,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 export class TssFeederComponent implements OnInit{
 
+  pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;

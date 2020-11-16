@@ -18,11 +18,11 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
     selector: 'make',
     templateUrl: './make.component.html',
-    styleUrls: []
+    styleUrls: ['./make.component.css',]
 })
 
 export class MakeComponent implements OnInit{
-
+  pagination=Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;

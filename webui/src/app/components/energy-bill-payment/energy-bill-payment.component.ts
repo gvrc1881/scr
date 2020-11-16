@@ -8,6 +8,7 @@ import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } fr
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common'
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
     selector: 'energy-bill-payment',
@@ -16,6 +17,9 @@ import { DatePipe } from '@angular/common'
 })
 export class EnergyBillPaymentComponent implements OnInit{
     
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;

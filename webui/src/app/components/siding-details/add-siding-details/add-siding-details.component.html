@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Sidings Form</div>
+                                 <div class="panel-heading">{{title}} {{Titles.SIDING_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Station" [formControl]="sidingsItemFormGroup.controls['station']"></textarea>
+                                                            <textarea matInput placeholder="{{FiledLabels.STATION}}" [formControl]="sidingsItemFormGroup.controls['station']"></textarea>
                                                             <mat-error 
                                                             *ngIf="sidingsItemFormGroup.controls['station'].hasError('maxlength') && sidingsItemFormGroup.controls['station'].touched"
                                                              class="alert alert-danger">Max 250 characters only
@@ -42,7 +42,7 @@
 
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <textarea matInput placeholder="Siding Code" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required></textarea>
+                                                              <textarea matInput placeholder="{{FiledLabels.SIDING_CODE}}" [formControl]="sidingsItemFormGroup.controls['sidingCode']" required></textarea>
                                                               <mat-error *ngIf="sidingsItemFormGroup.controls['sidingCode'].hasError('required')">
                                                                 Enter siding Code
                                                               </mat-error>
@@ -64,7 +64,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <textarea matInput placeholder="Section" [formControl]="sidingsItemFormGroup.controls['section']" ></textarea>
+                                                              <textarea matInput placeholder="{{FiledLabels.SECTION}}" [formControl]="sidingsItemFormGroup.controls['section']" ></textarea>
                                                               <mat-error 
                                                             *ngIf="sidingsItemFormGroup.controls['section'].hasError('maxlength') && sidingsItemFormGroup.controls['section'].touched"
                                                              class="alert alert-danger">Max 250 characters only
@@ -73,7 +73,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <mat-select placeholder="Section Eletrified Status" [formControl]="sidingsItemFormGroup.controls['sectionEletrifiedStatus']" >
+                                                              <mat-select placeholder="{{FiledLabels.SECTION_ELECTRIFIED_STATUS}}" [formControl]="sidingsItemFormGroup.controls['sectionEletrifiedStatus']" >
                                                                   <mat-option *ngFor="let status of status" [value]="status">
                                                                     {{ status}}
                                                                   </mat-option>
@@ -82,7 +82,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <mat-select placeholder="Siding Eletrified Status" [formControl]="sidingsItemFormGroup.controls['sidingEletrifiedStatus']" required (ngModelChange)="statusChange()">
+                                                              <mat-select placeholder="{{FiledLabels.SIDING_ELECTRIFIED_STATUS}}" [formControl]="sidingsItemFormGroup.controls['sidingEletrifiedStatus']" required (ngModelChange)="statusChange()">
                                                                   <mat-option *ngFor="let status of status" [value]="status">
                                                                     {{ status}}
                                                                   </mat-option>
@@ -92,7 +92,7 @@
                                                       
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <textarea matInput placeholder="Private Railway" [formControl]="sidingsItemFormGroup.controls['privateRailway']" ></textarea>
+                                                              <textarea matInput placeholder="{{FiledLabels.PRIVATE_RAILWAY}}" [formControl]="sidingsItemFormGroup.controls['privateRailway']" ></textarea>
                                                               <mat-error 
                                                             *ngIf="sidingsItemFormGroup.controls['privateRailway'].hasError('maxlength') && sidingsItemFormGroup.controls['privateRailway'].touched"
                                                              class="alert alert-danger">Max 250 characters only
@@ -101,7 +101,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <textarea matInput placeholder="Status" [formControl]="sidingsItemFormGroup.controls['status']" ></textarea>
+                                                              <textarea matInput placeholder="{{FiledLabels.STATUS}}" [formControl]="sidingsItemFormGroup.controls['status']" ></textarea>
                                                               <mat-error 
                                                             *ngIf="sidingsItemFormGroup.controls['status'].hasError('maxlength') && sidingsItemFormGroup.controls['status'].touched"
                                                              class="alert alert-danger">Max 250 characters only
@@ -110,13 +110,12 @@
                                                       </div>
                                                       <div class="col-md-2">
                                                       <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Tkm
-                                                            " decimalNumber [formControl]="sidingsItemFormGroup.controls['tkm']" />
+                                                            <input matInput placeholder="{{FiledLabels.TKM}}" decimalNumber [formControl]="sidingsItemFormGroup.controls['tkm']" />
                                                       </mat-form-field>
                                                   </div>
                                                     <div class="col-md-3">
                                                       <mat-form-field fxFlex="30">
-                                                        <textarea matInput placeholder="Remarks" 
+                                                        <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
                                                         [formControl]="sidingsItemFormGroup.controls['remarks']" 
                                                         pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
                                                           <mat-error
@@ -130,7 +129,7 @@
                                                         <div class="col-md-12" *ngIf="onlyYes">
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <mat-select placeholder="Siding Proposed" [formControl]="sidingsItemFormGroup.controls['sidingProposed']" >
+                                                              <mat-select placeholder="{{FiledLabels.SIDING_PROPOSED}}" [formControl]="sidingsItemFormGroup.controls['sidingProposed']" >
                                                                   <mat-option *ngFor="let status of status" [value]="status">
                                                                     {{ status}}
                                                                   </mat-option>
@@ -140,7 +139,7 @@
                                                       <div class="col-md-3">
                                                           <mat-form-field>
                                                               <input matInput [matDatepicker]="picker" (dateInput)="addEvent('input', $event)"  [max]="today"
-                                                              placeholder="proposed Date" [formControl]="sidingsItemFormGroup.controls['proposedDate']" >
+                                                              placeholder="{{FiledLabels.PROPOSED_DATE}}" [formControl]="sidingsItemFormGroup.controls['proposedDate']" >
                                                                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                   <mat-datepicker #picker  ></mat-datepicker>
                                                           </mat-form-field>
@@ -148,7 +147,7 @@
                                                       <div class="col-md-3">
                                                           <mat-form-field>
                                                               <input matInput [matDatepicker]="picker1" [min]="toMinDate" [max]="today"
-                                                               placeholder="Approved Date" [formControl]="sidingsItemFormGroup.controls['approvalDate']" >
+                                                               placeholder="{{FiledLabels.APPROVAL_DATE}}" [formControl]="sidingsItemFormGroup.controls['approvalDate']" >
                                                                   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                                                   <mat-datepicker #picker1  ></mat-datepicker>
                                                           </mat-form-field>
@@ -156,19 +155,19 @@
                                                       <div class="col-md-3">
                                                           <mat-form-field>
                                                               <input matInput [matDatepicker]="picker2" [min]="toMinDate" [max]="today"
-                                                              placeholder="workOrder Date" [formControl]="sidingsItemFormGroup.controls['workOrderDate']" >
+                                                              placeholder="{{FiledLabels.WORK_ORDER_DATE}}" [formControl]="sidingsItemFormGroup.controls['workOrderDate']" >
                                                                   <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                                                   <mat-datepicker #picker2  ></mat-datepicker>
                                                           </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                              <input matInput placeholder="Work Progress percentage" decimalNumber [formControl]="sidingsItemFormGroup.controls['workProgressPercentage']" />
+                                                              <input matInput placeholder="{{FiledLabels.WORK_PROGRESS_PERCENTAGE}}" decimalNumber [formControl]="sidingsItemFormGroup.controls['workProgressPercentage']" />
                                                           </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Work Progress Remark" 
+                                                            <textarea matInput placeholder="{{FiledLabels.WORK_PROGRESS_REMARK}}" 
                                                         [formControl]="sidingsItemFormGroup.controls['workProgressRemark']" 
                                                         pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
                                                           <mat-error
@@ -180,7 +179,7 @@
                                                     </div>
                                                       <div class="col-md-3">
                                                           <mat-form-field>
-                                                              <input matInput [matDatepicker]="picker3" placeholder="Energised Date"  [max]="today"
+                                                              <input matInput [matDatepicker]="picker3" placeholder="{{FiledLabels.ENERGISED_DATE}}"  [max]="today"
                                                               [formControl]="sidingsItemFormGroup.controls['completionDate']" >
                                                                   <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                                                                   <mat-datepicker #picker3  ></mat-datepicker>
@@ -190,7 +189,7 @@
                                                   
                                                       <div class="col-md-3" *ngIf = "enableDepot">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Depot" 
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="sidingsItemFormGroup.controls['depot']" >
                                                             <mat-option *ngFor="let depotData of facilityList"
                                                               [value]="depotData.facilityName">
@@ -208,12 +207,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="sidingsItemFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="sidingsItemFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                           {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { AssetMasterDataModel } from 'src/app/models/asset-master-data.model';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { ReportModel } from 'src/app/models/report.model';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'amd',
@@ -17,6 +18,9 @@ import { ReportModel } from 'src/app/models/report.model';
 })
 export class AmdComponent implements OnInit {
 
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 	addPermission: boolean = true;
   	editPermission: boolean = true;
     deletePermission: boolean = true;
@@ -48,7 +52,7 @@ export class AmdComponent implements OnInit {
   ) { }
   
   ngOnInit() {
-    this.pageSize = 10;
+    this.pageSize = 0;
     this.pageNo = 0;
     this.reportModel = new ReportModel();
     this.getAllAssetMasterData(0, 30);
@@ -156,11 +160,29 @@ export class AmdComponent implements OnInit {
   }
   ViewData(data) {
     var result = {
-      'title': 'Asset Master Data',
-      'dataSource': [{ label: 'Depot Type', value: data.type }, { label: 'Depot', value: data.facilityId }, { label: 'Asset Type', value: data.assetType }, { label: 'AssetId', value: data.assetId }, { label: 'Adee Section', value: data.adeeSection },
-      { label: 'Major Section', value: data.majorSection }, { label: 'Location Position', value: data.locationPosition }, { label: 'kilometer', value: data.kilometer }, { label: 'ElementarySection', value: data.elementarySection },
-      { label: 'Created On', value: data.createdOn }, { label: 'Date Of Commision', value: data.dateOfCommision }, { label: 'Date Of Manufacture', value: data.dateOfManufacture }, { label: 'Date Of Received', value: data.dateOfReceived },
-      { label: 'Equipped Date', value: data.equippedDate }, { label: 'Expiry Date', value: data.expiryDate }, { label: 'LugDate', value: data.lugDate }, { label: 'StripDate', value: data.stripDate }, { label: 'Warranty Amc EndDate', value: data.warrantyAmcEndDate }]
+      'title': this.Titles.ASSET_MASTER_DATA,
+      'dataSource': [
+          
+      { label:FieldLabelsConstant.LABELS.DEPOT_TYPE, value:data.depotType },
+      { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
+      { label:FieldLabelsConstant.LABELS.ASSET_TYPE, value:data.assetType },
+      { label:FieldLabelsConstant.LABELS.ASSET_ID, value:data.assetId },
+      { label:FieldLabelsConstant.LABELS.ADEE_SECTION, value:data.adeeSection },
+      { label:FieldLabelsConstant.LABELS.MAJOR_SECTION, value:data.majorSection },
+      { label:FieldLabelsConstant.LABELS.LOCATION_POSITION, value:data.locationPosition },
+      { label:FieldLabelsConstant.LABELS.KILOMETER, value:data.kilometer },
+      { label:FieldLabelsConstant.LABELS.ELEMENTARY_SECTIONS, value:data.elementarySections },
+      { label:FieldLabelsConstant.LABELS.CREATED_ON, value:data.createdOn },
+      { label:FieldLabelsConstant.LABELS.DATE_OF_COMMISSION, value:data.dateOfCommision },
+      { label:FieldLabelsConstant.LABELS.DATE_OF_MANUFACTURE, value:data.dateOfManufacture },
+      { label:FieldLabelsConstant.LABELS.DATE_OF_RECEIVED, value:data.dateOfReceived },
+      { label:FieldLabelsConstant.LABELS.EQUIPPED_DATE, value:data.equippedDate },
+      { label:FieldLabelsConstant.LABELS.EXPIRY_DATE, value:data.expiryDate },
+      { label:FieldLabelsConstant.LABELS.LUG_DATE, value:data.lugDate },
+      { label:FieldLabelsConstant.LABELS.STRIP_DATE, value:data.stripDate },
+      { label:FieldLabelsConstant.LABELS.WARRANTY_AMC_ENDDATE, value:data.warrantyAmcEndDate }
+          
+    ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

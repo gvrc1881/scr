@@ -28,24 +28,24 @@
                                                 fxLayoutAlign="start" [formGroup]="energyBillPaymentFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onEnergyBillPaymentSubmit();">
                                           <div class="panel panel-primary">
-                                                <div class="panel-heading">{{title}} EnergyBillPayment</div>
+                                                <div class="panel-heading">{{title}} {{Titles.ENERGY_BILL_PAYMENT}}</div>
                                                 <div class="panel-body">
                                                     <div class="col-md-12">
                                                     	<div class="col-md-3" *ngIf="enableReference else referenceElseBlock">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="Reference" [formControl]="energyBillPaymentFormGroup.controls['reference']" required />
+                                                                <input matInput placeholder="{{FiledLabels.REFERENCE}}" [formControl]="energyBillPaymentFormGroup.controls['reference']" required />
                                                             </mat-form-field>
                                                         </div>
                                                        <ng-template #referenceElseBlock>
 													   		<div class = "col-md-3" >
                                                       			<mat-form-field fxFlex="30">
-                                                      				<input matInput placeholder = "Reference" [formControl]="energyBillPaymentFormGroup.controls['reference']" required [readonly]="true"/>
+                                                      				<input matInput placeholder = "{{FiledLabels.REFERENCE}}" [formControl]="energyBillPaymentFormGroup.controls['reference']" required [readonly]="true"/>
                                                       			</mat-form-field>
                                                       		</div>
 														</ng-template> 
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="To Payment" [formControl]="energyBillPaymentFormGroup.controls['toPayment']" required />
+                                                                <input matInput placeholder="{{FiledLabels.TO_PAYMENT}}" [formControl]="energyBillPaymentFormGroup.controls['toPayment']" required />
                                                             </mat-form-field>
                                                             <mat-error *ngIf="energyBillPaymentFormGroup.controls['toPayment'].hasError('duplicateReferenceAndToPayment')"
 	                                                            class="alert alert-danger">
@@ -58,12 +58,12 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="Amount" [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
+                                                                <input matInput placeholder="{{FiledLabels.AMOUNT}}" [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker" placeholder="Choose Date" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']" required>
+                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']" required>
                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                     <mat-datepicker #picker  ></mat-datepicker> <!--(yearSeleceted)="close($event)"-->
                                                               </mat-form-field>
@@ -73,7 +73,7 @@
                                                                 <input matInput placeholder="division" [formControl]="energyBillPaymentFormGroup.controls['division']" required/>
                                                             </mat-form-field> -->
 						                                    <mat-form-field fxFlex="30" class="example-full-width">
-						                                        <mat-select placeholder="Choose Division" [formControl]="energyBillPaymentFormGroup.controls['division']" required>
+						                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="energyBillPaymentFormGroup.controls['division']" required>
 						                                            <mat-option *ngFor="let divisionList of divisionList "
 						                                                [value]="divisionList.code">
 						                                                {{ divisionList.code}}
@@ -83,12 +83,12 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="Month" [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber required />
+                                                                <input matInput placeholder="{{FiledLabels.MONTH}}" [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="Year" [formControl]="energyBillPaymentFormGroup.controls['year']"decimalNumber />
+                                                                <input matInput placeholder="{{FiledLabels.YEAR}}" [formControl]="energyBillPaymentFormGroup.controls['year']"decimalNumber />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3 mt-15">
@@ -125,46 +125,46 @@
                                     <div class="mat-elevation-z8">
                                         <mat-table [dataSource]="energyBillPaymentDataSource" matSort>
                                             <ng-container matColumnDef="sno">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="reference">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Reference</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REFERENCE}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.reference}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="toPayment">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>To Payment</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_PAYMENT}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.toPayment}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="amount">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.AMOUNT}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.amount}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dateOfPayment">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date Of Payment</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DATE_OF_PAYMENT}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                       {{row.dateOfPayment | date}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="division">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.division}}</mat-cell>
                                             </ng-container>
                                            <ng-container matColumnDef="month">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Month</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MONTH}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.month}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="year">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Year</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.YEAR}}</mat-header-cell>
                                                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                   {{row.year}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="id">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                       <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
                                                         (click)="editEneBillPayment(row.id)">
@@ -180,7 +180,7 @@
                                             <mat-row *matRowDef="let row; columns: eneBillPaymentDisplayedColumns;">
                                             </mat-row>
                                         </mat-table>
-                                        <mat-paginator [pageSizeOptions]="[ 20, 40, 60, 80, 100]"></mat-paginator>
+                                        <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     </div>
                                 </div>
                             </div>

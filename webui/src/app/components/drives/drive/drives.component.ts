@@ -23,6 +23,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 export class DrivesComponent implements OnInit {
 
+  pagination=Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   resp: any;

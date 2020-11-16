@@ -11,6 +11,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
     selector: 'observation-categories',
@@ -26,11 +28,15 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 })
 export class ObservationCategoriesComponent implements OnInit{
 
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addObservationCategories: boolean ;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     id: number = 0;
     observationCategoriesFormGroup: FormGroup;
     observationCategoriesList : any;
@@ -161,7 +167,7 @@ export class ObservationCategoriesComponent implements OnInit{
         let fromDate: Date = this.observationCategoriesFormGroup.value.fromDate;
         let thruDate: Date = this.observationCategoriesFormGroup.value.thruDate;
         this.addObservationCategories = false;
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveObsCategoriesModel={
                 'inspectionType':inspectionType,
                 'department':department,
@@ -201,7 +207,7 @@ export class ObservationCategoriesComponent implements OnInit{
     editObservationCategories (id) {
         this.addObservationCategories = true;
         this.observationCategoriesEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     observationCategoriesEditAction(id: number) {
@@ -234,9 +240,9 @@ export class ObservationCategoriesComponent implements OnInit{
             this.observationCategoriesFormGroup.valueChanges.subscribe(() => {
               this.onFormValuesChanged();
             });
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
 
@@ -266,7 +272,7 @@ export class ObservationCategoriesComponent implements OnInit{
     onGoBack() {
         this.observationCategoriesFormGroup.reset();
         this.addObservationCategories = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     inspectionType()
         {
@@ -293,10 +299,19 @@ export class ObservationCategoriesComponent implements OnInit{
     }
     ViewData(data){
       var result = {
-        'title':'Observation Categories Data',
-        'dataSource':[{label:'Inspection Type',value:data.inspectionType},{label:'Department',value:data.department},{label:'Observation Category',value:data.observationCategory},
-                      {label:'Description', value:data.description},{label:'Remark', value:data.remark},
-                      {label:'From Date', value:data.fromDate},{label:'Thru Date', value:data.thruDate}]
+        'title':this.Titles.OBSERVATION_CATEGORIES_DATA,
+        'dataSource':[
+
+           { label:FieldLabelsConstant.LABELS.INSPECTION_TYPE, value:data.inspectionType },
+           { label:FieldLabelsConstant.LABELS.REQUEST_DEPARTMENT, value:data.department },
+           { label:FieldLabelsConstant.LABELS.OBSERVATION_CATEGORY, value:data.observationCategory },
+           { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+           { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
+           { label:FieldLabelsConstant.LABELS.THRU_DATE, value:data.thruDate },
+           { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remark },
+           
+          
+          ]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
         disableClose: false,

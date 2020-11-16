@@ -5,6 +5,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'app-add-ohe-location',
@@ -12,6 +14,10 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class AddOheLocationComponent implements OnInit {
+
+pagination = Constants.PAGINATION_NUMBERS;
+ FiledLabels = FieldLabelsConstant.LABELS;
+ Titles = FieldLabelsConstant.TITLE;
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -20,7 +26,7 @@ export class AddOheLocationComponent implements OnInit {
   resp: any;
   oheFounData:any;
   structureTypeData:any;
-  title:string;
+  title:string = Constants.EVENTS.ADD;
   productCateData:any;
   productCateTypeData:any;
   addOheLocationFormGroup: FormGroup;
@@ -45,12 +51,12 @@ export class AddOheLocationComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getOheLocationDataById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     
   }

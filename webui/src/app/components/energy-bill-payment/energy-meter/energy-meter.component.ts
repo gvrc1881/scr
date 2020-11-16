@@ -9,19 +9,24 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
     selector: 'energy-meter',
     templateUrl: './energy-meter.component.html',
-    styleUrls: []
+    styleUrls: ['./energy-meter.component.css'],
 })
 export class EnergyMeterComponent implements OnInit{
-	
+  
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 	addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     energyMeterFormGroup: FormGroup;
     energyMeterList : any;
     energyMeterDataSource: MatTableDataSource<EnergyMeterModel>;
@@ -101,7 +106,7 @@ export class EnergyMeterComponent implements OnInit{
         let dataDiv: string = this.energyMeterFormGroup.value.feederId.dataDiv;
         this.addEnergyMeter = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveEnergyMeterModel={
                 'cmd':cmd,
                 'startKvah': startKvah,
@@ -168,7 +173,7 @@ export class EnergyMeterComponent implements OnInit{
 	                this.getAllEnergyMeterData();
 	                this.energyMeterFormGroup.reset();
 	                this.addEnergyMeter =  false;
-	                this.title = "Save";
+	                this.title = Constants.EVENTS.ADD;
                 }else {
                 	this.commonService.showAlertMessage("Energy Meter Data Updating Failed.");
                 }
@@ -239,9 +244,9 @@ export class EnergyMeterComponent implements OnInit{
         } ,error => {})
         this.id=id;
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
           }
     }
     
@@ -303,7 +308,7 @@ export class EnergyMeterComponent implements OnInit{
     onGoBack() {
         this.energyMeterFormGroup.reset();
         this.addEnergyMeter = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
 
     newEnergyMeter() {
@@ -349,17 +354,27 @@ export class EnergyMeterComponent implements OnInit{
     
      ViewData(data){
       var result = {
-        'title':'Energy Meter',
-        'dataSource':[{label:'Feeder',value:data.feederId},{label:'Start Date',value:this.datePipe.transform(data.startDate, 'dd-MM-yyyy hh:mm:ss')},
-                      {label:'Multiplication Factor', value:data.multiplicationFac},{label:'Meter No',value:data.meterNo},{label:'CMD',value:data.cmd},
-                      {label:'Start Kvah',value:data.startKvah},
-                      {label:'Start Kwh',value:data.startKwh},{label:'Start Rkvah Lag',value:data.startRkvahLag},
-                      {label:'Start Rkvah Lead',value:data.startRkvahLead},{label:'End Date',value:this.datePipe.transform(data.endDate, 'dd-MM-yyyy hh:mm:ss')},
-                      {label:'End Kvah',value:data.endKvah},{label:'End Kwh',value:data.endKwh},
-                      {label:'End Rkvah Lag',value:data.endRkvahLag},{label:'End Rkvah Lead',value:data.endRkvahLead},
-                      {label:'Meter Make',value:data.meterMake},{label:'Meter Model',value:data.meterModel},
-                      {label:'Remark',value:data.remarks}
-                      ]
+        'title':this.Titles.ENERGY_METER,
+        'dataSource':[                        
+                      { label:FieldLabelsConstant.LABELS.FEEDER, value:data.feederId },
+                      { label:FieldLabelsConstant.LABELS.START_DATE, value:this.datePipe.transform(data.startDate, 'dd-MM-yyyy hh:mm:ss')},
+                      { label:FieldLabelsConstant.LABELS.MULTIPLICATION_FACTOR, value:data.multiplicationFac },
+                      { label:FieldLabelsConstant.LABELS.METER_NUMBER, value:data.meterNo },
+                      { label:FieldLabelsConstant.LABELS.CMD, value:data.cmd },
+                      { label:FieldLabelsConstant.LABELS.START_KVAH, value:data.startKvah },
+                      { label:FieldLabelsConstant.LABELS.START_KWH, value:data.startKwh },
+                      { label:FieldLabelsConstant.LABELS.START_RKVAH_LAG, value:data.startRkvahLag },
+                      { label:FieldLabelsConstant.LABELS.START_RKVAH_LEAD, value:data.startRkvahLead },
+                      { label:FieldLabelsConstant.LABELS.END_DATE, value:this.datePipe.transform(data.endDate, 'dd-MM-yyyy hh:mm:ss')},
+                      { label:FieldLabelsConstant.LABELS.END_KVAH, value:data.endKvah },
+                      { label:FieldLabelsConstant.LABELS.END_KWH, value:data.endKwh },
+                      { label:FieldLabelsConstant.LABELS.END_RKVAH_LAG, value:data.endRkvahLag },
+                      { label:FieldLabelsConstant.LABELS.END_RKVAH_LEAD, value:data.endRkvahLead },
+                      { label:FieldLabelsConstant.LABELS.METER_MAKE, value:data.meterMake },
+                      { label:FieldLabelsConstant.LABELS.METER_MODEL, value:data.meterModel },
+                      { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks},
+                    
+                    ]
       }
       this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
         disableClose: false,

@@ -29,12 +29,12 @@
                                                 fxLayoutAlign="start" [formGroup]="workFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="onTractionEneTariffSubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} Work</div>
+                                            		<div class="panel-heading">{{title}} {{Titles.WORK}}</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
 	                                                    	<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Work Name" [formControl]="workFormGroup.controls['workName']" required/>
+	                                                                <input matInput placeholder="{{FiledLabels.WORK_NAME}}" [formControl]="workFormGroup.controls['workName']" required/>
 	                                                                <!-- <mat-error *ngIf="workFormGroup.controls['workName'].hasError('required')">
 										                                Enter Work Name
 										                              </mat-error> -->
@@ -52,7 +52,7 @@
 	                                                        </div>
 	                                                    	<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Allocation" [formControl]="workFormGroup.controls['allocation']" />
+	                                                                <input matInput placeholder="{{FiledLabels.ALLOCATION}}" [formControl]="workFormGroup.controls['allocation']" />
 	                                                                <mat-error
 		                                                                *ngIf="workFormGroup.controls['allocation'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
@@ -66,7 +66,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 			                                                        <mat-form-field fxFlex="30">
-			                                                            <mat-select placeholder="Select Division"
+			                                                            <mat-select placeholder="{{FiledLabels.DIVISION}}"
 			                                                                [formControl]="workFormGroup.controls['division']" >
 			                                                                <mat-option *ngFor="let divisions of divisionList"
 			                                                                    [value]="divisions.facilityName">
@@ -77,12 +77,12 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Estimated Revised Anticipated Cost"  decimalNumber [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
+	                                                                <input matInput placeholder="{{FiledLabels.ESTIMATED_REVISED_ANTICIPATED_COST}}"  decimalNumber [formControl]="workFormGroup.controls['estdLatestAnticCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Executed By" [formControl]="workFormGroup.controls['executedBy']" />
+	                                                                <input matInput placeholder="{{FiledLabels.EXECUTED_BY}}" [formControl]="workFormGroup.controls['executedBy']" />
 	                                                                <mat-error
 		                                                                *ngIf="workFormGroup.controls['executedBy'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
@@ -96,7 +96,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 			                                                        <mat-form-field fxFlex="30">
-			                                                            <mat-select placeholder="Select Execution Agency"
+			                                                            <mat-select placeholder="{{FiledLabels.EXECUTION_AGENCY}}"
 			                                                                [formControl]="workFormGroup.controls['executingAgency']" >
 			                                                                <mat-option *ngFor="let execAgency of execAgencyList"
 			                                                                    [value]="execAgency.statusCode">
@@ -107,7 +107,7 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Financial Progress Percentage"   max ="100" decimalNumber [formControl]="workFormGroup.controls['financialProgressPercentage']" />
+	                                                                <input matInput placeholder="{{FiledLabels.FINANCIAL_PROGRESS_PERCENTAGE}}"   max ="100" decimalNumber [formControl]="workFormGroup.controls['financialProgressPercentage']" />
 	                                                            	<mat-error
 		                                                                *ngIf="workFormGroup.controls['financialProgressPercentage'].hasError('max') "
 		                                                                class="alert alert-danger">Please enter a value between 0 to 100
@@ -116,7 +116,7 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Section" [formControl]="workFormGroup.controls['section']" />
+	                                                                <input matInput placeholder="{{FiledLabels.SECTION}}" [formControl]="workFormGroup.controls['section']" />
 	                                                                <mat-error
 		                                                                *ngIf="workFormGroup.controls['section'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
@@ -125,12 +125,12 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="RKM"  required decimalNumber [formControl]="workFormGroup.controls['rkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.RKM}}"  required decimalNumber [formControl]="workFormGroup.controls['rkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="TKM" required decimalNumber [formControl]="workFormGroup.controls['tkm']" />
+	                                                                <input matInput placeholder="{{FiledLabels.TKM}}" required decimalNumber [formControl]="workFormGroup.controls['tkm']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <!-- <div class="col-md-3">
@@ -154,7 +154,7 @@
 	                                                        </div> -->
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Physical Progress Percentage" max="100"  decimalNumber [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
+	                                                                <input matInput placeholder="{{FiledLabels.PHYSICAL_PROGRESS_PERCENTAGE}}" max="100"  decimalNumber [formControl]="workFormGroup.controls['physicalProgressPercentage']" />
 	                                                                <mat-error
 		                                                                *ngIf="workFormGroup.controls['physicalProgressPercentage'].hasError('max') "
 		                                                                class="alert alert-danger">Please enter a value between 0 to 100
@@ -163,17 +163,17 @@
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Latest Revised Cost"  decimalNumber [formControl]="workFormGroup.controls['latestRevisedCost']" />
+	                                                                <input matInput placeholder="{{FiledLabels.LATEST_REVISED_COST}}"  decimalNumber [formControl]="workFormGroup.controls['latestRevisedCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Sanction Cost"  decimalNumber [formControl]="workFormGroup.controls['sanctionCost']" />
+	                                                                <input matInput placeholder="{{FiledLabels.SANCTION_COST}}"  decimalNumber [formControl]="workFormGroup.controls['sanctionCost']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
 			                                                        <mat-form-field fxFlex="30">
-			                                                            <mat-select placeholder="Select Status"
+			                                                            <mat-select placeholder="{{FiledLabels.STATUS}}"
 			                                                                [formControl]="workFormGroup.controls['presentStatus']" >
 			                                                                <mat-option *ngFor="let statusItem of statusItems"
 			                                                                    [value]="statusItem.statusCode">
@@ -184,7 +184,7 @@
 			                                                 </div>
 	                                                        <div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Year Of Sanction"  decimalNumber [formControl]="workFormGroup.controls['yearOfSanction']" />
+	                                                                <input matInput placeholder="{{FiledLabels.YEAR_OF_SANCTION}}"  decimalNumber [formControl]="workFormGroup.controls['yearOfSanction']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-3">
@@ -231,11 +231,11 @@
                                     	<div class="mat-elevation-z8">
                                     		<mat-table [dataSource]="workDataSource" matSort>
                                     			<ng-container matColumnDef="sno">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="division">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.division}}</mat-cell>
 	                                            </ng-container>
@@ -245,32 +245,32 @@
 	                                                      {{row.year}}</mat-cell>
 	                                            </ng-container> -->
 	                                            <ng-container matColumnDef="workName">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Work Name</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.WORK_NAME}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.workName}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="section">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SECTION}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.section}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="executedBy">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Executed By</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.EXECUTED_BY}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.executedBy}}</mat-cell>
 	                                            </ng-container>
 	                                           <ng-container matColumnDef="physicalProgressPercentage">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Physical Progress Percentage</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PHYSICAL_PROGRESS_PERCENTAGE}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.physicalProgressPercentage}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="latestRevisedCost">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Latest Revised Cost</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.LATEST_REVISED_COST}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.latestRevisedCost}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="id">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
 	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
 	                                                        (click)="editWork(row.id)">
@@ -286,7 +286,7 @@
                                             	<mat-row *matRowDef="let row; columns: workDisplayedColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[ 20, 40, 60, 80, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     	</div>
 										
 								</div>

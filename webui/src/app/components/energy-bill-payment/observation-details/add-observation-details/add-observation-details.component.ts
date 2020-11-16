@@ -8,6 +8,9 @@ import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { ObservationModel} from 'src/app/models/foot-patrolling-inspection.model';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
   selector: 'app-add-observation-details',
@@ -16,10 +19,14 @@ import { ObservationModel} from 'src/app/models/foot-patrolling-inspection.model
 })
 
 export class AddObservationDetailsComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
+ FiledLabels = FieldLabelsConstant.LABELS;
+ Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string;
+  title: string = Constants.EVENTS.ADD;
   id: number = 0;
   isSubmit: boolean = false;
   resp: any;
@@ -69,13 +76,13 @@ export class AddObservationDetailsComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getObservationDataById(this.id);
 
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
          error => {
       this.spinnerService.hide();

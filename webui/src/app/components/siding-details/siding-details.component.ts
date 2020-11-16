@@ -10,6 +10,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import{SidingsModel} from 'src/app/models/sidings.model';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'siding-details',
@@ -25,6 +27,9 @@ import { DatePipe } from '@angular/common';
 })
 export class SidingDetailsComponent implements OnInit {
 
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
 	addPermission: boolean = true;
   	editPermission: boolean = true;
     deletePermission: boolean = true;
@@ -141,11 +146,23 @@ export class SidingDetailsComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Sidings  Data',
-      'dataSource':[{label:'Station',value:data.station},{label:'Siding Code',value:data.sidingCode},{label:'Section',value:data.section},
-                    {label:'Section Eletrified Status', value:data.sectionEletrifiedStatus},{label:'Siding Eletrified Status', value:data.sidingEletrifiedStatus},{label:'Private Railway', value:data.privateRailway},
-                    {label:'status', value:data.status},{label:'Tkm', value:data.tkm},{label:'Remarks', value:data.remarks},
-                    {label:'proposedDate', value:data.proposedDate},{label:'ApprovalDate', value:data.approvalDate},{label:'WorkOrderDate', value:data.workOrderDate}, ]
+      'title':this.Titles.SIDINGS_DATA,
+      'dataSource':[
+      
+        { label:FieldLabelsConstant.LABELS.STATION, value:data.station },
+        { label:FieldLabelsConstant.LABELS.SIDING_CODE, value:data.sidingCode },
+        { label:FieldLabelsConstant.LABELS.SECTION, value:data.section },
+        { label:FieldLabelsConstant.LABELS.SIDING_ELECTRIFIED_STATUS, value:data.sidingEletrifiedStatus },
+        { label:FieldLabelsConstant.LABELS.SECTION_ELECTRIFIED_STATUS, value:data.sectionEletrifiedStatus },
+        { label:FieldLabelsConstant.LABELS.PRIVATE_RAILWAY, value:data.privateRailway },
+        { label:FieldLabelsConstant.LABELS.STATUS, value:data.status },
+        { label:FieldLabelsConstant.LABELS.TKM, value:data.tkm },
+        { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+        { label:FieldLabelsConstant.LABELS.PROPOSED_DATE, value:data.proposedDate },
+        { label:FieldLabelsConstant.LABELS.APPROVAL_DATE, value:data.approvalDate },
+        { label:FieldLabelsConstant.LABELS.WORK_ORDER_DATE, value:data.workOrderDate }        
+      
+      ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

@@ -29,11 +29,11 @@
                                               fxLayoutAlign="start" [formGroup]="ObservationCheckListItemFormGroup" fxFlex="1 0 auto"
                                               (ngSubmit)="observationsCheckListItemSubmit();">
                                               <div class="panel panel-primary">
-                                                  <div class="panel-heading">{{title}}Observation Check List</div>
+                                                  <div class="panel-heading">{{title}} {{Titles.OBSERVATION_CHECK_LIST}}</div>
                                                   <div class="panel-body">
                                                     <div class="col-md-3">
                                                       <mat-form-field fxFlex="30" class="example-full-width">
-                                                        <mat-select placeholder="Select Inspection Type" 
+                                                        <mat-select placeholder="{{FiledLabels.INSPECTION_TYPE}}" 
                                                           [formControl]="ObservationCheckListItemFormGroup.controls['inspectionType']" required>
                                                           <mat-option *ngFor="let inspectionTypeList of inspectionTypeList"
                                                             [value]="inspectionTypeList.inspectionType">
@@ -45,7 +45,7 @@
                           
                                                     <div class="col-md-3">
                                                       <mat-form-field fxFlex="30" class="example-full-width">
-                                                        <mat-select placeholder="Select observation Category" 
+                                                        <mat-select placeholder="{{FiledLabels.OBSERVATION_CATEGORY}}" 
                                                           [formControl]="ObservationCheckListItemFormGroup.controls['observationCategory']" required>
                                                           <mat-option *ngFor="let inspectionTypeData of inspectionTypeData"
                                                             [value]="inspectionTypeData.observationCategory">
@@ -56,12 +56,12 @@
                                                     </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Observation Item" [formControl]="ObservationCheckListItemFormGroup.controls['observationItem']" required/>
+                              <input matInput placeholder="{{FiledLabels.OBSERVATION_ITEM}}" [formControl]="ObservationCheckListItemFormGroup.controls['observationItem']" required/>
                             </mat-form-field>
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30" class="example-full-width">
-                              <mat-select placeholder="Select Severity" 
+                              <mat-select placeholder="{{FiledLabels.SEVERITY}}" 
                                 [formControl]="ObservationCheckListItemFormGroup.controls['severity']" required>
                                 <mat-option *ngFor="let statusTypeData of statusTypeData"
                                   [value]="statusTypeData.statusCode">
@@ -72,7 +72,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30">
-                              <textarea matInput placeholder="Description" [formControl]="ObservationCheckListItemFormGroup.controls['description']" ></textarea>
+                              <textarea matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="ObservationCheckListItemFormGroup.controls['description']" ></textarea>
                               <mat-error
                               *ngIf="ObservationCheckListItemFormGroup.controls['description'].hasError('maxlength') && ObservationCheckListItemFormGroup.controls['description'].touched"
                               class="alert alert-danger">Max 250 characters only
@@ -81,7 +81,7 @@
                           </div>
                           <div class="col-md-3">
                             <mat-form-field fxFlex="30" class="example-full-width">
-                              <mat-select placeholder="Select priority" 
+                              <mat-select placeholder="{{FiledLabels.PRIORITY}}" 
                                 [formControl]="ObservationCheckListItemFormGroup.controls['priority']" required>
                                 <mat-option *ngFor="let priority of priority"
                                   [value]="priority">
@@ -94,7 +94,7 @@
                         <div class="col-md-3">
                           <mat-form-field>
                               <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
-                                  placeholder="Choose From Date"
+                                  placeholder="{{FiledLabels.FROM_DATE}}"
                                   [formControl]="ObservationCheckListItemFormGroup.controls['fromDate']" required>
                               <mat-datepicker-toggle matSuffix [for]="picker1">
                               </mat-datepicker-toggle>
@@ -106,7 +106,7 @@
                       <div class="col-md-3">
                           <mat-form-field>
                               <input matInput [matDatepicker]="picker"
-                                  placeholder="Choose to Date" [min]="toMinDate"
+                                  placeholder="{{FiledLabels.TO_DATE}}" [min]="toMinDate"
                                   [formControl]="ObservationCheckListItemFormGroup.controls['thruDate']" required>
                               <mat-datepicker-toggle matSuffix [for]="picker">
                               </mat-datepicker-toggle>
@@ -144,55 +144,55 @@
                                   <div class="mat-elevation-z8">
                                       <mat-table [dataSource]="observationCheckListItemDataSource" matSort>
                                           <ng-container matColumnDef="sno">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="inspectionType">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>InspectionType</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.INSPECTION_TYPE}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.inspectionType}}</mat-cell>
                                           </ng-container>
                                           
                                           <ng-container matColumnDef="observationCategory">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Observation Category</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OBSERVATION_CATEGORY}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.observationCategory}}</mat-cell>
                     </ng-container>
                     
                                           <ng-container matColumnDef="observationItem">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Observation Item</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OBSERVATION_ITEM}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.observationItem}}</mat-cell>
                                           </ng-container>
                                           <ng-container matColumnDef="severity">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Severity</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SEVERITY}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                               {{row.severity}}</mat-cell>
                                         </ng-container>
                                           <ng-container matColumnDef="description">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                               {{row.description}}</mat-cell>
                                         </ng-container>
                                           <ng-container matColumnDef="priority">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Priority</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PRIORITY}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                               {{row.priority}} </mat-cell>
                                         </ng-container>
                     <ng-container matColumnDef="fromDate">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}</mat-header-cell>
                       <mat-cell *matCellDef="let row" style="cursor: pointer">
                         {{row.fromDate}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="thruDate">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_DATE}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.thruDate}}</mat-cell>
                 </ng-container>
                                          
                                           
                                           <ng-container matColumnDef="id">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                                   <mat-cell *matCellDef="let row">
                                                     <button mat-icon-button matTooltip="View"
                                                        (click)="ViewData(row)">
@@ -212,7 +212,7 @@
                                           <mat-row *matRowDef="let row; columns: observationCheckListDisplayColumns;">
                                           </mat-row>
                                       </mat-table>
-                                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                      <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                   </div>
                               </div>
                           </div>

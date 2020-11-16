@@ -8,21 +8,27 @@ import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } fr
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { TrackPayload } from 'src/app/payloads/track.payload';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
     selector: 'track',
     templateUrl: './track.component.html',
-    styleUrls: []
+    styleUrls: ['./track.component.css']
 })
 export class TrackComponent implements OnInit{
-	
+
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
 	addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     trackFormGroup: FormGroup;
     addTrack: boolean = false;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     trackList: any;
     editTrackResponse: any;
     facilityData:any;
@@ -97,7 +103,7 @@ export class TrackComponent implements OnInit{
         TrackPayload.ADD_PAYLOAD.createdBy = this.loggedUserData.username;
 		TrackPayload.ADD_PAYLOAD.electrifiedRkm = this.trackFormGroup.value.electrifiedRkm;
         TrackPayload.ADD_PAYLOAD.electrifiedTkm = this.trackFormGroup.value.electrifiedTkm;
-        if (this.title == Constants.EVENTS.SAVE) {
+        if (this.title == Constants.EVENTS.ADD) {
             this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.TRACK.SAVE_TRACK,TrackPayload.ADD_PAYLOAD, false).subscribe((data) => {
                 this.trackResponse = data;
                 if(this.trackResponse.code == 200 && !!this.trackResponse) {
@@ -132,7 +138,7 @@ export class TrackComponent implements OnInit{
                 	this.getTrackData();
                 	this.trackFormGroup.reset();
                 	this.addTrack = false;
-                	this.title = 'Save';
+                	this.title = Constants.EVENTS.ADD;
                 }else {
                 	this.commonService.showAlertMessage("Track Data Updating Failed.");
                 }	
@@ -148,7 +154,7 @@ export class TrackComponent implements OnInit{
     onGoBack() {
         this.trackFormGroup.reset();
         this.addTrack = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     
     
@@ -174,7 +180,7 @@ export class TrackComponent implements OnInit{
         this.spinnerService.show();
         this.addTrack = true;
         this.trackEditAction(id);
-        this.title = "Update";
+        this.title = Constants.EVENTS.UPDATE;
         /*this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                  this.facilityData = data;
         		});*/

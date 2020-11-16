@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-add-energy-consumption',
@@ -15,13 +16,16 @@ import { DatePipe } from '@angular/common';
 
 export class AddEnergyConsumptionComponent implements OnInit {
 
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   disabled: boolean = true;
   id: number = 0;
   isSubmit: boolean = false;
-  title: string;
+  title: string = Constants.EVENTS.ADD;
   relayIndicationList = [];
   natureOfCloseList = [];
   addEnergyConsumptionFailFromGroup: FormGroup;
@@ -98,12 +102,12 @@ export class AddEnergyConsumptionComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.findEnergyConsumptionById(this.id);
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     //this.maxDateMax = this.datePipe.transform(new Date(), 'yyyy-MM-dd') +" 00:00:00";
     let dte = new Date();

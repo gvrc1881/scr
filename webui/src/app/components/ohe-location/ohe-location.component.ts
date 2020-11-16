@@ -10,6 +10,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
   selector: 'app-ohe-location',
@@ -17,6 +19,10 @@ import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.co
   styleUrls: []
 })
 export class OheLocationComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -134,13 +140,33 @@ export class OheLocationComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Ohe Locations Data',
-      'dataSource':[{label:'Division',value:data.division},{label:'Section',value:data.section},{label:'Pwi',value:data.pwi},{label:'Track Line',value:data.trackLine},
-                    {label:'Ohe Mast ', value:data.oheMast},{label:'Structure Type ', value:data.structureType},{label:'Eng Feature ', value:data.engFeature},{label:'Ohe Feature', value:data.oheFeature},
-                    {label:'Longitude',value:data.longitude},{label:'Latitude',value:data.latitude},{label:'Altitude',value:data.altitude},{label:'Date',value:data.date},
-                    {label:'Validity',value:data.validity},{label:'Satellites',value:data.satellites},{label:'Speed',value:data.speed},{label:'Heading',value:data.heading},
-                    {label:'Remark One',value:data.remarkOne},{label:'Remark Two',value:data.remarkTwo},{label:'Ohe Sequence',value:data.oheSequence},{label:'Curvature',value:data.curvature},
-                    {label:'Curvature Remark',value:data.curvatureRemark},{label:'Chainage',value:data.chainage},{label:'Chainage Remark',value:data.chainageRemark}]
+      'title':this.Titles.OHE_LOCATIONS_DATA,
+      'dataSource':[                
+                    { label:FieldLabelsConstant.LABELS.DIVISION, value:data.division },
+                    { label:FieldLabelsConstant.LABELS.SECTION, value:data.section },
+                    { label:FieldLabelsConstant.LABELS.PWI, value:data.pwi },
+                    { label:FieldLabelsConstant.LABELS.TRACK_LINE, value:data.trackLine },
+                    { label:FieldLabelsConstant.LABELS.OHE_MAST, value:data.oheMast },
+                    { label:FieldLabelsConstant.LABELS.STRUCTURE_TYPE, value:data.structureType },
+                    { label:FieldLabelsConstant.LABELS.ENG_FEATURE, value:data.engFeature },
+                    { label:FieldLabelsConstant.LABELS.OHE_FEATURE, value:data.oheFeature },
+                    { label:FieldLabelsConstant.LABELS.LONGITUDE, value:data.longitude },
+                    { label:FieldLabelsConstant.LABELS.LATITUDE, value:data.latitude },
+                    { label:FieldLabelsConstant.LABELS.ALTITUDE, value:data.altitude },
+                    { label:FieldLabelsConstant.LABELS.DATE, value:data.date },
+                    { label:FieldLabelsConstant.LABELS.VALIDITY, value:data.validity },
+                    { label:FieldLabelsConstant.LABELS.SATELLITES, value:data.satellites },
+                    { label:FieldLabelsConstant.LABELS.SPEED, value:data.speed },
+                    { label:FieldLabelsConstant.LABELS.HEADING, value:data.heading },
+                    { label:FieldLabelsConstant.LABELS.REMARK_ONE, value:data.remarkOne },
+                    { label:FieldLabelsConstant.LABELS.REMARK_TWO, value:data.remarkTwo },
+                    { label:FieldLabelsConstant.LABELS.OHE_SEQUENCE, value:data.oheSequence },
+                    { label:FieldLabelsConstant.LABELS.CURVATURE, value:data.curvature },
+                    { label:FieldLabelsConstant.LABELS.CURVATURE_REMARK, value:data.curvatureRemark },
+                    { label:FieldLabelsConstant.LABELS.CHAINAGE, value:data.chainage },
+                    { label:FieldLabelsConstant.LABELS.CHAINAGE_REMARK, value:data.chainageRemark }
+
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

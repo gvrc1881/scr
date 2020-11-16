@@ -12,12 +12,19 @@ import { DatePipe } from '@angular/common';
 import {environment} from './../../../environments/environment'
 import { InspectionDocumentComponent } from '../inpection-document-dialog/inspection-document-dialog.component';
 import { ComplianceDocumentComponent } from '../compliance-document-dialog/compliance-document-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 @Component({
   selector: 'app-inspection',
   templateUrl: './inspection.component.html',
   styleUrls: []
 })
 export class InspectionComponent implements OnInit {
+
+ pagination = Constants.PAGINATION_NUMBERS;
+ FiledLabels = FieldLabelsConstant.LABELS;
+ Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

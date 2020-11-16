@@ -10,6 +10,7 @@ import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { SwitchOperationsComponent } from '../../components/switch-operations/switch-operations.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-gantry',
@@ -17,6 +18,10 @@ import { SwitchOperationsComponent } from '../../components/switch-operations/sw
   styleUrls: []
 })
 export class GantryComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -137,10 +142,21 @@ export class GantryComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Gantry Data',
-      'dataSource':[{label:'Depot',value:data.facilityId},{label:'Gantry Code',value:data.gantryCode},{label:'Elementary Sections',value:data.elementarySections},
-                    {label:'Protection Traverse Crossover ', value:data.protectionTraverseCrossover},{label:'Protection Traverse Turnout ', value:data.protectionTraverseTurnout},{label:'Protection LongitudnalUp', value:data.protectionLongitudnalUp},
-                    {label:'Protection LongitudnalDn',value:data.protectionLongitudnalDn},{label:'Normally Open',value:data.normallyOpen},{label:'Tpc Board',value:data.tpcBoard},{label:'Remarks',value:data.remarks}]
+      'title':this.Titles.GANTRY_DATA,
+      'dataSource':[
+        
+                    { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
+                    { label:FieldLabelsConstant.LABELS.GANTRY_CODE, value:data.gantryCode },
+                    { label:FieldLabelsConstant.LABELS.ELEMENTARY_SECTIONS, value:data.elementarySections },
+                    { label:FieldLabelsConstant.LABELS.PROTECTION_TRAVERSE_CROSSOVER, value:data.protectionTraverseCrossover },
+                    { label:FieldLabelsConstant.LABELS.PROTECTION_TRAVERSE_TURNOUT, value:data.protectionTraverseTurnout },
+                    { label:FieldLabelsConstant.LABELS.PROTECTION_LONGITUDINAL_UP, value:data.protectionLongitudnalUp },
+                    { label:FieldLabelsConstant.LABELS.PROTECTION_LONGITUDINAL_DN, value:data.protectionLongitudnalDn },
+                    { label:FieldLabelsConstant.LABELS.NORMALLY_OPEN, value:data.normallyOpen },
+                    { label:FieldLabelsConstant.LABELS.TPC_BOARD, value:data.tpcBoard },
+                    { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+                    
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,

@@ -10,21 +10,26 @@ import { TractionEnergyTariffPayload } from 'src/app/payloads/traction-energy-ta
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
+  
 @Component({
     selector: 'traction-energy-tariff',
     templateUrl: './traction-energy-tariff.component.html',
-    styleUrls: []
+    styleUrls: ['./traction-energy-tariff.component.css']
 })
 export class TractionEnergyTariffComponent implements OnInit{
-	
-	addPermission: boolean = true;
+    
+    pagination = Constants.PAGINATION_NUMBERS;
+	FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
+    addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     tractionEnergyTariffFormGroup: FormGroup;
     addTractionEnergyTariff: boolean = false;
     id: number = 0;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     tractionEnergyTariffList: any;
     editTractionEnergyTariffResponse: any;
     tractionEnergyTariffDataSource: MatTableDataSource<TractionEnergyTariffModel>;
@@ -230,7 +235,7 @@ export class TractionEnergyTariffComponent implements OnInit{
 	                this.getTractionEnergyTariffData();
 	                this.tractionEnergyTariffFormGroup.reset();
 	                this.addTractionEnergyTariff = false;
-	                this.title = "Save";
+	                this.title = Constants.EVENTS.ADD;
 	            }else {
                 	this.commonService.showAlertMessage("Tariff Data Updating Failed.");
                 }    
@@ -244,7 +249,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     onGoBack() {
         this.tractionEnergyTariffFormGroup.reset();
         this.addTractionEnergyTariff = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     
     close() {
@@ -278,7 +283,7 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.spinnerService.show();
         this.addTractionEnergyTariff = true;
         this.tractionEnergyTariffEditAction(id);
-        this.title = "Update";
+        this.title = Constants.EVENTS.UPDATE;
         this.spinnerService.hide();
         this.enableSupplier = false;
     }   
@@ -310,9 +315,9 @@ export class TractionEnergyTariffComponent implements OnInit{
             
 	       
         if (!isNaN(this.id)) {
-            this.title = 'Update';
+            this.title = Constants.EVENTS.UPDATE;
           } else {
-            this.title = 'Save';      
+            this.title = Constants.EVENTS.ADD;      
         }
     }
     

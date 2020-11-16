@@ -1,4 +1,5 @@
 <ng4-loading-spinner> </ng4-loading-spinner>
+<div class="clearfix"> </div>
 <div class="content container-fluid">
   <div class="row">
     <div class="col-12">
@@ -28,8 +29,7 @@
                         <div class="col-md-12">
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <mat-select placeholder="Type" formControlName="GenOps" [(ngModel)]="selectedGenOps" (ngModelChange)="genOpsChange()" (ngModelChange)="gen()">
-                                <mat-option *ngFor="let GenOps of GenOpsArray" [value]="GenOps.ID">
+								<mat-select placeholder="{{FiledLabels.TYPE}}" formControlName="GenOps" [(ngModel)]="selectedGenOps" (ngModelChange)="genOpsChange()" (ngModelChange)="gen()">                                <mat-option *ngFor="let GenOps of GenOpsArray" [value]="GenOps.ID">
                                   {{ GenOps.VALUE}}
                                 </mat-option>
                               </mat-select>
@@ -39,7 +39,7 @@
                           </div>
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30" *ngIf="addPermission">
-                              <input matInput placeholder="Description" formControlName="description"
+                              <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" formControlName="description"
                                 required  pattern="^[a-zA-Z,0-9,\s._-]+(\s[a-zA-Z,0-9,._-]+)?$" />
                               <mat-error *ngIf="isSubmit && f.description.errors && f.description.errors.required"
                                 class="alert alert-danger">Description required</mat-error>
@@ -53,14 +53,14 @@
                         <div class="col-md-12" *ngIf="onlyDrawing && addPermission">
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Asset type/Rly id" formControlName="assetTypeRlyId"/>
+                              <input matInput placeholder="{{FiledLabels.ASSET_TYPE_RLY_ID}}" formControlName="assetTypeRlyId"/>
                               <mat-error *ngIf="isSubmit && f.assetTypeRlyId.errors && f.assetTypeRlyId.errors.required"
                                 class="alert alert-danger">Asset type/Rly id required</mat-error>
                             </mat-form-field>
                           </div>
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Make" formControlName="make"
+                              <input matInput placeholder="{{FiledLabels.MAKE}}" formControlName="make"
                                 required />
                               <mat-error *ngIf="isSubmit && f.make.errors && f.make.errors.required"
                                 class="alert alert-danger">Make required</mat-error>
@@ -71,14 +71,14 @@
                           </div>
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Model" formControlName="model"/>
+                              <input matInput placeholder="{{FiledLabels.MODEL}}" formControlName="model"/>
                               <mat-error *ngIf="isSubmit && f.model.errors && f.model.errors.required"
                                 class="alert alert-danger">Model required</mat-error>
                             </mat-form-field>
                           </div>
                           <div class="col-md-6">
                             <mat-form-field fxFlex="30">
-                              <input matInput placeholder="Doc Category" formControlName="docCategory"
+                              <input matInput placeholder="{{FiledLabels.DOC_CATEGORY}}" formControlName="docCategory"
                                 required />
                               <mat-error *ngIf="isSubmit && f.docCategory.errors && f.docCategory.errors.required"
                                 class="alert alert-danger">Doc Category required</mat-error>
@@ -120,7 +120,7 @@
                         <div *ngIf="showButton">
                         <button *ngIf="addPermission" class="mat-raised-button mat-accent" color="accent" class="d-inline"
                         mat-raised-button="" type="submit">
-                        Submit
+                        {{title}}
                     </button>
                     </div>                       
                       </form>
@@ -146,39 +146,39 @@
           
                 
                  <ng-container matColumnDef="sno">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Sno </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{FiledLabels.S_NO}} </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.sno}} </mat-cell>
                 </ng-container>
 
                 
                 <ng-container matColumnDef="originalFileName">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{FiledLabels.NAME}}</mat-header-cell>
                   
                   <mat-cell *matCellDef="let element"><a href={{element.changeFileName}} target="_blank"> {{element.originalFileName}} </a></mat-cell>
                 
                 </ng-container>
 
                 <ng-container matColumnDef="size">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Size </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{FiledLabels.SIZE}} </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.fileSize}} </mat-cell>
                 </ng-container>
           
                
                 <ng-container matColumnDef="genOps">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Gen/Ops </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.GEN_OPS}} </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.genOps}} </mat-cell>
                 </ng-container>
           
                 
                 <ng-container matColumnDef="description">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{FiledLabels.DESCRIPTION}}</mat-header-cell>
                   <mat-cell *matCellDef="let element">                   
                     {{element.description}}
                   </mat-cell>                 
                 </ng-container>
                 
                 <ng-container matColumnDef="actions">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                   <mat-cell *matCellDef="let row">
                     <a mat-icon-button matTooltip="Edit"  *ngIf="editPermission"
                       (click)="editDescription(row.id)">
@@ -194,7 +194,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
             </div> -->
             <div class="example-container mat-elevation-z8">
 
@@ -202,7 +202,7 @@
 
                   <ng-container matColumnDef="sno">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                      <span>Sno</span>
+                      <span>{{FiledLabels.S_NO}}</span>
                           <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                       </mat-header-cell>
                       <mat-cell *matCellDef="let element"> {{element.sno}}</mat-cell>
@@ -210,7 +210,7 @@
 
                   <ng-container matColumnDef="originalFileName">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                          <span>Name</span>
+                          <span>{{FiledLabels.NAME}}</span>
                           <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                           </mat-header-cell>
                           <mat-cell *matCellDef="let element"><a href={{element.changeFileName}} target="_blank"> {{element.originalFileName}} </a></mat-cell>
@@ -218,7 +218,7 @@
 
                   <ng-container matColumnDef="size">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                          <span>Size</span>
+                           <span>{{FiledLabels.SIZE}}</span>
                           <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                       </mat-header-cell>
                       <mat-cell *matCellDef="let element"> {{element.fileSize}} </mat-cell>
@@ -226,21 +226,21 @@
 
                   <ng-container matColumnDef="genOps">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                          <span>Gen/Ops</span>
+                          <span>{{FiledLabels.GEN_OPS}}</span>
                           <input matInput type="text"  (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                       </mat-header-cell>
                       <mat-cell *matCellDef="let element"> {{element.genOps}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="assetTypeRlyId">                 
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                        <span>AssetType/Rly Id</span>
+                        <span>{{FiledLabels.ASSET_TYPE_RLY_ID}}</span>
                         <input matInput type="text" disabled   (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.assetTypeRlyId}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="make">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
-                      <span>Make</span>
+                      <span>{{FiledLabels.MAKE}}</span>
                         <mat-select  *ngIf="visible" (ngModelChange) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
                       <mat-option *ngFor="let make of makeList"
                             [value]="make.make">
@@ -253,7 +253,7 @@
               </ng-container>
               <ng-container matColumnDef="model">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <span>Model</span>
+                   <span>{{FiledLabels.MODEL}}</span>
                     <mat-select  *ngIf="visible" (ngModelChange) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
                       <mat-option *ngFor="let model of modelList"
                             [value]="model.model">
@@ -267,7 +267,7 @@
                  
                   <ng-container matColumnDef="description">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>
-                          <span>Description</span>
+                         <span>{{FiledLabels.DESCRIPTION}}</span>
                           <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                       </mat-header-cell>
                       <mat-cell *matCellDef="let element">{{element.description}}</mat-cell> 
@@ -275,7 +275,7 @@
 
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                      <span>Actions</span>
+                      <span>{{FiledLabels.ACTIONS}}</span>
                       <input matInput type="text" disabled (keyup) ="updatePagination()" />
                   </mat-header-cell>
                     <mat-cell *matCellDef="let row">
@@ -298,7 +298,7 @@
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
               </div> 
             
           </div>

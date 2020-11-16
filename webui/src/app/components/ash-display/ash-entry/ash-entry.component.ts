@@ -8,14 +8,21 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { DatePipe } from '@angular/common';
 import { ErrorStateMatcher } from '@angular/material/core';
-@Component({
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+  
+
+ @Component({
   selector: 'app-ash-entry',
   templateUrl: './ash-entry.component.html',
   styleUrls: ['./ash-entry.component.css']
 })
 export class AshEntryComponent implements OnInit {
+
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   id: number = 0;
-  title: string;
+  title: string = Constants.EVENTS.ADD;
   save: boolean = true;
   update: boolean = false;
   today = new Date();
@@ -135,13 +142,13 @@ export class AshEntryComponent implements OnInit {
       this.spinnerService.show();
       this.save = true;
       this.update = false;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getAshDataById(this.id);
      
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   
 

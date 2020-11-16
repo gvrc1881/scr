@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Gantry Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.GANTRY_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Depot" 
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="addGantryFormGroup.controls['facilityId']" required>
                                                             <mat-option *ngFor="let depotData of facilityData"
                                                               [value]="depotData.facilityId">
@@ -46,13 +46,13 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Gantry Code"
+                                                          <input matInput placeholder="{{FiledLabels.GANTRY_CODE}}"
                                                             [formControl]="addGantryFormGroup.controls['gantryCode']" required/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Elementary Sections" 
+                                                          <mat-select placeholder="{{FiledLabels.ELEMENTARY_SECTIONS}}" 
                                                             [formControl]="addGantryFormGroup.controls['elementarySections']" >
                                                             <mat-option *ngFor="let eleSectionsData of eleSectionsData"
                                                               [value]="eleSectionsData.elementarySectionCode">
@@ -63,38 +63,38 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Traverse Crossover"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_TRAVERSE_CROSSOVER}}"
                                                             [formControl]="addGantryFormGroup.controls['protectionTraverseCrossover']" />
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Traverse Turnout"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_TRAVERSE_TURNOUT}}"
                                                             [formControl]="addGantryFormGroup.controls['protectionTraverseTurnout']" />
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Longitudnal Up"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_LONGITUDINAL_UP}}"
                                                             [formControl]="addGantryFormGroup.controls['protectionLongitudnalUp']" />
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Longitudnal Dn"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_LONGITUDINAL_DN}}"
                                                             [formControl]="addGantryFormGroup.controls['protectionLongitudnalDn']" />
                                                         </mat-form-field>
                                                       </div>
                                                     
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Normally Open"
+                                                          <input matInput placeholder="{{FiledLabels.NORMALLY_OPEN}}"
                                                             [formControl]="addGantryFormGroup.controls['normallyOpen']" />
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Tpc Board" 
+                                                          <mat-select placeholder="{{FiledLabels.TPC_BOARD}}" 
                                                             [formControl]="addGantryFormGroup.controls['tpcBoard']" required>
                                                             <mat-option *ngFor="let tpcBoardData of tpcBoardData"
                                                               [value]="tpcBoardData.tpcBoard">
@@ -108,7 +108,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks"
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS}}"
                                                                 [formControl]="addGantryFormGroup.controls['remarks']"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addGantryFormGroup.controls['remarks'].hasError('maxlength') && addGantryFormGroup.controls['remarks'].touched"
@@ -125,12 +125,12 @@
                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                             class="d-inline" mat-raised-button="" type="submit"
                                                             [disabled]="addGantryFormGroup.invalid" *ngIf="save">
-                                                            Submit
+                                                           {{title}}
                                                         </button>
                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                             color="accent" type="submit" [disabled]="addGantryFormGroup.invalid"
                                                             mat-raised-button="" *ngIf="update">
-                                                            Update
+                                                            {{title}}
                                                         </button>&nbsp;&nbsp;
                                                         <span class="mat-raised-button mat-accent d-inline"
                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

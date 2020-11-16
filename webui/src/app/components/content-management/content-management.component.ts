@@ -9,6 +9,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import {environment} from './../../../environments/environment';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
 
 @Component({
     selector: 'content-management',
@@ -16,6 +18,10 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
     styleUrls: ['./content-management.component.scss']
 })
 export class ContentManagementComponent implements OnInit {
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
+    title: string = Constants.EVENTS.ADD;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;

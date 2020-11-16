@@ -9,6 +9,10 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterExtService } from 'src/app/services/router-ext.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 @Component({
   selector: 'app-energy-consumption',
   templateUrl: './energy-consumption.component.html',
@@ -23,6 +27,9 @@ import { RouterExtService } from 'src/app/services/router-ext.service';
     ]
 })
 export class EnergyConsumptionComponent implements OnInit {
+pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

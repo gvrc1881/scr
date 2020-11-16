@@ -12,6 +12,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
 import { query } from '@angular/animations';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 
 @Component({
     selector: 'foot-patrolling-inspection',
@@ -19,6 +23,10 @@ import { DatePipe } from '@angular/common';
     styleUrls: ['./foot-patrolling-inspection.component.scss']
 })
 export class FootPatrollingInspectionComponent implements OnInit{
+    
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     addPermission: boolean = true;
     editPermission: boolean = true;
@@ -27,7 +35,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     addFPInspectionItem: boolean ;
     addMap:boolean;
     addComplianceItem:boolean;
-    title: string = "Save";
+    title: string = Constants.EVENTS.ADD;
     fpInspectionItemFormGroup: FormGroup;
     fpInspectionList : any;
     toMinDate=new Date();
@@ -204,7 +212,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         let stopTime: Date = this.fpInspectionItemFormGroup.value.stopTime
         this.addFPInspectionItem = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveFpInspection={
                 'id':id,
                 'facilityId':facilityId,
@@ -290,7 +298,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     fpGoBack() {
         this.fpInspectionItemFormGroup.reset();
         this.addFPInspectionItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
    
     depotTypeForOhe()
@@ -354,7 +362,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
         let attachment:string = this.observationFormGroup.value.attachment;
         this.addObservation = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             let id: number = this.fpInspectionItemFormGroup.value.id;
             var observationModel ={
                 'inspectionSeqId':this.insId,
@@ -427,7 +435,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
                 this.getAllObservationsData();
                 this.observationFormGroup.reset();
                 this.addObservation =  false;
-                this.title = "Save";
+                this.title = Constants.EVENTS.ADD;
             }else {
                 this.commonService.showAlertMessage("Observation Data Updating Failed.");
             }
@@ -461,7 +469,7 @@ inspetionDetails() {
     editObservationItem (id) {
         this.addObservation = true;
         this.ObservationEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     ObservationEditAction(id: number) {
@@ -631,7 +639,7 @@ complianceItemSubmit () {
         let complianceBy: string = this.complianceFormGroup.value.complianceBy;
         let compliedDateTime = this.complianceFormGroup.value.compliedDateTime
         this.addComplianceItem = false;
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==  Constants.EVENTS.ADD) {
             var saveCompliance={
                 'obeservationSeqId':this.obsId,
                 'status':status,
@@ -697,7 +705,7 @@ complianceItemSubmit () {
                 this.observationFilter(id)
                 this.complianceFormGroup.reset();
                 this.addComplianceItem =  false;
-                this.title = "Save";
+                this.title = Constants.EVENTS.ADD;
             }else {
                 this.commonService.showAlertMessage("compliance Data Updating Failed.");
             }
@@ -712,12 +720,12 @@ complianceItemSubmit () {
     comGoBack() {
         this.complianceFormGroup.reset();
         this.addComplianceItem = false;
-        this.title = 'Save';
+        this.title = Constants.EVENTS.ADD;
     }
     editComplianceItem (id) {
         this.addComplianceItem = true;
         this.complianceItemEditAction(id);
-        this.title = 'Update';
+        this.title = Constants.EVENTS.UPDATE;
     }
 
     complianceItemEditAction(id: number) {

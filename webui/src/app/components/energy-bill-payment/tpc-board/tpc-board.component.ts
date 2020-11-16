@@ -19,6 +19,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 export class TPCBoardComponent implements OnInit{
 
+  pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;

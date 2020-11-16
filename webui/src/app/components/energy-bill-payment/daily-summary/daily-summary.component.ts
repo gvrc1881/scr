@@ -10,6 +10,9 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
     selector: 'daily-summary',
@@ -25,11 +28,14 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 })
 export class DailySummaryComponent implements OnInit{
 
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     addDailySummary: boolean ;
-    title: string = "Save";
+    title: string =  Constants.EVENTS.ADD;
     dailySummaryFormGroup: FormGroup;
     id: number = 0;
     dailySummaryList : any;
@@ -166,7 +172,7 @@ export class DailySummaryComponent implements OnInit{
         let remarks: string = this.dailySummaryFormGroup.value.remarks;
         this.addDailySummary = false;
         
-        if (this.title ==  Constants.EVENTS.SAVE) {
+        if (this.title ==   Constants.EVENTS.ADD) {
             var saveDailySummaryModel={
                 'createdDate':createdDate,
                 'facilityId':facilityId,
@@ -223,7 +229,7 @@ export class DailySummaryComponent implements OnInit{
     editDailySummaryItem (id) {
         this.addDailySummary = true;
         this.dailySummaryEditAction(id);
-        this.title = 'Update';
+        this.title =  Constants.EVENTS.UPDATE;
         this.enableZone = false;
         this.enableDivision = false;
         this.enableSubDiv = false;
@@ -304,7 +310,7 @@ export class DailySummaryComponent implements OnInit{
     onGoBack() {
         this.dailySummaryFormGroup.reset();
         this.addDailySummary = false;
-        this.title = 'Save';
+        this.title =  Constants.EVENTS.ADD;
         this.enableDivision = false;
         this.enableSubDiv = false;
         this.enableDepot = false;
@@ -376,11 +382,22 @@ export class DailySummaryComponent implements OnInit{
     }
     ViewData(data){
         var result = {
-          'title':'Daily Summary  Data',
-          'dataSource':[{label:'Facility Name',value:data.facilityId},{label:'Name Of Staff',value:data.nameOfStaff},{label:'Day Progress',value:data.dayProgress},
-                        {label:'Npb Progress', value:data.npbProgress},{label:'Psi Progress', value:data.psiProgress},{label:'Tomorrow Forecast', value:data.tomorrowForecast},
-                        {label:'Foot Patrolling', value:data.footPatrolling},{label:'Foot Inspection', value:data.footInspection},{label:'Foot PlateInspection', value:data.footPlateInspection},
-                        {label:'Supervisor', value:data.supervisor},{label:'Staff Strength', value:data.staffStrength},{label:'Power Block', value:data.powerBlock}, ]
+          'title':this.Titles.DAILY_SUMMARY_DATA,
+          'dataSource':[                   
+                        { label:FieldLabelsConstant.LABELS.FACILITY_NAME, value:data.facilityId },
+                        { label:FieldLabelsConstant.LABELS.NAME_OF_STAFF, value:data.nameOfStaff },
+                        { label:FieldLabelsConstant.LABELS.DAY_PROGRESS, value:data.dayProgress },
+                        { label:FieldLabelsConstant.LABELS.NPB_PROGRESS, value:data.npbProgress },
+                        { label:FieldLabelsConstant.LABELS.PSI_PROGRESS, value:data.psiProgress },
+                        { label:FieldLabelsConstant.LABELS.TOMORROW_FORECAST, value:data.tomorrowForecast },
+                        { label:FieldLabelsConstant.LABELS.FOOT_PATROLLING, value:data.footPatrolling },
+                        { label:FieldLabelsConstant.LABELS.FOOT_INSPECTION, value:data.footInspection },
+                        { label:FieldLabelsConstant.LABELS.FOOT_PLATE_INSPECTION, value:data.footPlateInspection },
+                        { label:FieldLabelsConstant.LABELS.SUPERVISOR, value:data.supervisor },
+                        { label:FieldLabelsConstant.LABELS.STAFF_STRENGTH, value:data.staffStrength },
+                        { label:FieldLabelsConstant.LABELS.POWER_BLOCK, value:data.powerBlock }
+                        
+                    ]
         }
         this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
           disableClose: false,

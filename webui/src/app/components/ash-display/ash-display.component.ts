@@ -9,6 +9,9 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+  
 
 @Component({
   selector: 'app-ash-display',
@@ -17,7 +20,9 @@ import { DatePipe } from '@angular/common';
 })
 export class AshDisplayComponent implements OnInit {
 
-
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;

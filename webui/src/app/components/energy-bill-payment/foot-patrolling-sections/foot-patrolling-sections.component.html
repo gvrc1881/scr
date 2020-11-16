@@ -29,11 +29,11 @@
                   fxLayoutAlign="start" [formGroup]="fpSectionsItemFormGroup" fxFlex="1 0 auto"
                   (ngSubmit)="fpSectionsItemSubmit();">
                   <div class="panel panel-primary">
-                    <div class="panel-heading">{{title}} Foot Patrolling Sections Item</div>
+                    <div class="panel-heading">{{title}} {{Titles.FOOT_PATROLLING_SECTIONS_ITEM}}</div>
                     <div class="panel-body">
                       <div class="col-md-3">
                         <mat-form-field fxFlex="30" class="example-full-width">
-                          <mat-select placeholder="Select Depot"
+                          <mat-select placeholder="{{FiledLabels.DEPOT}}"
                                  [formControl]="fpSectionsItemFormGroup.controls['facilityDepot']" required>
                                 <mat-option *ngFor="let facilityData of facilityData"
                                  [value]="facilityData.facilityName">
@@ -44,7 +44,7 @@
                       </div>
                       <div class="col-md-3">
                         <mat-form-field fxFlex="30">
-                          <textarea matInput placeholder="FP Section"
+                          <textarea matInput placeholder="{{FiledLabels.FP_SECTION}}"
                             [formControl]="fpSectionsItemFormGroup.controls['fpSection']" required
                             pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"></textarea>
                           <mat-error *ngIf="fpSectionsItemFormGroup.controls['fpSection'].hasError('required')">
@@ -72,7 +72,7 @@
                       </div>
                       <div class="col-md-3">
                         <mat-form-field fxFlex="30">
-                          <input matInput placeholder="From Location"
+                          <input matInput placeholder="{{FiledLabels.FROM_LOCATION}}"
                             [formControl]="fpSectionsItemFormGroup.controls['fromLocation']" required
                             pattern="^[a-zA-Z0-9\/]+$" />
                           <mat-error
@@ -83,7 +83,7 @@
                       </div>
                       <div class="col-md-3">
                         <mat-form-field fxFlex="30">
-                          <input matInput placeholder="To Location"
+                          <input matInput placeholder="{{FiledLabels.TO_LOCATION}}"
                             [formControl]="fpSectionsItemFormGroup.controls['toLocation']" required
                             pattern="^[a-zA-Z0-9\/]+$" />
                           <mat-error
@@ -96,7 +96,7 @@
                       <div class="col-md-3">
                         <mat-form-field>
                           <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"
-                            placeholder="Choose From Date" [formControl]="fpSectionsItemFormGroup.controls['fromDate']" [max]="toMinDate"
+                            placeholder="{{FiledLabels.FROM_DATE}}" [formControl]="fpSectionsItemFormGroup.controls['fromDate']" [max]="toMinDate"
                             required>
                           <mat-datepicker-toggle matSuffix [for]="picker1">
                           </mat-datepicker-toggle>
@@ -107,7 +107,7 @@
                       <!-- To DATE -->
                       <div class="col-md-3">
                         <mat-form-field>
-                          <input matInput [matDatepicker]="picker" placeholder="Choose Valid Till Date" [max]="toMinDate"
+                          <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.VALID_TILL_DATE}}" [max]="toMinDate"
                             [min]="toMinDate" [formControl]="fpSectionsItemFormGroup.controls['toDate']">
                           <mat-datepicker-toggle matSuffix [for]="picker">
                           </mat-datepicker-toggle>
@@ -116,7 +116,7 @@
                       </div>
                       <div class="col-md-3">
                         <mat-form-field fxFlex="30">
-                          <textarea matInput placeholder="Remarks"
+                          <textarea matInput placeholder="{{FiledLabels.REMARKS}}"
                             [formControl]="fpSectionsItemFormGroup.controls['remarks']"></textarea>
                           <mat-error
                             *ngIf="fpSectionsItemFormGroup.controls['remarks'].hasError('maxlength') && fpSectionsItemFormGroup.controls['remarks'].touched"
@@ -155,48 +155,48 @@
               <div class="mat-elevation-z8">
                 <mat-table [dataSource]="fpSectionsItemDataSource" matSort>
                   <ng-container matColumnDef="sno">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="facilityDepot">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Depot</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.facilityDepot}}</mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="fpSection">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>FP Section</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FP_SECTION}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.fpSection}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="fromLocation">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>From Location</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_LOCATION}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.fromLocation}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="toLocation">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Location</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_LOCATION}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.toLocation}}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="fromDate">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FROM_DATE}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.fromDate }}</mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="toDate">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>To Date</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TO_DATE}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.toDate}}</mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="remarks">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                       {{row.remarks}} </mat-cell>
                   </ng-container>
                   <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                     <mat-cell *matCellDef="let row">
                       <button mat-icon-button matTooltip="View"
                         (click)="ViewData(row)">
@@ -215,7 +215,7 @@
                   <mat-row *matRowDef="let row; columns: fpSectionsItemDisplayColumns;">
                   </mat-row>
                 </mat-table>
-                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]"></mat-paginator>
+                <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
               </div>
             </div>
           </div>

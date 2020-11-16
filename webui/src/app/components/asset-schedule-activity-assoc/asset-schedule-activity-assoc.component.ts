@@ -19,7 +19,9 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 
 export class AssetScheduleActivityAssocComponent implements OnInit{
-    FiledLabels = FieldLabelsConstant.LABELS;
+    
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     editPermission: boolean = true;
     addPermission: boolean = true;

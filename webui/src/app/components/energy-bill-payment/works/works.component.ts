@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { WorksPayload } from 'src/app/payloads/works.payload';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
     selector: 'works',
@@ -17,7 +18,10 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 })
 export class WorksComponent implements OnInit {
 
-	addPermission: boolean = true;
+    pagination = Constants.PAGINATION_NUMBERS;
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;
+	  addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
     workFormGroup: FormGroup;

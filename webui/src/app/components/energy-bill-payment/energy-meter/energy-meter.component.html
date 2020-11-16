@@ -28,12 +28,12 @@
                                                 fxLayoutAlign="start" [formGroup]="energyMeterFormGroup" fxFlex="1 0 auto"
                                                 (ngSubmit)="energyMeterSubmit();">
                                             	<div class="panel panel-primary">
-                                            		<div class="panel-heading">{{title}} Energy Meter</div>
+                                            		<div class="panel-heading">{{title}} {{Titles.ENERGY_METER}}</div>
 	                                            		<div class="panel-body">
 	                                                    <div class="col-md-12">
 	                                                    	<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Nubmer" [formControl]="energyMeterFormGroup.controls['meterNo']" />
+	                                                                <input matInput placeholder="{{FiledLabels.METER_NUMBER}}" [formControl]="energyMeterFormGroup.controls['meterNo']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 									                        <div *ngIf ="enableEndReadings">
@@ -41,7 +41,7 @@
 									                        <div *ngIf="!enableEndReadings; else feederElseBlock">
 									                        	<div class="col-md-2">
 									                             <mat-form-field fxFlex="30">
-									                              <mat-select placeholder="Select Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" required >
+									                              <mat-select placeholder="{{FiledLabels.FEEDER}}" [formControl]="energyMeterFormGroup.controls['feederId']" required >
 									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater">
 									                                  {{ tssFeederMater.feederName}}
 									                                </mat-option>
@@ -57,7 +57,7 @@
 															<ng-template #feederElseBlock>
 																  <div class = "col-md-2" >
                                                       				<mat-form-field fxFlex="30">
-                                                      					<input matInput placeholder = "Feeder" [formControl]="energyMeterFormGroup.controls['feederId']" required [readonly]="true"/>
+                                                      					<input matInput placeholder = "{{FiledLabels.FEEDER}}" [formControl]="energyMeterFormGroup.controls['feederId']" required [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 															</ng-template>
@@ -65,7 +65,7 @@
 		                                                        <mat-form-field fxFlex="30">
 	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
 		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
-		                                                                [owlDateTimeTrigger]="dt1" placeholder="Start Date"
+		                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.START_DATE}}"
 		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
 		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
 		                                                                    ></owl-date-time>
@@ -79,42 +79,42 @@
 		                                                    </div>  
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Multiplication Factor" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" required />
+	                                                                <input matInput placeholder="{{FiledLabels.MULTIPLICATION_FACTOR}}" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" required />
+	                                                                <input matInput placeholder="{{FiledLabels.START_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" required />
+	                                                                <input matInput placeholder="{{FiledLabels.START_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lag" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" required />
+	                                                                <input matInput placeholder="{{FiledLabels.START_RKVAH_LAG}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Start Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']"  required />
+	                                                                <input matInput placeholder="{{FiledLabels.START_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']"  required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Make"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
+	                                                                <input matInput placeholder="{{FiledLabels.METER_MAKE}}"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Meter Model"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
+	                                                                <input matInput placeholder="{{FiledLabels.METER_MODEL}}"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="Cmd" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
+	                                                                <input matInput placeholder="{{FiledLabels.CMD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 		                                                    <div *ngIf ="enableEndReadings">
@@ -122,7 +122,7 @@
 		                                                        <mat-form-field fxFlex="30">
 	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
 	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
-		                                                                [owlDateTimeTrigger]="dt2" placeholder="End Date"
+		                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.END_DATE}}"
 		                                                                [min]="toMinDate"
 		                                                                [formControl]="energyMeterFormGroup.controls['endDate']" >                                                                
 		                                                                <owl-date-time #dt2 [showSecondsTimer]=true
@@ -132,28 +132,28 @@
   															</div>
   															<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Kvah" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
+	                                                                <input matInput placeholder="{{FiledLabels.END_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Kwh" decimalNumber [formControl]="energyMeterFormGroup.controls['endKwh']" />
+	                                                                <input matInput placeholder="{{FiledLabels.END_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKwh']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                       <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Rkvah Lag"  decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
+	                                                                <input matInput placeholder="{{FiledLabels.END_RKVAH_LAG}}"  decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="End Rkvah Lead" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
+	                                                                <input matInput placeholder="{{FiledLabels.END_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        </div>
   															<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="Remark" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
+	                                                            	<textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
 	                                                                <mat-error
 		                                                                *ngIf="energyMeterFormGroup.controls['remarks'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
@@ -193,31 +193,31 @@
                                     	<div class="mat-elevation-z8">
                                     		<mat-table [dataSource]="energyMeterDataSource" matSort>
                                     			<ng-container matColumnDef="sno">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="cmd">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cmd</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CMD}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.cmd}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="feederId">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Feeder Name</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.FEEDER}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.feederId}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="startKvah">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Start Kvah</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.START_KVAH}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.startKvah}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="startKwh">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Start Kwh</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.START_KWH}}</mat-header-cell>
 	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
 	                                                  {{row.startKwh}}</mat-cell>
 	                                            </ng-container>
 	                                            <ng-container matColumnDef="id">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
 	                                                    	<button mat-icon-button matTooltip="View"
 									                        	(click)="ViewData(row)">
@@ -237,7 +237,7 @@
                                             	<mat-row *matRowDef="let row; columns: energyMeterDisplayColumns">
                                             	</mat-row>
                                     		</mat-table>
-                                    		<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    		<mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     	</div>
 								</div>
 							</div>

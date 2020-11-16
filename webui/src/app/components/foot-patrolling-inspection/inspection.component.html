@@ -50,7 +50,7 @@
 
                                                 <ng-container matColumnDef="sno">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span> Sno</span>
+                                                       <span> {{FiledLabels.S_NO}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData"/>
                                                     </mat-header-cell>                                            
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -58,7 +58,7 @@
 
                                                 <ng-container matColumnDef="facilityId">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Depot</span>
+                                                        <span>{{FiledLabels.DEPOT}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
@@ -66,7 +66,7 @@
 
                                                 <ng-container matColumnDef="inspectionType">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Inspection Type</span>
+                                                        <span>{{FiledLabels.INSPECTION_TYPE}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.inspectionType}}</mat-cell>
@@ -74,14 +74,14 @@
 
                                                 <ng-container matColumnDef="section">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Section</span>
+                                                        <span>{{FiledLabels.SECTION}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.section }}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="inspectionBy">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Inspection By</span>
+                                                         <span>{{FiledLabels.INSPECTION_BY}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.inspectionBy }}</mat-cell>
@@ -89,7 +89,7 @@
                                             
                                                 <ng-container matColumnDef="startTime">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Start Time</span>
+                                                        <span>{{FiledLabels.START_TIME}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.startTime }}</mat-cell>
@@ -97,7 +97,7 @@
 
                                                 <ng-container matColumnDef="stopTime">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Stop Time</span>
+                                                        <span>{{FiledLabels.STOP_TIME}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.stopTime }}</mat-cell>
@@ -105,7 +105,7 @@
                                                 
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Actions</span>
+                                                       <span>{{FiledLabels.ACTIONS}}</span>
                                                         <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
@@ -144,7 +144,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+                                           <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                         </div>
                                     </div>
                                 </div>
@@ -175,40 +175,40 @@
                                             <mat-table [dataSource]="observationDataSource" matSort>
 
                                                     <ng-container matColumnDef="sno">
-                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                                         <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                     </ng-container>
                                                     <ng-container matColumnDef="location">
-                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.LOCATION}}</mat-header-cell>
                                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                           {{row.location}}</mat-cell>
                                                     </ng-container>
                                                     
                                                     <ng-container matColumnDef="observationCategory">
-                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Observation Category</mat-header-cell>
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OBSERVATION_CATEGORY}}</mat-header-cell>
                                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                           {{row.observationCategory}}</mat-cell>
                                                    </ng-container>
                                                     <ng-container matColumnDef="observationItem">
-                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>observation Item</mat-header-cell>
+                                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.OBSERVATION_ITEM}}</mat-header-cell>
                                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                           {{row.observationItem}}</mat-cell>
                                                     </ng-container>
                                                   <ng-container matColumnDef="description">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DESCRIPTION}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                          {{row.description}}</mat-cell>
                                              </ng-container>
 
                                              <ng-container matColumnDef="actionRequired">
-                                              <mat-header-cell *matHeaderCellDef mat-sort-header>Action Required</mat-header-cell>
+                                              <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTION_REQUIRED}}</mat-header-cell>
                                               <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                    {{row.actionRequired}}</mat-cell>
                                             </ng-container>
         
                                                 <ng-container matColumnDef="attachment">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                     <span> Documents </span>
+                                                     <span> {{FiledLabels.DOCUMENTS}} </span>
                                                      </mat-header-cell>
                                                      <mat-cell *matCellDef="let row">
                                                         <button mat-icon-button matTooltip="View Documents"
@@ -220,7 +220,7 @@
                                                 
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Actions</span>
+                                                        <span>{{FiledLabels.ACTIONS}}</span>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
                                                         <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"> 
@@ -237,7 +237,7 @@
                                                     </mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="compliance">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Compliance</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.COMPLIANCE}}</mat-header-cell>
                                                         <mat-cell *matCellDef="let row">
                                                           <span class="mat-raised-button mat-accent" (click)="obsIdRelatedToCompliance(row.id)"
                                                           color="accent" mat-raised-button="">
@@ -249,7 +249,7 @@
                                                 <mat-row *matRowDef="let row; columns: observationDisplayColumns;">
                                                 </mat-row>
                                             </mat-table>
-                                            <mat-paginator #ObservationPaginator="matPaginator" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+                                            <mat-paginator #ObservationPaginator="matPaginator" [pageSizeOptions]="pagination" showFirstLastButtons></mat-paginator>
                                         </div>
                                     </div>
                                 </div>
@@ -281,35 +281,35 @@
                                             <mat-table [dataSource]="complianceDataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                                 </ng-container>
                                                 <ng-container matColumnDef="status">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                       {{row.status}}</mat-cell>
                                                 </ng-container>
         
                                                 <ng-container matColumnDef="action">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                       {{row.action}}</mat-cell>
                                                 </ng-container>
                                                   <ng-container matColumnDef="complianceBy">
-                                                      <mat-header-cell *matHeaderCellDef mat-sort-header>Compliance By</mat-header-cell>
+                                                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.COMPLIANCE_BY}}</mat-header-cell>
                                                       <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                         {{row.complianceBy}}</mat-cell>
                                                   </ng-container>
                                                   
                                                  <ng-container matColumnDef="compliedDateTime">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Complied Date</mat-header-cell>
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.COMPLIED_DATE}}</mat-header-cell>
                                                            <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                                     {{row.compliedDateTime}}</mat-cell>
                                                   </ng-container>
                                                
                                                   <ng-container matColumnDef="document">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                     <span> Documents </span>
+                                                     <span> {{FiledLabels.DOCUMENTS}} </span>
                                                      </mat-header-cell>
                                                      <mat-cell *matCellDef="let row">
                                                         <button mat-icon-button matTooltip="View Documents"
@@ -322,8 +322,7 @@
                                                 
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>Actions</span>
-                                                    </mat-header-cell>
+                                                        <span>{{FiledLabels.ACTIONS}}</span>
                                                     <mat-cell *matCellDef="let row">
                                                         <a mat-icon-button matTooltip="Edit">
                                                             <button mat-icon-button matTooltip="Edit"
@@ -341,7 +340,7 @@
                                                 <mat-row *matRowDef="let row; columns: complianceDisplayColumns;">
                                                 </mat-row>
                                             </mat-table>
-                                            <mat-paginator #CompliancePaginator="matPaginator" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+                                            <mat-paginator #CompliancePaginator="matPaginator" [pageSizeOptions]="pagination" showFirstLastButtons></mat-paginator>
                                         </div>
                                     </div>
                                 </div>

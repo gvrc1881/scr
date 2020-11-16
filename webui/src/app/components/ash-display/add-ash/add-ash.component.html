@@ -22,7 +22,7 @@
                                     <div class="panel-body">-->
                                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                                             <div class="panel panel-primary">
-                                                <div class="panel-heading">{{title}} SCH Maintainance</div>
+                                                <div class="panel-heading">{{title}} {{Titles.SCH_MAINTAINANCE}}</div>
                                                 <div class="panel-body">
                                                     <div class="p-24">
                                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -35,7 +35,7 @@
                                                                     <!-- Schedule Date -->
                                                                     <div class="col-md-3">
                                                                             <mat-form-field fxFlex="30">
-                                                                                <input #schDate matInput [matDatepicker]="picker" placeholder="Schedule date" [max]="today"
+                                                                                <input #schDate matInput [matDatepicker]="picker" placeholder="{{FiledLabels.SCHEDULE_DATE}}" [max]="today"
                                                                                     [formControl]="addAssetDailyScheduleReportGroup.controls['Schedule_date']"
                                                                                     (dateChange)="selectedScheduleDate(schDate.value)">
                                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -47,7 +47,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                            <mat-select #depo placeholder="Depot Name" class="readonly-block" 
+                                                                            <mat-select #depo placeholder="{{FiledLabels.DEPOT_NAME}}" class="readonly-block" 
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Depot_Name']"
                                                                                 (selectionChange)="selectedDepoName(depo.value)" [(ngModel)]="DepotName" [disabled]="update">
                                                                                 <mat-option  [readonly]="true" *ngFor="let loggedHierarchy of loggedHierarchyList"
@@ -65,7 +65,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                            <mat-select #pbk placeholder="Power Block" 
+                                                                            <mat-select #pbk placeholder="{{FiledLabels.POWER_BLOCK}}" 
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Power_Block']" 
                                                                                 (selectionChange)="getAssetTypes(pbk.value)" [(ngModel)]="PwrBlock">
                                                                                 <mat-option *ngFor="let powerblock of powerBlockList"
@@ -80,7 +80,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                            <mat-select #astyp placeholder="Asset Type"  [disabled]="update"
+                                                                            <mat-select #astyp placeholder="{{FiledLabels.ASSET_TYPE}}"  [disabled]="update"
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Asset_Type']"
                                                                                 (selectionChange)="getAssetIds(astyp.value)" [(ngModel)]="AssetTyp">
                                                                                 <mat-option *ngFor="let assetTypeObj of assetTypeList"
@@ -95,7 +95,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input #fromKm matInput placeholder="From Kilometer"  [readonly]="update"
+                                                                                <input #fromKm matInput placeholder="{{FiledLabels.FROM_KILOMETER}}"  [readonly]="update"
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['From_Kilometer']" 
                                                                                 (change)="selectedFromKm($event.target.value)" decimalNumber/>
                                                                         </mat-form-field>
@@ -105,7 +105,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input  #toKm matInput placeholder="To Kilometer"  [readonly]="update"
+                                                                                <input  #toKm matInput placeholder="{{FiledLabels.TO_KILOMETER}}"  [readonly]="update"
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['To_Kilometer']" 
                                                                                 (change)="selectedToKm($event.target.value)" decimalNumber/>
                                                                                 <!--<mat-error *ngIf="addAssetDailyScheduleReportGroup.errors?.invalid">To km is greater than from km</mat-error>-->
@@ -131,7 +131,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                            <mat-select placeholder="Schedule"  [disabled]="update"
+                                                                            <mat-select placeholder="{{FiledLabels.SCHEDULE}}"  [disabled]="update"
                                                                                 [formControl]="addAssetDailyScheduleReportGroup.controls['Schedule']" [(ngModel)]="SchCode">
                                                                                 <mat-option *ngFor="let scheduleCodeObj of scheduleCodeList"
                                                                                     [value]="scheduleCodeObj.scheduleCode">
@@ -145,7 +145,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="Details Of Maint" [formControl]="addAssetDailyScheduleReportGroup.controls['Details_Of_Maint']" />
+                                                                                <input matInput placeholder="{{FiledLabels.DETAILS_OF_MAINT}}" [formControl]="addAssetDailyScheduleReportGroup.controls['Details_Of_Maint']" />
                                                                         </mat-form-field>
                                                                     </div>
                                                                 
@@ -153,7 +153,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="Done By" [formControl]="addAssetDailyScheduleReportGroup.controls['Done_By']" />
+                                                                                <input matInput placeholder="{{FiledLabels.DONE_BY}}" [formControl]="addAssetDailyScheduleReportGroup.controls['Done_By']" />
                                                                         </mat-form-field>
                                                                     </div>
                                                                 
@@ -161,7 +161,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="Remarks" [formControl]="addAssetDailyScheduleReportGroup.controls['Remarks']" />
+                                                                                <input matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="addAssetDailyScheduleReportGroup.controls['Remarks']" />
                                                                         </mat-form-field>
                                                                     </div>
                                                                 
@@ -169,7 +169,7 @@
                                                                 
                                                                     <div class="col-md-3">
                                                                         <mat-form-field fxFlex="30">
-                                                                                <input matInput placeholder="Incharge" [formControl]="addAssetDailyScheduleReportGroup.controls['Incharge']" />
+                                                                                <input matInput placeholder="{{FiledLabels.INCHARGE}}" [formControl]="addAssetDailyScheduleReportGroup.controls['Incharge']" />
                                                                         </mat-form-field>
                                                                     </div>
                                                                 </div>
@@ -178,12 +178,12 @@
                                                                         <button class="mat-raised-button mat-accent" color="accent"
                                                                         class="d-inline" mat-raised-button="" type="submit"
                                                                          [disabled]="update"> 
-                                                                        Submit
+                                                                       {{title}}
                                                                         </button>
                                                                         <button class="mat-raised-button mat-accent  d-inline"
                                                                         color="accent"
                                                                         mat-raised-button="" *ngIf="update">
-                                                                        Update
+                                                                       {{title}}
                                                                         </button>&nbsp;&nbsp;
                                                                         <span class="mat-raised-button mat-accent d-inline"
                                                                             (click)="onGoBack()" color="warn" mat-raised-button="">

@@ -9,6 +9,9 @@ import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/co
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 @Component({
   selector: 'app-add-compliance-details',
@@ -24,10 +27,14 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 })
 
 export class AddComplianceDetailsComponent implements OnInit {
+
+  pagination = Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
-  title: string;
+  title: string = Constants.EVENTS.ADD;
   id: number = 0;
   obsData:any;
   isSubmit: boolean = false;
@@ -75,13 +82,13 @@ export class AddComplianceDetailsComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getComplianceById(this.id);
 
     } else {
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
   }
   statusList()

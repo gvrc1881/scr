@@ -6,6 +6,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FacilityModel } from 'src/app/models/facility.model';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
+
 
 @Component({
   selector: 'app-add-power-block',
@@ -14,11 +18,14 @@ import { FacilityModel } from 'src/app/models/facility.model';
 })
 export class AddPowerBlockComponent implements OnInit {
 
+	pagination = Constants.PAGINATION_NUMBERS;
+	FiledLabels = FieldLabelsConstant.LABELS;
+	Titles = FieldLabelsConstant.TITLE;
 	save: boolean = true;
   	update: boolean = false;
   	resp: any;
   	id: number = 0;
-  	title:string;
+  	title:string =  Constants.EVENTS.ADD;
 	addPowerBlockFormGroup: FormGroup;
 	reqnBy: string[] = ['None' , 'Traffic Block with Tower Car' , 'Traffic Block with Ladder Trolly' ];
 	reqDepartment: string[] = ['CONSTRUCTION' , 'ENGINEERING', 'OHE' , 'PSI','PQRS' , 'RVNL', 'OTHERS'];
@@ -60,12 +67,12 @@ export class AddPowerBlockComponent implements OnInit {
 		      this.spinnerService.show();
 		      this.save = false;
 		      this.update = true;
-		      this.title = 'Edit';
+		      this.title =  Constants.EVENTS.UPDATE;
 		       this.getPowerBlockData(this.id);
 		    } else {
 		      this.save = true;
 		      this.update = false;
-		      this.title = 'Save';
+		      this.title =  Constants.EVENTS.ADD;
 		    }
 		this.findPBSections();        
   	}

@@ -40,35 +40,35 @@
                                     <mat-table [dataSource]="dataSource" matSort>
 
                                         <ng-container matColumnDef="sno">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="depot">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>depot</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="elementarySectionCode">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Elementary Section Code</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ELEMENTARY_SECTION_CODE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.elementarySectionCode}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="grantPeriod">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Grant Period
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.GRANT_PERIOD}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.grantPeriod}}</mat-cell>
                                         </ng-container>
                                         
 
                                         <ng-container matColumnDef="active">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Active</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIVE}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.active}}</mat-cell>
                                         </ng-container>
 
 
                                         <ng-container matColumnDef="actions">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row">
                                                 <a mat-icon-button matTooltip="Edit" *ngIf="editPermission">
                                                     <button mat-icon-button matTooltip="Edit"
@@ -94,7 +94,7 @@
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                 </div>
                             </div>
                         </div>
