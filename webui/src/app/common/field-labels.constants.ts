@@ -207,7 +207,6 @@ export const FieldLabelsConstant = {
       NORMALLY_OPEN: "Normally Open",
       NPB_PROGRESS: "NPB Progress",
       OBSERVATION_CATEGORY: "Observation Category",
-      OBSERVATION_ITEM: "Observation Item",
       OCCURENCE: "Occurrence",
       OCCURRED_DATE: "Occurred Date",
       OHE_FEATURE: "OHE Feature",
@@ -496,7 +495,6 @@ export const FieldLabelsConstant = {
  	  SCHEDULE_FROM_DATE:"Schedule From Date",
       SCHEDULE_TO_DATE:"Schedule To Date",
 	  TPC_NO_OPEN:"Tpc No Open",
-	  OBSERVATION_CATEGORY:"Observation Category"
       
    },
    TITLE:{
@@ -504,7 +502,7 @@ export const FieldLabelsConstant = {
      FAILURE:'Failure',
      MODEL:"Model",
      MAKE:"Make",
-     PRODUCT_DATA:'Product_Data',
+     PRODUCT_DATA:'Product Data',
      PRODUCT_CATEGORY_DATA:'Product Category_Data',
      PRODUCT_CATEGORY_FORM:'Product Category Form',
      PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form',
@@ -541,9 +539,6 @@ export const FieldLabelsConstant = {
      DRIVE_DAILY_PROGRESS_FORM:'Drive Daily Progress Form',
      STIPULATION_FORM:'Stipulation Form',
      INSPECTION_FORM:'Inspection Form',
-     
-	 PRODUCT_DATA:'Product Data',
-	 INSPECTION_FORM:'Inspection Form',
      ASSET_MASTER_DATA:'Asset Master Data',
      ASSET_MASTER_DATA_FORM:'Asset Master Data Form',
      ELECTRIFICATION_TARGETS_FORM:'Electrification Targets Form',

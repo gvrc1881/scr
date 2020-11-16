@@ -323,22 +323,23 @@
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                         <span>{{FiledLabels.ACTIONS}}</span>
-                                                    <mat-cell *matCellDef="let row">
-                                                        <a mat-icon-button matTooltip="Edit">
-                                                            <button mat-icon-button matTooltip="Edit"
-                                                                (click)="complianceEdit(row.id)">
-                                                                <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
-                                                            </button>
-                                                        </a>
-                                                        <button mat-icon-button matTooltip="Delete"
-                                                            (click)="complianceDelete(row.id)">
-                                                            <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-                                                        </button>
-                                                    </mat-cell>
+                                                    </mat-header-cell>
+                                                            <mat-cell *matCellDef="let row">
+                                                                 <a mat-icon-button matTooltip="Edit">
+                                                                     <button mat-icon-button matTooltip="Edit"
+                                                                        (click)="complianceEdit(row.id)">
+                                                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                                                     </button>
+                                                                 </a>
+                                                        
+                                                                <button mat-icon-button matTooltip="Delete" (click)="complianceDelete(row.id)">
+                                                                 <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                                                </button>
+                                                            </mat-cell>
+
                                                 </ng-container>
                                                 <mat-header-row *matHeaderRowDef="complianceDisplayColumns"></mat-header-row>
-                                                <mat-row *matRowDef="let row; columns: complianceDisplayColumns;">
-                                                </mat-row>
+                                                <mat-row *matRowDef="let row; columns: complianceDisplayColumns;"></mat-row>
                                             </mat-table>
                                             <mat-paginator #CompliancePaginator="matPaginator" [pageSizeOptions]="pagination" showFirstLastButtons></mat-paginator>
                                         </div>
