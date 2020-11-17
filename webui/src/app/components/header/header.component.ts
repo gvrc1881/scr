@@ -303,7 +303,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 4,
+        ID: 3,
         menuName: 'Jobs Tracking',
         menuUrl: 'schedule',
         icon: "fa fa-briefcase",
@@ -338,7 +338,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 5,
+        ID: 4,
         menuName: 'Masters',
         menuUrl: 'masters',
         icon: "fa fa-wrench",
@@ -419,7 +419,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 7,
+        ID: 5,
         menuName: 'Docs',
         menuUrl: 'contentManagement',
         icon: "fa fa-file",
@@ -439,7 +439,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 8,
+        ID: 6,
         menuName: 'Drives',
         menuUrl: 'drives',
         icon: "fa fa-file",
@@ -495,7 +495,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 9,
+        ID: 7,
         menuName: 'Inspections',
         menuUrl: 'ins',
         icon: "fa fa-file",
@@ -548,7 +548,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 11,
+        ID: 8,
         menuName: 'Failures',
         menuUrl: 'failure-analysis',
         icon: "fa fa-file",
@@ -610,7 +610,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 12,
+        ID: 9,
         menuName: 'MAT CONFIG',
         menuUrl: 'make',
         icon: "fa fa-file",
@@ -662,7 +662,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 14,
+        ID: 10,
         menuName: 'REGISTER',
         menuUrl: 'electrification-targets',
         icon: "fa fa-file",
@@ -784,7 +784,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 15,
+        ID: 11,
         menuName: 'FP',
         menuUrl: 'foot-patrolling-sections',
         icon: "fa fa-file",
@@ -856,7 +856,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 16,
+        ID: 12,
         menuName: 'ENERGY',
         menuUrl: 'energyBillPayment',
         icon: "fa fa-file",
@@ -908,7 +908,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 17,
+        ID: 13,
         menuName: 'TRD CONFIG',
         menuUrl: 'tpc-board',
         icon: "fa fa-file",
@@ -1001,7 +1001,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       },
 
       {
-        ID: 19,
+        ID: 14,
         menuName: 'SCH MAINT',
         menuUrl: 'ashd',
         icon: "fa fa-file",
@@ -1047,7 +1047,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 14,
+        ID: 15,
         menuName: 'TPC',
         menuUrl: 'Tpc Board',
         icon: "fa fa-file",
@@ -1069,7 +1069,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         ]
       },
       {
-        ID: 15,
+        ID: 16,
         menuName: 'PROJECT ADMIN',
         menuUrl: 'Projects',
         icon: "fa fa-file",
@@ -1078,7 +1078,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('PROJECT ADMIN', 'menu', 'view'),
         currentTab: !!path && path.includes("projects") || path.includes("phases") || path.includes("phase-activity") 
         || path.includes("groups-sections") || path.includes("population") || path.includes("targets") 
-        || path.includes("STD-phases") || path.includes("STD-phase-activity")  ? "open" : "",
+        || path.includes("STD-phases") || path.includes("STD-phase-activity")  || path.includes("work-daily-progress")  ? "open" : "",
         subMenus: [
           {
             subMenuName: "Projects",
@@ -1087,6 +1087,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('Projects', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("projects") ? "active-item" : "",
+          },
+          {
+            subMenuName: "ProjectDailyProgress",
+            subMenuURL: "work-daily-progress",
+            subMenuIcon: "fa fa-track",
+            rolePermission: true,
+            permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
           },
           {
             subMenuName: "Phases",
@@ -1144,12 +1152,12 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: true,
             currentSubMenu: !!path && path.includes("STD-phase-activity") ? "active-item" : "",
           },
-        
+         
 
         ]
       },
       {
-        ID: 16,
+        ID: 17,
         menuName: 'DAILY PROGRESS',
         menuUrl: 'Progress',
         icon: "fa fa-file",
