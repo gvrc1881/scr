@@ -516,6 +516,18 @@ public class DrivesController {
 		}
 	}
 	
+	@RequestMapping(value = "/driveTargetAggregation", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<DriveTarget>> findDriveTargets() throws JSONException {
+		List<DriveTarget> driveTargetList = null;
+		try {			
+			driveTargetList = service.findDriveTargets();			
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		return ResponseEntity.ok((driveTargetList));
+	}
 	@RequestMapping(value = "/driveTarget", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveTarget>> findAllDriveTargets() throws JSONException {
 		List<DriveTarget> driveTargetList = null;
@@ -528,7 +540,6 @@ public class DrivesController {
 		}
 		return ResponseEntity.ok((driveTargetList));
 	}
-	
 	@RequestMapping(value = "/saveDriveTarget", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveDriveTargetData(@Valid @RequestBody DriveRequest driveTargetRequest) throws JSONException {		
 		try {			

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
+import com.scr.model.Facility;
 import com.scr.model.Make;
 
 public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
@@ -24,4 +25,17 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 	Optional<DriveTarget> findByUnitTypeAndUnitName(String unitType,String unitName);
 
 	List<DriveTarget> getByDriveIdAndStatusId(Drives driveId, int activeStatusId);
+
+	@Query(value = "select distinct driveId from DriveTarget") 
+	List<Drives> findDistinctByDriveId();
+
+	List<DriveTarget> findByDriveId(Drives drives);	
+	
+/*	@Query(value = "select Division,subDivision from Facility") 
+	List<Facility> findByUnitName();*/
+
+	@Query(value = "select distinct unitName from DriveTarget")
+	List<Facility> findDistinctByUnitName();
+
+	List<DriveTarget> findByUnitName(Facility facility);
 }

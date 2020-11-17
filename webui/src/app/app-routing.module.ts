@@ -459,6 +459,22 @@ const routes: Routes = [
     loadChildren: './components/elementary-sections/elementary-section.module#ElementarySectionModule',
      canActivate: [AuthGuard]
    },
+
+{
+  path: 'drive-target',
+  loadChildren: './components/drives-targets/drives-target.module#DrivesTargetModule',
+  canActivate: [AuthGuard]
+},
+{
+  path: 'groups-sections',
+  loadChildren: './components/groups-sections/groups-sections.module#GroupsSectionsModule',
+  canActivate: [AuthGuard]
+},
+{
+  path: 'projects',
+  loadChildren: './components/projects/projects.module#ProjectModule',
+   canActivate: [AuthGuard]
+ },
 ];
 
 @NgModule({

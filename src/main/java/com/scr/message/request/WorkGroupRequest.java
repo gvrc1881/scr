@@ -1,89 +1,56 @@
-package com.scr.model;
+package com.scr.message.request;
 
-import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
-/**
- * The persistent class for the works database table.
- * 
- */
-@Entity
-@Table(name = "work_group")
-@NamedQuery(name = "WorkGroup.findAll", query = "SELECT w FROM WorkGroup w")
+import com.scr.model.Works;
 
-public class WorkGroup implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
 
-	@Column(name = "work_group")
+public class WorkGroupRequest {
+	
+	private Integer id;
+
 	private String workGroup;
 
-	@Column(name = "section")
 	private String section;
 
-	@Column(name = "division")
 	private String division;
 
-	@Column(name = "zone")
 	private String zone;
 
-	@Column(name = "agency")
 	private String agency;
 
-	@Column(name = "doubling_trippling ")
 	private String doublingTrippling;
 
-	@Column(name = "siding_yard_station")
 	private String sidingYardStation;
 
-	@Column(name = "code")
 	private String code;
 
-	@Column(name = "description")
 	private String description;
 
-	@Column(name = "rkm")
 	private Double rkm;
 
-	@Column(name = "tkm")
 	private Double tkm;
-	
-	@Column(name = "line_type")
+
 	private String lineType;
-	
-	@Column(name = "created_by")
+
 	private String createdBy;
 
-	@Column(name = "updated_by")
 	private String updatedBy;
 
-	@Column(name = "created_on")
 	private Timestamp createdOn;
 
-	@Column(name = "updated_on")
 	private Timestamp updatedOn;
 	
-
-	@ManyToOne
-	@JoinColumn(name = "work_id", foreignKey = @ForeignKey(name = "fk_work_gorup_works"))
 	private Works workId;
 
-	public WorkGroup() {
-	}
-
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -123,20 +90,20 @@ public class WorkGroup implements Serializable {
 		return agency;
 	}
 
+	public Works getWorkId() {
+		return workId;
+	}
+
+	public void setWorkId(Works workId) {
+		this.workId = workId;
+	}
+
 	public void setAgency(String agency) {
 		this.agency = agency;
 	}
 
 	public String getDoublingTrippling() {
 		return doublingTrippling;
-	}
-
-	public String getLineType() {
-		return lineType;
-	}
-
-	public void setLineType(String lineType) {
-		this.lineType = lineType;
 	}
 
 	public void setDoublingTrippling(String doublingTrippling) {
@@ -183,12 +150,12 @@ public class WorkGroup implements Serializable {
 		this.tkm = tkm;
 	}
 
-	public Works getWorkId() {
-		return workId;
+	public String getLineType() {
+		return lineType;
 	}
 
-	public void setWorkId(Works workId) {
-		this.workId = workId;
+	public void setLineType(String lineType) {
+		this.lineType = lineType;
 	}
 
 	public String getCreatedBy() {
@@ -223,14 +190,7 @@ public class WorkGroup implements Serializable {
 		this.updatedOn = updatedOn;
 	}
 
-	@Override
-	public String toString() {
-		return "WorkGroup [id=" + id + ", workGroup=" + workGroup + ", section=" + section + ", division=" + division
-				+ ", zone=" + zone + ", agency=" + agency + ", doublingTrippling=" + doublingTrippling
-				+ ", sidingYardStation=" + sidingYardStation + ", code=" + code + ", description=" + description
-				+ ", rkm=" + rkm + ", tkm=" + tkm + ", lineType=" + lineType + ", createdBy=" + createdBy
-				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", workId="
-				+ workId + "]";
-	}
+	
+
 
 }

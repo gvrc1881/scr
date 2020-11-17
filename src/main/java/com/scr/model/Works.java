@@ -64,6 +64,10 @@ public class Works implements Serializable {
 
 	@Column(name = "status_remarks")
 	private String statusRemarks;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "target_start_date")
+	private Date targetStartDate;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "target_date_of_completion")
@@ -382,6 +386,14 @@ public class Works implements Serializable {
 		this.lineType = lineType;
 	}
 
+	public Date getTargetStartDate() {
+		return targetStartDate;
+	}
+
+	public void setTargetStartDate(Date targetStartDate) {
+		this.targetStartDate = targetStartDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Works [id=" + id + ", allocation=" + allocation + ", division=" + division + ", estdLatestAnticCost="
@@ -390,12 +402,13 @@ public class Works implements Serializable {
 				+ latestRevisedCost + ", pbLawLswp=" + pbLawLswp + ", pbLawLswpCode=" + pbLawLswpCode
 				+ ", physicalProgressPercentage=" + physicalProgressPercentage + ", presentStatus=" + presentStatus
 				+ ", reWorks=" + reWorks + ", rkm=" + rkm + ", sanctionCost=" + sanctionCost + ", section=" + section
-				+ ", statusRemarks=" + statusRemarks + ", targetDateOfCompletion=" + targetDateOfCompletion + ", tkm="
-				+ tkm + ", workName=" + workName + ", yearOfSanction=" + yearOfSanction + ", createdBy=" + createdBy
-				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", loaNo="
-				+ loaNo + ", loaDate=" + loaDate + ", startKm=" + startKm + ", endKm=" + endKm + ", tenderValue="
-				+ tenderValue + ", commencementDate=" + commencementDate + ", expectedCompletion=" + expectedCompletion
-				+ ", lineType=" + lineType + "]";
+				+ ", statusRemarks=" + statusRemarks + ", targetStartDate=" + targetStartDate
+				+ ", targetDateOfCompletion=" + targetDateOfCompletion + ", tkm=" + tkm + ", workName=" + workName
+				+ ", yearOfSanction=" + yearOfSanction + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", loaNo=" + loaNo + ", loaDate=" + loaDate
+				+ ", startKm=" + startKm + ", endKm=" + endKm + ", tenderValue=" + tenderValue + ", commencementDate="
+				+ commencementDate + ", expectedCompletion=" + expectedCompletion + ", lineType=" + lineType + "]";
 	}
+
 
 }

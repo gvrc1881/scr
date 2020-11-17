@@ -14,4 +14,6 @@ public interface WorksRepository extends JpaRepository<Works, Integer> {
 
 	Optional<Works> findByWorkName(String workName);
 
+	Optional<Works> findById(Works workId);
+
 }

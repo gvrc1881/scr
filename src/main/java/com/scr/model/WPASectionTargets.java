@@ -72,6 +72,18 @@ public class WPASectionTargets implements Serializable {
 
 	@Column(name = "mar")
 	private Double mar;
+	
+	@Column(name = "created_by")
+	private String createdBy;
+
+	@Column(name = "updated_by")
+	private String updatedBy;
+
+	@Column(name = "created_on")
+	private Timestamp createdOn;
+
+	@Column(name = "updated_on")
+	private Timestamp updatedOn;
 
 	public WPASectionTargets() {
 	}
@@ -210,6 +222,38 @@ public class WPASectionTargets implements Serializable {
 
 	public void setWorkGroupId(WorkGroup workGroupId) {
 		this.workGroupId = workGroupId;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Timestamp createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 }

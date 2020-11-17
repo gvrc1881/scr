@@ -439,7 +439,8 @@ export const Constants = {
                 UPDATE:'/updateDriveTarget',
                 EDIT:'/driveTargetById/',
                 DELETE:'/deleteDriveTarget/',
-                EXIST_TARGET:'/existByUnitNameAndUnitType/'
+                EXIST_TARGET:'/existByUnitNameAndUnitType/',
+                GET_DRIVE_AGGREGATION:'/driveTargetAggregation'
             },
             GET_DIVISIONS:'/divisions'
         },
@@ -701,8 +702,19 @@ export const Constants = {
         },
         STANDARD_PHASE_ACTIVITY:{
         	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"
-        }         
-    },
+        }  ,
+        PROJECT_ADMIN:{
+            GROUPS_SECTIONS:{
+                SAVE:"/addGroupsSections",
+                UPDATE:"/updateGroupsSections",
+                DELETE:"/deleteGroupsSections/",
+                GET_GROUPS_SECTIONS_BY_ID:"/findGroupsSectionsById/",
+                GET_GROUPS_SECTIONS:"/findAllGroupsSections",
+                EXIST_PROJECT_GROUP_SECTION:"/existsByWorkIdAndGroupAndSection/",
+                EXIST_PROJECT_GROUP_SECTION_ID:"/existsByWorkIdAndGroupAndSectionAndId/",
+            },    
+    }
+},
     EVENTS:{
         ADD:"Add",
         SAVE:"Save",
@@ -772,7 +784,8 @@ export const Constants = {
         "YES_NO_TYPE":"YESNO_STATUS",
         "RELAY_INDICATION":"CB_RELAY_INDICATOR",
         "NATURE_OF_CLOSE":"CB_NATURE_OF_CLOSURE",
-        "ACTION":"UUO_ACTIVITY"
+        "ACTION":"UUO_ACTIVITY",
+        "STATION_YARD_SIDING":"STATION_YARD_SIDING"
     },
     PAGINATION_NUMBERS:[30, 60, 100, 150, 200, 250]
 

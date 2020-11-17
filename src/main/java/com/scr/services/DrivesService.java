@@ -19,6 +19,7 @@ import com.scr.mapper.CommonMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveRequest;
+import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
 import com.scr.model.Division;
@@ -30,6 +31,7 @@ import com.scr.model.DriveProgressId;
 import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
+import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.InspectionType;
@@ -53,6 +55,7 @@ import com.scr.repository.FunctionalLocationTypesRepository;
 import com.scr.repository.InspectionTypeRepository;
 import com.scr.repository.MeasureOrActivityListRepository;
 import com.scr.repository.ProductRepository;
+import com.scr.repository.FacilityRepository;
 import com.scr.util.Constants;
 
 @Service
@@ -125,6 +128,9 @@ public class DrivesService {
 	
 	@Autowired
 	private FunctionalLocationTypesRepository functionalLocationTypesRepository;
+	
+	@Autowired
+	private FacilityRepository facilityRepository;
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -314,6 +320,8 @@ public class DrivesService {
 	}
 	
 	public List<DriveTarget> findAllDriveTargets() {
+		
+		
 		return driveTargetRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
 	}
 	
@@ -765,6 +773,43 @@ public class DrivesService {
 
 	public void saveDriveDailyProgress(DriveDailyProgress driveDailyProgress) {
 		driveProgressRecordRepository.save(driveDailyProgress);
+	}
+
+	public List<DriveTarget> findDriveTargets() {
+		
+		List<DriveTarget> target = new ArrayList<>();		
+		List<Drives> distinctDrives  =driveTargetRepository.findDistinctByDriveId();
+		//List<Facility> unitName =driveTargetRepository.findByUnitName();
+		
+		for (Drives drive : distinctDrives) {
+			DriveTarget DTarget = new DriveTarget();
+		
+					List<DriveTarget> driveTargets = driveTargetRepository.findByDriveId(drive);					
+					Double driveTargetSum = 0D;
+					for (DriveTarget driveTarget : driveTargets) {
+						driveTargetSum = driveTargetSum+driveTarget.getTarget();
+					}
+					
+					DTarget.setTarget(driveTargetSum);
+					DTarget.setDriveId(drive);
+					target.add(DTarget);
+		}
+		/*for (Facility facility : unitName) {
+			DriveTarget DTarget = new DriveTarget();
+		
+					List<DriveTarget> driveTargets = driveTargetRepository.findByUnitName(facility);					
+					Double driveTargetSum = 0D;
+					for (DriveTarget driveTarget : driveTargets) {
+						driveTargetSum = driveTargetSum+driveTarget.getTarget();
+						}					
+					DTarget.setTarget(driveTargetSum);
+					DTarget.setUnitName(facility);
+					target.add(DTarget);
+		}*/
+		
+		
+	
+		return target;
 	}
 
 }
