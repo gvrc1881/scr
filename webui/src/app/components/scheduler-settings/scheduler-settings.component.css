@@ -16,6 +16,8 @@
     background: #5dbae8  !important;
 
 color: #000 !important;
+}
 
-
+.content {
+    margin-top: 240px;
 }

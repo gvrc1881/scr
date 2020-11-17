@@ -9,15 +9,19 @@ mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-
     padding-left: 15px !important;
 }
 
-.admin-scheduler-panel .panel-primary>.panel-heading{ 
+/* .admin-scheduler-panel .panel-primary>.panel-heading{ 
     color: #fff;
     background-color:#5dbae8  !important;
     border-color: #5dbae8  !important;
-}
+} */
 .admin-scheduler-panel .mat-header-cell{
     background: #5dbae8  !important;
     
     color: #000 !important;
 
 
+}
+
+.content {
+    margin-top: 240px;
 }
