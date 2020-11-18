@@ -4,6 +4,7 @@
 package com.scr.repository;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,8 @@ public interface ElementarySectionsRepository extends JpaRepository<ElementarySe
             nativeQuery=true
     )
     public List<ElementarySections> findAllOrderByElementarySectionCodeAsc();
-
-
+	
+     Boolean existsByElementarySectionCode(String elementarySectionCode);
+	
+	Optional<ElementarySections> findByElementarySectionCode(String elementarySectionCode);
 }
