@@ -460,11 +460,11 @@ const routes: Routes = [
      canActivate: [AuthGuard]
    },
 
-{
-  path: 'drive-target',
-  loadChildren: './components/drives-targets/drives-target.module#DrivesTargetModule',
-  canActivate: [AuthGuard]
-},
+// {
+//   path: 'drive-target',
+//   loadChildren: './components/drives-targets/drives-target.module#DrivesTargetModule',
+//   canActivate: [AuthGuard]
+// },
 {
   path: 'groups-sections',
   loadChildren: './components/groups-sections/groups-sections.module#GroupsSectionsModule',
