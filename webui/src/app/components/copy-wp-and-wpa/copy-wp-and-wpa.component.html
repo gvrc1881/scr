@@ -25,7 +25,7 @@
 		                    			<mat-select  placeholder="Work" [formControl]="searchInputFormGroup.controls['work']" >
 		                    				<mat-option *ngFor="let works of workList"
 		                    					[value]="works">
-		                    					{{ works.allocation }}
+		                    					{{ works.workName }}
 		                    				</mat-option>
 		                    			</mat-select>                                                            
 		                    		</mat-form-field>

@@ -184,7 +184,7 @@ public class WorksController {
 		log.info("*** Enter into copyWPAndWPA function ***");
 		log.info("*** standard phases size**"+copyWPAndWPA.getStandardPhases().size()+"*** standard phase activity**"+copyWPAndWPA.getStandardPhaseActivities().size());
 		try {			
-			worksServices.saveDrives(copyWPAndWPA);
+			worksServices.saveWPAndWPA(copyWPAndWPA);
 			log.info("Preparing the return response and copyWPAndWPA function end ");
 			return Helper.findResponseStatus("WP Data And WPA Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {
