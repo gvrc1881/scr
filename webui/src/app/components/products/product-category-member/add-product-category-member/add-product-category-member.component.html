@@ -54,8 +54,18 @@
                                                                     {{ productData.productId }}
                                                                 </mat-option>
                                                                 <mat-error
-                                                                *ngIf="addProductCategoryMemberFormGroup.controls['productId'].hasError('required') && addProductCategoryMemberFormGroup.controls['productCategoryId'].touched"
+                                                                *ngIf="addProductCategoryMemberFormGroup.controls['productId'].hasError('required') && addProductCategoryMemberFormGroup.controls['productId'].touched"
                                                                 class="alert alert-danger">Enter Product   Id</mat-error>
+                                                                <mat-error
+                                                                *ngIf="addProductCategoryMemberFormGroup.controls['productId'].hasError('duplicateProductId')"
+                                                                class="alert alert-danger">
+                                                                Product CategoryId And ProductId combination Already Exist
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryMemberFormGroup.controls['productId'].hasError('duplicateProductIdProductCategoryIdAndId')"
+                                                                class="alert alert-danger">
+                                                                Product CategoryId And ProductId combination Already Exist
+                                                            </mat-error>
                                                             </mat-select>
                                                         </mat-form-field>
                                                     </div>

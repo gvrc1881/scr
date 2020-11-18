@@ -6,12 +6,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import {  MatDialogRef, MatDialog ,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 
 
 @Component({
   selector: 'app-add-ohe-location',
   templateUrl: './add-ohe-location.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddOheLocationComponent implements OnInit {
 
@@ -239,7 +248,6 @@ mastStructureDetails(){
   var statusTypeId = 'MAST_STRUCTURE_TYPE'
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + statusTypeId).subscribe((data) => {
       this.structureTypeData = data;
-      console.log("structureTypeData"+JSON.stringify(this.structureTypeData))
   }
   );
 

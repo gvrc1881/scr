@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class ProductController {
 	
 	@RequestMapping(value="/findAllProducts", method=RequestMethod.GET, headers = "Accept=application/json")
 	public List<Product> findAllProducts(){
-		log.info("Enter into findAllProduct function");
+		log.info("Enter into findAll Product function");
 		List<Product> product=null;
 		try {
 			log.info("calling service for Product Data");
@@ -114,6 +115,74 @@ public class ProductController {
 		} catch (Exception e) {
 			log.error("ERROR >> While deleting Product data"+e.getMessage());
 			return Helper.findResponseStatus("Product Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	@RequestMapping(value = "/existProductId/{productId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existProductId(@PathVariable("productId") String productId ){
+			
+		try {
+            log.info("Request for checking exists product Id...");
+			return productService.existsByProductId(productId);
+		} catch (Exception e) {
+			log.error("Error while checking exists product Id..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existProductIdById/{id}/{productId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existProductIdById(@PathVariable("id") Long id,@PathVariable("productId") String productId){
+		
+		log.info("id=="+id+"productId=="+productId);
+		Boolean result;
+		try {
+			Optional<Product> productData = productService.findByProductId(productId);	
+			if(productData.isPresent()) {
+				Product product = productData.get();
+				log.info("***id ***"+product.getId());
+				if (id.equals(product.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and product..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existRlyId/{rlyId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existRlyId(@PathVariable("rlyId") String rlyId ){
+			
+		try {
+            log.info("Request for checking exists rly Id...");
+			return productService.existsByRlyId(rlyId);
+		} catch (Exception e) {
+			log.error("Error while checking exists rly Id..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existRlyIdById/{id}/{rlyId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existRlyIdById(@PathVariable("id") Long id,@PathVariable("rlyId") String rlyId){
+		
+		log.info("id=="+id+"rlyId=="+rlyId);
+		Boolean result;
+		try {
+			Optional<Product> productData = productService.findByRlyId(rlyId);	
+			if(productData.isPresent()) {
+				Product product = productData.get();
+				log.info("***id ***"+product.getId());
+				if (id.equals(product.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and product..."+e.getMessage());
+			return false;
 		}
 	}
 }

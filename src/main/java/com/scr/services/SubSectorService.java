@@ -30,5 +30,13 @@ public class SubSectorService {
 		// TODO Auto-generated method stub
 		subSectorRepository.deleteById(id);
 	}
+	public Boolean existsBySubSectorCode(String subSectorCode) {
+		// TODO Auto-generated method stub
+		return subSectorRepository.existsBySubSectorCode(subSectorCode);
+	}
+	
+	public Optional<SubSector> findBySubSectorCode(String subSectorCode) {
+		return subSectorRepository.findBySubSectorCode(subSectorCode);
+	}
 
 }

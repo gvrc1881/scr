@@ -244,7 +244,10 @@ export const Constants = {
                 GET_GANTRY_ID:"/findGantryItemById/",
                 SAVE_GANTRY:"/addGantryItem",
                 UPDATE_GANTRY:"/updateGantryItem",
-                DELETE_GANTRY:"/deleteGantryItem/"
+                DELETE_GANTRY:"/deleteGantryItem/",
+                EXIST_GANTRY_CODE:"/existGantryCode/",
+                EXIST_GANTRY_CODE_ID:"/existGantryCodeById/",
+
             },
             SECTOR:{
                 GET_SECTOR:"/findAllSector",
@@ -252,7 +255,9 @@ export const Constants = {
                 SAVE_SECTOR:"/addSector",
                 UPDATE_SECTOR:"/updateSector",
                 DELETE_SECTOR:"/deleteSector/",
-                GET_LINE_CODE:"/findAllLineCodes"
+                GET_LINE_CODE:"/findAllLineCodes",
+                EXIST_SECTOR_CODE:"/existSectorCode/",
+                EXIST_SECTOR_CODE_ID:"/existSectorCodeById/",
 
             },
             SUBSECTOR:{
@@ -261,6 +266,8 @@ export const Constants = {
                 SAVE_SUB_SECTOR:"/addSubSector",
                 UPDATE_SUB_SECTOR:"/updateSubSector",
                 DELETE_SUB_SECTOR:"/deleteSubSector/",
+                EXIST_SUB_SECTOR_CODE:"/existSubSectorCode/",
+                EXIST_SUB_SECTOR_CODE_ID:"/existSubSectorCodeById/",
 
             },
             ELEMENTARYSECTIONS:{
@@ -268,7 +275,9 @@ export const Constants = {
                 GET_ELEMENTARY_SECTIONS_ID:"/findElementarySectionsById/",
                 SAVE_ELEMENTARY_SECTIONS:"/addElementarySections",
                 UPDATE_ELEMENTARY_SECTIONS:"/updateElementarySections",
-                DELETE_ELEMENTARY_SECTIONS:"/deleteElementarySections/"
+                DELETE_ELEMENTARY_SECTIONS:"/deleteElementarySections/",
+                EXIST_ELEMENTARY_SECTION_CODE:"/existElementarySectionCode/",
+                EXIST_ELEMENTARY_SECTION_CODE_ID:"/existElementarySectionCodeById/",
             },
             PBSWITCH:{
                 GET_SWITCH:"/findAllPbSwitchControl",
@@ -647,6 +656,10 @@ export const Constants = {
                     SAVE_PRODUCT:"/addProduct",
                     UPDATE_PRODUCT:"/updateProduct",
                     DELETE_PRODUCT:"/deleteProduct/",
+                    EXIST_PRODUCT_ID:"/existProductId/",
+                    EXIST_PRODUCTID_BY_ID:"/existProductIdById/",
+                    EXIST_RLY_ID:"/existRlyId/",
+                    EXIST_RLYID_BY_ID:"/existRlyIdById/" 
                 },
                 PRODUCT_CATEGORY:{
                     GET_PRODUCT_CATEGORY:"/findAllProductCategory",
@@ -655,7 +668,10 @@ export const Constants = {
                     UPDATE_PRODUCT_CATEGORY:"/updateProductCategory",
                     DELETE_PRODUCT_CATEGORY:"/deleteProductCategory/",
                     EXISTS_PRODUCT_CATEGORY_ID:"/existsProductCategoryId/",
-                    EXISTS_CATEGORY_NAME:"/existsCategoryName/"
+                    EXISTS_PRODUCT_CATEGORYID_BY_ID:"/existProductCategoryIdById/",
+                    EXISTS_CATEGORY_NAME:"/existsCategoryName/",
+                    EXISTS_CATEGORY_NAME_ID:"/existCategoryNameById/"
+
                 },
                 PRODUCT_CATEGORY_MEMBER:{
                     GET_PRODUCT_CATEGORY_MEMBER:"/findAllProductCategoryMember",
@@ -663,6 +679,8 @@ export const Constants = {
                     SAVE_PRODUCT_CATEGORY_MEMBER:"/addProductCategoryMember",
                     UPDATE_PRODUCT_CATEGORY_MEMBER:"/updateProductCategoryMember",
                     DELETE_PRODUCT_CATEGORY_MEMBER:"/deleteProductCategoryMember/",
+                    EXISTS_PRODUCT_CATEGORYID_PRODUCT_ID:'/existsProductCategoryIdAndProductId/',
+                    EXISTS_PRODUCT_CATEGORYID_PRODUCTID_AND_ID:'/existProductCategoryIdProductIdAndId/'
                 }
             },
        OPERATIONS:{

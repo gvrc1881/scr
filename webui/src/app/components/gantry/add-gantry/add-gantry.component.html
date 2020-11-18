@@ -48,6 +48,12 @@
                                                         <mat-form-field fxFlex="30">
                                                           <input matInput placeholder="{{FiledLabels.GANTRY_CODE}}"
                                                             [formControl]="addGantryFormGroup.controls['gantryCode']" required/>
+                                                            <mat-error
+                                                            *ngIf="addGantryFormGroup.controls['gantryCode'].hasError('duplicateGantryCode')"
+                                                            class="alert alert-danger">Gantry Code Already Exist</mat-error>
+                                                            <mat-error
+                                                             *ngIf="addGantryFormGroup.controls['gantryCode'].hasError('duplicateGantryCodeByID')"
+                                                            class="alert alert-danger">Gantry Code Already Exist</mat-error>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3" >

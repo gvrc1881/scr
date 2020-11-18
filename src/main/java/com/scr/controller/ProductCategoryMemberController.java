@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class ProductCategoryMemberController {
 	
 	@RequestMapping(value="/findAllProductCategoryMember", method=RequestMethod.GET, headers = "Accept=application/json")
 	public List<ProductCategoryMember> findAllProductCategoryMember(){
-		log.info("Enter into findAllProductCategoryMember function");
+		log.info("Enter into findAll ProductCategoryMember function");
 		List<ProductCategoryMember> productCategoryMember=null;
 		try {
 			log.info("calling service for productCategoryMember Data");
@@ -115,6 +116,42 @@ public class ProductCategoryMemberController {
 		} catch (Exception e) {
 			log.error("ERROR >> While deleting ProductCategoryMember data"+e.getMessage());
 			return Helper.findResponseStatus("ProductCategoryMember Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/existsProductCategoryIdAndProductId/{productCategoryId}/{productId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsProductCategoryIdAndProductId(@PathVariable("productCategoryId") String productCategoryId ,@PathVariable("productId") String productId){
+			
+		try {
+			log.info("Request for checking exists inspection Type and observationCategory.");
+			return productCategoryMemberService.existsByProductCategoryIdAndProductId(productCategoryId,productId);	
+		} catch (Exception e) {
+			log.error("Error while checking exists productCategoryId and productId..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existProductCategoryIdProductIdAndId/{id}/{productCategoryId}/{productId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existProductCategoryIdProductIdAndId(@PathVariable("id") Long id,@PathVariable("productCategoryId") String productCategoryId,@PathVariable("productId") String productId){
+		
+		log.info("id=="+id+"productCategoryId=="+productCategoryId);
+		Boolean result;
+		try {
+			Optional<ProductCategoryMember> productCategoryMemberData = productCategoryMemberService.findByProductCategoryIdAndProductId(productCategoryId,productId);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(productCategoryMemberData.isPresent()) {
+				ProductCategoryMember ProductCategoryMember = productCategoryMemberData.get();
+				log.info("***id ***"+ProductCategoryMember.getId());
+				if (id.equals(ProductCategoryMember.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and productCategoryId..."+e.getMessage());
+			return false;
 		}
 	}
 

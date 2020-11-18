@@ -1,9 +1,9 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder} from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { PbSwitchModel } from 'src/app/models/pb-switch.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,MAT_DIALOG_DATA } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
@@ -46,6 +46,7 @@ export class SwitchOperationsComponent implements OnInit {
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService,
         private location: Location,
+        @Inject(MAT_DIALOG_DATA) public data:any
 
     ){
         
@@ -97,7 +98,7 @@ export class SwitchOperationsComponent implements OnInit {
                     'switchId':switchId,
                     'isNormallOpened': isNormallOpened
                 } 
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.FP_SECTIONS.SAVE_FP_SECTIONS, saveSwitchModel, false).subscribe(response => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.SAVE_SWITCH, saveSwitchModel, false).subscribe(response => {
                   this.commonService.showAlertMessage('Successfully saved');
                 this.getAllPbSwitchData();
             } , error => {});
@@ -153,7 +154,7 @@ export class SwitchOperationsComponent implements OnInit {
         this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
             disableClose: false
           });
-        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Switch item?";
+        this.confirmDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete the selected Switch Item?";
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if(result){
                 this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.DELETE_SWITCH, id).subscribe(response => {

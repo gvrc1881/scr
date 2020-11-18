@@ -74,7 +74,7 @@
                                        
                                         <ng-container matColumnDef="fromLocationType">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>From Location Type</span>
+                                                <span>From Loc Type</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.fromLocationType}}</mat-cell>
@@ -89,7 +89,7 @@
                                         </ng-container>
                                         <ng-container matColumnDef="toLocationType">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                <span>To Location Type</span>
+                                                <span>To Loc Type</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.toLocationType}}</mat-cell>
@@ -147,9 +147,9 @@
                                                 <input matInput type="text" disabled (keyup) ="updatePagination()"/>
                                             </mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
-                                                  <span class="mat-raised-button mat-accent" (click)="switchDialog()" 
+                                                  <span class="mat-raised-button mat-accent" (click)="switchDialog(row.sectorCode)" 
                                                   color="accent" mat-raised-button="">
-                                                  Switch
+                                                  Operation
                                                 </span>
                                                 </mat-cell>
                                         </ng-container> 

@@ -46,6 +46,12 @@
                                                             *ngIf="addProductFormGroup.controls['productId'].hasError('maxlength') && addProductFormGroup.controls['productId'].touched"
                                                             class="alert alert-danger">Max 250 characters only
                                                         </mat-error>
+                                                        <mat-error
+                                                            *ngIf="addProductFormGroup.controls['productId'].hasError('duplicateProductId')"
+                                                            class="alert alert-danger">Product Id Already Exist</mat-error>
+                                                        <mat-error
+                                                           *ngIf="addProductFormGroup.controls['productId'].hasError('duplicateProductIdByID')"
+                                                            class="alert alert-danger">Product Id Already Exist</mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
@@ -62,6 +68,12 @@
                                                                 *ngIf="addProductFormGroup.controls['rlyId'].hasError('maxlength') && addProductFormGroup.controls['rlyId'].touched"
                                                                 class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProductFormGroup.controls['rlyId'].hasError('duplicateRlyId')"
+                                                            class="alert alert-danger">Rly Id Already Exists</mat-error>
+                                                        <mat-error
+                                                           *ngIf="addProductFormGroup.controls['rlyId'].hasError('duplicateRlyIdByID')"
+                                                            class="alert alert-danger">Rly Id Already Exists</mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">

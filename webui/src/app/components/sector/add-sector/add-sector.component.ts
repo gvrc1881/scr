@@ -39,14 +39,15 @@ export class AddSectorComponent implements OnInit {
     this.depotTypeForOhe();
     this.findLineCodeDetails();
     this.id = +this.route.snapshot.params['id'];
-    this.createSectorForm();
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) {  
+      this.updateSectorForm();   
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = 'Edit';
       this.getSectorDataById(this.id);
     } else {
+      this.createSectorForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
@@ -60,7 +61,7 @@ export class AddSectorComponent implements OnInit {
     this.addSectorFormGroup = this.formBuilder.group({
       id: 0,
       'facilityId':['', Validators.compose([Validators.required])],
-      'sectorCode': ['', Validators.compose([Validators.required])],
+      'sectorCode': ['', Validators.compose([Validators.required]),this.duplicateSectorCode.bind(this)],
       'fromLocation': [''],
       'fromLocationType':[''],
       'toLocation':[''],
@@ -69,6 +70,52 @@ export class AddSectorComponent implements OnInit {
       'line1':[''],
       'line2':[''],
     });
+  }
+  updateSectorForm() {
+    this.addSectorFormGroup = this.formBuilder.group({
+      id: 0,
+      'facilityId':['', Validators.compose([Validators.required])],
+      'sectorCode': ['', Validators.compose([Validators.required]),this.duplicateSectorCodeByID.bind(this)],
+      'fromLocation': [''],
+      'fromLocationType':[''],
+      'toLocation':[''],
+      'toLocationType': [''],
+      'division':[''],
+      'line1':[''],
+      'line2':[''],
+    });
+  }
+  duplicateSectorCode() {
+    const q = new Promise((resolve, reject) => {
+              
+      let sectorCode: string = this.addSectorFormGroup.controls['sectorCode'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SECTOR.EXIST_SECTOR_CODE+sectorCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSectorCode': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSectorCode': true }); });
+    });
+    return q;
+  }
+  duplicateSectorCodeByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let sectorCode: string = this.addSectorFormGroup.controls['sectorCode'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SECTOR.EXIST_SECTOR_CODE_ID+id+'/'+sectorCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSectorCodeByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSectorCodeByID': true }); });
+    });
+    return q;
   }
   getSectorDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SECTOR.GET_SECTOR_ID+id)
@@ -122,7 +169,7 @@ export class AddSectorComponent implements OnInit {
           this.commonService.showAlertMessage("sector Data Saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
         } else {
-          this.commonService.showAlertMessage("sector Data Saving Failed.");
+          this.commonService.showAlertMessage("Sector Data Saving Failed.");
         }
       }, error => {
         console.log('ERROR >>>');

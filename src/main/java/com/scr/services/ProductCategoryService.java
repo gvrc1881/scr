@@ -2,7 +2,6 @@ package com.scr.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.ProductCategory;
@@ -35,8 +34,14 @@ public class ProductCategoryService {
 	public Boolean existsByProductCategoryId(String productCategoryId) {
 		return productCategoryRepository.existsByProductCategoryId(productCategoryId);
 	}
+	public Optional<ProductCategory> findByProductCategoryId(String productCategoryId) {
+		// TODO Auto-generated method stub
+		return productCategoryRepository.findByProductCategoryId(productCategoryId);
+	}
 	public Boolean existsCategoryName(String categoryName) {
 		return productCategoryRepository.existsByCategoryName(categoryName);
 	}
-
+	public Optional<ProductCategory> findByCategoryName(String categoryName) {
+		return productCategoryRepository.findByCategoryName(categoryName);
+	}
 }

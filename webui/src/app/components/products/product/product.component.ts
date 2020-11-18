@@ -105,12 +105,12 @@ export class ProductComponent implements OnInit {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.PRODUCTS.PRODUCT.DELETE_PRODUCT, id).subscribe(data => {
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Product Successfully");
+          this.commonService.showAlertMessage("Deleted product Successfully");
           this.getProductData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Product Deletion failed.");
+          this.commonService.showAlertMessage("product Deletion failed.");
         })
       }
       this.confirmDialogRef = null;

@@ -31,4 +31,13 @@ public class ElementarySectionService {
 		// TODO Auto-generated method stub
 		elementarySectionsRepository.deleteById(id);
 	}
+	
+	public Boolean existsByElementarySectionCode(String elementarySectionCode) {
+		return elementarySectionsRepository.existsByElementarySectionCode(elementarySectionCode);
+	}
+	
+	public Optional<ElementarySections> findByElementarySectionCode(String elementarySectionCode) {
+		// TODO Auto-generated method stub
+		return elementarySectionsRepository.findByElementarySectionCode(elementarySectionCode);
+	}
 }

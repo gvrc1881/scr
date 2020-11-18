@@ -107,7 +107,7 @@ export class ProductCategoryComponent implements OnInit {
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Product Category Deletion Failed.");
+          this.commonService.showAlertMessage("ProductCategory Deletion Failed.");
         });
       }
       this.confirmDialogRef = null;

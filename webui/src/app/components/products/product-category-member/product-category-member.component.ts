@@ -80,8 +80,8 @@ export class ProductCategoryMemberComponent implements OnInit {
       this.categoryMemberList = data;
       for (let i = 0; i < this.categoryMemberList.length; i++) {
         this.categoryMemberList[i].sno = i + 1;
-        this.categoryMemberList[i].fromDate = this.datePipe.transform(this.categoryMemberList[i].fromDate, 'dd-MM-yyyy hh:mm:ss');
-                this.categoryMemberList[i].thruDate = this.datePipe.transform(this.categoryMemberList[i].thruDate, 'dd-MM-yyyy hh:mm:ss');
+        this.categoryMemberList[i].fromDate = this.datePipe.transform(this.categoryMemberList[i].fromDate, 'dd-MM-yyyy');
+                this.categoryMemberList[i].thruDate = this.datePipe.transform(this.categoryMemberList[i].thruDate, 'dd-MM-yyyy');
         categoryMember.push(this.categoryMemberList[i]);
       }
       this.filterData.gridData = categoryMember;

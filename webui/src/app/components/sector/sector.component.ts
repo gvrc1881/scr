@@ -150,12 +150,12 @@ export class SectorComponent implements OnInit {
       data:result,  
     });            
   }
-  switchDialog(){
+  switchDialog(sectorCode){
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
+      data:sectorCode,
       disableClose: false,
     });
-
   }
 }

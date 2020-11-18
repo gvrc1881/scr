@@ -49,7 +49,11 @@
                                                                 </mat-error>
                                                                 <mat-error
                                                                        *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('duplicateProductCategoryId')"
-                                                                    class="alert alert-danger">Product Category Id Already Exists
+                                                                    class="alert alert-danger">Product Category Id Already Exist
+                                                                </mat-error>
+                                                                <mat-error
+                                                                       *ngIf="addProductCategoryFormGroup.controls['productCategoryId'].hasError('duplicateProductCategoryIdByID')"
+                                                                    class="alert alert-danger">Product Category Id Already Exist
                                                                 </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -72,7 +76,11 @@
                                                             </mat-error>
                                                             <mat-error
                                                                 *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('duplicateCategoryName')"
-                                                                  class="alert alert-danger">Category Name Already Exists
+                                                                  class="alert alert-danger">Category Name Already Exist
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addProductCategoryFormGroup.controls['categoryName'].hasError('duplicateCategoryNameByID')"
+                                                                  class="alert alert-danger">Category Name Already Exist
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>

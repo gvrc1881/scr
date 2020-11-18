@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +64,7 @@ public class GantryMasterDataController {
 		}
 		catch (Exception e) {
 			logger.error("ERROR >> While adding Gantry MasterData data. "+e.getMessage());
-			return Helper.findResponseStatus("Gantry MasterData save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			return Helper.findResponseStatus("Gantry Master Data save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
 	
@@ -120,5 +121,39 @@ public class GantryMasterDataController {
 			return Helper.findResponseStatus("Gantry MasterData Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-
+	@RequestMapping(value = "/existGantryCode/{gantryCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existGantryCode(@PathVariable("gantryCode") String gantryCode ){
+			
+		try {
+            logger.info("Request for checking exists gantry Code...");
+			return gantryMasterDataService.existsByGantryCode(gantryCode);
+		} catch (Exception e) {
+			logger.error("Error while checking exists gantry Code..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existGantryCodeById/{id}/{gantryCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existGantryCodeById(@PathVariable("id") Long id,@PathVariable("gantryCode") String gantryCode){
+		
+		logger.info("id=="+id+"gantryCode=="+gantryCode);
+		Boolean result;
+		try {
+			Optional<GantryMasterData> gantryData = gantryMasterDataService.findByGantryCode(gantryCode);	
+			if(gantryData.isPresent()) {
+				GantryMasterData gantry = gantryData.get();
+				logger.info("***id ***"+gantry.getId());
+				if (id.equals(gantry.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and gantryCode..."+e.getMessage());
+			return false;
+		}
+	}
 }

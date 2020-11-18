@@ -46,14 +46,15 @@ export class AddGantryComponent implements OnInit {
     this.elementarySections();
     this.tpcBoardDetails();
     this.id = +this.route.snapshot.params['id'];
-    this.createOheLocationForm();
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) {    
+      this.updateGantryForm(); 
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getGantryDataById(this.id);
     } else {
+      this.createGantryForm();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
@@ -63,11 +64,11 @@ export class AddGantryComponent implements OnInit {
   
   
 
-  createOheLocationForm() {
+  createGantryForm() {
     this.addGantryFormGroup = this.formBuilder.group({
       id: 0,
       'facilityId':['', Validators.compose([Validators.required])],
-      'gantryCode': ['', Validators.compose([Validators.required])],
+      'gantryCode': [null, Validators.compose([Validators.required]),this.duplicateGantryCode.bind(this)],
       'elementarySections': [''],
       'protectionTraverseCrossover':[''],
       'protectionTraverseTurnout':[''],
@@ -77,6 +78,53 @@ export class AddGantryComponent implements OnInit {
       'tpcBoard':[''],
        'remarks':['',Validators.compose([ Validators.maxLength(250)])],
     });
+  }
+  updateGantryForm() {
+    this.addGantryFormGroup = this.formBuilder.group({
+      id: 0,
+      'facilityId':['', Validators.compose([Validators.required])],
+      'gantryCode': [null, Validators.compose([Validators.required]),this.duplicateGantryCodeByID.bind(this)],
+      'elementarySections': [''],
+      'protectionTraverseCrossover':[''],
+      'protectionTraverseTurnout':[''],
+      'protectionLongitudnalUp': [''],
+      'protectionLongitudnalDn':[''],
+      'normallyOpen':[''],
+      'tpcBoard':[''],
+       'remarks':['',Validators.compose([ Validators.maxLength(250)])],
+    });
+  }
+  duplicateGantryCode() {
+    const q = new Promise((resolve, reject) => {
+              
+      let gantryCode: string = this.addGantryFormGroup.controls['gantryCode'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GANTRY.EXIST_GANTRY_CODE+gantryCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateGantryCode': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateGantryCode': true }); });
+    });
+    return q;
+  }
+  duplicateGantryCodeByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let gantryCode: string = this.addGantryFormGroup.controls['gantryCode'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GANTRY.EXIST_GANTRY_CODE_ID+id+'/'+gantryCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateGantryCodeByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateGantryCodeByID': true }); });
+    });
+    return q;
   }
   getGantryDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GANTRY.GET_GANTRY_ID+id)
@@ -186,7 +234,7 @@ export class AddGantryComponent implements OnInit {
  }
  elementarySections()
   {  
-         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ELEMENTARY_SECTIONS).subscribe((data) => {
+         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.GET_ELEMENTARY_SECTIONS).subscribe((data) => {
            this.eleSectionsData = data;
   }
          );

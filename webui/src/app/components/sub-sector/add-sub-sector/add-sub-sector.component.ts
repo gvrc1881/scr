@@ -42,14 +42,15 @@ export class AddSubSectorComponent implements OnInit {
     this.findSector();
     this.findLineCodeDetails();
     this.id = +this.route.snapshot.params['id'];
-    this.createSubSectorForm();
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) { 
+      this.updateSubSectorForm();    
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = 'Edit';
       this.getSubSectorDataById(this.id);
     } else {
+      this.createSubSectorForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
@@ -64,7 +65,7 @@ export class AddSubSectorComponent implements OnInit {
       id: 0,
       'facilityId':['', Validators.compose([Validators.required])],
       'sector': ['', Validators.compose([Validators.required])],
-      'subSectorCode':['', Validators.compose([Validators.required])],
+      'subSectorCode':['', Validators.compose([Validators.required]),this.duplicateSubSectorCode.bind(this)],
       'fromLocation': [''],
       'fromLocationType':[''],
       'toLocation':[''],
@@ -73,6 +74,53 @@ export class AddSubSectorComponent implements OnInit {
       'line1':[''],
       'line2':[''],
     });
+  }
+  updateSubSectorForm() {
+    this.addSubSectorFormGroup = this.formBuilder.group({
+      id: 0,
+      'facilityId':['', Validators.compose([Validators.required])],
+      'sector': ['', Validators.compose([Validators.required])],
+      'subSectorCode':['', Validators.compose([Validators.required]),this.duplicateSubSectorCodeByID.bind(this)],
+      'fromLocation': [''],
+      'fromLocationType':[''],
+      'toLocation':[''],
+      'toLocationType': [''],
+      'division':[''],
+      'line1':[''],
+      'line2':[''],
+    });
+  }
+  duplicateSubSectorCode() {
+    const q = new Promise((resolve, reject) => {
+              
+      let subSectorCode: string = this.addSubSectorFormGroup.controls['subSectorCode'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SUBSECTOR.EXIST_SUB_SECTOR_CODE+subSectorCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubSectorCode': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubSectorCode': true }); });
+    });
+    return q;
+  }
+  duplicateSubSectorCodeByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let subSectorCode: string = this.addSubSectorFormGroup.controls['subSectorCode'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SUBSECTOR.EXIST_SUB_SECTOR_CODE_ID+id+'/'+subSectorCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateSubSectorCodeByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateSubSectorCodeByID': true }); });
+    });
+    return q;
   }
   getSubSectorDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SUBSECTOR.GET_SUB_SECTOR_ID+id)
@@ -133,7 +181,7 @@ export class AddSubSectorComponent implements OnInit {
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("sub sector Data Saving Failed.");
+        this.commonService.showAlertMessage("Sub sector Data Saving Failed.");
       });
     } else if (this.update) {
       var updateSubSectorModel = {

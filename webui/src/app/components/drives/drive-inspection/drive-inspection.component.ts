@@ -101,9 +101,9 @@ export class DriveInspectionComponent implements OnInit {
         this.inspectionsList[i].sno = i + 1;
         this.inspectionsList[i].TKM = this.inspectionsList[i].tkm;
         this.inspectionsList[i].RKM = this.inspectionsList[i].rkm;
-        this.inspectionsList[i].dateOfInspection = this.datePipe.transform(this.inspectionsList[i].dateOfInspection, 'dd-MM-yyyy hh:mm:ss');
-        this.inspectionsList[i].authorisationDate = this.datePipe.transform(this.inspectionsList[i].authorisationDate, 'dd-MM-yyyy hh:mm:ss');
-        this.inspectionsList[i].chargingDate = this.datePipe.transform(this.inspectionsList[i].chargingDate, 'dd-MM-yyyy hh:mm:ss');
+        this.inspectionsList[i].dateOfInspection = this.datePipe.transform(this.inspectionsList[i].dateOfInspection, 'dd-MM-yyyy');
+        this.inspectionsList[i].authorisationDate = this.datePipe.transform(this.inspectionsList[i].authorisationDate, 'dd-MM-yyyy');
+        this.inspectionsList[i].chargingDate = this.datePipe.transform(this.inspectionsList[i].chargingDate, 'dd-MM-yyyy');
         inspections.push(this.inspectionsList[i]);
       }
       this.filterData.gridData = inspections;
@@ -135,7 +135,7 @@ export class DriveInspectionComponent implements OnInit {
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Inspection Deletion Failed.");
+          this.commonService.showAlertMessage("Inspection Deletion Failed");
         })
       }
       this.confirmDialogRef = null;

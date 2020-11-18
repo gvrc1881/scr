@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.GantryMasterData;
 import com.scr.model.ProductCategory;
 import com.scr.services.ProductCategoryService;
 import com.scr.util.Constants;
@@ -35,7 +36,7 @@ public class ProductCategoryController {
 		log.info("Enter into findAllProductCategory function");
 		List<ProductCategory> productCategory=null;
 		try {
-			log.info("calling service for ProductCategory Data");
+			log.info("calling service for Product Category Data");
 			productCategory=productCategoryService.findAll();
 			log.info("fetched product Category Data"+productCategory.size());
 		} catch (NullPointerException npe) {
@@ -127,13 +128,58 @@ public class ProductCategoryController {
 			return false;
 		}
 	}
-	
+	@RequestMapping(value = "/existProductCategoryIdById/{id}/{productCategoryId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existProductCategoryIdById(@PathVariable("id") Long id,@PathVariable("productCategoryId") String productCategoryId){
+		
+		log.info("id=="+id+"productCategoryId=="+productCategoryId);
+		Boolean result;
+		try {
+			Optional<ProductCategory> productCategoryData = productCategoryService.findByProductCategoryId(productCategoryId);	
+			if(productCategoryData.isPresent()) {
+				ProductCategory productCategory = productCategoryData.get();
+				log.info("***id ***"+productCategory.getId());
+				if (id.equals(productCategory.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and productCategoryId..."+e.getMessage());
+			return false;
+		}
+	}
 	@RequestMapping(value = "/existsCategoryName/{categoryName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsCategoryName(@PathVariable("categoryName") String categoryName){		
 		try {
 			return productCategoryService.existsCategoryName(categoryName);
 		} catch (Exception e) {
 			log.error("Error while checking exists categoryName.");
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existCategoryNameById/{id}/{categoryName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existCategoryNameById(@PathVariable("id") Long id,@PathVariable("categoryName") String categoryName){
+		
+		log.info("id=="+id+"categoryName=="+categoryName);
+		Boolean result;
+		try {
+			Optional<ProductCategory> productCategoryData = productCategoryService.findByCategoryName(categoryName);	
+			if(productCategoryData.isPresent()) {
+				ProductCategory productCategory = productCategoryData.get();
+				log.info("***id ***"+productCategory.getId());
+				if (id.equals(productCategory.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and categoryName..."+e.getMessage());
 			return false;
 		}
 	}

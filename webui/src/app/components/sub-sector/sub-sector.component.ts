@@ -149,10 +149,12 @@ export class  SubSectorComponent implements OnInit {
       data:result,  
     });            
   }
-  switchDialog(){
+  switchDialog(subSectorCode){
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
+      data:subSectorCode,
+      
     });
 
   }

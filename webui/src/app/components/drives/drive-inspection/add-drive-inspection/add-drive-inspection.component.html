@@ -71,7 +71,6 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                    <!-- sectionEndLocation -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.SECTION_END_LOCATION}}"  pattern="^[a-zA-Z0-9\/]+$"
@@ -85,7 +84,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"
                                                             (dateChange)="addEvent($event)" 
-                                                                placeholder="{{FiledLabels.DATE_OF_INSPECTION}}"
+                                                                placeholder="{{FiledLabels.DATE_OF_INSPECTION}}" [max]="toMinDate"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['dateOfInspection']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
@@ -133,7 +132,8 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2"
-                                                                placeholder="{{FiledLabels.AUTHORISATION_DATE}}" (dateChange)="addEvent($event)"  [min]="toMinDate"
+                                                                placeholder="{{FiledLabels.AUTHORISATION_DATE}}" [max]="toMinDate"
+                                                                (dateChange)="addEvent($event)"  [min]="toMinDate"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['authorisationDate']">
                                                             <mat-datepicker-toggle matSuffix [for]="picker2">
                                                             </mat-datepicker-toggle>
@@ -145,7 +145,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker3" 
-                                                                placeholder="{{FiledLabels.CHARGING_DATE}}" [min]="toMinDate"
+                                                                placeholder="{{FiledLabels.CHARGING_DATE}}" [max]="toMinDate"
                                                                 [formControl]="addDriveInspectionFormGroup.controls['chargingDate']" > 
                                                             <mat-datepicker-toggle matSuffix [for]="picker3">
                                                             </mat-datepicker-toggle>

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -115,6 +116,42 @@ public class ElementarySectionController {
 		} catch (Exception e) {
 			logger.error("ERROR >> While deleting ElementarySections data"+e.getMessage());
 			return Helper.findResponseStatus("ElementarySections Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/existElementarySectionCode/{elementarySectionCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existElementarySectionCode(@PathVariable("elementarySectionCode") String elementarySectionCode ){
+			
+		try {
+            logger.info("Request for checking exists elementary SectionCode...");
+			return elementarySectionService.existsByElementarySectionCode(elementarySectionCode);
+		} catch (Exception e) {
+			logger.error("Error while checking exists elementary SectionCode..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existElementarySectionCodeById/{id}/{elementarySectionCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existElementarySectionCodeById(@PathVariable("id") Long id,@PathVariable("elementarySectionCode") String elementarySectionCode){
+		
+		logger.info("id=="+id+"elementarySectionCode=="+elementarySectionCode);
+		Boolean result;
+		try {
+			Optional<ElementarySections> elementarySectionsData = elementarySectionService.findByElementarySectionCode(elementarySectionCode);	
+			if(elementarySectionsData.isPresent()) {
+				ElementarySections elementarySections = elementarySectionsData.get();
+				logger.info("***id ***"+elementarySections.getId());
+				if (id.equals(elementarySections.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and elementary Section Code..."+e.getMessage());
+			return false;
 		}
 	}
 

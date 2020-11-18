@@ -5,16 +5,24 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import {  MatDialogRef, MatDialog ,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
  
 @Component({
   selector: 'app-add-drive-inspection',
   templateUrl: './add-drive-inspection.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddDriveInspectionComponent implements OnInit {
 
@@ -226,15 +234,15 @@ export class AddDriveInspectionComponent implements OnInit {
         this.spinnerService.hide();
         this.resp = response;
         if(this.resp.code == Constants.CODES.SUCCESS){
-          this.commonService.showAlertMessage("Inspection Data saved Successfully");
+          this.commonService.showAlertMessage("InspectionData saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
         }else{
-          this.commonService.showAlertMessage("Inspection Data saving Failed.");
+          this.commonService.showAlertMessage("InspectionData saving Failed.");
         }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Inspection Data saving Failed.");
+        this.commonService.showAlertMessage("InspectionData saving Failed.");
       })
     }else if(this.update){
       let update = {

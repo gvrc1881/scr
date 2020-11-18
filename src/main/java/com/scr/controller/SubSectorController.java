@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Sector;
 import com.scr.model.SubSector;
 import com.scr.services.SubSectorService;
 import com.scr.util.Constants;
@@ -115,6 +117,41 @@ public class SubSectorController {
 		} catch (Exception e) {
 			logger.error("ERROR >> While deleting SubSector data"+e.getMessage());
 			return Helper.findResponseStatus("SubSector Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	@RequestMapping(value = "/existSubSectorCode/{subSectorCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existSubSectorCode(@PathVariable("subSectorCode") String subSectorCode ){
+			
+		try {
+            logger.info("Request for checking exists sub Sector Code...");
+			return subSectorService.existsBySubSectorCode(subSectorCode);
+		} catch (Exception e) {
+			logger.error("Error while checking exists Sub Sector Code..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existSubSectorCodeById/{id}/{subSectorCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existSubSectorCodeById(@PathVariable("id") Long id,@PathVariable("subSectorCode") String subSectorCode){
+		
+		logger.info("id=="+id+"subSectorCode=="+subSectorCode);
+		Boolean result;
+		try {
+			Optional<SubSector> subSectorData = subSectorService.findBySubSectorCode(subSectorCode);	
+			if(subSectorData.isPresent()) {
+				SubSector subSector = subSectorData.get();
+				logger.info("***id ***"+subSector.getId());
+				if (id.equals(subSector.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and sub Sector Code..."+e.getMessage());
+			return false;
 		}
 	}
 }

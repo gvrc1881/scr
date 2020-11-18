@@ -147,7 +147,7 @@
                                                 <input matInput type="text" disabled (keyup) ="updatePagination()"/>
                                             </mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
-                                                  <span class="mat-raised-button mat-accent" (click)="switchDialog()" 
+                                                  <span class="mat-raised-button mat-accent" (click)="switchDialog(row.elementarySectionCode)" 
                                                   color="accent" mat-raised-button="">
                                                    Switch
                                                 </span>

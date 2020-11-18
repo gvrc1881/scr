@@ -42,16 +42,17 @@ export class AddProductCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-    this.createProductCategoryForm();
     this.findProductCategoryList();
     this.findProductCategoryTypeList();
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) { 
+      this.updateProductCategoryForm();    
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getProductCategoryDataById(this.id);
     } else {
+      this.createProductCategoryForm();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
@@ -71,6 +72,80 @@ export class AddProductCategoryComponent implements OnInit {
       'description': ['', Validators.maxLength(255)],
     });
   }
+  updateProductCategoryForm() {
+    this.addProductCategoryFormGroup = this.formBuilder.group({
+      id: 0,
+      'productCategoryId':['', Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateProductCategoryIdByID.bind(this)],
+      'categoryName': ['', Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateCategoryNameByID.bind(this)],
+      'productCategoryTypeId':[''],
+      'primaryParentCategoryId':[''],
+      'description': ['', Validators.maxLength(255)],
+    });
+  }
+  duplicateProductCategoryId() {
+    const q = new Promise((resolve, reject) => {
+              
+      let productCategoryId: string = this.addProductCategoryFormGroup.controls['productCategoryId'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_PRODUCT_CATEGORY_ID + productCategoryId)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateProductCategoryId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateProductCategoryId': true }); });
+    });
+    return q;
+  }
+  duplicateProductCategoryIdByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let productCategoryId: string = this.addProductCategoryFormGroup.controls['productCategoryId'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_PRODUCT_CATEGORYID_BY_ID+id+'/'+productCategoryId)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateProductCategoryIdByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateProductCategoryIdByID': true }); });
+    });
+    return q;
+  }
+  duplicateCategoryName() {
+    const q = new Promise((resolve, reject) => {
+              
+      let categoryName: string = this.addProductCategoryFormGroup.controls['categoryName'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_CATEGORY_NAME  +categoryName)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateCategoryName': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateCategoryName': true }); });
+    });
+    return q;
+  }
+  duplicateCategoryNameByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let categoryName: string = this.addProductCategoryFormGroup.controls['categoryName'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_CATEGORY_NAME_ID+id+'/'+categoryName)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateCategoryNameByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateCategoryNameByID': true }); });
+    });
+    return q;
+  }												
   getProductCategoryDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.GET_PRODUCT_CATEGORY_ID+id)
     .subscribe((resp) => {
@@ -86,41 +161,7 @@ export class AddProductCategoryComponent implements OnInit {
         this.spinnerService.hide();
       })
   }
-  duplicateProductCategoryId() {
-    var productCategoryId = this.addProductCategoryFormGroup.controls['productCategoryId'].value;
-    console.log("productCategoryId = "+this.resp.productCategoryId)
-    const q = new Promise((resolve, reject) => {
-      if(this.update && productCategoryId.toUpperCase() == this.resp.productCategoryId.toUpperCase()){
-        resolve(null);        
-      }else{
-      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_PRODUCT_CATEGORY_ID + productCategoryId).subscribe((duplicate) => {
-        if (duplicate) {
-          resolve({ 'duplicateProductCategoryId': true });
-        } else {
-          resolve(null);
-        }
-      }, () => { resolve({ 'duplicateProductCategoryId': true }); });
-    }
-    });
-    return q;
-  }
-  duplicateCategoryName() {
-    var categoryName = this.addProductCategoryFormGroup.controls['categoryName'].value;
-    const q = new Promise((resolve, reject) => {
-      if(this.update && categoryName.toUpperCase() == this.resp.categoryName.toUpperCase()){
-        resolve(null);
-      }else{
-      this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY.EXISTS_CATEGORY_NAME  +categoryName).subscribe((duplicate) => {
-        if (duplicate) {
-          resolve({ 'duplicateCategoryName': true });
-        } else {
-          resolve(null);
-        }
-      }, () => { resolve({ 'duplicateCategoryName': true }); });
-    }
-    });
-    return q;
-  }
+  
   ProductCategoryFormSubmit() {
     this.isSubmit = true;
     if (this.addProductCategoryFormGroup.invalid) {
@@ -144,15 +185,15 @@ export class AddProductCategoryComponent implements OnInit {
         this.resp = response;
      
         if (this.resp.code == Constants.CODES.SUCCESS) {
-          this.commonService.showAlertMessage("Product Category Data Saved Successfully");
+          this.commonService.showAlertMessage("ProductCategory Data Saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
         } else {
-          this.commonService.showAlertMessage("Product Category Data Saving Failed.");
+          this.commonService.showAlertMessage("ProductCategory Data Saving Failed.");
         }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Product Category Data Saving Failed.");
+        this.commonService.showAlertMessage("ProductCategory Data Saving Failed.");
       });
     } else if (this.update) {
       var updateProductModel = {

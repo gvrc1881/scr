@@ -45,13 +45,15 @@ export class AddElementarySectionComponent implements OnInit {
     this.findStationSectionDetails();
     this.id = +this.route.snapshot.params['id'];
     this.createElementarySectionForm();
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) { 
+      this.updateElementarySectionForm();    
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = 'Edit';
       this.getElementarySectionDataById(this.id);
     } else {
+      this.createElementarySectionForm();
       this.save = true;
       this.update = false;
       this.title = 'Save';
@@ -64,7 +66,7 @@ export class AddElementarySectionComponent implements OnInit {
   createElementarySectionForm() {
     this.addElementarySectionFormGroup = this.formBuilder.group({
       id: 0,
-      'elementarySectionCode':['', Validators.compose([Validators.required])],
+      'elementarySectionCode':['', Validators.compose([Validators.required]),this.duplicateElementarySectionCode.bind(this)],
       'facilityId':['', Validators.compose([Validators.required])],
       'stationCode':[''],
       'trackCode':[''],
@@ -83,6 +85,61 @@ export class AddElementarySectionComponent implements OnInit {
       'remarksNo': ['', Validators.maxLength(255)],
       'isAutoDead':[''],
     });
+  }
+  updateElementarySectionForm() {
+    this.addElementarySectionFormGroup = this.formBuilder.group({
+      id: 0,
+      'elementarySectionCode':['', Validators.compose([Validators.required]),this.duplicateElementarySectionCodeByID.bind(this)],
+      'facilityId':['', Validators.compose([Validators.required])],
+      'stationCode':[''],
+      'trackCode':[''],
+      'sidingMain':[''],
+      'sectionCode':[''],
+      'sectorCode': ['', Validators.compose([Validators.required])],
+      'subSectorCode':['', Validators.compose([Validators.required])],
+      'fromKm':[''],
+      'fromSeq':[''],
+      'toKm':[''],
+      'toSeq':[''],
+      'devisionId':[''],
+      'protectionCrossover': [''],
+      'protectionTurnout':[''],
+      'remarksShunting':['', Validators.maxLength(255)],
+      'remarksNo': ['', Validators.maxLength(255)],
+      'isAutoDead':[''],
+    });
+  }
+  duplicateElementarySectionCode() {
+    const q = new Promise((resolve, reject) => {
+              
+      let elementarySectionCode: string = this.addElementarySectionFormGroup.controls['elementarySectionCode'].value;
+      
+     
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.EXIST_ELEMENTARY_SECTION_CODE+elementarySectionCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateElementarySectionCode': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateElementarySectionCode': true }); });
+    });
+    return q;
+  }
+  duplicateElementarySectionCodeByID() {
+    const q = new Promise((resolve, reject) => {
+      let id=this.id;              
+      let elementarySectionCode: string = this.addElementarySectionFormGroup.controls['elementarySectionCode'].value;
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.EXIST_ELEMENTARY_SECTION_CODE_ID+id+'/'+elementarySectionCode)
+      .subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateElementarySectionCodeByID': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateElementarySectionCodeByID': true }); });
+    });
+    return q;
   }
   getElementarySectionDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.GET_ELEMENTARY_SECTIONS_ID+id)
@@ -151,15 +208,15 @@ export class AddElementarySectionComponent implements OnInit {
         this.resp = response;
      
         if (this.resp.code == Constants.CODES.SUCCESS) {
-          this.commonService.showAlertMessage("Elementary Section Data Saved Successfully");
+          this.commonService.showAlertMessage("Elementary SectionData Saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
         } else {
-          this.commonService.showAlertMessage("Elementary Section Data Saving Failed.");
+          this.commonService.showAlertMessage("Elementary SectionData Saving Failed.");
         }
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Elementary Section Data Saving Failed.");
+        this.commonService.showAlertMessage("Elementary SectionData Saving Failed.");
       });
     } else if (this.update) {
       var updateElementarySectionModel = {
@@ -196,7 +253,7 @@ export class AddElementarySectionComponent implements OnInit {
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Elementary Section Data Updating Failed.");
+        this.commonService.showAlertMessage("ElementarySection Data Updating Failed.");
       })
 
     }

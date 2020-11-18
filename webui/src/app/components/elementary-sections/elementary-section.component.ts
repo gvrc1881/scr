@@ -122,7 +122,7 @@ export class ElementarySectionComponent implements OnInit {
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.DELETE_ELEMENTARY_SECTIONS, id).subscribe(data => {
           console.log(JSON.stringify(data));
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Elementary sections Successfully");
+          this.commonService.showAlertMessage("Deleted Elementarysections Successfully");
           this.getElementarySectionsData();
         }, error => {
           console.log('ERROR >>>');
@@ -149,10 +149,11 @@ export class ElementarySectionComponent implements OnInit {
       data:result,  
     });            
   }
-  switchDialog(){
+  switchDialog(elementarySectionCode){
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
+      data:elementarySectionCode,
     });
 
   }

@@ -31,4 +31,19 @@ public class ProductService {
 		// TODO Auto-generated method stub
 		productRepository.deleteById(id);
 	}
+	public Boolean existsByProductId(String productId) {
+		// TODO Auto-generated method stub
+		return productRepository.existsByProductId(productId);
+	}
+	public Optional<Product> findByProductId(String productId) {
+		// TODO Auto-generated method stub
+		return productRepository.findByProductId(productId);
+	}
+	public Boolean existsByRlyId(String rlyId) {
+		// TODO Auto-generated method stub
+		return productRepository.existsByRlyId(rlyId);
+	}
+	public Optional<Product> findByRlyId(String rlyId) {
+		return productRepository.findByRlyId(rlyId);
+	}
 }

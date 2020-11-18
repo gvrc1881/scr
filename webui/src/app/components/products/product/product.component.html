@@ -14,7 +14,7 @@
             <div class="clear"> </div>
             <div class="row-fluid">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Product Information</div>
+                    <div class="panel-heading">Product  Information</div>
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="p-24" style="text-align: right">
@@ -105,13 +105,11 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="primaryProductCategoryId">
-                                            <ng-container matColumnDef="productTypeId">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     <span>{{FiledLabels.PRIMARY_PRODUCT}}</span>
                                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData">
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let row"> {{row.primaryProductCategoryId}}</mat-cell>
-                                            </ng-container>
                                         </ng-container>
 
                                         <ng-container matColumnDef="actions">

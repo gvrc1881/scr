@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -133,6 +134,41 @@ public class SectorController {
 		} catch (Exception e) {
 			logger.error("ERROR >> While deleting Sector data"+e.getMessage());
 			return Helper.findResponseStatus("Sector Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	@RequestMapping(value = "/existSectorCode/{sectorCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existSectorCode(@PathVariable("sectorCode") String sectorCode ){
+			
+		try {
+            logger.info("Request for checking exists Sector Code...");
+			return sectorService.existsBySectorCode(sectorCode);
+		} catch (Exception e) {
+			logger.error("Error while checking exists sector Code..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existSectorCodeById/{id}/{sectorCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existSectorCodeById(@PathVariable("id") Long id,@PathVariable("sectorCode") String sectorCode){
+		
+		logger.info("id=="+id+"sectorCode=="+sectorCode);
+		Boolean result;
+		try {
+			Optional<Sector> sectorData = sectorService.findBySectorCode(sectorCode);	
+			if(sectorData.isPresent()) {
+				Sector sector = sectorData.get();
+				logger.info("***id ***"+sector.getId());
+				if (id.equals(sector.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and Sector Code..."+e.getMessage());
+			return false;
 		}
 	}
 }

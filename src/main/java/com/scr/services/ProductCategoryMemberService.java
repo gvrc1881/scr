@@ -31,5 +31,10 @@ public class ProductCategoryMemberService {
 		// TODO Auto-generated method stub
 		productCategoryMemberRepository.deleteById(id);
 	}
-
+	public Boolean existsByProductCategoryIdAndProductId(String productCategoryId, String productId) {
+		return productCategoryMemberRepository.existsByProductCategoryIdAndProductId(productCategoryId,productId);
+	}
+	public Optional<ProductCategoryMember> findByProductCategoryIdAndProductId(String productCategoryId,String productId) {
+		return productCategoryMemberRepository.findByProductCategoryIdAndProductId(productCategoryId,productId);
+	}
 }

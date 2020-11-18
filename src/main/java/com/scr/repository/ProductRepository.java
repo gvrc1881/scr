@@ -3,12 +3,10 @@ package com.scr.repository;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.scr.model.Product;
-import com.scr.model.ProductCategoryMember;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
@@ -26,5 +24,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query(value = "SELECT p.productId,p.description  FROM Product p  WHERE productId in (select productId from ProductCategoryMember where productCategoryId = :productCategoryId)")
 	List<Product> findProducts(@Param("productCategoryId")String productCategoryId);
 	
+    Boolean existsByProductId(String productId);
+	
+	Optional<Product> findByProductId(String productId);
+	
+    Boolean existsByRlyId(String rlyId);
+    
+	Optional<Product> findByRlyId(String rlyId);
+
 
 }

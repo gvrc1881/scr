@@ -45,15 +45,16 @@ export class AddProductComponent implements OnInit {
   
     ngOnInit() {
       this.id = +this.route.snapshot.params['id'];
-    this.createProductForm();
 
-    if (!isNaN(this.id)) {     
+    if (!isNaN(this.id)) {   
+      this.updateProductForm();  
       this.spinnerService.show();
       this.save = false;
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getProductDataById(this.id);
     } else {
+      this.createProductForm();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
@@ -63,31 +64,91 @@ export class AddProductComponent implements OnInit {
     createProductForm() {
       this.addProductFormGroup = this.formBuilder.group({
         id: 0,
-        //'facilityId': [null, Validators.required],
-        'productId':[null, Validators.maxLength(255)],
-        'rlyId':[null, Validators.maxLength(255)],
+        'productId':[null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateProductId.bind(this)],
+        'rlyId':[null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateRlyId.bind(this)],
         'plNo': [null, Validators.maxLength(255)],
         'description':[null, Validators.maxLength(255)],
         'quantityUomId':[null, Validators.maxLength(255)],
         'materialClassification': [null, Validators.maxLength(255)],
         'productTypeId': [null, Validators.maxLength(255)],
         'primaryProductCategoryId':[null, Validators.maxLength(255)],
-
-        /*'depthUomId': [null, Validators.maxLength(255)],
-        'diameterUomId': [null, Validators.maxLength(255)],
-        'heightUomId': [null, Validators.maxLength(255)],
-        'productCodeTypeId': [null, Validators.maxLength(255)],
-        'productName': [null, Validators.maxLength(255)],
-        'productDepth': [null],
-        'productDiameter': [null],
-        'productHeight': [null],
-        'productWeight':[null],
-        'productWidth':[null],
-        'quantityIncluded':[null],*/
-        
       });
     }
-    
+
+    updateProductForm() {
+      this.addProductFormGroup = this.formBuilder.group({
+        id: 0,
+        'productId':[null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateProductIdByID.bind(this)],
+        'rlyId':[null, Validators.compose([Validators.required,Validators.maxLength(255)]),this.duplicateRlyIdByID.bind(this)],
+        'plNo': [null, Validators.maxLength(255)],
+        'description':[null, Validators.maxLength(255)],
+        'quantityUomId':[null, Validators.maxLength(255)],
+        'materialClassification': [null, Validators.maxLength(255)],
+        'productTypeId': [null, Validators.maxLength(255)],
+        'primaryProductCategoryId':[null, Validators.maxLength(255)],
+      });
+    }
+    duplicateProductId() {
+      const q = new Promise((resolve, reject) => {
+                
+        let productId: string = this.addProductFormGroup.controls['productId'].value;
+        
+       
+        this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.EXIST_PRODUCT_ID+productId)
+        .subscribe((duplicate) => {
+          if (duplicate) {
+            resolve({ 'duplicateProductId': true });
+          } else {
+            resolve(null);
+          }
+        }, () => { resolve({ 'duplicateProductId': true }); });
+      });
+      return q;
+    }
+    duplicateProductIdByID() {
+      const q = new Promise((resolve, reject) => {
+        let id=this.id;              
+        let productId: string = this.addProductFormGroup.controls['productId'].value;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.EXIST_PRODUCTID_BY_ID+id+'/'+productId)
+        .subscribe((duplicate) => {
+          if (duplicate) {
+            resolve({ 'duplicateProductIdByID': true });
+          } else {
+            resolve(null);
+          }
+        }, () => { resolve({ 'duplicateProductIdByID': true }); });
+      });
+      return q;
+    }
+    duplicateRlyId() {
+      const q = new Promise((resolve, reject) => {        
+        let rlyId: string = this.addProductFormGroup.controls['rlyId'].value;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.EXIST_RLY_ID+rlyId)
+        .subscribe((duplicate) => {
+          if (duplicate) {
+            resolve({ 'duplicateRlyId': true });
+          } else {
+            resolve(null);
+          }
+        }, () => { resolve({ 'duplicateRlyId': true }); });
+      });
+      return q;
+    }
+    duplicateRlyIdByID() {
+      const q = new Promise((resolve, reject) => {
+        let id=this.id;              
+        let rlyId: string = this.addProductFormGroup.controls['rlyId'].value;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.EXIST_RLYID_BY_ID+id+'/'+rlyId)
+        .subscribe((duplicate) => {
+          if (duplicate) {
+            resolve({ 'duplicateRlyIdByID': true });
+          } else {
+            resolve(null);
+          }
+        }, () => { resolve({ 'duplicateRlyIdByID': true }); });
+      });
+      return q;
+    }
   
      public get f() { return this.addProductFormGroup.controls; } 
 
@@ -114,20 +175,7 @@ export class AddProductComponent implements OnInit {
             materialClassification: this.resp.materialClassification,
             productTypeId: this.resp.productTypeId,
             primaryProductCategoryId: this.resp.primaryProductCategoryId,
-
-            /*depthUomId: this.resp.depthUomId,
-            diameterUomId: this.resp.diameterUomId,
-            heightUomId: this.resp.heightUomId,
-            productCodeTypeId: this.resp.productCodeTypeId,
-            productName: this.resp.productName,
-            productDepth: this.resp.productDepth,
-            productDiameter: this.resp.productDiameter,
-            productHeight: this.resp.productHeight,
-            productWeight: this.resp.productWeight,
-            productWidth: this.resp.productWidth,
-            quantityIncluded: this.resp.quantityIncluded,*/
-
-            
+ 
           });
           this.spinnerService.hide();
         })
