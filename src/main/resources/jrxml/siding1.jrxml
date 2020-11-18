@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="siding1" pageWidth="900" pageHeight="700" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="502462da-fe0e-4fef-9657-e5f9723b7ae9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select wgpap.wpa_name , wgpap.work_group , wgpap.uom , wgpap.population ,
+case when total_cnt is null then 0 else total_cnt end as total_cnt ,
+case when day_cnt is null then 0 else day_cnt end as day_cnt,now()::date-1 as date,WORK_NAME
+from v_work_group_phase_activity_population wgpap
+left outer join
+(
+select sum(performed_count) total_cnt, work_group , wpa_name , wpa_sequence
+from v_wpa_daily_progress group by work_group , wpa_name , wpa_sequence ) tp
+on (tp.work_group = wgpap.work_group and   tp.wpa_name = wgpap.wpa_name)
+left outer join
+(
+select sum(performed_count) day_cnt, work_group , wpa_name , wpa_sequence
+from v_wpa_daily_progress
+where date = now()::date-1
+ group by work_group , wpa_name , wpa_sequence ) dp
+ on (dp.work_group = wgpap.work_group and   dp.wpa_name = wgpap.wpa_name)
+
+order by wgpap.work_group , wgpap.wpa_sequence]]>
+	</queryString>
+	<field name="wpa_name" class="java.lang.String"/>
+	<field name="work_group" class="java.lang.String"/>
+	<field name="uom" class="java.lang.String"/>
+	<field name="population" class="java.lang.String"/>
+	<field name="total_cnt" class="java.lang.Double"/>
+	<field name="day_cnt" class="java.lang.Double"/>
+	<field name="date" class="java.sql.Date"/>
+	<field name="work_name" class="java.lang.String"/>
+	<group name="work_group">
+		<groupExpression><![CDATA[$F{work_group}]]></groupExpression>
+		<groupHeader>
+			<band height="72">
+				<textField isBlankWhenNull="true">
+					<reportElement x="358" y="0" width="502" height="29" uuid="0dd5765b-853d-4974-919b-a9c942732e3f"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{work_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="358" height="29" uuid="621699de-7524-4de7-b9d9-21196aa6517b"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Siding]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="47" width="65" height="25" uuid="8893fc50-c6b8-4131-acf6-bfb3e304eb69"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[S No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="65" y="47" width="293" height="25" uuid="1e293c9c-8115-456d-8428-3c4429882c75"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nature Of Work]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="358" y="47" width="134" height="25" uuid="5656fd96-1771-4b55-997b-6031a7569c3f"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UOM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="492" y="47" width="136" height="25" uuid="7c967c4f-1fd5-4b63-a630-72b365df4984"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Qty]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="628" y="47" width="100" height="25" uuid="e3727bdc-7f44-4a51-9039-065203c076cd"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Done Qty]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="728" y="47" width="132" height="25" uuid="d6548d38-79bf-4b3c-8d1e-93f3c271ac48"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Day Count]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="29" width="728" height="18" uuid="4c90dbd7-26c3-4164-b988-954fa948e980"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Progress Of    :   ]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="728" y="29" width="132" height="18" uuid="f2c354cf-ebd1-46e8-8c91-49397e1745c8"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="74" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="860" height="68" uuid="e172f976-7f1f-4c93-96d6-827d1417bb72"/>
+				<subreportParameter name="fromDate">
+					<subreportParameterExpression><![CDATA[]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["/home/opentaps/git/zonal_31_08_2020/src/main/resources/jrxml/siding1_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="0" width="293" height="20" uuid="e0e4d98b-b410-49b0-9ed1-d4c8fabbf9ae"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{wpa_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="358" y="0" width="134" height="20" uuid="3fc8398d-6fca-4c36-94b5-e9c78e392bb3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="492" y="0" width="136" height="20" uuid="569a167e-c542-415e-9a4c-0e67eeb4a1b9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{population}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="628" y="0" width="100" height="20" uuid="f90b9502-bf5c-46bb-9d3f-603845a5be42"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="728" y="0" width="132" height="20" uuid="b804114b-430a-434b-82e6-8a11f2b03326"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{day_cnt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="65" height="20" uuid="500b31e7-b122-4abd-b2e3-72c59d0404b2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="358" y="0" width="134" height="20" uuid="f9712da5-b2a6-41d7-9460-b83dbe19fb33"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="492" y="0" width="136" height="20" uuid="74f5d40b-5d12-4364-a517-1ef5a2665196"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="860" height="25" forecolor="#F40E3A" uuid="6e5b36c7-70f8-4be6-8aa4-41817a6718db"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
