@@ -95,7 +95,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             color: "#1285EE",
             subMenuIcon: "fa fa-file",
             rolePermission: true,
-            permission: true,//this.commonService.findPermission('Stock Quantities', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Stock Quantities', 'submenu', 'view'),
+            //permission:true,
             currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
           },
           {
@@ -550,7 +551,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 8,
         menuName: 'Failures',
-        menuUrl: 'failure-analysis',
+        menuUrl: 'cb-failure',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -560,9 +561,19 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           path.includes("failure-occurrence") || path.includes("actions") || path.includes("failure-analysis") ? "open" : "",
         subMenus: [
           {
+            subMenuName: "CB Failure",
+            subMenuURL: "cb-failure",
+            subMenuIcon: "fa fa-file",
+            rolePermission: true,
+            permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+             //permission:true,
+            currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
+          },
+          {
             subMenuName: "Failure Analysis",
             subMenuURL: "failure-analysis",
-            permission: true,//this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
+            permission: this.commonService.findPermission('Failure Analysis', 'submenu', 'view'),
+             //permission:true,
             subMenuIcon: "fa fa-file",
             rolePermission: true,
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
@@ -575,14 +586,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: true,
             currentSubMenu: !!path && path.includes("grid-failure") ? "active-item" : "",
           },
-          {
-            subMenuName: "CB Failure",
-            subMenuURL: "cb-failure",
-            subMenuIcon: "fa fa-file",
-            rolePermission: true,
-            permission: true,//this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
-          },
+         
           {
             subMenuName: "RC Failures",
             subMenuURL: "rc-failure",
@@ -639,7 +643,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuName: "Product",
             subMenuURL: "product",
             subMenuIcon: "fa fa-product-hunt",
-            permission: true,
+            permission:  this.commonService.findPermission('Product', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("product") ? "active-item" : "",
           },
@@ -647,7 +651,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuName: "Product Category",
             subMenuURL: "product-category",
             subMenuIcon: "fa fa-product-hunt",
-            permission: true,
+            permission: this.commonService.findPermission('Product Category', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("product-category") ? "active-item" : "",
           },
@@ -655,7 +659,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuName: "Product Category Member",
             subMenuURL: "product-category-member",
             subMenuIcon: "fa fa-product-hunt",
-            permission: true,
+            permission: this.commonService.findPermission('Product Category Member', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("product-category-member") ? "active-item" : "",
           },
@@ -664,7 +668,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 10,
         menuName: 'REGISTER',
-        menuUrl: 'electrification-targets',
+        menuUrl: 'amd',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -678,7 +682,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "amd",
             subMenuIcon: "fa fas fa-cloud",
             rolePermission: true,
-            permission: true,
+            permission:this.commonService.findPermission('Asset Master', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("amd") ? "active-item" : "",
           },
           {
@@ -730,7 +734,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "ohe-location",
             subMenuIcon: "fa fa-map-marker",
             rolePermission: true,
-            permission: true,
+            permission:  this.commonService.findPermission('OHE LOCATIONS', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("ohe-location") ? "active-item" : "",
           },
           {
@@ -738,7 +742,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "gantry",
             subMenuIcon: "fa fa-track",
             rolePermission: true,
-            permission: true,
+            permission: this.commonService.findPermission('GANTRY', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("gantry") ? "active-item" : "",
           },
           {
@@ -746,7 +750,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "copy-wp-and-wpa",
             subMenuIcon: "",
             rolePermission: true,
-           permission: true,
+          // permission: true,
+           permission:this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
           },
           {
@@ -754,7 +759,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "sectors",
             subMenuIcon: "fa fa-track",
             rolePermission: true,
-            permission: true,
+            permission: this.commonService.findPermission('SECTOR', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("sectors") ? "active-item" : "",
           },
           {
@@ -762,7 +767,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "sub-sectors",
             subMenuIcon: "fa fa-track",
             rolePermission: true,
-            permission: this.commonService.findPermission('sub sector', 'submenu', 'view'),
+            permission: this.commonService.findPermission('SUB SECTOR', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("sub-sectors") ? "active-item" : "",
           },
           {
@@ -770,7 +775,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "elementary-sections",
             subMenuIcon: "fa fa-track",
             rolePermission: true,
-            permission: true,
+            permission: this.commonService.findPermission('Elementary Sections', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("elementary-sections") ? "active-item" : "",
           },
           {
@@ -820,7 +825,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('Obs Categories', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Obs Categories") ? "active-item" : "",
           },
           {
@@ -829,7 +835,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('Obs Check List', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Obs Check List") ? "active-item" : "",
           },
           {
@@ -838,7 +845,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('OBSERVATIONS', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("observation-details") ? "active-item" : "",
           },
           {
@@ -847,7 +855,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('COMPLIANCES', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("compliance-details") ? "active-item" : "",
           }
 
@@ -858,7 +867,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 12,
         menuName: 'ENERGY',
-        menuUrl: 'energyBillPayment',
+        menuUrl: 'energyMeter',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -910,7 +919,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 13,
         menuName: 'TRD CONFIG',
-        menuUrl: 'tpc-board',
+        menuUrl: 'facility',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -918,6 +927,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         currentTab: !!path && path.includes("stations-sections") || path.includes("tpc-board-depot-assoc") || path.includes("tpc-board") || path.includes("tss-feeder")
           || path.includes("asset-schedule-assoc") || path.includes("asset-schedule-activity-assoc") || path.includes("facility") || path.includes("measure-activity") || path.includes("assets-schedule") ? "open" : "",
         subMenus: [
+          {
+            subMenuName: "Functional Unit",
+            subMenuURL: "facility",
+            subMenuIcon: "fa fa-align-left",
+            rolePermission: true,
+            permission: this.commonService.findPermission('Functional Unit', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("facility") ? "active-item" : "",
+          },
           {
             subMenuName: "Asset Schedule Activity Assocation",
             subMenuURL: "asset-schedule-activity-assoc",
@@ -935,14 +952,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("asset-schedule-assoc") ? "active-item" : "",
           },
 
-          {
-            subMenuName: "Functional Unit",
-            subMenuURL: "facility",
-            subMenuIcon: "fa fa-align-left",
-            rolePermission: true,
-            permission: this.commonService.findPermission('Functional Unit', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("facility") ? "active-item" : "",
-          },
+        
           {
             subMenuName: "Measure-Activity",
             subMenuURL: "measure-activity",
@@ -957,7 +967,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "fa fa-train",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('Stations-sections', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("stations-sections") ? "active-item" : "",
           },
           {
@@ -966,7 +977,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('TPC Board Assoc', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("TPC Board Assoc") ? "active-item" : "",
           },
           {
@@ -975,7 +987,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            //permission: true,
+            permission: this.commonService.findPermission('TPC BOARD', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("TPC Board") ? "active-item" : "",
           },
           {
@@ -984,7 +997,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            permission:this.commonService.findPermission('TSS Feeder', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("TSS Feeder") ? "active-item" : "",
           },
           {
@@ -993,7 +1006,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+            permission: this.commonService.findPermission('Assets schedule', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Assets Schedule") ? "active-item" : "",
           },
 
@@ -1007,7 +1020,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: true,//this.commonService.findPermission('ash', 'menu', 'view'),
+        permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
           || path.includes("officers-movement") || path.includes("powerBlocks") ? "open" : "",
         subMenus: [
@@ -1041,7 +1054,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuIcon: "",
             color: "#12E1EE",
             rolePermission: true,
-            permission: true,
+           // permission: true,
+           permission: this.commonService.findPermission('POWER BLOCKS', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("powerBlocks") ? "active-item" : "",
           },
         ]
@@ -1081,21 +1095,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         || path.includes("STD-phases") || path.includes("STD-phase-activity")  || path.includes("work-daily-progress")  ? "open" : "",
         subMenus: [
           {
-            subMenuName: "Projects",
+            subMenuName: "Project",
             subMenuURL: "projects",
             subMenuIcon: "fa fa-file",
             permission: this.commonService.findPermission('Projects', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("projects") ? "active-item" : "",
           },
-          {
-            subMenuName: "ProjectDailyProgress",
-            subMenuURL: "work-daily-progress",
-            subMenuIcon: "fa fa-track",
-            rolePermission: true,
-            permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
-          },
+          
           {
             subMenuName: "Phases",
             subMenuURL: "phases",
@@ -1158,14 +1165,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       },
       {
         ID: 17,
-        menuName: 'DAILY PROGRESS',
+        menuName: 'PROJECT PROGRESS',
         menuUrl: 'Progress',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: this.commonService.findPermission('DAILY PROGRESS', 'menu', 'view'),
+        permission: this.commonService.findPermission('PROJECT PROGRESS', 'menu', 'view'),
         currentTab: !!path && path.includes("progress") || path.includes("guidence")  ? "open" : "",
-        subMenus: [
+        subMenus: [       
           {
             subMenuName: "Progress",
             subMenuURL: "progress",
@@ -1173,6 +1180,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('Progress', 'submenu', 'view'),
             rolePermission: true,
             currentSubMenu: !!path && path.includes("progress") ? "active-item" : "",
+          },
+          {
+            subMenuName: "ProjectDailyProgress",
+            subMenuURL: "work-daily-progress",
+            subMenuIcon: "fa fa-track",
+            rolePermission: true,
+            permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
           },
           {
             subMenuName: "Guidence",
