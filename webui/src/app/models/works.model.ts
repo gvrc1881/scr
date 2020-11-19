@@ -42,3 +42,10 @@ export interface WPADailyProgressModel {
     alreadyDoneCount: number;
         
 }
+
+export interface WPASectionPopulationModel {
+    id: number;
+    population: number;
+    workGroupId: any;
+    workPhaseActivityId: any; 
+}

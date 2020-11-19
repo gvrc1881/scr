@@ -233,13 +233,13 @@ public class WorksServices {
 		return workPhaseRepository.findByWorkId(works);
 	}
 
-	public List<WPADailyProgressResponse> getWPADailyProgressBasedOnGroupActivity(Integer workId, Integer workGroupId,
+	public List<WPADailyProgressResponse> getWPADailyProgressBasedOnGroupActivity(Integer workId, Long workGroupId,
 			Integer workPhaseId, Date date) {
 		List<WPADailyProgressResponse> wpaDailyProgresses = null;
 		Optional<WorkGroup> workGroup = workGroupRepository.findById(workGroupId);
 		Optional<WorkPhases> workPhase = workPhaseRepository.findById(workPhaseId);
 		if (workGroup.isPresent() && workPhase.isPresent()) {
-			List<WorkGroup> workGroups = workGroupRepository.findByCode(workGroup.get().getCode());
+			List<WorkGroup> workGroups = workGroupRepository.findByWorkGroup(workGroup.get().getWorkGroup());
 			List<WorkPhaseActivity> workPhaseActivities  = workPhaseActivityRepository.findByWorkPhaseId(workPhase.get());
 			wpaDailyProgresses = workMapper.prepareWPADailyProgressData(workId,workGroups,workPhaseActivities,date);
 		}
@@ -264,6 +264,29 @@ public class WorksServices {
 			//log.info("*** to string ****"+wpaDailyProgress.toString());
 		}
 		
+	}
+
+	public List<WPASectionPopulation> getWPASectionPopulationBasedOnGroupActivity(Integer workId, Long workGroupId,
+			Integer workPhaseId) {
+		List<WPASectionPopulation> wpaSectionPopulations = null;
+		Optional<WorkGroup> workGroup = workGroupRepository.findById(workGroupId);
+		Optional<WorkPhases> workPhase = workPhaseRepository.findById(workPhaseId);
+		if (workGroup.isPresent() && workPhase.isPresent()) {
+			List<WorkGroup> workGroups = workGroupRepository.findByWorkGroup(workGroup.get().getWorkGroup());
+			List<WorkPhaseActivity> workPhaseActivities  = workPhaseActivityRepository.findByWorkPhaseId(workPhase.get());
+			wpaSectionPopulations = workMapper.prepareWPASectionPopulations(workGroups,workPhaseActivities);
+		}
+		return wpaSectionPopulations;
+	}
+
+	public void saveWPASectionPopulation(List<WPASectionPopulation> wpaSectionPopulations) {
+		for (WPASectionPopulation wpaSectionPopulation : wpaSectionPopulations) {
+			Optional<WPASectionPopulation> WPASecPopulation = wpaSectionPopulationRepository.findByWorkGroupIdAndWorkPhaseActivityId(wpaSectionPopulation.getWorkGroupId(), wpaSectionPopulation.getWorkPhaseActivityId());
+			if (WPASecPopulation.isPresent()) {
+				WPASecPopulation.get().setPopulation(wpaSectionPopulation.getPopulation());
+				wpaSectionPopulationRepository.save(WPASecPopulation.get());
+			}
+		}
 	}
 
 

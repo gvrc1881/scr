@@ -38,7 +38,7 @@ public class WorkMapper {
 	
 	@Autowired
 	private WorkGroupRepository workGroupRepository;
-
+	
 	public  List<WPADailyProgressResponse> prepareWPADailyProgressData(Integer workId, List<WorkGroup> workGroups,
 			List<WorkPhaseActivity> workPhaseActivities, Date date) {
 		List<WPADailyProgressResponse> wpaDailyProgressResponseList = new ArrayList<WPADailyProgressResponse>();
@@ -67,6 +67,20 @@ public class WorkMapper {
 		}
 		logger.info("*** in mapper ***"+wpaDailyProgressResponseList.size());
 		return wpaDailyProgressResponseList;
+	}
+
+	public List<WPASectionPopulation> prepareWPASectionPopulations(List<WorkGroup> workGroups,
+			List<WorkPhaseActivity> workPhaseActivities) {
+		List<WPASectionPopulation> wpaSectionPopulationList = new ArrayList<>();
+		for (WorkGroup workGroup : workGroups) {
+			for (WorkPhaseActivity workPhaseActivity : workPhaseActivities) {
+				Optional<WPASectionPopulation> wpaSectionPopulation = wpaSectionPopulationRepository.findByWorkGroupIdAndWorkPhaseActivityId(workGroup, workPhaseActivity);
+				if (wpaSectionPopulation.isPresent()) {
+					wpaSectionPopulationList.add(wpaSectionPopulation.get());
+				}
+			}
+		}
+		return wpaSectionPopulationList;
 	}
 
 }

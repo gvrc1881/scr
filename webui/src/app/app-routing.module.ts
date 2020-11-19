@@ -475,6 +475,11 @@ const routes: Routes = [
   loadChildren: './components/projects/projects.module#ProjectModule',
    canActivate: [AuthGuard]
  },
+   {
+    path: 'population',
+    loadChildren: './components/wpa-section-population/wpa-section-population.module#WPASectionPopulationModule',
+    canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

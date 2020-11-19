@@ -25,6 +25,7 @@ import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.WPADailyProgressResponse;
 import com.scr.model.WPADailyProgress;
+import com.scr.model.WPASectionPopulation;
 import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
@@ -230,7 +231,7 @@ public class WorksController {
 	}
 	
 	@RequestMapping(value = "/getWPADailyProgressBasedOnGroupActivity/{workId}/{workGroupId}/{workPhaseId}/{date}" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public List<WPADailyProgressResponse> getWPADailyProgressBasedOnGroupActivity(@PathVariable("workId") Integer workId,@PathVariable("workGroupId") Integer workGroupId,@PathVariable("workPhaseId") Integer workPhaseId,@PathVariable("date") Date date){
+	public List<WPADailyProgressResponse> getWPADailyProgressBasedOnGroupActivity(@PathVariable("workId") Integer workId,@PathVariable("workGroupId") Long workGroupId,@PathVariable("workPhaseId") Integer workPhaseId,@PathVariable("date") Date date){
 		log.info("Enter into getWorkPhasesBasedOnWork function Id***"+workId+"groupId"+workGroupId+"** phase Id ***"+workPhaseId+"**date***"+date);
 		List<WPADailyProgressResponse> wpaDailyProgresses = null;
 		
@@ -258,6 +259,43 @@ public class WorksController {
 		catch (Exception e) {
 			log.error("ERROR >> While adding WPA daily progress Data. "+e.getMessage());
 			return Helper.findResponseStatus("WPA daily progress   Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/getWPASectionPopulationBasedOnGroupActivity/{workId}/{workGroupId}/{workPhaseId}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<WPASectionPopulation> getWPASectionPopulationBasedOnGroupActivity(
+			@PathVariable("workId") Integer workId, @PathVariable("workGroupId") Long workGroupId,
+			@PathVariable("workPhaseId") Integer workPhaseId) {
+		log.info("Enter into getWPASectionPopulationBasedOnGroupActivity function Id***" + workId + "groupId"
+				+ workGroupId + "** phase Id ***" + workPhaseId);
+		List<WPASectionPopulation> wpaSectionPopulations = null;
+
+		try {
+			wpaSectionPopulations = worksServices.getWPASectionPopulationBasedOnGroupActivity(workId, workGroupId,
+					workPhaseId);
+			return wpaSectionPopulations;
+		} catch (Exception e) {
+			log.error("Error >>  while find WPA sectionn population data by group and activity, " + e.getMessage());
+		}
+		return wpaSectionPopulations;
+	}
+
+	@PostMapping(value = "/saveWPASectionPopulation")
+	@ResponseBody
+	public ResponseStatus saveWPASectionPopulation(@RequestBody List<WPASectionPopulation> wpaSectionPopulations) {
+		log.info("*** Enter into saveWPASectionPopulation function ***");
+		try {
+			worksServices.saveWPASectionPopulation(wpaSectionPopulations);
+			log.info("Preparing the return response and saveWPASectionPopulation function end ");
+			return Helper.findResponseStatus("WPA section population Data Added Successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While adding WPA section population Data. " + npe.getMessage());
+			return Helper.findResponseStatus("WPA section population Addition is Failed with " + npe.getMessage(),
+					Constants.FAILURE_CODE);
+		} catch (Exception e) {
+			log.error("ERROR >> While adding WPA section population Data. " + e.getMessage());
+			return Helper.findResponseStatus("WPA section population   Addition is Failed with " + e.getMessage(),
+					Constants.FAILURE_CODE);
 		}
 	}
 

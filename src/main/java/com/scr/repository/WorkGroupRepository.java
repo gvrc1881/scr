@@ -28,4 +28,6 @@ public interface WorkGroupRepository extends JpaRepository<WorkGroup, Long>{
 
 	Optional<WorkGroup> findByworkIdAndWorkGroupAndSection(Works work, String group, String section);
 
+	List<WorkGroup> findByWorkGroup(String workGroup);
+
 }
