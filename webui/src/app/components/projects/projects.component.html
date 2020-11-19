@@ -105,7 +105,7 @@
                                                 </mat-header-cell>
                                             <mat-cell *matCellDef="let row">
                                               <span class="mat-raised-button mat-accent" 
-                                               [routerLink]="['copy-wp-and-wpa']" 
+                                              (click)="processNewProcess(row.id)" 
                                               color="accent" mat-raised-button="">
                                               WorkPhaseDetails
                                             </span>                                              

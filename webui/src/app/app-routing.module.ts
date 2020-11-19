@@ -480,6 +480,11 @@ const routes: Routes = [
     loadChildren: './components/wpa-section-population/wpa-section-population.module#WPASectionPopulationModule',
     canActivate: [AuthGuard]
    },
+   {
+    path: 'phases',
+    loadChildren: './components/project-phases/project-phases.module#ProjectPhasesModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

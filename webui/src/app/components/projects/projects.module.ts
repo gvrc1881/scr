@@ -11,9 +11,10 @@ import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.mo
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 import { filterDirective } from 'src/app/common/filter.directive';
 import { DateTimeAdapter, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-
 import { DateFilterPipe } from 'src/app/common/date-filter.pipe';
 import { DateFnsDateTimeAdapter } from 'src/app/common/date-fns-date-time-adapter.class';
+//import { CopyWPAndWPAComponent } from '../copy-wp-and-wpa/copy-wp-and-wpa.component';
+
 const DATEFNS_FORMATS_EN_LOCALE = {
     parseInput: "dd-MM-yyyy HH:mm || dd/MM/yyyy", // multiple date input types separated by ||
     fullPickerInput: "dd-MM-yyyy HH:mm:ss",
@@ -36,13 +37,19 @@ const routes: Routes = [
     {
         path        : 'add-project',
         component:   AddProjectComponent
-    }
+    },
+    // {
+    //     path        : ':workId',
+    //     component:   CopyWPAndWPAComponent
+    // }
+   
 ];
 
 @NgModule({
     declarations: [
         ProjectComponent,
         AddProjectComponent,
+       // CopyWPAndWPAComponent
     ],
     imports: [
         RouterModule.forChild(routes),

@@ -732,7 +732,14 @@ export const Constants = {
                 GET_GROUPS_SECTIONS:"/findAllGroupsSections",
                 EXIST_PROJECT_GROUP_SECTION:"/existsByWorkIdAndGroupAndSection/",
                 EXIST_PROJECT_GROUP_SECTION_ID:"/existsByWorkIdAndGroupAndSectionAndId/",
-            },    
+            },   
+            PHASES:{
+                SAVE:"/addWorkPhases",
+                UPDATE:"/updateWorkPhases",
+                DELETE:"/deleteWorkPhases/",
+                GET_WORK_PHASES_BY_ID:"/findworkPhasesBasedOnWorkId/"
+                
+              },    
     }
 },
     EVENTS:{

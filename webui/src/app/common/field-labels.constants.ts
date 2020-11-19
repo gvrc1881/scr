@@ -397,7 +397,11 @@ export const FieldLabelsConstant = {
       OLD_DRIVE_NAME:"Old Drive Name",
       NEW_DRIVE_NAME:"New Drive Name",
       CHECK:"Check",
-      
+      PHASE_NAME:"Phase Name",
+      DEPENDENCY_TO_START:"Dependency",
+      SEQUENCE:"Sequence",
+      WEIGHTAGE:"Weightage",
+      PLANNED_DATE:"Planned Start Date",
       BATCH:"Batch",
       BRACKET1_INSULATOR_BATCH:"Bracket1 Insulator Batch",
       BRACKET1_INSULATOR_MAKE:"Bracket1 Insulator Make",
@@ -587,7 +591,8 @@ export const FieldLabelsConstant = {
      OBSERVATIONS_FORM:'OBSERVATIONS_FORM',
     FAILURE_ANALYSIS_FORM:'Failure Analysis Form',
     OBSERVATION_CATEGORY:'Observation Category',
-    PROJECT:'Project'
+    PROJECT:'Project',
+    PROJECT_PHASES:'Project Phases'
      
    }
 };
