@@ -213,6 +213,15 @@ const routes: Routes = [
     loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
     canActivate: [AuthGuard]
   },
+
+//added by gopal
+
+  {
+  path: 'day-progress-reports',
+  loadChildren: './components/reports/report-names/report-names.module#ReportNamesModule',
+  canActivate: [AuthGuard]
+  },
+  
   {
     path: 'users',
     loadChildren: './components/masters/users/users.module#UserModule',

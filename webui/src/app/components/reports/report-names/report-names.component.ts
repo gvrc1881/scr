@@ -61,6 +61,13 @@ export class ReportNamesComponent implements OnInit {
       this.breadcrumb = 'Zmms Reports';
       this.reportName='Zmms';
     }
+
+    else if(this.router.url == '/day-progress-reports'){
+      this.reportType = 'Day-Progress-Reports';
+      this.breadcrumb = 'Day-Progress-Reports';
+      this.reportName='Day-Progress-Reports';
+    }
+    
     console.log("reportType"+this.reportType)  
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_REPORT_NAMES+this.reportType)
     .subscribe((data)=>{
