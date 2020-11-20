@@ -32,7 +32,7 @@ export class SwitchOperationsComponent implements OnInit {
     public MaterialModule:any;
     public dialogRef: MatDialogRef<SwitchOperationsComponent>;
     switchOperationsDataSource: MatTableDataSource<PbSwitchModel>;
-    switchOperationsDisplayColumns = ['sno' ,'switchType','switchId' , 'isNormallOpened' , 'id' ] ;
+    switchOperationsDisplayColumns = ['sno' ,'pbExtentCode','switchType','switchId' , 'isNormallyOpened' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     
@@ -46,7 +46,8 @@ export class SwitchOperationsComponent implements OnInit {
         private dialog: MatDialog,
         private sendAndRequestService:SendAndRequestService,
         private location: Location,
-        @Inject(MAT_DIALOG_DATA) public data:any
+        @Inject(MAT_DIALOG_DATA) public data:any,
+        @Inject(MAT_DIALOG_DATA) public type:any,
 
     ){
         
@@ -62,7 +63,9 @@ export class SwitchOperationsComponent implements OnInit {
             id: 0,
             'switchType':[null],
             'switchId':[null],
-            'isNormallOpened': [''],
+            'pbExtentCode':[null],
+            'pbExtentType':[],
+            'isNormallyOpened': [''],
             
         });  
     }
@@ -89,18 +92,23 @@ export class SwitchOperationsComponent implements OnInit {
     switchOperationsSubmit () {
         let switchType: string = this.switchOperationsFormGroup.value.switchType;
         let switchId: string = this.switchOperationsFormGroup.value.switchId;
-        let isNormallOpened: string = this.switchOperationsFormGroup.value.isNormallOpened == true ? 'true' : 'false';
+        let pbExtentCode:string=this.data;
+        let pbExtentType:string=this.type;
+        let isNormallyOpened: string = this.switchOperationsFormGroup.value.isNormallyOpened == true ? 'true' : 'false';
         
         
         if (this.title ==  Constants.EVENTS.ADD) {
                 var saveSwitchModel ={
                     'switchType':switchType,
                     'switchId':switchId,
-                    'isNormallOpened': isNormallOpened
+                    'pbExtentCode':pbExtentCode,
+                    'pbExtentType':pbExtentType,
+                    'isNormallyOpened': isNormallyOpened
                 } 
                 this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.SAVE_SWITCH, saveSwitchModel, false).subscribe(response => {
                   this.commonService.showAlertMessage('Successfully saved');
                 this.getAllPbSwitchData();
+                this.switchOperationsFormGroup.reset();
             } , error => {});
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editSwitchOperationsResponse.id;
@@ -108,7 +116,9 @@ export class SwitchOperationsComponent implements OnInit {
                 'id':id,
                 'switchType':switchType,
                 'switchId':switchId,
-                'isNormallOpened': isNormallOpened
+                'pbExtentCode':pbExtentCode,
+                'pbExtentType':pbExtentType,
+                'isNormallyOpened': isNormallyOpened
             }
             this.sendAndRequestService.requestForPUT(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.UPDATE_SWITCH, updateSwitchModel, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
@@ -129,7 +139,7 @@ export class SwitchOperationsComponent implements OnInit {
             id: 0,
             'switchType':[null],
             'switchId':[null],
-            'isNormallOpened': ['']
+            'isNormallyOpened': ['']
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.GET_SWITCH_ID+id).subscribe((responseData) => {
             this.editSwitchOperationsResponse = responseData;
@@ -137,7 +147,7 @@ export class SwitchOperationsComponent implements OnInit {
                 id: this.editSwitchOperationsResponse.id,
                 switchType:this.editSwitchOperationsResponse.switchType,
                 switchId:this.editSwitchOperationsResponse.switchId,
-                isNormallOpened:this.editSwitchOperationsResponse.isNormallOpened == 'true' ? true: false,
+                isNormallyOpened:this.editSwitchOperationsResponse.isNormallyOpened == 'true' ? true: false,
 
             });
         } ,error => {})

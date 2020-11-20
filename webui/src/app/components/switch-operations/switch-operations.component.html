@@ -32,8 +32,8 @@
                           </div>
 
                             <div class="col-md-3">
-                             Is Normall Opened:
-                                  <input type="checkbox"  [formControl]="switchOperationsFormGroup.controls['isNormallOpened']" />
+                             Is Normally Opened:
+                                  <input type="checkbox"  [formControl]="switchOperationsFormGroup.controls['isNormallyOpened']" />
                           </div>
 
                           <div class="col-md-2">
@@ -75,6 +75,11 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
               </ng-container>
+              <ng-container matColumnDef="pbExtentCode">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PB_SECTION}}</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="cursor: pointer">
+                  {{row.pbExtentCode}}</mat-cell>
+            </ng-container>
               <ng-container matColumnDef="switchType">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SWITCH_TYPE}}</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="cursor: pointer">
@@ -86,10 +91,10 @@
                 <mat-cell *matCellDef="let row" style="cursor: pointer">
                   {{row.switchId}}</mat-cell>
             </ng-container>
-              <ng-container matColumnDef="isNormallOpened">
+              <ng-container matColumnDef="isNormallyOpened">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.IS_NORMALLY_OPENED}}</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="cursor: pointer">
-                    {{row.isNormallOpened}}</mat-cell>
+                    {{row.isNormallyOpened}}</mat-cell>
               </ng-container>
               
             

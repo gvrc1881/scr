@@ -148,13 +148,14 @@ export class AddSidingDetailsComponent implements OnInit {
           })
       }
       
-    statusChange() {
-      if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'yes') {     
-          this.onlyYes = false;
-      } else {
-          this.onlyYes = true;
-      }
-          }
+      statusChange() {
+        if (this.sidingsItemFormGroup.value.sidingEletrifiedStatus == 'Yes') {     
+            this.onlyYes = false;
+        } else {
+            this.onlyYes = true;
+        }
+            }
+
   
    
     getSidingsDataById(id) {

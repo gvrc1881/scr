@@ -3,20 +3,28 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDatepickerInputEvent, MatDialogRef, MatDialog } from '@angular/material';
+import { MatDatepickerInputEvent, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { InspectionstModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 
 @Component({
   selector: 'app-add-drive-stipulation',
   templateUrl: './add-drive-stipulation.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 
 export class AddDriveStipulationComponent implements OnInit {

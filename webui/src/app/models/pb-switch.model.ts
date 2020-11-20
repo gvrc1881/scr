@@ -3,6 +3,7 @@ export interface PbSwitchModel{
     id: number;
     switchType:String;
     switchId:String;
+    pbExtentCode:string;
     isNormallOpened:String;
     
 

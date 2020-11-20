@@ -126,7 +126,7 @@
                                                     </div>
                                                     
                                                     
-                                                        <div class="col-md-12" *ngIf="onlyYes">
+                                                    <div class="col-md-12" *ngIf="onlyYes && addPermission">
                                                       <div class="col-md-3">
                                                           <mat-form-field fxFlex="30">
                                                               <mat-select placeholder="{{FiledLabels.SIDING_PROPOSED}}" [formControl]="sidingsItemFormGroup.controls['sidingProposed']" >

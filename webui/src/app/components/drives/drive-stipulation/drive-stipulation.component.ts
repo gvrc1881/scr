@@ -82,8 +82,8 @@ export class DriveStipulationComponent implements OnInit {
       this.stipulationsList = data;
       for (let i = 0; i < this.stipulationsList.length; i++) {
         this.stipulationsList[i].sno = i + 1;
-          this.stipulationsList[i].dateOfStipulation = this.datePipe.transform(this.stipulationsList[i].dateOfStipulation, 'dd-MM-yyyy hh:mm:ss')
-                this.stipulationsList[i].dateComplied = this.datePipe.transform(this.stipulationsList[i].dateComplied, 'dd-MM-yyyy hh:mm:ss')
+          this.stipulationsList[i].dateOfStipulation = this.datePipe.transform(this.stipulationsList[i].dateOfStipulation, 'dd-MM-yyyy')
+                this.stipulationsList[i].dateComplied = this.datePipe.transform(this.stipulationsList[i].dateComplied, 'dd-MM-yyyy')
           this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.EDIT + this.stipulationsList[i].inspectionId)
             .subscribe((resp) => {
                this.resp = resp;

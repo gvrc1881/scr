@@ -30,7 +30,7 @@ export class SectorComponent implements OnInit {
   sectorList: any;
   filterData;
   facilityData: any;
-
+  type:string;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
