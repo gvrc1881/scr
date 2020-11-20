@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -9,12 +8,21 @@ import { ProjectPhaseModel } from 'src/app/models/projectPhase.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
   selector: 'app-project-phases',
   templateUrl: './project-phases.component.html',
-  styleUrls: []
+  styleUrls: ['./project-phases.component.css'],
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 
 export class ProjectPhasesComponent implements OnInit {
@@ -27,10 +35,10 @@ export class ProjectPhasesComponent implements OnInit {
   standardPhaseActivityList: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataSource: MatTableDataSource<ProjectPhaseModel>;
-  displayedColumns = ['sno','workName', 'phaseName','description','sequence','dependencyToStart','weightage','status','plannedStartDate','targetCompletionDate','commenceDate','completionDate'];
+  displayedColumns = ['sno','workName', 'phaseName','description','sequence','dependencyToStart','weightage','status','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
   enableUpdate: boolean; 
   workList:any;
-  PhasesList:any;
+  PhasesList:any;  
   phase = [];
   resp: any; 
   maxDate = new Date();
@@ -62,6 +70,13 @@ ngOnInit() {
   },error => {} );
  this.enableUpdate=false;
 }
+
+applyFilter(filterValue: string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
+}
+
 getPhases() {  
   //const phase: ProjectPhaseModel[] = [];
   this.PhasesList = [];
@@ -86,6 +101,10 @@ updatePhase()
  
     if (this.resp.code == Constants.CODES.SUCCESS) {
       this.commonService.showAlertMessage("Project Phase Data Updated Successfully");
+      this.searchInputFormGroup.reset();
+      this.dataSource=new MatTableDataSource();
+      this.enableUpdate=false;
+      
       //this.router.navigate(['../'], { relativeTo: this.route });
     } else {
       this.commonService.showAlertMessage("Project Phase Updating Failed.");
@@ -95,6 +114,7 @@ updatePhase()
     this.spinnerService.hide();
     this.commonService.showAlertMessage("Project Phase Updating Failed.");
   });
+ 
 }
 addEvent($event) {
   this.toMinDate = new Date($event.value); 

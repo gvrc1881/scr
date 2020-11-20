@@ -110,7 +110,7 @@ public class WorkGroupContoller {
 	public List<WorkGroup> findAllGroupsSections() throws JSONException {
 		 List<WorkGroup> groupsList = null;
 		 try {
-			   logger.info("Calling service for make data");	
+			   logger.info("Calling service for groups data");	
 		
 			   groupsList = groupsSectionsService.findAll();
 		 logger.info("Fetched GroupsSections data***"+groupsList.size());

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scr.model.WPADailyProgress;
+import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
 import com.scr.repository.WorkPhaseRepository;
@@ -59,10 +60,28 @@ public class WorkPhaseSerivce {
 			
 		} 
 		
+		
+	}
+	
+	public List<WorkPhases> findAll() {
+		// TODO Auto-generated method stub
+		return workPhaseRepository.findAll();
+	}
 
-		
-	// workPhaseRepository.save(workPhases);
-		
+
+	public Optional<WorkPhases> findById(Integer workPhaseId) {
+		// TODO Auto-generated method stub
+		return workPhaseRepository.findById(workPhaseId);
+	}
+
+	public Boolean existsByWorkIdAndPhaseName(Works work, String phaseName) {
+		// TODO Auto-generated method stub
+		return  workPhaseRepository.existsByWorkIdAndPhaseName(work,phaseName);
+	}
+	
+	public Boolean existByWorkIdAndSequence(Works work, Integer sequence) {
+		// TODO Auto-generated method stub
+		return  workPhaseRepository.existByWorkIdAndSequence(work,sequence);
 	}
 
 }
