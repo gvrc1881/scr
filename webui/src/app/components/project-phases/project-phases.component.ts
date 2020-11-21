@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FuseConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-project-phases',
@@ -71,6 +72,44 @@ ngOnInit() {
  this.enableUpdate=false;
 }
 
+// duplicateWorkIdAndName(row) {
+//   const q = new Promise((resolve, reject) => {              
+
+//     let work  = row.workId.id;
+//     let phaseName = row.phaseName;
+    
+//     this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_PHASE_NAME+work+'/'+phaseName)
+//     .subscribe((duplicate) => {
+//       if (duplicate) {
+//         resolve({ 'duplicateWorkIdAndName': true });
+//       } else {
+//         resolve(null);
+//       }
+//     }, () => { resolve({ 'duplicateWorkIdAndName': true }); });
+//   });
+//   return q;
+// }
+
+// duplicateWorkIdAndSequence(row) {
+//   console.log('check');
+//   const q = new Promise((resolve, reject) => {              
+
+//     let work  = row.workId;
+//     let sequence = row.phaseName;
+    
+//     this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_SEQUENCE+work+'/'+sequence)
+//     .subscribe((duplicate) => {
+//       if (duplicate) {
+//         resolve({ 'duplicateWorkIdAndSequence': true });
+//       } else {
+//         resolve(null);
+//       }
+//     }, () => { resolve({ 'duplicateWorkIdAndSequence': true }); });
+//   });
+//   return q;
+// }
+
+  
 applyFilter(filterValue: string) {
   filterValue = filterValue.trim(); // Remove whitespace
   filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -125,6 +164,7 @@ addTargetEvent($event) {
   this.toTargetDate = new Date($event.value);
   
 }
+
 delete(id) {
   this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
     disableClose: false
@@ -132,20 +172,39 @@ delete(id) {
   this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
   this.confirmDialogRef.afterClosed().subscribe(result => {
     if (result) {
+
       this.spinnerService.show();
-      this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.DELETE_WORK, id).subscribe(data => {
-        console.log(JSON.stringify(data));
-        this.spinnerService.hide();
-        this.commonService.showAlertMessage("Deleted Project Phase Successfully");     
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.PROJECT_ADMIN.PHASES.DELETE, id).subscribe((data) => {
+        this.resp = data;
+
+        if (this.resp.code === 200) {
+
+          this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+            disableClose: false
+
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+         
+        } else {
+          this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+            disableClose: false
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+        
+        }
+        this.spinnerService.hide();       
+        this.searchInputFormGroup.reset();
+        this.dataSource=new MatTableDataSource();
+        this.enableUpdate=false;
       }, error => {
         console.log('ERROR >>>');
         this.spinnerService.hide();
-        this.commonService.showAlertMessage("Project Phase Deletion Failed.");
+        this.commonService.showAlertMessage("Drive Deletion Failed.");
       })
     }
     this.confirmDialogRef = null;
   });
-  }
+}
 
 
 }

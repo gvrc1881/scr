@@ -749,8 +749,10 @@ export const Constants = {
               PHASE_ACTIVITY:{
                 SAVE:"/addPhaseActivity",
                 UPDATE:"/updatePhaseActivity",
-                Delete:"/deletePhase",
-                GET_WORK_PHASE_ACTIVITY_ID:"/findByPhaseActivityOnPhaseId/"
+                DELETE:"/deletePhaseActivity/",
+                GET_WORK_PHASE_ACTIVITY_ID:"/findByPhaseActivityOnPhaseId/",
+                EXIST_WORKPHASE_AND_NAME:"/existsByWorkPhaseIdAndName/",
+                EXIST_WORKPHASE_AND_SEQUENCE:"/existsByWorkPhaseIdAndSequence/"
             }   
     }
 },

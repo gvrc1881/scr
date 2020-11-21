@@ -503,6 +503,12 @@ const routes: Routes = [
     loadChildren: './components/wpa-section-targets/wpa-section-targets.module#WPASectionTargetsModule',
     canActivate: [AuthGuard]
    },
+   {
+    path: 'phase-activity',
+    loadChildren: './components/project-phase-activity/project-phase-activity.module#ProjectPhaseActivityModule',
+     canActivate: [AuthGuard]
+   },
+  
 ];
 
 @NgModule({

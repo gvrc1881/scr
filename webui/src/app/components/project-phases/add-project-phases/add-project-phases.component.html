@@ -78,13 +78,19 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{FiledLabels.DEPENDENCY_TO_START}}" numbersOnly [formControl]="addProjectPhaseFormGroup.controls['dependencyToStart']" />
-                                                            <mat-error
+                                                            <input matInput placeholder="{{FiledLabels.DEPENDENCY_TO_START}}" numbersOnly 
+                                                            [formControl]="addProjectPhaseFormGroup.controls['dependencyToStart']" (change)="test()"/>
+                                                             <mat-error
                                                                 *ngIf="addProjectPhaseFormGroup.controls['dependencyToStart'].hasError('maxlength')"
                                                                 class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addProjectPhaseFormGroup.controls['dependencyToStart'].hasError('test')"
+                                                            class="alert alert-danger">Dependency value should  be less than sequence value
+                                                        </mat-error> 
                                                         </mat-form-field>
                                                     </div>
+                                                   
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.WEIGHTAGE}}" decimalNumber [formControl]="addProjectPhaseFormGroup.controls['weightage']" />

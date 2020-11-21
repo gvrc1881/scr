@@ -8,11 +8,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.Drives;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
 import com.scr.repository.WorkPhaseRepository;
+import com.scr.util.Constants;
 
 
 @Service
@@ -84,4 +86,16 @@ public class WorkPhaseSerivce {
 		return  workPhaseRepository.existByWorkIdAndSequence(work,sequence);
 	}
 
+	public String deleteById(Integer id) {	
+		
+		Optional<WorkPhases> phases = workPhaseRepository.findById(id);
+		if (phases.isPresent()) {
+			 workPhaseRepository.deleteById(id);
+			 
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Phase Id";
+		}
+		
+	}
 }

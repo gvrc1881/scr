@@ -47,6 +47,7 @@ export class AddProjectPhasesComponent implements OnInit {
     expectDate=new Date();
     completeDate = new Date();
     toTargetDate=new Date();
+    dependency:boolean=false;
 
   constructor( private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -77,8 +78,8 @@ export class AddProjectPhasesComponent implements OnInit {
         
     },error => {} );
     this.id = +this.route.snapshot.params['id'];
-      if (!isNaN(this.id)) {  
-      this.updateGroupsSectionsForm();  
+      if (!isNaN(this.id)) { 
+    
       this.spinnerService.show();
       this.save = false;
       this.update = true;
@@ -126,23 +127,6 @@ this.addProjectPhaseFormGroup = this.formBuilder.group({
   'plannedStartDate':[null],
   'targetCompletionDate':[null],   
    'commenceDate':[null],
-   'completionDate':[null]
-});
-}
-
-updateGroupsSectionsForm() {
-this.addProjectPhaseFormGroup = this.formBuilder.group({
-  id: 0,
-  'work':[null, Validators.compose([Validators.required])],
-  'phaseName': [null, Validators.compose([Validators.required])],
-  'description': [null],
-  'sequence':[null],
-  'dependencyToStart':[null],
-  'weightage': [null],
-  'status':[null],
-  'plannedStartDate':[null],
-  'targetCompletionDate':[null],
-     'commenceDate':[null],
    'completionDate':[null]
 });
 }
@@ -200,34 +184,49 @@ duplicateWorkIdAndName() {
     let work  = this.addProjectPhaseFormGroup.value.work.id;
     let phaseName: string = this.addProjectPhaseFormGroup.controls['phaseName'].value;
     
-    /* this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_PHASE_NAME+work+'/'+phaseName)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_PHASE_NAME+work+'/'+phaseName)
     .subscribe((duplicate) => {
       if (duplicate) {
         resolve({ 'duplicateWorkIdAndName': true });
       } else {
         resolve(null);
       }
-    }, () => { resolve({ 'duplicateWorkIdAndName': true }); }); */
+    }, () => { resolve({ 'duplicateWorkIdAndName': true }); });
   });
   return q;
 }
 
 duplicateWorkIdAndSequence() {
+  console.log('check');
   const q = new Promise((resolve, reject) => {              
 
     let work  = this.addProjectPhaseFormGroup.value.work.id;
     let sequence = this.addProjectPhaseFormGroup.controls['sequence'].value;
     
-  /*   this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_SEQUENCE+work+'/'+sequence)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_SEQUENCE+work+'/'+sequence)
     .subscribe((duplicate) => {
       if (duplicate) {
         resolve({ 'duplicateWorkIdAndSequence': true });
       } else {
         resolve(null);
       }
-    }, () => { resolve({ 'duplicateWorkIdAndSequence': true }); }); */
+    }, () => { resolve({ 'duplicateWorkIdAndSequence': true }); });
   });
   return q;
 }
+test() {
+
+  console.log("get sequence");
+  if(this.addProjectPhaseFormGroup.controls['sequence'].value > this.addProjectPhaseFormGroup.controls['dependencyToStart'].value)
+  {
+    console.log("get sequence in if condition");
+    this.dependency = false;
+  }else{
+    console.log("get sequence in else condition");
+    this.dependency = true;
+  }
+
+}
+
 
 }

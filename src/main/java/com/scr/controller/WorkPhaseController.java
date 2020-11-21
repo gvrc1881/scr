@@ -20,10 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.DriveCategoryAsso;
+import com.scr.model.DriveCheckList;
+import com.scr.model.DriveDailyProgress;
+import com.scr.model.DriveTarget;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WorkGroup;
+import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
+import com.scr.repository.WorkPhaseActivityRepository;
+import com.scr.repository.WorkPhaseRepository;
 import com.scr.services.WorkPhaseSerivce;
 import com.scr.services.WorksServices;
 
@@ -40,6 +47,12 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 	
 	@Autowired
 	private WorkPhaseSerivce workPhaseService;
+	
+	@Autowired
+	private WorkPhaseActivityRepository workPhaseActivityRepository;
+	
+	@Autowired
+	private WorkPhaseRepository workPhaseRepository;
 	
 	@CrossOrigin(origins = "*")
 	
@@ -160,4 +173,41 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 				return false;
 			}
 		}
+		
+
+		@RequestMapping(value = "/deleteWorkPhases/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
+		public ResponseStatus deleteById(@PathVariable Integer id) {
+			log.info("Enter into deleteById function");
+			log.info("Selected Work Id = "+id);
+			
+			List <WorkPhaseActivity> activityList = workPhaseActivityRepository.findByWorkPhaseId(workPhaseRepository.findById(id).get());
+			
+			String result="";
+			log.info("delete function==");
+			log.info("activityList=="+activityList.size());
+			if( activityList.size() == 0  )
+			{
+				log.info("activityList=="+activityList);
+				
+			try {
+				String status = workPhaseService.deleteById(id);;
+				if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+					return Helper.findResponseStatus("WorkPhase Deleted Successfully", Constants.SUCCESS_CODE);
+			
+		
+			}
+			catch (NullPointerException e) {
+				log.error(e);
+				return Helper.findResponseStatus("WorkPhase Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+			} catch (Exception e) {
+				log.error(e);
+				return Helper.findResponseStatus("WorkPhase Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+			}
+			}
+			if(activityList.size() > 0 )
+				 result="This Phase is Associated with Project Phase Activity";			
+				
+			return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
+		}
+		
 }
