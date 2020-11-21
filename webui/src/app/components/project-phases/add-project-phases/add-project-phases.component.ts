@@ -200,14 +200,14 @@ duplicateWorkIdAndName() {
     let work  = this.addProjectPhaseFormGroup.value.work.id;
     let phaseName: string = this.addProjectPhaseFormGroup.controls['phaseName'].value;
     
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_PHASE_NAME+work+'/'+phaseName)
+    /* this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_PHASE_NAME+work+'/'+phaseName)
     .subscribe((duplicate) => {
       if (duplicate) {
         resolve({ 'duplicateWorkIdAndName': true });
       } else {
         resolve(null);
       }
-    }, () => { resolve({ 'duplicateWorkIdAndName': true }); });
+    }, () => { resolve({ 'duplicateWorkIdAndName': true }); }); */
   });
   return q;
 }
@@ -218,14 +218,14 @@ duplicateWorkIdAndSequence() {
     let work  = this.addProjectPhaseFormGroup.value.work.id;
     let sequence = this.addProjectPhaseFormGroup.controls['sequence'].value;
     
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_SEQUENCE+work+'/'+sequence)
+  /*   this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.EXIST_WORK_AND_SEQUENCE+work+'/'+sequence)
     .subscribe((duplicate) => {
       if (duplicate) {
         resolve({ 'duplicateWorkIdAndSequence': true });
       } else {
         resolve(null);
       }
-    }, () => { resolve({ 'duplicateWorkIdAndSequence': true }); });
+    }, () => { resolve({ 'duplicateWorkIdAndSequence': true }); }); */
   });
   return q;
 }
