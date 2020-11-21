@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
@@ -28,6 +29,7 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         DecimalValidationsModule,
         NumberValidationsModule,
+        CommonDirectivesModule,
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers:[

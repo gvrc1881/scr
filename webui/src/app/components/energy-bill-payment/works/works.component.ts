@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild } from '@angular/core';
+import { Component, OnInit , ViewChild,ElementRef} from '@angular/core';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
 import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
@@ -10,6 +10,7 @@ import { WorksPayload } from 'src/app/payloads/works.payload';
 import { FacilityModel } from 'src/app/models/facility.model';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
 
 @Component({
     selector: 'works',
@@ -30,11 +31,8 @@ export class WorksComponent implements OnInit {
     title: string = Constants.EVENTS.ADD;
     workList: any;
     editWorkResponse: any;
-    workDataSource: MatTableDataSource<WorksModel>;
-    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-    @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    workDisplayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'id' ];
+    displayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'actions' ];
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     statusItems: any;
     execAgencyList: any;
@@ -42,7 +40,14 @@ export class WorksComponent implements OnInit {
     divisionList:  FacilityModel [] = [];
     workResponse: any;
     currentYear: any;
-
+    filterData;
+    divisionData:any;
+    gridData = [];
+    dataSource: MatTableDataSource<WorksModel>;
+  	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  	@ViewChild(MatSort, { static: true }) sort: MatSort;
+  	@ViewChild('filter', { static: true }) filter: ElementRef;  	
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     constructor(
         private commonService: CommonService,
         private dialog: MatDialog,
@@ -55,6 +60,7 @@ export class WorksComponent implements OnInit {
     }
 
     ngOnInit() {
+      this.getDivisionsData();
           for (let i = 0; i < this.userHierarchy.length; i++) {
                if(this.userHierarchy[i].depotType == 'DIV'){
                	this.divisionList.push(this.userHierarchy[i]);
@@ -75,6 +81,24 @@ export class WorksComponent implements OnInit {
                 this.commonService.showAlertMessage("Error in Get")
         });
         this.spinnerService.show();	
+
+
+        this.filterData = {
+          filterColumnNames: [
+            { "Key": 'sno', "Value": " " },
+            { "Key": 'division', "Value": " " },
+            { "Key": 'workName', "Value": " " },
+            { "Key": 'section', "Value": " " },
+            { "Key": 'executedBy', "Value": "" },
+            { "Key": 'physicalProgressPercentage', "Value": " " },
+            { "Key": 'latestRevisedCost', "Value": " " },
+             
+          ],
+          gridData: this.gridData,
+          dataSource: this.dataSource,
+          paginator: this.paginator,
+          sort: this.sort
+        };
     }
     
     duplicateWorkName() {
@@ -217,10 +241,16 @@ export class WorksComponent implements OnInit {
                 this.workList[i].sno = i+1;
                work.push(this.workList[i]);
             }
-            this.workDataSource = new MatTableDataSource(work);
-            this.workDataSource.paginator = this.paginator;
-            this.workDataSource.sort = this.sort;
-        },error => {} );
+      this.filterData.gridData = work;
+      this.dataSource = new MatTableDataSource(work);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
     }
     
     
@@ -340,11 +370,19 @@ export class WorksComponent implements OnInit {
             }
         });
     }
-    
-    applyFilter(filterValue: string) {
-        filterValue = filterValue.trim();
-        filterValue = filterValue.toLowerCase();
-        this.workDataSource.filter = filterValue;
+    updatePagination() {
+      this.filterData.dataSource = this.filterData.dataSource;
+      this.filterData.dataSource.paginator = this.paginator;
     }
-
+    applyFilter(filterValue: string) {
+      filterValue = filterValue.trim(); 
+      filterValue = filterValue.toLowerCase(); 
+      this.filterData.dataSource.filter = filterValue;
+    }
+getDivisionsData(){
+  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_DETAILS).subscribe((data) => {
+    this.divisionData = data;
+  }
+  );
+}
 }

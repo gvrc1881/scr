@@ -284,6 +284,7 @@ export const Constants = {
             PBSWITCH:{
                 GET_SWITCH:"/findAllPbSwitchControl",
                 GET_SWITCH_ID:"/findPbSwitchById/",
+                GET_PB_SWITCH_DETAILS_BASED_ON_PB_EXTENTCODE:"/findByPbExtentCode/",
                 SAVE_SWITCH:"/addPbSwitchItem",
                 UPDATE_SWITCH:"/updatePbSwitchItem",
                 DELETE_SWITCH:"/deletePbSwitchItem/"

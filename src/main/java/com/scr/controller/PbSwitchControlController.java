@@ -2,7 +2,6 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -65,12 +64,31 @@ public class PbSwitchControlController {
 		logger.info("Exit from findAll pb switch function");
 		return switchList;
 	}
+	@RequestMapping(value = "/findByPbExtentCode/{pbExtentCode}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<PbSwitchControl> findByPbExtentCode(@PathVariable String pbExtentCode){
+		Optional<PbSwitchControl> pbExtentCodeData = null;
+		try {
+			logger.info("Selected pb switch control Data  pbExtentCode = "+pbExtentCode);
+			pbExtentCodeData = PbSwitchControlService.findByPbExtentCode(pbExtentCode);
+			if(pbExtentCodeData.isPresent()) {
+				logger.info("pb switch control = "+pbExtentCodeData.get());
+				return new ResponseEntity<PbSwitchControl>(pbExtentCodeData.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<PbSwitchControl>(pbExtentCodeData.get(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			logger.error("Error >>  while find pb switch control  Details by pbExtentCode, "+e.getMessage());
+			return new ResponseEntity<PbSwitchControl>(pbExtentCodeData.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	@RequestMapping(value = "/addPbSwitchItem" , method = RequestMethod.POST , headers = "Accept=application/json")
 	public ResponseStatus addPbSwitchItem(@RequestBody PbSwitchControl pbSwitchControl) {
 		logger.info("Enter into addPbSwitchItem function with below request parameters ");
 		logger.info("Request Parameters = "+pbSwitchControl.toString());
 		try {
 			logger.info("Calling service with request parameters.");
+			PbSwitchControl pbSwitch=PbSwitchControlService.save(pbSwitchControl);
+			pbSwitchControl.setSeqId(pbSwitch.getId().toString());
 			PbSwitchControlService.save(pbSwitchControl);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Pb switch control added successfully", Constants.SUCCESS_CODE);

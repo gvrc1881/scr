@@ -18,9 +18,8 @@ public class Works implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Integer id;
-
+	
 	private String allocation;
 
 	private String division;

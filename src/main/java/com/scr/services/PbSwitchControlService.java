@@ -22,9 +22,12 @@ public class PbSwitchControlService {
 		// TODO Auto-generated method stub
 		return pbSwitchControlRepository.findAll();
 	}
-	public void save(PbSwitchControl pbSwitchControl) {
+	public Optional<PbSwitchControl> findByPbExtentCode(String pbExtentCode) {	
+		   return pbSwitchControlRepository.findByPbExtentCode(pbExtentCode);
+		}
+	public PbSwitchControl save(PbSwitchControl pbSwitchControl) {
 		// TODO Auto-generated method stub
-		pbSwitchControlRepository.save(pbSwitchControl);
+		return pbSwitchControlRepository.save(pbSwitchControl);
 	}
 
 	public Optional<PbSwitchControl> findPbSwitchItemById(Long id) {

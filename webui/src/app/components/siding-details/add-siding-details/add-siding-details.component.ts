@@ -74,14 +74,16 @@ export class AddSidingDetailsComponent implements OnInit {
   
     ngOnInit() {
       this.id = +this.route.snapshot.params['id'];
-    this.createSidingsForm();
+    
     if (!isNaN(this.id)) {     
       this.spinnerService.show();
+      this.updateSidingsForm();
       this.save = false;
       this.update = true;
       this.title =  Constants.EVENTS.UPDATE;;
       this.getSidingsDataById(this.id);
     } else {
+      this.createSidingsForm();
       this.save = true;
       this.update = false;
       this.title =  Constants.EVENTS.ADD;;
@@ -95,7 +97,32 @@ export class AddSidingDetailsComponent implements OnInit {
             'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCode.bind(this)],
             'section': [null,Validators.maxLength(250)],
             'sectionEletrifiedStatus': [null],
-            'sidingEletrifiedStatus' : [null],
+            'sidingEletrifiedStatus' : [null, Validators.compose([Validators.required])],
+            'privateRailway' : [null,Validators.maxLength(250)],
+            'status': [null,Validators.maxLength(250)],
+            'tkm' : [null],
+            'remarks' : [null, Validators.maxLength(250)],
+            'sidingProposed' : [null],
+            'proposedDate' : [null],
+            'approvalDate' : [null],
+            'workOrderDate' : [null],
+            'workProgressPercentage' : [null],
+            'workProgressRemark' : [null,Validators.maxLength(250)],
+            'completionDate' : [null],
+            'zone' : [null],
+            'division':[null],
+            'depot':[null],
+        
+      });
+    }
+    updateSidingsForm() {
+      this.sidingsItemFormGroup = this.formBuilder.group({
+        id: 0,
+            'station':[null,Validators.maxLength(250)],
+            'sidingCode': [null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateSidingCodeAndId.bind(this)],
+            'section': [null,Validators.maxLength(250)],
+            'sectionEletrifiedStatus': [null],
+            'sidingEletrifiedStatus' : [null, Validators.compose([Validators.required])],
             'privateRailway' : [null,Validators.maxLength(250)],
             'status': [null,Validators.maxLength(250)],
             'tkm' : [null],
@@ -116,18 +143,11 @@ export class AddSidingDetailsComponent implements OnInit {
     
   
      public get f() { return this.sidingsItemFormGroup.controls; } 
-     duplicateSidingCode() {
-      const q = new Promise((resolve, reject) => {
-        let siding: string = this.sidingsItemFormGroup.controls['sidingCode'].value;
-        var filter = !!this.sidingsItemList && this.sidingsItemList.filter(sidings => {
-          return sidings.sidingCode.toLowerCase() == siding.trim().toLowerCase();
-        });
-        if (filter.length > 0) {
-          resolve({ 'duplicateSidingCode': true });
-        }
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.EXISTS_SIDING_CODE +
-          this.sidingsItemFormGroup.controls['sidingCode'].value
-        ).subscribe((duplicate) => {
+    duplicateSidingCode() {
+      const q = new Promise((resolve, reject) => {     
+        let sidingCode: string = this.sidingsItemFormGroup.controls['sidingCode'].value;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.EXISTS_SIDING_CODE +sidingCode)
+        .subscribe((duplicate) => {
           if (duplicate) {
             resolve({ 'duplicateSidingCode': true });
           } else {
@@ -137,6 +157,26 @@ export class AddSidingDetailsComponent implements OnInit {
       });
       return q;
     }
+    duplicateSidingCodeAndId() {
+      let id=this.id;
+      let sidingCode: string = this.sidingsItemFormGroup.controls['sidingCode'].value;         
+
+      const q = new Promise((resolve, reject) => {          
+
+         this.sendAndRequestService.requestForGET(
+                Constants.app_urls.ENERGY_BILL_PAYMENTS.SIDINGS.EXIST_SIDING_CODE_AND_ID+id+'/'+sidingCode).subscribe
+                ((duplicate) => {
+          if (duplicate) {
+            resolve({ 'duplicateSidingCodeAndId': true });
+          } else {
+            resolve(null);
+          }
+        }, () => { resolve({ 'duplicateSidingCodeAndId': true }); });
+      });
+      return q;
+    }
+
+
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
       this.toMinDate = new Date(event.value);
   }

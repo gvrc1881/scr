@@ -68,9 +68,9 @@
 			                                                        <mat-form-field fxFlex="30">
 			                                                            <mat-select placeholder="{{FiledLabels.DIVISION}}"
 			                                                                [formControl]="workFormGroup.controls['division']" >
-			                                                                <mat-option *ngFor="let divisions of divisionList"
-			                                                                    [value]="divisions.facilityName">
-			                                                                    {{ divisions.facilityName}}
+			                                                                <mat-option *ngFor="let divisions of divisionData"
+			                                                                    [value]="divisions.code">
+			                                                                    {{ divisions.code}}
 			                                                                </mat-option>
 			                                                            </mat-select>
 			                                                        </mat-form-field>
@@ -229,48 +229,62 @@
                                     	</div>
                                     	<div class="clear"> </div>
                                     	<div class="mat-elevation-z8">
-                                    		<mat-table [dataSource]="workDataSource" matSort>
-                                    			<ng-container matColumnDef="sno">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-	                                            </ng-container>
+											<mat-table [dataSource]="filterData.dataSource" matSort>
+                                    			
+												<ng-container matColumnDef="sno">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.S_NO}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[0].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+												</ng-container>
 	                                            <ng-container matColumnDef="division">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.division}}</mat-cell>
-	                                            </ng-container>
-	                                            <!-- <ng-container matColumnDef="year">
-	                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>year</mat-header-cell>
-	                                                    <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                      {{row.year}}</mat-cell>
-	                                            </ng-container> -->
-	                                            <ng-container matColumnDef="workName">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.WORK_NAME}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.workName}}</mat-cell>
-	                                            </ng-container>
-	                                            <ng-container matColumnDef="section">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SECTION}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.section}}</mat-cell>
-	                                            </ng-container>
-	                                            <ng-container matColumnDef="executedBy">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.EXECUTED_BY}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.executedBy}}</mat-cell>
-	                                            </ng-container>
-	                                           <ng-container matColumnDef="physicalProgressPercentage">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PHYSICAL_PROGRESS_PERCENTAGE}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.physicalProgressPercentage}}</mat-cell>
-	                                            </ng-container>
-	                                            <ng-container matColumnDef="latestRevisedCost">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.LATEST_REVISED_COST}}</mat-header-cell>
-	                                                <mat-cell *matCellDef="let row" style="cursor: pointer">
-	                                                  {{row.latestRevisedCost}}</mat-cell>
-	                                            </ng-container>
-	                                            <ng-container matColumnDef="id">
-	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.DIVISION}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[1].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.division}}</mat-cell>
+												</ng-container>
+												<ng-container matColumnDef="workName">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.WORK_NAME}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.workName}}</mat-cell>
+												</ng-container>
+												<ng-container matColumnDef="section">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.SECTION}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.section}}</mat-cell>
+												</ng-container>
+												<ng-container matColumnDef="executedBy">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.EXECUTED_BY}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[4].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.executedBy}}</mat-cell>
+												</ng-container>
+												<ng-container matColumnDef="physicalProgressPercentage">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.PHYSICAL_PROGRESS_PERCENTAGE}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.physicalProgressPercentage}}</mat-cell>
+												</ng-container>
+												<ng-container matColumnDef="latestRevisedCost">
+													<mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.LATEST_REVISED_COST}}</span>
+														<input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
+													</mat-header-cell>
+													<mat-cell *matCellDef="let row"> {{row.latestRevisedCost}}</mat-cell>
+												</ng-container>
+	                                            <ng-container matColumnDef="actions">
+	                                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+														<span>{{FiledLabels.ACTIONS}}</span>
+														<input matInput type="text" disabled (keyup) ="updatePagination()" />
+													</mat-header-cell>
 	                                                    <mat-cell *matCellDef="let row">
 	                                                      <a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
 	                                                        (click)="editWork(row.id)">
@@ -282,8 +296,8 @@
 	                                                      </button>
 	                                                    </mat-cell>
 	                                            </ng-container>
-	                                            <mat-header-row *matHeaderRowDef="workDisplayedColumns"></mat-header-row>
-                                            	<mat-row *matRowDef="let row; columns: workDisplayedColumns">
+	                                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                            	<mat-row *matRowDef="let row; columns: displayedColumns">
                                             	</mat-row>
                                     		</mat-table>
                                     		<mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
