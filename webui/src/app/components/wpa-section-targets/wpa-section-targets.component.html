@@ -1,0 +1,363 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<div class="breadcrumb-section">
+				<nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/projects']">Project</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Targets</li>
+                    </ol>
+                </nav>
+			</div>
+			<div class="clear"> </div>
+            <div class="row-fluid">
+            	<div class="panel panel-primary">
+            		<div class="panel-heading">Targets</div>
+            		<div class="panel-body">
+            			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                    		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="inputFormGroup"
+                                (ngSubmit)="getWPASectionPopulation();">
+	                            <div class="col-md-3">
+			                    	<mat-form-field fxFlex="30" class="example-full-width">
+			                    		<mat-select placeholder="{{FiledLabels.WORK}}" [formControl]="inputFormGroup.controls['work']" (ngModelChange)="getWorkGroups()" required >
+			                    			<mat-option *ngFor="let works of workList"
+			                    				[value]="works">
+			                    				{{ works.workName }}
+			                    			</mat-option>
+			                    		</mat-select>                                                            
+			                    	</mat-form-field>
+			                    </div>
+			                    <div class="col-md-2">
+			                    	<mat-form-field fxFlex="30" class="example-full-width">
+			                    		<mat-select  placeholder="{{FiledLabels.WORK_GROUP}}" [formControl]="inputFormGroup.controls['workGroup']"  required>
+			                    			<mat-option *ngFor="let workGroup of workGroupList"
+			                    				[value]="workGroup">
+			                    				{{ workGroup.workGroup }}
+			                    			</mat-option>
+			                    		</mat-select>                                                            
+			                    	</mat-form-field>
+			                    </div>
+			                    <div class="col-md-2">
+			                    	<mat-form-field fxFlex="30" class="example-full-width">
+			                    		<mat-select  placeholder="{{FiledLabels.WORK_PHASE}}" [formControl]="inputFormGroup.controls['workPhase']"  required>
+			                    			<mat-option *ngFor="let workPhase of workPhaseList"
+			                    				[value]="workPhase">
+			                    				{{ workPhase.phaseName }}
+			                    			</mat-option>
+			                    		</mat-select>                                                            
+			                    	</mat-form-field>
+			                    </div>
+			                    <div class="col-md-1">
+	                            	<mat-form-field>
+	                                	<input matInput placeholder="{{FiledLabels.YEAR}}" [formControl]="inputFormGroup.controls['year']" required>
+	                           		</mat-form-field>
+	                            </div>
+	                            <div class="col-md-2 mt-15">
+									<div class="float-right" style="float: right;">
+										<button class="mat-raised-button mat-accent" color="accent"
+											class="d-inline" mat-raised-button="" type="submit"
+												[disabled]="inputFormGroup.invalid">Go</button>
+									</div>
+								</div>
+							</form>
+                    	</div>
+                    	<div class="clear"> </div>
+		                	<div class="mat-elevation-z8">
+		                		<mat-table [dataSource]="dataSource" matSort>
+		                			<ng-container matColumnDef="sno">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.S_NO}}</span></mat-header-cell>
+	                                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+	                               	</ng-container>
+	                               	<!-- <ng-container matColumnDef="section">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.SECTION}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field floatLabel="never">
+													<input matInput  [value]="row.workGroupId.section" 
+												    	[(ngModel)]="row.workGroupId.section" readonly>
+												</mat-form-field>
+	                                        </mat-cell>
+	                                </ng-container> -->
+	                                <ng-container matColumnDef="activity">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PHASE_ACTIVITY}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field floatLabel="never">
+													<input matInput  [value]="row.workPhaseActivityId.name" 
+												    	[(ngModel)]="row.workPhaseActivityId.name" readonly>
+												</mat-form-field>
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="population">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POPULATION}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="80">
+													<input matInput  [value]="row.population" 
+												    	[(ngModel)]="row.population" readonly>
+												</mat-form-field>
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="uom">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UOM}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="80">
+													<input matInput  [value]="row.workPhaseActivityId.uom" 
+												    	[(ngModel)]="row.workPhaseActivityId.uom" readonly>
+												</mat-form-field>
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="apr">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.APR}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row">
+	                                    	<mat-cell  *ngIf = "row.apr !== null ; else aprElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80">
+													<input matInput placeholder="{{FiledLabels.APR}}" [value]="row.apr" 
+												                 [(ngModel)]="row.apr">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #aprElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field  [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.APR}}" [value]="row.apr" 
+														     [(ngModel)]="row.apr" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                                	<!-- <ng-container *matCellDef="let row">
+	                                		<mat-cell *ngIf = "!row.apr">
+	                                			test
+	                                		</mat-cell>
+	                                	</ng-container> -->
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="may">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MAY}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.may !== null ; else mayElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.MAY}}" [value]="row.may" 
+												                 [(ngModel)]="row.may">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #mayElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.MAY}}" [value]="row.may" 
+														     [(ngModel)]="row.may" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="jun">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JUN}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.jun !== null ; else junElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.JUN}}" [value]="row.jun"
+												                 [(ngModel)]="row.jun">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #junElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.JUN}}" [value]="row.jun" 
+														     [(ngModel)]="row.jun" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="jul">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JUL}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.jul !== null ; else julElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.JUL}}" [value]="row.jul" 
+												                 [(ngModel)]="row.jul">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #julElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.JUL}}" [value]="row.jul" 
+														     [(ngModel)]="row.jul" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="aug">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AUG}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.aug !== null ; else augElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.AUG}}" [value]="row.aug" 
+												                 [(ngModel)]="row.aug">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #augElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.AUG}}" [value]="row.aug" 
+														     [(ngModel)]="row.aug" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="sep">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.SEP}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.sep !== null ; else sepElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.SEP}}" [value]="row.sep" 
+												                 [(ngModel)]="row.sep">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #sepElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.SEP}}" [value]="row.sep" 
+														     [(ngModel)]="row.sep" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="oct">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.OCT}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.oct !== null ; else octElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.OCT}}" [value]="row.oct" 
+												                 [(ngModel)]="row.oct">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #octElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.OCT}}" [value]="row.oct" 
+														     [(ngModel)]="row.oct" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="nov">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.NOV}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.nov !== null ; else novElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80">
+													<input matInput placeholder="{{FiledLabels.NOV}}" [value]="row.nov" 
+												                 [(ngModel)]="row.nov">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #novElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.NOV}}" [value]="row.nov" 
+														     [(ngModel)]="row.nov" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="dec">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DEC}}</span></mat-header-cell>
+	                                    <!-- <mat-cell *matCellDef="let row"> {{row.nov}}</mat-cell> -->
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.dec !== null ; else decElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.DEC}}" [value]="row.dec" 
+												                 [(ngModel)]="row.dec">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #decElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.DEC}}" [value]="row.dec" 
+														     [(ngModel)]="row.dec" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="jan">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.JAN}}</span></mat-header-cell>
+	                                    <!-- <mat-cell *matCellDef="let row"> {{row.nov}}</mat-cell> -->
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.jan !== null ; else janElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.JAN}}" [value]="row.jan" 
+												                 [(ngModel)]="row.jan">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #janElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.JAN}}" [value]="row.jan" 
+														     [(ngModel)]="row.jan" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="feb">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.FEB}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.feb !== null ; else febElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.FEB}}" [value]="row.feb" 
+												                 [(ngModel)]="row.feb">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #febElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.FEB}}" [value]="row.feb" 
+														     [(ngModel)]="row.feb" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="mar">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MAR}}</span></mat-header-cell>
+	                                    <ng-container *matCellDef="let row" >
+	                                    	<mat-cell  *ngIf = "row.mar !== null ; else marElseBlock">
+	                                        	<mat-form-field  [style.width.px]="80" >
+													<input matInput placeholder="{{FiledLabels.MAR}}" [value]="row.mar" 
+												                 [(ngModel)]="row.mar">
+												</mat-form-field>
+	                                        </mat-cell>
+		                                    <ng-template #marElseBlock>
+		                                    	<mat-cell>
+			                                    	<mat-form-field [style.width.px]="80">
+														<input matInput placeholder="{{FiledLabels.MAR}}" [value]="row.mar" 
+														     [(ngModel)]="row.mar" readonly>
+													</mat-form-field>
+			                                    </mat-cell>
+		                                    </ng-template>
+	                                	</ng-container>
+	                               	</ng-container>
+	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
+	                                    </mat-row>
+		                		</mat-table>
+		                	</div>
+		                	<div class="col-md-6 mt-15" *ngIf="enableSave">
+			                	<div class="float-right" style="float: right;" >
+	                                 	<button mat-raised-button color="accent" 
+																(click)="saveAction()">
+															    	Update
+										</button>
+	                            </div>
+                            </div>
+            		</div>
+            	</div>
+            </div>
+		</div>
+	</div>	
+</div>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.scr.mapper.WorkMapper;
 import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.WPADailyProgressResponse;
+import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.StandardPhaseActivity;
 import com.scr.model.StandardPhases;
 import com.scr.model.WPADailyProgress;
@@ -287,6 +288,46 @@ public class WorksServices {
 				wpaSectionPopulationRepository.save(WPASecPopulation.get());
 			}
 		}
+	}
+
+	public List<WPASectionTargetsResponse> getWPASectionPopulationBasedOnGroupActivityYear(Integer workId, Long workGroupId,
+			Integer workPhaseId, Integer year) {
+		List<WPASectionTargetsResponse> wpaSectionTargetsResponses = null;
+		Optional<WorkGroup> workGroup = workGroupRepository.findById(workGroupId);
+		Optional<WorkPhases> workPhase = workPhaseRepository.findById(workPhaseId);
+		if (workGroup.isPresent() && workPhase.isPresent()) {
+			List<WorkGroup> workGroups = workGroupRepository.findByWorkGroup(workGroup.get().getWorkGroup());
+			List<WorkPhaseActivity> workPhaseActivities  = workPhaseActivityRepository.findByWorkPhaseId(workPhase.get());
+			wpaSectionTargetsResponses = workMapper.prepareWPASectionTargets(workGroups,workPhaseActivities,year);
+		}
+		return wpaSectionTargetsResponses;
+	}
+
+	public void saveWPASectionTargets(List<WPASectionTargets> wpaSectionTargetList) {
+		for (WPASectionTargets wpaSectionTarget : wpaSectionTargetList) {
+			Optional<WPASectionTargets> wpaSecTarget = wpaSectionTargetsRepository.findByWorkGroupIdAndWorkPhaseActivityIdAndYear(wpaSectionTarget.getWorkGroupId(), wpaSectionTarget.getWorkPhaseActivityId(), wpaSectionTarget.getYear());
+					if (wpaSecTarget.isPresent()) {
+						wpaSecTarget.get().setApr(wpaSectionTarget.getApr());
+						wpaSecTarget.get().setMay(wpaSectionTarget.getMay());
+						wpaSecTarget.get().setJun(wpaSectionTarget.getJun());
+						wpaSecTarget.get().setJul(wpaSectionTarget.getJul());
+						wpaSecTarget.get().setAug(wpaSectionTarget.getAug());
+						wpaSecTarget.get().setSep(wpaSectionTarget.getSep());
+						wpaSecTarget.get().setOct(wpaSectionTarget.getOct());
+						wpaSecTarget.get().setNov(wpaSectionTarget.getNov());
+						wpaSecTarget.get().setDec(wpaSectionTarget.getDec());
+						wpaSectionTargetsRepository.save(wpaSecTarget.get());
+					}
+			Integer nextYear = wpaSectionTarget.getYear() + 1;
+			Optional<WPASectionTargets> nextYearTarget = wpaSectionTargetsRepository.findByWorkGroupIdAndWorkPhaseActivityIdAndYear(wpaSectionTarget.getWorkGroupId(), wpaSectionTarget.getWorkPhaseActivityId(),nextYear);
+				if (nextYearTarget.isPresent()) {
+					nextYearTarget.get().setJan(wpaSectionTarget.getJan());
+					nextYearTarget.get().setFeb(wpaSectionTarget.getFeb());
+					nextYearTarget.get().setMar(wpaSectionTarget.getMar());
+					wpaSectionTargetsRepository.save(nextYearTarget.get());
+				}
+		}
+		
 	}
 
 

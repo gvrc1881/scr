@@ -49,3 +49,26 @@ export interface WPASectionPopulationModel {
     workGroupId: any;
     workPhaseActivityId: any; 
 }
+
+export interface WPASectionTargetsModel {
+    
+    id: number;
+    workPhaseActivityId: any;
+    workGroupId: any;
+    yearType: string;
+    year: number;
+    apr: number;
+    may: number;
+    jun: number;
+    jul: number;
+    aug: number;
+    sep: number;
+    oct: number;
+    nov: number;
+    dec: number;
+    jan: number;
+    feb: number;
+    mar: number;
+    population: number;
+    
+}

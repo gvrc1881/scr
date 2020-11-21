@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.WPADailyProgressResponse;
+import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WPASectionPopulation;
+import com.scr.model.WPASectionTargets;
 import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
@@ -295,6 +297,42 @@ public class WorksController {
 		} catch (Exception e) {
 			log.error("ERROR >> While adding WPA section population Data. " + e.getMessage());
 			return Helper.findResponseStatus("WPA section population   Addition is Failed with " + e.getMessage(),
+					Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/getWPASectionPopulationBasedOnGroupActivityYear/{workId}/{workGroupId}/{workPhaseId}/{year}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<WPASectionTargetsResponse> getWPASectionPopulationBasedOnGroupActivityYear(
+			@PathVariable("workId") Integer workId, @PathVariable("workGroupId") Long workGroupId,
+			@PathVariable("workPhaseId") Integer workPhaseId, @PathVariable("year") Integer year) {
+		log.info("Enter into getWPASectionPopulationBasedOnGroupActivityYear function Id***" + workId + "groupId"
+				+ workGroupId + "** phase Id ***" + workPhaseId);
+		List<WPASectionTargetsResponse> wpaSectionTargetsResponses = null;
+
+		try {
+			wpaSectionTargetsResponses = worksServices.getWPASectionPopulationBasedOnGroupActivityYear(workId, workGroupId,workPhaseId,year);
+			return wpaSectionTargetsResponses;
+		} catch (Exception e) {
+			log.error("Error >>  while find WPA sectionn population data by group and activity, " + e.getMessage());
+		}
+		return wpaSectionTargetsResponses;
+	}
+	
+	@PostMapping(value = "/saveWPASectionTargets")
+	@ResponseBody
+	public ResponseStatus saveWPASectionTargets(@RequestBody List<WPASectionTargets> wpaSectionTargets) {
+		log.info("*** Enter into saveWPASectionTargets function ***");
+		try {
+			worksServices.saveWPASectionTargets(wpaSectionTargets);
+			log.info("Preparing the return response and saveWPASectionTargets function end ");
+			return Helper.findResponseStatus("WPA section targets Data Added Successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While adding WPA section targets Data. " + npe.getMessage());
+			return Helper.findResponseStatus("WPA section targets Addition is Failed with " + npe.getMessage(),
+					Constants.FAILURE_CODE);
+		} catch (Exception e) {
+			log.error("ERROR >> While adding WPA section targets Data. " + e.getMessage());
+			return Helper.findResponseStatus("WPA section targets   Addition is Failed with " + e.getMessage(),
 					Constants.FAILURE_CODE);
 		}
 	}

@@ -13,4 +13,7 @@ public interface WPASectionTargetsRepository extends JpaRepository<WPASectionTar
 	Optional<WPASectionTargets> findByYearAndWorkGroupIdAndWorkPhaseActivityId(int nextYear, WorkGroup workGroup,
 			WorkPhaseActivity wPA);
 
+	Optional<WPASectionTargets> findByWorkGroupIdAndWorkPhaseActivityIdAndYear(WorkGroup workGroup,
+			WorkPhaseActivity workPhaseActivity, Integer year);
+
 }

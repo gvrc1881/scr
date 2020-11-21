@@ -209,7 +209,9 @@ export const Constants = {
                 GET_WPA_DAILY_PROGRESS_BASED_ON_GROUP_ACTIVITY : "/getWPADailyProgressBasedOnGroupActivity/",
                 SAVE_WPA_DAILY_PROGRESS: "/saveWPADailyProgress",
                 GET_WPA_SECTION_POPULATION_BASED_ON_GROUP_ACTIVITY: "/getWPASectionPopulationBasedOnGroupActivity/",
-                SAVE_WPA_SECTION_POPULATION: "/saveWPASectionPopulation"
+                SAVE_WPA_SECTION_POPULATION: "/saveWPASectionPopulation",
+                GET_WPA_SECTION_Targets_BASED_ON_GROUP_ACTIVITY_YEAR:"/getWPASectionPopulationBasedOnGroupActivityYear/",
+                SAVE_WPA_SECTION_TARGETS: "/saveWPASectionTargets"
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",

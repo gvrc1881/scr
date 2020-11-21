@@ -104,6 +104,7 @@ export class LoginComponent implements OnInit {
                   this.user = response;
                   this.router.navigate([this.returnUrl]);
                     localStorage.setItem("headerRefresh","refresh");
+                    localStorage.setItem("userHierarchy", JSON.stringify(response));
                         localStorage.setItem("zoneData", JSON.stringify(response.zoneList));
                         localStorage.setItem("divisionData", JSON.stringify(response.divisionList));
                         localStorage.setItem("subDivData", JSON.stringify(response.subDivisionList));
