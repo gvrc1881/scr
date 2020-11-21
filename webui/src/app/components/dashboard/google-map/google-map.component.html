@@ -1,0 +1,47 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+<div class="content container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Dashboard </a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Stock Quantities</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Stock Quantities</div>
+                    <div class="panel-body">
+
+                        <!-- [zoom]="zoom" [zoomControl]="false" -->
+                        <agm-map [latitude]="lat" [longitude]="lng"  [disableDefaultUI]="false"
+                            (mapClick)="mapClicked($event)">
+
+                            <agm-marker *ngFor="let m of markers; let i = index"
+                                (markerClick)="clickedMarker(m.label, i, infowindow)" 
+                                [latitude]="m.lat"
+                                [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable"
+                                (dragEnd)="markerDragEnd(m, $event)">
+
+                                <agm-info-window #infowindow>
+                                    <strong>{{marker}}</strong>
+                                </agm-info-window>
+
+                            </agm-marker>
+
+                            <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'"
+                                [circleDraggable]="true" [editable]="true">
+                            </agm-circle>
+
+                        </agm-map>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

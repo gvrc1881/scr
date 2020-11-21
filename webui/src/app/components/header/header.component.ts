@@ -100,6 +100,16 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("stock-quantities") ? "active-item" : "",
           },
           {
+            subMenuName: "Google Map",
+            subMenuURL: "google-map",
+            color: "#1285EE",
+            subMenuIcon: "fa fa-file",
+            rolePermission: this.rolePermission,
+            //permission: this.commonService.findPermission('Google Map', 'submenu', 'view'),
+            permission:true,
+            currentSubMenu: !!path && path.includes("google-map") ? "active-item" : "",
+          },
+          {
             subMenuName: "Energy Cons",
             subMenuURL: "energy-graph",
             color: "#1285EE",

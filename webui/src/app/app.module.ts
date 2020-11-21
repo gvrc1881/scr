@@ -49,7 +49,7 @@ import { SwitchOperationsComponent } from './components/switch-operations/switch
 import { RouterExtService } from './services/router-ext.service';
 import { FuseConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 //import { AshEntryComponent } from './src/app/components/ash-display/ash-entry/ash-entry.component';
-
+import { AgmCoreModule } from '@agm/core';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);

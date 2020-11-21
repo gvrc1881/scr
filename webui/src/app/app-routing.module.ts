@@ -34,6 +34,10 @@ const routes: Routes = [
     loadChildren: './components/dashboard/stock-quantities/stock-quantities.module#StockQuantitiesModule',
     canActivate: [AuthGuard]
   },{
+    path: 'google-map',
+    loadChildren: './components/dashboard/google-map/google-map.module#GoogleMapModule',
+    canActivate: [AuthGuard]
+  },{
     path: 'energy-graph',
     loadChildren: './components/dashboard/energy-consumption-graphs/energy-consumption-graph.module#EnergyConsumptionGraphModule',
     canActivate: [AuthGuard]
