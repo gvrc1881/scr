@@ -21,7 +21,7 @@ const routes: Routes = [
         component: AddProjectPhasesComponent
     },
     {
-        path        : 'add-project',
+        path        : 'add-project-phases',
         component:   AddProjectPhasesComponent
     }
    

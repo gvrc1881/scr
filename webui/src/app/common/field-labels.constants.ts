@@ -165,6 +165,8 @@ export const FieldLabelsConstant = {
       INTERNAL_EXTERNAL: "Internal External",
       IS_DPR: "Is DPR",
       IS_ID_REQUIRED: "Is Id Required",
+      IS_OBJECT_ID_REQUIRED:"Is Object Id Require",
+      IS_CHECKLIST:"Is CheckList",
       IS_NORMALLY_OPENED: "IS Normally Opened",
       JMR: "JMR",
       KILOMETER: "KM",
@@ -398,6 +400,7 @@ export const FieldLabelsConstant = {
       NEW_DRIVE_NAME:"New Drive Name",
       CHECK:"Check",
       PHASE_NAME:"Phase Name",
+      PHASE_ACTIVITY_NAME:"Phase Activity Name",
       DEPENDENCY_TO_START:"Dependency",
       SEQUENCE:"Sequence",
       WEIGHTAGE:"Weightage",
@@ -592,7 +595,8 @@ export const FieldLabelsConstant = {
     FAILURE_ANALYSIS_FORM:'Failure Analysis Form',
     OBSERVATION_CATEGORY:'Observation Category',
     PROJECT:'Project',
-    PROJECT_PHASES:'Project Phases'
+    PROJECT_PHASES:'Project Phases',
+    PROJECT_PHASE_ACTIVITY:'Project Phase Activity'
      
    }
 };

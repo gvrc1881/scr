@@ -41,24 +41,35 @@
 							    	<div class="float-right" style="float: right;">
 										<button class="mat-raised-button mat-accent" color="accent"
 											class="d-inline" mat-raised-button="" type="submit"
-												[disabled]="searchInputFormGroup.invalid">Go</button>
+												[disabled]="searchInputFormGroup.invalid">Go</button> 
 									</div>
 								</div>
 		                    </form>
-		                </div> 
-		                <div class="clear"> </div>
+						</div> 
+						
+						<div class="example-header">
+								<div class="col-sm-4">
+									<mat-form-field>
+										<input matInput (keyup)="applyFilter($event.target.value)"
+											placeholder="Filter">
+									</mat-form-field>
+								</div>
+								<div class="clear"> </div>
+							</div>
+									
+		                
 		                	<div class="mat-elevation-z8">
 		                		<mat-table [dataSource]="dataSource" matSort>
 		                			<ng-container matColumnDef="sno">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.S_NO}}</span></mat-header-cell>
 	                                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
-	                               	</ng-container>
+	                               	 </ng-container>
 	                               	<ng-container matColumnDef="workName">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PROJECT}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
 													<input matInput  [value]="row.workId.workName" 
-												    	[(ngModel)]="row.workId.workName" >
+												    	[(ngModel)]="row.workId.workName" readonly >
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>
@@ -115,7 +126,7 @@
 												    	[(ngModel)]="row.status" >
 												</mat-form-field>
 	                                        </mat-cell>
-									</ng-container>  
+									</ng-container>   -->
 
 									<ng-container matColumnDef="plannedStartDate">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PLANNED_DATE}}</span></mat-header-cell>
@@ -132,6 +143,7 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container>  
+
 									<ng-container matColumnDef="targetCompletionDate">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TARGET_COMPLETION_DATE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
@@ -147,6 +159,7 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container> 
+
 									<ng-container matColumnDef="commenceDate">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.COMMENCEMENT_DATE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
@@ -162,6 +175,7 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container>  
+
 									<ng-container matColumnDef="completionDate">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.COMPLETION_DATE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
@@ -177,18 +191,32 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container>
+									 <ng-container matColumnDef="actions">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
+										<mat-cell *matCellDef="let row">
+											  <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
+												(click)="delete(row.id)">
+												<mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+											  </button>
+											</mat-cell>
+									</ng-container> 
 								           
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
 	                                    </mat-row>
 		                		</mat-table>
-		                	</div>
+							</div>
+						
 		                	<div class="float-right" style="float: middle;" *ngIf="enableUpdate"  >
                                  	<button mat-raised-button color="accent" 
 															(click)="updatePhase()">
 														    	{{title}}
-														</button>&nbsp;&nbsp;
-                                 </div>   	
+														</button>&nbsp;&nbsp;														
+													
+								 </div> 
+								 
+								
+							
                		</div>                 
             	</div>
             </div>

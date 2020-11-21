@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -114,4 +116,48 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 			return Helper.findResponseStatus("Project phases   Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
+	
+	 @RequestMapping(value = "/findAllPhases" , method = RequestMethod.GET , headers = "Accept=application/json")
+		public List<WorkPhases> findAllPhases() throws JSONException {
+			 List<WorkPhases> phasesList = null;
+			 try {
+				   log.info("Calling service for work Phases data");	
+			
+				   phasesList = workPhaseService.findAll();
+			 log.info("Fetched work Phases data***"+phasesList.size());
+			
+			return phasesList;
+		}catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the work Phases data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			log.error("ERROR >>> while fetching the work Phases data = "+e.getMessage());
+		}
+			 log.info("Exit from work Phases function");
+		return phasesList;	
+	}
+	 
+		@RequestMapping(value = "/existsByWorkIdAndPhaseName/{work}/{phaseName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+		public Boolean existsByWorkIdAndPhaseName(@PathVariable("work") Integer work ,@PathVariable("phaseName") String phaseName){
+			log.info("Exist====="+"work=="+work+"phaseName==="+phaseName);
+			try {
+				log.info("Request for checking exists work and phase name ...");
+				return workPhaseService.existsByWorkIdAndPhaseName(worksServices.findById(work).get(),phaseName);
+			} catch (Exception e) {
+				log.error("Error while checking exists  work and phase name..."+e.getMessage());
+				return false;
+			}
+		}
+		
+		@RequestMapping(value = "/existByWorkIdAndSequence/{work}/{sequence}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+		public Boolean existByWorkIdAndSequence(@PathVariable("work") Integer work ,@PathVariable("sequence") Integer sequence){
+			log.info("Exist====="+"work=="+work+"sequence==="+sequence);
+			try {
+				log.info("Request for checking exists work and sequence ...");
+				return workPhaseService.existByWorkIdAndSequence(worksServices.findById(work).get(),sequence);
+			} catch (Exception e) {
+				log.error("Error while checking exists  work and sequence..."+e.getMessage());
+				return false;
+			}
+		}
 }
