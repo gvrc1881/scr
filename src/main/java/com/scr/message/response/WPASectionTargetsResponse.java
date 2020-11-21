@@ -8,6 +8,7 @@ import com.scr.model.WorkPhaseActivity;
 @Component
 public class WPASectionTargetsResponse {
 
+	
 	private Integer id;
 	private WorkPhaseActivity workPhaseActivityId;
 	private WorkGroup workGroupId;
