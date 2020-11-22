@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Sub Sector Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.SUB_SECTOR_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Depot" 
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="addSubSectorFormGroup.controls['facilityId']" required>
                                                             <mat-option *ngFor="let depotData of facilityData"
                                                               [value]="depotData.facilityId">
@@ -46,7 +46,7 @@
                                                       </div>
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Sector" 
+                                                          <mat-select placeholder="{{FiledLabels.SECTOR_CODE}}" 
                                                             [formControl]="addSubSectorFormGroup.controls['sector']" required>
                                                             <mat-option *ngFor="let sectorData of sectorData"
                                                               [value]="sectorData.sectorCode">
@@ -60,7 +60,7 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Sub Sector Code"
+                                                          <input matInput placeholder="{{FiledLabels.SUB_SECTOR_CODE}}"
                                                             [formControl]="addSubSectorFormGroup.controls['subSectorCode']" required/>
                                                             <mat-error
                                                             *ngIf="addSubSectorFormGroup.controls['subSectorCode'].hasError('duplicateSubSectorCode')"
@@ -72,37 +72,37 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="From Location"
+                                                          <input matInput placeholder="{{FiledLabels.FROM_LOCATION}}"
                                                             [formControl]="addSubSectorFormGroup.controls['fromLocation']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="From Location Type"
+                                                          <input matInput placeholder="{{FiledLabels.FROM_LOCATION_TYPE}}"
                                                             [formControl]="addSubSectorFormGroup.controls['fromLocationType']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="To Location"
+                                                          <input matInput placeholder="{{FiledLabels.TO_LOCATION}}"
                                                             [formControl]="addSubSectorFormGroup.controls['toLocation']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="To Location Type"
+                                                          <input matInput placeholder="{{FiledLabels.TO_LOCATION_TYPE}}"
                                                             [formControl]="addSubSectorFormGroup.controls['toLocationType']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Division"
+                                                          <input matInput placeholder="{{FiledLabels.DIVISION}}"
                                                             [formControl]="addSubSectorFormGroup.controls['division']" />
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select line1" 
+                                                          <mat-select placeholder="{{FiledLabels.LINE1}}" 
                                                             [formControl]="addSubSectorFormGroup.controls['line1']" required>
                                                             <mat-option *ngFor="let lineCode of lineCode"
                                                               [value]="lineCode.lineCode">
@@ -114,7 +114,7 @@
                                                       
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select line2" 
+                                                          <mat-select placeholder="{{FiledLabels.LINE2}}" 
                                                             [formControl]="addSubSectorFormGroup.controls['line2']" required>
                                                             <mat-option *ngFor="let line of lineDetails"
                                                               [value]="line">
@@ -128,22 +128,22 @@
 
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
-                                                    <div class="float-right" style="float: right;">
-                                                        <button class="mat-raised-button mat-accent" color="accent"
-                                                            class="d-inline" mat-raised-button="" type="submit"
-                                                            [disabled]="addSubSectorFormGroup.invalid" *ngIf="save">
-                                                            Submit
-                                                        </button>
-                                                        <button class="mat-raised-button mat-accent  d-inline"
-                                                            color="accent" type="submit" [disabled]="addSubSectorFormGroup.invalid"
-                                                            mat-raised-button="" *ngIf="update">
-                                                            Update
-                                                        </button>&nbsp;&nbsp;
-                                                        <span class="mat-raised-button mat-accent d-inline"
-                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
-                                                            Back
-                                                        </span>
-                                                    </div>
+                                                  <div class="float-right" style="float: right;">
+                                                    <button class="mat-raised-button mat-accent" color="accent"
+                                                        class="d-inline" mat-raised-button="" type="submit"
+                                                        [disabled]="addSubSectorFormGroup.invalid" *ngIf="save">
+                                                       {{title}}
+                                                    </button>
+                                                    <button class="mat-raised-button mat-accent  d-inline"
+                                                        color="accent" type="submit" [disabled]="addSubSectorFormGroup.invalid"
+                                                        mat-raised-button="" *ngIf="update">
+                                                        {{title}}
+                                                    </button>&nbsp;&nbsp;
+                                                    <span class="mat-raised-button mat-accent d-inline"
+                                                        (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                        Back
+                                                    </span>
+                                                </div>
                                                 </div>
 
 

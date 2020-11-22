@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { SwitchOperationsComponent } from '../../components/switch-operations/switch-operations.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-elementary-section',
@@ -16,12 +17,17 @@ import { SwitchOperationsComponent } from '../../components/switch-operations/sw
   styleUrls: []
 })
 export class ElementarySectionComponent implements OnInit {
+
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'elementarySectionCode', 'facilityId', 'stationCode', 'trackCode', 'sidingMain', 'sectorCode','subSectorCode','protectionCrossover','protectionTurnout','actions','switch'];
+  displayedColumns = ['sno', 'elementarySectionCode', 'facilityId', 'stationCode', 'sectorCode','subSectorCode','protectionCrossover','protectionTurnout','actions','switch'];
   dataSource: MatTableDataSource<ElementarySectionModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   gridData = [];
@@ -135,12 +141,26 @@ export class ElementarySectionComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Elementary Sections Data',
-      'dataSource':[{label:'Elementary SectionCode',value:data.elementarySectionCode},{label:'FacilityId',value:data.facilityId},{label:'Station Code',value:data.stationCode},
-                    {label:'Track Code', value:data.trackCode},{label:'Siding Main', value:data.sidingMain},{label:'Section Code', value:data.sectionCode},
-                    {label:'Sector Code',value:data.sectorCode},{label:'Sub SectorCode',value:data.subSectorCode},{label:'From Km',value:data.fromKm},{label:'From Seq',value:data.fromSeq},
-                    {label:'ToKm',value:data.toKm},{label:'ToSeq',value:data.toSeq},{label:'Division',value:data.devisionId},{label:'Protection Crossover',value:data.protectionCrossover},
-                    {label:'Protection Turnout',value:data.protectionTurnout},{label:'Remarks Shunting',value:data.remarksShunting},{label:'Auto Dead',value:data.isAutoDead}]
+      'title':this.Titles.ELEMENTARY_SECTIONS_DATA,
+      'dataSource':[
+                    {label:FieldLabelsConstant.LABELS.ELEMENTARY_SECTION_CODE,value:data.elementarySectionCode},
+                    {label:FieldLabelsConstant.LABELS.DEPOT,value:data.facilityId},
+                    {label:FieldLabelsConstant.LABELS.STATION_CODE,value:data.stationCode},
+                    {label:FieldLabelsConstant.LABELS.TRACK_CODE, value:data.trackCode},
+                    {label:FieldLabelsConstant.LABELS.SIDING, value:data.sidingMain},
+                    {label:FieldLabelsConstant.LABELS.SECTION_CODE, value:data.sectionCode},
+                    {label:FieldLabelsConstant.LABELS.SECTOR_CODE,value:data.sectorCode},
+                    {label:FieldLabelsConstant.LABELS.SUB_SECTOR_CODE,value:data.subSectorCode},
+                    {label:FieldLabelsConstant.LABELS.FROM_KILOMETER,value:data.fromKm},
+                    {label:FieldLabelsConstant.LABELS.FROM_SEQ,value:data.fromSeq},
+                    {label:FieldLabelsConstant.LABELS.TO_KILOMETER,value:data.toKm},
+                    {label:FieldLabelsConstant.LABELS.TO_SEQ,value:data.toSeq},
+                    {label:FieldLabelsConstant.LABELS.DIVISION,value:data.devisionId},
+                    {label:FieldLabelsConstant.LABELS.PROTECTION_CROSSOVER,value:data.protectionCrossover},
+                    {label:FieldLabelsConstant.LABELS.PROTECTION_TURNOUT,value:data.protectionTurnout},
+                    {label:FieldLabelsConstant.LABELS.REMARKS_SHUNTING,value:data.remarksShunting},
+                    {label:FieldLabelsConstant.LABELS.REMARKS_NO,value:data.remarksNo},
+                    {label:FieldLabelsConstant.LABELS.AUTO_DEAD,value:data.isAutoDead}]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
@@ -148,7 +168,7 @@ export class ElementarySectionComponent implements OnInit {
       width: '80%',       
       data:result,  
     });            
-  }
+}
   switchDialog(elementarySectionCode){
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',

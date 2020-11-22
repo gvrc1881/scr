@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-add-elementary-section',
@@ -12,6 +13,11 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
   styleUrls: []
 })
 export class AddElementarySectionComponent implements OnInit {
+
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -50,13 +56,13 @@ export class AddElementarySectionComponent implements OnInit {
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = 'Edit';
+      this.title = Constants.EVENTS.UPDATE;
       this.getElementarySectionDataById(this.id);
     } else {
       this.createElementarySectionForm();
       this.save = true;
       this.update = false;
-      this.title = 'Save';
+      this.title = Constants.EVENTS.ADD;
     }
     
   }
@@ -195,7 +201,8 @@ export class AddElementarySectionComponent implements OnInit {
         "devisionId": this.addElementarySectionFormGroup.value.devisionId,  
         "protectionCrossover": this.addElementarySectionFormGroup.value.protectionCrossover,  
         "protectionTurnout": this.addElementarySectionFormGroup.value.protectionTurnout,  
-        "remarksShunting": this.addElementarySectionFormGroup.value.remarksShunting,  
+        "remarksShunting": this.addElementarySectionFormGroup.value.remarksShunting, 
+        "remarksNo": this.addElementarySectionFormGroup.value.remarksNo,  
         "isAutoDead": this.addElementarySectionFormGroup.value.isAutoDead,  
         "createdStamp": new Date(),
         "createdTxStamp": new Date(),
@@ -236,7 +243,8 @@ export class AddElementarySectionComponent implements OnInit {
         "devisionId": this.addElementarySectionFormGroup.value.devisionId,  
         "protectionCrossover": this.addElementarySectionFormGroup.value.protectionCrossover,  
         "protectionTurnout": this.addElementarySectionFormGroup.value.protectionTurnout,  
-        "remarksShunting": this.addElementarySectionFormGroup.value.remarksShunting,  
+        "remarksShunting": this.addElementarySectionFormGroup.value.remarksShunting, 
+        "remarksNo": this.addElementarySectionFormGroup.value.remarksNo,   
         "isAutoDead": this.addElementarySectionFormGroup.value.isAutoDead,                                         
         "lastUpdatedStamp": new Date(),
         "lastUpdatedTxStamp": new Date()

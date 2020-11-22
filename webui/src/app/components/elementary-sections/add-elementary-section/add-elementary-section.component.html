@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="panel panel-primary">
-                                <div class="panel-heading">{{title}} Elementary Sections Form</div>
+                                <div class="panel-heading">{{title}} {{Titles.ELEMENTARY_SECTIONS_FORM}}</div>
                                 <div class="panel-body">
                                     <div class="p-24">
                                         <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
@@ -32,7 +32,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Elementary Section Code"
+                                                          <input matInput placeholder="{{FiledLabels.ELEMENTARY_SECTION_CODE}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['elementarySectionCode']" required/>
                                                             <mat-error
                                                             *ngIf="addElementarySectionFormGroup.controls['elementarySectionCode'].hasError('duplicateElementarySectionCode')"
@@ -45,7 +45,7 @@
 
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Depot" 
+                                                          <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="addElementarySectionFormGroup.controls['facilityId']" required>
                                                             <mat-option *ngFor="let depotData of facilityData"
                                                               [value]="depotData.facilityId">
@@ -60,7 +60,7 @@
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select station Code" 
+                                                          <mat-select placeholder="{{FiledLabels.STATION_CODE}}" 
                                                             [formControl]
                                                             ="addElementarySectionFormGroup.controls['stationCode']">
                                                             <mat-option *ngFor="let statSectData of statSectData"
@@ -73,7 +73,7 @@
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Line" 
+                                                          <mat-select placeholder="{{FiledLabels.LINE}}" 
                                                             [formControl]="addElementarySectionFormGroup.controls['trackCode']">
                                                             <mat-option *ngFor="let lineCode of lineCode"
                                                               [value]="lineCode.lineCode">
@@ -85,7 +85,7 @@
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Siding" 
+                                                          <mat-select placeholder="{{FiledLabels.SIDING}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['sidingMain']">
                                                             <mat-option *ngFor="let lineDetails of lineDetails"
                                                               [value]="lineDetails">
@@ -96,21 +96,11 @@
                                                       </div>
 
 
-                                                      <div class="col-md-3" >
-                                                        <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select station Code" 
-                                                            [formControl]="addElementarySectionFormGroup.controls['stationCode']">
-                                                            <mat-option *ngFor="let statSectData of statSectData"
-                                                              [value]="statSectData.stationCode">
-                                                              {{ statSectData.stationCode }}
-                                                            </mat-option>
-                                                          </mat-select>
-                                                        </mat-form-field>
-                                                      </div>
+                                                      
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select section Code" 
+                                                          <mat-select placeholder="{{FiledLabels.SECTION_CODE}}" 
                                                             [formControl]="addElementarySectionFormGroup.controls['sectionCode']">
                                                             <mat-option *ngFor="let statSectData of statSectData"
                                                               [value]="statSectData.upSectionName">
@@ -122,7 +112,7 @@
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Sector" 
+                                                          <mat-select placeholder="{{FiledLabels.SECTOR_CODE}}" 
                                                             [formControl]="addElementarySectionFormGroup.controls['sectorCode']" required>
                                                             <mat-option *ngFor="let sectorData of sectorData"
                                                               [value]="sectorData.sectorCode">
@@ -137,7 +127,7 @@
 
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                          <mat-select placeholder="Select Sub Sector" 
+                                                          <mat-select placeholder="{{FiledLabels.SUB_SECTOR_CODE}}" 
                                                             [formControl]="addElementarySectionFormGroup.controls['subSectorCode']" required>
                                                             <mat-option *ngFor="let subSectorData of subSectorData"
                                                               [value]="subSectorData.subSectorCode">
@@ -175,26 +165,26 @@
                                                       
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Division"
+                                                          <input matInput placeholder="{{FiledLabels.DIVISION}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['devisionId']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Crossover"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_CROSSOVER}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['protectionCrossover']"/>
                                                         </mat-form-field>
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Protection Turnout"
+                                                          <input matInput placeholder="{{FiledLabels.PROTECTION_TURNOUT}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['protectionTurnout']" />
                                                         </mat-form-field>
                                                       </div>
 
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks Shunting"
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS_SHUNTING}}"
                                                                 [formControl]="addElementarySectionFormGroup.controls['remarksShunting']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -211,7 +201,7 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Remarks No"
+                                                            <textarea matInput placeholder="{{FiledLabels.REMARKS_NO}}"
                                                                 [formControl]="addElementarySectionFormGroup.controls['remarksNo']"
                                                                 required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
@@ -227,7 +217,7 @@
                                                     </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="Auto Dead"
+                                                          <input matInput placeholder="{{FiledLabels.AUTO_DEAD}}"
                                                             [formControl]="addElementarySectionFormGroup.controls['isAutoDead']" />
                                                         </mat-form-field>
                                                       </div>
@@ -237,22 +227,22 @@
 
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-3 mt-15">
-                                                    <div class="float-right" style="float: right;">
-                                                        <button class="mat-raised-button mat-accent" color="accent"
-                                                            class="d-inline" mat-raised-button="" type="submit"
-                                                            [disabled]="addElementarySectionFormGroup.invalid" *ngIf="save">
-                                                            Submit
-                                                        </button>
-                                                        <button class="mat-raised-button mat-accent  d-inline"
-                                                            color="accent" type="submit" [disabled]="addElementarySectionFormGroup.invalid"
-                                                            mat-raised-button="" *ngIf="update">
-                                                            Update
-                                                        </button>&nbsp;&nbsp;
-                                                        <span class="mat-raised-button mat-accent d-inline"
-                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
-                                                            Back
-                                                        </span>
-                                                    </div>
+                                                  <div class="float-right" style="float: right;">
+                                                    <button class="mat-raised-button mat-accent" color="accent"
+                                                        class="d-inline" mat-raised-button="" type="submit"
+                                                        [disabled]="addElementarySectionFormGroup.invalid" *ngIf="save">
+                                                       {{title}}
+                                                    </button>
+                                                    <button class="mat-raised-button mat-accent  d-inline"
+                                                        color="accent" type="submit" [disabled]="addElementarySectionFormGroup.invalid"
+                                                        mat-raised-button="" *ngIf="update">
+                                                        {{title}}
+                                                    </button>&nbsp;&nbsp;
+                                                    <span class="mat-raised-button mat-accent d-inline"
+                                                        (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                        Back
+                                                    </span>
+                                                </div>
                                                 </div>
 
 

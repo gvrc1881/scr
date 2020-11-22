@@ -141,10 +141,10 @@
                                         <ng-container matColumnDef="switch">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>Switch</mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
-                                                  <span class="mat-raised-button mat-accent" (click)="switchDialog(row.gantryCode)" 
-                                                  color="accent" mat-raised-button="">
-                                                    Operation
-                                                </span>
+                                                    <button mat-icon-button matTooltip="operation"
+                                                    (click)="switchDialog(row.gantryCode)">
+                                                        <mat-icon style="color: rgb(0, 145, 234);">transform</mat-icon>
+                                                    </button>
                                                 </mat-cell>
                                         </ng-container> 
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

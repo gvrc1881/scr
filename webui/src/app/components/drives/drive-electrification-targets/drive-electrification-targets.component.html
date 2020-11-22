@@ -55,7 +55,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="targetDate">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_DATE}}
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.targetDate}}</mat-cell>
                                         </ng-container>
@@ -85,16 +85,6 @@
                                             <mat-cell *matCellDef="let row"> {{row.RKM}}</mat-cell>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="crsInspection">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CRS_INSPECTION}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.crsInspection}}</mat-cell>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="crsAuthorisation">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CRS_AUTHORISATION}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.crsAuthorisation}}</mat-cell>
-                                        </ng-container>
-
                                         <ng-container matColumnDef="targetSetBy">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_SET_BY}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.targetSetBy}}</mat-cell>
@@ -103,16 +93,6 @@
                                         <ng-container matColumnDef="doublingTrippling">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DOUBLING_TRIPPLING}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.doublingTrippling}}</mat-cell>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="state">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATE}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.state}}</mat-cell>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="phase">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PHASE}}</mat-header-cell>
-                                            <mat-cell *matCellDef="let row"> {{row.phase}}</mat-cell>
                                         </ng-container>
 
                                         <ng-container matColumnDef="proposalScheme">

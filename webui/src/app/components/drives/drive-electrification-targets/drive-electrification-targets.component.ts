@@ -21,15 +21,15 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 export class DriveElectrificationTargetsComponent implements OnInit {
 
   pagination =Constants.PAGINATION_NUMBERS;
-FiledLabels = FieldLabelsConstant.LABELS;
- Titles = FieldLabelsConstant.TITLE;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'section', 'guage', 'targetDate', 'status', 'division', 'executionAgency',
-    'TKM', 'RKM', 'crsInspection', 'crsAuthorisation', 'targetSetBy', 'doublingTrippling', 'state', 'phase',
+    'TKM', 'RKM', 'targetSetBy', 'doublingTrippling',
     'proposalScheme', 'sanctionByBoard', 'yearOfSanction', 'dateOfCompletion', 'actions'];
   dataSource: MatTableDataSource<ElectrificationTargetstModel>;
 

@@ -10,6 +10,7 @@ import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { SwitchOperationsComponent } from '../../components/switch-operations/switch-operations.component';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
   selector: 'app-sector',
@@ -17,6 +18,11 @@ import { SwitchOperationsComponent } from '../../components/switch-operations/sw
   styleUrls: []
 })
 export class SectorComponent implements OnInit {
+
+  pagination =Constants.PAGINATION_NUMBERS;
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
@@ -138,10 +144,19 @@ export class SectorComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':'Sector Data',
-      'dataSource':[{label:'Depot',value:data.facilityId},{label:'Sector Code',value:data.sectorCode},{label:'From Location',value:data.fromLocation},
-                    {label:'From Location Type', value:data.fromLocationType},{label:'To Location', value:data.toLocation},{label:'To Location Type', value:data.toLocationType},
-                    {label:'Division',value:data.division},{label:'Line1',value:data.line1},{label:'line2',value:data.line2}]
+      'title':this.Titles.SECTOR_DATA,
+      'dataSource':[
+                      
+                    {label:FieldLabelsConstant.LABELS.DEPOT,value:data.facilityId},
+                    {label:FieldLabelsConstant.LABELS.SECTOR_CODE,value:data.sectorCode},
+                    {label:FieldLabelsConstant.LABELS.FROM_LOCATION,value:data.fromLocation},
+                    {label:FieldLabelsConstant.LABELS.FROM_LOCATION_TYPE, value:data.fromLocationType},
+                    {label:FieldLabelsConstant.LABELS.TO_LOCATION, value:data.toLocation},
+                    {label:FieldLabelsConstant.LABELS.TO_LOCATION_TYPE, value:data.toLocationType},
+                    {label:FieldLabelsConstant.LABELS.DIVISION,value:data.division},
+                    {label:FieldLabelsConstant.LABELS.LINE1,value:data.line1},
+                    {label:FieldLabelsConstant.LABELS.LINE2,value:data.line2}
+                  ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
