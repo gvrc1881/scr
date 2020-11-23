@@ -151,9 +151,13 @@ public class ReportResource {
 						}
 						log.info("Sub Report File Path is " + somethingFile.getAbsolutePath());
 						tempFilePath = somethingFile.getAbsolutePath();
-						parameters.put(subReportName, tempFilePath);
+						JasperReport subReport = JasperCompileManager.compileReport(tempFilePath);
+						parameters.put(subReportName, subReport);
 					} catch (IOException e1) {
 						e1.printStackTrace();
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
