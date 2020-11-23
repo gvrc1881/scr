@@ -67,26 +67,6 @@ public class ReportResource {
 		String jrxmlFileName = null;
 		Connection con = null;
 	//	String query = ("select * from report_repository");
-		Optional<ReportRepository> reportRepryObject = reportRepository.findByReportId(report.getReportId());
-		if (reportRepryObject.isPresent()) {
-			ReportRepository reportRepry = reportRepryObject.get();
-			jrxmlFileName = reportRepry.getJrxmlName();
-		}
-		/*
-		 * try { con = dataSource.getConnection(); ps = con.prepareStatement(query);
-		 * resultSet = ps.executeQuery(); while (resultSet.next()) { String rname =
-		 * resultSet.getString("report_id"); String jname =
-		 * resultSet.getString("jrxml_name"); if
-		 * (report.getReportId().equalsIgnoreCase(rname)) { jrxmlFileName = jname;
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * } catch (Exception e) { e.printStackTrace(); } finally {
-		 * closeJDBCObjects.releaseResouces(con, ps, resultSet); }
-		 */
-
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		if (report.getFacility() != null) {
 			parameters.put("facilityId", report.getFacility().getFacilityId());
@@ -148,6 +128,50 @@ public class ReportResource {
 		parameters.put("ActivityType", report.getActivityType());
 
 		log.info(" ****** PARAMETERS BODY ***** " + parameters);
+		
+		Optional<ReportRepository> reportRepryObject = reportRepository.findByReportId(report.getReportId());
+		if (reportRepryObject.isPresent()) {
+			ReportRepository reportRepry = reportRepryObject.get();
+			jrxmlFileName = reportRepry.getJrxmlName();
+			if (reportRepry.getSubReportDetails() != null) {
+				String[] subReportNameAndJRXMLName = reportRepry.getSubReportDetails().split(";");
+				for (String nameAndJRXMLName : subReportNameAndJRXMLName) {
+					String[] subReportDetailsArray = nameAndJRXMLName.split(",");
+					String subReportName = subReportDetailsArray[0];
+					String subReportJRXMLName = subReportDetailsArray[1];
+					Resource resource = resourceLoader.getResource("classpath:jrxml/" + subReportJRXMLName);
+					String tempFilePath = null;
+					try {
+						InputStream inputStream = resource.getInputStream();
+						File somethingFile = File.createTempFile(resource.getFilename().replace(".jrxml","").trim(), ".jrxml");
+						try {
+							FileUtils.copyInputStreamToFile(inputStream, somethingFile);
+						} finally {
+							IOUtils.closeQuietly(inputStream);
+						}
+						log.info("Sub Report File Path is " + somethingFile.getAbsolutePath());
+						tempFilePath = somethingFile.getAbsolutePath();
+						parameters.put(subReportName, tempFilePath);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		}
+		/*
+		 * try { con = dataSource.getConnection(); ps = con.prepareStatement(query);
+		 * resultSet = ps.executeQuery(); while (resultSet.next()) { String rname =
+		 * resultSet.getString("report_id"); String jname =
+		 * resultSet.getString("jrxml_name"); if
+		 * (report.getReportId().equalsIgnoreCase(rname)) { jrxmlFileName = jname;
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * } catch (Exception e) { e.printStackTrace(); } finally {
+		 * closeJDBCObjects.releaseResouces(con, ps, resultSet); }
+		 */
 
 		try {
 			con = dataSource.getConnection();

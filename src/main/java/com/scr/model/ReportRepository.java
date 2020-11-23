@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 
 @Embeddable
@@ -40,6 +39,9 @@ public class ReportRepository implements Serializable {
 
 	@Column(name = "jrxml_name")
 	private String jrxmlName;
+
+	@Column(name = "sub_report_details" ,columnDefinition="TEXT")
+	private String subReportDetails;
 
 	public String getReportId() {
 		return reportId;
@@ -80,6 +82,14 @@ public class ReportRepository implements Serializable {
 
 	public void setActive(String active) {
 		this.active = active;
+	}
+
+	public String getSubReportDetails() {
+		return subReportDetails;
+	}
+
+	public void setSubReportDetails(String subReportDetails) {
+		this.subReportDetails = subReportDetails;
 	}
 
 	@Override
