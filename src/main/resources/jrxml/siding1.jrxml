@@ -3,6 +3,14 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<import value="org.opentaps.base.entities.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{SUBREPORT_DIR}]]></defaultValueExpression>
+	</parameter>
+	
+
 	<queryString>
 		<![CDATA[select wgpap.wpa_name , wgpap.work_group , wgpap.uom , wgpap.population ,
 case when total_cnt is null then 0 else total_cnt end as total_cnt ,
@@ -17,7 +25,7 @@ left outer join
 (
 select sum(performed_count) day_cnt, work_group , wpa_name , wpa_sequence
 from v_wpa_daily_progress
-where date = now()::date-1
+
  group by work_group , wpa_name , wpa_sequence ) dp
  on (dp.work_group = wgpap.work_group and   dp.wpa_name = wgpap.wpa_name)
 
@@ -185,11 +193,9 @@ order by wgpap.work_group , wgpap.wpa_sequence]]>
 		<band height="74" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="0" width="860" height="68" uuid="e172f976-7f1f-4c93-96d6-827d1417bb72"/>
-				<subreportParameter name="fromDate">
-					<subreportParameterExpression><![CDATA[]]></subreportParameterExpression>
-				</subreportParameter>
+				
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["/home/opentaps/git/zonal_31_08_2020/src/main/resources/jrxml/siding1_subreport2.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportExpression>
 			</subreport>
 		</band>
 	</title>

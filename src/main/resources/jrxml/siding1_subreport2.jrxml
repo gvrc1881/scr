@@ -3,8 +3,15 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<import value="org.opentaps.common.reporting.UtilReports"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="org.opentaps.base.entities.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+
+	
 	<queryString>
-		<![CDATA[select t.uom ,t.wpa_name, t.population tq,tp.wpa_sequence  ,total_cnt,
+		<![CDATA[
+select t.uom ,t.wpa_name, t.population tq,tp.wpa_sequence  ,total_cnt,
 case when day_cnt is null then 0 else day_cnt end as day_cnt, now()::date-1 as date
 from
 (
@@ -23,7 +30,7 @@ left outer join
 (
 select sum(performed_count) day_cnt,  wpa_name , wpa_sequence
 from v_wpa_daily_progress
-where date = now()::date-1
+where 
  group by  wpa_name , wpa_sequence ) dp
  on (   dp.wpa_name = t.wpa_name)
 
