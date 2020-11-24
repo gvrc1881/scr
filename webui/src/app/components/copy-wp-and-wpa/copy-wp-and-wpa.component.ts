@@ -41,8 +41,8 @@ export class CopyWPAndWPAComponent implements OnInit {
     }
     ngOnInit() {
         this.searchInputFormGroup = this.formBuilder.group({
-            'work': [null],
-            'standardPhase' : [null]
+            'work': [null , Validators.required ],
+            'standardPhase' : [null , Validators.required ]
         });
          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
             this.workList = data;
@@ -68,7 +68,7 @@ export class CopyWPAndWPAComponent implements OnInit {
               this.SPActivity = [];
               this.enableCopy = false;
               this.dataSource = new MatTableDataSource(this.SPActivity);
-              this.searchInputFormGroup.reset();
+              //this.searchInputFormGroup.reset();
           }, error => {
             console.log('ERROR >>>');
             this.spinnerService.hide();
@@ -77,15 +77,8 @@ export class CopyWPAndWPAComponent implements OnInit {
     }
     
     getStandardPhaseActivities() {
-       /* console.log("*** in get standard phases ****"+ele.length);
-        let sp = [];
-        for(let i =0; i < ele.length ; i++) {
-            sp.push(ele[i]);
-        } */
-        /* console.log("*** in get standard phases ****"+JSON.stringify(ele.toString()));
-        let jsonObject = {
-            'standardPhase':    sp
-        } */
+        this.SPActivity = [];
+        this.dataSource = new MatTableDataSource(this.SPActivity);
         this.sendAndRequestService.requestForPOST(Constants.app_urls.STANDARD_PHASE_ACTIVITY.GET_SPA_BASED_ON_SP,this.searchInputFormGroup.value.standardPhase,false).subscribe((data) => {
                 this.standardPhaseActivityList = data;
             //console.log('*** data ***'+JSON.stringify(data));
