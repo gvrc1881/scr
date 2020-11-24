@@ -77,6 +77,7 @@ export const Constants = {
             GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
             GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
             GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
+            GET_ONLY_SCR_DIVISIONS:"/getScrDivisions"
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -819,7 +820,7 @@ export const Constants = {
         'ONLY_ALPHA_WITH_SPACE':'^[a-zA-Z]+(\s[a-zA-Z]+)?$'
     },
     STATUS_ITEMS:{
-        "GAUGE_TYPE":"Gauge_type list",
+        "GAUGE_TYPE":"GAUGE_TYPE LIST",
         "ELECTRIFICATION_EXEC_AGENCY_TYPE":"ELECTRIFICATION_EXEC_AGENCY",
         "DOUBLE_TRIPLE_TYPE":"DOUBLE_TRIPLE_ETC_ELEC",
         "YES_NO_TYPE":"YESNO_STATUS",
