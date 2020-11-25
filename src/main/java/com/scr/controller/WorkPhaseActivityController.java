@@ -1,12 +1,15 @@
 package com.scr.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.StandardPhaseActivity;
+import com.scr.model.StandardPhases;
 import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.services.WorkPhaseActivityService;
@@ -43,7 +48,9 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 	
 	@CrossOrigin(origins = "*")
 	
-	@RequestMapping(value = "/findByPhaseActivityOnPhaseId/{workPhaseId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	/*	@RequestMapping(value = "/findByPhaseActivityOnPhaseId/{workPhaseId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	
+
 	public List<WorkPhaseActivity> findByPhaseActivityOnPhaseId(@PathVariable("workPhaseId") Integer workPhaseId){
 		log.info("Enter into findByPhaseActivityOnPhaseId function ");
 		List<WorkPhaseActivity> workActivity = null;
@@ -58,6 +65,30 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 			log.error("Error >>  while find work Phase Activity Details by work phase id, "+e.getMessage());
 		}
 		return workActivity;
+	}*/
+	
+	@RequestMapping(value = "/findByPhaseActivityOnPhaseId/{workPhaseId}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<WorkPhaseActivity>> findByPhaseActivityOnPhaseId(@PathVariable("workPhaseId") String workPhases){
+		log.info("** Enter into findByPhaseActivityOnPhaseId  functions ***"+workPhases);
+	
+		List<WorkPhaseActivity> workAct=null;		
+		
+		List<WorkPhases> workPhaseList = new ArrayList<>();
+		
+		log.info("list==="+workAct);		
+			String phaseIds[]=workPhases.split(",");			
+			
+			for(String workPhaseId:phaseIds)
+			{
+				Optional<WorkPhases> workPhase = workPhaseServices.findById(Integer.parseInt(workPhaseId));							
+			
+			if (workPhase.isPresent()) 
+				workPhaseList.add(workPhase.get());
+				
+			}
+			workAct = workPhaseActivityService.getWorkPhaseActivityBasedOnWorkPhaseIdIn(workPhaseList);
+			return new ResponseEntity<List<WorkPhaseActivity>>(workAct,HttpStatus.OK);		
+
 	}
 	
 	@RequestMapping(value = "/addPhaseActivity", method = RequestMethod.POST , headers = "Accept=application/json")

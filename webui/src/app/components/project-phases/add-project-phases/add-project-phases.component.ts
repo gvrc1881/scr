@@ -47,7 +47,7 @@ export class AddProjectPhasesComponent implements OnInit {
     expectDate=new Date();
     completeDate = new Date();
     toTargetDate=new Date();
-    dependency:boolean=false;
+    dependencyValidation:boolean=false;
 
   constructor( private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -72,7 +72,9 @@ export class AddProjectPhasesComponent implements OnInit {
       };
   }
 
-  ngOnInit() {      
+  ngOnInit() {  
+    
+    
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
         this.workGroupData = data;
         
@@ -96,6 +98,8 @@ export class AddProjectPhasesComponent implements OnInit {
     
   }
   addTargetEvent($event) {
+    
+    this.toMinDate = new Date($event.value); 
     
     this.toTargetDate = new Date($event.value);
     
@@ -127,7 +131,8 @@ this.addProjectPhaseFormGroup = this.formBuilder.group({
   'plannedStartDate':[null],
   'targetCompletionDate':[null],   
    'commenceDate':[null],
-   'completionDate':[null]
+   'completionDate':[null]  ,
+   
 });
 }
 
@@ -214,16 +219,21 @@ duplicateWorkIdAndSequence() {
   });
   return q;
 }
+
 test() {
 
   console.log("get sequence");
-  if(this.addProjectPhaseFormGroup.controls['sequence'].value > this.addProjectPhaseFormGroup.controls['dependencyToStart'].value)
+  console.log("seq=="+this.addProjectPhaseFormGroup.value.sequence);
+   console.log("depen=="+this.addProjectPhaseFormGroup.value.dependencyToStart);
+  if(this.addProjectPhaseFormGroup.value.sequence > this.addProjectPhaseFormGroup.value.dependencyToStart)
   {
     console.log("get sequence in if condition");
-    this.dependency = false;
+    this.dependencyValidation = false;
+
   }else{
     console.log("get sequence in else condition");
-    this.dependency = true;
+    this.dependencyValidation = true;
+   
   }
 
 }

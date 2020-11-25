@@ -43,7 +43,8 @@ export class ProjectPhasesComponent implements OnInit {
   phase = [];
   resp: any; 
   maxDate = new Date();
-  toMinDate=new Date();
+  toMinDate = new Date();
+  toComDate = new Date();
   completeMinDate=new Date();  
   dateFormat = 'dd-MM-yyyy';
   currentDate = new Date();
@@ -122,6 +123,8 @@ getPhases() {
   this.phase = []; 
    this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASES.GET_WORK_PHASES_BY_ID+this.searchInputFormGroup.value.work).subscribe((data) => {
            this.PhasesList = data;
+           this.toMinDate=new Date(this.PhasesList.plannedStartDate),
+           this.toTargetDate=new Date(this.PhasesList.commenceDate)
               for (var i = 0; i < this.PhasesList.length; i++) {
            this.PhasesList[i].sno = i + 1;
           
@@ -160,6 +163,8 @@ addEvent($event) {
   
 }
 addTargetEvent($event) {
+  
+  this.toMinDate = new Date($event.value); 
   
   this.toTargetDate = new Date($event.value);
   

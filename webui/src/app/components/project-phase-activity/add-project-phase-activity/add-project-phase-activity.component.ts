@@ -71,7 +71,11 @@ constructor( private formBuilder: FormBuilder,
       isCheckList:{},
       isObjectIdRequired:{},
       depotType:{},       
-      assetType:{}
+      assetType:{},
+      plannedStartDate:{},
+      targetCompletionDate:{},       
+      commenceDate:{},
+      completionDate:{}
     };
 }
 
@@ -94,6 +98,19 @@ ngOnInit() {
   }
   
 }
+
+addEvent($event) {
+  this.toMinDate = new Date($event.value); 
+  
+}
+addTargetEvent($event) {
+  
+  this.toMinDate = new Date($event.value); 
+  
+  this.toTargetDate = new Date($event.value);
+  
+}
+
 getWorkPhase(){
   this.sendAndRequestService.requestForGET( Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_PHASES_BASED_ON_WORK + this.addPhaseActivityFormGroup.value.work.id).subscribe((response) => {
       this.workPhaseData = response;
@@ -127,7 +144,11 @@ id: 0,
 'isCheckList':[null],
 'isObjectIdRequired':[null],
 'depotType':[null],   
- 'assetType':[null]
+ 'assetType':[null],
+ 'plannedStartDate':[null],
+  'targetCompletionDate':[null],   
+   'commenceDate':[null],
+   'completionDate':[null]  
  
 });
 }
@@ -145,7 +166,11 @@ id: 0,
 'isCheckList':[null],
 'isObjectIdRequired':[null],
 'depotType':[null],   
- 'assetType':[null]
+ 'assetType':[null],
+ 'plannedStartDate':[null],
+  'targetCompletionDate':[null],   
+   'commenceDate':[null],
+   'completionDate':[null]  
 });
 }
 
@@ -168,7 +193,11 @@ if (this.save) {
     "isCheckList": this.addPhaseActivityFormGroup.value.isCheckList,
     "isObjectIdRequired": this.addPhaseActivityFormGroup.value.isObjectIdRequired,      
     "depotType":  this.addPhaseActivityFormGroup.value.depotType,    
-    "assetType":  this.addPhaseActivityFormGroup.value.assetType,                                                       
+    "assetType":  this.addPhaseActivityFormGroup.value.assetType,    
+    "plannedStartDate": this.addPhaseActivityFormGroup.value.plannedStartDate,
+      "targetCompletionDate": this.addPhaseActivityFormGroup.value.targetCompletionDate,      
+      "commenceDate":  this.addPhaseActivityFormGroup.value.commenceDate,    
+      "completionDate":  this.addPhaseActivityFormGroup.value.completionDate,                                                          
     "createdBy": this.loggedUserData.username,
       "createdOn": new Date()
 

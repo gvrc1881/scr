@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,11 @@ public interface StandardPhasesRepository extends JpaRepository<StandardPhases, 
 			@Param("typeOfWork") String typeOfWork);
 	
     Optional<StandardPhases>findByNameAndTypeOfWork(String name,String typeOfWork);
+
+    @Query("select DISTINCT typeOfWork FROM StandardPhases")
+	List<StandardPhases> getTypeOfWork();
+
+	
+	List<StandardPhases> findByTypeOfWork(String typeOfWork);
 
 }

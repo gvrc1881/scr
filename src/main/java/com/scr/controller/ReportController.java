@@ -565,4 +565,22 @@ public class ReportController {
 		return new ResponseEntity<List<StandardPhaseActivity>>(standardPhaseActivities,HttpStatus.OK);	
 	}
 	
+	@RequestMapping(value = "/getTypeOfWork", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<StandardPhases>> getTypeOfWork(){
+		log.info("** Enter into getTypeOfWork functions ***");
+		List<StandardPhases> standardPhases= reportService.getTypeOfWork();
+		log.info("** preparing response and getTypeOfWork function end ***");
+		return new ResponseEntity<List<StandardPhases>>(standardPhases,HttpStatus.OK);	
+		
+	}	
+
+	
+	@RequestMapping(value = "/getStandardPhasesOnWorkType/{typeOfWork}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<StandardPhases>> getStandardPhasesOnWorkType(@PathVariable("typeOfWork") String typeOfWork){
+		log.info("** Enter into getStandardPhasesOnWorkType functions ***");
+		List<StandardPhases> standardPhases= reportService.getStandardPhasesOnWorkType(typeOfWork);
+		log.info("** preparing response and getStandardPhasesOnWorkType function end ***");
+			return new ResponseEntity<List<StandardPhases>>(standardPhases, HttpStatus.OK);		
+	}
+	
 }

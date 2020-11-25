@@ -45,6 +45,7 @@ export class AddProjectComponent implements OnInit {
     maxDate = new Date();
   toMinDate=new Date();
   completeMinDate=new Date();  
+  toComDate=new Date();
   dateFormat = 'dd-MM-yyyy';
   currentDate = new Date();
   expectDate=new Date();
@@ -96,10 +97,16 @@ addEvent($event) {
   
 }
 addTargetEvent($event) {
-  
+
+  this.toMinDate = new Date($event.value);
+
   this.toTargetDate = new Date($event.value);
   
 }
+
+
+
+
 createProjectForm(){
     this.addProjectFormGroup = this.formBuilder.group({
         id: 0,
@@ -176,6 +183,9 @@ createProjectForm(){
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
+
+        this.toMinDate=new Date(this.resp.targetStartDate),
+        this.toTargetDate=new Date(this.resp.commencementDate),
         this.addProjectFormGroup.patchValue({
           id: this.resp.id,
           allocation : this.resp.allocation,

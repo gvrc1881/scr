@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.model.StandardPhaseActivity;
+import com.scr.model.StandardPhases;
 import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
@@ -24,9 +26,9 @@ public class WorkPhaseActivityService {
 	private WorkPhaseActivityRepository workPhaseActivityRepository;
 	
 	
-	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseId(WorkPhases workPhases) {
+	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseIdIn(List<WorkPhases> workPhaseList) {
 		// TODO Auto-generated method stub
-		return workPhaseActivityRepository.findByWorkPhaseId(workPhases);
+		return workPhaseActivityRepository.findByWorkPhaseIdIn(workPhaseList);
 	}
 
 
@@ -81,4 +83,11 @@ public class WorkPhaseActivityService {
 			return  workPhaseActivityRepository.existsByWorkPhaseIdAndSequence(workPhase,sequence);
 		}
 
+
+		/*public List<WorkPhaseActivity> findByPhaseActivityOnPhaseId(List<WorkPhases> workPhases) {
+			// TODO Auto-generated method stub
+			return workPhaseActivityRepository.findByWorkPhaseId(workPhases);
+		}*/
+
+		
 }

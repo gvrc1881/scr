@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
-		                    			<mat-select placeholder="{{FiledLabels.PHASE_NAME}}" 
+		                    			<mat-select placeholder="{{FiledLabels.PHASE_NAME}}" multiple="true"
                                                             [formControl]="searchInputFormGroup.controls['workPhase']" required>
                                                             <mat-option *ngFor="let workPhase of workPhaseList"
 			                    				[value]="workPhase.id">
@@ -185,6 +185,70 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container> 
+
+									<ng-container matColumnDef="plannedStartDate">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PLANNED_DATE}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field>
+													<input matInput [matDatepicker]="picker1"
+														placeholder="{{FiledLabels.PLANNED_DATE}}"
+														(dateChange)="addEvent($event)" [max]="maxDate"
+														[value]="row.plannedStartDate" 
+												    	[(ngModel)]="row.plannedStartDate"  >
+													<mat-datepicker-toggle matSuffix [for]="picker1">
+													</mat-datepicker-toggle>
+													<mat-datepicker #picker1></mat-datepicker>                                                           
+												</mat-form-field>
+	                                        </mat-cell>
+									</ng-container>  
+
+									<ng-container matColumnDef="targetCompletionDate">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TARGET_COMPLETION_DATE}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field>
+													<input matInput [matDatepicker]="picker2"
+														placeholder="{{FiledLabels.TARGET_COMPLETION_DATE}}"
+														[min]="toMinDate"
+														[value]="row.targetCompletionDate" 
+												    	[(ngModel)]="row.targetCompletionDate" >
+													<mat-datepicker-toggle matSuffix [for]="picker2">
+													</mat-datepicker-toggle>
+													<mat-datepicker #picker2></mat-datepicker>                                                           
+												</mat-form-field>
+	                                        </mat-cell>
+									</ng-container> 
+
+									<ng-container matColumnDef="commenceDate">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.COMMENCEMENT_DATE}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	<mat-form-field>
+													<input matInput [matDatepicker]="picker4"
+														placeholder="{{FiledLabels.COMMENCEMENT_DATE}}"
+														(dateChange)="addTargetEvent($event)"   [min]="toMinDate"
+														[value]="row.commenceDate" 
+												    	[(ngModel)]="row.commenceDate" >
+													<mat-datepicker-toggle matSuffix [for]="picker4">
+													</mat-datepicker-toggle>
+													<mat-datepicker #picker4></mat-datepicker>                                                           
+												</mat-form-field>
+	                                        </mat-cell>
+									</ng-container>  
+
+									<ng-container matColumnDef="completionDate">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.COMPLETION_DATE}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+												<mat-form-field>
+													<input matInput [matDatepicker]="picker5"
+														placeholder="{{FiledLabels.COMPLETION_DATE}}"
+														[min]="toTargetDate"
+														 [value]="row.completionDate" 
+														 [(ngModel)]="row.completionDate" >
+													<mat-datepicker-toggle matSuffix [for]="picker5">
+													</mat-datepicker-toggle>
+													<mat-datepicker #picker5></mat-datepicker>                                                           
+												</mat-form-field>
+	                                        </mat-cell>
+									</ng-container>
 								
 
 									
@@ -204,14 +268,14 @@
 		                		</mat-table>
 							</div>
 						
-		                	<div class="float-right" style="float: middle;" *ngIf="enableUpdate"  >
-                                 	<button mat-raised-button color="accent" 
-															(click)="updatePhase()">
-														    	{{title}}
-														</button>&nbsp;&nbsp;														
-													
-								 </div> 
-								 
+							<div class="col-md-6 mt-15" *ngIf="enableUpdate">
+			                	<div class="float-right" style="float: right;" >
+	                                 	<button mat-raised-button color="accent" 
+																(click)="updatePhase()">
+																{{title}}
+										</button>
+	                            </div>
+							</div> 	
 								
 							
                		</div>                 

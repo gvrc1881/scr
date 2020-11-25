@@ -8,10 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
 import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
-import com.scr.model.Works;
 
 public interface WorkPhaseActivityRepository extends JpaRepository<WorkPhaseActivity, Integer>{
 
@@ -27,6 +25,13 @@ public interface WorkPhaseActivityRepository extends JpaRepository<WorkPhaseActi
 	
 	@Query(value = "SELECT case when count(wp)> 0 then true else false  end  FROM WorkPhaseActivity wp WHERE wp.workPhaseId = :workPhase and wp.sequence = :sequence")
 	Boolean existsByWorkPhaseIdAndSequence(@Param("workPhase") WorkPhases workPhase, @Param("sequence") BigDecimal sequence);
+
+	List<WorkPhaseActivity> findByWorkPhaseId(List<WorkPhases> workPhases);
+
+	@Query("FROM WorkPhaseActivity ORDER BY workPhaseId,sequence ASC")
+	List<WorkPhaseActivity> findByWorkPhaseIdIn(List<WorkPhases> workPhaseList);
+	
+	
 	
 
 

@@ -732,7 +732,10 @@ export const Constants = {
             EXISTS_SEQUENCE_TYPE_OF_WORK:'/existsSequenceAndTypeOfWork/',
             EXISTS_SEQUENCE_TYPE_OF_WORK_AND_ID:'/existSequenceTypeOfWorkAndId/',
             EXISTS_NAME_TYPE_OF_WORK:'/existsNameAndTypeOfWork/',
-            EXISTS_NAME_TYPE_OF_WORK_AND_ID:'/existNameTypeOfWorkAndId/'
+            EXISTS_NAME_TYPE_OF_WORK_AND_ID:'/existNameTypeOfWorkAndId/',
+            GET_STANDARD_PHASES_ON_TYPEOFWORK:"/getStandardPhasesOnWorkType/",
+            GET_TYPES_OF_WORK:"/getTypeOfWork"
+
         },
         STANDARD_PHASE_ACTIVITY:{
         	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"

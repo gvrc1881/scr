@@ -122,6 +122,56 @@
                                                             </mat-select>                                                           
                                                         </mat-form-field>
                                                     </div>
+                                                   
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker1"
+                                                                placeholder="{{FiledLabels.PLANNED_DATE}}"
+                                                                (dateChange)="addEvent($event)" [max]="maxDate"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['plannedStartDate']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>                                                           
+                                                        </mat-form-field>
+                                                    </div>                                                       
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker2"
+                                                                placeholder="{{FiledLabels.TARGET_COMPLETION_DATE}}"
+                                                                  [min]="toMinDate"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['targetCompletionDate']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>                                                           
+                                                        </mat-form-field>
+                                                    </div>  
+                                                                                                
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker4"
+                                                                placeholder="{{FiledLabels.COMMENCEMENT_DATE}}"
+                                                                (dateChange)="addTargetEvent($event)"   [min]="toMinDate"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['commenceDate']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker4">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker4></mat-datepicker>                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                                                                 
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker5"
+                                                                placeholder="{{FiledLabels.COMPLETION_DATE}}"
+                                                          [min]="toMinDate"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['completionDate']" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker5">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker5></mat-datepicker>                                                           
+                                                        </mat-form-field>
+                                                    </div>
+
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.IS_OBJECT_ID_REQUIRED}}"
@@ -159,7 +209,7 @@
                                                                 class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div>                 
                                                                                       
                                        
                                        

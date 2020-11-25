@@ -150,7 +150,7 @@
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker2"
 														placeholder="{{FiledLabels.TARGET_COMPLETION_DATE}}"
-														(dateChange)="addEvent($event)"  [max]="maxDate"
+														[min]="toMinDate"
 														[value]="row.targetCompletionDate" 
 												    	[(ngModel)]="row.targetCompletionDate" >
 													<mat-datepicker-toggle matSuffix [for]="picker2">
@@ -166,7 +166,7 @@
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker4"
 														placeholder="{{FiledLabels.COMMENCEMENT_DATE}}"
-														(dateChange)="addTargetEvent($event)" 
+														(dateChange)="addTargetEvent($event)"   [min]="toMinDate"
 														[value]="row.commenceDate" 
 												    	[(ngModel)]="row.commenceDate" >
 													<mat-datepicker-toggle matSuffix [for]="picker4">
@@ -182,7 +182,7 @@
 												<mat-form-field>
 													<input matInput [matDatepicker]="picker5"
 														placeholder="{{FiledLabels.COMPLETION_DATE}}"
-														 [min]="toTargetDate"
+														[min]="toTargetDate"
 														 [value]="row.completionDate" 
 														 [(ngModel)]="row.completionDate" >
 													<mat-datepicker-toggle matSuffix [for]="picker5">
@@ -207,14 +207,15 @@
 		                		</mat-table>
 							</div>
 						
-		                	<div class="float-right" style="float: middle;" *ngIf="enableUpdate"  >
-                                 	<button mat-raised-button color="accent" 
-															(click)="updatePhase()">
-														    	{{title}}
-														</button>&nbsp;&nbsp;														
-													
-								 </div> 
-								 
+							<div class="col-md-6 mt-15" *ngIf="enableUpdate">
+			                	<div class="float-right" style="float: right;" >
+	                                 	<button mat-raised-button color="accent" 
+																(click)="updatePhase()">
+																{{title}}
+										</button>
+	                            </div>
+							</div> 	
+										 
 								
 							
                		</div>                 

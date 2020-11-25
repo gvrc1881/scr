@@ -755,15 +755,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('GANTRY', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("gantry") ? "active-item" : "",
           },
-          {
-            subMenuName: "CopyWPAndWPA",
-            subMenuURL: "copy-wp-and-wpa",
-            subMenuIcon: "",
-            rolePermission: this.rolePermission,
-          // permission: true,
-           permission:this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
-          },
+          
           {
             subMenuName: "Sectors",
             subMenuURL: "sectors",
@@ -1095,7 +1087,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 16,
         menuName: 'PROJECT ADMIN',
-        menuUrl: 'Projects',
+        menuUrl: 'projects',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
@@ -1169,6 +1161,15 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("STD-phase-activity") ? "active-item" : "",
           },
+          {
+            subMenuName: "CopyWPAndWPA",
+            subMenuURL: "copy-wp-and-wpa",
+            subMenuIcon: "",
+            rolePermission: this.rolePermission,
+          // permission: true,
+           permission:this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
+          },
          
 
         ]
@@ -1176,7 +1177,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 17,
         menuName: 'PROJECT PROGRESS',
-        menuUrl: 'Progress',
+        menuUrl: 'progress',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,

@@ -448,4 +448,13 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<StandardPhaseActivity> findByStandardPhaseId(List<StandardPhases> standardPhases) {
 		return standardPhaseActivityRepository.findByStandardPhaseIdIn(standardPhases);
 	}
+	public List<StandardPhases> getTypeOfWork() {
+		return standardPhasesRepository.getTypeOfWork();
+	}
+	
+	
+	public List<StandardPhases> getStandardPhasesOnWorkType(String typeOfWork) {
+			
+			return standardPhasesRepository.findByTypeOfWork(typeOfWork);
+		}
 }

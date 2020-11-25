@@ -27,7 +27,7 @@ export class ProjectComponent implements OnInit {
     projectList:any;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    displayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
+    displayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
     dataSource: MatTableDataSource<ProjectModel>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     
@@ -58,10 +58,11 @@ export class ProjectComponent implements OnInit {
   this.getProjectData();
   
 }
+
 applyFilter(filterValue: string) {
 filterValue = filterValue.trim(); 
 filterValue = filterValue.toLowerCase(); 
-
+this.dataSource.filter = filterValue;
 }
 getProjectData() {
 const project: ProjectModel[] = [];
@@ -69,7 +70,10 @@ this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS
   this.projectList = data;
   for (let i = 0; i < this.projectList.length; i++) {
     this.projectList[i].sno = i + 1;
-
+    this.projectList[i].commencementDate = this.datePipe.transform(this.projectList[i].commencementDate, 'dd-MM-yyyy ');
+    this.projectList[i].expectedCompletion = this.datePipe.transform(this.projectList[i].expectedCompletion, 'dd-MM-yyyy ');
+    this.projectList[i].targetStartDate = this.datePipe.transform(this.projectList[i].targetStartDate, 'dd-MM-yyyy ');
+    this.projectList[i].targetDateOfCompletion = this.datePipe.transform(this.projectList[i].targetDateOfCompletion, 'dd-MM-yyyy ');
   project.push(this.projectList[i]);
 }
 this.dataSource = new MatTableDataSource(project);
@@ -144,7 +148,8 @@ this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
 }
 
 processNewProcess(workId) {
-// this.router.navigate([workId], { relativeTo: this.route });
+ //this.router.navigate(['copy-wp-and-wpa/'+workId], { relativeTo: this.route });
+ //this.router.navigate(['copy-wp-and-wpa/'+workId], { relativeTo: this.route });
   
   //	this.router.navigate(['/copy-wp-and-wpa'+'/'+id]); // navigate to other page
   this.router.navigate(['/copy-wp-and-wpa']);
