@@ -351,6 +351,13 @@ public class ReportController {
 		return new ResponseEntity<List<Division>>(division,HttpStatus.OK);	
 		
 	}
+	
+	@RequestMapping(value = "/getWarehouseFacilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Facility>> findWarehouseFacilityNames(){
+		List<Facility> warehouseDepotType= reportService.findByDepotTypeOrderByFacilityNameAsc();
+		return new ResponseEntity<List<Facility>>(warehouseDepotType,HttpStatus.OK);	
+		
+	}
 	@RequestMapping(value = "/getOheFacilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Facility>> findByDepotTypeOrderByFacilityNameAsc(){
 		List<Facility> oheDepotType= reportService.findByDepotTypeOrderByFacilityNameAsc();

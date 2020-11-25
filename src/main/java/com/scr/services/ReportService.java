@@ -345,10 +345,7 @@ public class ReportService {
 	public List<Division> findByOrderByCodeAsc() {	
 		   return divisionRepository.findAllOrderByCodeAsc();
 		}
-		public List<Division> findByZoneIdOrderByCodeAsc() {
-		List<Division> codeList = divisionRepository.findByZoneIdOrderByCodeAsc("10");
-		return codeList;		
-	}
+		
 	public List<ProductCategoryMember>findAll() {	
 		   return productCategoryMemberRepository.findAll();
 		}
