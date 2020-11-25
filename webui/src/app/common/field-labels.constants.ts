@@ -386,6 +386,7 @@ export const FieldLabelsConstant = {
       TRIPPED_IDENTIFIED_FAULT: "Tripped Identified Fault",
       TYPE: "Type",
       TYPE_OF_FAILURE: "Type Of Failure",
+      TYPE_OF_WORK:"Type Of Work",
       UNIT_NAME: "Unit Name",
       UNIT_OF_MEASURE: "Unit Of Measure",
       UNIT_TYPE: "Unit Type",
@@ -557,6 +558,8 @@ export const FieldLabelsConstant = {
      PRODUCT_CATEGORY_DATA:'Product Category_Data',
      PRODUCT_CATEGORY_FORM:'Product Category Form',
      PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form',
+     STANDARD_PHASES_DATA:'Standard Phases Data',
+     STANDARD_PHASES_FORM:'Standard Phases Form',
      GRID_FAILURE:'GRID Failure',
      GROUPS_SECTIONS:'Groups Sections',
      CB_FAILURES:'CB Failures',
@@ -631,7 +634,9 @@ export const FieldLabelsConstant = {
     OBSERVATION_CATEGORY:'Observation Category',
     PROJECT:'Project',
     PROJECT_PHASES:'Project Phases',
-    PROJECT_PHASE_ACTIVITY:'Project Phase Activity'
+    PROJECT_PHASE_ACTIVITY:'Project Phase Activity',
+    STANDARD_PHASES:'Standard Phases',
+    STANDARD_PHASES_ACTIVITY:'Standard Phases Activity'
      
    }
 };

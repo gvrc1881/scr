@@ -722,7 +722,17 @@ export const Constants = {
         	},
         },
         STANDARD_PHASES:{
-        	GET_STANDARD_PHASES:"/getAllStandardPhases"
+            SAVE_STANDARD_PHASES:"/addStandardPhases",
+            GET_STANDARD_PHASES:"/getAllStandardPhases",
+            UPDATE_STANDARD_PHASES:"/updateStandardPhases",
+            GET_STANDARD_PHASES_ID:"/findStandardPhasesById/",
+            DELETE_STANDARD_PHASES:"/deleteStandardPhases/",
+            EXISTS_DESCRIPTION_TYPE_OF_WORK:'/existsDescriptionAndTypeOfWork/',
+            EXISTS_DESCRIPTION_TYPE_OF_WORK_AND_ID:'/existDescriptionTypeOfWorkAndId/',
+            EXISTS_SEQUENCE_TYPE_OF_WORK:'/existsSequenceAndTypeOfWork/',
+            EXISTS_SEQUENCE_TYPE_OF_WORK_AND_ID:'/existSequenceTypeOfWorkAndId/',
+            EXISTS_NAME_TYPE_OF_WORK:'/existsNameAndTypeOfWork/',
+            EXISTS_NAME_TYPE_OF_WORK_AND_ID:'/existNameTypeOfWorkAndId/'
         },
         STANDARD_PHASE_ACTIVITY:{
         	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"
