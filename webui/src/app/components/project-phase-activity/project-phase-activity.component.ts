@@ -121,6 +121,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
         this.searchInputFormGroup.reset();
         this.dataSource=new MatTableDataSource();
         this.enableUpdate=false;
+        this.addPermission=true;
         //this.router.navigate(['../'], { relativeTo: this.route });
       } else {
         this.commonService.showAlertMessage("Project Phase Updating Failed.");

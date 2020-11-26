@@ -11,6 +11,7 @@ import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.com
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { FuseConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project-phases',
@@ -38,6 +39,7 @@ export class ProjectPhasesComponent implements OnInit {
   dataSource: MatTableDataSource<ProjectPhaseModel>;
   displayedColumns = ['sno','workName', 'phaseName','description','sequence','dependencyToStart','weightage','status','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
   enableUpdate: boolean; 
+  addPhases:boolean;
   workList:any;
   PhasesList:any;  
   phase = [];
@@ -58,12 +60,21 @@ export class ProjectPhasesComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private sendAndRequestService:SendAndRequestService ,
-    private route: ActivatedRoute,
-    private router: Router,       
+   // private route: ActivatedRoute,
+   // private router: Router,   
+    private location: Location,    
 ) {
 }
 
 ngOnInit() {
+
+  var permissionName = this.commonService.getPermissionNameByLoggedData("PROJECT ADMIN","Phases") ;
+  this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
+this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
+this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
+
+this.spinnerService.show();
+
   this.searchInputFormGroup = this.formBuilder.group({
       'work': [null]     
   });
@@ -111,12 +122,12 @@ ngOnInit() {
 // }
 
   
+
 applyFilter(filterValue: string) {
-  filterValue = filterValue.trim(); // Remove whitespace
-  filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  filterValue = filterValue.trim();
+  filterValue = filterValue.toLowerCase();
   this.dataSource.filter = filterValue;
 }
-
 getPhases() {  
   //const phase: ProjectPhaseModel[] = [];
   this.PhasesList = [];
@@ -146,7 +157,7 @@ updatePhase()
       this.searchInputFormGroup.reset();
       this.dataSource=new MatTableDataSource();
       this.enableUpdate=false;
-      
+      this.addPermission=true;
       //this.router.navigate(['../'], { relativeTo: this.route });
     } else {
       this.commonService.showAlertMessage("Project Phase Updating Failed.");
@@ -158,6 +169,13 @@ updatePhase()
   });
  
 }
+
+
+onGoBack() {
+ // this.router.navigate(['../'], { relativeTo: this.route });
+ this.location.back();
+  }
+
 addEvent($event) {
   this.toMinDate = new Date($event.value); 
   
