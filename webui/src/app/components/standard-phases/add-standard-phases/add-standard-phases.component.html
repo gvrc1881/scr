@@ -43,7 +43,23 @@
                                                                 [formControl]="addStandardPhasesFormGroup.controls['description']">
                                                         </mat-form-field>
                                                     </div>
-                                                      
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.TYPE_OF_WORK}}"  
+                                                            [formControl]="addStandardPhasesFormGroup.controls['typeOfWork']" required/>
+                                                            <mat-error
+                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateDescription')"
+                                                            class="alert alert-danger">
+                                                            Description And Type Of Work combination Already Exist
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateDescriptionAndId')"
+                                                            class="alert alert-danger">
+                                                            Description And Type Of Work combination Already Exist
+                                                        </mat-error>
+                                                        
+                                                        </mat-form-field>
+                                                    </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.SEQUENCE}}" numbersOnly [formControl]="addStandardPhasesFormGroup.controls['sequence']" required/>
@@ -51,6 +67,16 @@
                                                                 *ngIf="addStandardPhasesFormGroup.controls['sequence'].hasError('maxlength')"
                                                                 class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
+                                                            <mat-error
+                                                            *ngIf="addStandardPhasesFormGroup.controls['sequence'].hasError('duplicateSequence')"
+                                                            class="alert alert-danger">
+                                                            Sequence And Type Of Work combination Already Exist
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="addStandardPhasesFormGroup.controls['sequence'].hasError('duplicateSequenceAndId')"
+                                                            class="alert alert-danger">
+                                                            Sequence And Type Of Work combination Already Exist
+                                                        </mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
@@ -67,32 +93,7 @@
                                                         </mat-error>
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{FiledLabels.TYPE_OF_WORK}}"  
-                                                            [formControl]="addStandardPhasesFormGroup.controls['typeOfWork']" required/>
-                                                            <mat-error
-                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateDescription')"
-                                                            class="alert alert-danger">
-                                                            Description And Type Of Work combination Already Exist
-                                                        </mat-error>
-                                                        <mat-error
-                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateDescriptionAndId')"
-                                                            class="alert alert-danger">
-                                                            Description And Type Of Work combination Already Exist
-                                                        </mat-error>
-                                                        <mat-error
-                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateSequence')"
-                                                            class="alert alert-danger">
-                                                            Sequence And Type Of Work combination Already Exist
-                                                        </mat-error>
-                                                        <mat-error
-                                                            *ngIf="addStandardPhasesFormGroup.controls['typeOfWork'].hasError('duplicateSequenceAndId')"
-                                                            class="alert alert-danger">
-                                                            Sequence And Type Of Work combination Already Exist
-                                                        </mat-error>
-                                                        </mat-form-field>
-                                                    </div>
+                                                    
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.WEIGHTAGE}}" decimalNumber

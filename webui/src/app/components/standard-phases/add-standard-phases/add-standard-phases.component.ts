@@ -64,7 +64,7 @@ id: 0,
 'description': [null],
 'sequence':[null,Validators.compose([Validators.required]),this.duplicateSequence.bind(this)],
 'dependencyToStart':[null],
-'typeOfWork':[null, Validators.compose([Validators.required]),this.duplicateDescription.bind(this)],
+'typeOfWork':[null, Validators.compose([Validators.required]),this.duplicateDescription.bind(this),this.duplicateName.bind(this)],
 'weightage': [null],
 });
 }

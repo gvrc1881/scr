@@ -77,7 +77,7 @@ export const Constants = {
             GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
             GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
             GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
-            GET_ONLY_SCR_DIVISIONS:"/getScrDivisions"
+            GET_ONLY_WAREHOUSE_DEPOT:"/getWarehouseFacilityNames"
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -738,7 +738,12 @@ export const Constants = {
 
         },
         STANDARD_PHASE_ACTIVITY:{
-        	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"
+            GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/",
+            SAVE_SPA:"/addStandardPhaseActivity",
+            UPDATE_SPA:"/updateStandardPhasesActivity",
+            GET_SPA_ID:"/findStandardPhasesActivityById/",
+            GET_SPA:"/findAllStandardPhasesActivity",
+            DELETE_SPA:"/deleteStandardPhaseActivity/"
         }  ,
         PROJECT_ADMIN:{
             GROUPS_SECTIONS:{

@@ -130,7 +130,7 @@ export class ProductCategoryMemberComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':this.Titles.PRODUCT_CATEGORY_DATA,
+      'title':this.Titles.PRODUCT_CATEGORY_MEMBER_DATA,
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_ID, value:data.productCategoryId },
                     { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId },
