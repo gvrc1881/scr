@@ -61,7 +61,12 @@ public class WorkMapper {
 						}
 						wpaDailyProgressResponse.setAlreadyDoneCount(alreadyDoneCount);
 					} 
-					wpaDailyProgressResponse.setPerformedCount(new Double(0));
+					Optional<WPADailyProgress> wpaDailyProgress = wpaDailyProgressRepository.findByWorkGroupIdAndWorkPhaseActivityIdAndDate(workGroup,workPhaseActivity,date);
+					if (wpaDailyProgress.isPresent()) {
+						wpaDailyProgressResponse.setPerformedCount(wpaDailyProgress.get().getPerformedCount());
+					} else {
+						wpaDailyProgressResponse.setPerformedCount(new Double(0));
+					}
 					wpaDailyProgressResponse.setPopulation(wpaSectionPopulation.get().getPopulation());
 					wpaDailyProgressResponse.setWorkGroupId(workGroup);
 					wpaDailyProgressResponse.setWorkPhaseActivityId(workPhaseActivity);

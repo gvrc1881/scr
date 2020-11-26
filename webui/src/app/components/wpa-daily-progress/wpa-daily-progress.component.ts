@@ -26,6 +26,7 @@ export class WPADailyProgressComponent implements OnInit {
     wpaDailyProgress = [];
     dataSource: MatTableDataSource<WPADailyProgressModel>;
     displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done'];
+    enableSave: boolean;
 
     constructor(
         public dialog: MatDialog,
@@ -61,7 +62,8 @@ export class WPADailyProgressComponent implements OnInit {
         //console.log('** daily progress ****');
        // const wpaDailyProgress: WPADailyProgressModel[] = []; 
         this.WPADailyProgressList = [];
-        this.wpaDailyProgress = []; 
+        this.wpaDailyProgress = [];
+        this.enableSave = false;
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WPA_DAILY_PROGRESS_BASED_ON_GROUP_ACTIVITY
             +this.inputFormGroup.value.work.id +'/' +this.inputFormGroup.value.workGroup.id
             +'/'+this.inputFormGroup.value.workPhase.id + '/' +this.inputFormGroup.value.date
@@ -69,6 +71,7 @@ export class WPADailyProgressComponent implements OnInit {
                 this.WPADailyProgressList = response; 
                 for(let i =0 ; i < this.WPADailyProgressList.length ; i++ ){
                     this.WPADailyProgressList[i].sno = i+1;
+                    this.enableSave = true;
                    // this.WPADailyProgressList[i].date = this.inputFormGroup.value.date;
                     this.wpaDailyProgress.push(this.WPADailyProgressList[i]);
                    // console.log('***loop***'+JSON.stringify(this.WPADailyProgressList[i]));
