@@ -5,12 +5,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
+import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
 
 const routes: Routes = [
     {
         path: '',
         component: CopyWPAndWPAComponent,
-    }
+    },
+    {
+         path        : 'copy-wp-and-wpa/:workId',
+          component:   CopyWPAndWPAComponent
+     }
 ];
 
 @NgModule({
@@ -22,6 +28,8 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NumberValidationsModule,
+        CommonDirectivesModule,
         MaterialModule,        
         Ng4LoadingSpinnerModule.forRoot(),
     ],
@@ -31,7 +39,7 @@ const routes: Routes = [
     exports:[
         CopyWPAndWPAComponent
     ],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    //schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class CopyWPAndWPAModule {
 

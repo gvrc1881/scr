@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import { } from '@types/googlemaps/index';
 //import { MouseEvent } from '@agm/core/agm-core';
+
 @Component({
   selector: 'app-google-map',
   templateUrl: './google-map.component.html',

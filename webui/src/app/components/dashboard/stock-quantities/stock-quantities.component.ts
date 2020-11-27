@@ -212,6 +212,7 @@ export class StockQuantitiesComponent implements OnInit {
       }
     })
   }
+  
   prepareDataSource(queryType, caption, xAxisName) {
 
     var datapoints = [];

@@ -48,13 +48,9 @@ import { DataViewDialogComponent } from './components/data-view-dialog/data-view
 import { SwitchOperationsComponent } from './components/switch-operations/switch-operations.component';
 import { RouterExtService } from './services/router-ext.service';
 import { FuseConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
-import { MilestoneTargetsComponent } from './components/milestone-targets/milestone-targets.component';
-
 //import { AshEntryComponent } from './src/app/components/ash-display/ash-entry/ash-entry.component';
-//import { AgmCoreModule } from '@agm/core';
+
 // Pass the fusioncharts library and chart modules
-//import { CopyWPAndWPAModule } from './components/copy-wp-and-wpa/copy-wp-and-wpa.module';
-//import { CopyWPAndWPAComponent } from './components/copy-wp-and-wpa/copy-wp-and-wpa.component';
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
 @NgModule({
@@ -73,9 +69,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     ComplianceDocumentComponent,
     DataViewDialogComponent,
     SwitchOperationsComponent,
-    FuseConfirmPopupComponent,
-    MilestoneTargetsComponent,
-    //CopyWPAndWPAComponent
+    FuseConfirmPopupComponent
     //AshEntryComponent,
   ],
   imports: [
@@ -112,8 +106,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
     MatSelectModule,
-    MatGridListModule,
-    //CopyWPAndWPAModule
+    MatGridListModule
     ],
   entryComponents: [
         FuseConfirmDialogComponent,
@@ -126,9 +119,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         ComplianceDocumentComponent,
         DataViewDialogComponent,
         SwitchOperationsComponent,
-        FuseConfirmPopupComponent,
-        MilestoneTargetsComponent,
-        //CopyWPAndWPAComponent
+        FuseConfirmPopupComponent
   ],
   providers: [
     AuthenticationService,

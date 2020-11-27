@@ -12,12 +12,12 @@ import { DateFilterPipe } from '../common/date-filter.pipe';
     declarations: [
         filterDirective,
         InputDisabledDirective,
-        DateFilterPipe
+        DateFilterPipe,
     ],
     exports: [
         filterDirective,
         InputDisabledDirective,
-        DateFilterPipe
+        DateFilterPipe,
     ]
 })
 export class CommonDirectivesModule { }
