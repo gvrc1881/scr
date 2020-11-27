@@ -402,6 +402,7 @@ export const FieldLabelsConstant = {
       WARRANTY_AMC_ENDDATE: "Warranty AMC End Date",
       WORK: "Project Name",
       WORK_GROUP: "Group",
+      WORK_GROUP_NAME:"Work Group Name",
       WORK_NAME: "Work Name",
       WORK_ORDER_DATE: "Work Order Date",
       WORK_PHASE: "Work Phase",
@@ -547,7 +548,10 @@ export const FieldLabelsConstant = {
       DEC:"Dec",
       JAN:"Jan",
       FEB:"Feb",
-      MAR:"Mar"
+      MAR:"Mar",
+      TARGETS:"Targets",
+      TARGET_TYPE:"Target Type",
+      GROUPS_SECTIONS:'Groups Sections',
       
    },
    TITLE:{
@@ -640,7 +644,8 @@ export const FieldLabelsConstant = {
     PROJECT_PHASES:'Project Phases',
     PROJECT_PHASE_ACTIVITY:'Project Phase Activity',
     STANDARD_PHASES:'Standard Phases',
-    STANDARD_PHASES_ACTIVITY:'Standard Phases Activity'
+    STANDARD_PHASES_ACTIVITY:'Standard Phases Activity',
+    MILESTONE_TARGETS:'Milestone Targets'
      
    }
 };

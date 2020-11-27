@@ -772,7 +772,14 @@ export const Constants = {
                 GET_WORK_PHASE_ACTIVITY_ID:"/findByPhaseActivityOnPhaseId/",
                 EXIST_WORKPHASE_AND_NAME:"/existsByWorkPhaseIdAndName/",
                 EXIST_WORKPHASE_AND_SEQUENCE:"/existsByWorkPhaseIdAndSequence/"
-            }   
+            } ,
+            MILESTONE_TARGETS:{
+                SAVE:"/addMilestoneTargets",
+                UPDATE:"/updateMilestoneTargets",
+                DELETE:"/deleteMilestoneTargets/",
+                GET_MILESTONE_TARGETS_BY_ID:"/findByMilestoneTargetsById/",
+                GET_MILESTONE_TARGETS:"/findAllMilestoneTargets"
+            }  
     }
 },
     EVENTS:{
@@ -845,7 +852,9 @@ export const Constants = {
         "RELAY_INDICATION":"CB_RELAY_INDICATOR",
         "NATURE_OF_CLOSE":"CB_NATURE_OF_CLOSURE",
         "ACTION":"UUO_ACTIVITY",
-        "STATION_YARD_SIDING":"STATION_YARD_SIDING"
+        "STATION_YARD_SIDING":"STATION_YARD_SIDING",
+        "MILESTONE_TARGET_TYPES":"MILESTONE_TARGET_TYPES",
+        "MILESTONE_TARGET_STATUS_TYPE":"MILESTONE_TARGET_STATUS_TYPE"
     },
     PAGINATION_NUMBERS:[30, 60, 100, 150, 200, 250]
 

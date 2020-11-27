@@ -149,10 +149,10 @@ this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
 
 processNewProcess(workId) {
  //this.router.navigate(['copy-wp-and-wpa/'+workId], { relativeTo: this.route });
- //this.router.navigate(['copy-wp-and-wpa/'+workId], { relativeTo: this.route });
+ this.router.navigate(['copy-wp-and-wpa/'+workId], { relativeTo: this.route });
   
   //	this.router.navigate(['/copy-wp-and-wpa'+'/'+id]); // navigate to other page
-  this.router.navigate(['/copy-wp-and-wpa']);
+  //this.router.navigate(['/copy-wp-and-wpa']);
 	
   }
 

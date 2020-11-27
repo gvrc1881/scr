@@ -9,6 +9,7 @@ import { environment } from './../../../environments/environment';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { standardPhaseActivityModel } from 'src/app/models/works.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'copy-wp-and-wpa',
@@ -23,6 +24,8 @@ export class CopyWPAndWPAComponent implements OnInit {
     workList: any;
     standardPhasesList: any;
     work: any;
+    typeOfWorksList:any;
+    resp:any;
     searchInputFormGroup: FormGroup;
     standardPhaseActivityList: any;
     dataSource: MatTableDataSource<standardPhaseActivityModel>;
@@ -36,24 +39,62 @@ export class CopyWPAndWPAComponent implements OnInit {
         private formBuilder: FormBuilder,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private sendAndRequestService:SendAndRequestService        
+        private sendAndRequestService:SendAndRequestService ,
+        private route: ActivatedRoute,       
     ) {
     }
+
     ngOnInit() {
-        this.searchInputFormGroup = this.formBuilder.group({
-            'work': [null , Validators.required ],
-            'standardPhase' : [null , Validators.required ]
-        });
-         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
-            this.workList = data;
-             //console.log('*** length ***'+this.workList.length);
-        },error => {} );
-        this.sendAndRequestService.requestForGET(Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES).subscribe((data) => {
-            this.standardPhasesList = data;
-             //console.log('*** length ***'+this.standardPhasesList.length);
-        },error => {} );
+      this.searchInputFormGroup = this.formBuilder.group({
+          'work': [null , Validators.required ],
+          'typeOfWork':[null,Validators.required],
+          'standardPhase' : [null , Validators.required ]
+      });
+
+      this.work= +this.route.snapshot.params['workId'];
+
+      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+this.work).subscribe((data) => {
+      
+      this.resp = data;
+          // console.log('*** length ***'+JSON.stringify(this.resp));
+      },error => {} );
+
+       this.sendAndRequestService.requestForGET
+       (Constants.app_urls.STANDARD_PHASES.GET_TYPES_OF_WORK).subscribe((data) => {
+         this.typeOfWorksList = data;
+          console.log('*** length ***'+this.typeOfWorksList);
+     },error => {} );
+
+    this.sendAndRequestService.requestForGET
+    (Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES).subscribe((data) => {
+      this.standardPhasesList = data;
+  },error => {} );
+     
+  }
+    // ngOnInit() {
+    //     this.searchInputFormGroup = this.formBuilder.group({
+    //         'work': [null , Validators.required ],
+    //         'standardPhase' : [null , Validators.required ]
+    //     });
+    //      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
+    //         this.workList = data;
+    //          //console.log('*** length ***'+this.workList.length);
+    //     },error => {} );
+    //     this.sendAndRequestService.requestForGET(Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES).subscribe((data) => {
+    //         this.standardPhasesList = data;
+    //          //console.log('*** length ***'+this.standardPhasesList.length);
+    //     },error => {} );
+    // }
+
+    getPhases(){
+
+      this.sendAndRequestService.requestForGET
+      (Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES_ON_TYPEOFWORK+this.searchInputFormGroup.value.typeOfWork).subscribe((data) => {
+        this.standardPhasesList = data;
+         console.log('*** length ***'+this.standardPhasesList);
+    },error => {} );
+
     }
-    
     saveAction() {
         let copyObject = {
             standardPhases: this.searchInputFormGroup.value.standardPhase,

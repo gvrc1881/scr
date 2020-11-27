@@ -22,14 +22,21 @@
                                 (ngSubmit)="getStandardPhaseActivities();">
 		            			<div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
-		                    			<mat-select  placeholder="Work" [formControl]="searchInputFormGroup.controls['work']" >
-		                    				<mat-option *ngFor="let works of workList"
-		                    					[value]="works">
-		                    					{{ works.workName }}
+										
+										 <input matInput [formControl]="searchInputFormGroup.controls['work']" [value]="work" 
+												    	[(ngModel)]="resp.workName" readonly>                                                          
+		                    		</mat-form-field>
+								</div>
+								 <div class="col-md-3">
+		                    		<mat-form-field fxFlex="30" class="example-full-width">
+		                    			<mat-select placeholder="Type Of Work"  [formControl]="searchInputFormGroup.controls['typeOfWork']" (ngModelChange)="getPhases()">
+		                    				<mat-option *ngFor="let typeOfWork of typeOfWorksList"
+		                    					[value]="typeOfWork">
+		                    					{{ typeOfWork }}
 		                    				</mat-option>
 		                    			</mat-select>                                                            
 		                    		</mat-form-field>
-		                    	</div>
+		                    	</div> 
 		                    	<div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
 		                    			<mat-select placeholder="Standard Phase" [multiple]="true" [formControl]="searchInputFormGroup.controls['standardPhase']" >
