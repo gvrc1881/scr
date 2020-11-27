@@ -9,11 +9,21 @@ import { environment } from './../../../environments/environment';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { WPADailyProgressModel } from 'src/app/models/works.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 
 @Component({
     selector: 'wpa-daily-progress',
     templateUrl: './wpa-daily-progress.component.html',
-    styleUrls: ['./wpa-daily-progress.component.css']
+    styleUrls: ['./wpa-daily-progress.component.css'],
+    providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class WPADailyProgressComponent implements OnInit {
         
@@ -27,6 +37,7 @@ export class WPADailyProgressComponent implements OnInit {
     dataSource: MatTableDataSource<WPADailyProgressModel>;
     displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done'];
     enableSave: boolean;
+    maxDate = new Date();
 
     constructor(
         public dialog: MatDialog,

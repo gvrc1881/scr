@@ -63,7 +63,7 @@ export class GuidenceItemComponent implements OnInit{
 
     ngOnInit () {
         this.getAllGuidenceItemData();
-        var permissionName = this.commonService.getPermissionNameByLoggedData("WORKS","GUIDENCE ITEM") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","GUIDENCE ITEM") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
