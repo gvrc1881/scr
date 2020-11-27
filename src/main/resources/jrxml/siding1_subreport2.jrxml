@@ -3,9 +3,9 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<import value="org.opentaps.common.reporting.UtilReports"/>
+	
 	<import value="net.sf.jasperreports.engine.*"/>
-	<import value="org.opentaps.base.entities.*"/>
+	
 	<import value="net.sf.jasperreports.engine.data.*"/>
 
 	
@@ -29,8 +29,7 @@ on (  tp.wpa_name = t.wpa_name)
 left outer join
 (
 select sum(performed_count) day_cnt,  wpa_name , wpa_sequence
-from v_wpa_daily_progress
-where 
+from v_wpa_daily_progress 
  group by  wpa_name , wpa_sequence ) dp
  on (   dp.wpa_name = t.wpa_name)
 

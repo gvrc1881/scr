@@ -33,11 +33,13 @@ const routes: Routes = [
     path: 'stock-quantities',
     loadChildren: './components/dashboard/stock-quantities/stock-quantities.module#StockQuantitiesModule',
     canActivate: [AuthGuard]
-  },{
-    path: 'google-map',
-    loadChildren: './components/dashboard/google-map/google-map.module#GoogleMapModule',
-    canActivate: [AuthGuard]
-  },{
+  },
+  // {
+  //   path: 'google-map',
+  //   loadChildren: './components/dashboard/google-map/google-map.module#GoogleMapModule',
+  //   canActivate: [AuthGuard]
+  // },
+  {
     path: 'energy-graph',
     loadChildren: './components/dashboard/energy-consumption-graphs/energy-consumption-graph.module#EnergyConsumptionGraphModule',
     canActivate: [AuthGuard]
@@ -506,6 +508,11 @@ const routes: Routes = [
    {
     path: 'phase-activity',
     loadChildren: './components/project-phase-activity/project-phase-activity.module#ProjectPhaseActivityModule',
+     canActivate: [AuthGuard]
+   },
+   {
+    path: 'STD-phases',
+    loadChildren: './components/standard-phases/standard-phases.module#StandardPhasesModule',
      canActivate: [AuthGuard]
    },
   

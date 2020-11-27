@@ -38,7 +38,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
     standardPhaseActivityList: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataSource: MatTableDataSource<ProjectPhaseModel>;
-    displayedColumns = ['sno','projectPhaseName', 'name','description','sequence','dependencyToStart','uom','isCheckList','isObjectIdRequired','depotType','assetType','actions'];
+    displayedColumns = ['sno','projectPhaseName', 'name','description','sequence','dependencyToStart','uom','isCheckList','isObjectIdRequired','depotType','assetType','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
     enableUpdate: boolean; 
     workList:any;
     PhaseActivityList:any;
@@ -91,13 +91,16 @@ export class ProjectPhaseActivityComponent implements OnInit {
   }
   
   getPhaseActivity() {  
+  
     //const phase: ProjectPhaseModel[] = [];
     this.PhaseActivityList = [];
     this.activity = []; 
+
      this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.GET_WORK_PHASE_ACTIVITY_ID+this.searchInputFormGroup.value.workPhase).subscribe((data) => {
              this.PhaseActivityList = data;
-             console.log("activityList==="+this.PhaseActivityList);
-                for (var i = 0; i < this.PhaseActivityList.length; i++) {
+             this.toMinDate=new Date(this.PhaseActivityList.plannedStartDate),
+             this.toTargetDate=new Date(this.PhaseActivityList.commenceDate)
+              for (var i = 0; i < this.PhaseActivityList.length; i++) {
              this.PhaseActivityList[i].sno = i + 1;
             
              this.activity.push(this.PhaseActivityList[i]);
@@ -118,6 +121,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
         this.searchInputFormGroup.reset();
         this.dataSource=new MatTableDataSource();
         this.enableUpdate=false;
+        this.addPermission=true;
         //this.router.navigate(['../'], { relativeTo: this.route });
       } else {
         this.commonService.showAlertMessage("Project Phase Updating Failed.");

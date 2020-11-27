@@ -351,6 +351,13 @@ public class ReportController {
 		return new ResponseEntity<List<Division>>(division,HttpStatus.OK);	
 		
 	}
+	
+	@RequestMapping(value = "/getWarehouseFacilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<Facility>> findWarehouseFacilityNames(){
+		List<Facility> warehouseDepotType= reportService.findByDepotTypeOrderByFacilityNameAsc();
+		return new ResponseEntity<List<Facility>>(warehouseDepotType,HttpStatus.OK);	
+		
+	}
 	@RequestMapping(value = "/getOheFacilityNames", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<Facility>> findByDepotTypeOrderByFacilityNameAsc(){
 		List<Facility> oheDepotType= reportService.findByDepotTypeOrderByFacilityNameAsc();
@@ -556,6 +563,24 @@ public class ReportController {
 		List<StandardPhaseActivity> standardPhaseActivities = reportService.findByStandardPhaseId(standardPhases);
 		log.info("** preparing response and  getSPABasedOnSP function end ***");
 		return new ResponseEntity<List<StandardPhaseActivity>>(standardPhaseActivities,HttpStatus.OK);	
+	}
+	
+	@RequestMapping(value = "/getTypeOfWork", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<StandardPhases>> getTypeOfWork(){
+		log.info("** Enter into getTypeOfWork functions ***");
+		List<StandardPhases> standardPhases= reportService.getTypeOfWork();
+		log.info("** preparing response and getTypeOfWork function end ***");
+		return new ResponseEntity<List<StandardPhases>>(standardPhases,HttpStatus.OK);	
+		
+	}	
+
+	
+	@RequestMapping(value = "/getStandardPhasesOnWorkType/{typeOfWork}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<StandardPhases>> getStandardPhasesOnWorkType(@PathVariable("typeOfWork") String typeOfWork){
+		log.info("** Enter into getStandardPhasesOnWorkType functions ***");
+		List<StandardPhases> standardPhases= reportService.getStandardPhasesOnWorkType(typeOfWork);
+		log.info("** preparing response and getStandardPhasesOnWorkType function end ***");
+			return new ResponseEntity<List<StandardPhases>>(standardPhases, HttpStatus.OK);		
 	}
 	
 }

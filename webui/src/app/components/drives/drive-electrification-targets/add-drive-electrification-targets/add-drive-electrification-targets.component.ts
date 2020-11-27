@@ -194,7 +194,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   }
 
   findDivisions(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ONLY_SCR_DIVISIONS)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_DETAILS)
     .subscribe((resp) => {
       this.divisionList = resp;
     });

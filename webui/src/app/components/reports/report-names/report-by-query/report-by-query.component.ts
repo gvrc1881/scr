@@ -40,6 +40,7 @@ export class ReportByQueryComponent implements OnInit {
        scheduleData: ScheduleModel;
        submitedForm: any;
        facilityId: any;
+       warehouseFacilityData:any;
        userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
        reportModel: ReportModel;
        formValuses: any;
@@ -184,6 +185,14 @@ export class ReportByQueryComponent implements OnInit {
               const facilityData: ReportParameterModel[] = [];
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                      this.facilityData = data;
+              }
+              );
+
+       }
+       wareHouseFacilityNames() {
+              const facilityData: ReportParameterModel[] = [];
+              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ONLY_WAREHOUSE_DEPOT).subscribe((data) => {
+                     this.warehouseFacilityData = data;
               }
               );
 

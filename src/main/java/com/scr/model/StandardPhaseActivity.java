@@ -1,5 +1,6 @@
 package com.scr.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,14 @@ public class StandardPhaseActivity {
 	private String isCheckList;
 
 	private String uom;
+	
+	private String description;
+
+	
+	@Column(name = "dependency_to_start")
+	private String dependencyToStart;
+	
+	
 
 	@ManyToOne
 	@JoinColumn(name = "standard_phase_id", foreignKey = @ForeignKey(name = "fk_standard_phase_activity_standard_phases"))
@@ -98,12 +107,31 @@ public class StandardPhaseActivity {
 	public void setStandardPhaseId(StandardPhases standardPhaseId) {
 		this.standardPhaseId = standardPhaseId;
 	}
+	
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDependencyToStart() {
+		return dependencyToStart;
+	}
+
+	public void setDependencyToStart(String dependencyToStart) {
+		this.dependencyToStart = dependencyToStart;
+	}
 
 	@Override
 	public String toString() {
 		return "StandardPhaseActivity [id=" + id + ", name=" + name + ", depotType=" + depotType + ", assetType="
 				+ assetType + ", isObjectIdRequired=" + isObjectIdRequired + ", isCheckList=" + isCheckList + ", uom="
-				+ uom + "]";
+				+ uom + ", description=" + description + ", dependencyToStart=" + dependencyToStart
+				+ ", standardPhaseId=" + standardPhaseId + "]";
 	}
 
 }

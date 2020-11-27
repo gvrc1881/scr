@@ -13,7 +13,7 @@ import { filterDirective } from 'src/app/common/filter.directive';
 import { DateTimeAdapter, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { DateFilterPipe } from 'src/app/common/date-filter.pipe';
 import { DateFnsDateTimeAdapter } from 'src/app/common/date-fns-date-time-adapter.class';
-//import { CopyWPAndWPAComponent } from '../copy-wp-and-wpa/copy-wp-and-wpa.component';
+import { CopyWPAndWPAComponent } from '../copy-wp-and-wpa/copy-wp-and-wpa.component';
 
 const DATEFNS_FORMATS_EN_LOCALE = {
     parseInput: "dd-MM-yyyy HH:mm || dd/MM/yyyy", // multiple date input types separated by ||
@@ -39,8 +39,8 @@ const routes: Routes = [
         component:   AddProjectComponent
     },
     // {
-    //     path        : ':workId',
-    //     component:   CopyWPAndWPAComponent
+    //     path        : 'copy-wp-and-wpa/:workId',
+    //      component:   CopyWPAndWPAComponent
     // }
    
 ];

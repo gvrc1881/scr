@@ -1,22 +1,21 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
-import { ProductCategoryMemberModel } from 'src/app/models/product.model';
+import { StandardPhasesModel } from 'src/app/models/standard-phase.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
-import { DataViewDialogComponent } from '../../data-view-dialog/data-view-dialog.component';
-import { DatePipe } from '@angular/common';
+import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
 @Component({
-  selector: 'app-product-category-member',
-  templateUrl: './product-category-member.component.html',
+  selector: 'app-standard-phases',
+  templateUrl: './standard-phases.component.html',
   styleUrls: []
 })
-export class ProductCategoryMemberComponent implements OnInit {
+export class StandardPhasesComponent implements OnInit {
 
   pagination =Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
@@ -26,8 +25,8 @@ export class ProductCategoryMemberComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'productCategoryId', 'productId','quantity', 'fromDate', 'thruDate','actions'];
-  dataSource: MatTableDataSource<ProductCategoryMemberModel>;
+  displayedColumns = ['sno', 'name', 'description','sequence', 'dependencyToStart', 'typeOfWork','weightage','actions'];
+  dataSource: MatTableDataSource<StandardPhasesModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   filterData;
 
@@ -37,34 +36,34 @@ export class ProductCategoryMemberComponent implements OnInit {
   @ViewChild('filter', { static: true }) filter: ElementRef;
   gridData = [];
 
-  categoryMemberList: any;
+  standardPhasesList: any;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
-    private datePipe: DatePipe,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private sendAndRequestService:SendAndRequestService
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("PRODUCTS","PRODUCT CATEGORY MEMBER") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("PROJECT ADMIN","STD Phases") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
 
     this.spinnerService.show();
-    this.getProductCategoryMemberData();
+    this.getStandardPhasesData();
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
-        { "Key": 'productCategoryId', "Value": " " },
-        { "Key": 'productId', "Value": " " },
-        { "Key": 'quantity', "Value": " " },
-        { "Key": 'fromDate', "Value": "" },
-        { "Key": 'thruDate', "Value": " " },
+        { "Key": 'name', "Value": " " },
+        { "Key": 'description', "Value": " " },
+        { "Key": 'sequence', "Value": " " },
+        { "Key": 'dependencyToStart', "Value": "" },
+        { "Key": 'typeOfWork', "Value": "" },
+        { "Key": 'weightage', "Value": " " },
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -74,18 +73,16 @@ export class ProductCategoryMemberComponent implements OnInit {
 
 
   }
-  getProductCategoryMemberData() {
-    const categoryMember: ProductCategoryMemberModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY_MEMBER.GET_PRODUCT_CATEGORY_MEMBER).subscribe((data) => {
-      this.categoryMemberList = data;
-      for (let i = 0; i < this.categoryMemberList.length; i++) {
-        this.categoryMemberList[i].sno = i + 1;
-        this.categoryMemberList[i].fromDate = this.datePipe.transform(this.categoryMemberList[i].fromDate, 'dd-MM-yyyy');
-                this.categoryMemberList[i].thruDate = this.datePipe.transform(this.categoryMemberList[i].thruDate, 'dd-MM-yyyy');
-        categoryMember.push(this.categoryMemberList[i]);
+  getStandardPhasesData() {
+    const standardPhases: StandardPhasesModel[] = [];
+    this.sendAndRequestService.requestForGET(Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES).subscribe((data) => {
+      this.standardPhasesList = data;
+      for (let i = 0; i < this.standardPhasesList.length; i++) {
+        this.standardPhasesList[i].sno = i + 1;
+        standardPhases.push(this.standardPhasesList[i]);
       }
-      this.filterData.gridData = categoryMember;
-      this.dataSource = new MatTableDataSource(categoryMember);
+      this.filterData.gridData = standardPhases;
+      this.dataSource = new MatTableDataSource(standardPhases);
       this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
       this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
@@ -106,14 +103,14 @@ export class ProductCategoryMemberComponent implements OnInit {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY_MEMBER.DELETE_PRODUCT_CATEGORY_MEMBER ,id).subscribe(data => {
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.STANDARD_PHASES.DELETE_STANDARD_PHASES ,id).subscribe(data => {
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Product Category Member Successfully");
-          this.getProductCategoryMemberData();
+          this.commonService.showAlertMessage("Deleted Standard Phases Successfully");
+          this.getStandardPhasesData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Product Category Member Deletion Failed.");
+          this.commonService.showAlertMessage("Standard Phases Deletion Failed.");
         });
       }
       this.confirmDialogRef = null;
@@ -130,13 +127,14 @@ export class ProductCategoryMemberComponent implements OnInit {
   }
   ViewData(data){
     var result = {
-      'title':this.Titles.PRODUCT_CATEGORY_MEMBER_DATA,
+      'title':this.Titles.STANDARD_PHASES_DATA,
       'dataSource':[                                 
-                    { label:FieldLabelsConstant.LABELS.PRODUCT_CATEGORY_ID, value:data.productCategoryId },
-                    { label:FieldLabelsConstant.LABELS.PRODUCT_ID, value:data.productId },
-                    { label:FieldLabelsConstant.LABELS.QUANTITY, value:data.quantity },
-                    { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDate },
-                    { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.thruDate },
+                    { label:FieldLabelsConstant.LABELS.NAME, value:data.name },
+                    { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
+                    { label:FieldLabelsConstant.LABELS.SEQUENCE, value:data.sequence },
+                    { label:FieldLabelsConstant.LABELS.DEPENDENCY_TO_START, value:data.dependencyToStart },
+                    { label:FieldLabelsConstant.LABELS.TYPE_OF_WORK, value:data.typeOfWork },
+                    { label:FieldLabelsConstant.LABELS.WEIGHTAGE, value:data.weightage },
                     
                   ]
     }

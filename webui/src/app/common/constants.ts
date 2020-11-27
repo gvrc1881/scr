@@ -77,7 +77,7 @@ export const Constants = {
             GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
             GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
             GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
-            GET_ONLY_SCR_DIVISIONS:"/getScrDivisions"
+            GET_ONLY_WAREHOUSE_DEPOT:"/getWarehouseFacilityNames"
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -722,10 +722,28 @@ export const Constants = {
         	},
         },
         STANDARD_PHASES:{
-        	GET_STANDARD_PHASES:"/getAllStandardPhases"
+            SAVE_STANDARD_PHASES:"/addStandardPhases",
+            GET_STANDARD_PHASES:"/getAllStandardPhases",
+            UPDATE_STANDARD_PHASES:"/updateStandardPhases",
+            GET_STANDARD_PHASES_ID:"/findStandardPhasesById/",
+            DELETE_STANDARD_PHASES:"/deleteStandardPhases/",
+            EXISTS_DESCRIPTION_TYPE_OF_WORK:'/existsDescriptionAndTypeOfWork/',
+            EXISTS_DESCRIPTION_TYPE_OF_WORK_AND_ID:'/existDescriptionTypeOfWorkAndId/',
+            EXISTS_SEQUENCE_TYPE_OF_WORK:'/existsSequenceAndTypeOfWork/',
+            EXISTS_SEQUENCE_TYPE_OF_WORK_AND_ID:'/existSequenceTypeOfWorkAndId/',
+            EXISTS_NAME_TYPE_OF_WORK:'/existsNameAndTypeOfWork/',
+            EXISTS_NAME_TYPE_OF_WORK_AND_ID:'/existNameTypeOfWorkAndId/',
+            GET_STANDARD_PHASES_ON_TYPEOFWORK:"/getStandardPhasesOnWorkType/",
+            GET_TYPES_OF_WORK:"/getTypeOfWork"
+
         },
         STANDARD_PHASE_ACTIVITY:{
-        	GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/"
+            GET_SPA_BASED_ON_SP:"/getSPABasedOnSP/",
+            SAVE_SPA:"/addStandardPhaseActivity",
+            UPDATE_SPA:"/updateStandardPhasesActivity",
+            GET_SPA_ID:"/findStandardPhasesActivityById/",
+            GET_SPA:"/findAllStandardPhasesActivity",
+            DELETE_SPA:"/deleteStandardPhaseActivity/"
         }  ,
         PROJECT_ADMIN:{
             GROUPS_SECTIONS:{

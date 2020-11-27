@@ -99,7 +99,7 @@ export class AddDriveStipulationComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.INSPECTIONS.GET_INSPECTIONS).subscribe((data) => {
       let crsEigInss = data;
         for (let i = 0; i < crsEigInss.length; i++) {
-        crsEigInss[i].dateOfInspection = this.datePipe.transform(crsEigInss[i].dateOfInspection, 'dd-MM-yyyy hh:mm:ss');
+        crsEigInss[i].dateOfInspection = this.datePipe.transform(crsEigInss[i].dateOfInspection, 'dd-MM-yyyy');
         this.crsEigInspections.push(crsEigInss[i]);
       }
       this.spinnerService.hide();

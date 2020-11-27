@@ -386,6 +386,7 @@ export const FieldLabelsConstant = {
       TRIPPED_IDENTIFIED_FAULT: "Tripped Identified Fault",
       TYPE: "Type",
       TYPE_OF_FAILURE: "Type Of Failure",
+      TYPE_OF_WORK:"Type Of Work",
       UNIT_NAME: "Unit Name",
       UNIT_OF_MEASURE: "Unit Of Measure",
       UNIT_TYPE: "Unit Type",
@@ -466,6 +467,7 @@ export const FieldLabelsConstant = {
       ROD3_INSULATOR_BATCH:"Rod3 Insulator Batch",
       ROD3_INSULATOR_MAKE:"Rod3 Insulator Make",
       SOURCE:"Souce",
+      STANDARD_PHASE_ID:"Standard Phase Id",
       STAG1_TON9_INSULATOR_BATCH:"Stag1 Ton9 Insulator Batch",
       STAG2_TON9_INSULATOR_BATCH:"Stag2 Ton9 Insulator Batch",
       STAG2_TON9_INSULATOR_MAKE:"Stag2 Ton9 Insulator Make",
@@ -555,8 +557,13 @@ export const FieldLabelsConstant = {
      MAKE:"Make",
      PRODUCT_DATA:'Product Data',
      PRODUCT_CATEGORY_DATA:'Product Category_Data',
+     PRODUCT_CATEGORY_MEMBER_DATA:'Product Category Member Data',
      PRODUCT_CATEGORY_FORM:'Product Category Form',
      PRODUCT_CATEGORY_MEMBER_FORM:'Product Category Member Form',
+     STANDARD_PHASES_DATA:'Standard Phases Data',
+     STANDARD_PHASES_FORM:'Standard Phases Form',
+     STANDARD_PHASE_ACTIVITY_DATA:'Standard Phase Activity Data',
+     STANDARD_PHASE_ACTIVITY_FORM:'Standard Phase Activity Form',
      GRID_FAILURE:'GRID Failure',
      GROUPS_SECTIONS:'Groups Sections',
      CB_FAILURES:'CB Failures',
@@ -631,7 +638,9 @@ export const FieldLabelsConstant = {
     OBSERVATION_CATEGORY:'Observation Category',
     PROJECT:'Project',
     PROJECT_PHASES:'Project Phases',
-    PROJECT_PHASE_ACTIVITY:'Project Phase Activity'
+    PROJECT_PHASE_ACTIVITY:'Project Phase Activity',
+    STANDARD_PHASES:'Standard Phases',
+    STANDARD_PHASES_ACTIVITY:'Standard Phases Activity'
      
    }
 };

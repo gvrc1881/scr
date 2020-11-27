@@ -56,7 +56,7 @@ public class OheLocation implements Serializable {
 	private String heading;
 
 	@Column(name="kilometer")
-	private double kilometer;
+	private Double kilometer;
 
 	@Column(name="last_updated_stamp")
 	private Timestamp lastUpdatedStamp;

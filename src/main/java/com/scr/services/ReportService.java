@@ -296,6 +296,10 @@ public class ReportService {
 		List<Facility> facilityNames = facilityRepository.findByDepotTypeOrderByFacilityNameAsc("OHE");
 		return facilityNames;		
 	}
+	public List<Facility> findWarehouseFacilityNames() {
+		List<Facility> facilityNames = facilityRepository.findByDepotTypeOrderByFacilityNameAsc("WAREHOUSE");
+		return facilityNames;		
+	}
 	public List<Facility> findByDepotType(String depotType) {
 		List<Facility> facilityNames = facilityRepository.findByDepotType(depotType);
 		return facilityNames;		
@@ -341,6 +345,7 @@ public class ReportService {
 	public List<Division> findByOrderByCodeAsc() {	
 		   return divisionRepository.findAllOrderByCodeAsc();
 		}
+		
 	public List<ProductCategoryMember>findAll() {	
 		   return productCategoryMemberRepository.findAll();
 		}
@@ -443,4 +448,13 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<StandardPhaseActivity> findByStandardPhaseId(List<StandardPhases> standardPhases) {
 		return standardPhaseActivityRepository.findByStandardPhaseIdIn(standardPhases);
 	}
+	public List<StandardPhases> getTypeOfWork() {
+		return standardPhasesRepository.getTypeOfWork();
+	}
+	
+	
+	public List<StandardPhases> getStandardPhasesOnWorkType(String typeOfWork) {
+			
+			return standardPhasesRepository.findByTypeOfWork(typeOfWork);
+		}
 }
