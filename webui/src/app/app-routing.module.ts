@@ -490,6 +490,11 @@ const routes: Routes = [
   loadChildren: './components/projects/projects.module#ProjectModule',
    canActivate: [AuthGuard]
  },
+ {
+  path: 'projects/copy-wp-and-wpa/:workId',
+  loadChildren: './components/copy-wp-and-wpa/copy-wp-and-wpa.module#CopyWPAndWPAModule',
+   canActivate: [AuthGuard]
+ },
    {
     path: 'population',
     loadChildren: './components/wpa-section-population/wpa-section-population.module#WPASectionPopulationModule',

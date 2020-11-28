@@ -56,7 +56,7 @@ export class CopyWPAndWPAComponent implements OnInit {
       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+this.work).subscribe((data) => {
       
       this.resp = data;
-          // console.log('*** length ***'+JSON.stringify(this.resp));
+           console.log('*** length ***'+JSON.stringify(this.resp));
       },error => {} );
 
        this.sendAndRequestService.requestForGET

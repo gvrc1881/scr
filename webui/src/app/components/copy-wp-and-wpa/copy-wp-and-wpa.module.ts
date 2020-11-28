@@ -12,11 +12,11 @@ const routes: Routes = [
     {
         path: '',
         component: CopyWPAndWPAComponent,
-    },
+    }/* ,
     {
          path        : 'copy-wp-and-wpa/:workId',
           component:   CopyWPAndWPAComponent
-     }
+     } */
 ];
 
 @NgModule({
