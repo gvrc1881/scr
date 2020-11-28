@@ -25,10 +25,9 @@ left outer join
 (
 select sum(performed_count) day_cnt, work_group , wpa_name , wpa_sequence
 from v_wpa_daily_progress
-where wgpap.wpa_name is not null  
  group by work_group , wpa_name , wpa_sequence ) dp
  on (dp.work_group = wgpap.work_group and   dp.wpa_name = wgpap.wpa_name)
-
+where wgpap.wpa_name is not null
 order by wgpap.work_group , wgpap.wpa_sequence]]>
 	</queryString>
 	<field name="wpa_name" class="java.lang.String"/>
