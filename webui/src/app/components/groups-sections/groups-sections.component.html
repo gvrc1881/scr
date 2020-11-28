@@ -109,8 +109,9 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SIDING_YARD_STATION}}</mat-header-cell>
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.sidingYardStation}}</mat-cell>
-                                        </ng-container>
-                                        
+                                        </ng-container>                                        
+                                       
+
                                 
                                         <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
@@ -124,12 +125,28 @@
                                                     (click)="processEditAction(row.id)">
                                                     <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
                                                 </a>
+
                                                 <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
                                                     (click)="delete(row.id)">
                                                     <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                 </button>
+                                                
                                                 </mat-cell>
                                         </ng-container>
+
+
+                                        <ng-container matColumnDef="targets">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                      {{FiledLabels.TARGETS}}                                                   
+                                                    </mat-header-cell>
+                                                <mat-cell *matCellDef="let row">
+                                                  <span class="mat-raised-button mat-accent" 
+                                                  (click)="targetsDialog(row.id)" 
+                                                  color="accent" mat-raised-button="">
+                                                  Targets
+                                                </span>                                              
+                                              </mat-cell>
+                                        </ng-container>  
 
                                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                                         <mat-row *matRowDef="let row; columns: displayedColumns;">

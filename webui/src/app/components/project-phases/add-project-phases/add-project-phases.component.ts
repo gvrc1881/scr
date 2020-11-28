@@ -23,6 +23,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
     }
     ]
 })
+
 export class AddProjectPhasesComponent implements OnInit {
 
     FiledLabels = FieldLabelsConstant.LABELS;

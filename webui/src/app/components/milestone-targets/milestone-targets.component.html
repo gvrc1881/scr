@@ -1,0 +1,212 @@
+ <div class="row-fluid">
+    <div class="close-box">
+      <div mat-dialog-actions class="pt-24 ">
+          <button class="mat-accent mr-16" mat-button (click)="dialogRef.close(false)"><i
+                  class="material-icons">
+                  close
+              </i>
+          </button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+          <div class="p-24">
+                  
+                  <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"  fxLayout="column"
+                          fxLayoutAlign="start" [formGroup]="milestoneTargetsFormGroup" fxFlex="1 0 auto"
+                          (ngSubmit)="targetsSubmit();">
+                          <div class="panel panel-primary">
+                               <div class="panel-heading">{{title}} {{Titles.MILESTONE_TARGETS}}</div>
+    
+                              <div class="panel-body">
+                                
+                                <!-- <div class="col-md-3">
+                                  <mat-form-field fxFlex="30">
+                                    <mat-select placeholder="{{FiledLabels.GROUPS_SECTIONS}}"
+                                         [formControl]="milestoneTargetsFormGroup.controls['workGroupId']">
+                                         <mat-option
+                                              *ngFor="let group of groupList"
+                                              [value]="group.id">
+                                              {{ group.workGroup}}
+                                         </mat-option>
+                                    </mat-select>
+                               </mat-form-field>
+                                </div>    -->
+
+                                 <div class="col-md-3">
+                                  <mat-form-field fxFlex="30">
+                                        <input matInput placeholder="{{FiledLabels.PROJECT}}" readonly 
+                                        [formControl]="milestoneTargetsFormGroup.controls['workId']"
+                                        [(ngModel)]="resp.workId.workName"/>
+                                  </mat-form-field>
+                              </div> 
+
+                                <div class="col-md-3">
+                                  <mat-form-field fxFlex="30">
+                                        <input matInput placeholder="{{FiledLabels.GROUPS_SECTIONS}}" readonly [formControl]="milestoneTargetsFormGroup.controls['workGroupId']"
+                                        
+                                        [(ngModel)]="workGroupId"/>
+                                  </mat-form-field>
+                              </div>
+                                
+                                <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                      <mat-select placeholder="{{FiledLabels.TARGET_TYPE}}"
+                                           [formControl]="milestoneTargetsFormGroup.controls['targetType']">
+                                           <mat-option
+                                                *ngFor="let targetType of targetTypeList"
+                                                [value]="targetType.statusCode">
+                                                {{ targetType.statusCode}}
+                                           </mat-option>
+                                      </mat-select>
+                                 </mat-form-field>
+                                  </div> 
+
+                                  <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                        <input matInput placeholder="{{FiledLabels.RKM}}"   decimalNumber [formControl]="milestoneTargetsFormGroup.controls['rkm']" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                        <input matInput placeholder="{{FiledLabels.TKM}}"  decimalNumber [formControl]="milestoneTargetsFormGroup.controls['tkm']" (keyup)="getTkm()"/>
+                                    </mat-form-field>
+                                </div>
+
+                                 <!-- <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker2"
+                                            placeholder="{{FiledLabels.TARGET_DATE}}"                                           
+                                            [formControl]="milestoneTargetsFormGroup.controls['targetDate']" >
+                                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>   
+                                -->
+                               
+                                <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                      <mat-select placeholder="{{FiledLabels.STATUS}}"
+                                           [formControl]="milestoneTargetsFormGroup.controls['status']">
+                                           <mat-option
+                                                *ngFor="let status of statusList"
+                                                [value]="status.statusCode">
+                                                {{ status.statusCode}}
+                                           </mat-option>
+                                      </mat-select>
+                                 </mat-form-field>
+                                  </div> 
+
+                                  <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                        <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
+                                        [formControl]="milestoneTargetsFormGroup.controls['remarks']" 
+                                        pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$" ></textarea>
+                                          <mat-error
+                                            *ngIf="milestoneTargetsFormGroup.controls['remarks'].hasError('maxlength')"
+                                            class="alert alert-danger">Max 250 characters only
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+    
+                                
+    
+      
+    
+      <div class="col-md-3 mt-15">
+        <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
+          <button mat-raised-button color="accent" [disabled]="milestoneTargetsFormGroup.invalid"
+            class="submit-button" aria-label="Submit">
+            {{title}}
+          </button>
+        </div>
+        
+      </div>
+      
+      </div>
+    </div>
+    </form>
+     </div>
+     <div class="example-header">
+      <div class="col-sm-4">
+          <mat-form-field>
+            <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="panel panel-primary"></div>
+      </div>
+              <div class="clear"></div>
+              <div class="mat-elevation-z8">
+                <mat-table [dataSource]="targetsDataSource" matSort >
+                  <ng-container matColumnDef="sno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="workId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PROJECT}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                        {{row.workId.workName}}</mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="workGroupId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.WORK_GROUP_NAME}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.workGroupId}}</mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="targetType">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_TYPE}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" style="cursor: pointer">
+                        {{row.targetType}}</mat-cell>
+                  </ng-container>
+                 
+                  <ng-container matColumnDef="rkm">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.RKM}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.rkm}}</mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="tkm">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TKM}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" style="cursor: pointer">
+                        {{row.tkm}}</mat-cell>
+                  </ng-container>
+                    <!-- <ng-container matColumnDef="targetDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TARGET_DATE}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.targetDate}}</mat-cell>
+                </ng-container>   -->
+                  <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.status}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="remarks">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="cursor: pointer">
+                      {{row.remarks}}</mat-cell>
+                </ng-container>
+                  
+                
+                  <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
+                          <mat-cell *matCellDef="let row">
+                            <a mat-icon-button matTooltip="Edit" 
+                              (click)="editTargets(row.id)">
+                              <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                            </a>
+                            <button mat-icon-button matTooltip="Delete" 
+                              (click)="deleteTargets(row.id)">
+                              <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                            </button>
+                          </mat-cell>
+                  </ng-container>                      
+                   <mat-header-row *matHeaderRowDef="targetsDisplayColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: targetsDisplayColumns;">
+                  </mat-row>
+              </mat-table>
+             <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
+              </div>
+          </div>
+      </div>
+    </div> 

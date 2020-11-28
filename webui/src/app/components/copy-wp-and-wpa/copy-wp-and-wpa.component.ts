@@ -32,7 +32,8 @@ export class CopyWPAndWPAComponent implements OnInit {
     displayedColumns = ['sno','check', 'standardPhaseName','standardPhaseActivityName'];
     selectedItems = [];
     SPActivity = [];
-    enableCopy: boolean; 
+    enableCopy: boolean;
+    workName: any;
 
     constructor(
         public dialog: MatDialog,
@@ -56,13 +57,14 @@ export class CopyWPAndWPAComponent implements OnInit {
       this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+this.work).subscribe((data) => {
       
       this.resp = data;
-           console.log('*** length ***'+JSON.stringify(this.resp));
+      this.workName = this.resp.workName
+           
       },error => {} );
 
        this.sendAndRequestService.requestForGET
        (Constants.app_urls.STANDARD_PHASES.GET_TYPES_OF_WORK).subscribe((data) => {
          this.typeOfWorksList = data;
-          console.log('*** length ***'+this.typeOfWorksList);
+          
      },error => {} );
 
     this.sendAndRequestService.requestForGET
@@ -99,7 +101,7 @@ export class CopyWPAndWPAComponent implements OnInit {
         let copyObject = {
             standardPhases: this.searchInputFormGroup.value.standardPhase,
             standardPhaseActivities: this.selectedItems,
-            work: this.searchInputFormGroup.value.work 
+            work: this.resp
         };
         if (this.selectedItems.length > 0) {
           this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.COPY_WP_AND_WPA, copyObject, true).subscribe(data => {

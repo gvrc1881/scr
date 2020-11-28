@@ -10,6 +10,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
+import { MilestoneTargetsComponent } from 'src/app/components/milestone-targets/milestone-targets.component';
 
 @Component({
   selector: 'app-groups-sections',
@@ -25,7 +26,7 @@ export class GroupsSectionsComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'workId', 'workGroup', 'section', 'agency', 'doublingTrippling', 'division','code','description','tkm','rkm','sidingYardStation','actions'];
+  displayedColumns = ['sno', 'workId', 'workGroup', 'section', 'agency', 'doublingTrippling', 'division','code','description','tkm','rkm','sidingYardStation','actions','targets'];
   groupsSectionsdataSource: MatTableDataSource<GroupsSectionsModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   gridData = [];
@@ -36,7 +37,7 @@ export class GroupsSectionsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
 
-  
+   
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -132,6 +133,19 @@ ViewData(data){
     data:result,  
   });            
 }
+
+
+targetsDialog(workGroupId){
+  this.dialog.open(MilestoneTargetsComponent, {
+    height: '600px',
+    width: '80%', 
+    data:workGroupId,
+    
+  });
+
+}
+
+
 }
 
 
