@@ -9,6 +9,7 @@ import { AddGroupsSectionsComponent } from './add-groups-sections/add-groups-sec
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
+import { MilestoneTargetsComponent } from 'src/app/components/groups-sections/milestone-targets/milestone-targets.component';
 
 const routes: Routes = [
     {
@@ -29,6 +30,7 @@ const routes: Routes = [
     declarations: [
         GroupsSectionsComponent,
         AddGroupsSectionsComponent,
+        MilestoneTargetsComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -39,7 +41,8 @@ const routes: Routes = [
         Ng4LoadingSpinnerModule.forRoot(),
         NumberValidationsModule,
         CommonDirectivesModule,
-        DecimalValidationsModule
+        DecimalValidationsModule,
+        
     ],
     providers: [
         
@@ -47,6 +50,7 @@ const routes: Routes = [
     exports:[
         GroupsSectionsComponent
     ],
+    entryComponents: [ MilestoneTargetsComponent ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class GroupsSectionsModule {

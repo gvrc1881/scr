@@ -62,7 +62,11 @@ export class AddGroupsSectionsComponent implements OnInit {
         this.findDivisions();
         this.id = +this.route.snapshot.params['id'];
           if (!isNaN(this.id)) {  
+          
           this.updateGroupsSectionsForm();  
+          this.gropsSectionsFormErrors.valueChanges.subscribe(() => {
+            this.onFormValuesChanged();
+          });
           this.spinnerService.show();
           this.save = false;
           this.update = true;

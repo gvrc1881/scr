@@ -21,13 +21,14 @@ export class ProjectComponent implements OnInit {
 
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
+    pagination=Constants.PAGINATION_NUMBERS;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
     projectList:any;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    displayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
+    displayedColumns = ['sno' ,  'division'  , 'workName' , 'section','executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
     dataSource: MatTableDataSource<ProjectModel>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     

@@ -50,7 +50,7 @@ import { RouterExtService } from './services/router-ext.service';
 import { FuseConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 //import { AshEntryComponent } from './src/app/components/ash-display/ash-entry/ash-entry.component';
 import { AgmCoreModule } from '@agm/core';
-import { MilestoneTargetsComponent } from './components/milestone-targets/milestone-targets.component';
+//import { MilestoneTargetsComponent } from './components/milestone-targets/milestone-targets.component';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -72,7 +72,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DataViewDialogComponent,
     SwitchOperationsComponent,
     FuseConfirmPopupComponent,
-    MilestoneTargetsComponent
+   // MilestoneTargetsComponent
     //AshEntryComponent,
   ],
   imports: [
@@ -123,7 +123,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
         DataViewDialogComponent,
         SwitchOperationsComponent,
         FuseConfirmPopupComponent,
-        MilestoneTargetsComponent
+        //MilestoneTargetsComponent
   ],
   providers: [
     AuthenticationService,

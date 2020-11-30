@@ -6,7 +6,7 @@
 				<nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item"><a [routerLink]="['/electrification-targets']">Electrification Targets</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/projects']">Projects</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Copy WP And WPA</li>
                     </ol>
                 </nav>
@@ -23,13 +23,13 @@
 		            			<div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
 										
-										 <input matInput [formControl]="searchInputFormGroup.controls['work']" [value]="work" 
+										 <input matInput placeholder="{{FiledLabels.PROJECT}}" [formControl]="searchInputFormGroup.controls['work']" [value]="work" 
 												    	[(ngModel)]="workName" readonly>                                                          
-		                    		</mat-form-field>
+		                    		</mat-form-field> 
 								</div>
 								 <div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
-		                    			<mat-select placeholder="Type Of Work"  [formControl]="searchInputFormGroup.controls['typeOfWork']" (ngModelChange)="getPhases()">
+		                    			<mat-select placeholder="{{FiledLabels.TYPE_OF_WORK}}"  [formControl]="searchInputFormGroup.controls['typeOfWork']" (ngModelChange)="getPhases()">
 		                    				<mat-option *ngFor="let typeOfWork of typeOfWorksList"
 		                    					[value]="typeOfWork">
 		                    					{{ typeOfWork }}
@@ -39,7 +39,7 @@
 		                    	</div> 
 		                    	<div class="col-md-3">
 		                    		<mat-form-field fxFlex="30" class="example-full-width">
-		                    			<mat-select placeholder="Standard Phase" [multiple]="true" [formControl]="searchInputFormGroup.controls['standardPhase']" >
+		                    			<mat-select placeholder="{{FiledLabels.STANDARD_PHASE_NAME}}" [multiple]="true" [formControl]="searchInputFormGroup.controls['standardPhase']" >
 		                    				<mat-option *ngFor="let standardPhase of standardPhasesList"
 		                    					[value]="standardPhase">
 		                    					{{ standardPhase.name }}

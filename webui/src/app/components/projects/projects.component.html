@@ -44,7 +44,7 @@
                                       </ng-container>
                                       
                                       <ng-container matColumnDef="division">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.division}}</mat-cell>
                                     </ng-container>
@@ -54,27 +54,27 @@
                                               {{row.year}}</mat-cell>
                                     </ng-container> -->
                                     <ng-container matColumnDef="workName">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Work Name</mat-header-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.WORK_NAME}}</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.workName}}</mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="section">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Section</mat-header-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.SECTION}}</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.section}}</mat-cell>
                                     </ng-container>
-                                    <ng-container matColumnDef="executedBy">
+                                     <ng-container matColumnDef="executedBy">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>Executed By</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.executedBy}}</mat-cell>
-                                    </ng-container>
+                                    </ng-container> 
                                    <!-- <ng-container matColumnDef="physicalProgressPercentage">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>Physical Progress Percentage</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.physicalProgressPercentage}}</mat-cell>
                                     </ng-container> -->
                                     <ng-container matColumnDef="latestRevisedCost">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Latest Revised Cost</mat-header-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.LATEST_REVISED_COST}}</mat-header-cell>
                                         <mat-cell *matCellDef="let row" style="cursor: pointer">
                                           {{row.latestRevisedCost}}</mat-cell>
                                     </ng-container>                                                                           
@@ -117,7 +117,7 @@
                                       <mat-row *matRowDef="let row; columns: displayedColumns;">
                                       </mat-row>
                                     </mat-table>
-                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                     </div>
                             </div>
                         </div>

@@ -35,6 +35,7 @@ export class AddProjectComponent implements OnInit {
     resp: any;
     title:string;
     addProjectFormGroup: FormGroup;
+    addProjectsFormErrors:any;
     currentYear: any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
     statusItems: any;
@@ -59,6 +60,19 @@ export class AddProjectComponent implements OnInit {
       private router: Router,
       private sendAndRequestService:SendAndRequestService
     ) {
+      this.addProjectsFormErrors = {            
+        workId:{},
+        workGroup: {},
+        section: {},
+        agency:{},
+        doublingTrippling:{},
+        division: {},
+        code:{},
+        description:{},
+        tkm:{},
+        rkm:{},
+        sidingYardStation:{}
+      };
       
     }
     
@@ -70,7 +84,10 @@ export class AddProjectComponent implements OnInit {
    this.id = +this.route.snapshot.params['id'];
     
   if (!isNaN(this.id)) {  
-    this.updateProjectForm();   
+    this.updateProjectForm();
+    this.addProjectsFormErrors.valueChanges.subscribe(() => {
+      this.onFormValuesChanged();
+    });   
     this.spinnerService.show();
     this.save = false;
     this.update = true;
@@ -92,6 +109,22 @@ this.execAgencyList = data;
 });
 this.spinnerService.show();	
 }
+
+
+onFormValuesChanged() {
+  for (const field in this.addProjectsFormErrors) {
+    if (!this.addProjectsFormErrors.hasOwnProperty(field)) {
+      continue;
+    }
+    this.addProjectsFormErrors[field] = {};
+    const control = this.addProjectsFormErrors.get(field);
+
+    if (control && control.dirty && !control.valid) {
+      this.addProjectsFormErrors[field] = control.errors;
+    }
+  }
+}
+
 addEvent($event) {
   this.toMinDate = new Date($event.value); 
   

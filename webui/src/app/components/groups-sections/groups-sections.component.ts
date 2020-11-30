@@ -10,7 +10,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
-import { MilestoneTargetsComponent } from 'src/app/components/milestone-targets/milestone-targets.component';
+import { MilestoneTargetsComponent } from 'src/app/components/groups-sections/milestone-targets/milestone-targets.component';
 
 @Component({
   selector: 'app-groups-sections',
