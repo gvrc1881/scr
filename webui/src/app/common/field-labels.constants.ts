@@ -551,7 +551,9 @@ export const FieldLabelsConstant = {
       MAR:"Mar",
       TARGETS:"Targets",
       TARGET_TYPE:"Target Type",
-      GROUPS_SECTIONS:'Groups Sections',
+      GROUPS_SECTIONS:'Groups Sections'
+     
+      
       
    },
    TITLE:{

@@ -70,11 +70,7 @@
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30">
                                         <input matInput placeholder="{{FiledLabels.TKM}}"  decimalNumber [formControl]="milestoneTargetsFormGroup.controls['tkm']" (keyup)="getTkm()"/>
-                                        <mat-error
-                                        *ngIf="tkm.valid && (tkm.touched || submitted)" 
-                                            class="alert alert-danger" >
-                                                 Work Name Already Exists
-                                        </mat-error>
+                                        
                                     </mat-form-field>
                                 </div>
 

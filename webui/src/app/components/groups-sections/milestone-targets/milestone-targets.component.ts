@@ -164,7 +164,7 @@ export class MilestoneTargetsComponent implements OnInit {
             //     disableClose: false
             //   });
             //   this.confirmDialogRef.componentInstance.confirmMessage = "TKM must be less than RKM";
-            this.valid=false;
+           // this.valid=false;
         }
     }
 
