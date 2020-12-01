@@ -76,6 +76,12 @@ public class WorkGroupService {
 
 
 
+	public List<WorkGroup> findByWorkGroup(String workGroup) {
+		return workGroupRepository.findByWorkGroup(workGroup);
+	}
+
+
+
 
 	
 }

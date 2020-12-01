@@ -520,7 +520,11 @@ const routes: Routes = [
     loadChildren: './components/standard-phases/standard-phases.module#StandardPhasesModule',
      canActivate: [AuthGuard]
    },
-  
+   {
+    path: 'user-jurisdiction',
+    loadChildren: './components/user-jurisdiction/user-jurisdiction.module#UserJurisdictionModule',
+    canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -754,6 +754,7 @@ export const Constants = {
                 GET_GROUPS_SECTIONS:"/findAllGroupsSections",
                 EXIST_PROJECT_GROUP_SECTION:"/existsByWorkIdAndGroupAndSection/",
                 EXIST_PROJECT_GROUP_SECTION_ID:"/existsByWorkIdAndGroupAndSectionAndId/",
+                GET_SECTIONS_BASED_ON_GROUPS : "/getSectionsBasedOnGroups/"
             },   
             PHASES:{
                 SAVE:"/addWorkPhases",
@@ -779,7 +780,10 @@ export const Constants = {
                 DELETE:"/deleteMilestoneTargets/",
                 GET_MILESTONE_TARGETS_BY_ID:"/findByMilestoneTargetsById/",
                 GET_MILESTONE_TARGETS:"/findAllMilestoneTargets"
-            }  
+            },
+            USER_JURISDICTION:{
+                SAVE:"/addUserJurisdiction"    
+            } 
     }
 },
     EVENTS:{

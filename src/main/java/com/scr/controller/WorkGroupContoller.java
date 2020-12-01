@@ -2,6 +2,7 @@ package com.scr.controller;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -185,4 +186,29 @@ public class WorkGroupContoller {
 			return false;
 		}
 	}
+	
+	@RequestMapping(value = "/getSectionsBasedOnGroups/{groupIdList}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<WorkGroup> getSectionsBasedOnGroups(@PathVariable("groupIdList") Long[] groupIdList) {
+		 logger.info("Enter into  getSectionsBasedOnGroups function ");
+		// Optional<WorkGroup> groups = null;
+		List<WorkGroup> finalWorkGroupList = new ArrayList<WorkGroup>();
+		try {
+			// logger.info("Selected groupsSections Id = " + groupIdList.size());
+			for (Long groupId : groupIdList) {
+				Optional<WorkGroup> workGroup = groupsSectionsService.findGroupsSectionsById(groupId);
+				if (workGroup.isPresent()) {
+					List<WorkGroup> workGroupList = groupsSectionsService.findByWorkGroup(workGroup.get().getWorkGroup());
+					finalWorkGroupList.addAll(workGroupList);
+				}
+			}
+			logger.info(" Sections size " + finalWorkGroupList.size());
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the Sections data = " + npe.getMessage());
+		} catch (Exception e) {
+			logger.error("ERROR >>> while fetching the Sections data = " + e.getMessage());
+		}
+		logger.info("Exit from getSectionsBasedOnGroups function");
+		return finalWorkGroupList;
+	}
+	
 }
