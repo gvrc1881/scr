@@ -74,7 +74,7 @@ public class OheLocationService {
 
 			 oheLocation = oheLocationRepository.save(oheLocation);
 			 assetMasterData = assetMastersRepository.save(assetMasterData);
-			logger.info("Drive data saved successfully.");
+			logger.info("Ohe Location And AssetMaster data saved successfully.");
 			return true;
 		} 
 	}
