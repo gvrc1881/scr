@@ -29,14 +29,21 @@ import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.WPADailyProgressResponse;
 import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.ContentManagement;
+import com.scr.model.MilestoneTargets;
 import com.scr.model.TractionEnergyTariff;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WPASectionPopulation;
 import com.scr.model.WPASectionTargets;
 import com.scr.model.WorkGroup;
+import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
+import com.scr.repository.MilestoneTargetsRepository;
+import com.scr.repository.WorkGroupRepository;
+import com.scr.repository.WorkPhaseRepository;
+import com.scr.repository.WorksRepository;
 import com.scr.services.ContentManagementService;
+import com.scr.services.WorkPhaseSerivce;
 import com.scr.services.WorksServices;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -52,6 +59,21 @@ public class WorksController {
 	
 	@Autowired
 	private ContentManagementService contentManagementService;
+	
+	@Autowired
+	private WorkPhaseSerivce workPhaseService;
+	
+	@Autowired
+	private WorksRepository worksRepository;
+	
+	@Autowired
+	private WorkPhaseRepository workPhaseRepository;
+	
+	@Autowired
+	private WorkGroupRepository workGroupRepository;
+	
+	@Autowired
+	private MilestoneTargetsRepository milestoneTargetsRepository;
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/findAllWorks", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -149,6 +171,46 @@ public class WorksController {
 			log.error("ERROR >> While deleting work data"+e.getMessage());
 			return Helper.findResponseStatus("Work Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
+	}
+	
+
+	@RequestMapping(value = "/deleteProject/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
+	public ResponseStatus deleteProject(@PathVariable Integer id) {
+		log.info("Enter into deleteById function");
+		log.info("Selected Work Id = "+id);
+		List <WorkGroup> workGroupList = workGroupRepository.getByWorkId(worksRepository.findById(id).get());
+		List <WorkPhases> workPhasesList = workPhaseRepository.getByWorkId(worksRepository.findById(id).get());
+		List <MilestoneTargets> milestoneList = milestoneTargetsRepository.getByWorkId(worksRepository.findById(id).get());
+		
+		String result="";
+		log.info("delete function==");		
+		if( workGroupList.size() == 0 && workPhasesList.size() == 0 && milestoneList.size() == 0 )
+		{
+			log.info("workGroupList=="+workGroupList);
+			
+		try {
+			String status = worksServices.deleteProject(id);;
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Project Deleted Successfully", Constants.SUCCESS_CODE);
+		
+	
+		}
+		catch (NullPointerException e) {
+			log.error(e);
+			return Helper.findResponseStatus("Project Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error(e);
+			return Helper.findResponseStatus("Project Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		}
+		if(workGroupList.size() > 0 )
+			 result="This Project is Associated with Work Group";
+		else if(workPhasesList.size() > 0 )
+			 result="This Project is Associated with Work Phases";
+		else if(milestoneList.size() > 0 )
+			 result="This Project is Associated with Milestone Targets";
+			
+		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
 	}
 	
 	

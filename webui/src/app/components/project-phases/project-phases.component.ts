@@ -12,6 +12,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, Dat
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { FuseConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { Location } from '@angular/common';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-project-phases',
@@ -36,7 +38,7 @@ export class ProjectPhasesComponent implements OnInit {
   searchInputFormGroup: FormGroup;
   standardPhaseActivityList: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  dataSource: MatTableDataSource<ProjectPhaseModel>;
+  phaseDataSource: MatTableDataSource<ProjectPhaseModel>;
   displayedColumns = ['sno','workName', 'phaseName','description','sequence','dependencyToStart','weightage','status','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
   enableUpdate: boolean; 
   addPhases:boolean;
@@ -46,12 +48,9 @@ export class ProjectPhasesComponent implements OnInit {
   resp: any; 
   maxDate = new Date();
   toMinDate = new Date();
-  toComDate = new Date();
-  completeMinDate=new Date();  
+  minDate = new Date(); 
   dateFormat = 'dd-MM-yyyy';
   currentDate = new Date();
-  expectDate=new Date();
-  completeDate = new Date();
   toTargetDate=new Date();
 
   constructor(
@@ -60,6 +59,7 @@ export class ProjectPhasesComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private sendAndRequestService:SendAndRequestService ,
+    private datePipe: DatePipe,
    // private route: ActivatedRoute,
    // private router: Router,   
     private location: Location,    
@@ -126,7 +126,9 @@ this.spinnerService.show();
 applyFilter(filterValue: string) {
   filterValue = filterValue.trim();
   filterValue = filterValue.toLowerCase();
-  this.dataSource.filter = filterValue;
+   this.phaseDataSource.filter = filterValue;
+
+  
 }
 getPhases() {  
   //const phase: ProjectPhaseModel[] = [];
@@ -138,10 +140,14 @@ getPhases() {
            this.toTargetDate=new Date(this.PhasesList.commenceDate)
               for (var i = 0; i < this.PhasesList.length; i++) {
            this.PhasesList[i].sno = i + 1;
-          
+          //  this.PhasesList[i].plannedStartDate = this.datePipe.transform(this.PhasesList[i].plannedStartDate, 'dd-MM-yyyy ');
+          //  this.PhasesList[i].targetCompletionDate = this.datePipe.transform(this.PhasesList[i].targetCompletionDate, 'dd-MM-yyyy ');
+          //  this.PhasesList[i].commenceDate = this.datePipe.transform(this.PhasesList[i].commenceDate, 'dd-MM-yyyy ');
+          //  this.PhasesList[i].completionDate = this.datePipe.transform(this.PhasesList[i].completionDate, 'dd-MM-yyyy ');
+
            this.phase.push(this.PhasesList[i]);
        }
-       this.dataSource = new MatTableDataSource(this.phase);
+       this.phaseDataSource = new MatTableDataSource(this.phase);
        this.enableUpdate=true;
        this.addPermission=false;
    });
@@ -155,7 +161,7 @@ updatePhase()
     if (this.resp.code == Constants.CODES.SUCCESS) {
       this.commonService.showAlertMessage("Project Phase Data Updated Successfully");
       this.searchInputFormGroup.reset();
-      this.dataSource=new MatTableDataSource();
+      this.phaseDataSource=new MatTableDataSource();
       this.enableUpdate=false;
       this.addPermission=true;
       //this.router.navigate(['../'], { relativeTo: this.route });
@@ -177,12 +183,13 @@ onGoBack() {
   }
 
 addEvent($event) {
+  this.minDate = new Date($event.value); 
   this.toMinDate = new Date($event.value); 
   
 }
 addTargetEvent($event) {
   
-  this.toMinDate = new Date($event.value); 
+ 
   
   this.toTargetDate = new Date($event.value);
   
@@ -217,7 +224,7 @@ delete(id) {
         }
         this.spinnerService.hide();       
         this.searchInputFormGroup.reset();
-        this.dataSource=new MatTableDataSource();
+        this.phaseDataSource=new MatTableDataSource();
         this.enableUpdate=false;
       }, error => {
         console.log('ERROR >>>');

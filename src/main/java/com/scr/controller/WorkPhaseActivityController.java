@@ -69,13 +69,18 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 	
 	@RequestMapping(value = "/findByPhaseActivityOnPhaseId/{workPhaseId}", method = RequestMethod.GET ,headers = "accept=application/json")	
 	public ResponseEntity<List<WorkPhaseActivity>> findByPhaseActivityOnPhaseId(@PathVariable("workPhaseId") String workPhases){
+		
 		log.info("** Enter into findByPhaseActivityOnPhaseId  functions ***"+workPhases);
 	
-		List<WorkPhaseActivity> workAct=null;		
+		List<WorkPhaseActivity> workAct=null;	
+		
+		log.info("Paselist==="+workAct.size());	
 		
 		List<WorkPhases> workPhaseList = new ArrayList<>();
+		log.info("Paselist==="+workPhaseList.size());
 		
-		log.info("list==="+workAct);		
+		
+			
 			String phaseIds[]=workPhases.split(",");			
 			
 			for(String workPhaseId:phaseIds)

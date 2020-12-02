@@ -12,6 +12,7 @@ import { CommonDirectivesModule } from 'src/app/modules/common-directives.module
 import { DateTimeAdapter, OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { DateFnsDateTimeAdapter } from 'src/app/common/date-fns-date-time-adapter.class';
 import { CopyWPAndWPAComponent } from '../copy-wp-and-wpa/copy-wp-and-wpa.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const DATEFNS_FORMATS_EN_LOCALE = {
     parseInput: "dd-MM-yyyy HH:mm || dd/MM/yyyy", // multiple date input types separated by ||
@@ -61,6 +62,7 @@ const routes: Routes = [
         DecimalValidationsModule,
         OwlDateTimeModule,  
         OwlNativeDateTimeModule,
+        MatNativeDateModule,
       //  CopyWPAndWPAModule
     ],
     providers: [

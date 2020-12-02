@@ -44,13 +44,10 @@ export class AddProjectComponent implements OnInit {
     //divisionList:  FacilityModel [] = [];
     divisionList:any;
     maxDate = new Date();
-  toMinDate=new Date();
-  completeMinDate=new Date();  
-  toComDate=new Date();
+  toMinDate=new Date(); 
+  minDate=new Date();
   dateFormat = 'dd-MM-yyyy';
-  currentDate = new Date();
-  expectDate=new Date();
-  completeDate = new Date();
+  currentDate = new Date(); 
   toTargetDate=new Date();
     constructor(
       private formBuilder: FormBuilder,
@@ -127,12 +124,16 @@ onFormValuesChanged() {
 }
 
 addEvent($event) {
-  this.toMinDate = new Date($event.value); 
+  console.log("actula datee")
+  this.minDate = new Date($event.value); 
+
+  this.toMinDate = new Date($event.value);
   
 }
 addTargetEvent($event) {
+console.log("target date==")
 
-  this.toMinDate = new Date($event.value);
+  
 
   this.toTargetDate = new Date($event.value);
   
@@ -238,14 +239,14 @@ createProjectForm(){
          sanctionCost : this.resp.sanctionCost,
          section : this.resp.section,
          statusRemarks :this.resp.statusRemarks,
-         targetStartDate : this.resp.targetStartDate,
-         targetDateOfCompletion : this.resp.targetDateOfCompletion,
+         targetStartDate :!! this.resp.targetStartDate ? new Date(this.resp.targetStartDate) : '',
+         targetDateOfCompletion :!! this.resp.targetDateOfCompletion ? new Date( this.resp.targetDateOfCompletion):'',
          tkm : this.resp.tkm,
          workName :this.resp.workName,
          yearOfSanction :this.resp.yearOfSanction,
-         commencementDate :this.resp.commencementDate,
+         commencementDate :!! this.resp.commencementDate ? new Date(this.resp.commencementDate):'',
          endKm :this.resp.endKm,
-         expectedCompletion:this.resp.expectedCompletion,
+         expectedCompletion:!! this.resp.expectedCompletion ? new Date(this.resp.expectedCompletion):'',
          lineType :this.resp.lineType,
          loaDate :this.resp.loaDate,
          loaNo:this.resp.loaNo,

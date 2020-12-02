@@ -12,6 +12,7 @@ import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.co
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DocumentDialogComponent } from 'src/app/components/document-view-dialog/document-dialog.component';
+import { FuseConfirmPopupComponent } from 'src/app/components/confirm-popup/confirm-popup.component';
 
 
 
@@ -29,7 +30,8 @@ export class ProjectComponent implements OnInit {
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
-    projectList:any;  
+    projectList:any; 
+    resp:any; 
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno' ,  'division'  , 'workName' , 'section','executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
@@ -87,6 +89,7 @@ this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS
   this.projectList = data;
   for (let i = 0; i < this.projectList.length; i++) {
     this.projectList[i].sno = i + 1;
+    this.projectList[i].loaDate = this.datePipe.transform(this.projectList[i].loaDate, 'dd-MM-yyyy ');
     this.projectList[i].commencementDate = this.datePipe.transform(this.projectList[i].commencementDate, 'dd-MM-yyyy ');
     this.projectList[i].expectedCompletion = this.datePipe.transform(this.projectList[i].expectedCompletion, 'dd-MM-yyyy ');
     this.projectList[i].targetStartDate = this.datePipe.transform(this.projectList[i].targetStartDate, 'dd-MM-yyyy ');
@@ -104,28 +107,47 @@ this.dataSource.sort = this.sort;
 processEditAction(id) {
 this.router.navigate([id], { relativeTo: this.route });
 }
+
 delete(id) {
-this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
-  disableClose: false
-});
-this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
-this.confirmDialogRef.afterClosed().subscribe(result => {
-  if (result) {
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.DELETE_WORK, id).subscribe(data => {
-      console.log(JSON.stringify(data));
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Deleted Project Successfully");
-      this.getProjectData();
-    }, error => {
-      console.log('ERROR >>>');
-      this.spinnerService.hide();
-      this.commonService.showAlertMessage("Project Deletion Failed.");
-    })
-  }
-  this.confirmDialogRef = null;
-});
+  this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+    disableClose: false
+  });
+  this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+  this.confirmDialogRef.afterClosed().subscribe(result => {
+    if (result) {
+
+      this.spinnerService.show();
+      this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.DELETE_PROJECT, id).subscribe((data) => {
+        this.resp = data;
+
+        if (this.resp.code === 200) {
+
+          this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+            disableClose: false
+
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+         
+        } else {
+          this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+            disableClose: false
+          });
+          this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+        
+        }
+        this.spinnerService.hide();
+      
+        this.getProjectData();
+      }, error => {
+        console.log('ERROR >>>');
+        this.spinnerService.hide();
+        this.commonService.showAlertMessage("Project Deletion Failed.");
+      })
+    }
+    this.confirmDialogRef = null;
+  });
 }
+
 ViewData(data){
 var result = {
   'title':this.Titles.PROJECT,

@@ -57,7 +57,7 @@
 									
 		                
 		                	<div class="mat-elevation-z8">
-		                		<mat-table [dataSource]="dataSource" matSort>
+		                		<mat-table [dataSource]="phaseDataSource" matSort>
 		                			<ng-container matColumnDef="sno">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.S_NO}}</span></mat-header-cell>
 	                                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
@@ -148,7 +148,7 @@
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker2"
 														placeholder="{{FiledLabels.TARGET_COMPLETION_DATE}}"
-														[min]="toMinDate"
+														[min]="minDate"
 														[value]="row.targetCompletionDate" 
 												    	[(ngModel)]="row.targetCompletionDate" >
 													<mat-datepicker-toggle matSuffix [for]="picker2">

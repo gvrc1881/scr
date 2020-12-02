@@ -399,5 +399,18 @@ public class WorksServices {
 		
 	}
 
+public String deleteProject(Integer id) {	
+		
+		Optional<Works> work = worksRepository.findById(id);
+		if (work.isPresent()) {
+			worksRepository.deleteById(id);
+			 
+			return Constants.JOB_SUCCESS_MESSAGE;
+		}else {
+			return "Invalid Project Id";
+		}
+		
+	}
+
 
 }

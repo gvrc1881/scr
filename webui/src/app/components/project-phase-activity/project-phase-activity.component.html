@@ -192,7 +192,7 @@
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker1"
 														placeholder="{{FiledLabels.PLANNED_DATE}}"
-														(dateChange)="addEvent($event)" [max]="maxDate"
+														(dateChange)="addEvent($event)" 
 														[value]="row.plannedStartDate" 
 												    	[(ngModel)]="row.plannedStartDate"  >
 													<mat-datepicker-toggle matSuffix [for]="picker1">

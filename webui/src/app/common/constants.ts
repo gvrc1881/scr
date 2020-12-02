@@ -215,6 +215,7 @@ export const Constants = {
                 SAVE_WPA_SECTION_TARGETS: "/saveWPASectionTargets",
                 ATTACHMENT_LIST:"/projectsAttachedDocumentList/",
                 PROJECT_UPLOAD_FILES:'/projectUploadFiles',
+                DELETE_PROJECT:"/deleteProject/",
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",

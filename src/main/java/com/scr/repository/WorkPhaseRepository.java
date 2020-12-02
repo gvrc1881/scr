@@ -25,6 +25,9 @@ public interface WorkPhaseRepository extends JpaRepository<WorkPhases, Integer> 
 	
 	@Query(value = "SELECT case when count(wp)> 0 then true else false  end  FROM WorkPhases wp WHERE wp.workId = :work and wp.sequence = :sequence")
 	Boolean existByWorkIdAndSequence(@Param("work") Works work, @Param("sequence") Integer sequence);
+
+	List<WorkPhases> getByWorkId(Works works);
+
 	
 
 

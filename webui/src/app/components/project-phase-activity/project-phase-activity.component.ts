@@ -98,6 +98,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
 console.log("phaseid=="+this.searchInputFormGroup.value.workPhase)
      this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.GET_WORK_PHASE_ACTIVITY_ID+this.searchInputFormGroup.value.workPhase).subscribe((data) => {
              this.PhaseActivityList = data;
+             console.log("activities=="+this.PhaseActivityList);
              this.toMinDate=new Date(this.PhaseActivityList.plannedStartDate),
              this.toTargetDate=new Date(this.PhaseActivityList.commenceDate)
               for (var i = 0; i < this.PhaseActivityList.length; i++) {

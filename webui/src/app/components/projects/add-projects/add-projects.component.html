@@ -90,7 +90,7 @@
                                                     <mat-form-field>
                                                         <input matInput [matDatepicker]="picker3"
                                                             placeholder="{{FiledLabels.EXPECTED_COMPLETION}}"
-                                                            [min]="toMinDate"
+                                                            [min]="minDate"
                                                             [formControl]="addProjectFormGroup.controls['expectedCompletion']" required>
                                                         <mat-datepicker-toggle matSuffix [for]="picker3">
                                                         </mat-datepicker-toggle>

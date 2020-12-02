@@ -30,4 +30,10 @@ public interface WorkGroupRepository extends JpaRepository<WorkGroup, Long>{
 
 	List<WorkGroup> findByWorkGroup(String workGroup);
 
+	List<WorkGroup> getByWorkId(Works works);
+
+
+
+
+
 }
