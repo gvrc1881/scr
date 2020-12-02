@@ -166,10 +166,14 @@ export class GantryComponent implements OnInit {
     });            
   }
   switchDialog(gantryCode){
+    var gantryData={
+      'type':"GANTRY",
+      'data':gantryCode
+    }
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
-      data:gantryCode,
+      data:gantryData,
     });
 
   }

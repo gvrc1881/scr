@@ -244,8 +244,8 @@ export const Constants = {
                 GET_OHE_LOCATION_ID:"/findOheLocationById/",
                 SAVE_OHE_LOCATION:"/addOheLocationItem",
                 UPDATE_OHE_LOCATION:"/updateOheLocation",
-                DELETE_OHE_LOCATION:"/deleteOheLocation/"
-
+                DELETE_OHE_LOCATION:"/deleteOheLocation/",
+                SAVE_OHE_LOCATION_AND_ASSETS:"/saveOheLocationAndAssets"
             },
             GANTRY:{
                 GET_GANTRY:"/findAllGantrys",

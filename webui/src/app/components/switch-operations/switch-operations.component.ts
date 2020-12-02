@@ -30,14 +30,16 @@ export class SwitchOperationsComponent implements OnInit {
     switchOperationsList : any;
     facilityData:any;
     public MaterialModule:any;
-    switchOperationsDataSource: MatTableDataSource<PbSwitchModel>;
-    switchOperationsDisplayColumns = ['sno' ,'pbExtentCode','switchType','switchId' , 'isNormallyOpened' , 'id' ] ;
+    dataSource: MatTableDataSource<PbSwitchModel>;
+    displayedColumns = ['sno' ,'pbExtentCode','switchType','switchId' , 'isNormallyOpened' , 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     
     editSwitchOperationsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+    gridData = [];
+    filterData;
 
     constructor( 
         private commonService: CommonService,
@@ -46,7 +48,6 @@ export class SwitchOperationsComponent implements OnInit {
         private sendAndRequestService:SendAndRequestService,
         private location: Location,
         @Inject(MAT_DIALOG_DATA) public data:any,
-        @Inject(MAT_DIALOG_DATA) public type:any,
         public dialogRef: MatDialogRef<SwitchOperationsComponent>,
     ){
         
@@ -60,13 +61,27 @@ export class SwitchOperationsComponent implements OnInit {
         this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);  
         this.switchOperationsFormGroup = this.formBuilder.group({
             id: 0,
+            'pbExtentCode':[null],
             'switchType':[null],
             'switchId':[null],
-            'pbExtentCode':[null],
             'pbExtentType':[],
             'isNormallyOpened': [''],
             
-        });  
+        }); 
+        
+        this.filterData = {
+            filterColumnNames: [
+              { "Key": 'sno', "Value": " " },
+              { "Key": 'pbExtentCode', "Value": " " },
+              { "Key": 'switchType', "Value": " " },
+              { "Key": 'switchId', "Value": " " },
+              { "Key": 'isNormallyOpened', "Value": "" },
+            ],
+            gridData: this.gridData,
+            dataSource: this.dataSource,
+            paginator: this.paginator,
+            sort: this.sort
+          };
     }
       
       
@@ -81,27 +96,29 @@ export class SwitchOperationsComponent implements OnInit {
                 this.switchOperationsList[i].sno = i+1;
                 pbSwitch.push(this.switchOperationsList[i]);              
             }
-            this.switchOperationsDataSource = new MatTableDataSource(pbSwitch);
-            this.switchOperationsDataSource.paginator = this.paginator;
-            this.switchOperationsDataSource.sort = this.sort;
-
-        } , error => {});
-
-    }
+            this.filterData.gridData = pbSwitch;
+      this.dataSource = new MatTableDataSource(pbSwitch);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, error => {
+    });
+  }
 
     switchOperationsSubmit () {
+        let pbExtentCode:string=this.data.data;
+        let pbExtentType:string=this.data.type;
         let switchType: string = this.switchOperationsFormGroup.value.switchType;
         let switchId: string = this.switchOperationsFormGroup.value.switchId;
-        let pbExtentCode:string=this.data;
-        let pbExtentType:string=this.type;
         let isNormallyOpened: string = this.switchOperationsFormGroup.value.isNormallyOpened == true ? 'true' : 'false';
         
         
         if (this.title ==  Constants.EVENTS.ADD) {
                 var saveSwitchModel ={
+                    'pbExtentCode':pbExtentCode,
                     'switchType':switchType,
                     'switchId':switchId,
-                    'pbExtentCode':pbExtentCode,
                     'pbExtentType':pbExtentType,
                     'isNormallyOpened': isNormallyOpened
                 } 
@@ -114,9 +131,9 @@ export class SwitchOperationsComponent implements OnInit {
             let id: number = this.editSwitchOperationsResponse.id;
             var updateSwitchModel={
                 'id':id,
+                'pbExtentCode':pbExtentCode,
                 'switchType':switchType,
                 'switchId':switchId,
-                'pbExtentCode':pbExtentCode,
                 'pbExtentType':pbExtentType,
                 'isNormallyOpened': isNormallyOpened
             }
@@ -137,10 +154,11 @@ export class SwitchOperationsComponent implements OnInit {
     switchEditAction(id: number) {
         this.switchOperationsFormGroup = this.formBuilder.group({
             id: 0,
+            'pbExtentCode':[null],
             'switchType':[null],
             'switchId':[null],
-            'pbExtentCode':[null],
-            'isNormallyOpened': ['']
+            'isNormallyOpened': [''],
+            'pbExtentType':['']
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.PBSWITCH.GET_SWITCH_ID+id).subscribe((responseData) => {
             this.editSwitchOperationsResponse = responseData;
@@ -178,11 +196,15 @@ export class SwitchOperationsComponent implements OnInit {
     }
 
 
-    applyFilter(filterValue: string) {
-        filterValue = filterValue.trim();
-        filterValue = filterValue.toLowerCase();
-        this.switchOperationsDataSource.filter = filterValue;
-    }
+    updatePagination() {
+        this.filterData.dataSource = this.filterData.dataSource;
+        this.filterData.dataSource.paginator = this.paginator;
+      }
+      applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); 
+        filterValue = filterValue.toLowerCase(); 
+        this.filterData.dataSource.filter = filterValue;
+      }
 
     
     public pbSwitchType = ['REMOTE', 'MANUAL'];

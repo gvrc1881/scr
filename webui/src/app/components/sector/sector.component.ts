@@ -166,10 +166,14 @@ export class SectorComponent implements OnInit {
     });            
   }
   switchDialog(sectorCode){
+    var sectorData={
+      'type':"SECTOR",
+      'data':sectorCode
+    }
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
-      data:sectorCode,
+      data:sectorData,
       disableClose: false,
     });
   }

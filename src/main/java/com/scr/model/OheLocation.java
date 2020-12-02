@@ -52,6 +52,9 @@ public class OheLocation implements Serializable {
 
 	@Column(name="facility_id")
 	private String facilityId;
+	
+	@Column(name="foundation")
+	private String foundation;
 
 	private String heading;
 
@@ -79,6 +82,9 @@ public class OheLocation implements Serializable {
 
 	@Column(name="ohe_sequence")
 	private String oheSequence;
+	
+	@Column(name="project")
+	private String project;
 
 	private String pwi;
 
@@ -110,6 +116,9 @@ public class OheLocation implements Serializable {
 
 	@Column(name="track_line")
 	private String trackLine;
+	
+	@Column(name="location")
+	private String location;
 
 	private String validity;
 
@@ -150,6 +159,14 @@ public class OheLocation implements Serializable {
 
 	public String getChainageRemark() {
 		return this.chainageRemark;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public void setChainageRemark(String chainageRemark) {
@@ -412,20 +429,41 @@ public class OheLocation implements Serializable {
 		this.validity = validity;
 	}
 
+	public String getFoundation() {
+		return foundation;
+	}
+
+	public void setFoundation(String foundation) {
+		this.foundation = foundation;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+
+	public void setKilometer(Double kilometer) {
+		this.kilometer = kilometer;
+	}
+
 	@Override
 	public String toString() {
 		return "OheLocation [id=" + id + ", adeeSection=" + adeeSection + ", altitude=" + altitude + ", chainage="
 				+ chainage + ", chainageRemark=" + chainageRemark + ", createdStamp=" + createdStamp
 				+ ", createdTxStamp=" + createdTxStamp + ", curvature=" + curvature + ", curvatureRemark="
 				+ curvatureRemark + ", dataDiv=" + dataDiv + ", date=" + date + ", division=" + division
-				+ ", engFeature=" + engFeature + ", facilityId=" + facilityId + ", heading=" + heading + ", kilometer="
-				+ kilometer + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
-				+ ", latitude=" + latitude + ", longitude=" + longitude + ", majorSection=" + majorSection
-				+ ", oheFeature=" + oheFeature + ", oheMast=" + oheMast + ", oheSequence=" + oheSequence + ", pwi="
-				+ pwi + ", remarkOne=" + remarkOne + ", remarkTwo=" + remarkTwo + ", satellites=" + satellites
-				+ ", section=" + section + ", seqId=" + seqId + ", sequenceNo=" + sequenceNo + ", span=" + span
-				+ ", spanRemark=" + spanRemark + ", speed=" + speed + ", structureType=" + structureType
-				+ ", trackLine=" + trackLine + ", validity=" + validity + "]";
+				+ ", engFeature=" + engFeature + ", facilityId=" + facilityId + ", foundation=" + foundation
+				+ ", heading=" + heading + ", kilometer=" + kilometer + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", majorSection=" + majorSection + ", oheFeature=" + oheFeature + ", oheMast=" + oheMast
+				+ ", oheSequence=" + oheSequence + ", project=" + project + ", pwi=" + pwi + ", remarkOne=" + remarkOne
+				+ ", remarkTwo=" + remarkTwo + ", satellites=" + satellites + ", section=" + section + ", seqId="
+				+ seqId + ", sequenceNo=" + sequenceNo + ", span=" + span + ", spanRemark=" + spanRemark + ", speed="
+				+ speed + ", structureType=" + structureType + ", trackLine=" + trackLine + ", location=" + location
+				+ ", validity=" + validity + "]";
 	}
 
 }

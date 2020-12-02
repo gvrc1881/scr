@@ -9,15 +9,15 @@ import com.scr.repository.StandardPhasesRepository;
 
 @Service
 public class StandardPhaseService {
-	
+
 	@Autowired
 	private StandardPhasesRepository standardPhasesRepository;
 
-	
+
 	public List<StandardPhases> findAll(){
 		return standardPhasesRepository.findAll();
 	}
-	
+
 	public void save(StandardPhases standardPhases) {
 		standardPhasesRepository.save(standardPhases);
 	}

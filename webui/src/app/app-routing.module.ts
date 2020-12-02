@@ -525,6 +525,11 @@ const routes: Routes = [
     loadChildren: './components/user-jurisdiction/user-jurisdiction.module#UserJurisdictionModule',
     canActivate: [AuthGuard]
    },
+   {
+    path: 'Ohe-location-and-assets',
+    loadChildren: './components/ohe-location-assets/ohe-location-assets.module#OheLocationAssetsModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -170,10 +170,14 @@ export class ElementarySectionComponent implements OnInit {
     });            
 }
   switchDialog(elementarySectionCode){
+    var elementarySectionData={
+      'type':"ELEMENTARY SECTION",
+      'data':elementarySectionCode
+    }
     this.dialog.open(SwitchOperationsComponent, {
       height: '600px',
       width: '80%', 
-      data:elementarySectionCode,
+      data:elementarySectionData,
     });
 
   }

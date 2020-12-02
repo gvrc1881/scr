@@ -19,14 +19,13 @@ export interface OheLocationModel{
     heading:String;
     remarkOne:String;
     remarkTwo:String;
-
+    project:String;
     oheSequence:String;
     curvature:String;
     curvatureRemark:String;
     chainage:String;
     chainageRemark:String;
-
-    
+    facilityId:string;
     createdStamp: Date;
     createdTxStamp: Date;
     lastUpdatedStamp: Date;

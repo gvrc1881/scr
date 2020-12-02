@@ -1094,7 +1094,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission: this.commonService.findPermission('PROJECT ADMIN', 'menu', 'view'),
         currentTab: !!path && path.includes("projects") || path.includes("phases") || path.includes("phase-activity") 
         || path.includes("groups-sections") || path.includes("population") || path.includes("targets") 
-        || path.includes("STD-phases") || path.includes("STD-phase-activity")  || path.includes("work-daily-progress") || path.includes("user-jurisdiction")  ? "open" : "",
+        || path.includes("STD-phases") || path.includes("STD-phase-activity")  || path.includes("work-daily-progress") || path.includes("user-jurisdiction") || path.includes("Ohe-location-and-assets")  ? "open" : "",
         subMenus: [
           {
             subMenuName: "Project",
@@ -1169,6 +1169,15 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           // permission: true,
            permission:this.commonService.findPermission('CopyWPAndWPA', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("copy-wp-and-wpa") ? "active-item" : "",
+          },
+          {
+            subMenuName: "OheLocation And Assets",
+            subMenuURL: "Ohe-location-and-assets",
+            subMenuIcon: "fa fa-file",
+            rolePermission: this.rolePermission,
+          // permission: true,
+           permission:true,
+            currentSubMenu: !!path && path.includes("Ohe-location-and-assets") ? "active-item" : "",
           },
           {
             subMenuName: "UserJurisdiction",

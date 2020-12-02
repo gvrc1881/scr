@@ -1,0 +1,168 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/projects']">Projects</a></li>                        
+                        <li class="breadcrumb-item active" aria-current="page">Standard Phase Activity</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Standard Phase Activity Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} {{Titles.STANDARD_PHASE_ACTIVITY_FORM}}</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                                fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                                [formGroup]="addStandardPhaseActivityFormGroup" (ngSubmit)="onAddSPAFormSubmit();">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.ASSET_TYPE}}"  [formControl]="addStandardPhaseActivityFormGroup.controls['assetType']" />
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['assetType'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}"
+                                                            [formControl]="addStandardPhaseActivityFormGroup.controls['depotType']">
+                                                            <mat-option
+                                                                *ngFor="let depot of depotType"
+                                                                [value]="depot.value">
+                                                                {{ depot.value}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="{{FiledLabels.IS_CHECKLIST}}"
+                                                                [formControl]="addStandardPhaseActivityFormGroup.controls['isCheckList']">
+                                                                <mat-option
+                                                                    *ngFor="let check of isCheckList"
+                                                                    [value]="check.value">
+                                                                    {{ check.value}}
+                                                                </mat-option>
+                                                            </mat-select>                                                           
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="{{FiledLabels.IS_OBJECT_ID_REQUIRED}}"
+                                                                [formControl]="addStandardPhaseActivityFormGroup.controls['isObjectIdRequired']">
+                                                                <mat-option
+                                                                    *ngFor="let isIdRequired of isObjectIdRequired"
+                                                                    [value]="isIdRequired.value">
+                                                                    {{ isIdRequired.value}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                           
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.NAME}}" [formControl]="addStandardPhaseActivityFormGroup.controls['name']" required/>
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['name'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.UOM}}"  [formControl]="addStandardPhaseActivityFormGroup.controls['uom']" />
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['uom'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.STANDARD_PHASE_ID}}" numbersOnly [formControl]="addStandardPhaseActivityFormGroup.controls['standardPhaseId']" required/>
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['standardPhaseId'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.DEPENDENCY_TO_START}}" numbersOnly [formControl]="addStandardPhaseActivityFormGroup.controls['dependencyToStart']" />
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['dependencyToStart'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.DESCRIPTION}}" [formControl]="addStandardPhaseActivityFormGroup.controls['description']" />
+                                                            <mat-error
+                                                                *ngIf="addStandardPhaseActivityFormGroup.controls['description'].hasError('maxlength')"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                   
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-3 mt-15">
+                                                    <div class="float-right" style="float: right;">
+                                                        <button class="mat-raised-button mat-accent" color="accent"
+                                                            class="d-inline" mat-raised-button="" type="submit"
+                                                            [disabled]="addStandardPhaseActivityFormGroup.invalid" *ngIf="save">
+                                                           {{title}}
+                                                        </button>
+                                                        <button class="mat-raised-button mat-accent  d-inline"
+                                                            color="accent" type="submit" [disabled]="addStandardPhaseActivityFormGroup.invalid"
+                                                            mat-raised-button="" *ngIf="update">
+                                                            {{title}}
+                                                        </button>&nbsp;&nbsp;
+                                                        <span class="mat-raised-button mat-accent d-inline"
+                                                            (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                            Back
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+    

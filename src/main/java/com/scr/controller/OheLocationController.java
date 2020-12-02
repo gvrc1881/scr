@@ -2,8 +2,12 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scr.message.request.DriveRequest;
+import com.scr.message.request.OheLocationAndAssetsRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.OheLocation;
 import com.scr.services.OheLocationService;
@@ -118,5 +125,22 @@ public class OheLocationController {
 			return Helper.findResponseStatus("Ohe Location Data Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	
+	@RequestMapping(value = "/saveOheLocationAndAssets", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveOheLocationAndAssetsData(@Valid @RequestBody OheLocationAndAssetsRequest oheAndAssetsRequest) throws JSONException {	
+		log.info("Enter into saveOheLocationAndAssets function with below request parameters ");
+		log.info("Request Parameters = "+oheAndAssetsRequest.toString());
+		try {			
+			log.info("Calling service with request parameters.");
+			oheLocationService.saveOheLocationAndAssetsData(oheAndAssetsRequest);
+			log.info("Preparing the return response");
+			return Helper.findResponseStatus("Ohe Locations and AssetMaster Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While adding Ohe Locations and AssetMaster data. "+npe.getMessage());
+			return Helper.findResponseStatus("Ohe Locations and AssetMaster Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While adding Ohe Locations and AssetMaster data. "+e.getMessage());
+			return Helper.findResponseStatus("Ohe Locations and AssetMaster Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 }

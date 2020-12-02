@@ -154,6 +154,7 @@ export const FieldLabelsConstant = {
       FUNCTIONAL_UNIT_NAME: "Functional Unit Name",
       FUNCTIONAL_UNIT_TYPE: "Functional Unit Type",
       FUNCTIONAL_UNIT_TYPE_ID: "Functional Unit Type Id",
+      FOUNDATION:"FOundation",
       GANTRY_CODE: "Gantry Code",
       SECTOR_CODE:"Sector Code",
       SUB_SECTOR_CODE:"Sub Sector Code",
@@ -648,7 +649,8 @@ export const FieldLabelsConstant = {
     PROJECT_PHASE_ACTIVITY:'Project Phase Activity',
     STANDARD_PHASES:'Standard Phases',
     STANDARD_PHASES_ACTIVITY:'Standard Phases Activity',
-    MILESTONE_TARGETS:'Milestone Targets'
-     
+    MILESTONE_TARGETS:'Milestone Targets',
+    OHE_LOCATIONS_AND_ASSETS_FORM:'OHE Locations And Assets Form',
+    OHE_LOCATION_AND_ASSETTYPE_DATA:'OHE Locations And Assets Data' 
    }
 };
