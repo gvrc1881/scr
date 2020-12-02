@@ -84,10 +84,12 @@ export class AddProjectComponent implements OnInit {
    this.id = +this.route.snapshot.params['id'];
     
   if (!isNaN(this.id)) {  
+
     this.updateProjectForm();
-    this.addProjectsFormErrors.valueChanges.subscribe(() => {
+    this.addProjectFormGroup.valueChanges.subscribe(() => {
       this.onFormValuesChanged();
-    });   
+    });
+   
     this.spinnerService.show();
     this.save = false;
     this.update = true;
@@ -95,8 +97,7 @@ export class AddProjectComponent implements OnInit {
     this.getProjectDataById(this.id);
   } else {
     this.createProjectForm();
-    this.save = true;
-    this.update = false;
+   
     this.title = Constants.EVENTS.ADD;
   }
   this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'WORK_PROGRESS_STATUS').subscribe((data) => {
@@ -117,7 +118,7 @@ onFormValuesChanged() {
       continue;
     }
     this.addProjectsFormErrors[field] = {};
-    const control = this.addProjectsFormErrors.get(field);
+    const control = this.addProjectFormGroup.get(field);
 
     if (control && control.dirty && !control.valid) {
       this.addProjectsFormErrors[field] = control.errors;

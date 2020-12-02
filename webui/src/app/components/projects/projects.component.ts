@@ -10,6 +10,9 @@ import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from '../data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DocumentDialogComponent } from 'src/app/components/document-view-dialog/document-dialog.component';
+
 
 
 @Component({
@@ -22,19 +25,31 @@ export class ProjectComponent implements OnInit {
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     pagination=Constants.PAGINATION_NUMBERS;
+    title: string = Constants.EVENTS.ADD;
     editPermission: boolean = true;
     addPermission: boolean = true;
     deletePermission: boolean = true;
-    projectList:any;
+    projectList:any;  
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno' ,  'division'  , 'workName' , 'section','executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
     dataSource: MatTableDataSource<ProjectModel>;
-    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
-    
+    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;    
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild('filter', { static: true }) filter: ElementRef;
+
+    contentCategoryList: any;
+    contentTopicList: any;
+    uploadFile: boolean = false;
+    contentManagementFormGroup: FormGroup;
+    selectedFiles: File[] = [];
+    filesExists: boolean = false;   
+    pattern = "[a-zA-Z][a-zA-Z ]*";
+    toMinDate=new Date();
+    isSubmit: boolean = false;
+    documentDialogRef:MatDialogRef<DocumentDialogComponent>;    
+    workId: any;
     
   
     constructor(
@@ -45,6 +60,7 @@ export class ProjectComponent implements OnInit {
       private route: ActivatedRoute,
       private datePipe: DatePipe,
       public dialog: MatDialog,
+      private formBuilder: FormBuilder,
      
     ) { }
   
@@ -156,5 +172,94 @@ processNewProcess(workId) {
   //this.router.navigate(['/copy-wp-and-wpa']);
 	
   }
+  fileUpload(id) {
+    this.uploadFile = true;
+    this.addPermission = false;
+    this.workId = id;
+    this.contentManagementFormGroup = this.formBuilder.group({
+          contentCategory: ['', Validators.required],
+          description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+          uploadFiles: ['', Validators.required],
+          contentTopic: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+      });
+  }
+  public get f() { return this.contentManagementFormGroup.controls; }
+    
+    viewDocumentDetails(id){
+	    this.spinnerService.show();    
+	    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.ATTACHMENT_LIST + id).subscribe((response) => {     
+	      this.spinnerService.hide(); 
+	      this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
+	        	disableClose: false,
+	        	height: '600px',
+	        	width: '80%',       
+	        	data:response,       
+	      	});            
+	    }, error => this.commonService.showAlertMessage(error));
+	   
+	    
+	  }
+    
+    removeFile(id) {
+        this.selectedFiles.splice(id, 1);
+        if(this.selectedFiles.length === 0) {
+        	this.filesExists = false;
+        }
+    }
+
+    
+    onContentManagementSubmit () {
+    
+    	let saveDetails = {
+    		        'workId': this.workId,
+                'description': this.contentManagementFormGroup.value.description,
+                'divisionCode': this.userdata.divisionCode,
+                'createdBy': this.userdata.id,
+                'createdDate': new Date(),
+                'contentCategory': 'PROJECTS',
+                'zonal': 'zonal',   
+                'FU': '',            
+                'contentTopic': 'PROJECT',
+          }
+          let formdata: FormData = new FormData();
+          for(var i=0;i<this.selectedFiles.length;i++){
+              formdata.append('file', this.selectedFiles[i]);
+          }
+          formdata.append('workId', saveDetails.workId);
+          formdata.append('contentCategory', saveDetails.contentCategory);
+          formdata.append('description', saveDetails.description);
+          formdata.append('divisionCode', saveDetails.divisionCode);
+          formdata.append('createdBy', saveDetails.createdBy);
+          formdata.append('zonal', saveDetails.zonal);  
+          formdata.append('FU', saveDetails.FU);        
+          formdata.append('contentTopic', saveDetails.contentTopic);
+    	this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.PROJECT_UPLOAD_FILES, formdata, true).subscribe(data => {
+                this.spinnerService.hide();
+                this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
+                this.selectedFiles = [];
+                this.filesExists = false;
+                window.location.reload();
+            }, error => {
+                console.log('ERROR >>>');
+                this.spinnerService.hide();
+                this.commonService.showAlertMessage("Files Uploading Failed.");
+            })
+            
+    }
+
+    upload(event) {
+        if (event.target.files.length > 0) { this.filesExists = true; }
+        for (var i = 0; i < event.target.files.length; i++) {
+            this.selectedFiles.push(event.target.files[i]);
+        }
+    }
+
+    close() {
+    	this.contentManagementFormGroup.reset();
+        this.uploadFile = false;
+        this.selectedFiles = [];
+        this.filesExists = false;
+        this.addPermission = true;
+    }
 
   }

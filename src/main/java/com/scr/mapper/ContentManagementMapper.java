@@ -77,7 +77,7 @@ public class ContentManagementMapper {
 		contentManagement = new ContentManagement();
 		contentManagement.setCommonFileId(commonFileId);
 		contentManagement.setDivision(divisionCode);
-		contentManagement.setFunUnit("PSI");
+		contentManagement.setFunUnit(fU);
 		contentManagement.setGenOps(genOps);
 		contentManagement.setTopic("Indents");
 		contentManagement.setDescription(description);
@@ -118,7 +118,7 @@ public class ContentManagementMapper {
 		contentManagement = new ContentManagement();
 		contentManagement.setCommonFileId(commonFileId);
 		contentManagement.setDivision(divisionCode);
-		contentManagement.setFunUnit("PSI");
+		contentManagement.setFunUnit(fU);
 		contentManagement.setGenOps(contentCategory);
 		contentManagement.setTopic(contentTopic);
 		contentManagement.setDescription(description);

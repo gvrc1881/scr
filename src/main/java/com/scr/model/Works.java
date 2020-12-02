@@ -115,6 +115,8 @@ public class Works implements Serializable {
 	@Column(name = "expected_completion")
 	@Temporal(TemporalType.DATE)
 	private Date expectedCompletion;
+	
+	private String contentLink;
 
 	private String lineType;
 
@@ -393,6 +395,14 @@ public class Works implements Serializable {
 		this.targetStartDate = targetStartDate;
 	}
 
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
 	@Override
 	public String toString() {
 		return "Works [id=" + id + ", allocation=" + allocation + ", division=" + division + ", estdLatestAnticCost="
@@ -406,8 +416,11 @@ public class Works implements Serializable {
 				+ ", yearOfSanction=" + yearOfSanction + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy
 				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", loaNo=" + loaNo + ", loaDate=" + loaDate
 				+ ", startKm=" + startKm + ", endKm=" + endKm + ", tenderValue=" + tenderValue + ", commencementDate="
-				+ commencementDate + ", expectedCompletion=" + expectedCompletion + ", lineType=" + lineType + "]";
+				+ commencementDate + ", expectedCompletion=" + expectedCompletion + ", contentLink=" + contentLink
+				+ ", lineType=" + lineType + "]";
 	}
+
+	
 
 
 }

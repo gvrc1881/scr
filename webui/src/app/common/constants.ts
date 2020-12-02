@@ -212,7 +212,9 @@ export const Constants = {
                 GET_WPA_SECTION_POPULATION_BASED_ON_GROUP_ACTIVITY: "/getWPASectionPopulationBasedOnGroupActivity/",
                 SAVE_WPA_SECTION_POPULATION: "/saveWPASectionPopulation",
                 GET_WPA_SECTION_Targets_BASED_ON_GROUP_ACTIVITY_YEAR:"/getWPASectionPopulationBasedOnGroupActivityYear/",
-                SAVE_WPA_SECTION_TARGETS: "/saveWPASectionTargets"
+                SAVE_WPA_SECTION_TARGETS: "/saveWPASectionTargets",
+                ATTACHMENT_LIST:"/projectsAttachedDocumentList/",
+                PROJECT_UPLOAD_FILES:'/projectUploadFiles',
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",

@@ -2,6 +2,7 @@ package com.scr.services;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,14 +11,20 @@ import java.util.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.WorkMapper;
 import com.scr.message.request.CopyWPAndWPA;
+import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.WPADailyProgressResponse;
 import com.scr.message.response.WPASectionTargetsResponse;
+import com.scr.model.ContentManagement;
 import com.scr.model.StandardPhaseActivity;
 import com.scr.model.StandardPhases;
+import com.scr.model.TractionEnergyTariff;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WPASectionPopulation;
 import com.scr.model.WPASectionTargets;
@@ -25,6 +32,7 @@ import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
+import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.WPADailyProgressRepository;
 import com.scr.repository.WPASectionPopulationRepository;
 import com.scr.repository.WPASectionTargetsRepository;
@@ -32,6 +40,7 @@ import com.scr.repository.WorkGroupRepository;
 import com.scr.repository.WorkPhaseActivityRepository;
 import com.scr.repository.WorkPhaseRepository;
 import com.scr.repository.WorksRepository;
+import com.scr.util.Constants;
 
 @Service
 public class WorksServices {
@@ -61,6 +70,15 @@ public class WorksServices {
 	
 	@Autowired
 	private WPASectionTargetsRepository wpaSectionTargetsRepository;
+	
+	@Autowired
+	private ContentManagementMapper contentManagementMapper;
+	
+	@Autowired
+	private ContentManagementRepository contentManagementRepository;
+	
+	@Value("${projects.path}")
+	private String projectsPath;
 
 	public List<Works> findAll() {
 		// TODO Auto-generated method stub
@@ -327,6 +345,57 @@ public class WorksServices {
 					wpaSectionTargetsRepository.save(nextYearTarget.get());
 				}
 		}
+		
+	}
+
+
+	public ResponseStatus storeUploadedFiles(List<MultipartFile> file, String contentCategory, String description,
+			String divisionCode, String createdBy, String zonal, String fU, String contentTopic, Integer workId) 
+	{
+		ResponseStatus responseStatus = new ResponseStatus();
+		try {
+			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(projectsPath, contentCategory );
+			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
+				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+				ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();
+				Long commonFileId = (long) 0.0; 
+				if(fileId == null || fileId.getCommonFileId() == null) {
+					commonFileId = (long) 1;
+				}else {
+					commonFileId = fileId.getCommonFileId()+1;
+				}
+				Optional<Works> work =worksRepository.findById(workId);
+				if (work.isPresent()) {
+					Works works = work.get();
+					if (works.getContentLink() != null) {
+						commonFileId = Long.parseLong(works.getContentLink());
+					} else {
+						works.setContentLink(String.valueOf(commonFileId));
+					}
+					
+					worksRepository.save(works);
+				}
+				
+				for(MultipartFile mf: file)
+				{
+					String folderPath = folderResponse.getMessage();
+					liContentManagements.add(contentManagementMapper.saveAndStoreDetails(mf, divisionCode, createdBy, zonal,fU, contentTopic, description, contentCategory, folderPath, commonFileId));									
+				}
+				if(!liContentManagements.isEmpty()) {
+					liContentManagements = contentManagementRepository.saveAll(liContentManagements);
+					log.info("Files Details saved in to Database Successfully.");
+				}
+			}					
+			responseStatus.setCode(Constants.SUCCESS_CODE);
+			responseStatus.setMessage(Constants.JOB_SUCCESS_MESSAGE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("Error while saving files "+e.getMessage());
+			responseStatus.setCode(Constants.FAILURE_CODE);
+			responseStatus.setMessage("ERROR >>> "+e.getMessage());
+		}
+		return responseStatus;
+		
 		
 	}
 

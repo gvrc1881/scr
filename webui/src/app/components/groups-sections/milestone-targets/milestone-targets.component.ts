@@ -160,10 +160,10 @@ export class MilestoneTargetsComponent implements OnInit {
     getTkm(){        
         if(this.milestoneTargetsFormGroup.value.rkm > this.milestoneTargetsFormGroup.value.tkm)
         {
-            // this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
-            //     disableClose: false
-            //   });
-            //   this.confirmDialogRef.componentInstance.confirmMessage = "TKM must be less than RKM";
+             this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+                 disableClose: false
+               });
+               this.confirmDialogRef.componentInstance.confirmMessage = "TKM must be less than RKM";
            // this.valid=false;
         }
     }
