@@ -44,10 +44,13 @@ export class AddGridFailureComponent implements OnInit {
   divisionList:any;
   duration:any;
   dur:any;
+  enableStation:boolean;
+  enableExtend:boolean;
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
-  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
+  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData')); 
 
   facilityList:any;
 
@@ -77,11 +80,12 @@ export class AddGridFailureComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.findFacilities();
+    //this.findFacilities();
     this.id = +this.route.snapshot.params['id'];    
     
     if (!isNaN(this.id)) {
       this.updateForm();
+      this.findFacilities();
       this.addGridFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -92,24 +96,45 @@ export class AddGridFailureComponent implements OnInit {
       this.getGridFailDataById(this.id);
     } else {
       this.createForm();
+      this.findFacilities();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
     }
   }
-  findFacilities(){
+
+findFacilities(){
    
-    this.facilityList=[];    
+  this.facilityList=[]; 
+   if(this.loggedUserData.username == 'tpc_admin'){
+
+    this.enableStation=true;
+    this.enableExtend=true;
+    for (let i = 0; i < this.depotHierarchy.length; i++) {
+        
+      if( this.depotHierarchy[i].unitType == 'TSS'){
+      
+       this.facilityList.push(this.depotHierarchy[i]);
+          //this.facilityHierarchy.facilityList;
+          
+      }
+   }     
+
+  } else {
+    this.enableStation=true;
+    this.enableExtend=true;
 
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
-        
-           if( this.facilityHierarchy[i].depotType == 'TSS'){
-           
-            this.facilityList.push(this.facilityHierarchy[i]);
-               //this.facilityHierarchy.facilityList;
-               
-           }
-        }
+      
+      if( this.facilityHierarchy[i].depotType == 'TSS'){
+         
+         this.facilityList.push(this.facilityHierarchy[i]);
+          //this.facilityHierarchy.facilityList;
+          
+      }
+   } 
+
+  }    
 }
 
   createForm() {
@@ -172,8 +197,7 @@ timeDuration(){
   if(ffdate!=null && ftdate!=null)
   {
     if(ftdate >= ffdate)
-    {
-     
+    {    
 
     this.duration  =this.sendAndRequestService.Duration(ffdate,ftdate)
     }
@@ -214,8 +238,7 @@ timDuration(){
   if(efdate!=null && etdate!=null)
   {
     if(etdate >= efdate)
-    {
-    
+    {   
 
     this.dur =this.sendAndRequestService.Duration(efdate,etdate)
     }
@@ -244,6 +267,18 @@ timDuration(){
 //   }
 }
   updateFeedOff($event){
+    if ($event.value) {
+      console.log($event.value)
+      this.extendedFromList = [];
+      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
+      this.facilityList.map(element => {
+        if(element.unitId != $event.value){
+          this.extendedFromList.push(element);
+        }
+      });
+    }
+  }
+  updateFeedOf($event){
     if ($event.value) {
       console.log($event.value)
       this.extendedFromList = [];

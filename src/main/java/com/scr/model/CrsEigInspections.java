@@ -74,9 +74,19 @@ public class CrsEigInspections implements Serializable {
 	@Column(name = "status_id")
 	private Integer statusId;
 	
+	@Column(name = "crs_authorisation_no")
+	private String crsAuthorisationNo;
+	
+	@Column(name = "inspection_status")
+	private String inspectionStatus;
+	
 	@ManyToOne
 	@JoinColumn(name = "stipulations_id", foreignKey = @ForeignKey(name = "fk_crs_eig_inspections_stipulations_id"))
 	private Stipulations stipulationsId;
+	
+	@ManyToOne
+	@JoinColumn(name = "work_group_id", foreignKey = @ForeignKey(name = "fk_crs_eig_inspections_work_group"))
+	private WorkGroup workGroupId;
 
 	public Long getId() {
 		return id;
@@ -228,6 +238,42 @@ public class CrsEigInspections implements Serializable {
 
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
+	}
+
+	public String getCrsAuthorisationNo() {
+		return crsAuthorisationNo;
+	}
+
+	public void setCrsAuthorisationNo(String crsAuthorisationNo) {
+		this.crsAuthorisationNo = crsAuthorisationNo;
+	}
+
+	public String getInspectionStatus() {
+		return inspectionStatus;
+	}
+
+	public void setInspectionStatus(String inspectionStatus) {
+		this.inspectionStatus = inspectionStatus;
+	}
+
+	public WorkGroup getWorkGroupId() {
+		return workGroupId;
+	}
+
+	public void setWorkGroupId(WorkGroup workGroupId) {
+		this.workGroupId = workGroupId;
+	}
+
+	@Override
+	public String toString() {
+		return "CrsEigInspections [id=" + id + ", inspectionType=" + inspectionType + ", section=" + section
+				+ ", sectionStartLocation=" + sectionStartLocation + ", sectionEndLocation=" + sectionEndLocation
+				+ ", dateOfInspection=" + dateOfInspection + ", RKM=" + RKM + ", TKM=" + TKM + ", remarks=" + remarks
+				+ ", authorisationDate=" + authorisationDate + ", chargingDate=" + chargingDate + ", attachment="
+				+ attachment + ", station=" + station + ", credatedBy=" + credatedBy + ", createdOn=" + createdOn
+				+ ", updatedBy=" + updatedBy + ", updatedOn=" + updatedOn + ", statusId=" + statusId
+				+ ", crsAuthorisationNo=" + crsAuthorisationNo + ", inspectionStatus=" + inspectionStatus
+				+ ", stipulationsId=" + stipulationsId + ", workGroupId=" + workGroupId + "]";
 	}
 
 

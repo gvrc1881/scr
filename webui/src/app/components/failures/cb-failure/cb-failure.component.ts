@@ -105,7 +105,7 @@ export class CbFailureComponent implements OnInit {
     const CbFail: any[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
       this.CbFailList = data;
-      console.log(this.CbFailList)
+     
       for (let i = 0; i < this.CbFailList.length; i++) {
         this.CbFailList[i].sno = i + 1;
         this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');

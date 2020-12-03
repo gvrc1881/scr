@@ -31,18 +31,45 @@
 
                                                 <div class="col-md-12">
 
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
                                                                 [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
-                                                                    [value]="depot.facilityId">
-                                                                    {{ depot.facilityName }}
+                                                                    [value]="depot.unitId">
+                                                                    {{ depot.unitCode }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
+                                                    </div> -->
+                                                    <div *ngIf ="enableStation">
                                                     </div>
-                                                    
+                                                    <div *ngIf="!enableStation; else StationElseBlock">
+                                                        <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
+                                                                    [formControl]="addCbFailFromGroup.controls['subStation']" required>
+                                                                    <mat-option *ngFor="let depot of facilityList"
+                                                                        [value]="depot.unitId">
+                                                                        {{ depot.unitCode }}
+                                                                    </mat-option>
+                                                                </mat-select>                                                            
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #StationElseBlock>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
+                                                                    [formControl]="addCbFailFromGroup.controls['subStation']" required>
+                                                                    <mat-option *ngFor="let depot of facilityList"
+                                                                        [value]="depot.facilityId">
+                                                                        {{ depot.facilityName }}
+                                                                    </mat-option>
+                                                                </mat-select>                                                            
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </ng-template>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.EQUIPMENT}}"
@@ -70,8 +97,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                              <input matInput [owlDateTime]="dt1" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE_TIME}}" 
-                                                                [value]="currentDate | dateFilter:dateFormat" 
+                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE_TIME}}"                                                                
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addCbFailFromGroup.controls['fromDateTime']"(ngModelChange)="timeDuration()" required >                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
@@ -94,8 +120,7 @@
                                                         <mat-form-field fxFlex="30">                                                      
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                               [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.CLOSE_TIME}}"
-                                                              (dateTimeChange)="addEventCloseDate($event)" 
-                                                              [value]="closeDate | dateFilter:dateFormat" 
+                                                              (dateTimeChange)="addEventCloseDate($event)"                                                               
                                                               [max]="maxDate"  [min]="toMinDate"
                                                               [formControl]="addCbFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                               <owl-date-time #dt2 [showSecondsTimer]=true

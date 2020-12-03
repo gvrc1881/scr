@@ -18,4 +18,6 @@ public interface WPADailyProgressRepository extends JpaRepository<WPADailyProgre
 	Optional<WPADailyProgress> findByWorkGroupIdAndWorkPhaseActivityIdAndDate(WorkGroup workGroupId,
 			WorkPhaseActivity workPhaseActivityId, Date date);
 
+	List<WPADailyProgress> getByWorkPhaseActivityId(WorkPhaseActivity workPhaseActivity);
+
 }

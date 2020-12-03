@@ -31,7 +31,7 @@
 
                                                 <div class="col-md-12">
 
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" 
                                                                 [formControl]="addRcFailFromGroup.controls['subStation']" >
@@ -41,8 +41,38 @@
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
                                                     
+                                                    <div *ngIf ="enableStation">
+                                                    </div>
+                                                    <div *ngIf="!enableStation; else StationElseBlock">
+                                                        <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" 
+                                                                    [formControl]="addRcFailFromGroup.controls['subStation']" >
+                                                                    <mat-option *ngFor="let depot of facilityList"
+                                                                        [value]="depot.unitId">
+                                                                        {{ depot.unitCode }}
+                                                                    </mat-option>
+                                                                </mat-select>                                                            
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #StationElseBlock>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" 
+                                                                    [formControl]="addRcFailFromGroup.controls['subStation']" >
+                                                                    <mat-option *ngFor="let depot of facilityList"
+                                                                        [value]="depot.facilityId">
+                                                                        {{ depot.facilityName }}
+                                                                    </mat-option>
+                                                                </mat-select>                                                            
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </ng-template>
+
+
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.INDICATION}}" 
@@ -55,8 +85,7 @@
                                                   <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.OCCURRED_DATE}}"
-                                                                [value]="currentDate | dateFilter:dateFormat" 
+                                                                [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.OCCURRED_DATE}}"                                                                
                                                                 (dateTimeChange)="addEvent($event)"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
@@ -78,7 +107,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.RECTIFIED_DATE}}" 
-                                                                [value]="rectifiedDate | dateFilter:dateFormat"  (dateTimeChange)="addEventTargetDate($event)" [min]="minDate"  [max]="maxDate"
+                                                                (dateTimeChange)="addEventTargetDate($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addRcFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

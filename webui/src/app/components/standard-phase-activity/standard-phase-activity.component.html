@@ -75,7 +75,7 @@
 
                                                 <ng-container matColumnDef="dependencyToStart">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>{{FiledLabels.DEPDENCY_TO_START}}</span>
+                                                        <span>{{FiledLabels.DEPENDENCY_TO_START}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.dependencyToStart}}</mat-cell>

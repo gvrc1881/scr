@@ -21,10 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.MilestoneTargets;
 import com.scr.model.StandardPhaseActivity;
 import com.scr.model.StandardPhases;
+import com.scr.model.WPADailyProgress;
+import com.scr.model.WPASectionPopulation;
+import com.scr.model.WPASectionTargets;
+import com.scr.model.WorkGroup;
 import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
+import com.scr.repository.WPADailyProgressRepository;
+import com.scr.repository.WPASectionPopulationRepository;
+import com.scr.repository.WPASectionTargetsRepository;
+import com.scr.repository.WorkPhaseActivityRepository;
 import com.scr.services.WorkPhaseActivityService;
 import com.scr.services.WorkPhaseSerivce;
 import com.scr.util.Constants;
@@ -45,6 +54,18 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 	
 	@Autowired
 	private WorkPhaseActivityService workPhaseActivityService;
+	
+	@Autowired
+	private WPASectionTargetsRepository wpaSectionTargetsRepository;
+	
+	@Autowired
+	private WPASectionPopulationRepository wpaSectionPopulationRepository;
+	
+	@Autowired
+	private WPADailyProgressRepository wpaDailyProgressRepository;
+	
+	@Autowired
+	private WorkPhaseActivityRepository workPhaseActivityRepository;
 	
 	@CrossOrigin(origins = "*")
 	
@@ -72,7 +93,7 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 		
 		log.info("** Enter into findByPhaseActivityOnPhaseId  functions ***"+workPhases);
 	
-		List<WorkPhaseActivity> workAct=null;	
+		List<WorkPhaseActivity> workAct=new ArrayList<>();	
 		
 		log.info("Paselist==="+workAct.size());	
 		
@@ -91,7 +112,7 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 				workPhaseList.add(workPhase.get());
 				
 			}
-			workAct = workPhaseActivityService.getWorkPhaseActivityBasedOnWorkPhaseIdIn(workPhaseList);
+			workAct = workPhaseActivityService.getWorkPhaseActivityBasedOnWorkPhaseId(workPhaseList);
 			return new ResponseEntity<List<WorkPhaseActivity>>(workAct,HttpStatus.OK);		
 
 	}
@@ -134,8 +155,8 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 		}
 	}
 	
-	@RequestMapping(value = "/deletePhaseActivity/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
-	public ResponseStatus deleteGroupsSectionsById(@PathVariable Integer id) {
+/*	@RequestMapping(value = "/deletePhaseActivity/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
+	public ResponseStatus deletePhaseActivity(@PathVariable Integer id) {
 		log.info("Enter into deleteById function");
 		log.info("Selected Phase Activity Id = "+id);
 		try {
@@ -148,7 +169,48 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 		log.error("ERROR >> While deleting Phase Activity data"+e.getMessage());
 		return Helper.findResponseStatus("Phase Activity Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 	}
-}
+}*/
+	
+
+	@RequestMapping(value = "/deletePhaseActivity/{id}" ,method = RequestMethod.DELETE ,headers = "Accept=application/json")
+	public ResponseStatus deletePhaseActivity(@PathVariable Integer id) {
+		log.info("Enter into deleteById function");
+		log.info("Selected PahseActivity Id = "+id);
+		List <WPASectionTargets> targetList = wpaSectionTargetsRepository.getByWorkPhaseActivityId(workPhaseActivityRepository.findById(id).get());
+		List <WPASectionPopulation> populationList = wpaSectionPopulationRepository.getByWorkPhaseActivityId(workPhaseActivityRepository.findById(id).get());
+		List <WPADailyProgress> dailyProgressList = wpaDailyProgressRepository.getByWorkPhaseActivityId(workPhaseActivityRepository.findById(id).get());
+		
+		String result="";
+		log.info("delete function==");		
+		if( targetList.size() == 0 && populationList.size() == 0 && dailyProgressList.size() == 0 )
+		{
+			log.info("targetList=="+targetList);
+			
+		try {
+			String status = workPhaseActivityService.deletePhaseActivity(id);;
+			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
+				return Helper.findResponseStatus("Project Deleted Successfully", Constants.SUCCESS_CODE);
+		
+	
+		}
+		catch (NullPointerException e) {
+			log.error(e);
+			return Helper.findResponseStatus("Project Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			log.error(e);
+			return Helper.findResponseStatus("Project Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		}
+		if(targetList.size() > 0 )
+			 result="This ProjectActivity is Associated with Targets";
+		else if(populationList.size() > 0 )
+			 result="This ProjectActivity is Associated with Population";
+		else if(dailyProgressList.size() > 0 )
+			 result="This ProjectActivity is Associated with DailyProgress";
+			
+		return Helper.findResponseStatus( result , Constants.FAILURE_CODE);	
+	}
+	
 	
 	@RequestMapping(value = "/existsByWorkPhaseIdAndName/{workPhase}/{name}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existsByWorkPhaseIdAndName(@PathVariable("workPhase") Integer workPhase ,@PathVariable("name") String name){

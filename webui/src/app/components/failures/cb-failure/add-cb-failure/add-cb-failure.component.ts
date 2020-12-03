@@ -50,8 +50,10 @@ export class AddCbFailureComponent implements OnInit {
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData'));
   divisionList:any; 
   facilityList:any;
+  enableStation:boolean;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -87,29 +89,30 @@ export class AddCbFailureComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.findRelayIndicationStatus();
     this.findNatureOfCloseStatus();
-    this.findFacilities();
-   
-    this.id = +this.route.snapshot.params['id'];    
-    
-    if (!isNaN(this.id)) {
+   // this.findFacilities();
+    this.id = +this.route.snapshot.params['id'];   
+  
+      if (!isNaN(this.id)) {
       this.updateForm();
+      this.findFacilities();
       this.addCbFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
       this.save = false;
       this.update = true;
-      this.title = Constants.EVENTS.UPDATE;   
-      
+      this.title = Constants.EVENTS.UPDATE;       
       this.getCbFailDataById(this.id);
     } else {
+      this.findFacilities();
       this.createForm();
       this.title = Constants.EVENTS.ADD;
     }
   
-     
+ 
 
   }
 
@@ -235,7 +238,7 @@ export class AddCbFailureComponent implements OnInit {
           current:this.resp.current,
           voltage:this.resp.voltage,
           phaseAngle:this.resp.phaseAngle,
-          trippedIdentifiedFault:this.resp.trippedIdentifiedFault== true ?  'true' : 'false',
+          trippedIdentifiedFault:this.resp.trippedIdentifiedFault== 'true' ?  true : false,
           divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
           internalExternal:this.resp.internalExternal == 'true' ? true: false,
           remarks: this.resp.remarks
@@ -277,17 +280,33 @@ export class AddCbFailureComponent implements OnInit {
 
   findFacilities(){
    
-    this.facilityList=[];    
+    this.facilityList=[]; 
+     if(this.loggedUserData.username == 'tpc_admin'){
 
-    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+      this.enableStation=true;
+      for (let i = 0; i < this.depotHierarchy.length; i++) {
         
-           if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
-              
-              this.facilityList.push(this.facilityHierarchy[i]);
-               //this.facilityHierarchy.facilityList;
-               
-           }
+        if( this.depotHierarchy[i].unitType == 'TSS'|| this.depotHierarchy[i].unitType == 'SP'|| this.depotHierarchy[i].unitType == 'SSP'){
+           
+           this.facilityList.push(this.depotHierarchy[i]);
+            //this.facilityHierarchy.facilityList;
+            
         }
+     }     
+
+    } else {
+      this.enableStation=true;
+      for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+        if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+           
+           this.facilityList.push(this.facilityHierarchy[i]);
+            //this.facilityHierarchy.facilityList;
+            
+        }
+     } 
+
+    }    
 }
 
 timeDuration(){

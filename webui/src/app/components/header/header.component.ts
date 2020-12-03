@@ -502,6 +502,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("drive-daily-progress") ? "active-item" : "",
           },
+          {
+            subMenuName: "Drive Target",
+            subMenuURL: "drive-target",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Drive Target', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("drive-target") ? "active-item" : "",
+          },
 
         ]
       },

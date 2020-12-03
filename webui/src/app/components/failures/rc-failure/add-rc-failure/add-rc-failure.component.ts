@@ -45,7 +45,10 @@ dateFormat = 'dd-MM-yyyy hh:mm:ss';
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData'));
   facilityList:any;
+  enableStation:boolean;
+
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -69,11 +72,12 @@ dateFormat = 'dd-MM-yyyy hh:mm:ss';
 
   ngOnInit() {
     
-    this.findFacilities();
+    //this.findFacilities();
     this.id = +this.route.snapshot.params['id'];    
     
     if (!isNaN(this.id)) {
       this.updateForm();
+      this.findFacilities();
       this.addRcFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -84,24 +88,40 @@ dateFormat = 'dd-MM-yyyy hh:mm:ss';
       this.getRcFailDataById(this.id);
     } else {
       this.createForm();
+      this.findFacilities();
       this.save = true;
       this.update = false;
       this.title = Constants.EVENTS.ADD;
     }
   }
-  findFacilities(){
+ 
+findFacilities(){
    
-    this.facilityList=[];    
+  this.facilityList=[]; 
+   if(this.loggedUserData.username == 'tpc_admin'){
 
+    this.enableStation=true;
+    for (let i = 0; i < this.depotHierarchy.length; i++) {
+        
+      if( this.depotHierarchy[i].unitType == 'RCC'){     
+         
+       this.facilityList.push(this.depotHierarchy[i]);
+          
+      }
+   }  
+
+  } else {
+    this.enableStation=true;
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-           if( this.facilityHierarchy[i].depotType == 'RCC'){
-           
-              
-            this.facilityList.push(this.facilityHierarchy[i]);
-               
-           }
-        }
+      if( this.facilityHierarchy[i].depotType == 'RCC'){     
+         
+       this.facilityList.push(this.facilityHierarchy[i]);
+          
+      }
+   }  
+
+  }    
 }
 
   timeDuration(){

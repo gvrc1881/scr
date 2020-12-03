@@ -15,6 +15,7 @@ import com.scr.model.WorkPhaseActivity;
 import com.scr.model.WorkPhases;
 import com.scr.model.Works;
 import com.scr.repository.WorkPhaseActivityRepository;
+import com.scr.util.Constants;
 
 @Service
 
@@ -26,9 +27,9 @@ public class WorkPhaseActivityService {
 	private WorkPhaseActivityRepository workPhaseActivityRepository;
 	
 	
-	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseIdIn(List<WorkPhases> workPhaseList) {
+	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseId(List<WorkPhases> workPhaseList) {
 		// TODO Auto-generated method stub
-		return workPhaseActivityRepository.findByWorkPhaseIdIn(workPhaseList);
+		return workPhaseActivityRepository.findByWorkPhaseId(workPhaseList);
 	}
 
 
@@ -68,10 +69,10 @@ public class WorkPhaseActivityService {
 			
 		}
 		
-		public void deleteById(Integer id) {
+		/*public void deleteById(Integer id) {
 			
 			workPhaseActivityRepository.deleteById(id);
-		}
+		}*/
 
 		public Boolean existsByWorkPhaseIdAndName(WorkPhases workPhase, String name) {
 			// TODO Auto-generated method stub
@@ -83,6 +84,18 @@ public class WorkPhaseActivityService {
 			return  workPhaseActivityRepository.existsByWorkPhaseIdAndSequence(workPhase,sequence);
 		}
 
+		public String deletePhaseActivity(Integer id) {	
+			
+			Optional<WorkPhaseActivity> workPhaseActivity = workPhaseActivityRepository.findById(id);
+			if (workPhaseActivity.isPresent()) {
+				workPhaseActivityRepository.deleteById(id);
+				 
+				return Constants.JOB_SUCCESS_MESSAGE;
+			}else {
+				return "Invalid workPhaseActivityRepository Id";
+			}
+			
+		}
 
 		/*public List<WorkPhaseActivity> findByPhaseActivityOnPhaseId(List<WorkPhases> workPhases) {
 			// TODO Auto-generated method stub

@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { FuseConfirmPopupComponent } from 'src/app/components/confirm-popup/confirm-popup.component';
 
 @Component({
   selector: 'app-project-phase-activity',
@@ -95,11 +96,10 @@ export class ProjectPhaseActivityComponent implements OnInit {
     //const phase: ProjectPhaseModel[] = [];
     this.PhaseActivityList = [];
     this.activity = []; 
-console.log("phaseid=="+this.searchInputFormGroup.value.workPhase)
+
      this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.GET_WORK_PHASE_ACTIVITY_ID+this.searchInputFormGroup.value.workPhase).subscribe((data) => {
              this.PhaseActivityList = data;
-             console.log("activities=="+this.PhaseActivityList);
-             this.toMinDate=new Date(this.PhaseActivityList.plannedStartDate),
+              this.toMinDate=new Date(this.PhaseActivityList.plannedStartDate),
              this.toTargetDate=new Date(this.PhaseActivityList.commenceDate)
               for (var i = 0; i < this.PhaseActivityList.length; i++) {
              this.PhaseActivityList[i].sno = i + 1;
@@ -118,19 +118,19 @@ console.log("phaseid=="+this.searchInputFormGroup.value.workPhase)
       this.resp = response;
    
       if (this.resp.code == Constants.CODES.SUCCESS) {
-        this.commonService.showAlertMessage("Project Phase Data Updated Successfully");
+        this.commonService.showAlertMessage("Project Phase Activity Data Updated Successfully");
         this.searchInputFormGroup.reset();
         this.dataSource=new MatTableDataSource();
         this.enableUpdate=false;
         this.addPermission=true;
         //this.router.navigate(['../'], { relativeTo: this.route });
       } else {
-        this.commonService.showAlertMessage("Project Phase Updating Failed.");
+        this.commonService.showAlertMessage("Project Phase Activity Updating Failed.");
       }
     }, error => {
       console.log('ERROR >>>');
       this.spinnerService.hide();
-      this.commonService.showAlertMessage("Project Phase Updating Failed.");
+      this.commonService.showAlertMessage("Project Phase Activity Updating Failed.");
     });
    
   }
@@ -147,23 +147,36 @@ console.log("phaseid=="+this.searchInputFormGroup.value.workPhase)
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
-
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-
+  
         this.spinnerService.show();
-        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.DELETE, id).subscribe(data => {
-          this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Phase Activity  Successfully");
-          this.searchInputFormGroup.reset();
-        this.dataSource=new MatTableDataSource();
-        this.enableUpdate=false;
+        this.sendAndRequestService.requestForDELETE(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.DELETE, id).subscribe((data) => {
+          this.resp = data;
+  
+          if (this.resp.code === 200) {
+  
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+  
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+           
+          } else {
+            this.confirmDialogRef = this.dialog.open(FuseConfirmPopupComponent, {
+              disableClose: false
+            });
+            this.confirmDialogRef.componentInstance.confirmMessage = this.resp.message;
+          
+          }
+          this.spinnerService.hide();        
+         
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Phase Activity Deletion Failed.");
+          this.commonService.showAlertMessage("Project Phase Activity Deletion Failed.");
         })
       }
       this.confirmDialogRef = null;
