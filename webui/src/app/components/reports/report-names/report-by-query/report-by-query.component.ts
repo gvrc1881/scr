@@ -63,7 +63,9 @@ export class ReportByQueryComponent implements OnInit {
        maxDate = new Date();
        divCode: any;
        subDivisionCode: any;
-       
+       workData:any;
+       workGroupData:any;
+
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -74,7 +76,10 @@ export class ReportByQueryComponent implements OnInit {
 
        ngOnInit() {
               let previousUrl = '/' + this.router.url.split('/')[1];// this.previousRouterUrl.getPreviousUrl();
-
+this.workName();
+this.group();
+this.section();
+this.agency();
               console.log(this.router.url.split('/')[1])
               this.reportModel = new ReportModel();
               console.log(previousUrl)
@@ -150,6 +155,11 @@ export class ReportByQueryComponent implements OnInit {
                      'fromkm': [null],
                      'tokm': [null],
                      'materialItem': [null],
+                     'workName': [null],
+                     'group': [null],
+                     'section': [null], 
+                     'WpaName': [null],
+                     'agency': [null],
                      'format': [null]
               });
        }
@@ -212,6 +222,68 @@ export class ReportByQueryComponent implements OnInit {
               );
 
        }
+
+              workName() {
+                     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
+                            this.workData = data;
+                            console.log("workData workData"+JSON.stringify(data))
+                            
+                     }
+                     );
+
+                    
+
+              }
+
+              group() {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.GROUPS_SECTIONS.GET_GROUPS_SECTIONS).subscribe((data) => {
+                     this.workGroupData = data;
+                     console.log("workGroupData workGroupData"+JSON.stringify(data))
+                     
+              }
+              );
+
+             
+
+       }
+
+              section() {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
+              this.workData = data;
+              console.log("workData workData"+JSON.stringify(data))
+              
+       }
+       );
+
+      
+       }
+
+              agency() {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
+              this.workData = data;
+              console.log("workData workData"+JSON.stringify(data))
+              
+              }
+              );
+
+      
+
+       }
+
+
+
+       WpaName() {
+              this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
+              this.workData = data;
+              console.log("workData workData"+JSON.stringify(data))
+              
+              }
+              );
+
+      
+
+       }
+
        zoneCodeList() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
                      this.zoneData = data;
@@ -297,6 +369,11 @@ export class ReportByQueryComponent implements OnInit {
               this.reportModel.fromkm = this.reportsByQuery.controls.fromkm.value;
               this.reportModel.tokm = this.reportsByQuery.controls.tokm.value;
               this.reportModel.materialItem = this.reportsByQuery.controls.materialItem.value;
+              this.reportModel.workName = this.reportsByQuery.controls.workName.value;
+              this.reportModel.group = this.reportsByQuery.controls.group.value;
+              this.reportModel.section = this.reportsByQuery.controls.section.value;
+              this.reportModel.agency = this.reportsByQuery.controls.agency.value;
+              this.reportModel.WpaName = this.reportsByQuery.controls.WpaName.value;
               this.reportModel.formatType = this.reportsByQuery.controls.format.value;
 
               console.log("generateReport" + this.id)

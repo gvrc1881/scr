@@ -35,6 +35,10 @@ export class ReportModel{
     formatType: string;
     locationTypes:any;
     depotType:any;
-    materialItem:any;  
-    
+    materialItem:any; 
+    workName:any;
+    group:any;
+    section:any;
+    agency:any;
+    WpaName:any;
 }
