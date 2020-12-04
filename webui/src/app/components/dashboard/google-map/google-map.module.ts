@@ -8,7 +8,7 @@ import { FusionChartsModule } from 'angular-fusioncharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { GoogelMapComponent } from './google-map.component';
-//import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 //import {} from 'googlemaps';
 
 const routes: Routes = [
@@ -30,11 +30,11 @@ const routes: Routes = [
         FormsModule,
         MaterialModule,
         ReactiveFormsModule,
-        // AgmCoreModule.forRoot({
-        //     // please get your own API key here:
-        //     // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
-        //     apiKey: 'AIzaSyBw4yZUws1cbRhOLLtGFFAu0c6XuGBvrzA'
-        //   })
+        AgmCoreModule.forRoot({
+            // please get your own API key here:
+            // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+            apiKey: 'AIzaSyBw4yZUws1cbRhOLLtGFFAu0c6XuGBvrzA'
+          })
     ],
     declarations: [
         GoogelMapComponent,
@@ -49,4 +49,5 @@ const routes: Routes = [
 export class GoogleMapModule
 {
 }
+
 
