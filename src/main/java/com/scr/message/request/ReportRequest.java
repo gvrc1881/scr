@@ -4,7 +4,6 @@
 package com.scr.message.request;
 
 import java.time.LocalDate;
-
 import com.scr.model.AssetsScheduleHistory;
 import com.scr.model.Division;
 import com.scr.model.ElementarySections;
@@ -58,7 +57,7 @@ public class ReportRequest {
 	private String section;
 	private String agency;
 	private Works workName;
-	private String wpaName;
+	private String WpaName;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -138,12 +137,14 @@ public class ReportRequest {
 		this.workName = workName;
 	}
 
+	
+
 	public String getWpaName() {
-		return wpaName;
+		return WpaName;
 	}
 
 	public void setWpaName(String wpaName) {
-		this.wpaName = wpaName;
+		WpaName = wpaName;
 	}
 
 	public String getReportId() {

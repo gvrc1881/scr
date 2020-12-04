@@ -65,7 +65,7 @@ export class ReportByQueryComponent implements OnInit {
        subDivisionCode: any;
        workData:any;
        workGroupData:any;
-
+       spaData:any;
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -77,9 +77,7 @@ export class ReportByQueryComponent implements OnInit {
        ngOnInit() {
               let previousUrl = '/' + this.router.url.split('/')[1];// this.previousRouterUrl.getPreviousUrl();
 this.workName();
-this.group();
-this.section();
-this.agency();
+
               console.log(this.router.url.split('/')[1])
               this.reportModel = new ReportModel();
               console.log(previousUrl)
@@ -113,8 +111,7 @@ this.agency();
               this.powerBlocks();
               this.pbSwitchControl();
               this.tpcBoardDetails();
-
-
+              this.wpaNameDetails();
               this.reportParameterNames();
 
               ReportPayload.GET.reportId = this.id;
@@ -157,7 +154,7 @@ this.agency();
                      'materialItem': [null],
                      'workName': [null],
                      'group': [null],
-                     'section': [null], 
+                     'workSection': [null], 
                      'WpaName': [null],
                      'agency': [null],
                      'format': [null]
@@ -225,17 +222,21 @@ this.agency();
 
               workName() {
                      this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
-                            this.workData = data;
-                            console.log("workData workData"+JSON.stringify(data))
-                            
+                            this.workData = data; 
                      }
                      );
 
                     
 
               }
-
-              group() {
+              getWorkGroup(){
+                     var work = this.reportsByQuery.value.workName ;
+                   this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_GROUPS_BASED_ON_WORK+work.id).subscribe((data) => {
+                              this.workGroupData = data;
+                              
+                         });
+                 }
+              /*group() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.GROUPS_SECTIONS.GET_GROUPS_SECTIONS).subscribe((data) => {
                      this.workGroupData = data;
                      console.log("workGroupData workGroupData"+JSON.stringify(data))
@@ -274,15 +275,13 @@ this.agency();
 
        WpaName() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
-              this.workData = data;
-              console.log("workData workData"+JSON.stringify(data))
-              
+              this.workData = data;              
               }
               );
 
       
 
-       }
+       }*/
 
        zoneCodeList() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
@@ -332,6 +331,14 @@ this.agency();
               );
 
        }
+       wpaNameDetails() {
+
+              this.sendAndRequestService.requestForGET(Constants.app_urls.STANDARD_PHASE_ACTIVITY.GET_SPA).subscribe((data) => {
+                     this.spaData = data;
+              }
+              );
+
+       }
        pbSwitchControl() {
 
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_PB_SWITCH_CONTROL).subscribe((data) => {
@@ -371,7 +378,7 @@ this.agency();
               this.reportModel.materialItem = this.reportsByQuery.controls.materialItem.value;
               this.reportModel.workName = this.reportsByQuery.controls.workName.value;
               this.reportModel.group = this.reportsByQuery.controls.group.value;
-              this.reportModel.section = this.reportsByQuery.controls.section.value;
+              this.reportModel.workSection = this.reportsByQuery.controls.workSection.value;
               this.reportModel.agency = this.reportsByQuery.controls.agency.value;
               this.reportModel.WpaName = this.reportsByQuery.controls.WpaName.value;
               this.reportModel.formatType = this.reportsByQuery.controls.format.value;

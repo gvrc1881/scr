@@ -38,7 +38,7 @@ export class ReportModel{
     materialItem:any; 
     workName:any;
     group:any;
-    section:any;
+    workSection:any;
     agency:any;
     WpaName:any;
 }

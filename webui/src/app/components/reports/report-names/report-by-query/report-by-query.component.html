@@ -269,6 +269,7 @@
                                                             </mat-form-field>
                                                        </div>
 
+                                                       
                                                        <!--YEAR -->
                                                        <div *ngIf="(names.parameterName=='year')">
                                                             <mat-form-field fxFlex="30" class="example-full-width">
@@ -300,58 +301,71 @@
                                                                       [formControl]="reportsByQuery.controls['materialItem']">
                                                             </mat-form-field>
                                                        </div>
-                                                       
 
                                                        <div *ngIf="(names.parameterName=='workName')">
-                                                            <mat-select placeholder="Work Name"
-                                                                      [formControl]="reportsByQuery.controls['workName']" >
-                                                                      <mat-option *ngFor="let workData of workData"
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Work Name"
+                                                                      [formControl]="reportsByQuery.controls['workName']" (selectionChange)="getWorkGroup()">
+                                                                      <mat-option
+                                                                           *ngFor="let workData of workData"
                                                                            [value]="workData">
-                                                                           {{ workData.workName }}
+                                                                           {{ workData.workName}}
                                                                       </mat-option>
                                                                  </mat-select>
+                                                            </mat-form-field>
                                                        </div>
 
                                                        <div *ngIf="(names.parameterName=='group')">
-                                                            <mat-select placeholder="Work Group"
-                                                            [formControl]="reportsByQuery.controls['group']" >
-                                                            <mat-option *ngFor="let workGroupData of workGroupData"
-                                                                 [value]="workGroupData">
-                                                                 {{ workGroupData.workGroup }}
-                                                            </mat-option>
-                                                       </mat-select>   
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Work Group"
+                                                                      [formControl]="reportsByQuery.controls['group']">
+                                                                      <mat-option
+                                                                           *ngFor="let workGroupData of workGroupData"
+                                                                           [value]="workGroupData.workGroup">
+                                                                           {{ workGroupData.workGroup}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
                                                        </div>
 
                                                        <div *ngIf="(names.parameterName=='section')">
-                                                            <mat-select placeholder="Section"
-                                                            [formControl]="reportsByQuery.controls['section']" >
-                                                            <mat-option *ngFor="let workData of workData"
-                                                                 [value]="workData">
-                                                                 {{ workData.section }}
-                                                            </mat-option>
-                                                       </mat-select>   
-                                                       </div>
-
-                                                       <div *ngIf="(names.parameterName=='agency')">
-                                                            <mat-select placeholder="Agency"
-                                                            [formControl]="reportsByQuery.controls['agency']" >
-                                                            <mat-option *ngFor="let workData of workData"
-                                                                 [value]="workData">
-                                                                 {{ workData.executingAgency}}
-                                                            </mat-option>
-                                                       </mat-select> 
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Section"
+                                                                      [formControl]="reportsByQuery.controls['workSection']">
+                                                                      <mat-option
+                                                                           *ngFor="let workGroupData of workGroupData"
+                                                                           [value]="workGroupData.workId.section">
+                                                                           {{ workGroupData.workId.section}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
                                                        </div>
 
                                                        <div *ngIf="(names.parameterName=='WpaName')">
-                                                            <mat-select placeholder="Wpa Name"
-                                                            [formControl]="reportsByQuery.controls['WpaName']" >
-                                                            <mat-option *ngFor="let workData of workData"
-                                                                 [value]="workData">
-                                                                 {{ workData.name}}
-                                                            </mat-option>
-                                                       </mat-select> 
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Wpa Name"
+                                                                      [formControl]="reportsByQuery.controls['WpaName']">
+                                                                      <mat-option
+                                                                           *ngFor="let spaData of spaData"
+                                                                           [value]="spaData.name">
+                                                                           {{ spaData.name}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
                                                        </div>
 
+                                                       <div *ngIf="(names.parameterName=='agency')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Agency"
+                                                                      [formControl]="reportsByQuery.controls['agency']">
+                                                                      <mat-option
+                                                                           *ngFor="let workGroupData of workGroupData"
+                                                                           [value]="workGroupData.agency">
+                                                                           {{ workGroupData.agency}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
 
                                                   </div>
                                                   <div class="col-md-3">
@@ -370,7 +384,11 @@
                                                             <button class="mat-raised-button mat-accent" color="accent"
                                                                  class="d-inline" mat-raised-button="" type="submit">
                                                                  Generate
-                                                            </button>
+                                                            </button>&nbsp;&nbsp;
+                                                            <span class="mat-raised-button mat-accent d-inline"
+                                                                (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                                Back
+                                                            </span>
 
                                                        </div>
                                                   </div>

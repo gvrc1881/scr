@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fdn_activity_wise" pageWidth="1570" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1530" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="731730b4-663b-46b7-8ddc-7a8b31d30eaa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="workName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="group" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="section" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="agency" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select work_name , work_group , section , agency , crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id ,
+Acti_name1,bal1::int,od1::int,uom1,Acti_name2,bal2::int,od2::int,uom2,Acti_name3,bal3::int,od3::int,uom3,
+Acti_name4,bal4::int,od4::int,uom4,Acti_name5,bal5::int,od5::int,uom5,Acti_name6,bal6::int,od6::int,uom6,
+Acti_name7,bal7::int,od7::int,uom7 from
+(
+--CPD PRJ
+select work_name , work_group , section , agency , crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id ,
+split_part(split_part(all_activities_data, ';', 1 ), ',', 1 ) as Acti_name1 ,
+split_part(split_part(all_activities_data, ';', 1 ), ',', 2 ) as bal1 ,
+split_part(split_part(all_activities_data, ';', 1 ), ',', 3 ) as od1 ,
+split_part(split_part(all_activities_data, ';', 1 ), ',', 3 ) as uom1 ,
+
+split_part(split_part(all_activities_data, ';', 2 ), ',', 1 ) as Acti_name2 ,
+split_part(split_part(all_activities_data, ';', 2 ), ',', 2 ) as bal2 ,
+split_part(split_part(all_activities_data, ';', 2 ), ',', 3 ) as od2 ,
+split_part(split_part(all_activities_data, ';', 2 ), ',', 3 ) as uom2 ,
+
+split_part(split_part(all_activities_data, ';', 3 ), ',', 1 ) as Acti_name3 ,
+split_part(split_part(all_activities_data, ';', 3 ), ',', 2 ) as bal3 ,
+split_part(split_part(all_activities_data, ';', 3 ), ',', 3 ) as od3 ,
+split_part(split_part(all_activities_data, ';', 3 ), ',', 3 ) as uom3 ,
+
+split_part(split_part(all_activities_data, ';', 4 ), ',', 1 ) as Acti_name4 ,
+split_part(split_part(all_activities_data, ';', 4 ), ',', 2 ) as bal4 ,
+split_part(split_part(all_activities_data, ';', 4 ), ',', 3 ) as od4 ,
+split_part(split_part(all_activities_data, ';', 4 ), ',', 3 ) as uom4 ,
+
+split_part(split_part(all_activities_data, ';', 5 ), ',', 1 ) as Acti_name5 ,
+split_part(split_part(all_activities_data, ';', 5 ), ',', 2 ) as bal5 ,
+split_part(split_part(all_activities_data, ';', 5 ), ',', 3 ) as od5 ,
+split_part(split_part(all_activities_data, ';', 5 ), ',', 3 ) as uom5 ,
+
+split_part(split_part(all_activities_data, ';', 6 ), ',', 1 ) as Acti_name6 ,
+split_part(split_part(all_activities_data, ';', 6 ), ',', 2 ) as bal6 ,
+split_part(split_part(all_activities_data, ';', 6 ), ',', 3 ) as od6 ,
+split_part(split_part(all_activities_data, ';', 6 ), ',', 3 ) as uom6 ,
+
+split_part(split_part(all_activities_data, ';', 7 ), ',', 1 ) as Acti_name7 ,
+split_part(split_part(all_activities_data, ';', 7 ), ',', 2 ) as bal7 ,
+split_part(split_part(all_activities_data, ';', 7 ), ',', 3 ) as od7 ,
+split_part(split_part(all_activities_data, ';', 7 ), ',', 3 ) as uom7
+from
+(
+select
+string_agg(activity_data,';' order by  activity_data  ) all_activities_data,
+work_name , work_group , section , agency ,
+crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
+from (
+select
+	a.wpa_name||','||(	a.population - case when CUM_DONE is null then 0 else CUM_DONE end)||','||case when OD_cnt.performed_count is null then 0 else OD_cnt.performed_count end
+	||','||case when a.population is null then 0 else a.population end ||','|| a.uom 	as activity_data,
+a.work_name , a.work_group , a.section , a.agency , a.phase_name , a.wpa_name , a.population TQ , a.uom ,
+(	a.population - case when CUM_DONE is null then 0 else CUM_DONE end) as bal,
+	case when CUM_DONE is null then 0 else CUM_DONE end as CUM_DONE,
+
+case when OD_cnt.performed_count is null then 0 else OD_cnt.performed_count end as day_progress_count ,
+case when mt.rkm is null then 0 else mt.rkm end as crs_tgt_RKM ,
+case when mt.tkm is null then 0 else mt.tkm end as crs_tgt_TKM ,
+case when mt.target_date is null then 'no target date ' else to_char(mt.target_date,'dd-mm-yyyy') end
+as crs_target_date ,a.w_id , a.wp_id , a.wg_id , a.wpa_id --, pa, pas
+from
+	(  -- generation of work group phase activities and phases without activities
+		select * from
+
+		( -- get population of all work group phase activities and phases without activities
+		   -- filter can be applied based on status of work , work name (id), phases (based on start date and end date etc)
+			select population::integer , wpa.uom , wpa.work_name , wpa.work_group , wpa.section,  wpa.agency ,
+			wpa.phase_name, wpa.wpa_name,
+			wpasp.w_id, wpasp.wp_id, wpasp.wg_id , wpasp.wpa_id
+			from v_work_group_phase_activities wpa
+			left outer join v_work_group_phase_activity_population wpasp
+			on (wpa.wpa_id = wpasp.wpa_id )
+		) p
+	)a
+
+left outer join v_wpa_daily_progress OD_cnt
+    on (a.wg_id = OD_cnt.work_group_id and a.wpa_id = OD_cnt.work_phase_activity_id
+		and OD_cnt.date = now()::date  )
+--  on date progress
+left outer join
+	(--  done tilldate progress
+	select sum(PERFORMED_COUNT) CUM_DONE, work_group_id, work_phase_activity_id
+	from v_wpa_daily_progress
+	where date<= now()::date
+ 		group by work_group_id,work_phase_activity_id) cud
+    on (a.wg_id = cud.work_group_id and a.wpa_id = cud.work_phase_activity_id )
+-- CRS target date and target RKM , TKM
+left outer join v_milestone_targets  mt
+	on (a.wg_id = mt.work_group_id and target_type = 'CRS_INSPECTION_TARGET')
+where a.wpa_name in(	'Foundations','Mast Erection', 'Bridge mast','Booms','Bracket Erection','Catenary wiring','Contact wiring')
+
+and case when $P{workName} != '' then a.work_name =$P{workName}
+else a.work_name is not null or a.work_name is null
+end
+
+and case when $P{group} != '' then a.work_group =$P{group}
+else a.work_group is not null or a.work_group is null
+end
+
+and case when $P{section} != '' then a.section =$P{section}
+else a.section is not null or a.section is null
+end
+and case when $P{agency} != '' then a.agency =$P{agency}
+else a.agency is not null or a.agency is null
+end
+
+order by  a.w_id ,  a.wg_id -- , a.wp_id , a.wpa_id
+) ind
+group by work_name , work_group , section , agency ,
+crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
+) split
+) final]]>
+	</queryString>
+	<field name="work_name" class="java.lang.String"/>
+	<field name="work_group" class="java.lang.String"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="agency" class="java.lang.String"/>
+	<field name="crs_tgt_rkm" class="java.lang.Double"/>
+	<field name="crs_tgt_tkm" class="java.lang.Double"/>
+	<field name="crs_target_date" class="java.lang.String"/>
+	<field name="w_id" class="java.lang.Integer"/>
+	<field name="wg_id" class="java.lang.Long"/>
+	<field name="acti_name1" class="java.lang.String"/>
+	<field name="bal1" class="java.lang.Integer"/>
+	<field name="od1" class="java.lang.Integer"/>
+	<field name="uom1" class="java.lang.String"/>
+	<field name="acti_name2" class="java.lang.String"/>
+	<field name="bal2" class="java.lang.Integer"/>
+	<field name="od2" class="java.lang.Integer"/>
+	<field name="uom2" class="java.lang.String"/>
+	<field name="acti_name3" class="java.lang.String"/>
+	<field name="bal3" class="java.lang.Integer"/>
+	<field name="od3" class="java.lang.Integer"/>
+	<field name="uom3" class="java.lang.String"/>
+	<field name="acti_name4" class="java.lang.String"/>
+	<field name="bal4" class="java.lang.Integer"/>
+	<field name="od4" class="java.lang.Integer"/>
+	<field name="uom4" class="java.lang.String"/>
+	<field name="acti_name5" class="java.lang.String"/>
+	<field name="bal5" class="java.lang.Integer"/>
+	<field name="od5" class="java.lang.Integer"/>
+	<field name="uom5" class="java.lang.String"/>
+	<field name="acti_name6" class="java.lang.String"/>
+	<field name="bal6" class="java.lang.Integer"/>
+	<field name="od6" class="java.lang.Integer"/>
+	<field name="uom6" class="java.lang.String"/>
+	<field name="acti_name7" class="java.lang.String"/>
+	<field name="bal7" class="java.lang.Integer"/>
+	<field name="od7" class="java.lang.Integer"/>
+	<field name="uom7" class="java.lang.String"/>
+	<variable name="foundationBal" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal1}]]></variableExpression>
+	</variable>
+	<variable name="foundationOd" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{od1}]]></variableExpression>
+	</variable>
+	<variable name="mastBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal2}]]></variableExpression>
+	</variable>
+	<variable name="mastOd" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{od2}]]></variableExpression>
+	</variable>
+	<variable name="bridgeBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal3}]]></variableExpression>
+	</variable>
+	<variable name="bridgeOd" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{od3}]]></variableExpression>
+	</variable>
+	<variable name="boomBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal4}]]></variableExpression>
+	</variable>
+	<variable name="boomOd" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{od4}]]></variableExpression>
+	</variable>
+	<variable name="BracketBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal5}]]></variableExpression>
+	</variable>
+	<variable name="BracketOd" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{od5}]]></variableExpression>
+	</variable>
+	<variable name="catenaBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal6}]]></variableExpression>
+	</variable>
+	<variable name="catenOd" class="java.lang.String">
+		<variableExpression><![CDATA[$F{od6}]]></variableExpression>
+	</variable>
+	<variable name="contactBl" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal7}]]></variableExpression>
+	</variable>
+	<variable name="contactOd" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{od7}]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="crsRKM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{crs_tgt_rkm}]]></variableExpression>
+	</variable>
+	<variable name="crsTKM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{crs_tgt_tkm}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="1530" height="27" uuid="94d1d30a-8f59-4a79-afec-58aca4cf42de"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Progres of OHE Work]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="1050" y="0" width="150" height="20" uuid="17b9875a-14b9-4535-b851-793d4868d32b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :-]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1200" y="0" width="130" height="20" uuid="d833176f-f055-4a91-88aa-1eb1211868d5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="40" uuid="46985e39-666b-4359-94f3-59e5e21b2191"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="248" height="40" uuid="2f74bebe-3090-4c83-a8dd-bf1ebb72a84c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proj]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="0" width="110" height="40" uuid="ddaa9585-123f-4fb8-bfa1-86a5a189d014"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="0" width="90" height="40" uuid="2b8749a4-3f4b-4344-9f7f-6e14bbb45238"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="0" width="66" height="40" uuid="0346e7d6-542d-452d-a2fa-b7cf901f4c2d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Agency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="554" y="0" width="90" height="20" uuid="212f4a5c-f6ca-48a3-ad55-2240e30e8b72"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CRS TGS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="0" width="94" height="20" uuid="d01ff4d2-fd26-4cfa-bec1-acd4766d5496"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Foundation No s]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="554" y="20" width="45" height="20" uuid="d1e98bfc-1c9c-4012-b2bf-9affe1352762"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[RKM ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="599" y="20" width="45" height="20" uuid="6b59fa55-2304-4843-9a9a-ad06afefe928"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TKM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="20" width="50" height="20" uuid="8483a135-fbf4-4822-911a-87ccc1f694c2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="694" y="20" width="44" height="20" uuid="8ec141eb-8186-4037-9a91-257464ccc39a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="738" y="0" width="109" height="20" uuid="c79e9607-050c-42ea-9780-f7eac13b56d0"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mast Erection Nos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="847" y="0" width="93" height="20" uuid="fb54dda3-adc5-4ede-90b5-e91f28f828a9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bridge Mast Nos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="0" width="110" height="20" uuid="011573f6-8c68-4ac1-bf1d-e029237aea43"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Boom Erection Nos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="792" y="20" width="55" height="20" uuid="56f8c5c4-ed73-4c46-b535-d3db912847d7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="738" y="20" width="54" height="20" uuid="a0782363-58d9-4b42-9a31-4b01c8c50515"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="891" y="20" width="49" height="20" uuid="ae79d7d3-31d9-469b-92a6-a4985a579cd8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="847" y="20" width="44" height="20" uuid="8ec1af80-71e4-4b1e-877d-f4017751265b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="994" y="20" width="56" height="20" uuid="e9bd19e3-a54c-45d5-8606-d2ced6b87be8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="20" width="54" height="20" uuid="7ec15bb2-d5e6-4b1f-9dd0-d84abd3546b8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1200" y="0" width="130" height="20" uuid="6f3b2bcb-4f6b-4f2a-8cb4-79566a25d744"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catenary wirsing shot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1330" y="0" width="115" height="20" uuid="2a956145-6456-4566-8af2-638cd7cf5ee8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact wiring shot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1445" y="0" width="85" height="40" uuid="6dca66f9-5cb9-4196-aa22-94f4dceff9d4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TDC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1271" y="20" width="59" height="20" uuid="d3d50659-97ce-44dd-8d74-bef21d4e63ae"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1200" y="20" width="71" height="20" uuid="114fc831-4e5a-4b7f-bf6e-2f0eecdfeb34"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1390" y="20" width="55" height="20" uuid="e205ba60-2e24-41e3-8022-1ba6b3c84172"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1330" y="20" width="60" height="20" uuid="a6b50083-05b8-4767-bc0b-c4e4b490f588"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1121" y="20" width="79" height="20" uuid="92cc9c1a-3a69-42a1-9cca-8644ce3db451"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1050" y="0" width="150" height="20" uuid="e41145be-7f68-4520-bdea-16843b2a36fc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bracket Erection (No's)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1050" y="20" width="71" height="20" uuid="32c2713a-f133-4523-8a06-b4a2a1da13e7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[BL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="40" height="20" uuid="247c59b8-4c0b-45a1-867c-996c9a94376a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="288" y="0" width="110" height="20" uuid="d0d2b85f-e5c9-40b7-a4dd-dce33da04599"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{work_group}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="248" height="20" uuid="25bc5663-aa2c-4246-91d0-112c627d9fc2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{work_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="398" y="0" width="90" height="20" uuid="dc95d84e-e5ab-4614-b330-e16baf08417c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{section}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="488" y="0" width="66" height="20" uuid="22718618-faec-4e0e-a690-7cc4849f3991"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{agency}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="554" y="0" width="45" height="20" uuid="3822eee1-b44a-4db3-941b-b0a6c6dea5ab"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{crs_tgt_rkm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="599" y="0" width="45" height="20" uuid="c56b7bc0-b31b-4878-8ae3-631d65a9bb54"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{crs_tgt_tkm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="644" y="0" width="50" height="20" uuid="5a38f551-cb88-4565-81cd-85d2ba67cec1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="694" y="0" width="44" height="20" uuid="c723814a-673c-4eaf-9aec-11b78a1f34ac"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="738" y="0" width="54" height="20" uuid="16a97fed-afac-4118-a6aa-ff9c2bf57427"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="792" y="0" width="55" height="20" uuid="b7ec0778-a833-4dce-a5dd-849198c42d35"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="847" y="0" width="44" height="20" uuid="8e7fbde4-4baa-4e0a-a6d8-071013ddb827"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="891" y="0" width="49" height="20" uuid="16307073-efdd-4415-9e68-8ca64101dfb3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="940" y="0" width="54" height="20" uuid="641443f3-ed15-48bd-bc60-5379f3250cde"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="994" y="0" width="56" height="20" uuid="10aee1f7-fe9a-4a0b-a50a-b1bcda72a5dd"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1050" y="0" width="71" height="20" uuid="5b097e52-6af6-4ff3-8d06-59c23b636992"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1121" y="0" width="79" height="20" uuid="6f46195b-685e-473c-a81f-513aa9c26fc6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1200" y="0" width="71" height="20" uuid="32db8249-26f2-4d06-a944-289ccc0bb987"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1271" y="0" width="59" height="20" uuid="352a4300-82ad-4dce-be02-3b732d1b0b4c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1330" y="0" width="60" height="20" uuid="cafefa48-0bd6-4ebc-84fe-919232b145cb"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1390" y="0" width="55" height="20" uuid="2e3abd9c-8517-4a75-8d6d-00711deac984"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{od7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1445" y="0" width="85" height="20" uuid="c6df7ed9-2961-4221-8ad0-8975580749cc"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{crs_target_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="20">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="644" y="0" width="50" height="20" uuid="3e96e887-961d-49da-83df-542c85498942"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{foundationBal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="694" y="0" width="44" height="20" uuid="6275774c-0b9b-4662-95f6-05ba163a5411"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{foundationOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="738" y="0" width="54" height="20" uuid="16ac054e-3168-4309-aa95-787224f16193"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{mastBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="792" y="0" width="55" height="20" uuid="385c0d6a-6701-44ac-a7e9-ce4a691691c7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{mastOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="847" y="0" width="44" height="20" uuid="0e03a374-6c1d-4442-9fa0-ad8a42add329"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{bridgeBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="891" y="0" width="49" height="20" uuid="07a7be9a-649d-42e4-8a30-e1d9a21eb560"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{bridgeOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="940" y="0" width="54" height="20" uuid="a34f0d08-e4b8-42f2-bf8e-72411ff6e5f5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{boomBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="994" y="0" width="56" height="20" uuid="0a8982e1-bce2-4228-b27b-09e993c2df02"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{boomOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1050" y="0" width="71" height="20" uuid="cf0c790e-5389-486c-a4f9-d98c71fb153f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{BracketBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1121" y="0" width="79" height="20" uuid="910f5c15-2ccd-40b1-b076-1552bf94cda3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{BracketOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1200" y="0" width="71" height="20" uuid="0ee06017-20b0-4421-9017-6a54bda891ff"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{catenaBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1271" y="0" width="59" height="20" uuid="a947a408-59da-4adf-a261-529c72a5e98a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{catenOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1390" y="0" width="55" height="20" uuid="f195c239-839a-4186-9114-4529b63d1d12"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{contactOd}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1330" y="0" width="60" height="20" uuid="8ef99fa7-1f3d-4b5c-9169-0e00bdb7d2b1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{contactBl}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="554" height="20" uuid="f03d2611-89d1-4e1d-a549-ae357ea328c8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="554" y="0" width="45" height="20" uuid="e479e98d-3eb1-488f-be2a-1cf373f9394d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{crsRKM}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="599" y="0" width="45" height="20" uuid="d0c0b1fd-d7b4-4d5f-90b0-3136047ca32f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{crsTKM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="1445" y="0" width="85" height="20" uuid="a71b337d-f424-482b-bf22-26475c863600"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement markup="html"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="1530" height="25" forecolor="#FF0000" uuid="29d2706a-7c7c-45c5-87e3-193e6c5a2446"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

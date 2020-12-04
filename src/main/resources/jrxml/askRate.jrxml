@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fdn_activity_wise" pageWidth="1500" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="731730b4-663b-46b7-8ddc-7a8b31d30eaa">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="workName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="group" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="section" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="agency" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+a.work_name pr, a.work_group gr, a.section section  , a.agency agency,
+case when mt.rkm is null then 0 else mt.rkm end as crs_tgt_RKM ,
+'' QTR,
+a.population TQ ,
+(a.population -
+ case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end
+) as BLSOM ,
+(	a.population -
+	(case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end
+	 +
+	 case when total_done_in_current_month is null then 0 else total_done_in_current_month end
+	)
+) as bal,
+(	case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end
+	+
+	case when total_done_in_current_month is null then 0 else total_done_in_current_month end
+) as cum_done ,
+case when total_done_in_current_month is null then 0 else total_done_in_current_month end as total_done_in_current_month ,
+case when mt.target_date is null then 'no target date ' else to_char(mt.target_date,'dd-mm-yyyy') end as crs_target_date ,
+total_done_in_current_month Total, round(total_done_in_current_month/ EXTRACT(DAY FROM now())) avg_of_month,
+case when mt.target_date is null then '10000' else (mt.target_date - now()::date) end as  days_left,
+((	a.population -
+	(case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end
+	 +
+	 case when total_done_in_current_month is null then 0 else total_done_in_current_month end
+	)
+)/(case when mt.target_date is null then '10000' else (mt.target_date - now()::date) end)) as Asking_rate_per_Day,
+
+(abs((	a.population -
+	(case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end
+	 +
+	 case when total_done_in_current_month is null then 0 else total_done_in_current_month end
+	)
+)/(case when mt.target_date is null then '10000' else (mt.target_date - now()::date) end)) -
+ round(total_done_in_current_month/ EXTRACT(DAY FROM now()))) as Difference_between_Asking_Rate_and_actual
+ ,
+ a.phase_name , a.wpa_name , a.population TQ , a.uom ,
+case when mt.tkm is null then 0 else mt.tkm end as crs_tgt_TKM ,
+
+--
+
+case when OD_cnt.performed_count is null then 0 else OD_cnt.performed_count end as day_progress_count ,
+case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end as total_done_till_last_month
+--,
+
+
+--
+--
+/*
+D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20,
+ D21, D22, D23, D24, D25, D26, D27, D28, D29, D30, D31,
+a.w_id , a.wp_id , a.wg_id , a.wpa_id
+*/
+from
+	(  -- generation of work group phase activities and phases without activities for all days of a month
+		select * from
+		/*( -- generation of all month days
+		 SELECT generate_series(date_trunc('month', now() ) ,
+		 date_trunc('month', now() ) + interval '1 month' - interval '1 day'
+		  , interval '1 day ')::date
+		  as date_series ) ds ,*/
+		( -- get population of all work group phase activities and phases without activities
+		   -- filter can be applied based on status of work , work name (id), phases (based on start date and end date etc)
+			select population::integer , wpa.uom ,
+			wpa.work_name , wpa.work_group , wpa.section,  wpa.agency , wpa.phase_name, wpa.wpa_name, -- population ,
+			'CRS_TRG' , 'QTR' ,
+			--wpa.w_id, wpa.wp_id, wpa.wg_id , wpa.wpa_id --,
+			wpasp.w_id, wpasp.wp_id, wpasp.wg_id , wpasp.wpa_id
+			from v_work_group_phase_activities wpa
+			left outer join v_work_group_phase_activity_population wpasp
+			on (wpa.wpa_id = wpasp.wpa_id )
+		) p
+	)a
+left outer join
+	(
+	 -- get the performance at the start of current month
+	 -- for each work , section , agency , phase, actvitiy
+	  select sum(performed_count) total_done_till_last_month ,
+		work_name , work_group , uom , section , agency , phase_name , wpa_name , wp_sequence , wpa_sequence ,
+	wpadp_work_group_id , work_group_id , work_phase_activity_id
+	-- select date_trunc('month', now() )::date *
+	from v_wpa_daily_progress
+	where date < date_trunc('month', now() )::date
+	group by  work_name , work_group , uom , section , agency , phase_name , wpa_name , wp_sequence ,
+	wpa_sequence , wpadp_work_group_id , work_group_id , work_phase_activity_id
+	) p_t
+	on (a.wg_id = p_t.work_group_id and a.wpa_id = p_t.work_phase_activity_id  )
+--  on date progress
+left outer join v_wpa_daily_progress OD_cnt
+    on (a.wg_id = p_t.work_group_id and a.wpa_id = p_t.work_phase_activity_id
+		and date = now()::date  )
+-- CRS target date and target RKM , TKM
+left outer join v_milestone_targets  mt
+	on (a.wg_id = mt.work_group_id and target_type = 'CRS_INSPECTION_TARGET')
+---
+
+left outer join
+	(
+	-- get the done count of current month
+	-- for each work , section , agency , phase, activity
+	select sum(performed_count) total_done_in_current_month ,
+	work_name , work_group , uom , section , agency , phase_name , wpa_name , wp_sequence , wpa_sequence ,
+	wpadp_work_group_id , work_group_id , work_phase_activity_id
+	from v_wpa_daily_progress
+	where date >=  date_trunc('month', now() )::date
+	and date <= (date_trunc('month', now() ) + interval '1 month' - interval '1 day' )::date
+	group by  work_name , work_group , uom , section , agency , phase_name , wpa_name , wp_sequence ,
+	wpa_sequence , wpadp_work_group_id , work_group_id , work_phase_activity_id
+	 ) pcm
+	on (a.wg_id = pcm.work_group_id and a.wpa_id = pcm.work_phase_activity_id  )
+left outer join
+	(
+	SELECT  split_part(dp_array, ',',1 ) as D1, split_part(dp_array, ',',2 ) as D2
+	, split_part(dp_array, ',',3 ) as D3, split_part(dp_array, ',',4 ) as D4
+	, split_part(dp_array, ',',5 ) as D5, split_part(dp_array, ',',6 ) as D6
+	, split_part(dp_array, ',',7 ) as D7, split_part(dp_array, ',',8 ) as D8
+	, split_part(dp_array, ',',9 ) as D9, split_part(dp_array, ',',10 ) as D10
+	, split_part(dp_array, ',',11 ) as D11, split_part(dp_array, ',',12 ) as D12
+	, split_part(dp_array, ',',13 ) as D13, split_part(dp_array, ',',14 ) as D14
+	, split_part(dp_array, ',',15 ) as D15, split_part(dp_array, ',',16 ) as D16
+	, split_part(dp_array, ',',17 ) as D17, split_part(dp_array, ',',18 ) as D18
+	, split_part(dp_array, ',',19 ) as D19, split_part(dp_array, ',',20 ) as D20
+	, split_part(dp_array, ',',21 ) as D21, split_part(dp_array, ',',22 ) as D22
+	, split_part(dp_array, ',',23 ) as D23, split_part(dp_array, ',',24 ) as D24
+	, split_part(dp_array, ',',25 ) as D25, split_part(dp_array, ',',26 ) as D26
+	, split_part(dp_array, ',',27 ) as D27, split_part(dp_array, ',',28 ) as D28
+	, split_part(dp_array, ',',29 ) as D29, split_part(dp_array, ',',30 ) as D30
+	, split_part(dp_array, ',',31 ) as D31
+	, work_name ,work_group , section , agency , phase_name ,wpa_name ,  population ,  uom ,
+	-- case when performed_count is null then 0 else performed_count end as day_progress_count ,
+	 w_id ,  wp_id , wg_id , wpa_id
+	FROM
+		(
+		select string_agg(day_progress_count::varchar   ,',') dp_array,
+		 work_name ,work_group , section , agency , phase_name ,wpa_name ,  population ,  uom ,
+		-- case when performed_count is null then 0 else performed_count end as day_progress_count ,
+		 w_id ,  wp_id , wg_id , wpa_id
+		from
+		(
+		select
+		-- case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end as total_done_till_last_month ,
+		-- case when total_done_in_current_month is null then 0 else total_done_in_current_month end as total_done_in_current_month ,
+		date_series , a.work_name , a.work_group , a.section , a.agency , a.phase_name , a.wpa_name --,
+		 , a.population , a.uom ,
+		 case when performed_count is null then 0 else performed_count end as day_progress_count ,
+		 w_id , wp_id , wg_id , wpa_id
+		 from
+			(  -- generation of work group phase activities and phases without activities for all days of a month
+				select * from
+					( -- generation of all month days
+					 SELECT generate_series(date_trunc('month', now() ) ,
+					 date_trunc('month', now() ) + interval '1 month' - interval '1 day'
+					  , interval '1 day ')::date
+					  as date_series ) ds ,
+					--
+					( -- get population of all work group phase activities and phases without activities
+					   -- filter can be applied based on status of work , work name (id), phases (based on start date and end date etc)
+						select population , wpa.uom ,
+						wpa.work_name , wpa.work_group , wpa.section,  wpa.agency , wpa.phase_name, wpa.wpa_name, -- population ,
+						'CRS_TRG' , 'QTR' ,
+						--wpa.w_id, wpa.wp_id, wpa.wg_id , wpa.wpa_id --,
+						wpasp.w_id, wpasp.wp_id, wpasp.wg_id , wpasp.wpa_id
+						from v_work_group_phase_activities wpa
+						left outer join v_work_group_phase_activity_population wpasp
+						on (wpa.wpa_id = wpasp.wpa_id )
+					) p
+					--
+			)a
+		left outer join
+			-- get daily done count for each work_name or w_id , section , agency , work_phase and activity
+			v_wpa_daily_progress wdp
+			on (a.wg_id = work_group_id and a.wpa_id = work_phase_activity_id  and date_series = wdp.date)
+		) b
+		--where
+		--	b.wpa_name = 'Foundations'  and w_id=1 and wg_id=1
+		group by
+		 work_name ,work_group , section , agency , phase_name ,wpa_name --,
+		 , population ,  uom ,
+		 --case when performed_count is null then 0 else performed_count end as day_progress_count ,
+		 w_id ,  wp_id , wg_id , wpa_id
+		) r_to_c
+	--
+	) dp_r
+on  (a.wg_id = dp_r.wg_id and a.wpa_id = dp_r.wpa_id  )
+
+ where
+case when $P{workName} != '' then a.work_name =$P{workName}
+else a.work_name is not null or a.work_name is null
+end
+
+and case when $P{group} != '' then a.work_group =$P{group}
+else a.work_group is not null or a.work_group is null
+end
+
+and case when $P{section} != '' then a.section =$P{section}
+else a.section is not null or a.section is null
+end
+
+and case when $P{agency} != '' then a.agency =$P{agency}
+else a.agency is not null or a.agency is null
+end
+
+order by  a.w_id ,  a.wp_id , a.wg_id , a.wpa_id]]>
+	</queryString>
+	<field name="pr" class="java.lang.String"/>
+	<field name="gr" class="java.lang.String"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="agency" class="java.lang.String"/>
+	<field name="crs_tgt_rkm" class="java.lang.Double"/>
+	<field name="qtr" class="java.lang.String"/>
+	<field name="tq" class="java.lang.Integer"/>
+	<field name="blsom" class="java.lang.Double"/>
+	<field name="bal" class="java.lang.Double"/>
+	<field name="cum_done" class="java.lang.Double"/>
+	<field name="total_done_in_current_month" class="java.lang.Double"/>
+	<field name="crs_target_date" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="avg_of_month" class="java.lang.Double"/>
+	<field name="days_left" class="java.lang.Integer"/>
+	<field name="asking_rate_per_day" class="java.lang.Double"/>
+	<field name="difference_between_asking_rate_and_actual" class="java.lang.Double"/>
+	<field name="phase_name" class="java.lang.String"/>
+	<field name="wpa_name" class="java.lang.String"/>
+	<field name="uom" class="java.lang.String"/>
+	<field name="crs_tgt_tkm" class="java.lang.Double"/>
+	<field name="day_progress_count" class="java.lang.Double"/>
+	<field name="total_done_till_last_month" class="java.lang.Double"/>
+	<variable name="Tottq" class="java.lang.Integer" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{tq}]]></variableExpression>
+	</variable>
+	<variable name="blsom" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{blsom}]]></variableExpression>
+	</variable>
+	<variable name="cum" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{cum_done}]]></variableExpression>
+	</variable>
+	<variable name="bal" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{bal}]]></variableExpression>
+	</variable>
+	<variable name="totofMonth" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_done_in_current_month}]]></variableExpression>
+	</variable>
+	<variable name="avgofMonth" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{avg_of_month}]]></variableExpression>
+	</variable>
+	<variable name="noofDays" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{day_progress_count}]]></variableExpression>
+	</variable>
+	<variable name="askingRateDay" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{asking_rate_per_day}]]></variableExpression>
+	</variable>
+	<variable name="crsRKM" class="java.lang.Double" resetType="Group" resetGroup="pr" calculation="Sum">
+		<variableExpression><![CDATA[$F{crs_tgt_rkm}]]></variableExpression>
+	</variable>
+	<group name="pr">
+		<groupExpression><![CDATA[$F{pr}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="0" y="0" width="959" height="20" uuid="c03809fe-5a9b-4d41-907b-8d047fcd24aa"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[    $F{pr}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="622" y="0" width="70" height="20" uuid="ea9d0a09-aed5-4454-abce-08ff5d70d19f"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+					<textFieldExpression><![CDATA[$V{Tottq}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="692" y="0" width="87" height="20" uuid="b2e3d9f9-74f3-42cf-aad7-221ef5e60f77"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{blsom}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="779" y="0" width="90" height="20" uuid="91479509-7edb-47e4-a903-3a847d35c0ff"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{cum}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="869" y="0" width="90" height="20" uuid="9b4b3d49-d8bc-4567-9642-00678f11729f"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{bal}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="959" y="0" width="82" height="20" uuid="c76f446b-9344-4cc2-b802-e659f7e4154f"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{totofMonth}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="1041" y="0" width="79" height="20" uuid="d1cd2542-993e-40b5-a415-ad044828033e"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{avgofMonth}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1180" y="0" width="60" height="20" uuid="c6e4ef72-4d75-4780-b5c7-15b6cb1d3160"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{noofDays}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1240" y="0" width="60" height="20" uuid="54e6a7d4-2c7e-43fd-adba-3d60f12e4499"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{askingRateDay}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1300" y="0" width="160" height="20" uuid="ed78d659-b020-4a09-8389-14378ecd39f9"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1120" y="0" width="60" height="20" uuid="94f2fe63-f16c-40fa-b4dd-2193268de12d"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="482" y="0" width="70" height="20" uuid="dbfa453b-1be8-48bd-9f64-67816de66d05"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{crsRKM}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="552" y="0" width="70" height="20" uuid="6c3672f8-12a3-47d6-8acc-c89c0e5cbd68"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="482" height="20" uuid="b35ff562-de0f-432c-8049-67734b3a68a5"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total : -]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="1460" height="29" uuid="152ec1c6-d652-4e85-a184-a2128559bf9b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asking Rate For Mast Erection for lst Qtr of ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="40" uuid="2fbbee56-7b6b-4ac2-b23e-14e776ef3511"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="0" width="60" height="40" uuid="aa377533-6e29-4dd4-a98f-30507e40a627"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Agency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="482" y="0" width="70" height="40" uuid="9524c6d0-882c-4ec4-868c-866811deafd5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CRS TGS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="552" y="0" width="70" height="40" uuid="375282c4-c865-4779-8815-509126d06941"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="622" y="0" width="70" height="40" uuid="6d70b716-6ed9-417d-85f4-3ef25bebc343"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TQ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="692" y="0" width="87" height="40" uuid="baf9d7ea-82ea-47ca-9739-562ef7dc9048"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BLSOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="779" y="0" width="90" height="40" uuid="58cb6907-5b03-4c92-8272-9619b986711f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="869" y="0" width="90" height="40" uuid="0e8db4fd-f1c5-4ff8-97a8-0d6f1fd1283e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="959" y="0" width="82" height="40" uuid="fd2be8ed-931e-4af5-8769-3fe33a42b863"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Of Month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1041" y="0" width="79" height="40" uuid="06d9e6db-d67a-44fc-a243-ee6fb6197523"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AVG of month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1120" y="0" width="60" height="40" uuid="711a0e48-e2ec-4734-b4ef-9645ca4ae0a7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1180" y="0" width="60" height="40" uuid="b92a4e74-fda4-49be-8bff-dcd5808598d6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No s of  days left]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1240" y="0" width="60" height="40" uuid="fe4077ae-09d4-43b8-af06-bac1af89b772"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[asking rate day ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1300" y="0" width="160" height="40" uuid="48129604-b386-4e85-9705-20da215bf183"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Difference b/w asking rate an actual rate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="0" width="91" height="40" uuid="c9282e03-c8b0-41b7-9731-4646074a6a7d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="291" height="40" uuid="d753fb57-c62e-42fa-8f46-e55b4e007cf4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Project Work]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="40" height="20" uuid="5e5974a0-e1be-418e-97a8-12f9cb4410db"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1120" y="0" width="60" height="20" uuid="ef18182f-ad43-409f-8587-9945dbe133ad"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1180" y="0" width="60" height="20" uuid="d8cf5118-f7b5-4295-b455-d4b732b46952"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1240" y="0" width="60" height="20" uuid="1d6fa84d-76fa-4cd4-a897-6bbc6e233545"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1300" y="0" width="160" height="20" uuid="a17c926c-b121-42a8-aa6e-88cde36a337e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="331" y="0" width="91" height="20" uuid="72ef1bc3-caed-4dab-97fb-6161a780199b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{section}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="422" y="0" width="60" height="20" uuid="d20f3b77-07d0-4b40-b0a1-beda75e6bcd3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{agency}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="552" y="0" width="70" height="20" uuid="d434ac7d-4113-46e5-b7ea-996f3b15289d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{qtr}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="482" y="0" width="70" height="20" uuid="00cf0075-8341-403d-b29f-2a338e24d2d1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{crs_tgt_rkm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="622" y="0" width="70" height="20" uuid="fcf4d426-0064-4c6f-b6ac-1428cf0ff4cd"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tq}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="692" y="0" width="87" height="20" uuid="c71ab140-5305-464c-b21a-a01a94e12feb"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{blsom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="959" y="0" width="82" height="20" uuid="3dec1167-98e9-4739-88c8-f847d6254e22"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{total_done_in_current_month}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1300" y="0" width="160" height="20" uuid="eff1c449-2880-4455-941d-87fe1d359659"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{difference_between_asking_rate_and_actual}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1120" y="0" width="60" height="20" uuid="24181040-6377-44aa-a9db-44e8b121d4f1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{total_done_till_last_month}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1180" y="0" width="60" height="20" uuid="e2d1ff4c-1231-4c76-93d9-c5589336a106"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{day_progress_count}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1240" y="0" width="60" height="20" uuid="7dfc22a0-e9c0-4ed5-8378-1d1c7080eae6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{asking_rate_per_day}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="869" y="0" width="90" height="20" uuid="3d9ccc12-5999-4ea6-ac58-163ab3170fe2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{bal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="779" y="0" width="90" height="20" uuid="9317c257-9f1f-43f0-b2a9-196093db023a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{cum_done}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1041" y="0" width="79" height="20" uuid="ad876098-5fd8-460f-a8f6-5789f0eaaa5f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{avg_of_month}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="291" height="20" uuid="539f72c1-7504-4da6-9e6f-e0897ab4e2c9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{gr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="779" y="0" width="90" height="20" uuid="ea186cae-45c0-49fb-be71-c487fba728b1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="869" y="0" width="90" height="20" uuid="0cfdffa9-ec7c-4a3c-9e1b-aa50f5b7816e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="28">
+			<staticText>
+				<reportElement x="0" y="0" width="1460" height="28" forecolor="#FF0000" uuid="3e7f3128-9139-4f69-a1bf-58e910041976"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO DATA FOUND]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
