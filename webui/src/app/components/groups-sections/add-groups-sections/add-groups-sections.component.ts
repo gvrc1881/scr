@@ -22,7 +22,7 @@ export class AddGroupsSectionsComponent implements OnInit {
     isSubmit: boolean = false;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     resp: any;    
-    title:string;  
+    title:string;   
     work:any; 
     workGroupData:any; 
     doublingTripplingList:any;
