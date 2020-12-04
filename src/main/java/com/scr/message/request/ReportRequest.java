@@ -122,8 +122,6 @@ public class ReportRequest {
 		
 	}
 
-	
-
 	public String getGroup() {
 		return group;
 	}

@@ -171,7 +171,7 @@ public class ReportResource {
 		/*
 		 * try { con = dataSource.getConnection(); ps = con.prepareStatement(query);
 		 * resultSet = ps.executeQuery(); while (resultSet.next()) { String rname =
-		 * resultSet.getString("report_id"); String jname =
+		 * resultSet.getString("report_id"); String jnam =
 		 * resultSet.getString("jrxml_name"); if
 		 * (report.getReportId().equalsIgnoreCase(rname)) { jrxmlFileName = jname;
 		 * 
