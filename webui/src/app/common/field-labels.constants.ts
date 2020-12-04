@@ -37,6 +37,8 @@ export const FieldLabelsConstant = {
       ASSET_TYPE_SCHEDULE_NAME: "Asset Type Schedule Name",
       AUTHORISATION_DATE: "Authorisation Date",
       AUTHORITY: "Authority",
+      ASSISTANCE:"Assistance",
+      TYPE_OF_ASSISTANCE:"Type Of Assistance",
       BETWEEN_TRAINS: "Between Trains",
       BRAND_NAME: "Brand Name",
       CASCADE_ASSETS: "Cascade Assets",
@@ -278,6 +280,7 @@ export const FieldLabelsConstant = {
       REMARK_ONE: "Remark One",
       REMARK_TWO: "Remark Two",
       REMARKS: "Remarks",
+      REQUESTED_DATE:"Requested Date",
       REPERCUSSION: "Repercussion",
       REPORT_CONTINUE: "Report Continue",
       REPORT_DESCRIPTION: "Report Description",
@@ -651,6 +654,8 @@ export const FieldLabelsConstant = {
     STANDARD_PHASES_ACTIVITY:'Standard Phases Activity',
     MILESTONE_TARGETS:'Milestone Targets',
     OHE_LOCATIONS_AND_ASSETS_FORM:'OHE Locations And Assets Form',
-    OHE_LOCATION_AND_ASSETTYPE_DATA:'OHE Locations And Assets Data' 
+    OHE_LOCATION_AND_ASSETTYPE_DATA:'OHE Locations And Assets Data' ,
+    ASSISTANCE_AND_REMARKS_DATA:'Assistance And Remarks Data',
+    ASSISTANCE_AND_REMARKS_FORM:'Assistance And Remarks Form',
    }
 };

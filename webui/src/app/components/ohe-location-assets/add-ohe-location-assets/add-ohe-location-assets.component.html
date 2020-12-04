@@ -92,22 +92,30 @@
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{FiledLabels.LOCATION}}"
+                                                   <div class="col-md-2">
+                                                    <mat-form-field fxFlex="30">
+                                                        <input matInput placeholder="Location"
                                                                 [formControl]="addOheLocationAndAssetsFormGroup.controls['assetId']"/> 
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.KILOMETER}}" decimalNumber
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['kilometer']"></textarea>  
+                                                            <input matInput 
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['assetId1']"/> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div></div>
+                                                    <div class="col-md-3">
+                                                        
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.KILOMETER}}" decimalNumber 
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['kilometer']" required/> 
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.SEQUENCE}}"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['sequenceNo']"></textarea>  
+                                                            <input matInput placeholder="{{FiledLabels.SEQUENCE}}"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['sequenceNo']"/> 
                                                         </mat-form-field>
                                                     </div>
 
@@ -115,34 +123,34 @@
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Foundation"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['foundation']"></textarea>  
+                                                            <input matInput placeholder="Foundation"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['foundation']"/> 
                                                         </mat-form-field>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.OHE_MAST}}"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['oheMast']"></textarea>  
+                                                            <input matInput placeholder="{{FiledLabels.OHE_MAST}}"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['oheMast']"/>  
                                                         </mat-form-field>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.LINE}}"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['line']"></textarea>  
+                                                            <input matInput placeholder="{{FiledLabels.LINE}}"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['line']"/>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Track"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['trackLine']"></textarea>  
+                                                            <input matInput placeholder="Track"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['trackLine']"/>  
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.STATION}}"
-                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['station']"></textarea>  
+                                                            <input matInput placeholder="{{FiledLabels.STATION}}"
+                                                                [formControl]="addOheLocationAndAssetsFormGroup.controls['station']"/>  
                                                         </mat-form-field>
                                                     </div>
                                                    <div class="col-md-12">Location At assetType:

@@ -12,6 +12,7 @@ import com.scr.model.Facility;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
+import com.scr.model.Works;
 import com.scr.model.Zone;
 
 //import java.util.ArrayList;
@@ -53,6 +54,11 @@ public class ReportRequest {
 	private String materialItem;
 	private String tpcBoard;
 	private String formatType;
+	private String group;
+	private String section;
+	private String agency;
+	private Works workName;
+	private String wpaName;
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -116,6 +122,32 @@ public class ReportRequest {
 		
 	}
 
+	
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	public Works getWorkName() {
+		return workName;
+	}
+
+	public void setWorkName(Works workName) {
+		this.workName = workName;
+	}
+
+	public String getWpaName() {
+		return wpaName;
+	}
+
+	public void setWpaName(String wpaName) {
+		this.wpaName = wpaName;
+	}
+
 	public String getReportId() {
 		return reportId;
 	}
@@ -135,6 +167,28 @@ public class ReportRequest {
 
 	public String getPermission() {
 		return permission;
+	}
+
+	
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getAgency() {
+		return agency;
+	}
+
+	public void setAgency(String agency) {
+		this.agency = agency;
+	}
+
+	public void setReportId(String reportId) {
+		this.reportId = reportId;
 	}
 
 	public void setPermission(String permission) {

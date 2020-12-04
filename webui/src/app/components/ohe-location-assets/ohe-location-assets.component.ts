@@ -80,6 +80,13 @@ export class OheLocationAssetsComponent implements OnInit {
       this.oheLocationList = data;
       for (let i = 0; i < this.oheLocationList.length; i++) {
         this.oheLocationList[i].sno = i + 1;
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.oheLocationList[i].facilityId)).subscribe((data) => {
+          this.spinnerService.hide();
+          this.facilityData = data;
+          this.oheLocationList[i].facilityId = this.facilityData.facilityName;
+        }, error => {
+          this.spinnerService.hide();
+      });
         oheLocation.push(this.oheLocationList[i]);
       }
       this.filterData.gridData = oheLocation;

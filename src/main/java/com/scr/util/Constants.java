@@ -82,6 +82,8 @@ public class Constants {
 	public static final String OBSERVATIONS = "observations";
 	public static final String COMPLIANCES = "compliances";
 	public static final String INSPECTION = "inspection";
+	public static final String ASSISTANCE = "assistance";
+
 	
 	public static final String MATERIAL_QTY_ONH_AND_BY_DEPOT = "MATERIAL_QTY_ONH_AND_BY_DEPOT";
 	public static final String MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT = "MATERIAL_QTY_RECEIVED_AND_CONSUMED_IN_GIVEN_PERIOD_BY_DEPOT";

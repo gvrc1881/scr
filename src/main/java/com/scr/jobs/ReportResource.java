@@ -90,7 +90,13 @@ public class ReportResource {
 		parameters.put("start_date_of_period", report.getFromDate());
 		parameters.put("end_date_of_period", report.getToDate());
 		parameters.put("tpc_Board", report.getTpcBoard());
-
+		if (report.getWorkName() != null) {
+			parameters.put("workName", report.getWorkName().getWorkName());
+		}
+        parameters.put("group",report.getGroup());
+        parameters.put("section", report.getSection());
+        parameters.put("agency",report.getAgency());
+        parameters.put("wpaName",report.getWpaName());
 		if (report.getProductId() != null) {
 			parameters.put("productId", report.getProductId());
 		}

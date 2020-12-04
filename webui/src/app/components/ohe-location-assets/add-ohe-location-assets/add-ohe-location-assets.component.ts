@@ -80,6 +80,7 @@ export class AddOheLocationAssetsComponent implements OnInit {
       'division': [null],
       'facilityId': [null],
       'assetId': [null],
+      'assetId1': [null],
       'kilometer': [null],
       'sequenceNo': [null],
       'foundation': [null],
@@ -117,7 +118,7 @@ export class AddOheLocationAssetsComponent implements OnInit {
         "section": this.addOheLocationAndAssetsFormGroup.value.section,
         "division": this.addOheLocationAndAssetsFormGroup.value.division,
         "facilityId": this.addOheLocationAndAssetsFormGroup.value.facilityId,
-        "assetId": this.addOheLocationAndAssetsFormGroup.value.assetId,
+        "assetId": this.addOheLocationAndAssetsFormGroup.value.assetId+"/"+this.addOheLocationAndAssetsFormGroup.value.assetId1,
         "kilometer":this.addOheLocationAndAssetsFormGroup.value.kilometer,
         "sequenceNo": this.addOheLocationAndAssetsFormGroup.value.sequenceNo,
         "foundation": this.addOheLocationAndAssetsFormGroup.value.foundation,
@@ -125,9 +126,7 @@ export class AddOheLocationAssetsComponent implements OnInit {
         "line": this.addOheLocationAndAssetsFormGroup.value.line,
         "trackLine": this.addOheLocationAndAssetsFormGroup.value.trackLine,
         "station": this.addOheLocationAndAssetsFormGroup.value.station,
-        "assetType": this.addOheLocationAndAssetsFormGroup.value.assetType, 
-          
-        
+        "assetType": this.addOheLocationAndAssetsFormGroup.value.assetType,    
       }
         this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.OHELOCATION.SAVE_OHE_LOCATION_AND_ASSETS, saveOLAModel, false).subscribe(response => {
         this.spinnerService.hide();

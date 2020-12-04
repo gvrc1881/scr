@@ -786,7 +786,14 @@ export const Constants = {
             },
             USER_JURISDICTION:{
                 SAVE:"/addUserJurisdiction"    
-            } 
+            },
+            ASSISTANCE:{
+                GET_ASSISTANCE:"/findAllAssistance",
+                GET_ASSISTANCE_ID:"/findAssistanceById/",
+                SAVE_ASSISTANCE:"/addAssistance",
+                UPDATE_ASSISTANCE:"/updateAssistance",
+                DELETE_ASSISTANCE:"/deleteAssistance/"
+            }
     }
 },
     EVENTS:{
