@@ -64,7 +64,7 @@ export class AddGroupsSectionsComponent implements OnInit {
           if (!isNaN(this.id)) {  
           
           this.updateGroupsSectionsForm();  
-          this.gropsSectionsFormErrors.valueChanges.subscribe(() => {
+          this.addGroupsSectionsFormGroup.valueChanges.subscribe(() => {
             this.onFormValuesChanged();
           });
           this.spinnerService.show();
@@ -78,6 +78,7 @@ export class AddGroupsSectionsComponent implements OnInit {
         }
         
       }
+
       onFormValuesChanged() {
         for (const field in this.gropsSectionsFormErrors) {
           if (!this.gropsSectionsFormErrors.hasOwnProperty(field)) {
@@ -85,12 +86,13 @@ export class AddGroupsSectionsComponent implements OnInit {
           }
           this.gropsSectionsFormErrors[field] = {};
           const control = this.addGroupsSectionsFormGroup.get(field);
-    
           if (control && control.dirty && !control.valid) {
             this.gropsSectionsFormErrors[field] = control.errors;
           }
         }
       }
+     
+    
 
     createGroupsSectionsForm() {
     this.addGroupsSectionsFormGroup = this.formBuilder.group({
