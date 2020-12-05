@@ -530,11 +530,6 @@ const routes: Routes = [
     loadChildren: './components/ohe-location-assets/ohe-location-assets.module#OheLocationAssetsModule',
      canActivate: [AuthGuard]
    },
-   {
-    path: 'assistance',
-    loadChildren: './components/assistance/assistance.module#AssistanceModule',
-     canActivate: [AuthGuard]
-   },
 ];
 
 @NgModule({
