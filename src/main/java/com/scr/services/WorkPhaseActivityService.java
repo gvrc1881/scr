@@ -27,9 +27,9 @@ public class WorkPhaseActivityService {
 	private WorkPhaseActivityRepository workPhaseActivityRepository;
 	
 	
-	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseId(List<WorkPhases> workPhaseList) {
+	public List<WorkPhaseActivity> getWorkPhaseActivityBasedOnWorkPhaseIdIn(List<WorkPhases> workPhaseList) {
 		// TODO Auto-generated method stub
-		return workPhaseActivityRepository.findByWorkPhaseId(workPhaseList);
+		return workPhaseActivityRepository.findByWorkPhaseIdIn(workPhaseList);
 	}
 
 

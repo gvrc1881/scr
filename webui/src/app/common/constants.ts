@@ -458,7 +458,8 @@ export const Constants = {
                 EDIT:'/driveTargetById/',
                 DELETE:'/deleteDriveTarget/',
                 EXIST_TARGET:'/existByUnitNameAndUnitType/',
-                GET_DRIVE_AGGREGATION:'/driveTargetAggregation'
+                GET_DRIVE_AGGREGATION:'/driveTargetAggregation',
+                GET_TARGETS_BASEDON_DRIVE:"/getTargetsBasedOnDrive/"
             },
             GET_DIVISIONS:'/divisions'
         },

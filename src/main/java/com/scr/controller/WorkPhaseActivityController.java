@@ -89,30 +89,33 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 	}*/
 	
 	@RequestMapping(value = "/findByPhaseActivityOnPhaseId/{workPhaseId}", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<WorkPhaseActivity>> findByPhaseActivityOnPhaseId(@PathVariable("workPhaseId") String workPhases){
+	public ResponseEntity<List<WorkPhaseActivity>> findByPhaseActivityOnPhaseId(@PathVariable("workPhaseId") Integer[] workPhaseIds){
 		
-		log.info("** Enter into findByPhaseActivityOnPhaseId  functions ***"+workPhases);
+		log.info("** Enter into findByPhaseActivityOnPhaseId  functions ***"+workPhaseIds);
 	
 		List<WorkPhaseActivity> workAct=new ArrayList<>();	
 		
-		log.info("Paselist==="+workAct.size());	
+		
 		
 		List<WorkPhases> workPhaseList = new ArrayList<>();
 		log.info("Paselist==="+workPhaseList.size());
 		
 		
 			
-			String phaseIds[]=workPhases.split(",");			
+			// String phaseIds[]=workPhases.split(",");			
 			
-			for(String workPhaseId:phaseIds)
+			for(Integer workPhaseId:workPhaseIds)
 			{
-				Optional<WorkPhases> workPhase = workPhaseServices.findById(Integer.parseInt(workPhaseId));							
+				log.info("*** work phase id***"+workPhaseId);
+				Optional<WorkPhases> workPhase = workPhaseServices.findById(workPhaseId);							
 			
 			if (workPhase.isPresent()) 
 				workPhaseList.add(workPhase.get());
 				
 			}
-			workAct = workPhaseActivityService.getWorkPhaseActivityBasedOnWorkPhaseId(workPhaseList);
+			log.info("*** work phase size***"+workPhaseList.size());
+			workAct = workPhaseActivityService.getWorkPhaseActivityBasedOnWorkPhaseIdIn(workPhaseList);
+			log.info("Paselist==="+workAct.size());	
 			return new ResponseEntity<List<WorkPhaseActivity>>(workAct,HttpStatus.OK);		
 
 	}
