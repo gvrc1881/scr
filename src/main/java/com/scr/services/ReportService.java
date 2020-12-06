@@ -314,7 +314,7 @@ public class ReportService {
 		   return electrificationTargetsRepository.findAll();
 		}
 	public List<PrecautionaryMeasuresMaster>findPrecautionaryMeasures() {	
-		   return precautionaryMeasureMasterRepository.findAll();
+		   return precautionaryMeasureMasterRepository.findAllOrderByPrecautionaryMeasureAsc();
 		}
 	public List<TpcBoard>findTPCBoard() {	
 		   return tpcBoardRepository.findAll();

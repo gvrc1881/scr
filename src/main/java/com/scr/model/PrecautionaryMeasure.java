@@ -16,6 +16,7 @@ public class PrecautionaryMeasure implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="created_date")
@@ -26,6 +27,9 @@ public class PrecautionaryMeasure implements Serializable {
 
 	@Column(name="created_tx_stamp")
 	private Timestamp createdTxStamp;
+	
+	@Column(name="count")
+	private Integer count;
 
 	@Column(name="data_div")
 	private String dataDiv;
@@ -191,6 +195,14 @@ public class PrecautionaryMeasure implements Serializable {
 
 	public void setThruDateTime(Timestamp thruDateTime) {
 		this.thruDateTime = thruDateTime;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 
 }

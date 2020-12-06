@@ -3,18 +3,15 @@ package com.scr.services;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.WorkMapper;
 import com.scr.message.request.CopyWPAndWPA;
@@ -24,7 +21,6 @@ import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.ContentManagement;
 import com.scr.model.StandardPhaseActivity;
 import com.scr.model.StandardPhases;
-import com.scr.model.TractionEnergyTariff;
 import com.scr.model.WPADailyProgress;
 import com.scr.model.WPASectionPopulation;
 import com.scr.model.WPASectionTargets;
@@ -411,6 +407,9 @@ public String deleteProject(Integer id) {
 		}
 		
 	}
-
+public List<WorkGroup> findAllWorkGroups() {
+	// TODO Auto-generated method stub
+	return workGroupRepository.findAll();
+}
 
 }

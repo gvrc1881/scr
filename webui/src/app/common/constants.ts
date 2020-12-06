@@ -268,6 +268,14 @@ export const Constants = {
                 EXIST_SECTOR_CODE_ID:"/existSectorCodeById/",
 
             },
+            SPECIALWORKS:{
+                GET_SPECIAL_WORKS:"/findAllPrecautionaryMeasures",
+                GET_SPECIAL_WORKS_ID:"/findPrecautionaryMeasureById/",
+                SAVE_SPECIAL_WORKS:"/addPrecautionaryMeasures",
+                UPDATE_SPECIAL_WORKS:"/updatePrecautionaryMeasure",
+                DELETE_SPECIAL_WORKS:"/deletePrecautionaryMeasure/",
+
+            },
             SUBSECTOR:{
                 GET_SUB_SECTOR:"/findAllSubSector",
                 GET_SUB_SECTOR_ID:"/findSubSectorById/",

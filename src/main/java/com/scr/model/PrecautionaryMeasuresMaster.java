@@ -17,6 +17,9 @@ public class PrecautionaryMeasuresMaster implements Serializable {
 
 	@Id
 	private Long id;
+	
+	@Column(name = "active")
+	private String active;
 
 	@Column(name="created_stamp")
 	private Timestamp createdStamp;
@@ -136,6 +139,14 @@ public class PrecautionaryMeasuresMaster implements Serializable {
 
 	public void setThruDateTime(Timestamp thruDateTime) {
 		this.thruDateTime = thruDateTime;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
 
 }

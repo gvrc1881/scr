@@ -49,7 +49,7 @@ export class AddStandardPhaseActivityComponent implements OnInit {
       this.save = false;
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
-       this.getProductCategoryMemberDataById(this.id);
+       this.getSPADataById(this.id);
     } else {
       this.createStandardPhaseActivityForm();
       this.save = true;
@@ -93,18 +93,20 @@ export class AddStandardPhaseActivityComponent implements OnInit {
    public get f() { return this.addStandardPhaseActivityFormGroup.controls; } 
 
 
-  getProductCategoryMemberDataById(id) {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT_CATEGORY_MEMBER.GET_PRODUCT_CATEGORY_MEMBER_ID+id)
+  getSPADataById(id) {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.STANDARD_PHASE_ACTIVITY.GET_SPA_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
         this.addStandardPhaseActivityFormGroup.patchValue({
           id: this.resp.id,
-          productCategoryId: this.resp.productCategoryId,
-          productId: this.resp.productId,
-          quantity: this.resp.quantity,
-          fromDate: new Date(this.resp.fromDate),
-          thruDate: !!this.resp.thruDate ? new Date(this.resp.thruDate) : '',
-          comments: this.resp.comments,
+          assetType: this.resp.assetType,
+          depotType: this.resp.depotType,
+          isCheckList: this.resp.isCheckList,
+          isObjectIdRequired: this.resp.isObjectIdRequired,
+          name: this.resp.name,
+          uom: this.resp.uom,
+          dependencyToStart: this.resp.dependencyToStart,
+          description: this.resp.description,
           
           
         });

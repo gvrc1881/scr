@@ -28,6 +28,7 @@ import com.scr.message.request.CopyWPAndWPA;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.WPADailyProgressResponse;
 import com.scr.message.response.WPASectionTargetsResponse;
+import com.scr.model.Assistance;
 import com.scr.model.ContentManagement;
 import com.scr.model.MilestoneTargets;
 import com.scr.model.TractionEnergyTariff;
@@ -94,7 +95,23 @@ public class WorksController {
 		log.info("Exit from workList function");
 		return workList;	
 	}
-	
+	@RequestMapping(value = "/findAllWorkGroups", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<WorkGroup> findAllWorkGroups() throws JSONException {
+		log.info("Enter into findAll WorkGroup function");
+		List<WorkGroup> workGroupList = null;
+		try {
+			log.info("Calling service for Assistance data");
+			workGroupList = worksServices.findAllWorkGroups();
+			log.info("Fetched WorkGroup data = " + workGroupList.size());
+			return workGroupList;
+		} catch (NullPointerException npe) {
+			log.error("ERROR >>> while fetching the WorkGroup data = " + npe.getMessage());
+		} catch (Exception e) {
+			log.error("ERROR >>> while fetching the WorkGroup data = " + e.getMessage());
+		}
+		log.info("Exit from findAll WorkGroup function");
+		return workGroupList;
+	}
 	@RequestMapping(value = "/addWork", method = RequestMethod.POST , headers = "Accept=application/json")
 	@ResponseBody
 	public ResponseStatus save(@RequestBody Works work){

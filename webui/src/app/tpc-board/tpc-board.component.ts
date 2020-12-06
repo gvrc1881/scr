@@ -51,8 +51,8 @@ userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
     var tpcBoard = this.tpcBoardFormGroup.value.tpcBoard ;
   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_TPC_BOARD + tpcBoard).subscribe((response) => {
              this.facilityData = response;
-             localStorage.setItem("facilityData", JSON.stringify(response));
-             let depotData=JSON.parse(localStorage.getItem('facilityData'));
+             localStorage.setItem("depotData", JSON.stringify(response));
+             let depotData=JSON.parse(localStorage.getItem('depotData'));
              console.log("depotData"+JSON.stringify(depotData));
         });
 }

@@ -71,6 +71,7 @@ export const FieldLabelsConstant = {
       CURRENT: "Current",
       CURVATURE: "Curvature",
       CURVATURE_REMARK: "Curvature Remark",
+      COUNT:"Count",
       DATE: "Date",
       DATE_OF_COMMISSION: "Date Of Commission",
       DATE_OF_COMPLETION: "Date Of Completion",
@@ -235,6 +236,7 @@ export const FieldLabelsConstant = {
       OHE_MAST: "OHE Mast",
       OHE_MAST_TYPE: "OHE Mast Type",
       OHE_SEQUENCE: "OHE Sequence",
+      SPECIAL_WORKS:"Special Works",
       PARENT_FUN: "Parent Fun",
       PARENT_FUN_UNIT: "Parent Fun Unit",
       PB_SECTION: "PB Section",
@@ -281,11 +283,14 @@ export const FieldLabelsConstant = {
       REMARK_TWO: "Remark Two",
       REMARKS: "Remarks",
       REQUESTED_DATE:"Requested Date",
+      RESPONSE_DATE:"ResponseDate",
+      RESPONSE_BY:"Response By",
       REPERCUSSION: "Repercussion",
       REPORT_CONTINUE: "Report Continue",
       REPORT_DESCRIPTION: "Report Description",
       REPORTED: "Reported",
       REQUEST_BY: "Request By",
+      REQUEST_TO:"Request To",
       REQUEST_DEPARTMENT: "Request Department",
       REQUEST_PERIOD_IN_MIN: "Request Period In MIN",
       RESOLVE_TIME: "Resolve Time",
@@ -657,5 +662,7 @@ export const FieldLabelsConstant = {
     OHE_LOCATION_AND_ASSETTYPE_DATA:'OHE Locations And Assets Data' ,
     ASSISTANCE_AND_REMARKS_DATA:'Assistance And Remarks Data',
     ASSISTANCE_AND_REMARKS_FORM:'Assistance And Remarks Form',
+    SPECIAL_WORKS_DATA:'Special Works Data',
+    SPECIAL_WORKS_FORM:'Special Works Form'
    }
 };
