@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,4 +33,11 @@ public interface DriveCategoryAssoRepository extends JpaRepository<DriveCategory
 	
 	List<DriveCategoryAsso> findByDriveCategoryId(DriveCategory driveCategory);
 
+	Optional<DriveCategoryAsso> findByDriveCategoryId(Optional<DriveCategory> driveCategory);
+
+
+
+	
+
+	
 }

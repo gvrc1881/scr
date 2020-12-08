@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.scr.model.DriveCategoryAsso;
 import com.scr.model.Drives;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.Make;
@@ -37,7 +39,14 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 			Date toDate, FunctionalLocationTypes functionalLocationTypes);
 
 
-	@Query(value = " FROM Drives where checklist='Yes' and statusId=1")            
+	@Query(value = " FROM Drives where checklist='Yes' and statusId=1")  	
 	List<Drives> getDrives();
+	
+
+
+
+	Optional<Drives> findByIdAndToDateGreaterThanEqualOrToDateIsNull(Long id, Date date);
+
+	
 	
 }

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import com.scr.mapper.CommonMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveRequest;
+import com.scr.message.response.DriveTargetResponse;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
@@ -38,6 +40,8 @@ import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
+import com.scr.model.WorkPhaseActivity;
+import com.scr.model.WorkPhases;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.DivisionRepository;
@@ -775,14 +779,15 @@ public class DrivesService {
 		driveProgressRecordRepository.save(driveDailyProgress);
 	}
 
-	public List<DriveTarget> findDriveTargets() {
+/*	public List<DriveTarget> findDriveTargets() {
 		
-		List<DriveTarget> target = new ArrayList<>();		
+		List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();		
 		List<Drives> distinctDrives  =driveTargetRepository.findDistinctByDriveId();
-		//List<Facility> unitName =driveTargetRepository.findByUnitName();
+		//List<Facility> unitName =driveTargetRepository.findByUnitName(distinctDrives);
+		//List<Facility> division =facilityRepository.findByDivision(unitName);
 		
 		for (Drives drive : distinctDrives) {
-			DriveTarget DTarget = new DriveTarget();
+			DriveTargetResponse DTargetResponse = new DriveTargetResponse();
 		
 					List<DriveTarget> driveTargets = driveTargetRepository.findByDriveId(drive);					
 					Double driveTargetSum = 0D;
@@ -790,26 +795,96 @@ public class DrivesService {
 						driveTargetSum = driveTargetSum+driveTarget.getTarget();
 					}
 					
+					DTargetResponse.setCreatedBy(drive);
 					DTarget.setTarget(driveTargetSum);
 					DTarget.setDriveId(drive);
-					target.add(DTarget);
+					driveTargetResponse.add(DTarget);
 		}
-		/*for (Facility facility : unitName) {
-			DriveTarget DTarget = new DriveTarget();
+		for (Facility facility : division) {
+			
+			DriveTarget DTargets = new DriveTarget();
 		
-					List<DriveTarget> driveTargets = driveTargetRepository.findByUnitName(facility);					
+					List<DriveTarget> driveTargt = driveTargetRepository.findByUnitName(facility);					
 					Double driveTargetSum = 0D;
-					for (DriveTarget driveTarget : driveTargets) {
+					for (DriveTarget driveTarget : driveTargt) {
 						driveTargetSum = driveTargetSum+driveTarget.getTarget();
 						}					
-					DTarget.setTarget(driveTargetSum);
-					DTarget.setUnitName(facility);
-					target.add(DTarget);
-		}*/
+					DTargets.setTarget(driveTargetSum);
+					//DTargets.setUnitName(facility);
+					target.add(DTargets);
+		}
 		
 		
 	
 		return target;
-	}
+	}*/
 
+
+
+
+	public List<Drives> getByCategoryId(DriveCategory driveCategory) {
+		// TODO Auto-generated method stub
+		List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+		List<Drives> drivesList = new ArrayList<>();
+		
+		
+		Date date = new Date();
+		for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
+			
+			
+			Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+			if (drive.isPresent()) {
+				drivesList.add(drive.get());
+			}
+		} 
+	       return drivesList;
+	}
+	
+		
+/*
+	public Drives findDriveCategoryById(DriveCategory driveCategory, Long driveId) {
+		List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+		
+            Drives drives=null;
+		
+		
+		Date date = new Date();
+		for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
+			
+			
+			Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+			if (drive.isPresent()) {
+				
+				 return drives;
+				
+			} 
+		}
+		return drives;
+	      
+	}*/
+	
+public void saveTargets(List<DriveTarget> driveTarget) {	
+	
+
+	for (DriveTarget driveTarget2 : driveTarget) {
+		
+		
+		
+		 driveTargetRepository.save(driveTarget2);
+		
+	}
+			
+	 
+	
+}
+
+
+
+
+
+	 
+		
+		
+		
+	
 }

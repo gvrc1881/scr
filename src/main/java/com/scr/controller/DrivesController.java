@@ -47,6 +47,7 @@ import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
+import com.scr.model.WorkPhases;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.DriveCategoryAssoRepository;
 import com.scr.repository.DriveProgressRecordRepository;
@@ -516,7 +517,7 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/driveTargetAggregation", method = RequestMethod.GET , headers = "Accept=application/json")
+/*	@RequestMapping(value = "/driveTargetAggregation", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveTarget>> findDriveTargets() throws JSONException {
 		List<DriveTarget> driveTargetList = null;
 		try {			
@@ -527,7 +528,7 @@ public class DrivesController {
 			logger.error(e);
 		}
 		return ResponseEntity.ok((driveTargetList));
-	}
+	}*/
 	@RequestMapping(value = "/driveTarget", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<DriveTarget>> findAllDriveTargets() throws JSONException {
 		List<DriveTarget> driveTargetList = null;
@@ -1518,5 +1519,85 @@ public class DrivesController {
 		}
 		return DDProgress;
 	}
+	
+	@RequestMapping(value = "/getDrivesBasedOnCategoryId/{categoryId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getDrivesBasedOnCategoryId(@PathVariable("categoryId") Long categoryId) throws JSONException {
+		logger.info("Enter into getDrivesBasedOnCategory function");
+		Optional<DriveCategory> driveCategory = service.findDriveCategoryById(categoryId);
+		//List<Drives> drivesList = null;
+		
+		List<Drives> drives = null;
+		logger.info("driveslist---");
+		try {			
+			if (driveCategory.isPresent()) {
+				
+				drives = service.getByCategoryId(driveCategory.get());
+				
+			}
+		} catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		logger.info("Exit from getDrivesBasedOnCategory function");
+		return ResponseEntity.ok((drives));
+	}
+	
+	@RequestMapping(value = "/getTargetsBasedOnDrive/{category}/{driveId}/{unitType}/{unitName}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getTargetsBasedOnDrive(@PathVariable("category") Long categoryId,@PathVariable("driveId") Long driveId,@PathVariable("unitType") String unitType,@PathVariable("unitName") String unitName) throws JSONException {
+		logger.info("Enter into getTargetsBasedOnDrive function");	
+		Optional<DriveCategory> driveCategory = service.findDriveCategoryById(categoryId);
+		Optional<DriveCategoryAsso> drives= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+				
+		List<Drives> driveList = null;
+		
+		try {	
+			
+			if(driveCategory != null )
+			{	
+				logger.info("if condition");
+				if (driveCategory.isPresent()) {
+					
+				
+					driveList = service.getByCategoryId(driveCategory.get());
+				}
+				/*	
+					else 
+			{
+				
+					
+					Drives drive = service.findDriveCategoryById(driveCategory.get(),driveId);
+				
+				
+			}*/
+		} 
+		}catch (NullPointerException e) {			
+			logger.error(e);
+		} catch (Exception e) {			
+			logger.error(e);
+		}
+		logger.info("driveslist==="+driveList.size());
+		logger.info("Exit from getTargetsBasedOnDrive function");
+		return ResponseEntity.ok((driveList));
+	}
+	
+	@PostMapping(value="/saveTargets")
+	@ResponseBody
+	public ResponseStatus saveTargets(@RequestBody List<DriveTarget> driveTarget) {
+		logger.info("*** Enter into saveTargets function ***");
+		try {			
+			service.saveTargets(driveTarget);
+			logger.info("Preparing the return response and saveTargets function end ");
+			return Helper.findResponseStatus("DriveTarget Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding DriveTarget Data. "+npe.getMessage());
+			return Helper.findResponseStatus("DriveTarget Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding DriveTarget Data. "+e.getMessage());
+			return Helper.findResponseStatus("DriveTarget   Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
 	
 }
