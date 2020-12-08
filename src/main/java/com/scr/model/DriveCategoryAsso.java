@@ -56,6 +56,14 @@ public class DriveCategoryAsso implements Serializable {
 	@Column(name = "status_id")
 	private Integer statusId;
 	
+	@ManyToOne
+	@JoinColumn(name = "report_sub_heading", foreignKey = @ForeignKey(name = "fk_drive_category_asso_drive_report_sub_heading"))
+	private DriveReportSubHeadings reportSubHeading;
+	
+	private Long reportOrder;
+	
+	private String reportDisplayId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -126,6 +134,30 @@ public class DriveCategoryAsso implements Serializable {
 
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
+	}
+
+	public DriveReportSubHeadings getReportSubHeading() {
+		return reportSubHeading;
+	}
+
+	public void setReportSubHeading(DriveReportSubHeadings reportSubHeading) {
+		this.reportSubHeading = reportSubHeading;
+	}
+
+	public Long getReportOrder() {
+		return reportOrder;
+	}
+
+	public void setReportOrder(Long reportOrder) {
+		this.reportOrder = reportOrder;
+	}
+
+	public String getReportDisplayId() {
+		return reportDisplayId;
+	}
+
+	public void setReportDisplayId(String reportDisplayId) {
+		this.reportDisplayId = reportDisplayId;
 	}
 
 
