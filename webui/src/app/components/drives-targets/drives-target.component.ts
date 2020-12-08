@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DrivesTargetModel } from 'src/app/models/drive.model';
+import { DriveTargetModel } from 'src/app/models/drive.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
@@ -25,7 +25,7 @@ export class DrivesTargetComponent implements OnInit {
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno','driveId','assetType','unitType','unitName', 'target', 'population','actions'];    
-    dataSource: MatTableDataSource<DrivesTargetModel>;
+    dataSource: MatTableDataSource<DriveTargetModel>;
     driveTargetFormGroup:FormGroup;
     facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

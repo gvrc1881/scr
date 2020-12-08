@@ -271,6 +271,7 @@ export const Constants = {
             SPECIALWORKS:{
                 GET_SPECIAL_WORKS:"/findAllPrecautionaryMeasures",
                 GET_SPECIAL_WORKS_ID:"/findPrecautionaryMeasureById/",
+                GET_PRE_MEA_MAS_ID:"/findPreMeasMasId/",
                 SAVE_SPECIAL_WORKS:"/addPrecautionaryMeasures",
                 UPDATE_SPECIAL_WORKS:"/updatePrecautionaryMeasure",
                 DELETE_SPECIAL_WORKS:"/deletePrecautionaryMeasure/",
