@@ -110,6 +110,8 @@ export class LoginComponent implements OnInit {
                         localStorage.setItem("subDivData", JSON.stringify(response.subDivisionList));
                         localStorage.setItem("depotData", JSON.stringify(response.depotList));
                         localStorage.setItem("facilityData",JSON.stringify(response.facilityData));
+                        localStorage.setItem("projectList",JSON.stringify(response.projects));
+                    console.log("*** value ***"+JSON.stringify(response.projects));
                   // To get User Hierarchy 
                     /*
                   if (this.user) {

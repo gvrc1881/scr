@@ -29,9 +29,9 @@
 	                                                	<div class="col-md-2">
 									                    	<mat-form-field fxFlex="30" class="example-full-width">
 									                    		<mat-select  placeholder="{{FiledLabels.USER}}" [formControl]="userJurisdictionFormGroup.controls['user']"  required>
-									                    			<mat-option *ngFor="let users of usersList"
-									                    				[value]="users">
-									                    				{{ users.username }}
+									                    			<mat-option *ngFor="let user of usersList"
+									                    				[value]="user.id">
+									                    				{{ user.username }}
 									                    			</mat-option>
 									                    		</mat-select>                                                            
 									                    	</mat-form-field>
@@ -39,16 +39,16 @@
 	                                                	<div class="col-md-3">
 									                    	<mat-form-field fxFlex="30" class="example-full-width">
 									                    		<mat-select placeholder="{{FiledLabels.WORK}}" [formControl]="userJurisdictionFormGroup.controls['work']" (ngModelChange)="getWorkGroups()" required >
-									                    			<mat-option *ngFor="let works of workList"
-									                    				[value]="works">
-									                    				{{ works.workName }}
+									                    			<mat-option *ngFor="let work of workList"
+									                    				[value]="work.id">
+									                    				{{ work.workName }}
 									                    			</mat-option>
 									                    		</mat-select>                                                            
 									                    	</mat-form-field>
 									                    </div>
-									                    <div class="col-md-3">
+									                   <div class="col-md-3">
 									                    	<mat-form-field fxFlex="30" class="example-full-width">
-									                    		<mat-select  placeholder="{{FiledLabels.WORK_GROUP}}" [formControl]="userJurisdictionFormGroup.controls['workGroup']"  multiple required (ngModelChange)="getSections()">
+									                    		<mat-select  placeholder="{{FiledLabels.WORK_GROUP}}" [formControl]="userJurisdictionFormGroup.controls['workGroup']" [(ngModel)]="selectedGroups"  multiple    (ngModelChange)="getSections()">
 									                    			<mat-option *ngFor="let workGroup of workGroupList"
 									                    				[value]="workGroup.id">
 									                    				{{ workGroup.workGroup }}
@@ -58,9 +58,9 @@
 									                    </div>
 									                    <div class="col-md-3">
 									                    	<mat-form-field fxFlex="30" class="example-full-width">
-									                    		<mat-select  placeholder="{{FiledLabels.SECTION}}" [formControl]="userJurisdictionFormGroup.controls['section']"  multiple required >
+									                    		<mat-select  placeholder="{{FiledLabels.SECTION}}" [formControl]="userJurisdictionFormGroup.controls['section']"  [(ngModel)]="selectedSections" multiple >
 									                    			<mat-option *ngFor="let section of sectionList"
-									                    				[value]="section">
+									                    				[value]="section.id">
 									                    				{{ section.section }}
 									                    			</mat-option>
 									                    		</mat-select>                                                            

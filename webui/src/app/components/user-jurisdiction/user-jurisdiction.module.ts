@@ -15,6 +15,10 @@ const routes: Routes = [
     {
         path: 'add-user-jurisdiction',
         component: AddUserJurisdictionComponent,
+    },
+    {
+        path: 'edit-user-jurisdiction/:id',
+        component: AddUserJurisdictionComponent,
     }
 ];
 

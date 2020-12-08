@@ -40,9 +40,12 @@ import com.scr.model.Permissions;
 import com.scr.model.RolePermissions;
 import com.scr.model.RoleType;
 import com.scr.model.User;
+import com.scr.model.UserJurisdiction;
+import com.scr.model.Works;
 import com.scr.services.PermissionService;
 import com.scr.services.RolePermissionService;
 import com.scr.services.RoleTypeService;
+import com.scr.services.UserJurisdictionService;
 import com.scr.services.UserServices;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -80,6 +83,9 @@ public class UserController {
 	
 	@Autowired
 	private CommonUtility commonUtility;
+	
+	@Autowired
+	private UserJurisdictionService userJurisdictionService;
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/userData", method = RequestMethod.POST , headers = "Accept=application/json")
@@ -134,6 +140,15 @@ public class UserController {
 				response = userMapper.prepareLoggedUserData(userData, permissionsList, rolesList, rolePermissionsList);;
 				response.setMenuPermissionResponses(menuResponses);
 				List<Facility> facilities = commonUtility.findUserHierarchy(response.getUserName());
+				List<Works> projectList = userJurisdictionService.findByUserId(userData);
+				/*List<Works> workList = new ArrayList<>();
+				for (UserJurisdiction userJurisdiction : userjurisdictionList) {
+					logger.info("in loop");
+					Works work = userJurisdiction.getWorkId();
+					workList.add(work);
+					logger.info("*** after add ***");
+				}*/
+				logger.info("** list size ***"+projectList.size());
 				for (Facility facility : facilities) {
 					if ("ZONE".equals(facility.getDepotType())) {
 						zoneFacilities.add(facility);
@@ -150,6 +165,7 @@ public class UserController {
 				response.setDivisionList(divisionFacilities);
 				response.setSubDivisionList(subDivisionFacilities);
 				response.setDepotList(depotFacilities);
+				response.setProjects(projectList);
 				return response;
 			}
 		} catch (NullPointerException e) {			

@@ -28,7 +28,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 export class WPADailyProgressComponent implements OnInit {
         
     FiledLabels = FieldLabelsConstant.LABELS;
-    workList: any;
+   // workList: any;
     workGroupList: any;
     workPhaseList: any;
     inputFormGroup: FormGroup;
@@ -38,6 +38,9 @@ export class WPADailyProgressComponent implements OnInit {
     displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done'];
     enableSave: boolean;
     maxDate = new Date();
+    workList: any = JSON.parse(localStorage.getItem('projectList'));
+    loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
+    errorMessage: boolean;
 
     constructor(
         public dialog: MatDialog,
@@ -55,10 +58,13 @@ export class WPADailyProgressComponent implements OnInit {
             'workPhase' : [null , Validators.required ],
             'date' : [null , Validators.required ]
         });
+        console.log('**logged User***'+this.loggedUser.userName);
+        /*
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
             this.workList = data;
              //console.log('*** length ***'+this.workList.length);
         },error => {} );
+        */
     }
     
     saveAction() {
@@ -82,6 +88,7 @@ export class WPADailyProgressComponent implements OnInit {
                 this.WPADailyProgressList = response; 
                 for(let i =0 ; i < this.WPADailyProgressList.length ; i++ ){
                     this.WPADailyProgressList[i].sno = i+1;
+                    this.WPADailyProgressList[i].errorMessage = false;
                     this.enableSave = true;
                    // this.WPADailyProgressList[i].date = this.inputFormGroup.value.date;
                     this.wpaDailyProgress.push(this.WPADailyProgressList[i]);
@@ -93,12 +100,31 @@ export class WPADailyProgressComponent implements OnInit {
     }
     
     getWorkGroups() {
-        this.sendAndRequestService.requestForGET( Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_GROUPS_BASED_ON_WORK + this.inputFormGroup.value.work.id ).subscribe((response) => {
+        this.sendAndRequestService.requestForGET( Constants.app_urls.PROJECT_ADMIN.USER_JURISDICTION.GET_WORK_GROUPS_BASED_WORK_AND_USER +this.inputFormGroup.value.work.id + '/'+this.loggedUser.userName).subscribe((response) => {
            this.workGroupList = response;
         });
         this.sendAndRequestService.requestForGET( Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_PHASES_BASED_ON_WORK + this.inputFormGroup.value.work.id ).subscribe((response) => {
            this.workPhaseList = response;
         });
+    }
+    
+    check(row){
+        if(row.performedCount) {
+            let totalCount = +row.performedCount + +row.alreadyDoneCount;
+            let population = +row.population;
+            if(row.population < totalCount){
+                row.errorMessage = true;
+                this.enableSave = false;
+            }else {
+                row.errorMessage = false;
+                this.enableSave = true;    
+            }
+             for(let i =0 ; i < this.wpaDailyProgress.length ; i++ ){
+                 if(this.wpaDailyProgress[i].errorMessage == true){
+                     this.enableSave = false;
+                 }
+             }
+        }
     }
 
 }

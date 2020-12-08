@@ -9,25 +9,26 @@ import com.scr.model.Works;
 
 public class UserJurisdictionRequest {
 
-	private User user;
-	private Works work;
+	private Long id;
+	private Long userId;
+	private Integer workId;
 	private Long[] workGroup;
-	private List<WorkGroup> section;
+	private Long[] section;
 
-	public User getUser() {
-		return user;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public Works getWork() {
-		return work;
+	public Integer getWorkId() {
+		return workId;
 	}
 
-	public void setWork(Works work) {
-		this.work = work;
+	public void setWorkId(Integer workId) {
+		this.workId = workId;
 	}
 
 	public Long[] getWorkGroup() {
@@ -38,18 +39,26 @@ public class UserJurisdictionRequest {
 		this.workGroup = workGroup;
 	}
 
-	public List<WorkGroup> getSection() {
+	public Long[] getSection() {
 		return section;
 	}
 
-	public void setSection(List<WorkGroup> section) {
+	public void setSection(Long[] section) {
 		this.section = section;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "UserJurisdictionRequest [user=" + user + ", work=" + work + ", workGroup=" + Arrays.toString(workGroup)
-				+ ", section=" + section + "]";
+		return "UserJurisdictionRequest [id=" + id + ", userId=" + userId + ", workId=" + workId + ", workGroup="
+				+ Arrays.toString(workGroup) + ", section=" + Arrays.toString(section) + "]";
 	}
 
 }

@@ -80,46 +80,51 @@
 	                               	<ng-container matColumnDef="section">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.SECTION}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="180">
+	                                    		{{row.workGroupId.section}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="180">
 													<input matInput  [value]="row.workGroupId.section" 
 												    	[(ngModel)]="row.workGroupId.section" readonly>
-												</mat-form-field>
+												</mat-form-field> -->
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="activity">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PHASE_ACTIVITY}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="180">
+	                                    		{{row.workPhaseActivityId.name}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="180">
 													<input matInput  [value]="row.workPhaseActivityId.name" 
 												    	[(ngModel)]="row.workPhaseActivityId.name" readonly>
-												</mat-form-field>
+												</mat-form-field> -->
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="population">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POPULATION}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="50">
+	                                    		{{row.population}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="50">
 													<input matInput  [value]="row.population" 
 												    	[(ngModel)]="row.population" readonly>
-												</mat-form-field>
+												</mat-form-field> -->
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="alreadyDoneCount">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.ALREADY_DONE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="50">
+	                                    		{{row.alreadyDoneCount}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="50">
 													<input matInput  [value]="row.alreadyDoneCount" 
 												    	[(ngModel)]="row.alreadyDoneCount" readonly>
-												</mat-form-field>
+												</mat-form-field> -->
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="uom">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UOM}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+	                                    		{{row.workPhaseActivityId.uom}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.workPhaseActivityId.uom" 
 												    	[(ngModel)]="row.workPhaseActivityId.uom" readonly>
-												</mat-form-field>
+												</mat-form-field> -->
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="done">
@@ -127,7 +132,8 @@
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.performedCount" 
-												    	[(ngModel)]="row.performedCount" >
+												    	[(ngModel)]="row.performedCount" (ngModelChange)="check(row)">
+                                                            <span class="error" *ngIf="row.errorMessage">Done Count Should Not Be Greater Than Population</span>
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>

@@ -796,7 +796,12 @@ export const Constants = {
                 GET_MILESTONE_TARGETS:"/findAllMilestoneTargets"
             },
             USER_JURISDICTION:{
-                SAVE:"/addUserJurisdiction"    
+                SAVE:"/addUserJurisdiction",
+                GET_USER_JURISDICTION: "/getUserJurisdiction",
+                DELETE_USER_JURISDICTION:  "/deleteUserJurisdiction/",
+                GET_USER_JURISDICTION_ID: "/getUserJurisdictionById/",
+                UPDATE:"/updateUserJurisdiction",
+                GET_WORK_GROUPS_BASED_WORK_AND_USER:"/getWorkGroupsBasedOnWorkAndUser/"
             },
             ASSISTANCE:{
                 GET_ASSISTANCE:"/findAllAssistance",
