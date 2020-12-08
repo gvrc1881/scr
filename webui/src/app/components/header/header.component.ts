@@ -802,7 +802,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "Special-works",
             subMenuIcon: "fa fa-track",
             rolePermission: this.rolePermission,
-            permission: true,
+            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
           },
         ]

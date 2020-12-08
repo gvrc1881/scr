@@ -9,7 +9,7 @@ import { AddSpecialWorksComponent } from './add-special-works/add-special-works.
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
-import { filterDirective } from 'src/app/common/filter.directive';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
     {
@@ -39,6 +39,8 @@ const routes: Routes = [
         MaterialModule,      
         Ng4LoadingSpinnerModule.forRoot(),
         NumberValidationsModule,
+        OwlNativeDateTimeModule,
+        OwlDateTimeModule,
         CommonDirectivesModule,
         DecimalValidationsModule
     ],

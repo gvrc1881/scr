@@ -102,6 +102,7 @@ export const FieldLabelsConstant = {
       DOWN_SECTION_NAME: "Down Section Name",
       DRIVE: "Drive",
       DURATION: "Duration",
+      DATE_OF_WORK:"Date Of Work",
       ELE_SECTION: "Ele Section",
       ELECTRIFIED_RKM: "Electrified RKM",
       ELECTRIFIED_TKM: "Electrified TKM",

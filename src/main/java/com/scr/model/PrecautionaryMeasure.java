@@ -3,6 +3,7 @@ package com.scr.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "precautionary_measure" , uniqueConstraints={@UniqueConstraint(name = "old_pk_precautionary_measure_uniq", columnNames ={"seq_id", "data_div"})})
+@Table(name = "precautionary_measure")
 @NamedQuery(name="PrecautionaryMeasure.findAll", query="SELECT p FROM PrecautionaryMeasure p")
 public class PrecautionaryMeasure implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -40,11 +41,8 @@ public class PrecautionaryMeasure implements Serializable {
 	@Column(name="facility_id")
 	private String facilityId;
 	
-	@Column(name="facility_name")
-	private String facilityName;
-
-	@Column(name="from_date_time")
-	private Timestamp fromDateTime;
+	@Temporal(TemporalType.DATE)
+	private Date dateOfWork;
 
 	@Column(name="last_updated_stamp")
 	private Timestamp lastUpdatedStamp;
@@ -54,17 +52,17 @@ public class PrecautionaryMeasure implements Serializable {
 
 	private String location;
 
-	@Column(name="precautionary_measure")
-	private String precautionaryMeasure;
-
 	@Column(columnDefinition="TEXT")
 	private String remarks;
 
 	@Column(name="seq_id")
 	private String seqId;
 
-	@Column(name="thru_date_time")
-	private Timestamp thruDateTime;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "precautionary_measure", foreignKey = @ForeignKey(name = "fk_precautionary_measure_precautionary_measures_master"))
+	private PrecautionaryMeasuresMaster precautionaryMeasure;
 
 	public PrecautionaryMeasure() {
 	}
@@ -125,20 +123,14 @@ public class PrecautionaryMeasure implements Serializable {
 		this.facilityId = facilityId;
 	}
 
-	public String getFacilityName() {
-		return this.facilityName;
+	
+
+	public Date getDateOfWork() {
+		return dateOfWork;
 	}
 
-	public void setFacilityName(String facilityName) {
-		this.facilityName = facilityName;
-	}
-
-	public Timestamp getFromDateTime() {
-		return this.fromDateTime;
-	}
-
-	public void setFromDateTime(Timestamp fromDateTime) {
-		this.fromDateTime = fromDateTime;
+	public void setDateOfWork(Date dateOfWork) {
+		this.dateOfWork = dateOfWork;
 	}
 
 	public Timestamp getLastUpdatedStamp() {
@@ -164,12 +156,11 @@ public class PrecautionaryMeasure implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-	public String getPrecautionaryMeasure() {
-		return this.precautionaryMeasure;
+	public PrecautionaryMeasuresMaster getPrecautionaryMeasure() {
+		return precautionaryMeasure;
 	}
 
-	public void setPrecautionaryMeasure(String precautionaryMeasure) {
+	public void setPrecautionaryMeasure(PrecautionaryMeasuresMaster precautionaryMeasure) {
 		this.precautionaryMeasure = precautionaryMeasure;
 	}
 
@@ -189,13 +180,7 @@ public class PrecautionaryMeasure implements Serializable {
 		this.seqId = seqId;
 	}
 
-	public Timestamp getThruDateTime() {
-		return this.thruDateTime;
-	}
-
-	public void setThruDateTime(Timestamp thruDateTime) {
-		this.thruDateTime = thruDateTime;
-	}
+	
 
 	public Integer getCount() {
 		return count;
@@ -203,6 +188,15 @@ public class PrecautionaryMeasure implements Serializable {
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	@Override
+	public String toString() {
+		return "PrecautionaryMeasure [id=" + id + ", createdDate=" + createdDate + ", createdStamp=" + createdStamp
+				+ ", createdTxStamp=" + createdTxStamp + ", count=" + count + ", dataDiv=" + dataDiv + ", doneBy="
+				+ doneBy + ", facilityId=" + facilityId + ", dateOfWork=" + dateOfWork + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", location=" + location
+				+ ", remarks=" + remarks + ", seqId=" + seqId + ", precautionaryMeasure=" + precautionaryMeasure + "]";
 	}
 
 }

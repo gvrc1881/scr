@@ -58,15 +58,15 @@
                                                       <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.SPECIAL_WORKS}}" 
-                                                            [formControl]="addSpecialWorksFormGroup.controls['precautionaryMeasure']" required>
+                                                            [formControl]="addSpecialWorksFormGroup.controls['precautionaryMeasure']" (ngModelChange)="getPreMeaMast()" required>
                                                             <mat-option *ngFor="let specialWorksData of specialWorksData"
-                                                              [value]="specialWorksData.precautionaryMeasure">
+                                                              [value]="specialWorksData.id">
                                                               {{ specialWorksData.precautionaryMeasure }}
                                                             </mat-option>
                                                           </mat-select>
                                                           <mat-error
                                                             *ngIf="addSpecialWorksFormGroup.controls['precautionaryMeasure'].hasError('required') && addSpecialWorksFormGroup.controls['precautionaryMeasure'].touched"
-                                                            class="alert alert-danger">Select Precautionary Measure</mat-error>
+                                                            class="alert alert-danger">Select Special Works</mat-error>
                                                         </mat-form-field>
                                                       </div>
 
@@ -87,28 +87,17 @@
                                                         </mat-form-field>
                                                       </div>
                                                    
+                                                      <!-- FROM DATE -->
                                                       <div class="col-md-3">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker1"
-                                                                placeholder="{{FiledLabels.FROM_DATE}}" [max]="today"
-                                                                (dateChange)="addEvent($event)" 
-                                                                [formControl]="addSpecialWorksFormGroup.controls['fromDateTime']" required>
+                                                            <input matInput [matDatepicker]="picker1" 
+                                                                placeholder="{{FiledLabels.DATE_OF_WORK}}" [max]="toMinDate"
+                                                                [formControl]="addSpecialWorksFormGroup.controls['dateOfWork']" >
                                                             <mat-datepicker-toggle matSuffix [for]="picker1">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker1></mat-datepicker>                                                           
+                                                            <mat-datepicker #picker1></mat-datepicker>
                                                         </mat-form-field>
-                                                    </div>  
-                                                   
-                                                       <div class="col-md-3">
-                                                        <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker2"
-                                                                placeholder="{{FiledLabels.TO_DATE}}"
-                                                                [formControl]="addSpecialWorksFormGroup.controls['thruDateTime']" >
-                                                            <mat-datepicker-toggle matSuffix [for]="picker2">
-                                                            </mat-datepicker-toggle>
-                                                            <mat-datepicker #picker2></mat-datepicker>
-                                                        </mat-form-field>
-                                                    </div>   
+                                                    </div>
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

@@ -34,12 +34,14 @@ export class AddSpecialWorksComponent implements OnInit {
   resp: any;
   title:string = Constants.EVENTS.ADD;
   addSpecialWorksFormGroup: FormGroup;
+  specialWorksFormErrors:any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   toMinDate = new Date();
   today=new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   specialWorksData:any;
+  selectedWork: any;
   facilityData:any;
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +51,15 @@ export class AddSpecialWorksComponent implements OnInit {
     private router: Router,
     private sendAndRequestService:SendAndRequestService
   ) {
-   
+    this.specialWorksFormErrors = {            
+      facilityId:{},
+      location: {},
+      precautionaryMeasure: {},
+      count:{},
+      remarks:{},
+      dateOfWork: {},
+      doneBy:{},
+    };
   }
 
   ngOnInit() {
@@ -57,7 +67,10 @@ export class AddSpecialWorksComponent implements OnInit {
     this.findSpecialWorksList();
     this.depotTypeForOhe();
     if (!isNaN(this.id)) {  
-      this.updateSpecialWorksForm();   
+      this.updateSpecialWorksForm();  
+      this.addSpecialWorksFormGroup.valueChanges.subscribe(() => {
+        this.onFormValuesChanged();
+      }); 
       this.spinnerService.show();
       this.save = false;
       this.update = true;
@@ -71,7 +84,18 @@ export class AddSpecialWorksComponent implements OnInit {
     }
   }
   
-  
+  onFormValuesChanged() {
+    for (const field in this.specialWorksFormErrors) {
+      if (!this.specialWorksFormErrors.hasOwnProperty(field)) {
+        continue;
+      }
+      this.specialWorksFormErrors[field] = {};
+      const control = this.addSpecialWorksFormGroup.get(field);
+      if (control && control.dirty && !control.valid) {
+        this.specialWorksFormErrors[field] = control.errors;
+      }
+    }
+  }
   createSpecialWorksForm() {
     this.addSpecialWorksFormGroup = this.formBuilder.group({
       id: 0,
@@ -80,8 +104,7 @@ export class AddSpecialWorksComponent implements OnInit {
       'precautionaryMeasure': [null,Validators.compose([Validators.required])],
       'count': [null],
       'remarks': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      'fromDateTime': [null, Validators.required],
-      'thruDateTime': [null],
+      'dateOfWork': [null,Validators.required, this.duplicateFacilityIdPrecautionaryMeasureDateOfWork.bind(this)],
       'doneBy': [null]
       
     });
@@ -94,8 +117,7 @@ export class AddSpecialWorksComponent implements OnInit {
       'precautionaryMeasure': [null,Validators.compose([Validators.required])],
       'count': [null],
       'remarks': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      'fromDateTime': [null, Validators.required],
-      'thruDateTime': [null],
+      'dateOfWork': [null,Validators.required, this.duplicateFacilityIdPrecautionaryMeasureDateOfWorkAndId.bind(this)],
       'doneBy': [null]
       
     });
@@ -116,20 +138,20 @@ export class AddSpecialWorksComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.GET_SPECIAL_WORKS_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
+        let precautionaryMeasure = this.resp.precautionaryMeasure
+        console.log("list==="+this.resp.precautionaryMeasure.id);
         this.addSpecialWorksFormGroup.patchValue({
           id: this.resp.id,
           facilityId: this.resp.facilityId,
           location: this.resp.location,
-          precautionaryMeasure: this.resp.precautionaryMeasure,
+          precautionaryMeasure: this.resp.precautionaryMeasure.id,
           count: this.resp.count,
           remarks: this.resp.remarks,
-          fromDateTime: new Date(this.resp.fromDateTime),
-          thruDateTime: !!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
+          dateOfWork: new Date(this.resp.dateOfWork),
           doneBy: this.resp.doneBy,
-          
-          
         });
-      this.toMinDate = new Date(this.resp.fromDateTime);
+        this.getPreMeaMast();
+        console.log('*** group values **'+this.addSpecialWorksFormGroup.value.precautionaryMeasure.id);
         this.spinnerService.hide();
       })
   }
@@ -144,11 +166,10 @@ export class AddSpecialWorksComponent implements OnInit {
       var saveSpecialWorksModel = {
         "facilityId": this.addSpecialWorksFormGroup.value.facilityId,
         "location": this.addSpecialWorksFormGroup.value.location,
-        "precautionaryMeasure": this.addSpecialWorksFormGroup.value.precautionaryMeasure,
+        "precautionaryMeasure": this.selectedWork,
         "count": this.addSpecialWorksFormGroup.value.count,
-        "remarks": this.addSpecialWorksFormGroup.value.thruDate,
-        "fromDateTime": this.addSpecialWorksFormGroup.value.fromDateTime, 
-        "thruDateTime": this.addSpecialWorksFormGroup.value.thruDateTime,   
+        "remarks": this.addSpecialWorksFormGroup.value.remarks,
+        "dateOfWork": this.addSpecialWorksFormGroup.value.dateOfWork, 
         "doneBy": this.addSpecialWorksFormGroup.value.doneBy, 
         "createdDate":new Date(),
         "createdStamp": new Date(),
@@ -177,11 +198,10 @@ export class AddSpecialWorksComponent implements OnInit {
         "id": this.id,
         "facilityId": this.addSpecialWorksFormGroup.value.facilityId,
         "location": this.addSpecialWorksFormGroup.value.location,
-        "precautionaryMeasure": this.addSpecialWorksFormGroup.value.precautionaryMeasure,
+        "precautionaryMeasure": this.selectedWork,
         "count": this.addSpecialWorksFormGroup.value.count,
-        "remarks": this.addSpecialWorksFormGroup.value.thruDate,
-        "fromDateTime": this.addSpecialWorksFormGroup.value.fromDateTime, 
-        "thruDateTime": this.addSpecialWorksFormGroup.value.thruDateTime,   
+        "remarks": this.addSpecialWorksFormGroup.value.remarks,
+        "dateOfWork": this.addSpecialWorksFormGroup.value.dateOfWork, 
         "doneBy": this.addSpecialWorksFormGroup.value.doneBy,
         "lastUpdatedStamp": new Date(),
         "lastUpdatedTxStamp": new Date()   
@@ -216,10 +236,54 @@ export class AddSpecialWorksComponent implements OnInit {
 
  }
   findSpecialWorksList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.PRODUCTS.PRODUCT.GET_PRODUCT)
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_PRECAUTIONARY_MEASURE_DETAILS)
       .subscribe((data) => {
         this.specialWorksData = data;
+        console.log("specialWorksData"+JSON.stringify(data))
       })
   }
-  
+
+  getPreMeaMast () {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.GET_PRE_MEA_MAS_ID+this.addSpecialWorksFormGroup.value.precautionaryMeasure).subscribe((data) => {
+         this.selectedWork = data;
+     });
+  }
+  duplicateFacilityIdPrecautionaryMeasureDateOfWork() {
+    const q = new Promise((resolve, reject) => {
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS. EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE +
+            this.addSpecialWorksFormGroup.controls['facilityId'].value + '/'+
+            this.addSpecialWorksFormGroup.controls['precautionaryMeasure'].value+'/'+
+            this.addSpecialWorksFormGroup.controls['dateOfWork'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicate': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicate': true }); });
+    });
+    return q;
+    }
+  duplicateFacilityIdPrecautionaryMeasureDateOfWorkAndId() {
+    let id=this.id;
+    let facilityId: string = this.addSpecialWorksFormGroup.controls['facilityId'].value;
+    let precautionaryMeasure: string = this.addSpecialWorksFormGroup.controls['precautionaryMeasure'].value;
+    let dateOfWork: string = this.addSpecialWorksFormGroup.controls['dateOfWork'].value;
+   
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE_ID +id+'/'+facilityId+'/'+precautionaryMeasure+'/'+dateOfWork).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateFacilityIdPrecautionaryMeasureDateOfWorkAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateFacilityIdPrecautionaryMeasureDateOfWorkAndId': true }); });
+    });
+    return q;
+  }
 }

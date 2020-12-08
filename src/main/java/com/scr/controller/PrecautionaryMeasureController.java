@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.PrecautionaryMeasure;
+import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.services.PrecautionaryMeasureService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -48,6 +50,23 @@ public class PrecautionaryMeasureController {
 		}
 		logger.info("Exit from findAll PrecautionaryMeasure function");
 		return precautionaryMeasureList;
+	}
+	@RequestMapping(value = "/findPreMeasMasId/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<PrecautionaryMeasuresMaster> findById(@PathVariable("id") Integer id){
+		Optional<PrecautionaryMeasuresMaster> precautionaryMeasuresMaster = null;
+		try {
+			logger.info("Selected Pre Measu Master Id = "+id);
+			precautionaryMeasuresMaster = precautionaryMeasureService.findById(id);
+			if(precautionaryMeasuresMaster.isPresent()) {
+				logger.info("Pre Measu Master Data = "+precautionaryMeasuresMaster.get());
+				return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+			logger.error("Error >>  while find Pre Measu Master Details by id, "+e.getMessage());
+			return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	@RequestMapping(value="/addPrecautionaryMeasures",method=RequestMethod.POST,headers="Accept=application/json")
 	public ResponseStatus addPrecautionaryMeasures(@RequestBody PrecautionaryMeasure precautionaryMeasure) {
@@ -118,5 +137,58 @@ public class PrecautionaryMeasureController {
 			return Helper.findResponseStatus("precautionaryMeasure Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
+	@RequestMapping(value = "/getprecautionaryMeasureBasedOnActive/{active}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<PrecautionaryMeasuresMaster> getprecautionaryMeasureBasedOnActive(@PathVariable("active") String active) {
+		logger.info("** Enter into getprecautionaryMeasureBasedOnActive function ***");
+		Optional<PrecautionaryMeasuresMaster> precautionaryMeasuresMaster = null;
+		try {
+			logger.info("** active = " + active);
+			precautionaryMeasuresMaster = precautionaryMeasureService.findByActive(active);
+			if (precautionaryMeasuresMaster.isPresent()) {
+				return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.CONFLICT);
 
+		} catch (Exception e) {
+			logger.error("Error >>  while find precautionaryMeasure Details by active, " + e.getMessage());
+			return new ResponseEntity<PrecautionaryMeasuresMaster>(precautionaryMeasuresMaster.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	@RequestMapping(value = "/findByFacilityIdPrecautionaryMeasureAndCreatedDate/{facilityId}/{precautionaryMeasure}/{dateOfWork}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFacilityIdAndPrecautionaryMeasureAndDateOfWork(@PathVariable("facilityId") String facilityId ,@PathVariable("precautionaryMeasure") Integer precautionaryMeasure,@PathVariable("dateOfWork") String dateOfWork){
+		
+		try {
+			logger.info("Request for checking exists facilityId,Precautionary Measure and createdDate...");
+			return precautionaryMeasureService.existsByFacilityIdAndPrecautionaryMeasureAndDateOfWork(facilityId,precautionaryMeasureService.findById(precautionaryMeasure).get(),Helper.convertStringToTimestamp(dateOfWork));
+		} catch (Exception e) {
+			logger.error("Error while checking exists facilityId "+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existFacilityIdPrecautionaryMeasureAndDateOfWorkAndId/{id}/{facilityId}/{precautionaryMeasure}/{dateOfWork}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFacilityIdCreatedDateAndId(@PathVariable("id") Long id,@PathVariable("facilityId") String facilityId,@PathVariable("precautionaryMeasure") Integer precautionaryMeasure,@PathVariable("dateOfWork") String dateOfWork){
+		
+		logger.info("id=="+id+"precautionaryMeasure=="+precautionaryMeasure);
+		Boolean result;
+		try {
+			Optional<PrecautionaryMeasure> precautionaryMeasureData = precautionaryMeasureService.findByFacilityIdAndPrecautionaryMeasureAndDateOfWork (facilityId,precautionaryMeasureService.findById(precautionaryMeasure).get(),Helper.convertStringToTimestamp(dateOfWork));
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(precautionaryMeasureData.isPresent()) {
+				PrecautionaryMeasure preMeasure = precautionaryMeasureData.get();
+				logger.info("***id ***"+preMeasure.getId());
+				if (id.equals(preMeasure.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and facilityId..."+e.getMessage());
+			return false;
+		}
+	}
+	
 }

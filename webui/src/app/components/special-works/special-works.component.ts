@@ -26,12 +26,12 @@ export class SpecialWorksComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'facilityId', 'location','precautionaryMeasure','count', 'fromDateTime', 'thruDateTime','actions'];
+  displayedColumns = ['sno', 'facilityId', 'location','precautionaryMeasure','count', 'dateOfWork','actions'];
   dataSource: MatTableDataSource<SpecialWorksModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   filterData;
   facilityData:any;
-
+   precautionaryMeasureData:any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
@@ -50,7 +50,7 @@ export class SpecialWorksComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("PRODUCTS","PRODUCT CATEGORY MEMBER") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","PRECAUTIONARY MEASURES") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -64,8 +64,7 @@ export class SpecialWorksComponent implements OnInit {
         { "Key": 'location', "Value": " " },
         { "Key": 'precautionaryMeasure', "Value": " " },
         { "Key": 'count', "Value": " " },
-        { "Key": 'fromDateTime', "Value": "" },
-        { "Key": 'thruDateTime', "Value": " " },
+        { "Key": 'dateOfWork', "Value": "" },
       ],
       gridData: this.gridData,
       dataSource: this.dataSource,
@@ -82,7 +81,6 @@ export class SpecialWorksComponent implements OnInit {
       for (let i = 0; i < this.specialWorksList.length; i++) {
         this.specialWorksList[i].sno = i + 1;
         this.specialWorksList[i].fromDateTime = this.datePipe.transform(this.specialWorksList[i].fromDateTime, 'dd-MM-yyyy');
-                this.specialWorksList[i].thruDateTime = this.datePipe.transform(this.specialWorksList[i].thruDateTime, 'dd-MM-yyyy');
                 this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.specialWorksList[i].facilityId)).subscribe((data) => {
                   this.spinnerService.hide();
                   this.facilityData = data;
@@ -140,10 +138,9 @@ export class SpecialWorksComponent implements OnInit {
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
                     { label:FieldLabelsConstant.LABELS.LOCATION, value:data.location },
-                    { label:FieldLabelsConstant.LABELS.SPECIAL_WORKS, value:data.precautionaryMeasure },
+                    { label:FieldLabelsConstant.LABELS.SPECIAL_WORKS, value:data.precautionaryMeasure.precautionaryMeasure },
                     { label:FieldLabelsConstant.LABELS.COUNT, value:data.count },
-                    { label:FieldLabelsConstant.LABELS.FROM_DATE, value:data.fromDateTime },
-                    { label:FieldLabelsConstant.LABELS.TO_DATE, value:data.thruDateTime },
+                    { label:FieldLabelsConstant.LABELS.DATE_OF_WORK, value:data.dateOfWork },
                     { label:FieldLabelsConstant.LABELS.DONE_BY, value:data.doneBy },
                     { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
                     

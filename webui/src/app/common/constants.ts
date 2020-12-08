@@ -274,6 +274,9 @@ export const Constants = {
                 SAVE_SPECIAL_WORKS:"/addPrecautionaryMeasures",
                 UPDATE_SPECIAL_WORKS:"/updatePrecautionaryMeasure",
                 DELETE_SPECIAL_WORKS:"/deletePrecautionaryMeasure/",
+                GET_PRECAUTIONARY_MEASURES_BASED_ON_STATUS:"/getprecautionaryMeasureBasedOnActive/",
+                EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE:"/findByFacilityIdPrecautionaryMeasureAndCreatedDate/",
+                EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE_ID:"/existFacilityIdPrecautionaryMeasureAndDateOfWorkAndId/"
 
             },
             SUBSECTOR:{

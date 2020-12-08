@@ -78,7 +78,7 @@
                                                         <span>{{FiledLabels.SPECIAL_WORKS}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData">
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row"> {{row.precautionaryMeasure}}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.precautionaryMeasure.precautionaryMeasure}}</mat-cell>
                                                 </ng-container>
 
                                                 <ng-container matColumnDef="count">
@@ -89,20 +89,14 @@
                                                     <mat-cell *matCellDef="let row"> {{row.count}}</mat-cell>
                                                 </ng-container>
 
-                                                <ng-container matColumnDef="fromDateTime">
+                                                <ng-container matColumnDef="dateOfWork">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>{{FiledLabels.FROM_DATE}}</span>
+                                                        <span>{{FiledLabels.DATE_OF_WORK}}</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[5].Value" [filter]="filterData">
                                                     </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row"> {{row.fromDateTime}}</mat-cell>
+                                                    <mat-cell *matCellDef="let row"> {{row.dateOfWork}}</mat-cell>
                                                 </ng-container>
-                                                <ng-container matColumnDef="thruDateTime">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>{{FiledLabels.TO_DATE}}</span>
-                                                        <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData">
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let row"> {{row.thruDateTime}}</mat-cell>
-                                                </ng-container>
+                                                
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                         <span>{{FiledLabels.ACTIONS}}</span>
