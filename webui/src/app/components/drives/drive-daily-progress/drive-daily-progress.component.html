@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-3">
                                 	<mat-form-field fxFlex="30" class="example-full-width">
-                                    	<mat-select [formControl]="searchInputFormGroup.controls['facilityId']" >
+                                    	<mat-select placeholder="{{FiledLabels.DEPOT}}" [formControl]="searchInputFormGroup.controls['facilityId']" >
                                         	<mat-option *ngFor="let depot of depotsList"
                                             	[value]="depot.facilityId">
                                                 	{{ depot.facilityName }}
@@ -110,10 +110,11 @@
 	                                        <ng-container matColumnDef="alreadyDone" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> 
-	                                            	<mat-form-field fxFlex="30">
+	                                            	{{row.alreadyDone}}
+	                                            	<!-- <mat-form-field fxFlex="30">
 														<input matInput  [value]="row.alreadyDone" 
 												                 [(ngModel)]="row.alreadyDone" readonly>
-												    </mat-form-field>
+												    </mat-form-field> -->
 	                                            </mat-cell>
 	                                        </ng-container>
 	                                        

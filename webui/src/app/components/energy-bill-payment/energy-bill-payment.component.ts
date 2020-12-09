@@ -4,16 +4,25 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EnergyBillPaymentModel } from 'src/app/models/energy-bill-payment.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Constants } from 'src/app/common/constants';
-import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatDialogRef, MatDialog, MatPaginator, MatSort, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common'
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
     selector: 'energy-bill-payment',
     templateUrl: './energy-bill-payment.component.html',
-    styleUrls: ['./energy-bill-payment.component.scss']
+    styleUrls: ['./energy-bill-payment.component.scss'],
+    providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class EnergyBillPaymentComponent implements OnInit{
     
@@ -38,6 +47,7 @@ export class EnergyBillPaymentComponent implements OnInit{
     divisionList: any;
     id: any;
     enableReference: boolean;
+    maxDate = new Date();
 
     constructor(
         private commonService: CommonService,
@@ -115,7 +125,7 @@ export class EnergyBillPaymentComponent implements OnInit{
             this.eneBillPaymentList = data;
             for (let i = 0; i < this.eneBillPaymentList.length; i++) {
                 this.eneBillPaymentList[i].sno = i+1;
-                //this.eneBillPaymentList[i].dateOfPayment = this.datePipe.transform(this.eneBillPaymentList[i].dateOfPayment, 'dd-MM-yyyy hh:mm:ss');
+                this.eneBillPaymentList[i].dateOfPayment = this.datePipe.transform(this.eneBillPaymentList[i].dateOfPayment, 'dd-MM-yyyy');
                eneBillPayment.push(this.eneBillPaymentList[i]);
             }
             this.energyBillPaymentDataSource = new MatTableDataSource(eneBillPayment);

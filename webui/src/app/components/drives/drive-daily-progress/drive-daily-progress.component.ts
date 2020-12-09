@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { DriveChecklistModel } from 'src/app/models/drive.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
@@ -14,14 +14,22 @@ import { DriveProgressIdModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { ViewDriveDailyProgressComponent } from './view-drive-daily-progress/view-drive-daily-progress.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 
 @Component({
   selector: 'drive-daily-progress',
   templateUrl: './drive-daily-progress.component.html',
-  styleUrls: ['./drive-daily-progress.component.scss']
+  styleUrls: ['./drive-daily-progress.component.scss'],
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class DriveDailyProgressComponent implements OnInit {
       
@@ -118,6 +126,7 @@ export class DriveDailyProgressComponent implements OnInit {
     
     getDriveDailyProgress() {
         const drivesData: DriveModel [] = [];
+        this.dataSource = new MatTableDataSource(drivesData);
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT
         +this.searchInputFormGroup.controls['fromDate'].value +'/' + this.searchInputFormGroup.controls['facilityId'].value
             ).subscribe((data) => {
@@ -241,8 +250,8 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
 	    .subscribe((resp) => {
 	        this.driveData = resp;
 	        this.driveName = this.driveData.name;
-	        this.fromDate = this.datePipe.transform(this.driveData.fromDate,'dd-MM-yyyy hh:mm:ss');
-	        this.toDate = this.datePipe.transform(this.driveData.toDate,'dd-MM-yyyy hh:mm:ss');
+	        this.fromDate = this.datePipe.transform(this.driveData.fromDate,'dd-MM-yyyy');
+	        this.toDate = this.datePipe.transform(this.driveData.toDate,'dd-MM-yyyy');
 	    });
     }
     
@@ -374,12 +383,12 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.DRIVE_PROGRESS_ID.DELETE ,id).subscribe(data => {
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted  Daily Progress Id Successfully");
+          this.commonService.showAlertMessage("Asset Id Deleted Successfully");
           this.getDriveProgressIdData();
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Drive Drive Progress Id Failed.");
+          this.commonService.showAlertMessage("Asset Id Deletion Failed.");
         })
       }
       this.confirmDialogRef = null;

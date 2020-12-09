@@ -36,17 +36,18 @@ export class ViewDriveDailyProgressComponent implements OnInit {
         const DDProgressData: DriveProgressIdModel[] = [];
             for (let i = 0; i < this.response.length; i++) {               
                   this.response[i].sno = i + 1;
-                  this.response[i].performedDate = this.datePipe.transform(this.response[i].performedDate, 'dd-MM-yyyy hh:mm:ss');
+                  this.response[i].performedDate = this.datePipe.transform(this.response[i].performedDate, 'dd-MM-yyyy');
                   DDProgressData.push(this.response[i]);                
               }
               this.DDProgressDataSource = new MatTableDataSource(DDProgressData);
               this.DDProgressDataSource.paginator = this.schedulerPaginator;
               this.DDProgressDataSource.sort = this.sort;
     }
+    /*
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.DDProgressDataSource.filter = filterValue;
-      }
+      } */
     
 }

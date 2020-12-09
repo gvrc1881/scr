@@ -1233,6 +1233,7 @@ public class DrivesController {
 	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId  ) throws JSONException {
 		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
+		logger.info("** formdate ***"+fromDate+"** facility Id***"+facilityId);
 		List<Drives> drivesList = null;
 		Date toDate = fromDate;
 		try {			

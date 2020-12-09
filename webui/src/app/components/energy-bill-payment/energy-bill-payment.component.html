@@ -58,12 +58,12 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="{{FiledLabels.AMOUNT}}" [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
+                                                                <input matInput placeholder="{{FiledLabels.AMOUNT}}" decimalNumber [formControl]="energyBillPaymentFormGroup.controls['amount']" required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']" required>
+                                                                <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}" [max]="maxDate" [formControl]="energyBillPaymentFormGroup.controls['dateOfPayment']" required>
                                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                     <mat-datepicker #picker  ></mat-datepicker> <!--(yearSeleceted)="close($event)"-->
                                                               </mat-form-field>
@@ -83,7 +83,7 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
-                                                                <input matInput placeholder="{{FiledLabels.MONTH}}" [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber required />
+                                                                <input matInput placeholder="{{FiledLabels.MONTH}}" numbersOnly [formControl]="energyBillPaymentFormGroup.controls['month']" decimalNumber required />
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3">
@@ -146,7 +146,7 @@
                                             <ng-container matColumnDef="dateOfPayment">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DATE_OF_PAYMENT}}</mat-header-cell>
                                                     <mat-cell *matCellDef="let row" style="cursor: pointer">
-                                                      {{row.dateOfPayment | date}}</mat-cell>
+                                                      {{row.dateOfPayment}}</mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="division">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DIVISION}}</mat-header-cell>

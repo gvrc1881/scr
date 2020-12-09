@@ -43,6 +43,7 @@ export class EnergyMeterComponent implements OnInit{
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     tssFeeder: any;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
+    maxDate = new Date();
 
     constructor(
         private commonService: CommonService,
@@ -84,6 +85,10 @@ export class EnergyMeterComponent implements OnInit{
 	    });
     	return q;
   	}
+    
+    addEvent($event) {
+        this.toMinDate = new Date($event.value);
+      }
     
     energyMeterSubmit () {
         let cmd: string = this.energyMeterFormGroup.value.cmd;
@@ -240,6 +245,7 @@ export class EnergyMeterComponent implements OnInit{
                 startDate: !!this.editEnergyMeterResponse.startDate ? new Date(this.editEnergyMeterResponse.startDate) : '',
                 endDate: !!this.editEnergyMeterResponse.endDate ? new Date(this.editEnergyMeterResponse.endDate) : ''
             })
+            this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
             
         } ,error => {})
         this.id=id;

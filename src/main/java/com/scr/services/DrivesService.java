@@ -675,8 +675,9 @@ public class DrivesService {
 	public List<Drives> getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
 			Date fromDate,Date toDate, String depotType ) {
 		// TODO Auto-generated method stub
+		logger.info("** depot type***"+depotType);
 		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(depotType);
-		return driveRepository.findByFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndDepotType(fromDate,toDate,functionalLocationType.get());
+		return driveRepository.findByDepotTypeAndFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
 	}
 
 	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
@@ -746,6 +747,7 @@ public class DrivesService {
 			DCAsso.setDriveCategoryId(driveCategory);
 			DCAsso.setDriveId(drive);
 			DCAsso.setCreatedBy(drive.getCreatedBy());
+			DCAsso.setActive("Yes");
 			DCAsso.setStatusId(Constants.ACTIVE_STATUS_ID);
 			driveCategoryAssoRepository.save(DCAsso);
 		}
