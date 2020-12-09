@@ -6,9 +6,11 @@
             <div class="breadcrumb-section">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Electrification Targets</li>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                            <li class="breadcrumb-item"><a [routerLink]="['/amd']">Asset MasterData</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Electrification Targets </li>
+                        </ol>
                     </ol>
                 </nav>
             </div>
