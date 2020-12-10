@@ -1,9 +1,33 @@
-.mat-column-detailsOfIssue {
-    flex: 0 0 15%;
+.mat-column-sno {
+    flex: 0 0 6%;
 }
-.mat-column-closedRemark {
-    flex: 0 0 15%;
+.mat-column-agencyRbRdso {
+    flex: 0 0 5%;
+}
+.mat-column-date {
+    flex: 0 0 6%;
+}
+.mat-column-heading {
+    flex: 0 0 6%;
+}
+.mat-column-letterNo {
+    flex: 0 0 6%;
+}
+.mat-column-reportContinue {
+    flex: 0 0 6%;
 }
 .mat-column-status {
-    flex: 0 0 15%;
+    flex: 0 0 12%;
+}
+.mat-column-detailsOfIssue {
+    flex: 0 0 13%;
+}
+.mat-column-response {
+    flex: 0 0 6%;
+}
+.mat-column-shortDescription {
+    flex: 0 0 6%;
+}
+.mat-column-closedRemark {
+    flex: 0 0 10%;
 }

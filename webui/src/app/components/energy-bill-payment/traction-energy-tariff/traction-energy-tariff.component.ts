@@ -52,6 +52,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     eleEnergySuppliersList: any;
     tariffResponse: any;
     enableSupplier: boolean;
+    addEnable: boolean;
     
     constructor(
         private commonService: CommonService,
@@ -146,6 +147,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     removeFile(id) {
         this.selectedFiles.splice(id, 1);
         if(this.selectedFiles.length === 0) {
+            this.addEnable = false;
         	this.filesExists = false;
         }
     }
@@ -180,7 +182,9 @@ export class TractionEnergyTariffComponent implements OnInit{
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
-                window.location.reload();
+                this.addEnable = false;
+                this.contentManagementFormGroup.reset();
+                //window.location.reload();
             }, error => {
                 console.log('ERROR >>>');
                 this.spinnerService.hide();
@@ -192,6 +196,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     upload(event) {
         if (event.target.files.length > 0) { this.filesExists = true; }
         for (var i = 0; i < event.target.files.length; i++) {
+            this.addEnable = true;
             this.selectedFiles.push(event.target.files[i]);
         }
     }

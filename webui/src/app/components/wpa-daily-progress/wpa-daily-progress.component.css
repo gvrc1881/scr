@@ -1,6 +1,24 @@
-/* .mat-column-sno {
+.mat-column-sno {
+    max-width: 80px;
+}
+.mat-column-section {
+    max-width: 380px;
+}
+.mat-column-activity {
+    max-width: 380px;
+}
+.mat-column-population {
     max-width: 100px;
-} */
+}
+.mat-column-alreadyDoneCount {
+    max-width: 100px;
+}
+.mat-column-uom {
+    max-width: 100px;
+}
+.mat-column-done {
+    max-width: 150px;
+}
 .error {
   font-size: 10px;
   color: red;

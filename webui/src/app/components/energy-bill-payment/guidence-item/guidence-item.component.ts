@@ -3,20 +3,28 @@ import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { GuidenceItemModel } from 'src/app/models/guidence-item.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 
 @Component({
     selector: 'guidence-item',
     templateUrl: './guidence-item.component.html',
-    styleUrls: ['./guidence-item.component.scss']
+    styleUrls: ['./guidence-item.component.scss'],
+    providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class GuidenceItemComponent implements OnInit{
 

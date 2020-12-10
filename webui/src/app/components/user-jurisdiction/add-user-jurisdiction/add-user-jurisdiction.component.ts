@@ -75,7 +75,7 @@ export class AddUserJurisdictionComponent implements OnInit {
     getUserJurisdictionDataById(id) {
         this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.USER_JURISDICTION.GET_USER_JURISDICTION_ID+id)
             .subscribe((resp) => {
-                //console.log('** edit body ***'+JSON.stringify(resp));
+                console.log('** edit body ***'+JSON.stringify(resp));
                 this.resp = resp;
                 this.selectedGroups.push(this.resp.workGroupId.id);
                 if(this.resp.section){
@@ -93,7 +93,7 @@ export class AddUserJurisdictionComponent implements OnInit {
                         id: this.id,
                         user : this.resp.userId.id,
                         work : this.resp.workId.id,
-                        workGruoup: this.selectedGroups,
+                        workGroup: this.selectedGroups,
                         section : this.selectedSections
                     })                    
                 }
