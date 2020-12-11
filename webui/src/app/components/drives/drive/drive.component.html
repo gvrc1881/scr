@@ -166,8 +166,8 @@
                                                 <mat-row *matRowDef="let row; columns: displayedColumns;">
                                                 </mat-row>
                                             </mat-table>
-
-                                            <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>                                        </div>
+                                            <mat-paginator [pageSizeOptions]="drivePagination"></mat-paginator>                                       
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +269,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>                                        </div>
+                                            <mat-paginator [pageSizeOptions]="driveCatPagination"></mat-paginator>                                  
                                     </div>
                                 </div>
                             </div>
@@ -357,7 +357,8 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>                                        </div>
+                                            <mat-paginator [pageSizeOptions]="driveCatAssocPagination"></mat-paginator>                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>

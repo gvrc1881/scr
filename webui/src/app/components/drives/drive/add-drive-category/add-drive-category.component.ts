@@ -6,11 +6,22 @@ import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
   selector: 'app-add-drive-category',
   templateUrl: './add-drive-category.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
+
 })
 export class AddDriveCategoryComponent implements OnInit {
 

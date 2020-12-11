@@ -45,7 +45,7 @@ dateFormat = 'dd-MM-yyyy hh:mm:ss';
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
-  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData'));
+  //depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData'));
   facilityList:any;
   enableStation:boolean;
 
@@ -101,11 +101,11 @@ findFacilities(){
    if(this.loggedUserData.username == 'tpc_admin'){
 
     this.enableStation=true;
-    for (let i = 0; i < this.depotHierarchy.length; i++) {
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.depotHierarchy[i].unitType == 'RCC'){     
+      if( this.facilityHierarchy[i].unitType == 'RCC'){     
          
-       this.facilityList.push(this.depotHierarchy[i]);
+       this.facilityList.push(this.facilityHierarchy[i]);
           
       }
    }  

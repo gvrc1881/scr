@@ -19,22 +19,23 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 @Component({
   selector: 'app-drives',
   templateUrl: './drive.component.html',
-  styleUrls: []
+  styleUrls: ['./drive.component.scss']
 })
 export class DrivesComponent implements OnInit {
 
-  pagination=Constants.PAGINATION_NUMBERS;
+  drivePagination=Constants.PAGINATION_NUMBERS;
+  driveCatPagination=Constants.PAGINATION_NUMBERS;
+  driveCatAssocPagination=Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   resp: any;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(localStorage.getItem('userData')); 
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType', 'frequency',
-    'assetDescription', 'criteria', 'targetQuantity', 'isIdRequired', 'functionalUnit',
-    'checkList', 'active', 'actions'];
+   'functionalUnit', 'active', 'actions'];
   driveCategoryDisplayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'authority', 'actions'];
   driveCategoryAssoDisplayedColumns = ['sno', 'drive', 'driveCategory', 'active', 'actions'];
 
@@ -49,18 +50,18 @@ export class DrivesComponent implements OnInit {
   functionalUnitList: any;
   allFunctionalUnitsList: any;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) drivepaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   drivesList: any;
 
-  @ViewChild(MatPaginator, { static: true }) driveCategoryPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) driveCategorySort: MatSort;
-  @ViewChild('filter', { static: true }) driveCategoryFilter: ElementRef;
+   @ViewChild(MatPaginator, { static: true }) driveCategoryPaginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) driveCategorySort: MatSort;
+   @ViewChild('filter', { static: true }) driveCategoryFilter: ElementRef;
   driveCategoryList: any;
 
-  @ViewChild(MatPaginator, { static: true }) driveCategoryAssoPaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) driveCategoryAssoSort: MatSort;
+   @ViewChild(MatPaginator, { static: true }) driveCategoryAssoPaginator: MatPaginator;
+   @ViewChild(MatSort, { static: true }) driveCategoryAssoSort: MatSort;
   @ViewChild('filter', { static: true }) driveCategoryAssoFilter: ElementRef;
   driveCategoryAssoList: any;
 
@@ -148,7 +149,7 @@ export class DrivesComponent implements OnInit {
       }
 
       this.dataSource = new MatTableDataSource(drive);
-      this.dataSource.paginator = this.paginator;
+     this.dataSource.paginator = this.drivepaginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
@@ -157,7 +158,7 @@ export class DrivesComponent implements OnInit {
   }
 
   getDriveCategoryData() {
-    const drive: DriveCategoryModel[] = [];
+    const driveCat: DriveCategoryModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
       this.driveCategoryList = data;
       for (let i = 0; i < this.driveCategoryList.length; i++) {
@@ -165,11 +166,10 @@ export class DrivesComponent implements OnInit {
         this.driveCategoryList[i].name = this.driveCategoryList[i].driveCategoryName;
         this.driveCategoryList[i].fromDate = this.datePipe.transform(this.driveCategoryList[i].fromDate, 'dd-MM-yyyy ');
         this.driveCategoryList[i].toDate = this.datePipe.transform(this.driveCategoryList[i].toDate, 'dd-MM-yyyy ');
-        drive.push(this.driveCategoryList[i]);
+        driveCat.push(this.driveCategoryList[i]);
       }
-      this.driveCategoryDataSource = new MatTableDataSource(drive);
-      this.driveCategoryDataSource.paginator = this.driveCategoryPaginator;
-      this.driveCategoryDataSource.sort = this.driveCategorySort;
+      this.driveCategoryDataSource = new MatTableDataSource(driveCat);
+   // this.driveCategoryDataSource.paginator=this.driveCatPagination;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -177,19 +177,19 @@ export class DrivesComponent implements OnInit {
   }
 
   getDriveCategoryAssoData() {
-    const drive: DriveCategoryAssoModel[] = [];
+    const driveCatAssoc: DriveCategoryAssoModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY_ASSOCIATION.GET_DRIVE_CATEGORY_ASSOC).subscribe((data) => {
       this.driveCategoryAssoList = data;
       for (let i = 0; i < this.driveCategoryAssoList.length; i++) {
         this.driveCategoryAssoList[i].sno = i + 1;
         this.driveCategoryAssoList[i].drive = this.driveCategoryAssoList[i].driveId['name'];
         this.driveCategoryAssoList[i].driveCategory = this.driveCategoryAssoList[i].driveCategoryId['driveCategoryName'];
-        drive.push(this.driveCategoryAssoList[i]);
+        driveCatAssoc.push(this.driveCategoryAssoList[i]);
       }
 
-      this.driveCategoryAssoDataSource = new MatTableDataSource(drive);
-      this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
-      this.driveCategoryAssoDataSource.sort = this.driveCategoryAssoSort;
+      this.driveCategoryAssoDataSource = new MatTableDataSource(driveCatAssoc);
+      //this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
+      //this.driveCategoryAssoDataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();

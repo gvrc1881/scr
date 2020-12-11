@@ -50,7 +50,7 @@ export class AddGridFailureComponent implements OnInit {
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
-  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData')); 
+  //depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData')); 
 
   facilityList:any;
 
@@ -80,7 +80,8 @@ export class AddGridFailureComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.findFacilities();
+    console.log("facility=="+JSON.stringify(this.facilityHierarchy));
+   // this.findFacilities();
     this.id = +this.route.snapshot.params['id'];    
     
     if (!isNaN(this.id)) {
@@ -105,24 +106,24 @@ export class AddGridFailureComponent implements OnInit {
 
 findFacilities(){
    
-  this.facilityList=[]; 
-   if(this.loggedUserData.username == 'tpc_admin'){
+  this.facilityList=[];   
+   if(this.loggedUserData.username === 'tpc_admin'){
 
     this.enableStation=true;
     this.enableExtend=true;
-    for (let i = 0; i < this.depotHierarchy.length; i++) {
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.depotHierarchy[i].unitType == 'TSS'){
+      if( this.facilityHierarchy[i].unitType == 'TSS'){
       
-       this.facilityList.push(this.depotHierarchy[i]);
+       this.facilityList.push(this.facilityHierarchy[i]);
           //this.facilityHierarchy.facilityList;
           
       }
    }     
 
   } else {
-    this.enableStation=true;
-    this.enableExtend=true;
+     this.enableStation=true;
+     this.enableExtend=true;
 
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
       
@@ -326,16 +327,17 @@ timDuration(){
   }
   addEvent($event) {
     this.minDate  = new Date($event.value);
-    this.currentDate = new Date($event.value);
-    //this.fMinDate  = new Date($event.value);
+   // this.currentDate = new Date($event.value);
+    this.fMinDate  = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.fMinDate  = new Date($event.value);
+    //this.fMinDate  = new Date($event.value);
+
     this.toMinDate  = new Date($event.value);
-    this.toDate = new Date($event.value);
-    this.exFromDate = new Date($event.value);
-    this.exToDate = new Date($event.value);
+  
+   
   }
+
   onAddFailureAnalysisFormSubmit() {
     if (this.addGridFailFromGroup.invalid) {
       this.isSubmit = false;

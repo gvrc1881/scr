@@ -583,8 +583,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "cb-failure",
             subMenuIcon: "fa fa-file",
             rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-             //permission:true,
+           // permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+             permission:true,
             currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
           },
           {
