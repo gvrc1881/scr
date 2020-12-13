@@ -880,6 +880,10 @@ public void saveTargets(List<DriveTarget> driveTarget) {
 	
 }
 
+public List<DriveCategoryAsso> findByDriveCategoryIdAndStatusId(DriveCategory driveCategory, int activeStatusId) {
+	return driveCategoryAssoRepository.findByDriveCategoryIdAndStatusId(driveCategory,activeStatusId);
+}
+
 
 
 

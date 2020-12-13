@@ -1412,7 +1412,7 @@ public class DrivesController {
 		List<DriveCategoryAsso> driveCategoryAssoList = null;
 		try {			
 			if (driveCategory.isPresent()) {
-				driveCategoryAssoList = service.findByDriveCategoryId(driveCategory.get());
+				driveCategoryAssoList = service.findByDriveCategoryIdAndStatusId(driveCategory.get(),Constants.ACTIVE_STATUS_ID);
 			}
 		} catch (NullPointerException e) {			
 			logger.error(e);

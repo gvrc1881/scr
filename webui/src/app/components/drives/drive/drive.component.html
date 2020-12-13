@@ -45,7 +45,7 @@
 
                                         <div class="example-container mat-elevation-z8">
 
-                                            <mat-table [dataSource]="dataSource" matSort>
+                                            <mat-table #sort="matSort" [dataSource]="dataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
@@ -166,7 +166,7 @@
                                                 <mat-row *matRowDef="let row; columns: displayedColumns;">
                                                 </mat-row>
                                             </mat-table>
-                                            <mat-paginator [pageSizeOptions]="drivePagination"></mat-paginator>                                       
+                                            <mat-paginator #drivePaginator [pageSizeOptions]="drivePagination"></mat-paginator>                                       
                                         </div> 
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
 
                                         <div class="example-container mat-elevation-z8">
 
-                                            <mat-table [dataSource]="driveCategoryDataSource" matSort>
+                                            <mat-table #driveCategorySort="matSort" [dataSource]="driveCategoryDataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}
@@ -269,7 +269,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="driveCatPagination"></mat-paginator>                                  
+                                            <mat-paginator #driveCategoryPaginator [pageSizeOptions]="driveCatPagination"></mat-paginator>                                  
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +307,7 @@
 
                                         <div class="example-container mat-elevation-z8">
 
-                                            <mat-table [dataSource]="driveCategoryAssoDataSource" matSort>
+                                            <mat-table #driveCategoryAssoSort="matSort" [dataSource]="driveCategoryAssoDataSource" matSort>
 
                                                 <ng-container matColumnDef="sno">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}
@@ -357,7 +357,7 @@
                                                 </mat-row>
                                             </mat-table>
 
-                                            <mat-paginator [pageSizeOptions]="driveCatAssocPagination"></mat-paginator>                                        
+                                            <mat-paginator #driveCategoryAssoPaginator [pageSizeOptions]="driveCatAssocPagination"></mat-paginator>                                        
                                         </div>
                                     </div>
                                 </div>

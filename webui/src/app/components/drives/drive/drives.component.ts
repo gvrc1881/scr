@@ -50,18 +50,18 @@ export class DrivesComponent implements OnInit {
   functionalUnitList: any;
   allFunctionalUnitsList: any;
 
-  @ViewChild(MatPaginator, { static: true }) drivepaginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('drivePaginator', { static: true }) drivePaginator: MatPaginator;
+  @ViewChild('sort', { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   drivesList: any;
 
-   @ViewChild(MatPaginator, { static: true }) driveCategoryPaginator: MatPaginator;
-   @ViewChild(MatSort, { static: true }) driveCategorySort: MatSort;
+   @ViewChild('driveCategoryPaginator', { static: true }) driveCategoryPaginator: MatPaginator;
+   @ViewChild('driveCategorySort', { static: true }) driveCategorySort: MatSort;
    @ViewChild('filter', { static: true }) driveCategoryFilter: ElementRef;
   driveCategoryList: any;
 
-   @ViewChild(MatPaginator, { static: true }) driveCategoryAssoPaginator: MatPaginator;
-   @ViewChild(MatSort, { static: true }) driveCategoryAssoSort: MatSort;
+   @ViewChild('driveCategoryAssoPaginator', { static: true }) driveCategoryAssoPaginator: MatPaginator;
+   @ViewChild('driveCategoryAssoSort', { static: true }) driveCategoryAssoSort: MatSort;
   @ViewChild('filter', { static: true }) driveCategoryAssoFilter: ElementRef;
   driveCategoryAssoList: any;
 
@@ -76,6 +76,9 @@ export class DrivesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+      //this.dataSource.sort = this.sort;
+      //this.driveCategoryDataSource.sort = this.driveCategorySort;
+      //this.driveCategoryAssoDataSource.sort = this.drivecate
     var permissionName = this.commonService.getPermissionNameByLoggedData("DRIVES", "DRIVES");
     this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -149,7 +152,7 @@ export class DrivesComponent implements OnInit {
       }
 
       this.dataSource = new MatTableDataSource(drive);
-     this.dataSource.paginator = this.drivepaginator;
+     this.dataSource.paginator = this.drivePaginator;
       this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
@@ -169,7 +172,8 @@ export class DrivesComponent implements OnInit {
         driveCat.push(this.driveCategoryList[i]);
       }
       this.driveCategoryDataSource = new MatTableDataSource(driveCat);
-   // this.driveCategoryDataSource.paginator=this.driveCatPagination;
+      this.driveCategoryDataSource.paginator = this.driveCategoryPaginator;
+        this.driveCategoryDataSource.sort = this.driveCategorySort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
@@ -188,8 +192,8 @@ export class DrivesComponent implements OnInit {
       }
 
       this.driveCategoryAssoDataSource = new MatTableDataSource(driveCatAssoc);
-      //this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
-      //this.driveCategoryAssoDataSource.sort = this.sort;
+      this.driveCategoryAssoDataSource.paginator = this.driveCategoryAssoPaginator;
+      this.driveCategoryAssoDataSource.sort = this.driveCategoryAssoSort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
