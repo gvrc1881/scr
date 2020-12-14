@@ -1240,7 +1240,7 @@ public class DrivesController {
 			logger.info("Calling service for dirves data");
 			Optional<Facility> facilityData = facilityService.findByFacilityId(facilityId);
 			if (facilityData.isPresent()) {
-				drivesList = service.getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType());	
+				drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType());	
 			}
 			
 			logger.info("Fetched drives size = "+drivesList.size());

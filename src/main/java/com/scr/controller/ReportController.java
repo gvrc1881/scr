@@ -430,9 +430,11 @@ public class ReportController {
 			return new ResponseEntity<List<Facility>>(fnBySubDivisionAndDepotType, HttpStatus.OK);		
 	}
 	@RequestMapping(value = "/getFacilityNameBasedOnTpcBoard/{tpcBoard}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<TpcBoardReportingFacility>> getFacilityNameBasedOnTpcBoard(@PathVariable("tpcBoard") String tpcBoard){
-		List<TpcBoardReportingFacility> fnByTpcBoard= reportService.getFacilityNameBasedOnTpcBoard(tpcBoard);
-			return new ResponseEntity<List<TpcBoardReportingFacility>>(fnByTpcBoard, HttpStatus.OK);		
+	public ResponseEntity<List<Facility>> getFacilityNameBasedOnTpcBoard(@PathVariable("tpcBoard") String tpcBoard){
+		log.info("Enter into getFacilityNameBasedOnTpcBoard function");
+		List<Facility> fnByTpcBoard= reportService.getFacilityNameBasedOnTpcBoard(tpcBoard);
+		log.info("End of the  getFacilityNameBasedOnTpcBoard function");
+		return new ResponseEntity<List<Facility>>(fnByTpcBoard, HttpStatus.OK);		
 	}
 	@RequestMapping(value = "/getFacilityNameBasedOnTpcBoardAndUnitType/{tpcBoard}/{unitType}",method = RequestMethod.GET  , headers="accept=application/json" )
 	public ResponseEntity<List<TpcBoardReportingFacility>> findFacilityNameBasedOnTpcBoardAndUnitType(@PathVariable("tpcBoard") String tpcBoard ,@PathVariable("unitType") String unitType){

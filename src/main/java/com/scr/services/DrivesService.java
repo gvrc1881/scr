@@ -672,12 +672,12 @@ public class DrivesService {
 		return driveRepository.findByFromDateAndDepotType(fromDate,depotType);
 	}
 
-	public List<Drives> getDrivesBasedOnFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+	public List<Drives> getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
 			Date fromDate,Date toDate, String depotType ) {
 		// TODO Auto-generated method stub
 		logger.info("** depot type***"+depotType);
 		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(depotType);
-		return driveRepository.findByDepotTypeAndFromDateGreaterThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
+		return driveRepository.findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
 	}
 
 	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {

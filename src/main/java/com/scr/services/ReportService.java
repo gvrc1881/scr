@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -378,9 +379,17 @@ public class ReportService {
 		List<Facility> fnSubDivisionAndDepotType = facilityRepository.findBySubDivisionAndDepotType(subDivision,depotType);
 		return fnSubDivisionAndDepotType;
 	}
-	public List<TpcBoardReportingFacility> getFacilityNameBasedOnTpcBoard(String tpcBoard) {
-		List<TpcBoardReportingFacility> facilityNames = tpcBoardDepotAssocRepository.findByTpcBoard(tpcBoard);
-		return facilityNames;
+	public List<Facility> getFacilityNameBasedOnTpcBoard(String tpcBoard) {
+		List<TpcBoardReportingFacility> tpcBoardReportFacilities = tpcBoardDepotAssocRepository.findByTpcBoard(tpcBoard);
+		List<Facility> facilities = new ArrayList<Facility>();
+		for (TpcBoardReportingFacility tpcBoardReportFaciity : tpcBoardReportFacilities) {
+			Optional<Facility> facility = facilityRepository.findByFacilityId(tpcBoardReportFaciity.getUnitId());
+			if (facility.isPresent()) {
+				facilities.add(facility.get());
+			}
+		}
+		
+		return facilities;
 	}
 	public List<TpcBoardReportingFacility> findFacilityNameBasedOnTpcBoardAndUnitType(String tpcBoard,String unitType) {
 		List<TpcBoardReportingFacility> fnByTpcBoardAndUnitType = tpcBoardDepotAssocRepository.findByTpcBoardAndUnitType(tpcBoard,unitType);
