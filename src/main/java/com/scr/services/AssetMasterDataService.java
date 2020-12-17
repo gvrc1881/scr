@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -12,9 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.AssetMasterDataMapper;
+import com.scr.mapper.AssetStatusUpdateMapper;
 import com.scr.message.request.AssetMasterDataRequest;
+import com.scr.message.response.AssetStatusUpdateResponse;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
+import com.scr.model.AssetScheduleActivityAssoc;
+import com.scr.model.AssetStatusUpdate;
 import com.scr.repository.AssetMasterFormParameterRepository;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.util.Constants;
@@ -31,6 +36,9 @@ public class AssetMasterDataService {
 	private AssetMasterFormParameterRepository assetMasterFormParameterRepository;
 	@Autowired
 	private AssetMasterDataMapper assetMasterDataMapper;
+	@Autowired
+	private AssetStatusUpdateMapper assetStatusUpdateMapper;
+	
 	
 	public List<AssetMasterData> findPaginated(int from, int to) {
 		Pageable paging = PageRequest.of(from, to);
@@ -110,5 +118,34 @@ public class AssetMasterDataService {
 	public List<AssetMasterData> findMakeModel(String assetId, String assetType, String facilityId) {
 		List<AssetMasterData> assetIds = assetMastersRepository.findMakeModel(assetId,assetType,facilityId);
 		return assetIds;
+	}
+	
+
+	public List<AssetMasterData> getByDataDiv(String div) {
+		// TODO Auto-generated method stub
+		List<AssetMasterData> amd = assetMastersRepository.getByDataDiv(div);
+		 logger.info("*** amd list ***"+amd.size());
+	for (AssetMasterData assetMasterData : amd) {
+			
+			List<AssetStatusUpdateResponse> assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateData(assetMasterData,div);
+			
+		}
+		 return amd;
+	}
+
+	public List<AssetMasterData> getByFacilityId(String facilityId) {
+		// TODO Auto-generated method stub
+		
+		List<AssetMasterData> amd = assetMastersRepository.getFacilityId(facilityId);
+		 logger.info("*** amd list ***"+amd.size());
+		
+for (AssetMasterData assetMasterData2 : amd) {
+	
+
+			List<AssetStatusUpdateResponse> assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateDataBasedOnFacility(assetMasterData2,facilityId);
+} 		
+	
+		
+		return amd;
 	}
 }

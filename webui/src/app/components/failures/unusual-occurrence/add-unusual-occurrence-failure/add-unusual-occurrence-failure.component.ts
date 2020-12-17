@@ -70,8 +70,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     //this.findRelayIndicationStatus();
   //  this.findNatureOfCloseStatus();
     this.findFeedersList();
-    this.id = +this.route.snapshot.params['id'];    
-    
+    this.id = +this.route.snapshot.params['id'];      
     if (!isNaN(this.id)) {
       this.updateForm();
       this.addUnusualOccurrenceFromGroup.valueChanges.subscribe(() => {
@@ -255,7 +254,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("UnusualOccurrence Fail Data "+message+" Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../'], { relativeTo: this.route });    
         }else{
           this.commonService.showAlertMessage("UnusualOccurrence Fail Data "+failedMessage+" Failed.");
         }
@@ -288,7 +287,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("UnusualOccurrence Fail Data "+message+" Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
         }else{
           this.commonService.showAlertMessage("UnusualOccurrence Fail Data "+failedMessage+" Failed."); 
         }
@@ -301,7 +300,11 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     
   }
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    if (this.save) {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    } else if (this.update) {
+      this.router.navigate(['../../'], { relativeTo: this.route });
+    }
   }
 
   duplicateSubStationAndLocationAndFromDateTime() {

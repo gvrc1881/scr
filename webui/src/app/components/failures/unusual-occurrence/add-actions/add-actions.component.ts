@@ -159,10 +159,12 @@ export class AddActionsComponent implements OnInit {
     }
   }
   getActionsFailDataById(id) {
+ 
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EDIT_ACTIONS+id)
       .subscribe((resp) => {
         this.resp = resp;
         console.log(this.resp);
+        this.minDate=new Date(this.resp.fromTime),
         this.addActionsFailFromGroup.patchValue({
           id: this.resp.id,
           failureActivity:this.resp.failureActivity,
@@ -173,12 +175,8 @@ export class AddActionsComponent implements OnInit {
           fromTime:!!this.resp.fromTime ? new Date(this.resp.fromTime) : '',
           thruTime:!!this.resp.thruTime ? new Date(this.resp.thruTime) : '',
           remarks: this.resp.remarks
-        });
-        this.feedersList.map(element => {
-          if(element.id != this.resp.id){
-            this.extendedFromList.push(element);
-          }
-        });
+        });   
+          
         this.spinnerService.hide();
 
       })
@@ -214,12 +212,9 @@ export class AddActionsComponent implements OnInit {
 
   addEvent($event) {
     this.minDate = new Date($event.value);
-    this.currentDate=new Date($event.value);
+  
   }
-  addEventTargetDate($event) {
-    this.minDate = new Date($event.value);
-    this.resolveDate=new Date($event.value);
-  }
+
   onAddFailureAnalysisFormSubmit() {
     if (this.addActionsFailFromGroup.invalid) {
       this.isSubmit = false;
@@ -279,7 +274,7 @@ export class AddActionsComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Actions Fail Data "+message+" Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
         }else{
           this.commonService.showAlertMessage("Actions Fail Data "+failedMessage+" Failed."); 
         }
@@ -292,7 +287,12 @@ export class AddActionsComponent implements OnInit {
     
   }
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    if (this.save) {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    } else if (this.update) {
+      this.router.navigate(['../../'], { relativeTo: this.route });
+    }
   }
+
 
 }

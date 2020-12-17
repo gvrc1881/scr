@@ -165,12 +165,12 @@
                                                 </span>                                              
                                               </mat-cell>
                                         </ng-container>
-                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        <mat-header-row *matHeaderRowDef="occurenceDisplayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: occurenceDisplayedColumns;">
                                         </mat-row>
                                     </mat-table>
                                    
-                                    <mat-paginator [pageSizeOptions]="[30, 60, 100, 150,200,250]"></mat-paginator>
+                                    <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                                                 </mat-row>
                                             </mat-table>
                                            
-                                            <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
+                                            <mat-paginator #paginatorActions [pageSizeOptions]="actionsPagination"></mat-paginator>
                                         </div>
                                     </div>
                                 </div>

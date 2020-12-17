@@ -540,6 +540,11 @@ const routes: Routes = [
     loadChildren: './components/special-works/special-works.module#SpecialWorksModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'asset-status-change',
+    loadChildren: './components/asset-status-change/asset-status-change.module#AssetStatusChangeModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

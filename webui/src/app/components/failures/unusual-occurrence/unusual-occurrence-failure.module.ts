@@ -28,6 +28,10 @@ const routes: Routes = [
     {
         path     : 'unusual-occurrence/:id',
         component: AddUnusualOccurrenceFailureComponent
+    }, 
+    {
+        path        : 'add-unusual-occurrence-failure',
+        component:   AddUnusualOccurrenceFailureComponent
     },   
     {
         path     : 'actions/:id',
@@ -36,11 +40,8 @@ const routes: Routes = [
     {
         path        : 'add-actions',
         component:   AddActionsComponent
-    } ,
-    {
-        path        : 'add-unusual-occurrence-failure',
-        component:   AddUnusualOccurrenceFailureComponent
-    }, 
+    } , 
+  
 ];
 
 @NgModule({

@@ -1562,15 +1562,14 @@ public class DrivesController {
 				
 					driveList = service.getByCategoryId(driveCategory.get());
 				}
-				/*	
-					else 
-			{
-				
+				else 
+				{
 					
-					Drives drive = service.findDriveCategoryById(driveCategory.get(),driveId);
-				
-				
-			}*/
+						
+						Drives drive = service.findDriveCategoryById(driveCategory.get(),driveId);
+					
+					
+				}
 		} 
 		}catch (NullPointerException e) {			
 			logger.error(e);

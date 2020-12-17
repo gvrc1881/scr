@@ -843,7 +843,7 @@ public class DrivesService {
 	}
 	
 		
-/*
+
 	public Drives findDriveCategoryById(DriveCategory driveCategory, Long driveId) {
 		List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
 		
@@ -855,7 +855,7 @@ public class DrivesService {
 			
 			
 			Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
-			if (drive.isPresent()) {
+			if (drive.equals(driveId)) {
 				
 				 return drives;
 				
@@ -863,7 +863,8 @@ public class DrivesService {
 		}
 		return drives;
 	      
-	}*/
+	}
+
 	
 public void saveTargets(List<DriveTarget> driveTarget) {	
 	

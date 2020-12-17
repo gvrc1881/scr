@@ -59,8 +59,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FAILURE_FROM_DATE}}"
-                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [value]="currentDate | dateFilter:dateFormat" 
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"                                                               
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -81,8 +80,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"
-                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.FAILURE_TO_DATE}}"  
-                                                                [value]="failToDate | dateFilter:dateFormat" 
+                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.FAILURE_TO_DATE}}"                                                                
                                                                 [min]="minDate"  [max]="maxDate" (dateTimeChange)="addEventFailToDate($event)"
                                                                 [formControl]="addFailureOccurrenceFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true

@@ -1,6 +1,8 @@
 package com.scr.repository;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +39,22 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 			" where facility_id=:facilityId and asset_type=:assetType " +
 			" and asset_id=:assetId ",nativeQuery = true)
 	List<AssetMasterData> findMakeModel(String assetId, String assetType, String facilityId);
+	
+	@Query(value = "SELECT *  FROM asset_master_data  amd,product_category_member pcm " + 
+			"where pcm.product_category_id='TW'" + 
+			"and amd.asset_type = pcm.product_id " + 
+			"  and amd.data_div = :div ",nativeQuery = true)
+	List<AssetMasterData> getByDataDiv(@Param("div")String div);
+	
+	Optional<AssetMasterData> getByFacilityId(String facilityId);
+	
+	@Query(value = "SELECT  *  FROM asset_master_data  amd,product_category_member pcm " + 
+			"where pcm.product_category_id='TW'" + 
+			"and amd.asset_type = pcm.product_id " + 
+			"  and amd.facility_id = :facilityId   "
+			,nativeQuery = true)	
+	List<AssetMasterData> getFacilityId(String facilityId);
+	
+	
 }
 

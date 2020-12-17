@@ -154,7 +154,7 @@ public class UserController {
 						zoneFacilities.add(facility);
 					} else if("DIV".equals(facility.getDepotType())) {
 						divisionFacilities.add(facility);
-					}else if("SUBDIV".equals(facility.getDepotType())) {
+					}else if("SUB_DIV".equals(facility.getDepotType())) {
 						subDivisionFacilities.add(facility);
 					}else {
 						depotFacilities.add(facility);

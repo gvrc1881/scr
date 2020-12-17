@@ -63,8 +63,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt3" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt3" placeholder="{{FiledLabels.FROM_DATE_TIME}}"
-                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"
-                                                                [value]="currentDate | dateFilter:dateFormat" 
+                                                                (dateTimeChange)="addEvent($event)" [max]="maxDate"                                                                
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['fromDateTime']" (ngModelChange)="timeDuration()" required>                                                                
                                                                 <owl-date-time #dt3 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -86,7 +85,7 @@
                                                         <mat-form-field>
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"                                                             
                                                                 [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.RESOLVE_TIME}}"
-                                                                [value]="resolveDate | dateFilter:dateFormat"  (dateTimeChange)="addResloveEvent($event)" [min]="minDate"  [max]="maxDate"
+                                                                (dateTimeChange)="addResloveEvent($event)" [min]="minDate"  [max]="maxDate"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()">                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>

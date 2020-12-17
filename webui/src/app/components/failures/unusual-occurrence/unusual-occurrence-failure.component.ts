@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 
+
 @Component({
   selector: 'app-unusual-occurrence-failure',
   templateUrl: './unusual-occurrence-failure.component.html',
@@ -18,6 +19,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 export class UnusualOccurrenceFailureComponent implements OnInit {
 
   pagination = Constants.PAGINATION_NUMBERS;
+  actionsPagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
@@ -25,7 +27,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
+  occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
     'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions','failureActions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
@@ -39,9 +41,9 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   displayedColumnsActions = ['sno', 'failureActivity', 'fromTime', 'thruTime','by','specialRemarks',
     'remarks','location','trainNo', 'actions'];
   dataSourceActions: MatTableDataSource<any>;
-  @ViewChild(MatPaginator, { static: true }) paginatorActions: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sortActions: MatSort;
-  @ViewChild('filter', { static: true }) filterActions: ElementRef;
+  @ViewChild('paginatorActions', { static: true }) paginatorActions: MatPaginator;
+  @ViewChild('sortActions', { static: true }) sortActions: MatSort;
+  @ViewChild('filterActions', { static: true }) filterActions: ElementRef;
   ActionsFailListActions: any;
   facilityList;
   filterData; 
@@ -123,17 +125,18 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       }
       this.filterData.gridData = UnusualOccurrenceFail;
       this.dataSource = new MatTableDataSource(UnusualOccurrenceFail);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.commonService.updateDataSource(this.dataSource, this.occurenceDisplayedColumns);
        this.filterData.dataSource = this.dataSource;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
       this.spinnerService.hide();
     }, error => {
       this.spinnerService.hide();
-    });
+    }); 
   }
   processEditAction(id) {
     this.router.navigate(['unusual-occurrence/'+id], { relativeTo: this.route });
+    
   }
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
@@ -178,8 +181,8 @@ getActionsFailureData() {
     }
 
     this.dataSourceActions = new MatTableDataSource(ActionsFail);
-    this.dataSource.paginator = this.paginatorActions;
-    this.dataSource.sort = this.sortActions;
+    this.dataSourceActions.paginator = this.paginatorActions;
+    this.dataSourceActions.sort = this.sortActions;
    
     this.spinnerService.hide();
   }, error => {

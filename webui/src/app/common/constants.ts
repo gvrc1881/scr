@@ -723,7 +723,16 @@ export const Constants = {
         		SAVE_SWITCH_MAINTENENCE_HISTORY:"/addSwitchMaintenenceHistory",
         		GET_SMH_DATA_BASED_ON_PBID:"/getSMHDataBasedOnPbId/",
         		GET_SMH_DATA_FOR_OPERATION:"/getSMHDataForOperation/"
-        	}
+            },
+            ASSET_STATUS_CHANGE:{
+                GET_TOWERCARS_BASEDON_DIVISION:"/getTowerCarBasedOnDivsion/",
+                SAVE:"/addAssetStatusChange",
+                UPDATE:"/updateAssetStatusChange",
+                GET_ALL_TOWERCARS:"/findAllAssetStatus",
+                GET_TOWERCAR_ID:"/findAssetStatusById/",
+                DELETE:"/deleteAssetStatus/",
+                EXIST_BY_ASSETYPE_ASSETID_FACILITY:"/ExistsByAssetTypeAndAssetIdAndFacilityId/"
+            }
         },
         ASSET_REGISTER:{
         	ELE_SECTIONS:{
@@ -888,7 +897,8 @@ export const Constants = {
         "ACTION":"UUO_ACTIVITY",
         "STATION_YARD_SIDING":"STATION_YARD_SIDING",
         "MILESTONE_TARGET_TYPES":"MILESTONE_TARGET_TYPES",
-        "MILESTONE_TARGET_STATUS_TYPE":"MILESTONE_TARGET_STATUS_TYPE"
+        "MILESTONE_TARGET_STATUS_TYPE":"MILESTONE_TARGET_STATUS_TYPE",
+        "ASSET_STATUS_TYPES":"ASSET_STATUS_TYPES"
     },
     PAGINATION_NUMBERS:[30, 60, 100, 150, 200, 250]
 

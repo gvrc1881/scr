@@ -1039,7 +1039,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: this.commonService.findPermission('ash', 'menu', 'view'),
+        permission:true,
+       // permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
           || path.includes("officers-movement") || path.includes("powerBlocks") ? "open" : "",
         subMenus: [
@@ -1076,6 +1077,16 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
            // permission: true,
            permission: this.commonService.findPermission('POWER BLOCKS', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("powerBlocks") ? "active-item" : "",
+          },
+          {
+            subMenuName: "TW Status Change",
+            subMenuURL: "asset-status-change",
+            subMenuIcon: "",
+            color: "#12E1EE",
+            rolePermission: this.rolePermission,
+           // permission: true,
+           permission: this.commonService.findPermission('ASSET STATUS CHANGE', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("asset-status-change") ? "active-item" : "",
           },
         ]
       },

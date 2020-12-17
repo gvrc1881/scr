@@ -709,7 +709,7 @@ public class CommonUtility {
 						
 						List<Facility> divFacilityList = facilityService.findByDivision(facilityName);
 							facilityList.addAll(divFacilityList);
-					}else if("SUBDIV".equals(currentFacility.getDepotType()) ) {
+					}else if("SUB_DIV".equals(currentFacility.getDepotType()) ) {
 						List<Facility> subDivFacilityList = facilityService.findBySubDivision(currentFacility.getFacilityName());
 							facilityList.addAll(subDivFacilityList);
 					}else if("OHE".equals(currentFacility.getDepotType())) {
