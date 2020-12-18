@@ -80,7 +80,7 @@ export class SpecialWorksComponent implements OnInit {
       this.specialWorksList = data;
       for (let i = 0; i < this.specialWorksList.length; i++) {
         this.specialWorksList[i].sno = i + 1;
-        this.specialWorksList[i].fromDateTime = this.datePipe.transform(this.specialWorksList[i].fromDateTime, 'dd-MM-yyyy');
+        this.specialWorksList[i].dateOfWork = this.datePipe.transform(this.specialWorksList[i].dateOfWork, 'dd-MM-yyyy');
                 this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.specialWorksList[i].facilityId)).subscribe((data) => {
                   this.spinnerService.hide();
                   this.facilityData = data;
@@ -138,11 +138,11 @@ export class SpecialWorksComponent implements OnInit {
       'dataSource':[                                 
                     { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
                     { label:FieldLabelsConstant.LABELS.LOCATION, value:data.location },
-                    { label:FieldLabelsConstant.LABELS.SPECIAL_WORKS, value:data.precautionaryMeasure.precautionaryMeasure },
                     { label:FieldLabelsConstant.LABELS.COUNT, value:data.count },
                     { label:FieldLabelsConstant.LABELS.DATE_OF_WORK, value:data.dateOfWork },
                     { label:FieldLabelsConstant.LABELS.DONE_BY, value:data.doneBy },
                     { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
+                    { label:FieldLabelsConstant.LABELS.SPECIAL_WORKS, value:data.precautionaryMeasure.precautionaryMeasure},
                     
                   ]
     }
