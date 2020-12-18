@@ -1,3 +1,12 @@
+
+--72
+DROP VIEW public.v_drive_category_asso;
+--71
+DROP VIEW public.v_drive_daily_progress;
+--70
+DROP VIEW public.v_drive_target;
+--69
+DROP VIEW public.v_drives;
 --68	
 DROP VIEW  v_schedulerjobs;
 --67	

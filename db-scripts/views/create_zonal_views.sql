@@ -421,12 +421,13 @@ ALTER TABLE public.v_energy_meter
 
 -- DROP VIEW public.v_energy_consumption;
 
-CREATE OR REPLACE VIEW public.v_energy_consumption AS
- SELECT ec.id,
+create view v_energy_consumption as
+SELECT ec.id,
     ec.seq_id,
     ec.energy_reading_date,
     ec.location_type,
     ec.location,
+                ec.data_div ec_data_div, -- new addition
         CASE
             WHEN ec.kwh::text = ''::text THEN 0::numeric
             ELSE ec.kwh::numeric
@@ -477,6 +478,7 @@ CREATE OR REPLACE VIEW public.v_energy_consumption AS
     ec.remarks,
     ec.current_status,
     em.feeder_id,
+                em.em_data_div AS em_data_div,   -- new addition
     em.seq_id AS em_seq_id,
     em.em_start_date,
     em.em_end_date,
@@ -494,21 +496,20 @@ CREATE OR REPLACE VIEW public.v_energy_consumption AS
     v_energy_meter em
   WHERE ec.location::text = em.feeder_name::text AND ec.energy_reading_date >= em.em_start_date AND (ec.energy_reading_date <= em.em_end_date OR em.em_end_date IS NULL);
 
-ALTER TABLE public.v_energy_consumption
-    OWNER TO postgres;
-
 
 --11
 -- View: v_energy_day_consumption_pf_cpr
 -- View: public.v_energy_day_consumption_pf_cpr
 
 -- DROP VIEW public.v_energy_day_consumption_pf_cpr;
-
-CREATE OR REPLACE VIEW public.v_energy_day_consumption_pf_cpr AS
- SELECT cur.seq_id,
+create view v_energy_day_consumption_pf_cpr as
+SELECT cur.seq_id,
     cur.id,
     cur.location,
     cur.feeder_id,
+                cur.ec_data_div, -- new addition
+
+                cur.em_data_div,   -- new addition
     cur.energy_reading_date AS cuurent_reading_date,
     cur.kwh AS cur_kwh,
     cur.kvah AS cur_kvah,
@@ -585,12 +586,10 @@ CREATE OR REPLACE VIEW public.v_energy_day_consumption_pf_cpr AS
      LEFT JOIN v_energy_consumption pre ON pre.energy_reading_date = (( SELECT max(cur1.energy_reading_date) AS max
            FROM v_energy_consumption cur1
           WHERE cur1.energy_reading_date < cur.energy_reading_date AND cur1.feeder_id::text = cur.feeder_id::text)) AND pre.feeder_id::text = cur.feeder_id::text
-     LEFT JOIN v_energy_consumption jr ON jr.energy_reading_date = (( SELECT max(jr1.energy_reading_date) AS max
+    LEFT JOIN v_energy_consumption jr ON jr.energy_reading_date = (( SELECT max(jr1.energy_reading_date) AS max
            FROM v_energy_consumption jr1
           WHERE jr1.energy_reading_date < cur.energy_reading_date AND (jr1.joint_meter::bpchar = 'y'::bpchar OR jr1.joint_meter::bpchar = 'Y'::bpchar) AND jr1.feeder_id::text = cur.feeder_id::text)) AND jr.feeder_id::text = cur.feeder_id::text;
-
-ALTER TABLE public.v_energy_day_consumption_pf_cpr
-    OWNER TO postgres;
+                                 
 
 
 --12
@@ -2472,7 +2471,8 @@ ALTER TABLE public.v_gnt_subdiv_depot_wise_qoh
 
 
 ---46
--- View: public.v_gtl_depot_wise_qoh
+
+-- View: public.v_gtl_depot_wise_qoh
 
 -- DROP VIEW public.v_gtl_depot_wise_qoh;
 
@@ -3289,4 +3289,230 @@ CREATE OR REPLACE VIEW public.v_schedulerjobs AS
 ALTER TABLE public.v_schedulerjobs
     OWNER TO postgres;
 
-----
+----69
+
+
+-- View: public.v_drives
+
+-- DROP VIEW public.v_drives;
+
+CREATE OR REPLACE VIEW public.v_drives AS 
+ SELECT drives.id,
+    drives.active,
+    drives.asset_description,
+    drives.asset_type,
+    drives.checklist,
+    drives.created_by,
+    drives.created_on,
+    drives.criteria,
+    drives.description,
+    drives.from_date,
+    drives.functional_unit,
+    drives.is_id_required,
+    drives.frequency,
+    drives.name,
+    drives.status_id,
+        CASE
+            WHEN drives.status_id = 1 THEN 'No'::text
+            ELSE 'Yes'::text
+        END AS drv_deleted_status,
+    drives.target_qty,
+    drives.to_date,
+    drives.updated_by,
+    drives.updated_on,
+    drives.depot_type
+   FROM drives;
+
+ALTER TABLE public.v_drives
+  OWNER TO postgres;
+
+  --70
+
+  
+-- View: public.v_drive_target
+
+-- DROP VIEW public.v_drive_target;
+
+CREATE OR REPLACE VIEW public.v_drive_target AS 
+ SELECT dt.id,
+    dt.created_by,
+    dt.created_on,
+    dt.poulation,
+    dt.status_id,
+        CASE
+            WHEN dt.status_id = 1 THEN 'No'::text
+            ELSE 'Yes'::text
+        END AS deleted_status,
+    dt.target,
+    dt.unit_name,
+    dt.unit_type,
+    dt.updated_by,
+    dt.updated_on,
+    dt.drive_id,
+    d.active AS drv_active,
+    d.asset_description AS drv_asset_description,
+    d.asset_type AS drv_asset_type,
+    d.checklist AS drv_checklist,
+    d.created_by AS drv_created_by,
+    d.criteria AS drv_criteria,
+    d.description AS drv_description,
+    d.from_date AS drv_from_date,
+    d.frequency AS drv_frequency,
+    d.functional_unit AS drv_functional_unit,
+    d.is_id_required AS drv_is_id_required,
+    d.name AS drv_name,
+    d.status_id AS drv_status_id,
+    d.target_qty AS drv_target_qty,
+    d.to_date AS drv_to_date,
+    d.updated_by AS drv_updated_by,
+    d.depot_type AS drv_depot_type,
+    d.drv_deleted_status,
+    d.id AS drv_id
+   FROM drive_target dt,
+    v_drives d
+  WHERE dt.drive_id = d.id;
+
+ALTER TABLE public.v_drive_target
+  OWNER TO postgres;
+
+
+--71
+-- View: public.v_drive_daily_progress
+
+-- DROP VIEW public.v_drive_daily_progress;
+
+CREATE OR REPLACE VIEW public.v_drive_daily_progress AS 
+ SELECT ddp.id,
+    ddp.activity_id,
+    ddp.created_by,
+    ddp.created_on,
+    ddp.depot,
+    ddp.division,
+    ddp.performed_count,
+    ddp.performed_date,
+    ddp.section,
+    ddp.status_id,
+        CASE
+            WHEN ddp.status_id = 1 THEN 'No'::text
+            ELSE 'Yes'::text
+        END AS deleted_status,
+    ddp.supervisor,
+    ddp.updated_by,
+    ddp.updated_on,
+    ddp.drive_id,
+    d.active AS drv_active,
+    d.asset_description AS drv_asset_description,
+    d.asset_type AS drv_asset_type,
+    d.checklist AS drv_checklist,
+    d.created_by AS drv_created_by,
+    d.criteria AS drv_criteria,
+    d.description AS drv_description,
+    d.from_date AS drv_from_date,
+    d.frequency AS drv_frequency,
+    d.functional_unit AS drv_functional_unit,
+    d.is_id_required AS drv_is_id_required,
+    d.name AS drv_name,
+    d.status_id AS drv_status_id,
+    d.target_qty AS drv_target_qty,
+    d.to_date AS drv_to_date,
+    d.updated_by AS drv_updated_by,
+    d.depot_type AS drv_depot_type,
+    d.drv_deleted_status,
+    d.id AS drv_id
+   FROM drive_daily_progress ddp,
+    v_drives d
+  WHERE ddp.drive_id = d.id;
+
+ALTER TABLE public.v_drive_daily_progress
+  OWNER TO postgres;
+
+  ---72
+  
+-- View: public.v_drive_category_asso
+
+-- DROP VIEW public.v_drive_category_asso;
+
+CREATE OR REPLACE VIEW public.v_drive_category_asso AS 
+ SELECT a.dca_id,
+    a.dca_active,
+    a.created_by,
+    a.created_on,
+    a.dca_status_id,
+    a.dca_deleted_status,
+    a.updated_by,
+    a.updated_on,
+    a.drive_category_id,
+    a.drive_category_name,
+    a.report_sub_heading,
+    drsh.sub_heading,
+    a.report_order,
+    a.report_display_id,
+    a.drive_id,
+    a.dc_status_id,
+    a.drv_active,
+    a.drv_asset_description,
+    a.drv_asset_type,
+    a.drv_checklist,
+    a.drv_created_by,
+    a.drv_criteria,
+    a.drv_description,
+    a.drv_from_date,
+    a.drv_frequency,
+    a.drv_functional_unit,
+    a.drv_is_id_required,
+    a.drv_name,
+    a.drv_status_id,
+    a.drv_target_qty,
+    a.drv_to_date,
+    a.drv_updated_by,
+    a.drv_depot_type,
+    a.drv_deleted_status,
+    a.drv_id,
+    a.dc_id
+   FROM ( SELECT dca.id AS dca_id,
+            dca.active AS dca_active,
+            dca.created_by,
+            dca.created_on,
+            dca.status_id AS dca_status_id,
+                CASE
+                    WHEN dca.status_id = 1 THEN 'No'::text
+                    ELSE 'Yes'::text
+                END AS dca_deleted_status,
+            dca.updated_by,
+            dca.updated_on,
+            dca.drive_category_id,
+            dc.drive_category_name,
+            dca.report_sub_heading,
+            dca.report_order,
+            dca.report_display_id,
+            dca.drive_id,
+            dc.status_id AS dc_status_id,
+            d.active AS drv_active,
+            d.asset_description AS drv_asset_description,
+            d.asset_type AS drv_asset_type,
+            d.checklist AS drv_checklist,
+            d.created_by AS drv_created_by,
+            d.criteria AS drv_criteria,
+            d.description AS drv_description,
+            d.from_date AS drv_from_date,
+            d.frequency AS drv_frequency,
+            d.functional_unit AS drv_functional_unit,
+            d.is_id_required AS drv_is_id_required,
+            d.name AS drv_name,
+            d.status_id AS drv_status_id,
+            d.target_qty AS drv_target_qty,
+            d.to_date AS drv_to_date,
+            d.updated_by AS drv_updated_by,
+            d.depot_type AS drv_depot_type,
+            d.drv_deleted_status,
+            d.id AS drv_id,
+            dc.id AS dc_id
+           FROM drive_category_asso dca,
+            drive_category dc,
+            v_drives d
+          WHERE dca.drive_category_id = dc.id AND dca.drive_id = d.id) a
+     LEFT JOIN drive_report_sub_headings drsh ON drsh.id = a.report_sub_heading
+  ORDER BY a.drive_category_id, a.report_order;
+
+ALTER TABLE public.v_drive_category_asso
+  OWNER TO postgres;

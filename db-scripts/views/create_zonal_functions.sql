@@ -286,50 +286,43 @@ ALTER FUNCTION public.asset_schedule_graph(text)
 
 
 --2
-
--- FUNCTION: public.day_div_tss_energy_consumption_v(date, character varying)
+-- Function: public.day_div_tss_energy_consumption_v(date, character varying)
 
 -- DROP FUNCTION public.day_div_tss_energy_consumption_v(date, character varying);
 
 CREATE OR REPLACE FUNCTION public.day_div_tss_energy_consumption_v(
-	record_date date,
-	req_division character varying)
-    RETURNS TABLE(div character varying, period_from text, period_to text, recording_date text, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading double precision, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption double precision, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date text, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date text, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, remarks character varying) 
-    LANGUAGE 'plpgsql'
-
-    COST 100
-    VOLATILE 
-    ROWS 1000
-AS $BODY$
+    IN record_date date,
+    IN req_division character varying)
+  RETURNS TABLE(div character varying, period_from text, period_to text, recording_date text, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading double precision, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption double precision, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date text, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date text, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, remarks character varying) AS
+$BODY$
 BEGIN
-   RETURN QUERY 
+   RETURN QUERY
 
 -- start of query
 
- ---  select * from v_energy_consumption  
--------
-
+---  select * from v_energy_consumption 
 -- query for DB  -- to be tuned just use for trial to get the data for screen
-
+ 
 -- division also a parameter - the date of which user chooses is to be passed in place of now()::date
--- this query brings the values if available from the data and show the previous values in rec data also recent 
+-- this query brings the values if available from the data and show the previous values in rec data also recent
 -- date of entry for that feeder and days lapsed between given date and recent data date
+ 
 
-select 
+select
 req_division as div ,
 ' '  period_from,
 ' '  period_to,
-to_char(record_date,'dd-mm-yyyy') ,  
+to_char(record_date,'dd-mm-yyyy') , 
 a.feeder_id ,
 a.feeder_name ,
 a.multiplication_fac ,
 a.requested_reading_date ,
-a.no_of_days_lapsed_reading ,  
+a.no_of_days_lapsed_reading , 
 a.curseq_id,
 a.curId,
 a.cur_kwh ,
 a.prev_kwh ,
- case when a.no_of_days_lapsed_reading::integer > 1 then (a.cur_kwh - a.prev_kwh)*a.multiplication_fac/a.no_of_days_lapsed_reading  else (a.cur_kwh - a.prev_kwh)*a.multiplication_fac end as   consumption ,
+case when a.no_of_days_lapsed_reading::integer > 1 then (a.cur_kwh - a.prev_kwh)*a.multiplication_fac/a.no_of_days_lapsed_reading  else (a.cur_kwh - a.prev_kwh)*a.multiplication_fac end as   consumption ,
 --(a.cur_kwh - a.prev_kwh)*a.multiplication_fac/extract(day from a.no_of_days_lapsed_reading) consumption ,
 a.mavg_reading_date ,
 a.no_of_days_rec_to_avg_reading,
@@ -365,38 +358,40 @@ a.jr_rkvah_lag ,
 a.jr_rkvah_lead ,
 a.max_load_time_hhmm,
 a.remarks
-
  
+
 from
 (
+ 
 
 select (f.cur_kwh - f.recent_kwh)*f.multiplication_fac/extract(day from f.no_of_days_lapsed_reading) consumption ,
-f.feeder_id , f.feeder_name , f.multiplication_fac ,f.requested_reading_date ,  f.joint_meter , 
+f.feeder_id , f.feeder_name , f.multiplication_fac ,f.requested_reading_date ,  f.joint_meter ,
 f.first_reading_after_meter_fix, f.meter_start_date ,f.recent_reading_date, extract(day from f.no_of_days_lapsed_reading) no_of_days_lapsed_reading,
- f.curseq_id, 
+f.curseq_id,
  f.curId,
 f.recent_reading_date as recent_reading_date_string , 'Gap(' ||   f.no_of_days_lapsed_reading ||')'  reading_gap_days,
---|| 
+--||
 f.recent_kwh as prev_kwh, f.cur_kwh,
--- recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || 
+-- recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' ||
 f.recent_kvah as prev_kvah, f.cur_kvah,
---recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || 
+--recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' ||
 f.recent_rkvah_lag as prev_rkvah_lag, f.cur_rkvah_lag,
---recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' || 
+--recent_reading_date || ' : Gap(' ||   no_of_days_lapsed_reading ||')' ||
 f.recent_rkvah_lead as prev_rkvah_lead, f.cur_rkvah_lead,
+ 
 
 f.cur_cmd, f.cur_rmd, f.cur_vol_max, f.cur_vol_min  , f.cur_max_load ,
 to_char(f.joint_reading_date,'dd-mm-yyyy')  joint_reading_date ,
- --f.joint_reading_date , 
+--f.joint_reading_date ,
  f.no_of_days_lapsed_j_reading, f.jr_kwh, f.jr_kvah, f.jr_rkvah_lag, f.jr_rkvah_lead ,
- f.mavg_reading_date , f.no_of_days_rec_to_avg_reading, f.mavg_kwh_value, f.mavg_kvah_value, f.mavg_rkvah_lag_value, f.mavg_rkvah_lead_value, f.avg_kwh, f.avg_kvah, f.avg_rkvah_lag, f.avg_rkvah_lead ,
+f.mavg_reading_date , f.no_of_days_rec_to_avg_reading, f.mavg_kwh_value, f.mavg_kvah_value, f.mavg_rkvah_lag_value, f.mavg_rkvah_lead_value, f.avg_kwh, f.avg_kvah, f.avg_rkvah_lag, f.avg_rkvah_lead ,
   f.max_load_time_hhmm , f.remarks
-from 
+from
 (
-SELECT 
-	a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(record_date::date, 'dd-mm-yyyy') as requested_reading_date, rec.em_start_kwh rec_em_start_kwh, -- changed yy to yyyy
-    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix, 
-  a.em_start_date::date  as meter_start_date , 
+SELECT
+                a.feeder_id , a.feeder_name , a.multiplication_fac , to_char(record_date::date, 'dd-mm-yyyy') as requested_reading_date, rec.em_start_kwh rec_em_start_kwh, -- changed yy to yyyy
+    case when rec.energy_reading_date is null then 'Yes' else 'No' end as first_reading_after_meter_fix,
+  a.em_start_date::date  as meter_start_date ,
     
     to_char(case when rec.energy_reading_date is null then a.em_start_date::date else rec.energy_reading_date::date end,'dd-mm-yyyy')  AS recent_reading_date,  --- changed yy to yyyy
     record_date::date - case when rec.energy_reading_date is null then a.em_start_date else rec.energy_reading_date end AS no_of_days_lapsed_reading,
@@ -417,8 +412,8 @@ SELECT
     cur.max_load_time_hhmm,
     cur.max_load_time_date, cur.remarks,
 --    cur.multiplication_fac ,
---- recent to required date values 
-	
+--- recent to required date values
+               
     rec.seq_id, rec.id ,
     rec.location, rec.feeder_id rec_feeder_id,
     case when rec.energy_reading_date is null then a.em_start_kwh else rec.kwh end AS recent_kwh,
@@ -432,7 +427,6 @@ SELECT
    rec.multiplication_fac recent_multiplication_fac ,
    ----- ---- added for jr started
        -- joint reading ---
- 
     jr.energy_reading_date AS joint_reading_date,
     cur.energy_reading_date - jr.energy_reading_date AS no_of_days_lapsed_j_reading,
     jr.kwh AS jr_kwh,
@@ -440,9 +434,9 @@ SELECT
     jr.rkvah_lag AS jr_rkvah_lag,
     jr.rkvah_lead AS jr_rkvah_lead ,
      ----- ---- added for jr ended
+ 
 
        -- monthly average readings ---
- 
     mavg.energy_reading_date AS mavg_reading_date,
     rec.energy_reading_date - mavg.energy_reading_date AS no_of_days_rec_to_avg_reading,
     mavg.kwh AS mavg_kwh_value,
@@ -453,46 +447,52 @@ SELECT
     case when (rec.energy_reading_date - mavg.energy_reading_date) > 0 then (rec.kvah - mavg.kvah) /(rec.energy_reading_date - mavg.energy_reading_date) else 0 end avg_kvah,
     case when (rec.energy_reading_date - mavg.energy_reading_date) > 0 then (rec.rkvah_lag - mavg.rkvah_lag) /(rec.energy_reading_date - mavg.energy_reading_date) else 0 end avg_rkvah_lag,
     case when (rec.energy_reading_date - mavg.energy_reading_date) > 0 then (rec.rkvah_lead - mavg.rkvah_lead) /(rec.energy_reading_date - mavg.energy_reading_date) else 0 end avg_rkvah_lead
-     ----- ---- added monthly average readings ended   
-   FROM ( 
-   select em.feeder_id , em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks , 
-	em_m_start_reading , em_m_end_reading , em_start_kwh , em_start_kvah , em_start_rkvah_lag , em_start_rkvah_lead ,
-	 em.feeder_name from v_energy_meter em where upper(em_data_div) = upper(req_division) ) a --req_division  )  a
+     ----- ---- added monthly average readings ended  
+   FROM (
+   select em.feeder_id , em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks ,
+                em_m_start_reading , em_m_end_reading , em_start_kwh , em_start_kvah , em_start_rkvah_lag , em_start_rkvah_lead ,
+                em.feeder_name from v_energy_meter em where upper(em_data_div) = upper(req_division)
+                 and em.em_start_date < record_date::date and ( em.em_end_date is NULL or em.em_end_date > record_date::date )
+                ) a
    left outer join v_energy_consumption rec on rec.energy_reading_date = ( SELECT max(cur1.energy_reading_date) AS max
-					FROM v_energy_consumption cur1
-					WHERE cur1.energy_reading_date < record_date::date
-					AND cur1.feeder_id = a.feeder_id 
-					)
-	AND rec.feeder_id = a.feeder_id 
-    LEFT JOIN v_energy_consumption cur ON  ( cur.energy_reading_date = record_date::date 
-						AND a.feeder_id = cur.feeder_id )
-									---- added for jr started
+                                                                                FROM v_energy_consumption cur1
+                                                                                WHERE cur1.energy_reading_date < record_date::date
+                                                                                AND cur1.feeder_id = a.feeder_id
+                                                                                )
+                AND rec.feeder_id = a.feeder_id
+    LEFT JOIN v_energy_consumption cur ON  ( cur.energy_reading_date = record_date::date
+                                                                                                AND a.feeder_id = cur.feeder_id )
+                                                                                                                                                ---- added for jr started
    LEFT JOIN v_energy_consumption jr ON  ( jr.energy_reading_date = ( SELECT max(jr1.energy_reading_date) AS max
-									FROM v_energy_consumption jr1
-									WHERE jr1.energy_reading_date < cur.energy_reading_date 
-									AND (jr1.joint_meter = 'y'::bpchar OR jr1.joint_meter = 'Y'::bpchar) 
-									AND jr1.feeder_id = cur.feeder_id 
-									)
-						AND jr.feeder_id = cur.feeder_id )
- ----- ---- added for jr ended
- -- added for monthly average started
+                                                                                                                                                FROM v_energy_consumption jr1
+                                                                                                                                                WHERE jr1.energy_reading_date < cur.energy_reading_date
+                                                                                                                                                AND (jr1.joint_meter = 'y'::bpchar OR jr1.joint_meter = 'Y'::bpchar)
+                                                                                                                                                AND jr1.feeder_id = cur.feeder_id
+                                                                                                                                                )
+                                                                                                AND jr.feeder_id = cur.feeder_id )
+----- ---- added for jr ended
+-- added for monthly average started
   LEFT JOIN v_energy_consumption mavg ON  ( mavg.energy_reading_date = ( SELECT max(mvag1.energy_reading_date) AS max
-									FROM v_energy_consumption mvag1
-									WHERE mvag1.energy_reading_date < (rec.energy_reading_date - 30)
-									AND mvag1.feeder_id = cur.feeder_id 
-									)
-						AND mavg.feeder_id = rec.feeder_id )
+                                                                                                                                                FROM v_energy_consumption mvag1
+                                                                                                                                                WHERE mvag1.energy_reading_date < (rec.energy_reading_date - 30)
+                                                                                                                                                AND mvag1.feeder_id = cur.feeder_id
+                                                                                                                                                )
+                                                                                                AND mavg.feeder_id = rec.feeder_id )
 -- added for monthly average ended
+ 
 
 ) f
-) a  
+) a 
 ;
 -- end of query
+ 
 
-END; $BODY$;
-
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
 ALTER FUNCTION public.day_div_tss_energy_consumption_v(date, character varying)
-    OWNER TO postgres;
+  OWNER TO postgres;
 
 --3
 
