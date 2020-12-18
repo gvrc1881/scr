@@ -208,7 +208,7 @@ pagination = Constants.PAGINATION_NUMBERS;
         this.energyConsumptionData = response;
         console.log(response)
         for (let i = 0; i < this.energyConsumptionData.length; i++) {
-
+            console.log('*** data div ***'+this.energyConsumptionData[i].dataDiv);
           this.energyConsumptionData[i].sno = i + 1;
           this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feederName;
           this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].readingGapDays != null ? this.energyConsumptionData[i].readingGapDays : '';
@@ -217,7 +217,7 @@ pagination = Constants.PAGINATION_NUMBERS;
 
           this.energyConsumptionData[i].Old_KWH = this.energyConsumptionData[i].prevKwh;
           this.energyConsumptionData[i].Current_KWH = this.energyConsumptionData[i].curKwh;
-          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].curKwh != 0 ? ((this.energyConsumptionData[i].curKwh - parseFloat(this.energyConsumptionData[i].prevKwh)) * parseFloat(this.energyConsumptionData[i].multiplicationRac)).toFixed(2) : 0;
+          this.energyConsumptionData[i].Consumption_KWH = this.energyConsumptionData[i].curKwh != 0 ? ((this.energyConsumptionData[i].curKwh - parseFloat(this.energyConsumptionData[i].prevKwh)) * parseFloat(this.energyConsumptionData[i].multiplicationFac)).toFixed(2) : 0;
           this.energyConsumptionData[i].kwh_f = this.energyConsumptionData[i].Previous_Date != null ? this.energyConsumptionData[i].Previous_Date.split('(')[0].length + 1 : new Date();
           this.energyConsumptionData[i].kwh_m = this.energyConsumptionData[i].kwh_f + this.energyConsumptionData[i].Previous_Date.includes("(") && this.energyConsumptionData[i].Previous_Date.split('(').length > 1 ? this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[0].length : '';
           this.energyConsumptionData[i].kwh_l = this.energyConsumptionData[i].kwh_m + this.energyConsumptionData[i].Previous_Date.includes("(") && this.energyConsumptionData[i].Previous_Date.split('(').length > 1 ? this.energyConsumptionData[i].Previous_Date.split('(')[1].split(')')[1].length : '';
@@ -243,8 +243,10 @@ pagination = Constants.PAGINATION_NUMBERS;
           this.energyConsumptionData[i].Max_Load = this.energyConsumptionData[i].curMaxLoad;
 
           this.energyConsumptionData[i].energyReadingDate = this.energyConsumptionData[i].requestedReadingDate;//this.exactDate == true ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') : this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') ;
-          this.energyConsumptionData[i].id = this.energyConsumptionData[i].curId;
+          // this.energyConsumptionData[i].id = this.energyConsumptionData[i].curId;
+          this.energyConsumptionData[i].id = this.energyConsumptionData[i].id;
           this.energyConsumptionData[i].editable = false;
+          this.energyConsumptionData[i].dataDiv = this.energyConsumptionData[i].dataDiv;
           this.stipulations.push(this.energyConsumptionData[i]);
         }
         this.filterData.gridData = this.stipulations;
@@ -264,15 +266,16 @@ pagination = Constants.PAGINATION_NUMBERS;
 
   }
 
-  processEditAction(id) {
+  processEditAction(row) {
+    /*
     var row = this.dataSource.filteredData.find((item, index) => {
       return item.feederId == id;
-    })
+    })*/
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
     localStorage.setItem('query', query);
     localStorage.setItem('ec', JSON.stringify(row));
-    this.router.navigate([id], { relativeTo: this.route });
+    this.router.navigate([row.feederId], { relativeTo: this.route });
   }
   processCancelAction(row) {
     this.dataSource.filteredData.map((item, index) => {

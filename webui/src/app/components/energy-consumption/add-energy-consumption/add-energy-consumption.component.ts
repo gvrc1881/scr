@@ -211,7 +211,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
 
   updateKWH($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >=  parseFloat(this.resp.Old_KWH)) {
-      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KWH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KWH)) * parseFloat(this.resp.multiplication_fac) });
+      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KWH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KWH)) * parseFloat(this.resp.Multification_Factor) });
       this.kwhValidation = false;
     } else {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KWH: 0 });
@@ -221,7 +221,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
 
   updateKVAH($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_KVAH)) {
-      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KVAH)) * parseFloat(this.resp.multiplication_fac) });
+      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KVAH)) * parseFloat(this.resp.Multification_Factor) });
       this.kvahValidation = false;
       this.addEnergyConsumptionFailFromGroup.patchValue({ pf: (parseFloat(this.addEnergyConsumptionFailFromGroup.controls.Current_KWH.value) / parseFloat($event.target.value)) });
     } else {
@@ -232,7 +232,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
 
   updateRKVAHLag($event ) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lag)) {
-      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lag: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lag)) * parseFloat(this.resp.multiplication_fac) });
+      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lag: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lag)) * parseFloat(this.resp.Multification_Factor) });
       this.rkvahLangValidation = false;
     } else {
       this.rkvahLangValidation = true;
@@ -242,7 +242,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
 
   updateRKVAHLead($event) {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead)) {
-      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lead)) * parseFloat(this.resp.multiplication_fac) });
+      this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lead)) * parseFloat(this.resp.Multification_Factor) });
       this.rkvahLeadValidation = false;
     } else {
       this.rkvahLeadValidation = true;
@@ -284,7 +284,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'curKvah': this.addEnergyConsumptionFailFromGroup.controls.Current_KVAH.value,
       'consumptionKvah': this.addEnergyConsumptionFailFromGroup.controls.Consumption_KVAH.value,
       'prevRkvahLag': this.resp.Old_RKVAH_Lag,
-      'curRrkvahLag': this.addEnergyConsumptionFailFromGroup.controls.Current_RKVAH_Lag.value,
+      'curRkvahLag': this.addEnergyConsumptionFailFromGroup.controls.Current_RKVAH_Lag.value,
       'consumptionRkvahLag': this.addEnergyConsumptionFailFromGroup.controls.Consumption_RKVAH_Lag.value,
       'prevRkvahLead': this.resp.Old_RKVAH_Lead,
       'curRkvahLead': this.addEnergyConsumptionFailFromGroup.controls.Current_RKVAH_Lead.value,
@@ -298,7 +298,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       'maxLoadTimeHhmm':this.addEnergyConsumptionFailFromGroup.value.maxLoadTime,
       'remarks':this.addEnergyConsumptionFailFromGroup.value.remarks,
       'energyReadingDate':this.resp.energyReadingDate,
-      'dataDiv':this.resp.data_div,
+      'dataDiv':this.resp.dataDiv,
       "updatedBy": this.loggedUserData.username,
       "updatedOn": new Date()
     }

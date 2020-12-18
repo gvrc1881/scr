@@ -30,6 +30,7 @@ public class EnergyConsumptionMapper {
 			energyConsumption.setJointMeter(request.getJointMeter());
 			energyConsumption.setPf(String.valueOf(request.getPf()));
 			energyConsumption.setCpf(String.valueOf(request.getCpf()));
+			energyConsumption.setDataDiv(request.getDataDiv().toLowerCase());
 			energyConsumption.setLastUpdatedStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			energyConsumption.setLastUpdatedTxStamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		}
@@ -41,7 +42,7 @@ public class EnergyConsumptionMapper {
 		try {
 		if(request != null) {
 			energyConsumption = new EnergyConsumption();
-			energyConsumption.setId(list.getId()+1);
+			//energyConsumption.setId(list.getId()+1);
 			
 			energyConsumption.setKvah(request.getCurKvah() != null ? String.valueOf(request.getCurKvah()) : "0");
 			energyConsumption.setKwh(request.getCurKwh() != null ? String.valueOf(request.getCurKwh()) : "0");

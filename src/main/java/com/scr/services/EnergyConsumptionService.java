@@ -3,9 +3,12 @@ package com.scr.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.controller.EnergyConsumptionController;
 import com.scr.mapper.EnergyConsumptionMapper;
 import com.scr.message.response.EnergyConsumptionResponse;
 import com.scr.model.EnergyConsumption;
@@ -14,6 +17,8 @@ import com.scr.repository.EnergyConsumptionUtilRepository;
 
 @Service
 public class EnergyConsumptionService {
+	
+	static Logger logger = LogManager.getLogger(EnergyConsumptionService.class);
 
 	@Autowired
 	private EnergyConsumptionUtilRepository utilRepository;

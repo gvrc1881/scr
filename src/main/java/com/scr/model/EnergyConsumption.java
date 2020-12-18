@@ -313,4 +313,19 @@ public class EnergyConsumption implements Serializable {
 		this.volMin = volMin;
 	}
 
+	@Override
+	public String toString() {
+		return "EnergyConsumption [id=" + id + ", cmd=" + cmd + ", cpf=" + cpf + ", createdBy=" + createdBy
+				+ ", createdOn=" + createdOn + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", currentStatus=" + currentStatus + ", dataDiv=" + dataDiv + ", energyReadingDate="
+				+ energyReadingDate + ", jointMeter=" + jointMeter + ", kvah=" + kvah + ", kwh=" + kwh
+				+ ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp
+				+ ", location=" + location + ", locationType=" + locationType + ", maxLoad=" + maxLoad
+				+ ", maxLoadTime=" + maxLoadTime + ", pf=" + pf + ", remarks=" + remarks + ", rkvahLag=" + rkvahLag
+				+ ", rkvahLead=" + rkvahLead + ", rmd=" + rmd + ", seqId=" + seqId + ", volMax=" + volMax + ", volMin="
+				+ volMin + "]";
+	}
+	
+	
+
 }

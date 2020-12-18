@@ -1282,5 +1282,6 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
     localStorage.removeItem('divisionData');
     localStorage.removeItem('subDivData');
     localStorage.removeItem('depotData');
+    localStorage.removeItem('tpcBoard');
   }
 }

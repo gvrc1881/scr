@@ -18,7 +18,7 @@ depotData:any;
 facilityData:any;
 loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
-
+selectedTpcBoard: any = localStorage.getItem('tpcBoard');
   constructor(
     private commonService: CommonService,
     private formBuilder: FormBuilder,
@@ -36,6 +36,12 @@ userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
       id: 0,
       'tpcBoard':[null],
     });
+      // console.log('*** tpc board***'+this.selectedTpcBoard);
+      if(this.selectedTpcBoard) {
+          this.tpcBoardFormGroup.patchValue({
+            tpcBoard: this.selectedTpcBoard    
+          });
+      }
   }
    
    tpcBoardDetails()
@@ -49,11 +55,12 @@ userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
    }
    getFacilityList(){
     var tpcBoard = this.tpcBoardFormGroup.value.tpcBoard ;
+    localStorage.setItem("tpcBoard", tpcBoard);
   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_TPC_BOARD + tpcBoard).subscribe((response) => {
              this.facilityData = response;
              localStorage.setItem("depotData", JSON.stringify(response));
              let depotData=JSON.parse(localStorage.getItem('depotData'));
-             console.log("depotData"+JSON.stringify(depotData));
+             // console.log("depotData"+JSON.stringify(depotData));
         });
 }
 onGoBack() {

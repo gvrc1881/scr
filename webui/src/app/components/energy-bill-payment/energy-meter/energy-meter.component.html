@@ -39,7 +39,7 @@
 									                        <div *ngIf ="enableEndReadings">
 									                        </div>
 									                        <div *ngIf="!enableEndReadings; else feederElseBlock">
-									                        	<div class="col-md-2">
+									                        	<div class="col-md-3">
 									                             <mat-form-field fxFlex="30">
 									                              <mat-select placeholder="{{FiledLabels.FEEDER}}" [formControl]="energyMeterFormGroup.controls['feederId']" required >
 									                                <mat-option *ngFor="let tssFeederMater of tssFeederMaterList" [value]="tssFeederMater">
@@ -55,19 +55,35 @@
 									                        </div>
 									                        </div>
 															<ng-template #feederElseBlock>
-																  <div class = "col-md-2" >
+																  <div class = "col-md-3" >
                                                       				<mat-form-field fxFlex="30">
                                                       					<input matInput placeholder = "{{FiledLabels.FEEDER}}" [formControl]="energyMeterFormGroup.controls['feederId']" required [readonly]="true"/>
                                                       				</mat-form-field>
                                                       			  </div>
 															</ng-template>
-									                        <div class="col-md-2">
+									                        <!-- <div class="col-md-2">
 		                                                        <mat-form-field fxFlex="30">
-	    															<!-- <input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']"> -->
+	    															<input matInput type="datetime-local" placeholder="Start Date" [formControl]="energyMeterFormGroup.controls['startDate']">
 		                                                            <input matInput [owlDateTime]="dt1" style="width: 94%;"
 		                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.START_DATE}}"
 		                                                                (dateTimeChange)="addEvent($event)"
 		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" [max]= "maxDate" required >                                                                
+		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
+		                                                                    ></owl-date-time>
+		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+		                                                                <mat-error
+										                            		*ngIf="energyMeterFormGroup.controls['startDate'].hasError('duplicateFeederAndStartDate')" 
+										                            		class="alert alert-danger" >
+										                                		Already Exists
+										                        		</mat-error>
+		                                                        </mat-form-field>
+		                                                    </div> -->
+		                                                    <div class="col-md-3">
+		                                                        <mat-form-field fxFlex="30">
+		                                                             <input matInput [owlDateTime]="dt1" style="width: 94%;"
+		                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.START_DATE}}"                                                                
+		                                                                (dateTimeChange)="addEvent($event)"  [max]="maxDate"
+		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
 		                                                                <owl-date-time #dt1 [showSecondsTimer]=true
 		                                                                    ></owl-date-time>
 		                                                                <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
@@ -119,7 +135,7 @@
 	                                                            </mat-form-field>
 	                                                        </div>
 		                                                    <div *ngIf ="enableEndReadings">
-  															<div class="col-md-2">
+  															<div class="col-md-3">
 		                                                        <mat-form-field fxFlex="30">
 	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
 	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
@@ -152,7 +168,7 @@
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        </div>
-  															<div class="col-md-2">
+  															<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
 	                                                                <mat-error
