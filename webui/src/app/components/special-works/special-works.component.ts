@@ -112,7 +112,7 @@ export class SpecialWorksComponent implements OnInit {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.DELETE_SPECIAL_WORKS ,id).subscribe(data => {
           this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted SpecialWorks  Successfully");
+          this.commonService.showAlertMessage("Deleted Special Works  Successfully");
           this.getSpecialWorksData();
         }, error => {
           console.log('ERROR >>>');
