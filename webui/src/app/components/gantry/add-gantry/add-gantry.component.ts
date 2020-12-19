@@ -43,7 +43,6 @@ export class AddGantryComponent implements OnInit {
 
   ngOnInit() {
     this.depotTypeForOhe();
-    this.elementarySections();
     this.tpcBoardDetails();
     this.id = +this.route.snapshot.params['id'];
     if (!isNaN(this.id)) {    
@@ -130,6 +129,12 @@ export class AddGantryComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GANTRY.GET_GANTRY_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
+        if(this.resp.facilityId) {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ELEMENTARY_SECTIONS +this.resp.facilityId).subscribe(response => {
+             this.spinnerService.hide();
+             this.eleSectionsData = response;
+           })
+       }
         this.addGantryFormGroup.patchValue({
           id: this.resp.id,
           facilityId: this.resp.facilityId,
@@ -232,14 +237,14 @@ export class AddGantryComponent implements OnInit {
          );
 
  }
- elementarySections()
-  {  
-         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ELEMENTARYSECTIONS.GET_ELEMENTARY_SECTIONS).subscribe((data) => {
+ getEleSecCode(){
+  var facilityId = this.addGantryFormGroup.value.facilityId ;
+this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ELEMENTARY_SECTIONS + facilityId).subscribe((data) => {
            this.eleSectionsData = data;
-  }
-         );
-
- } 
+           console.log("eleSectionsData"+JSON.stringify(data))
+      });
+}
+ 
  tpcBoardDetails()
   {  
          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_DETAILS).subscribe((data) => {

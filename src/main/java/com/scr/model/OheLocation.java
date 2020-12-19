@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "ohe_location" , uniqueConstraints={@UniqueConstraint(name = "old_pk_ohe_location_uniq", columnNames ={"seq_id", "data_div"})})
+@Table(name = "ohe_location" , uniqueConstraints={@UniqueConstraint(columnNames ={"seq_id", "data_div"})})
 @NamedQuery(name="OheLocation.findAll", query="SELECT o FROM OheLocation o")
 public class OheLocation implements Serializable {
 	private static final long serialVersionUID = 1L;

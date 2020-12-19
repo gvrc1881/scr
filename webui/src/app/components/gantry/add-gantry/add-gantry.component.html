@@ -33,7 +33,7 @@
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.DEPOT}}" 
-                                                            [formControl]="addGantryFormGroup.controls['facilityId']" required>
+                                                            [formControl]="addGantryFormGroup.controls['facilityId']" (selectionChange)="getEleSecCode()" required>
                                                             <mat-option *ngFor="let depotData of facilityData"
                                                               [value]="depotData.facilityId">
                                                               {{ depotData.facilityName }}

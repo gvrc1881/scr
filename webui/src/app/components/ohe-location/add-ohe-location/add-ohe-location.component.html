@@ -117,6 +117,13 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-3">
+                                                        
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.KILOMETER}}" decimalNumber 
+                                                                [formControl]="addOheLocationFormGroup.controls['kilometer']" required/> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1" 
                                                                 placeholder="{{FiledLabels.DATE}}"
