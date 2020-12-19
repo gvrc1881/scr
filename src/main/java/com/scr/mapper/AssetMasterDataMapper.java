@@ -218,12 +218,15 @@ public class AssetMasterDataMapper {
 		return assetMasterData;
 	}
 	public AssetMasterData prepareAssetMasterData(AssetMasterData assetMasterData) {
-		// TODO Auto-generated method stub
+		try {
 		if (assetMasterData.getFacilityId() != null ) {
 			Optional<Facility> facility  = facilityRepository.findByFacilityId(assetMasterData.getFacilityId());
 			if (facility.isPresent()) {
 				assetMasterData.setFacilityId(facility.get().getFacilityName());
 			}
+		}
+		}catch (Exception e) {
+			logger.error("ERROR >>> while finding facility, "+e.getMessage());
 		}
 		
 		return assetMasterData;
