@@ -8,7 +8,8 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
-import { filterDirective } from 'src/app/common/filter.directive';
+
+
 
 const routes: Routes = [
     {
@@ -17,7 +18,8 @@ const routes: Routes = [
     },   
     {
         path     : ':id',
-        component: AssetStatusChangeComponent
+        component:AssetStatusChangeComponent,
+    
     }
     
 ];
@@ -25,6 +27,9 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         AssetStatusChangeComponent,
+    
+
+        
        
     ],
     imports: [

@@ -18,13 +18,21 @@ public interface AssetsScheduleHistoryRepository extends JpaRepository<AssetsSch
 
 	Optional<AssetsScheduleHistory> findById(Long id);
 
+	List<AssetsScheduleHistory> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,
+			String facilityId);
+
+	
+
+	Optional<AssetsScheduleHistory> getByAssetTypeAndAssetIdAndFacilityIdAndScheduleCode(String assetType,
+			String assetId, String facilityId, String scheduleCode);
+
 	
 
 
 
 	//<AssetsScheduleHistory> findByScheduleDate(String assetType, String assetId, String facilityId);
 
-	Optional<AssetsScheduleHistory> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,String facilityId);
+	//Optional<AssetsScheduleHistory> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,String facilityId);
 			
 
 }

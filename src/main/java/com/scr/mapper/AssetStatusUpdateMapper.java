@@ -56,18 +56,24 @@ public class AssetStatusUpdateMapper {
 			AssetStatusUpdateResponse asur = new AssetStatusUpdateResponse();
 			//Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData2.getFacilityId());
 			logger.info("*** before ash ***"+assetMasterData2.getAssetId()+assetMasterData2.getAssetType()+assetMasterData2.getFacilityId());
-			Optional<AssetsScheduleHistory> ash = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
+			//Optional<AssetsScheduleHistory> ash = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
+			List<AssetsScheduleHistory>	ashList = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
+			for (AssetsScheduleHistory assetsScheduleHistory : ashList) {	
 				
-			if (ash.isPresent()) {
-				logger.info("*** after ash  ***"+ash.get().getAssetId()+ash.get().getAssetType()+ash.get().getFacilityId());
-				 Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ash.get().getAssetType(),ash.get().getScheduleCode());
+				Optional<AssetsScheduleHistory> ashistory = assetsScheduleHistoryRepository.getByAssetTypeAndAssetIdAndFacilityIdAndScheduleCode(assetsScheduleHistory.getAssetType(),assetsScheduleHistory.getAssetId(),assetsScheduleHistory.getFacilityId(),assetsScheduleHistory.getScheduleCode());
+			
+			if (ashistory.isPresent()) {
+				logger.info("*** after ash  ***"+ashistory.get().getAssetId()+ashistory.get().getAssetType()+ashistory.get().getFacilityId());
+				 Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ashistory.get().getAssetType(),ashistory.get().getScheduleCode());
 				 LocalDate currentDate =LocalDate.now();
 					logger.info("** current date***"+currentDate);
 				 	if(asa.get().getUomOfDuration().equals("Time in Months" ))
 						{
 							LocalDate resultDate = currentDate.plusMonths(asa.get().getDuration().longValue());
 							asur.setNextAoh(resultDate);
+							logger.info("** AOH***"+resultDate);
 							asur.setNextPoh(resultDate);
+							logger.info("** POH***"+resultDate);
 						}
 				 	else if(asa.get().getUomOfDuration().equals("Time in Years" ))
 					{
@@ -81,9 +87,79 @@ public class AssetStatusUpdateMapper {
 						asur.setNextAoh(resultDate);
 						asur.setNextPoh(resultDate);
 					}
+			}
 			}	
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
+			logger.info("*** before set values ***");
+			if(asu.isPresent())
+			{
+				asur.setAsuId(asu.get().getId());
+				asur.setChangeOfStatus(asu.get().getCurrentStatus());
+				asur.setDateOfStatus(asu.get().getDateOfStatus());
+				asur.setRemarks(asu.get().getRemarks());
+				asur.setEditPermission(true);
+			
+			}
+			else {
+				asur.setEditPermission(false);
+			}
+			asur.setAssetType(assetMasterData2.getAssetType());
+			asur.setAssetId(assetMasterData2.getAssetId());
+			asur.setDateOfManufacture(assetMasterData2.getDateOfManufacture());
+			asur.setFacilityId(assetMasterData2.getFacilityId());
+			asur.setModel(assetMasterData2.getModel());
+			asur.setMake(assetMasterData2.getMake());			
+			logger.info("*** object values****"+asur.toString());
+			assetstatus.add(asur );
+			
+		}
+		
+		return assetstatus;
+	}
+
+	public List<AssetStatusUpdateResponse> prepareAssetStatusUpdateDataBasedOnFacility(AssetMasterData assetMasterData2,
+			String facilityId) {
+		List<AssetStatusUpdateResponse> assetstatus = new ArrayList<>();
+		Optional<AssetMasterData> amd = assetMastersRepository.getByFacilityIdAndAssetId(facilityId,assetMasterData2.getAssetId());	
+		logger.info("*** in mapper class ***"+amd);
+		
+			AssetStatusUpdateResponse asur = new AssetStatusUpdateResponse();
+			
+			logger.info("*** before ashhh ***");
+			List<AssetsScheduleHistory>	ashList = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
+			for (AssetsScheduleHistory assetsScheduleHistory : ashList) {
+				
+				Optional<AssetsScheduleHistory> ashistory = assetsScheduleHistoryRepository.getByAssetTypeAndAssetIdAndFacilityIdAndScheduleCode(assetsScheduleHistory.getAssetType(),assetsScheduleHistory.getAssetId(),assetsScheduleHistory.getFacilityId(),assetsScheduleHistory.getScheduleCode());
+				
+				if (ashistory.isPresent()) {
+					logger.info("*** after ash  ***"+ashistory.get().getAssetId()+ashistory.get().getAssetType()+ashistory.get().getFacilityId());
+					 Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ashistory.get().getAssetType(),ashistory.get().getScheduleCode());
+					 LocalDate currentDate =LocalDate.now();
+						logger.info("** current date***"+currentDate);
+					 	if(asa.get().getUomOfDuration().equals("Time in Months" ))
+							{
+								LocalDate resultDate = currentDate.plusMonths(asa.get().getDuration().longValue());
+								asur.setNextAoh(resultDate);
+								asur.setNextPoh(resultDate);
+							}
+					 	else if(asa.get().getUomOfDuration().equals("Time in Years" ))
+						{
+							LocalDate resultDate = currentDate.plusYears(asa.get().getDuration().longValue());
+							asur.setNextAoh(resultDate);
+							asur.setNextPoh(resultDate);
+						}
+					 	else if(asa.get().getUomOfDuration().equals("Time in Days" ))
+						{
+							LocalDate resultDate = currentDate.plusDays(asa.get().getDuration().longValue());
+							asur.setNextAoh(resultDate);
+							asur.setNextPoh(resultDate);
+						}
+				}
+				}
+			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
+					(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
+			//Optional<AssetStatusUpdate> asuMax = assetStatusUpdateRepository.findByDateOfStatus(asu.get().getDateOfStatus());
 			logger.info("*** before set values ***");
 			if(asu.isPresent())
 			{
@@ -98,51 +174,15 @@ public class AssetStatusUpdateMapper {
 			
 			}
 			else {
-			asur.setAssetType(assetMasterData2.getAssetType());
-			asur.setAssetId(assetMasterData2.getAssetId());
-			asur.setDateOfManufacture(assetMasterData2.getDateOfManufacture());
-			asur.setFacilityId(assetMasterData2.getFacilityId());
-			asur.setModel(assetMasterData2.getModel());
-			asur.setMake(assetMasterData2.getMake());			
+			asur.setAssetType(amd.get().getAssetType());
+			asur.setAssetId(amd.get().getAssetId());
+			asur.setDateOfManufacture(amd.get().getDateOfManufacture());
+			asur.setFacilityId(amd.get().getFacilityId());
+			asur.setModel(amd.get().getModel());
+			asur.setMake(amd.get().getMake());			
 			}			
 			logger.info("*** object values****"+asur.toString());
 			assetstatus.add(asur );
-			
-		}
-		
-		return assetstatus;
-	}
-
-	public List<AssetStatusUpdateResponse> prepareAssetStatusUpdateDataBasedOnFacility(AssetMasterData assetMasterData2,
-			String facilityId) {
-		List<AssetStatusUpdateResponse> assetstatus = new ArrayList<>();
-		Optional<AssetMasterData> amd = assetMastersRepository.getByFacilityId(facilityId);	
-		logger.info("*** in mapper class ***"+amd);
-		
-			AssetStatusUpdateResponse asur = new AssetStatusUpdateResponse();
-			logger.info("*** before ashhh ***");
-			Optional<AssetsScheduleHistory> ash = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
-			logger.info("*** before asuuu ***");
-			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId(ash.get().getAssetType(),ash.get().getAssetId(),ash.get().getFacilityId());
-			asur.setAssetType(ash.get().getAssetType());
-			asur.setAssetId(ash.get().getAssetId());
-			asur.setDateOfManufacture(amd.get().getDateOfManufacture());
-			asur.setFacilityId(ash.get().getFacilityId());
-			Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ash.get().getAssetType(),ash.get().getScheduleCode());
-						//sch = Count(ash.get().getScheduleDate(),asa.get().getDuration());
-			Date date= new Date();
-			if(asa.get().getUomOfDuration() == "Time in Months" )
-			{
-				// date.add(date.getMonth(),asa.get().getDuration());
-			}
-			
-			//asur.setNextAoh(asa.get().getDuration());
-			//asur.setNextPoh(asa.get().getDuration());
-			asur.setChangeOfStatus(asu.get().getCurrentStatus());
-			asur.setDateOfStatus(asu.get().getDateOfStatus());
-			
-			assetstatus.add(asur );
-			
 		
 		
 		return assetstatus;

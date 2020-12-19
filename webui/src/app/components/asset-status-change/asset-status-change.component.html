@@ -15,8 +15,7 @@
             <div class="row-fluid">
             	<div class="panel panel-primary">
             		<div class="panel-heading">TW Status Change</div>
-            		<div class="panel-body">
-                        
+            		<div class="panel-body">                        
             			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
                                 fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="searchInputFormGroup"
@@ -25,8 +24,8 @@
 		                    			<mat-form-field fxFlex="30" class="example-full-width">
                                             <mat-select placeholder="{{FiledLabels.DIVISION}}" (ngModelChange)="findSubDivision()"
                                               [formControl]="searchInputFormGroup.controls['dataDiv']">
-                                              <mat-option *ngFor="let divisionData of divisionList"
-                                                [value]="divisionData.facilityName">
+                                              <mat-option *ngFor="let divisionData of divisionHierarchy"
+                                                [value]="divisionData.division">
                                                 {{ divisionData.facilityName }}
                                               </mat-option>
                                             </mat-select>                                                                                                 
@@ -37,7 +36,7 @@
                                         <mat-select placeholder="{{FiledLabels.SUB_DIVISION}}" (ngModelChange)="findDepot()"
                                           [formControl]="searchInputFormGroup.controls['subDiv']" >
                                           <mat-option *ngFor="let subDivData of subDivisionList"
-                                            [value]="subDivData.facilityName">
+                                            [value]="subDivData.subDivision">
                                             {{ subDivData.facilityName }}
                                           </mat-option>
                                         </mat-select>                                                                                                 
@@ -48,7 +47,7 @@
                             <mat-form-field fxFlex="30" class="example-full-width">
                                 <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                   [formControl]="searchInputFormGroup.controls['facilityId']" >
-                                  <mat-option *ngFor="let depot of facilityList"
+                                  <mat-option *ngFor="let depot of depotList"
                                     [value]="depot.facilityId">
                                     {{ depot.facilityName }}
                                   </mat-option>
@@ -64,7 +63,7 @@
 								</div>
 		                    </form>
 						</div> 
-						
+						<div class="clear"></div>
 						<div>
   
 							<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" *ngIf="editPermission" fxLayout="column"
@@ -74,18 +73,14 @@
 							  <div class="panel-heading">{{title}} </div>
 							  <div class="panel-body">
 								  <div class="col-md-12">
-									<div class="col-md-3">                 	
-		                    			<mat-form-field fxFlex="30" class="example-full-width">
-                                            <mat-select placeholder="{{FiledLabels.DIVISION}}" 
-                                              [formControl]="updateStatusChangeFormGroup.controls['dataDiv']">
-                                              <mat-option *ngFor="let divisionData of divisionHierarchy"
-                                                [value]="divisionData.facilityName">
-                                                {{ divisionData.facilityName }}
-                                              </mat-option>
-                                            </mat-select>                                                                                                 
-		                    		</mat-form-field>
+									
+								<div class="col-md-3">
+								<mat-form-field fxFlex="30">
+									<input matInput placeholder="{{FiledLabels.TOWERCAR_TYPE}}" [formControl]="updateStatusChangeFormGroup.controls['assetType']" readonly/>
+									
+								</mat-form-field>
 								</div>
-								<ng-container matColumnDef="assetType">
+								<!-- <ng-container matColumnDef="assetType">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TOWERCAR_TYPE}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
@@ -93,17 +88,29 @@
 													[(ngModel)]="row.assetType" readonly>
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>
-								<ng-container matColumnDef="facilityId">
+								</ng-container> -->
+								<div class="col-md-3">
+									<mat-form-field fxFlex="30">
+										<input matInput placeholder="{{FiledLabels.DEPOT}}" [formControl]="updateStatusChangeFormGroup.controls['facilityId']" readonly/>
+										
+									</mat-form-field>
+									</div>
+								<!-- <ng-container matColumnDef="facilityId">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DEPOT}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
-												<input matInput  [value]="row.facilityId" 
+											<input matInput  [value]="row.facilityId" 
 													[(ngModel)]="row.facilityId" readonly>
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>
-								<ng-container matColumnDef="assetId">
+								</ng-container> -->
+								<div class="col-md-3">
+									<mat-form-field fxFlex="30">
+										<input matInput placeholder="{{FiledLabels.TOWERCAR_NO}}" [formControl]="updateStatusChangeFormGroup.controls['assetId']" readonly/>
+										
+									</mat-form-field>
+									</div>
+								<!-- <ng-container matColumnDef="assetId">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TOWERCAR_NO}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
@@ -111,7 +118,7 @@
 													[(ngModel)]="row.assetId" readonly>
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>
+								</ng-container> 
 								<ng-container matColumnDef="make">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MAKE}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
@@ -140,7 +147,7 @@
 										</mat-cell>
 								</ng-container>
 							   
-								<ng-container matColumnDef="dueDateForPoh">
+								<ng-container matColumnDef="nextPoh">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POH}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
@@ -150,7 +157,7 @@
 										</mat-cell>
 								</ng-container>  
 
-								<ng-container matColumnDef="dueDateForAoh">
+								<ng-container matColumnDef="nextAoh">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AOH}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field fxFlex="30">
@@ -158,8 +165,19 @@
 												[(ngModel)]="row.nextAoh" readonly>                                                
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>  
-								<ng-container matColumnDef="dateOfStatus">
+								</ng-container>  -->
+								<div class="col-md-3">
+									<mat-form-field>
+										<input matInput [matDatepicker]="picker1"
+											placeholder="{{FiledLabels.STATUS_DATE}}"
+											(dateChange)="addEvent($event)" 
+											[formControl]="updateStatusChangeFormGroup.controls['dateOfStatus']" >
+										<mat-datepicker-toggle matSuffix [for]="picker1">
+										</mat-datepicker-toggle>
+										<mat-datepicker #picker1></mat-datepicker>                                                           
+									</mat-form-field>
+								</div>  
+								<!-- <ng-container matColumnDef="dateOfStatus">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.STATUS_DATE}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">	                                        	
 											<mat-form-field>
@@ -172,10 +190,15 @@
 												<mat-datepicker #picker2></mat-datepicker>                                                           
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>  
-
+								</ng-container>   -->
+								<div class="col-md-3">
+									<mat-form-field fxFlex="30">
+										<input matInput placeholder="{{FiledLabels.CURRENT_STATUS}}" [formControl]="updateStatusChangeFormGroup.controls['currentStatus']" readonly/>
+										
+									</mat-form-field>
+									</div>
 								
-								<ng-container matColumnDef="currentStatus">
+								<!-- <ng-container matColumnDef="currentStatus">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CURRENT_STATUS}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
@@ -183,12 +206,26 @@
 												[(ngModel)]="row.currentStatus" readonly> 
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>  
-								<ng-container matColumnDef="ChangeStatus">
+								</ng-container>   -->
+
+								<div class="col-md-3">
+									<mat-form-field fxFlex="30" class="example-full-width">
+										<mat-select placeholder="{{FiledLabels.NEW_STATUS}}"											
+											[formControl]="updateStatusChangeFormGroup.controls['status']">
+											<mat-option
+													*ngFor="let depot of ChangeStatus"
+													[value]="depot.statusCode">
+													{{ depot.statusCode}}
+												</mat-option>										
+										</mat-select>
+									</mat-form-field>
+								</div>
+
+								<!-- <ng-container matColumnDef="status">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.NEW_STATUS}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
-												<mat-select [(ngModel)] = "row.ChangeStatus">													
+												<mat-select [(ngModel)] = "row.status">													
 												<mat-option
 													*ngFor="let depot of ChangeStatus"
 													[value]="depot.statusCode">
@@ -197,7 +234,7 @@
 											</mat-select>
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>                                  
+								</ng-container>                                   
 
 								<ng-container matColumnDef="targetDateOfready">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DATE}}</span></mat-header-cell>
@@ -213,9 +250,26 @@
 												<mat-datepicker #picker1></mat-datepicker>                                                           
 											</mat-form-field>
 										</mat-cell>
-								</ng-container>  
+								</ng-container>  -->
 
-								<ng-container matColumnDef="remarks">
+								<div class="col-md-3">
+									<mat-form-field>
+										<input matInput [matDatepicker]="picker2"
+											placeholder="{{FiledLabels.DATE}}"
+											[max]="maxDate"
+											[formControl]="updateStatusChangeFormGroup.controls['targetDateOfReady']" >
+										<mat-datepicker-toggle matSuffix [for]="picker2">
+										</mat-datepicker-toggle>
+										<mat-datepicker #picker2></mat-datepicker>                                                           
+									</mat-form-field>
+								</div>  								
+								<div class="col-md-3">
+									<mat-form-field fxFlex="30">
+										<input matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="updateStatusChangeFormGroup.controls['remarks']" />
+										
+									</mat-form-field>
+									</div>
+								<!-- <ng-container matColumnDef="remarks">
 									<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.REMARKS}}</span></mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<mat-form-field floatLabel="never">
@@ -223,12 +277,12 @@
 													[(ngModel)]="row.remarks" >
 											</mat-form-field>
 										</mat-cell>
-								</ng-container> 
+								</ng-container>  -->
 								  <div class="col-md-3 mt-15">
 										  <div fxFlex="10" fxLayoutAlign="center center" style="padding-bottom:10px;" class="pr-5 d-inline">
 											  <button mat-raised-button color="accent" [disabled]="updateStatusChangeFormGroup.invalid"
 											  class="submit-button"   aria-label="Submit">
-											  {{title}} 
+											  Update
 											  </button>
 										  </div>
 										  <div class="p-12 d-inline">
@@ -256,7 +310,7 @@
 							</div>
 									
 		                
-		                	<div class="mat-elevation-z8">
+		                	<div class="mat-elevation-z8" *ngIf = enableTable>
 		                		<mat-table [dataSource]="dataSource" matSort>
 		                			<ng-container matColumnDef="sno">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.S_NO}}</span></mat-header-cell>
@@ -317,7 +371,7 @@
 	                                        </mat-cell>
                                     </ng-container>
                                    
-                                    <ng-container matColumnDef="dueDateForPoh">
+                                    <ng-container matColumnDef="nextPoh">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POH}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
@@ -327,10 +381,10 @@
 	                                        </mat-cell>
 									</ng-container>  
 
-									<ng-container matColumnDef="dueDateForAoh">
+									<ng-container matColumnDef="nextAoh">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AOH}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field fxFlex="30">
+	                                        	<mat-form-field floatLabel="never">
                                                     <input matInput  [value]="row.nextAoh" 
                                                     [(ngModel)]="row.nextAoh" readonly>                                                
                                                 </mat-form-field>
@@ -343,7 +397,7 @@
 													<input matInput [matDatepicker]="picker2"														
 														(dateChange)="addEvent($event)" 
 														[value]="row.dateOfStatus" 
-												    	[(ngModel)]="row.dateOfStatus"  readonly>
+												    	[(ngModel)]="row.dateOfStatus"  >
 													<mat-datepicker-toggle matSuffix [for]="picker2">
 													</mat-datepicker-toggle>
 													<mat-datepicker #picker2></mat-datepicker>                                                           
@@ -357,7 +411,7 @@
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
 													<input matInput  [value]="row.currentStatus" 
-                                                    [(ngModel)]="row.currentStatus" readonly> 
+                                                    [(ngModel)]="row.currentStatus" > 
 												</mat-form-field>
 	                                        </mat-cell>
                                     </ng-container>  
@@ -376,15 +430,15 @@
 	                                        </mat-cell>
                                     </ng-container>                                  
 
-									<ng-container matColumnDef="targetDateOfready">
+									<ng-container matColumnDef="targetDateOfReady">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DATE_OF_CHANGE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker1"
 														placeholder="{{FiledLabels.DATE}}"
 														[max]="maxDate"
-														[value]="row.targetDateOfready" 
-												    	[(ngModel)]="row.targetDateOfready"  >
+														[value]="row.targetDateOfReady" 
+												    	[(ngModel)]="row.targetDateOfReady"  >
 													<mat-datepicker-toggle matSuffix [for]="picker1">
 													</mat-datepicker-toggle>
 													<mat-datepicker #picker1></mat-datepicker>                                                           
@@ -401,106 +455,91 @@
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container> 
-								
-
 									
-									 <ng-container matColumnDef="actions">
+									<ng-container matColumnDef="actions">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
+											<ng-container *matCellDef="let row">
+												<mat-cell *ngIf = "row.editPermission ; else permissionElseBlock">
+													<a mat-icon-button matTooltip="Edit"  [routerLink]="['app-edit-asset-status-change']"
+											(click)="editStatusChange(row.asuId)">
+											<mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+										  </a>				 
+											
+										</mat-cell>		
+												<ng-template #permissionElseBlock>
+													<button mat-raised-button color="accent" 
+													(click)="saveAction(row)">
+													{{title}}
+													</button>
+												
+													
+												</ng-template>		
+											</ng-container>
+										  
+									</ng-container>
+
+									 <!-- <ng-container matColumnDef="actions">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 										<mat-cell *matCellDef="let row">
-											<button mat-raised-button color="accent"  *ngIf="addPermission"
+											<button mat-raised-button color="accent" *ngIf ="row.editPermission"
 																(click)="saveAction(row)">
 																{{title}}
 										</button>
-											<a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
+											<a mat-icon-button matTooltip="Edit" *ngIf = enableButton
 											(click)="editStatusChange(row.id)">
 											<mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
-										  </a>
-											  <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
-												(click)="delete(row.id)">
-												<mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-											  </button>
+										  </a>											 
 											</mat-cell>
-									</ng-container> 
+									</ng-container>  -->
 								           
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
 	                                    </mat-row>
 		                		</mat-table>
 							</div>
-							<!-- <div class="mat-elevation-z8">
+							 <div class="mat-elevation-z8" *ngIf = enableStausTable>
 		                		<mat-table [dataSource]="statusDataSource" matSort>
 									<ng-container matColumnDef="sno">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.S_NO}}</mat-header-cell>
 										<mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 									</ng-container>
-		                			<ng-container matColumnDef="assetType">
+		                			<ng-container matColumnDef="asset">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TOWERCAR_TYPE}}</mat-header-cell>
 										<mat-cell *matCellDef="let row"> {{row.assetType}}</mat-cell>
 									</ng-container>
-									<ng-container matColumnDef="facilityId">
+									<ng-container matColumnDef="facility">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DEPOT}}</mat-header-cell>
 										<mat-cell *matCellDef="let row"> {{row.facilityId}}</mat-cell>
 									</ng-container>
-									<ng-container matColumnDef="assetId">
+									<ng-container matColumnDef="asetId">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.TOWERCAR_NO}}</mat-header-cell>
 										<mat-cell *matCellDef="let row"> {{row.assetId}}</mat-cell>
 									</ng-container>
-									<ng-container matColumnDef="make">
-										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MAKE}}</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.make}}</mat-cell>
-									</ng-container>
-									<ng-container matColumnDef="model">
-										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MODEL}}</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.model}}</mat-cell>
-									</ng-container>
-									<ng-container matColumnDef="dateOfManufacture">
-										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MANF_YEAR}}</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.dateOfManufacture}}</mat-cell>
-									</ng-container>   
-									<ng-container matColumnDef="dueDateForPoh">
-										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.POH}}</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.dueDateForPoh}}</mat-cell>
-									</ng-container> 
-									<ng-container matColumnDef="dueDateForAoh">
-										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.AOH}}</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.dueDateForAoh}}</mat-cell>
-									</ng-container> 
-								
-								<ng-container matColumnDef="dateOfStatus">
+																
+								<ng-container matColumnDef="dateStatus">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS_DATE}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.dateOfStatus}}</mat-cell>
 								</ng-container>  
-								<ng-container matColumnDef="currentStatus">
+								<ng-container matColumnDef="curentStatus">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CURRENT_STATUS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.currentStatus}}</mat-cell>
 								</ng-container> 
-								<ng-container matColumnDef="status">
+								<ng-container matColumnDef="stats">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_STATUS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
 								</ng-container> 
-								<ng-container matColumnDef="ChangeStatus">
-									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_STATUS}}</mat-header-cell>
-									<mat-cell *matCellDef="let row"> {{row.ChangeStatus}}</mat-cell>
-								</ng-container> 
-								<ng-container matColumnDef="targetDateOfready">
+							 
+								<ng-container matColumnDef="targetDateReady">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DATE_OF_CHANGE}}</mat-header-cell>
-									<mat-cell *matCellDef="let row"> {{row.targetDateOfready}}</mat-cell>
+									<mat-cell *matCellDef="let row"> {{row.targetDateOfReady}}</mat-cell>
 								</ng-container> 
-								<ng-container matColumnDef="remarks">
+								<ng-container matColumnDef="remark">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>
 								</ng-container> 
 								<ng-container matColumnDef="actions">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
-										<mat-cell *matCellDef="let row">
-											<button mat-raised-button color="accent"  *ngIf="addPermission"
-																(click)="saveAction(row)">
-																{{title}}
-										</button>
-											<a mat-icon-button matTooltip="Edit" *ngIf="editPermission"
-											(click)="editStatusChange(row.id)">
-											<mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
-										  </a>
+										<mat-cell *matCellDef="let row">											
 											  <button mat-icon-button matTooltip="Delete" *ngIf="deletePermission"
 												(click)="delete(row.id)">
 												<mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
@@ -512,7 +551,7 @@
 	                                	<mat-row *matRowDef="let row; columns: statusDisplayedColumns;">
 	                                    </mat-row>
 		                		</mat-table>
-							</div> -->
+							</div> 
 								
 							
                		</div>                 

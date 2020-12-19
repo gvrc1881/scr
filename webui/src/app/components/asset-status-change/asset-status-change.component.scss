@@ -1,6 +1,15 @@
 .mat-column-sno {
     flex: 0 0 50px;
   }
+  .mat-column-asset {
+    flex: 0 0 150px;
+  }
+  .mat-column-asetId {
+    flex: 0 0 100px;
+  }
+  .mat-column-facility {
+    flex: 0 0 100px;
+  }
   .mat-column-facilityId {
     flex: 0 0 80px;
   }
@@ -20,27 +29,27 @@
   .mat-column-dateOfManufacture {
     flex: 0 0 80px;
   }
-  .mat-column-dueDateForAoh {
+  .mat-column-nextAoh {
     flex: 0 0 80px;
   }
-  .mat-column-dueDateForPoh {
+  .mat-column-nextPoh {
     flex: 0 0 80px;
   }
   .mat-column-dateOfStatus {
-    flex: 0 0 80px;
+    flex: 0 0 200px;
   }
   .mat-column-currentStatus {
-    flex: 0 0 80px;
+    flex: 0 0 100px;
   }
   .mat-column-status {
-    flex: 0 0 80px;
+    flex: 0 0 100px;
   }
-  .mat-column-targetDateOfready {
-    flex: 0 0 80px;
+  .mat-column-targetDateOfReady {
+    flex: 0 0 200px;
   }
   .mat-column-remarks {
-    flex: 0 0 80px;
+    flex: 0 0 100px;
   }
   .mat-column-actions {
-    flex: 0 0 80px;
+    flex: 0 0 100px;
   }

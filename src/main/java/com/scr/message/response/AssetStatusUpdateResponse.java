@@ -4,24 +4,24 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class AssetStatusUpdateResponse {
-	
+
 	private String assetType;
-	
+
 	private String assetId;
-	
+
 	private String make;
-	 private String model;
-	 private String facilityId;
-	 private Date dateOfManufacture;
-	 private LocalDate nextAoh;
-	 private LocalDate nextPoh;
-	 private Date dateOfStatus;
-	 private String changeOfStatus;
-	 private String newStatus;
-	 private Date statusDate;
-	 private String remarks;
-	 
-	 
+	private String model;
+	private String facilityId;
+	private Date dateOfManufacture;
+	private LocalDate nextAoh;
+	private LocalDate nextPoh;
+	private Date dateOfStatus;
+	private String changeOfStatus;
+	private String newStatus;
+	private Date statusDate;
+	private String remarks;
+	private boolean editPermission;
+	private Long AsuId;
 
 	public String getAssetType() {
 		return assetType;
@@ -70,8 +70,6 @@ public class AssetStatusUpdateResponse {
 	public void setDateOfManufacture(Date dateOfManufacture) {
 		this.dateOfManufacture = dateOfManufacture;
 	}
-
-	
 
 	public Date getDateOfStatus() {
 		return dateOfStatus;
@@ -129,17 +127,35 @@ public class AssetStatusUpdateResponse {
 		this.nextPoh = nextPoh;
 	}
 
+	public boolean isEditPermission() {
+		return editPermission;
+	}
+
+	public void setEditPermission(boolean editPermission) {
+		this.editPermission = editPermission;
+	}
+
+	public Long getAsuId() {
+		return AsuId;
+	}
+
+	public void setAsuId(Long asuId) {
+		AsuId = asuId;
+	}
+
 	@Override
 	public String toString() {
 		return "AssetStatusUpdateResponse [assetType=" + assetType + ", assetId=" + assetId + ", make=" + make
 				+ ", model=" + model + ", facilityId=" + facilityId + ", dateOfManufacture=" + dateOfManufacture
 				+ ", nextAoh=" + nextAoh + ", nextPoh=" + nextPoh + ", dateOfStatus=" + dateOfStatus
 				+ ", changeOfStatus=" + changeOfStatus + ", newStatus=" + newStatus + ", statusDate=" + statusDate
-				+ ", remarks=" + remarks + "]";
+				+ ", remarks=" + remarks + ", editPermission=" + editPermission + ", AsuId=" + AsuId + "]";
 	}
 
 	
+
 	
+
 	
 
 }

@@ -727,7 +727,7 @@ export const Constants = {
             ASSET_STATUS_CHANGE:{
                 GET_TOWERCARS_BASEDON_DIVISION:"/getTowerCarBasedOnDivsion/",
                 SAVE:"/addAssetStatusChange",
-                UPDATE:"/updateAssetStatusChange",
+                UPDATE:"/updateAssetStatus",
                 GET_ALL_TOWERCARS:"/findAllAssetStatus",
                 GET_TOWERCAR_ID:"/findAssetStatusById/",
                 DELETE:"/deleteAssetStatus/",

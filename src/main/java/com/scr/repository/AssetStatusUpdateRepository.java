@@ -1,6 +1,7 @@
 
 package com.scr.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +16,16 @@ import com.scr.model.AssetStatusUpdate;
 public interface AssetStatusUpdateRepository extends JpaRepository<AssetStatusUpdate,Long>{
 	
 	List<AssetStatusUpdate> findAll();
-
+	
+	
 	Optional<AssetStatusUpdate> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,
 			String facilityId);
 	
 	@Query(value = "SELECT case when count(asu)> 0 then true else false  end  FROM AssetStatusUpdate asu WHERE asu.assetType = :assetType and asu.assetId = :assetId and asu.facilityId =:facilityId")
 
 	Boolean existsByAssetTypeAndAssetIdAndFacilityId(@Param("assetType")String assetType,@Param("assetId") String assetId,@Param("facilityId")  String facilityId);
+
+	//@Query(value = "SELECT max(dateOfStatus) FROM AssetStatusUpdate")
+	//Optional<AssetStatusUpdate> findByDateOfStatus(Timestamp dateOfStatus);
 
 }

@@ -121,33 +121,34 @@ public class AssetMasterDataService {
 		List<AssetMasterData> assetIds = assetMastersRepository.findMakeModel(assetId,assetType,facilityId);
 		return assetIds;
 	}
-	
 
-	public List<AssetMasterData> getByDataDiv(String div) {
+	public List<AssetStatusUpdateResponse> getByDataDiv(String div) {
 		// TODO Auto-generated method stub
 		List<AssetMasterData> amd = assetMastersRepository.getByDataDiv(div);
+		List<AssetStatusUpdateResponse> assetStatusUpdate = null;
 		 logger.info("*** amd list ***"+amd.size());
-	for (AssetMasterData assetMasterData : amd) {
-			
-			List<AssetStatusUpdateResponse> assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateData(assetMasterData,div);
-			
-		}
-		 return amd;
+			for (AssetMasterData assetMasterData : amd) 
+			{
+					
+					 assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateData(assetMasterData,div);
+					
+				}
+			return assetStatusUpdate;
 	}
 
-	public List<AssetMasterData> getByFacilityId(String facilityId) {
+	public List<AssetStatusUpdateResponse> getByFacilityId(String facilityId) {
 		// TODO Auto-generated method stub
 		
 		List<AssetMasterData> amd = assetMastersRepository.getFacilityId(facilityId);
 		 logger.info("*** amd list ***"+amd.size());
-		
-for (AssetMasterData assetMasterData2 : amd) {
-	
-
-			List<AssetStatusUpdateResponse> assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateDataBasedOnFacility(assetMasterData2,facilityId);
-} 		
-	
-		
-		return amd;
-	}
+		 List<AssetStatusUpdateResponse> assetStatusUpdate = new ArrayList<>();
+			for (AssetMasterData assetMasterData2 : amd) 
+			{	
+			logger.info("*** in for loop  ***"+assetMasterData2.getFacilityId());
+				assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateDataBasedOnFacility(assetMasterData2,facilityId);
+			} 		
+				
+					
+			return assetStatusUpdate;
+		}
 }

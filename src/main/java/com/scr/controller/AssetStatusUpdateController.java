@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scr.message.response.AssetStatusUpdateResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetStatusUpdate;
@@ -161,40 +164,43 @@ public class AssetStatusUpdateController {
 		}
 	}
 
-	@RequestMapping(value = "/getTowerCarBasedOnDivsion/{division}/{subDivision}/{depot}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<AssetMasterData>> getTowerCarBasedOnDivsion(@PathVariable("division") String division,
-			@PathVariable("subDivision") String subDivision, @PathVariable("depot") String depot) throws JSONException {
+	@RequestMapping(value = "/getTowerCarBasedOnDivsion/{division}/{subDivision}/{facilityId}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<AssetStatusUpdateResponse>> getTowerCarBasedOnDivsion(@PathVariable("division") String division,
+			@PathVariable("subDivision") String subDivision, @PathVariable("facilityId") String facilityId) throws JSONException {
 		logger.info("Enter into getTowerCarBasedOnDivsion function");
 		logger.info("division===" + division);
 		logger.info("subDivision===" + subDivision);
-		logger.info("depot===" + depot);
+		logger.info("facilityId===" + facilityId);
 
-		List<AssetMasterData> amd = null;		
+		List<AssetStatusUpdateResponse> amd = new ArrayList<>();		
 		try {
 
-			if (division != null && subDivision.equals("null") && depot.equals("undefined")) {
+			if (division != null && subDivision.equals("null") && facilityId.equals("null")) {
 				logger.info("in if condiction");
 				// amd =
 				// assetMasterDataService.getAssetTypeAndAssetIdAndDateOfManufactureBasedOnDataDiv(div);
 				amd = assetMasterDataService.getByDataDiv(division);
-			} else if (division != null && !subDivision.equals("undefined") && depot.equals("undefined")) {
+			} else if (division != null && !subDivision.equals("null") && facilityId.equals("null")) {
 				logger.info("** in else if condition");
-
+				//List<AssetStatusUpdateResponse> asur = null;
 				List<Facility> fac = facilityRepository.findByDivisionAndSubDivision(division, subDivision);
 				
 				for (Facility facility : fac) {
-					logger.info("** in else if for loop ");
-					amd = assetMasterDataService.getByFacilityId(facility.getFacilityId());
-
+					logger.info("** in else if for loop "+facility.getFacilityId());
+					List<AssetStatusUpdateResponse> asur = assetMasterDataService.getByFacilityId(facility.getFacilityId());
+					for (AssetStatusUpdateResponse assetStatusUpdateResponse : asur) {
+						amd.add(assetStatusUpdateResponse);
+					}
 				}
 
-			} else if (division != null && !subDivision.equals("null")  && depot != null) {
+			} else if (division != null && !subDivision.equals("null")  && facilityId != null) {
 				logger.info("*** in 2nd else if condtion ");
-				amd = assetMasterDataService.getByFacilityId(depot);
+				amd = assetMasterDataService.getByFacilityId(facilityId);
 			}
+			//logger.info("*** size **8"+amd.size());
 
 		} catch (NullPointerException e) {
-			logger.error(e);
+			logger.error(e.getMessage());
 		} catch (Exception e) {
 			logger.error(e);
 		}

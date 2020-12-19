@@ -55,6 +55,8 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 			,nativeQuery = true)	
 	List<AssetMasterData> getFacilityId(String facilityId);
 	
+	Optional<AssetMasterData> getByFacilityIdAndAssetId(String facilityId,String assetId);
+	
 	
 }
 

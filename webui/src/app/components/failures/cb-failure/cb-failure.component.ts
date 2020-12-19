@@ -24,10 +24,10 @@ export class CbFailureComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  displayedColumns = ['sno', 'subStation', 'equipment', 'cascadeAssets', 'fromDateTime', 'thruDateTime',
+  displayedColumns = ['sno', 'subStation', 'fromDateTime', 'thruDateTime',
     'duration', 'relayIndication', 'natureOfClosure', 'rValue',
      'xValue', 'zConstant','faultDistance','actualFaultDistance','current','voltage',
-     'trippedIdentifiedFault','divisionLocal','internalExternal', 'remarks', 'actions'];
+     'trippedIdentifiedFault','divisionLocal','internalExternal', 'actions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 

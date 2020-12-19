@@ -10,8 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
-import { FuseConfirmPopupComponent } from 'src/app/components/confirm-popup/confirm-popup.component';
-import { FacilityModel } from 'src/app/models/facility.model';
+
 @Component({
   selector: 'app-asset-status-change',
   templateUrl: './asset-status-change.component.html',
@@ -37,11 +36,13 @@ export class AssetStatusChangeComponent implements OnInit {
     title: string = Constants.EVENTS.ADD;
     searchInputFormGroup: FormGroup;
     standardPhaseActivityList: any;
+    save: boolean ;
+    update: boolean ;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     statusDataSource: MatTableDataSource<AssetStatusChangeModel>;
     dataSource: MatTableDataSource<AssetStatusChangeModel>;
-   // statusDisplayedColumns = ['sno','facilityId','assetType', 'assetId','make','model','dateOfManufacture','dueDateForAoh','dueDateForPoh','dateOfStatus','currentStatus','status','targetDateOfready','remarks','actions'];
-    displayedColumns = ['sno','facilityId','assetType', 'assetId','make','model','dateOfManufacture','dueDateForAoh','dueDateForPoh','dateOfStatus','currentStatus','status','targetDateOfready','remarks','actions'];
+    statusDisplayedColumns = ['sno','facility','asset', 'asetId','dateStatus','curentStatus','stats','targetDateReady','remark','actions'];
+    displayedColumns = ['sno','facilityId','assetType', 'assetId','make','model','dateOfManufacture','nextAoh','nextPoh','dateOfStatus','currentStatus','status','targetDateOfReady','remarks','actions'];
     enableUpdate: boolean;    
     AssetStatusList:any;
     activity = [];
@@ -58,14 +59,16 @@ export class AssetStatusChangeComponent implements OnInit {
     divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
     subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));
     depotHierarchy:any = JSON.parse(localStorage.getItem('depotData'));
-    divisionList: FacilityModel [] = [];
-    subDivisionList: FacilityModel [] = [];
-    facilityList :FacilityModel [] = [];
+    divisionList: any;
+    subDivisionList: any;
+    depotList :any;
     towerCarList:any;
     ChangeStatus:any;
     StatusChangeList:any;
-    enableSave:boolean;
+    enableTable:boolean;
+    enableStausTable:boolean;
     updateStatusChangeFormGroup:FormGroup;
+    enableButton:any;
 
     constructor(
       public dialog: MatDialog,
@@ -88,93 +91,76 @@ export class AssetStatusChangeComponent implements OnInit {
         'subDiv': [null]  ,
         'facilityId':[null]   
     });
+    this.id = +this.route.snapshot.params['id'];
+    
+    if (!isNaN(this.id)) {  
+         
+      this.spinnerService.show();
+      this.save = false;
+      this.update = true;
+      this.title = Constants.EVENTS.UPDATE;
+     // this.getSchedulesDataById(this.id);
+    } else {
+      
+      this.save = true;
+      this.update = false;
+      this.title = Constants.EVENTS.ADD;
+    }
   
      
   }
 
   findDivision(){
-   
-    for (let i = 0; i < this.userHierarchy.length; i++) {
-             if(this.userHierarchy[i].depotType == 'DIV'){
-               this.divisionList.push(this.userHierarchy[i]);
-              
-             }
-          }
-  }
-  
-  findSubDivision(){
-    let  division: string = this.searchInputFormGroup.value.dataDiv;
-    for (let i = 0; i < this.userHierarchy.length; i++) {
-             if(this.userHierarchy[i].division == division && this.userHierarchy[i].depotType == 'SUB_DIV'){
-               this.subDivisionList.push(this.userHierarchy[i]);
-               
-             }
-          }
-  }
-  
-  findDepot(){
-    let subDivision = this.searchInputFormGroup.value.subDiv;
-    for (let i = 0; i < this.userHierarchy.length; i++) {
-             if(this.userHierarchy[i].subDivision == subDivision && this.userHierarchy[i].depotType == 'OHE'  ){
-               this.facilityList.push(this.userHierarchy[i]);
-              
-             }
-          }
-  }
+    this.divisionList=[];    
 
-  // findDivision(){
-  //   this.divisionList=[];    
-
-  //   for (let i = 0; i < this.divisionHierarchy.length; i++) {
+    for (let i = 0; i < this.divisionHierarchy.length; i++) {
     
         
-  //          if( this.divisionHierarchy[i].depotType == 'DIV'){
+           if( this.divisionHierarchy[i].depotType == 'DIV'){
            
-  //             // this.divisionList.push(this.divisionHierarchy[i]);
-  //             this.divisionHierarchy.divisionList;
+              // this.divisionList.push(this.divisionHierarchy[i]);
+              this.divisionHierarchy.divisionList;
               
-  //          }
-  //       }
+           }
+        }
 
-  // }
+  }
 
-  // findSubDivision(){     
+  findSubDivision(){     
 
-  //   let  division: string = this.searchInputFormGroup.value.dataDiv;
-  //   console.log("subdivison=="+this.searchInputFormGroup.value.dataDiv);
+    let  division: string = this.searchInputFormGroup.value.dataDiv;   
 
-  //   this.subDivisionList=[]; 
+    this.subDivisionList=[]; 
    
-  //   for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
+    for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
         
-  //          if(this.subDivisionHierarchy[i].division == division && this.subDivisionHierarchy[i].depotType == 'SUB_DIV'){
+           if(this.subDivisionHierarchy[i].division == division && this.subDivisionHierarchy[i].depotType == 'SUB_DIV'){
            
-  //              this.subDivisionList.push(this.subDivisionHierarchy[i]);
-  //            console.log("subdivision=="+JSON.stringify(this.subDivisionList));
-  //           //this.subDivisionHierarchy.subDivisionList;
+               this.subDivisionList.push(this.subDivisionHierarchy[i]);           
               
                
-  //          }
-  //       }
+           }
+        }
 
-  // }
+  }
 
-  // findDepot(){
-  //   this.depotList=[];  
+  findDepot(){
 
-  //   let subDivision = this.searchInputFormGroup.value.subDiv;
+    this.depotList=[];  
 
-  //   for (let i = 0; i < this.depotHierarchy.length; i++) {
+    let subDivision = this.searchInputFormGroup.value.subDiv;
+ 
+    for (let i = 0; i < this.depotHierarchy.length; i++) {
         
-  //          if(this.depotHierarchy[i].subDivision == subDivision && this.depotHierarchy[i].depotType == 'OHE' ){
+           if(this.depotHierarchy[i].subDivision == subDivision && this.depotHierarchy[i].depotType == 'OHE' ){
            
-  //              this.depotList.push(this.depotHierarchy[i]);
-  //              //this.depotHierarchy.depotList;
+               this.depotList.push(this.depotHierarchy[i]);
+               //this.depotHierarchy.depotList;
                
-  //          }
-  //       }
+           }
+        }
 
-  // }
+  }
 
   findChangeStatus(){
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM +'ASSET_STATUS_TYPES').subscribe((data) => {
@@ -200,6 +186,8 @@ export class AssetStatusChangeComponent implements OnInit {
       }
 
       this.statusDataSource = new MatTableDataSource(status);
+      this.enableStausTable = true;
+      this.enableTable=false;
      //this.dataSource.paginator = this.paginator;
      // this.dataSource.sort = this.sort;
       this.spinnerService.hide();
@@ -209,38 +197,31 @@ export class AssetStatusChangeComponent implements OnInit {
   }
   
   getAssetStatusChange() { 
-  
-    //const phase: ProjectPhaseModel[] = [];
+    
     this.AssetStatusList = [];
     this.activity = []; 
-    let div=this.searchInputFormGroup.value.dataDiv;
-    let division= div.slice(0, -4);   
+    let division=this.searchInputFormGroup.value.dataDiv;
+ 
     let subDivision=this.searchInputFormGroup.value.subDiv;
-    let depot =this.searchInputFormGroup.value.depot;
-
+  
+    let facilityId =this.searchInputFormGroup.value.facilityId;
+    this.spinnerService.show();
      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.
-      GET_TOWERCARS_BASEDON_DIVISION+division+'/'+subDivision+'/'+depot).subscribe((data) => {
+      GET_TOWERCARS_BASEDON_DIVISION+division+'/'+subDivision+'/'+facilityId).subscribe((data) => {
              this.AssetStatusList = data;
-             let assetType=this.AssetStatusList.assetType;
-             let assetId=this.AssetStatusList.assetId;
-             let facilityId=this.AssetStatusList.facilityId;
 
-             this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.EXIST_BY_ASSETYPE_ASSETID_FACILITY +assetType+"/"+assetId+"/"+facilityId).subscribe((data) => {
-              this.StatusChangeList = data;
-              },  error => {
-                 this.commonService.showAlertMessage("Error in Get")
-              });
-             this. editPermission =true;
-             this.addPermission=false;
+             //let enableButton=this.AssetStatusList.editPermission;
+             console.log('** status ***'+JSON.stringify(this.AssetStatusList));
+            if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
-             this.AssetStatusList[i].sno = i + 1;
-            
-             this.activity.push(this.AssetStatusList[i]);
-         }
-
+                this.AssetStatusList[i].sno = i + 1;        
+                this.activity.push(this.AssetStatusList[i]);
+              }
+            }
          this.dataSource = new MatTableDataSource(this.activity);         
-         this.addPermission=true;
-         this.editPermission=false;
+         this.enableStausTable = false;
+         this.enableTable=true;         
+         
      });
      
   }
@@ -249,16 +230,14 @@ export class AssetStatusChangeComponent implements OnInit {
    {
      let towerCar={
 
-     assetType:row.assetType,
-     assetId:row.assetId,
-     facilityId:row.facilityId,
-     make:row.make,
-     model:row.model,
-     dateOfStatus:row.dateOfStatus,
-     currentStatus:row.currentStatus,
-     ChangeStatus:row.status,
-     targetDateOfready:row.targetDateOfready,
-     remarks:row.remarks
+     "assetType":row.assetType,
+     "assetId":row.assetId,
+     "facilityId":row.facilityId,    
+     "dateOfStatus":row.dateOfStatus,
+     "currentStatus":row.currentStatus,
+     "status":row.status,
+     "targetDateOfReady":row.targetDateOfReady,
+     "remarks":row.remarks
 
      }   
      
@@ -285,8 +264,7 @@ export class AssetStatusChangeComponent implements OnInit {
   }
   updateStatusChangeSubmit(){
 
-   
-    if (this.title ==  Constants.EVENTS.UPDATE) {
+  
                   var updatestatus={
                     assetType:this.updateStatusChangeFormGroup.value.assetType,
                     assetId:this.updateStatusChangeFormGroup.value.assetId,
@@ -311,39 +289,48 @@ export class AssetStatusChangeComponent implements OnInit {
                       this.spinnerService.hide();
                       this.commonService.showAlertMessage("Assets Status Data Updating Failed.");
                     })
-     }
+     
 }
 
 
   editStatusChange(id){
+    
+    this.editPermission=true;
+
+    this.updateStatusChangeFormGroup = this.formBuilder.group({
+      'id':[null],
+      'assetType':[null],
+      'assetId':[null],
+      'facilityId':[null],
+      'dateOfStatus':[null],
+      'currentStatus':[null],
+      'targetDateOfReady':[null],
+      'status':[null],
+      'remarks':[null]
+    })
 
     this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.GET_TOWERCAR_ID+id).subscribe((responseData) => {
       this.editStatusResponse = responseData;
+
+      console.log("response=="+this.editStatusResponse.facilityId);
        
-        this.updateStatusChangeFormGroup.patchValue
-        ({
-                          id: this.editStatusResponse.id,
-                          dataDiv:this.editStatusResponse.dataDiv,
-                          assetType: this.editStatusResponse.assetType,
-                          assetId: this.editStatusResponse.assetId,
-                          facilityId:this.editStatusResponse.facilityId,
-                          make:this.editStatusResponse.make,
-                          model:this.editStatusResponse.model,
-                          dateOfStatus:this.editStatusResponse.dateOfStatus,
-                          currentStatus:this.editStatusResponse.currentStatus,
-                          date:this.editStatusResponse.targetDateOfready,
-                          remarks:this.editStatusResponse.remarks
-                        
-           })
+        this.updateStatusChangeFormGroup.patchValue ({
+          id: this.editStatusResponse.id,
+          assetType:this.editStatusResponse.assetType,
+          assetId:this.editStatusResponse.assetId,
+          facilityId:this.editStatusResponse.facilityId,
+          dateOfStatus:this.editStatusResponse.dateOfStatus,
+          currentStatus:this.editStatusResponse.currentStatus,
+          targetDateOfReady:this.editStatusResponse.targetDateOfReady,
+          status:this.editStatusResponse.status,
+          remarks:this.editStatusResponse.remarks
+
+        });
           
+
       
   } ,error => {})
-  this.id=id;
-  if (!isNaN(this.id)) {
-      this.title = Constants.EVENTS.UPDATE;
-    } else {
-      this.title = Constants.EVENTS.ADD;      
-    }
+
     
 
     
