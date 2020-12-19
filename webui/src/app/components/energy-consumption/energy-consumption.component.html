@@ -6,8 +6,8 @@
             <div class="breadcrumb-section">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Energy Consumption</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a  [routerLink]="['/energyBillPayment']">Energy Bill Payment</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Energy Consumption</li>
                     </ol>
                 </nav>
@@ -305,10 +305,10 @@
                                                 </button>
                                             </a>
 
-                                            <button mat-icon-button matTooltip="Delete" (click)="delete(row.id)"
+                                            <!-- <button mat-icon-button matTooltip="Delete" (click)="delete(row.id)"
                                                 *ngIf="deletePermission && !row.editable">
                                                 <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
-                                            </button>
+                                            </button> -->
                                         <td>
                                     </ng-container>
 

@@ -101,7 +101,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       });
       this.spinnerService.show();
       this.save = false;
-      this.update = true;
+      //this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.findEnergyConsumptionById(this.id);
     } else {
@@ -175,6 +175,11 @@ export class AddEnergyConsumptionComponent implements OnInit {
   findEnergyConsumptionById(id) {
      this.resp = JSON.parse(localStorage.getItem("ec"));
     console.log(this.resp);
+      if(this.resp.id == 0){
+          this.update = false;
+      }else {
+          this.update = true;
+      }
     this.addEnergyConsumptionFailFromGroup.patchValue({
       id: this.resp.id,
       Feeder_Name: this.resp.Feeder_Name,
@@ -200,7 +205,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
       Vol_Max: this.resp.Vol_Max,
       Vol_Min: this.resp.Vol_Min,
       Max_Load: this.resp.Max_Load,
-      maxLoadTime:this.resp.max_load_time_hhmm != null ? new Date(this.resp.max_load_time_hhmm) : new Date(),
+      maxLoadTime:this.resp.max_load_time_hhmm != null ? new Date(this.resp.max_load_time_hhmm) : '',
       remarks:this.resp.remarks,
       jointReadingDate:this.resp.joint_reading_date != null ? this.resp.joint_reading_date+'('+this.resp.no_of_days_lapsed_j_reading+')' : '',
       
@@ -223,7 +228,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_KVAH)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: (parseFloat($event.target.value) - parseFloat(this.resp.Old_KVAH)) * parseFloat(this.resp.Multification_Factor) });
       this.kvahValidation = false;
-      this.addEnergyConsumptionFailFromGroup.patchValue({ pf: (parseFloat(this.addEnergyConsumptionFailFromGroup.controls.Current_KWH.value) / parseFloat($event.target.value)) });
+      this.addEnergyConsumptionFailFromGroup.patchValue({ pf: ((parseFloat(this.addEnergyConsumptionFailFromGroup.controls.Current_KWH.value) / parseFloat($event.target.value))).toFixed(2) });
     } else {
       this.kvahValidation =true;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_KVAH: 0 });
@@ -244,8 +249,17 @@ export class AddEnergyConsumptionComponent implements OnInit {
     if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lead)) * parseFloat(this.resp.Multification_Factor) });
       this.rkvahLeadValidation = false;
+        
+        if(parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_KWH) >= parseFloat(this.resp.Old_KWH) && parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_KVAH) >= parseFloat(this.resp.Old_KVAH) &&
+          parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_RKVAH_Lag) >= parseFloat(this.resp.Old_RKVAH_Lag) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead) ){
+            this.update = true; 
+        }else {
+            this.update = false;    
+        }
+        
     } else {
       this.rkvahLeadValidation = true;
+      this.update = false;
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: 0 });
     }
   }

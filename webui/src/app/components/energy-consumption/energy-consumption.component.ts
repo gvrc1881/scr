@@ -208,7 +208,7 @@ pagination = Constants.PAGINATION_NUMBERS;
         this.energyConsumptionData = response;
         console.log(response)
         for (let i = 0; i < this.energyConsumptionData.length; i++) {
-            console.log('*** data div ***'+this.energyConsumptionData[i].dataDiv);
+           
           this.energyConsumptionData[i].sno = i + 1;
           this.energyConsumptionData[i].Feeder_Name = this.energyConsumptionData[i].feederName;
           this.energyConsumptionData[i].Previous_Date = this.energyConsumptionData[i].readingGapDays != null ? this.energyConsumptionData[i].readingGapDays : '';
@@ -290,6 +290,7 @@ pagination = Constants.PAGINATION_NUMBERS;
       this.exactDate = true;
       this.selectedExactDate = new Date();
       var query = "";
+      this.maxDate = new Date();
       query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
       this.findEnergyConsumptionData(query);
     } else {
