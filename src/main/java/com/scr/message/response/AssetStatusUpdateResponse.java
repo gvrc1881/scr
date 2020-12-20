@@ -2,6 +2,7 @@ package com.scr.message.response;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.sql.Timestamp;
 
 public class AssetStatusUpdateResponse {
 
@@ -15,10 +16,10 @@ public class AssetStatusUpdateResponse {
 	private Date dateOfManufacture;
 	private LocalDate nextAoh;
 	private LocalDate nextPoh;
-	private Date dateOfStatus;
+	private Timestamp dateOfStatus;
 	private String changeOfStatus;
 	private String newStatus;
-	private Date statusDate;
+	private Timestamp statusDate;
 	private String remarks;
 	private boolean editPermission;
 	private Long AsuId;
@@ -75,7 +76,7 @@ public class AssetStatusUpdateResponse {
 		return dateOfStatus;
 	}
 
-	public void setDateOfStatus(Date dateOfStatus) {
+	public void setDateOfStatus(Timestamp dateOfStatus) {
 		this.dateOfStatus = dateOfStatus;
 	}
 
@@ -99,7 +100,7 @@ public class AssetStatusUpdateResponse {
 		return statusDate;
 	}
 
-	public void setStatusDate(Date statusDate) {
+	public void setStatusDate(Timestamp statusDate) {
 		this.statusDate = statusDate;
 	}
 

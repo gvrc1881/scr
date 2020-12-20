@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
+import { DatePipe } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-asset-status-change',
@@ -18,7 +20,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
   providers: [
     {
         provide: DateAdapter, useClass: AppDateAdapter
-    },
+    }, 
     {
         provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
     }
@@ -33,7 +35,8 @@ export class AssetStatusChangeComponent implements OnInit {
     editPermission: boolean ;
     addPermission: boolean ;
     deletePermission: boolean = true;
-    title: string = Constants.EVENTS.ADD;
+    title: any;
+    Titles = FieldLabelsConstant.TITLE;
     searchInputFormGroup: FormGroup;
     standardPhaseActivityList: any;
     save: boolean ;
@@ -77,7 +80,9 @@ export class AssetStatusChangeComponent implements OnInit {
       private commonService: CommonService,
       private sendAndRequestService:SendAndRequestService ,
       private route: ActivatedRoute,
-      private router: Router,       
+      private router: Router,    
+      private datePipe: DatePipe,   
+      private location: Location,
   ) {
   }
   
@@ -91,21 +96,7 @@ export class AssetStatusChangeComponent implements OnInit {
         'subDiv': [null]  ,
         'facilityId':[null]   
     });
-    this.id = +this.route.snapshot.params['id'];
-    
-    if (!isNaN(this.id)) {  
-         
-      this.spinnerService.show();
-      this.save = false;
-      this.update = true;
-      this.title = Constants.EVENTS.UPDATE;
-     // this.getSchedulesDataById(this.id);
-    } else {
-      
-      this.save = true;
-      this.update = false;
-      this.title = Constants.EVENTS.ADD;
-    }
+
   
      
   }
@@ -182,6 +173,9 @@ export class AssetStatusChangeComponent implements OnInit {
       this.towerCarList = data;
       for (let i = 0; i < this.towerCarList.length; i++) {
         this.towerCarList[i].sno = i + 1;
+        this.towerCarList[i].dateOfStatus = this.datePipe.transform(this.towerCarList[i].dateOfStatus, 'dd-MM-yyyy ');
+        this.towerCarList[i].targetDateOfReady = this.datePipe.transform(this.towerCarList[i].targetDateOfReady, 'dd-MM-yyyy ');
+        
        status.push(this.towerCarList[i]);
       }
 
@@ -209,9 +203,7 @@ export class AssetStatusChangeComponent implements OnInit {
      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.
       GET_TOWERCARS_BASEDON_DIVISION+division+'/'+subDivision+'/'+facilityId).subscribe((data) => {
              this.AssetStatusList = data;
-
-             //let enableButton=this.AssetStatusList.editPermission;
-             console.log('** status ***'+JSON.stringify(this.AssetStatusList));
+          
             if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
                 this.AssetStatusList[i].sno = i + 1;        
@@ -220,7 +212,8 @@ export class AssetStatusChangeComponent implements OnInit {
             }
          this.dataSource = new MatTableDataSource(this.activity);         
          this.enableStausTable = false;
-         this.enableTable=true;         
+         this.enableTable=true;  
+        this. title = Constants.EVENTS.ADD;       
          
      });
      
@@ -237,7 +230,9 @@ export class AssetStatusChangeComponent implements OnInit {
      "currentStatus":row.currentStatus,
      "status":row.status,
      "targetDateOfReady":row.targetDateOfReady,
-     "remarks":row.remarks
+     "remarks":row.remarks,
+     "createdBy": this.loggedUserData.username,
+     "createdOn": new Date()
 
      }   
      
@@ -248,7 +243,8 @@ export class AssetStatusChangeComponent implements OnInit {
       if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("TW Status Data Updated Successfully");
         this.searchInputFormGroup.reset();
-        this.statusDataSource=new MatTableDataSource();
+        this.dataSource=new MatTableDataSource();
+        this.getAllData();
         this.enableUpdate=false;
         this.addPermission=true;
         //this.router.navigate(['../'], { relativeTo: this.route });
@@ -263,24 +259,33 @@ export class AssetStatusChangeComponent implements OnInit {
    
   }
   updateStatusChangeSubmit(){
-
+    
   
                   var updatestatus={
+                    id:this.editStatusResponse.id,
                     assetType:this.updateStatusChangeFormGroup.value.assetType,
                     assetId:this.updateStatusChangeFormGroup.value.assetId,
                     facilityId:this.updateStatusChangeFormGroup.value.facilityId,                  
                     dateOfStatus:this.updateStatusChangeFormGroup.value.dateOfStatus,
                     currentStatus:this.updateStatusChangeFormGroup.value.currentStatus,
-                    ChangeStatus:this.updateStatusChangeFormGroup.value.status,
-                    targetDateOfready:this.updateStatusChangeFormGroup.value.targetDateOfready,
-                    remarks:this.updateStatusChangeFormGroup.value.remarks 
-                  }                                         
+                    status:this.updateStatusChangeFormGroup.value.status,
+                    targetDateOfReady:this.updateStatusChangeFormGroup.value.targetDateOfReady,
+                    remarks:this.updateStatusChangeFormGroup.value.remarks ,
+                    "lastUpdatedStamp": new Date(),
+                   "lastUpdatedTxStamp": new Date()
+                  }      
+                  console.log("updateresponse=="+updatestatus)  ;                                 
                     this.sendAndRequestService.requestForPUT(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.UPDATE, updatestatus, false).subscribe(response => {
                       this.spinnerService.hide();
                       this.resp = response;
+                      
                       if (this.resp.code == Constants.CODES.SUCCESS) {
                       this.commonService.showAlertMessage("Assets Status Data Updated Successfully");
-                      this.router.navigate(['../'], { relativeTo: this.route });
+                     
+                      this.dataSource=new MatTableDataSource();
+                      this.getAllData();
+                      this.enableUpdate=false;
+                      this.addPermission=true;
                       }else{
                         this.commonService.showAlertMessage("Assets Status Data Updating Failed.");
                       }
@@ -319,9 +324,9 @@ export class AssetStatusChangeComponent implements OnInit {
           assetType:this.editStatusResponse.assetType,
           assetId:this.editStatusResponse.assetId,
           facilityId:this.editStatusResponse.facilityId,
-          dateOfStatus:this.editStatusResponse.dateOfStatus,
-          currentStatus:this.editStatusResponse.currentStatus,
-          targetDateOfReady:this.editStatusResponse.targetDateOfReady,
+          dateOfStatus:!!this.editStatusResponse.dateOfStatus ? new Date(this.editStatusResponse.dateOfStatus) : '',         
+          currentStatus:this.editStatusResponse.currentStatus,         
+          targetDateOfReady:!!this.editStatusResponse.targetDateOfReady ? new Date(this.editStatusResponse.targetDateOfReady) : '',
           status:this.editStatusResponse.status,
           remarks:this.editStatusResponse.remarks
 
@@ -341,9 +346,8 @@ export class AssetStatusChangeComponent implements OnInit {
     
   }
  
-  onGoBack()
-  {
-    
+  onGoBack() {
+    this.location.back();
   }
 
   delete (id) {

@@ -1,0 +1,16 @@
+.mat-column-sno {
+    flex: 0 0 80px;
+  }
+  .mat-column-subStation {
+    flex: 0 0 80px;
+  }
+  .mat-column-current {
+    flex: 0 0 40px;
+  }
+  .mat-column-voltage {
+    flex: 0 0 40px;
+  }
+  .mat-column-actions {
+    flex: 0 0 100px;
+  }
+ 

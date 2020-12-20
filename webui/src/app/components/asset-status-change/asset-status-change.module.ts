@@ -17,7 +17,7 @@ const routes: Routes = [
         component: AssetStatusChangeComponent,
     },   
     {
-        path     : ':id',
+        path     : ':id', 
         component:AssetStatusChangeComponent,
     
     }
@@ -27,7 +27,6 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         AssetStatusChangeComponent,
-    
 
         
        

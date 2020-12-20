@@ -27,6 +27,7 @@ import com.scr.model.AssetStatusUpdate;
 import com.scr.model.DriveCategory;
 import com.scr.model.Drives;
 import com.scr.model.Facility;
+import com.scr.model.TssFeederMaster;
 import com.scr.model.WorkPhases;
 import com.scr.repository.FacilityRepository;
 import com.scr.services.AssetMasterDataService;
@@ -76,6 +77,8 @@ public class AssetStatusUpdateController {
 		logger.info("Request Parameters = " + assetStatusUpdate.toString());
 		try {
 			logger.info("Calling service with request parameters.");
+			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);
+			assetStatusUpdate.setSeqId(asu.getId().toString());
 			assetStatusService.save(assetStatusUpdate);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetStatusUpdate Added successfully", Constants.SUCCESS_CODE);

@@ -91,7 +91,10 @@ public class AssetStatusUpdateMapper {
 			}	
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
+			
+			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData2.getFacilityId());
 			logger.info("*** before set values ***");
+			
 			if(asu.isPresent())
 			{
 				asur.setAsuId(asu.get().getId());
@@ -106,8 +109,8 @@ public class AssetStatusUpdateMapper {
 			}
 			asur.setAssetType(assetMasterData2.getAssetType());
 			asur.setAssetId(assetMasterData2.getAssetId());
-			asur.setDateOfManufacture(assetMasterData2.getDateOfManufacture());
-			asur.setFacilityId(assetMasterData2.getFacilityId());
+			asur.setDateOfManufacture(assetMasterData2.getDateOfCommision());
+			asur.setFacilityId(fac.get().getFacilityId());
 			asur.setModel(assetMasterData2.getModel());
 			asur.setMake(assetMasterData2.getMake());			
 			logger.info("*** object values****"+asur.toString());
@@ -160,27 +163,31 @@ public class AssetStatusUpdateMapper {
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
 			//Optional<AssetStatusUpdate> asuMax = assetStatusUpdateRepository.findByDateOfStatus(asu.get().getDateOfStatus());
+			
+			Optional<Facility> fac = facilityRepository.findByFacilityId(amd.get().getFacilityId());
+			
 			logger.info("*** before set values ***");
 			if(asu.isPresent())
 			{
-				//asu.get().getDateOfStatus()
-				//asur.setDateOfStatus();
-				asur.setAssetType(asu.get().getAssetType());
-				asur.setAssetId(asu.get().getAssetId());
-				asur.setFacilityId(asu.get().getFacilityId());
+				asur.setAsuId(asu.get().getId());
 				asur.setChangeOfStatus(asu.get().getCurrentStatus());
 				asur.setDateOfStatus(asu.get().getDateOfStatus());
 				asur.setRemarks(asu.get().getRemarks());
+				asur.setEditPermission(true);
 			
 			}
 			else {
+				asur.setEditPermission(false);
+			}
 			asur.setAssetType(amd.get().getAssetType());
 			asur.setAssetId(amd.get().getAssetId());
-			asur.setDateOfManufacture(amd.get().getDateOfManufacture());
-			asur.setFacilityId(amd.get().getFacilityId());
+			asur.setDateOfManufacture(amd.get().getDateOfCommision());
+			asur.setFacilityId(fac.get().getFacilityId());
 			asur.setModel(amd.get().getModel());
-			asur.setMake(amd.get().getMake());			
-			}			
+			asur.setMake(amd.get().getMake());		
+			
+			
+					
 			logger.info("*** object values****"+asur.toString());
 			assetstatus.add(asur );
 		
@@ -188,6 +195,23 @@ public class AssetStatusUpdateMapper {
 		return assetstatus;
 	}
 
-	
+
+
+	public AssetStatusUpdate prepareAssetStatusUpdateBasedOnFacility(AssetStatusUpdate assetStatusUpdate) {
+		
+		try {
+			
+			if (assetStatusUpdate.getFacilityId() != null ) {
+				Optional<Facility> facility  = facilityRepository.findByFacilityId(assetStatusUpdate.getFacilityId());
+				if (facility.isPresent()) {
+					assetStatusUpdate.setFacilityId(facility.get().getFacilityName());
+				}
+			}
+			}catch (Exception e) {
+				logger.error("ERROR >>> while finding facility, "+e.getMessage());
+			}
+			
+			return assetStatusUpdate;
+	}
 
 }

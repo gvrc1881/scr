@@ -247,4 +247,16 @@ public class AssetStatusUpdate implements Serializable {
 		this.targetDateOfReady = targetDateOfReady;
 	}
 
+	@Override
+	public String toString() {
+		return "AssetStatusUpdate [id=" + id + ", assetId=" + assetId + ", assetType=" + assetType + ", createdBy="
+				+ createdBy + ", createdDate=" + createdDate + ", createdOn=" + createdOn + ", createdStamp="
+				+ createdStamp + ", createdTxStamp=" + createdTxStamp + ", currentStatus=" + currentStatus
+				+ ", dataDiv=" + dataDiv + ", dateOfStatus=" + dateOfStatus + ", defectObserved=" + defectObserved
+				+ ", facilityId=" + facilityId + ", lastUpdatedStamp=" + lastUpdatedStamp + ", lastUpdatedTxStamp="
+				+ lastUpdatedTxStamp + ", reasonOfStatusChange=" + reasonOfStatusChange + ", remarks=" + remarks
+				+ ", schedule=" + schedule + ", seqId=" + seqId + ", status=" + status + ", targetDateOfReady="
+				+ targetDateOfReady + "]";
+	}
+
 }
