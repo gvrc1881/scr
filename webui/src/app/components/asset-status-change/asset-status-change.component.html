@@ -15,11 +15,12 @@
             <div class="row-fluid">
             	<div class="panel panel-primary">
             		<div class="panel-heading">TW Status Change</div> 
-            		<div class="panel-body">                        
-            			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-                    		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
-                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="searchInputFormGroup"
-                                (ngSubmit)="getAssetStatusChange();">
+            		<div class="panel-body">                     
+            			
+								<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+									<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+										fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="searchInputFormGroup"
+										(ngSubmit)="getAssetStatusChange();">
 		            			<div class="col-md-3">                 	
 		                    			<mat-form-field fxFlex="30" class="example-full-width">
                                             <mat-select placeholder="{{FiledLabels.DIVISION}}" (ngModelChange)="findSubDivision()"
@@ -171,7 +172,7 @@
 										<input matInput [matDatepicker]="picker1"
 											placeholder="{{FiledLabels.STATUS_DATE}}"
 											(dateChange)="addEvent($event)" 
-											[formControl]="updateStatusChangeFormGroup.controls['dateOfStatus']" >
+											[formControl]="updateStatusChangeFormGroup.controls['dateOfStatus']" required>
 										<mat-datepicker-toggle matSuffix [for]="picker1">
 										</mat-datepicker-toggle>
 										<mat-datepicker #picker1></mat-datepicker>                                                           
@@ -397,7 +398,7 @@
 														placeholder="{{FiledLabels.STATUS_DATE}}"
 														(dateChange)="addEvent($event)" 
 														[value]="row.dateOfStatus" 
-												    	[(ngModel)]="row.dateOfStatus"  >
+												    	[(ngModel)]="row.dateOfStatus"  required>
 													<mat-datepicker-toggle matSuffix [for]="picker1">
 													</mat-datepicker-toggle>
 													<mat-datepicker #picker1></mat-datepicker>                                                           
