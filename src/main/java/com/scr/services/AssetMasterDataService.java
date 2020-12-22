@@ -1,10 +1,8 @@
 package com.scr.services;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Optional;
-import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.AssetMasterDataMapper;
 import com.scr.mapper.AssetStatusUpdateMapper;
-import com.scr.message.request.AssetMasterDataRequest;
 import com.scr.message.response.AssetStatusUpdateResponse;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
-import com.scr.model.AssetScheduleActivityAssoc;
-import com.scr.model.AssetStatusUpdate;
 import com.scr.repository.AssetMasterFormParameterRepository;
 import com.scr.repository.AssetMastersRepository;
-import com.scr.util.Constants;
 
 @Service
 public class AssetMasterDataService {
@@ -65,28 +59,8 @@ public class AssetMasterDataService {
 		 return assetMasterList;
 	}
 	
-	public @Valid boolean saveAssetMasterData(@Valid AssetMasterDataRequest assetMasterDataRequest) throws Exception {
-		logger.info("Calling mapper for preparing the Asset Master model object");
-		AssetMasterData assetMasterData = assetMasterDataMapper.prepareAssetMasterDataModel(assetMasterDataRequest);
-		if (assetMasterData != null) {
-			logger.info("After prepared model object, saving to Asset Master table");
-			assetMasterData = assetMastersRepository.save(assetMasterData);
-			logger.info("Asset Master data saved successfully.");
-			return true;
-		} else {
-			logger.info("Preparing Asset Master Data model object failed");
-			return false;
-		}
-	}
-	public String updateAssetMasterData(@Valid AssetMasterDataRequest assetMasterDataRequest) {
-		Optional<AssetMasterData> assetMaster = assetMastersRepository.findById(assetMasterDataRequest.getId());
-		if(assetMaster.isPresent()) {
-			AssetMasterData assetMasterUpdate = assetMasterDataMapper.prepareAssetMasterUpdateData(assetMaster.get(), assetMasterDataRequest);
-			assetMasterUpdate = assetMastersRepository.save(assetMasterUpdate);
-			return Constants.JOB_SUCCESS_MESSAGE;
-		}else {
-			return "Invalid Asset Master Id";
-		}
+	public void save(AssetMasterData assetMasterData) {
+		assetMastersRepository.save(assetMasterData);
 	}
 	public Optional<AssetMasterData> findAssetMasterItemById(Long id) {
 		
@@ -151,4 +125,14 @@ public class AssetMasterDataService {
 					
 			return assetStatusUpdate;
 		}
+	
+	public Boolean existsByFacilityIdAndAssetTypeAndAssetId(String facilityId, String assetType,String assetId) {
+		 //TODO Auto-generated method stub
+		return assetMastersRepository.existsByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
+	}
+	
+	public Optional<AssetMasterData> findByFacilityIdAndAssetTypeAndAssetId(String facilityId,String assetType,String assetId) {
+		// TODO Auto-generated method stub
+		return assetMastersRepository.findByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
+	}
 }

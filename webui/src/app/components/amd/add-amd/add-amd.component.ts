@@ -4,17 +4,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { Constants } from 'src/app/common/constants';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
-
-
+import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 
 @Component({
   selector: 'app-add-amd',
   templateUrl: './add-amd.component.html',
-  styleUrls: []
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
 })
 export class AddAmdComponent implements OnInit {
 
@@ -32,6 +37,7 @@ export class AddAmdComponent implements OnInit {
   depoTypeList = [];
   assetTypeList = [];
   functionalUnitList: any;
+  functionalUnitsList: any;
   allFunctionalUnitsList: any;
   amdFormErrors: any;
   zoneList: any;
@@ -83,10 +89,8 @@ export class AddAmdComponent implements OnInit {
     this.findDepoTypeList();
     this.findMakeDetails();
     this.findModelDetails();
-    this.findDepoTypeList();
-    this.createAmdForm();    
-    this.findScheduleList();
     if (!isNaN(this.id)) {
+      this.updateAmdForm();
       this.assetMasterFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -95,7 +99,10 @@ export class AddAmdComponent implements OnInit {
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getAssetMasterDataById(this.id);
-    } else {      
+    } else {     
+      this.createAmdForm();
+      this.save = true;
+      this.update = false; 
       this.title = Constants.EVENTS.ADD;      
     }  
     
@@ -118,7 +125,7 @@ export class AddAmdComponent implements OnInit {
     this.assetMasterFormGroup = this.formBuilder.group({
       id: 0,
       'zone': [null],
-      'division': [null],
+      'dataDiv': [null],
       'subDivision': [null],
       'type': [null],
       'facilityId': [null],
@@ -128,7 +135,7 @@ export class AddAmdComponent implements OnInit {
       'section': [null],
       'locationPosition': [null],
       'kilometer': [null],
-      'assetId': [null],
+      'assetId': [null,Validators.required, this.duplicateFacilityIdAssetType.bind(this)],
       'part1': [null],
       'part2': [null],
       'part3': [null],
@@ -207,28 +214,126 @@ export class AddAmdComponent implements OnInit {
       'warrantyAmcEndDate': [null],
       
     });
-
+    
   }
-
+  updateAmdForm() {
+    this.assetMasterFormGroup = this.formBuilder.group({
+      id: 0,
+      'zone': [null],
+      'dataDiv': [null],
+      'subDivision': [null],
+      'type': [null],
+      'facilityId': [null],
+      'adeeSection': [null],
+      'majorSection': [null],
+      'assetType': [null],
+      'section': [null],
+      'locationPosition': [null],
+      'kilometer': [null],
+      'assetId': [null,Validators.required, this.duplicateFacilityIdAssetTypeAndId.bind(this)],
+      'part1': [null],
+      'part2': [null],
+      'part3': [null],
+      'elementarySection': [null],
+      'line': [null],
+      'parentAssetType': [null],
+      'parentAssetTypeId': [null],
+      'make': [null],
+      'model': [null],
+      'structure': [null],
+      'warrantyAmc': [null],
+      'station': [null],
+      'positionId': [null],
+      'capacityRating': [null],
+      'oemSerial': [null],
+      'rlyAssignedSerial': [null],
+      'source': [null],
+      'implantation': [null],
+      'vendor': [null],
+      'namePlateDetails': [null],
+      'end1Side1': [null],
+      'end2Side2': [null],
+      'remark1': [null],
+      'remark2': [null],
+      'codalLife': [null],
+      'voltage': [null],
+      'batch': [null],
+      'stagger1': [null],
+      'stagger2': [null],
+      'stagger3': [null],
+      'stay1InsulatorBatch': [null],
+      'stay1InsulatorMake': [null],
+      'bracket1InsulatorBatch': [null],
+      'bracket1InsulatorMake': [null],
+      'stag1Ton9InsulatorBatch': [null],
+      'stag1Ton9InsulatorMake': [null],
+      'rod1InsulatorBatch': [null],
+      'rod1InsulatorMake': [null],
+      'pedestal1InsulatorBatch': [null],
+      'pedestal1InsulatorMake': [null],
+      'core1InsulatorBatch': [null],
+      'core1InsulatorMake': [null],
+      'stay2InsulatorBatch': [null],
+      'stay2InsulatorMake': [null],
+      'bracket2InsulatorBatch': [null],
+      'bracket2InsulatorMake': [null],
+      'stag2Ton9InsulatorBatch': [null],
+      'stag2Ton9InsulatorMake': [null],
+      'rod2InsulatorBatch': [null],
+      'rod2InsulatorMake': [null],
+      'pedestal2InsulatorBatch': [null],
+      'pedestal2InsulatorMake': [null],
+      'core2InsulatorBatch': [null],
+      'core2InsulatorMake': [null],
+      'stay3InsulatorBatch': [null],
+      'stay3InsulatorMake': [null],
+      'bracket3InsulatorBatch': [null],
+      'bracket3InsulatorMake': [null],
+      'stag3Ton9InsulatorBatch': [null],
+      'stag3Ton9InsulatorMake': [null],
+      'rod3InsulatorBatch': [null],
+      'rod3InsulatorMake': [null],
+      'pedestal3InsulatorBatch': [null],
+      'pedestal3InsulatorMake': [null],
+      'core3InsulatorBatch': [null],
+      'core3InsulatorMake': [null],
+      'stagger': [null],
+      'createdOn': [null],
+      'dateOfCommision': [null],
+      'dateOfManufacture': [null],
+      'dateOfReceived': [null],
+      'equippedDate': [null],
+      'expiryDate': [null],
+      'lugDate': [null],
+      'stripDate': [null],
+      'warrantyAmcEndDate': [null],
+      
+    });
+    this.depotCode = 'TRD';    
+    this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
+    this.functionalUnitsList = [];
+    this.getFunctionalUnits(this.depotCode);
+  }
   
    public get f() { return this.assetMasterFormGroup.controls; } 
 
-  findScheduleList() {
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSET_SCH_ASSOC.GET_SCH)
-      .subscribe((frequency) => {
-        this.scheduleList = frequency;
-      })
-  }
+  
   addEvent($event) {
     this.toMinDate = new Date($event.value);
   }
   
   updateAssertType($event) {
     if ($event.value) {
-      this.findAssetTypeList(Constants.ASSERT_TYPE[$event.value]);
+      this.depoTypeList.filter(element => {
+        if(element.id === $event.value){
+            this.depotCode = element.code;
+        }
+      });  
+      
+      this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
       this.functionalUnitList = [];
       this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
-        return element.depotType == $event.value;
+        return element.depotType == this.depotCode;
       });
     }
   }
@@ -243,10 +348,16 @@ export class AddAmdComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_ID + id)
     .subscribe((resp) => {
         this.resp = resp;
+        if(this.resp.assetType) {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES +this.resp.assetType+'/' + 'Yes').subscribe(response => {
+             this.spinnerService.hide();
+             this.assetTypeParametersData = response;
+           })
+       }
         this.getFunctionalUnits(this.resp.type['code'] );
         this.assetMasterFormGroup.patchValue({
         id: this.resp.id,
-        type: !!this.resp.type ? this.resp.type['id'] : '',          
+        type: !!this.resp.type ? this.resp.type['code'] : '',          
         facilityId: this.resp.facilityId,
         adeeSection: this.resp.adeeSection,
         majorSection: this.resp.majorSection,
@@ -334,8 +445,8 @@ export class AddAmdComponent implements OnInit {
           
         });
         
-        if (this.resp.type != null) {
-          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.type['code']]);
+        if (this.resp.depotType != null) {
+          this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['code']]);
         }
         this.spinnerService.hide();
       })
@@ -350,7 +461,7 @@ export class AddAmdComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveAmdModel = {
-    "type" : this.assetMasterFormGroup.value.type,
+    "type" : this.depotCode,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -425,9 +536,9 @@ export class AddAmdComponent implements OnInit {
     " pedestal3InsulatorMake":  this.assetMasterFormGroup.value.pedestal3InsulatorMake,
     " core3InsulatorBatch":  this.assetMasterFormGroup.value.core3InsulatorBatch,
     " core3InsulatorMake":  this.assetMasterFormGroup.value.core3InsulatorMake,
+    " dateOfCommision":  this.assetMasterFormGroup.value.dateOfCommision,
     " stagger": this.assetMasterFormGroup.value.stagger,
     " createdOn":  this.assetMasterFormGroup.value.createdOn,
-    " dateOfCommision":  this.assetMasterFormGroup.value.dateOfCommision,
     " dateOfManufacture":  this.assetMasterFormGroup.value.dateOfManufacture,
     " dateOfReceived":  this.assetMasterFormGroup.value.dateOfReceived,
     " equippedDate":  this.assetMasterFormGroup.value.equippedDate,
@@ -445,7 +556,8 @@ export class AddAmdComponent implements OnInit {
       this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.SAVE_ASSET_MASTER_DATA, saveAmdModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
-     
+        console.log("saveAmdModelresp"+JSON.stringify(this.resp));
+     console.log("saveAmdModel"+JSON.stringify(saveAmdModel));
         if (this.resp.code == Constants.CODES.SUCCESS) {
           this.commonService.showAlertMessage("Asset Master Data Saved Successfully");
           this.router.navigate(['../'], { relativeTo: this.route });
@@ -462,7 +574,7 @@ export class AddAmdComponent implements OnInit {
       var updateAmdModel = {
 
     "id": this.id,
-    "type" : this.assetMasterFormGroup.value.type,
+    "type" : this.depotCode,
     "facilityId" : this.assetMasterFormGroup.value.facilityId,
     "adeeSection" : this.assetMasterFormGroup.value.adeeSection,
     "majorSection" :this.assetMasterFormGroup.value.majorSection,
@@ -633,7 +745,44 @@ export class AddAmdComponent implements OnInit {
       this.router.navigate(['../'], { relativeTo: this.route });
     
   }
- 
+ duplicateFacilityIdAssetType() {
+    const q = new Promise((resolve, reject) => {
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.EXIST_FACILITY_ASSETTYPEID +
+            this.assetMasterFormGroup.controls['facilityId'].value + '/'+
+            this.assetMasterFormGroup.controls['assetType'].value+'/'+
+            this.assetMasterFormGroup.controls['assetId'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicate': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicate': true }); });
+    });
+    return q;
+    }
+    duplicateFacilityIdAssetTypeAndId() {
+    let id=this.id;
+    let facilityId: string = this.assetMasterFormGroup.controls['facilityId'].value;
+    let assetType: string = this.assetMasterFormGroup.controls['assetType'].value;
+    let assetId: string = this.assetMasterFormGroup.controls['assetId'].value;
+   
+
+    const q = new Promise((resolve, reject) => {          
+
+       this.sendAndRequestService.requestForGET(
+              Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.EXIST_FACILITY_ASSETTYPEID_AND_ID +id+'/'+facilityId+'/'+assetType+'/'+assetId).subscribe
+              ((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicateFacilityIdAssetTypeAndId': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicateFacilityIdAssetTypeAndId': true }); });
+    });
+    return q;
+  }
 }
 
 

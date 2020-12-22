@@ -44,7 +44,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.DIVISION}}"
-                                                                [formControl]="assetMasterFormGroup.controls['division']"
+                                                                [formControl]="assetMasterFormGroup.controls['dataDiv']"
                                                                 (ngModelChange)="getSubDivisions()">
                                                                 <mat-option *ngFor="let divisions of divisionsList"
                                                                     [value]="divisions">
@@ -70,7 +70,7 @@
                                                                 [formControl]="assetMasterFormGroup.controls['type']"
                                                                 required (selectionChange)="updateAssertType($event)">
                                                                 <mat-option *ngFor="let depotType of depoTypeList"
-                                                                    [value]="depotType.code">
+                                                                    [value]="depotType.id">
                                                                     {{ depotType.code}}
                                                                 </mat-option>
                                                             </mat-select>
@@ -114,7 +114,17 @@
                                                         <div class="col-md-3" *ngIf="(names.columnName=='asset_id')">
                                                             <mat-form-field fxFlex="30">
                                                                 <textarea matInput placeholder="{{FiledLabels.ASSET_ID}}"
-                                                                    [formControl]="assetMasterFormGroup.controls['assetId']"></textarea>
+                                                                    [formControl]="assetMasterFormGroup.controls['assetId']" required></textarea>
+                                                                    <mat-error
+                                                                *ngIf="assetMasterFormGroup.controls['assetId'].hasError('duplicateFacilityIdAssetType')"
+                                                                class="alert alert-danger">
+                                                                 combination Already Exist
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="assetMasterFormGroup.controls['assetId'].hasError('duplicateFacilityIdAssetTypeAndId')"
+                                                                class="alert alert-danger">
+                                                                 combination Already Exist
+                                                            </mat-error>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='batch')">
@@ -219,19 +229,7 @@
                                                                     [formControl]="assetMasterFormGroup.controls['core3InsulatorMake']"></textarea>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-md-3" *ngIf="(names.columnName=='created_on')">
-                                                            <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
-                                                                    placeholder="{{FiledLabels.CREATED_ON}}"
-                                                                    [formControl]="assetMasterFormGroup.controls['createdOn']"
-                                                                    required>
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
-                                                                </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
-                                                            </mat-form-field>
-                                                        </div>
-                                                        <div class="col-md-3"
-                                                            *ngIf="(names.columnName=='date_of_commision')">
+                                                        <div class="col-md-3" *ngIf="(names.columnName=='date_of_commision')">
                                                             <mat-form-field>
                                                                 <input matInput [matDatepicker]="picker1"
                                                                     placeholder="{{FiledLabels.DATE_OF_COMMISSION}}"
@@ -245,23 +243,23 @@
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='date_of_manufacture')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker2"
                                                                     placeholder="{{FiledLabels.DATE_OF_MANUFACTURE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['dateOfManufacture']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker2">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker2></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='date_of_received')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker3"
                                                                     placeholder="{{FiledLabels.DATE_OF_RECEIVED}}"
                                                                     [formControl]="assetMasterFormGroup.controls['dateOfReceived']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker3">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker3></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3"
@@ -285,22 +283,22 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='equipped_date')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker4"
                                                                     placeholder="{{FiledLabels.EQUIPPED_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['equippedDate']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker4">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker4></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='expiry_date')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker5"
                                                                     placeholder="{{FiledLabels.EXPIRY_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['expiryDate']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker5">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker5></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='implantation')">
@@ -337,12 +335,12 @@
     
                                                         <div class="col-md-3" *ngIf="(names.columnName=='lug_date')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker6"
                                                                     placeholder="{{FiledLabels.LUG_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['lugDate']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker6">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker6></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='make')">
@@ -649,12 +647,12 @@
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='strip_date')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker7"
                                                                     placeholder="{{FiledLabels.STRIP_DATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['stripDate']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker7">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker7></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                         <div class="col-md-3" *ngIf="(names.columnName=='structure')">
@@ -684,12 +682,12 @@
                                                         <div class="col-md-3"
                                                             *ngIf="(names.columnName=='warranty_amc_end_date')">
                                                             <mat-form-field>
-                                                                <input matInput [matDatepicker]="picker1"
+                                                                <input matInput [matDatepicker]="picker8"
                                                                     placeholder="{{FiledLabels.WARRANTY_AMC_ENDDATE}}"
                                                                     [formControl]="assetMasterFormGroup.controls['warrantyAmcEndDate']">
-                                                                <mat-datepicker-toggle matSuffix [for]="picker1">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker8">
                                                                 </mat-datepicker-toggle>
-                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                <mat-datepicker #picker8></mat-datepicker>
                                                             </mat-form-field>
                                                         </div>
                                                     </ul>

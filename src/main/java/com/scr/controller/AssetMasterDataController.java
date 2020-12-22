@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.scr.message.request.AssetMasterDataRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -70,12 +70,12 @@ public class AssetMasterDataController {
 }
 	
 	@RequestMapping(value = "/addAssetMasterItem", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseStatus saveAssetMasterItem(@Valid @RequestBody AssetMasterDataRequest assetMasterDataRequest) throws JSONException {	
+	public ResponseStatus saveAssetMasterItem(@Valid @RequestBody AssetMasterData assetMasterData) throws JSONException {	
 		log.info("Enter into saveAssetMasterItem function with below request parameters ");
-		log.info("Request Parameters = "+assetMasterDataRequest.toString());
+		log.info("Request Parameters = "+assetMasterData.toString());
 		try {			
 			log.info("Calling service with request parameters.");
-			assetMasterDataService.saveAssetMasterData(assetMasterDataRequest);
+			assetMasterDataService.save(assetMasterData);
 			log.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetMaster Data Added Successfully", Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {
@@ -106,19 +106,23 @@ public class AssetMasterDataController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateAssetMasterData", method = RequestMethod.PUT, headers = "Accept=application/json")
-	public ResponseStatus updateAssetMasterData(@Valid @RequestBody AssetMasterDataRequest assetMasterDataRequest) throws JSONException {
+	
+	@RequestMapping(value = "/updateAssetMasterData" ,method = RequestMethod.PUT , headers = "Accept=application/json")
+	public ResponseStatus updateAssetMasterData(@RequestBody AssetMasterData assetMasterData) {
 		log.info("Enter into updateAssetMasterData function with below request parameters ");
-		try {	
+		log.info("Request Parameters = "+assetMasterData.toString());
+		try {
 			log.info("Calling service with request parameters.");
-			String status = assetMasterDataService.updateAssetMasterData(assetMasterDataRequest);
-			if(status.equalsIgnoreCase(Constants.JOB_SUCCESS_MESSAGE))
-				return Helper.findResponseStatus("AssetMaster Data Updated Successfully", Constants.SUCCESS_CODE);
-			else
-				return Helper.findResponseStatus(status, Constants.FAILURE_CODE);
-		}catch (Exception e) {
-			log.error("ERROR >> While updating AssetMaster data. "+e.getMessage());
-			return Helper.findResponseStatus("AssetMasterData Updation is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			assetMasterDataService.save(assetMasterData);
+			log.info("Preparing the return response");
+			return Helper.findResponseStatus("assetMasterData Updated successful", Constants.SUCCESS_CODE);	
+		}catch(NullPointerException npe) {
+			log.error("ERROR >> While updating assetMaster data. "+npe.getMessage());
+			return Helper.findResponseStatus("assetMasterData update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			log.error("ERROR >> While updating Sector data. "+e.getMessage());
+			return Helper.findResponseStatus("Sector update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
 	@RequestMapping(value = "/deleteAssetMasterData/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
@@ -183,4 +187,42 @@ public class AssetMasterDataController {
 		log.info("Exit from findAshWithFacilityName function");
 		return ResponseEntity.ok((assetData));
 	}
+	@RequestMapping(value = "/findByFacilityAssetTypeId/{facilityId}/{assetType}/{assetId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityAssetTypeId(@PathVariable("facilityId") String facilityId ,@PathVariable("assetType") String assetType,
+			@PathVariable("assetId") String assetId){
+		log.info("Exist====="+facilityId+assetType+assetId);
+		try {
+			log.info("Request for checking exists facilityId  and assetType and assetId...");
+			return assetMasterDataService.existsByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
+		} catch (Exception e) {
+			log.error("Error while checking exists facilityId and assetType and assetId..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/findByFacilityIdAssetTypeAndId/{id}/{facilityId}/{assetType}/{assetId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean findByFacilityIdAssetTypeAndId(@PathVariable("id") Long id,@PathVariable("facilityId") String facilityId,
+			@PathVariable("assetType") String assetType,@PathVariable("assetId") String assetId){
+		
+		log.info("id=="+id+"facilityId=="+facilityId+"assetType=="+assetType+"assetId"+assetId);
+		Boolean result;
+		try {
+			Optional<AssetMasterData> amdData = assetMasterDataService.findByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
+			
+			if(amdData.isPresent()) {
+				AssetMasterData assetMasterData = amdData.get();
+				log.info("***id ***"+assetMasterData.getId());
+			if (id.equals(assetMasterData.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+		}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and assetType and assetId..."+e.getMessage());
+			return false;
+		}
+}
 }

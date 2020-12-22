@@ -57,6 +57,10 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 	
 	Optional<AssetMasterData> getByFacilityIdAndAssetId(String facilityId,String assetId);
 	
+	@Query(value = "SELECT case when count(amd)> 0 then true else false  end  FROM AssetMasterData amd WHERE amd.facilityId = :facilityId and amd.assetType = :assetType and amd.assetId = :assetId")
+	Boolean existsByFacilityIdAndAssetTypeAndAssetId(@Param("facilityId")String facilityId, @Param("assetType") String assetType,
+			@Param("assetId") String assetId);
 	
+	Optional<AssetMasterData>findByFacilityIdAndAssetTypeAndAssetId(String facilityId,String assetType,String assetId);
 }
 
