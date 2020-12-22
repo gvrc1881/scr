@@ -31,7 +31,8 @@ export class ProjectComponent implements OnInit {
     addPermission: boolean = true;
     deletePermission: boolean = true;
     projectList:any; 
-    resp:any; 
+    resp:any;
+    addEnable: boolean; 
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno' ,  'division'  , 'workName' , 'section','executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
@@ -180,7 +181,7 @@ var result = {
 }
 this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
   disableClose: false,
-  height: '400px',
+  height: '600px',
   width: '80%',       
   data:result,  
 });            
@@ -225,6 +226,7 @@ processNewProcess(workId) {
     removeFile(id) {
         this.selectedFiles.splice(id, 1);
         if(this.selectedFiles.length === 0) {
+          this.addEnable = false;
         	this.filesExists = false;
         }
     }
@@ -260,7 +262,9 @@ processNewProcess(workId) {
                 this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
                 this.selectedFiles = [];
                 this.filesExists = false;
-                window.location.reload();
+                this.addEnable = false;
+                this.contentManagementFormGroup.reset();
+               // window.location.reload();
             }, error => {
                 console.log('ERROR >>>');
                 this.spinnerService.hide();
@@ -272,6 +276,7 @@ processNewProcess(workId) {
     upload(event) {
         if (event.target.files.length > 0) { this.filesExists = true; }
         for (var i = 0; i < event.target.files.length; i++) {
+          this.addEnable = true;
             this.selectedFiles.push(event.target.files[i]);
         }
     }

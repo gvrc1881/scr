@@ -244,6 +244,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE,
+        "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -277,6 +278,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   

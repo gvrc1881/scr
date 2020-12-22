@@ -4,7 +4,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
-import { ProjectPhaseModel } from 'src/app/models/projectPhase.model';
+import { ProjectPhaseActivityModel } from 'src/app/models/project-phase-activity.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -38,7 +38,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
     searchInputFormGroup: FormGroup;
     standardPhaseActivityList: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    dataSource: MatTableDataSource<ProjectPhaseModel>;
+    dataSource: MatTableDataSource<ProjectPhaseActivityModel>;
     displayedColumns = ['sno','projectPhaseName', 'name','description','sequence','dependencyToStart','uom','isCheckList','isObjectIdRequired','depotType','assetType','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
     enableUpdate: boolean; 
     workList:any;
@@ -113,6 +113,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
   }
   updatePhase()
    {
+     console.log("phaseActivities=="+JSON.stringify(this.activity));
     this.sendAndRequestService.requestForPOST(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.UPDATE, this.activity, false).subscribe(response => {
       this.spinnerService.show();
       this.resp = response;

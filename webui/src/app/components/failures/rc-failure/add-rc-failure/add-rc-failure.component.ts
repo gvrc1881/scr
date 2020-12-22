@@ -283,6 +283,7 @@ findFacilities(){
         'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.RC_FAILURE,
+        "createdDate":  this.addRcFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -314,6 +315,7 @@ findFacilities(){
         'internalExternal': this.addRcFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addRcFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        "createdDate":  this.addRcFailFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   

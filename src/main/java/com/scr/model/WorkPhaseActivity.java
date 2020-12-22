@@ -151,14 +151,6 @@ public class WorkPhaseActivity {
 		this.workPhaseId = workPhaseId;
 	}
 
-	@Override
-	public String toString() {
-		return "WorkPhaseActivity [id=" + id + ", name=" + name + ", depotType=" + depotType + ", assetType="
-				+ assetType + ", isObjectIdRequired=" + isObjectIdRequired + ", isCheckList=" + isCheckList
-				+ ", description=" + description + ", sequence=" + sequence + ", dependencyToStart=" + dependencyToStart
-				+ ", workPhaseId=" + workPhaseId + "]";
-	}
-
 	public String getUom() {
 		return uom;
 	}
@@ -229,6 +221,17 @@ public class WorkPhaseActivity {
 
 	public void setUom(String uom) {
 		this.uom = uom;
+	}
+
+	@Override
+	public String toString() {
+		return "WorkPhaseActivity [id=" + id + ", name=" + name + ", depotType=" + depotType + ", assetType="
+				+ assetType + ", isObjectIdRequired=" + isObjectIdRequired + ", isCheckList=" + isCheckList
+				+ ", description=" + description + ", sequence=" + sequence + ", dependencyToStart=" + dependencyToStart
+				+ ", uom=" + uom + ", plannedStartDate=" + plannedStartDate + ", commenceDate=" + commenceDate
+				+ ", targetCompletionDate=" + targetCompletionDate + ", completionDate=" + completionDate
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn="
+				+ updatedOn + ", workPhaseId=" + workPhaseId + "]";
 	}
 
 }

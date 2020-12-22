@@ -224,7 +224,7 @@
 	                                        	<mat-form-field>
 													<input matInput [matDatepicker]="picker4"
 														placeholder="{{FiledLabels.COMMENCEMENT_DATE}}"
-														(dateChange)="addTargetEvent($event)"   [min]="toMinDate"
+														(dateChange)="addTargetEvent($event)" [max]="maxDate"  [min]="toMinDate"
 														[value]="row.commenceDate" 
 												    	[(ngModel)]="row.commenceDate" >
 													<mat-datepicker-toggle matSuffix [for]="picker4">

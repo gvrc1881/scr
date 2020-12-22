@@ -195,11 +195,11 @@ if (this.save) {
     "depotType":  this.addPhaseActivityFormGroup.value.depotType,    
     "assetType":  this.addPhaseActivityFormGroup.value.assetType,    
     "plannedStartDate": this.addPhaseActivityFormGroup.value.plannedStartDate,
-      "targetCompletionDate": this.addPhaseActivityFormGroup.value.targetCompletionDate,      
-      "commenceDate":  this.addPhaseActivityFormGroup.value.commenceDate,    
-      "completionDate":  this.addPhaseActivityFormGroup.value.completionDate,                                                          
+    "targetCompletionDate": this.addPhaseActivityFormGroup.value.targetCompletionDate,      
+    "commenceDate":  this.addPhaseActivityFormGroup.value.commenceDate,    
+    "completionDate":  this.addPhaseActivityFormGroup.value.completionDate,                                                          
     "createdBy": this.loggedUserData.username,
-      "createdOn": new Date()
+    "createdOn": new Date()
 
   }
   this.sendAndRequestService.requestForPOST(Constants.app_urls.PROJECT_ADMIN.PHASE_ACTIVITY.SAVE, savePhaseModel, false).subscribe(response => {

@@ -58,7 +58,11 @@ public class WorkPhaseActivityService {
 					updateWorkActivityData.setIsObjectIdRequired(workPhaseActivity.getIsObjectIdRequired());
 					updateWorkActivityData.setDepotType(workPhaseActivity.getDepotType());				
 					updateWorkActivityData.setAssetType(workPhaseActivity.getAssetType());
-									
+					updateWorkActivityData.setCommenceDate(workPhaseActivity.getCommenceDate());
+					updateWorkActivityData.setCompletionDate(workPhaseActivity.getCompletionDate());
+					updateWorkActivityData.setPlannedStartDate(workPhaseActivity.getPlannedStartDate());
+					updateWorkActivityData.setTargetCompletionDate(workPhaseActivity.getTargetCompletionDate());
+					
 					workPhaseActivityRepository.save(updateWorkActivityData);
 				} /*else {
 					 workPhaseRepository.save(workPhasesData);

@@ -399,6 +399,7 @@ function(){
         'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'true' : 'false', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
+        "createdDate":this.addCbFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }   
@@ -444,6 +445,7 @@ function(){
         'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        "createdDate": this.addCbFailFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   

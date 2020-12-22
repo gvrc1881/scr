@@ -242,7 +242,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
-
+        "createdDate": this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -275,6 +275,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        "createdDate": this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   

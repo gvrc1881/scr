@@ -362,6 +362,7 @@ timDuration(){
         "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'true' : 'false',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.GRID_FAILURE,
+        "createdDate": this.addGridFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -397,6 +398,7 @@ timDuration(){
         "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'true' : 'false',
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        "createdDate": this.addGridFailFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }  
