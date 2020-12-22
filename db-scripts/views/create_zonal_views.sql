@@ -420,14 +420,12 @@ ALTER TABLE public.v_energy_meter
 -- View: public.v_energy_consumption
 
 -- DROP VIEW public.v_energy_consumption;
-
 create view v_energy_consumption as
 SELECT ec.id,
     ec.seq_id,
     ec.energy_reading_date,
     ec.location_type,
     ec.location,
-                ec.data_div ec_data_div, -- new addition
         CASE
             WHEN ec.kwh::text = ''::text THEN 0::numeric
             ELSE ec.kwh::numeric
@@ -472,13 +470,13 @@ SELECT ec.id,
             WHEN ec.max_load::text = ''::text THEN 0::numeric
             ELSE ec.max_load::numeric
         END AS max_load,
-    to_char(ec.max_load_time, 'dd-Mon-YYYY'::text) AS max_load_time_date,
+		to_char(ec.max_load_time, 'dd-Mon-YYYY'::text) AS max_load_date,
+    ec.max_load_time AS max_load_time_date,
     to_char(ec.max_load_time, 'HH:MM'::text) AS max_load_time_hhmm,
     ec.joint_meter,
     ec.remarks,
     ec.current_status,
     em.feeder_id,
-                em.em_data_div AS em_data_div,   -- new addition
     em.seq_id AS em_seq_id,
     em.em_start_date,
     em.em_end_date,
@@ -494,22 +492,19 @@ SELECT ec.id,
     em.remarks AS em_remarks
    FROM energy_consumption ec,
     v_energy_meter em
-  WHERE ec.location::text = em.feeder_name::text AND ec.energy_reading_date >= em.em_start_date AND (ec.energy_reading_date <= em.em_end_date OR em.em_end_date IS NULL);
-
+  WHERE ec.location::text = em.feeder_name::text 
+  AND ec.energy_reading_date >= em.em_start_date 
+  AND (ec.energy_reading_date <= em.em_end_date OR em.em_end_date IS NULL);
 
 --11
 -- View: v_energy_day_consumption_pf_cpr
 -- View: public.v_energy_day_consumption_pf_cpr
 
 -- DROP VIEW public.v_energy_day_consumption_pf_cpr;
-create view v_energy_day_consumption_pf_cpr as
 SELECT cur.seq_id,
     cur.id,
     cur.location,
     cur.feeder_id,
-                cur.ec_data_div, -- new addition
-
-                cur.em_data_div,   -- new addition
     cur.energy_reading_date AS cuurent_reading_date,
     cur.kwh AS cur_kwh,
     cur.kvah AS cur_kvah,
@@ -521,6 +516,7 @@ SELECT cur.seq_id,
     cur.vol_min,
     cur.max_load,
     cur.max_load_time_hhmm,
+	cur.max_load_date,
     cur.max_load_time_date,
     pre.energy_reading_date AS previous_reading_date,
     cur.energy_reading_date - pre.energy_reading_date AS no_of_days_lapsed_pre_reading,
@@ -586,11 +582,12 @@ SELECT cur.seq_id,
      LEFT JOIN v_energy_consumption pre ON pre.energy_reading_date = (( SELECT max(cur1.energy_reading_date) AS max
            FROM v_energy_consumption cur1
           WHERE cur1.energy_reading_date < cur.energy_reading_date AND cur1.feeder_id::text = cur.feeder_id::text)) AND pre.feeder_id::text = cur.feeder_id::text
-    LEFT JOIN v_energy_consumption jr ON jr.energy_reading_date = (( SELECT max(jr1.energy_reading_date) AS max
+     LEFT JOIN v_energy_consumption jr ON jr.energy_reading_date = (( SELECT max(jr1.energy_reading_date) AS max
            FROM v_energy_consumption jr1
-          WHERE jr1.energy_reading_date < cur.energy_reading_date AND (jr1.joint_meter::bpchar = 'y'::bpchar OR jr1.joint_meter::bpchar = 'Y'::bpchar) AND jr1.feeder_id::text = cur.feeder_id::text)) AND jr.feeder_id::text = cur.feeder_id::text;
-                                 
-
+          WHERE jr1.energy_reading_date < cur.energy_reading_date 
+		  AND (jr1.joint_meter::bpchar = 'y'::bpchar OR jr1.joint_meter::bpchar = 'Y'::bpchar) 
+		  AND jr1.feeder_id::text = cur.feeder_id::text)) 
+		  AND jr.feeder_id::text = cur.feeder_id::text;
 
 --12
 -- View: v_failures_count_duration_daily
