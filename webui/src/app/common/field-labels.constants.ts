@@ -285,6 +285,7 @@ export const FieldLabelsConstant = {
       QUANTITY_UOM_ID: "Quantity Uom Id",
       R_VALUE: "R Value",
       RATE: "Rate",
+      READING_DATE: "Reading Date",
       RECTIFIED_DATE: "Rectified Date",
       REFERENCE: "Reference",
       RELAY_IND: "Relay Ind",

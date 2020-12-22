@@ -32,19 +32,27 @@
 
                                         <div class="col-md-12">
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
                                                     <input matInput placeholder="{{FiledLabels.FEEDER}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Feeder_Name']">
                                                 </mat-form-field>
                                             </div>
+                                            
+                                            <div class="col-md-3">
+                                                <mat-form-field fxFlex="30" class="example-full-width">
+                                                    <input matInput placeholder="{{FiledLabels.READING_DATE}}" 
+                                                        [formControl]="addEnergyConsumptionFailFromGroup.controls['energyReadingDate']">
+                                                </mat-form-field>
+                                            </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <mat-form-field fxFlex="30" class="example-full-width">
                                                     <input matInput placeholder="{{FiledLabels.MF}}" 
                                                         [formControl]="addEnergyConsumptionFailFromGroup.controls['Multification_Factor']">
                                                 </mat-form-field>
                                             </div>
+                                            
 
                                            <!--  <div class="col-md-4">
                                                 <mat-form-field fxFlex="30" class="example-full-width">

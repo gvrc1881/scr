@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +103,15 @@ public class GuidenceItemService {
 			responseStatus.setMessage("ERROR >>> "+e.getMessage());
 		}
 		return responseStatus;
+	}
+
+	public Boolean existsGuidenceItem(String agencyRbRdso, Timestamp date, String letterNo) {
+		return guidenceItemRepository.existsByAgencyRbRdsoAndDateAndLetterNo(agencyRbRdso,date,letterNo);
+	}
+
+	public Optional<GuidenceItem> findByAgencyRbRdsoAndDateAndLetterNo(String agencyRbRdso,
+			Timestamp date, String letterNo) {
+		return guidenceItemRepository.findByAgencyRbRdsoAndDateAndLetterNo(agencyRbRdso,date,letterNo);
 	}
 
 }

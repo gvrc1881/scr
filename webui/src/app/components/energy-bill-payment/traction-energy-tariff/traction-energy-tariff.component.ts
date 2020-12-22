@@ -53,6 +53,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     tariffResponse: any;
     enableSupplier: boolean;
     addEnable: boolean;
+    maxDate = new Date();
     
     constructor(
         private commonService: CommonService,
@@ -306,6 +307,9 @@ export class TractionEnergyTariffComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TARIFF.GET_TARIFF_ID+id)
             .subscribe((responseData) => {
                 this.editTractionEnergyTariffResponse = responseData;
+                if(this.editTractionEnergyTariffResponse.thruDate){
+                    this.toMinDate = new Date(this.editTractionEnergyTariffResponse.fromDate);
+                }
                 this.tractionEnergyTariffFormGroup.patchValue({
                     id: this.editTractionEnergyTariffResponse.id,
                     supplier: this.editTractionEnergyTariffResponse.supplier,

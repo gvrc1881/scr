@@ -57,6 +57,7 @@ export class GuidenceItemComponent implements OnInit{
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     pattern = "[a-zA-Z][a-zA-Z ]*";
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    id: any;
     constructor(
         private commonService: CommonService,
         private formBuilder: FormBuilder,
@@ -75,19 +76,6 @@ export class GuidenceItemComponent implements OnInit{
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
-        this.guidenceItemFormGroup = this.formBuilder.group({
-            id: 0,
-            'agencyRbRdso':[null, Validators.maxLength(250) ],
-            'date': [null],
-            'detailsOfIssue': [null],
-            'heading': [null , Validators.maxLength(250) ],
-            'letterNo' : [null , Validators.maxLength(250) ],
-            'reportContinue' : [null, Validators.maxLength(250) ],
-            'response': [null, Validators.maxLength(250) ],
-            'shortDescription' : [null, Validators.maxLength(250) ],
-            'status' : [null],
-            'closedRemark' : [null,Validators.maxLength(250)]
-        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + 'GUIDENCE_ITEM').subscribe((data) => {
                  this.statusItems = data;
       		});
@@ -103,6 +91,22 @@ export class GuidenceItemComponent implements OnInit{
             uploadFiles: ['', Validators.required],
             contentTopic: [''],
         });
+    }
+    
+    createForm(){
+        this.guidenceItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'agencyRbRdso':[null, Validators.compose([Validators.required, Validators.maxLength(250)]) ],
+            'date': [null, Validators.required ],
+            'detailsOfIssue': [null],
+            'heading': [null , Validators.maxLength(250) ],
+            'letterNo' : [null , Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicate.bind(this) ],
+            'reportContinue' : [null, Validators.maxLength(250) ],
+            'response': [null, Validators.maxLength(250) ],
+            'shortDescription' : [null, Validators.maxLength(250) ],
+            'status' : [null],
+            'closedRemark' : [null,Validators.maxLength(250)]
+        });    
     }
     
     public get f() { return this.contentManagementFormGroup.controls; }
@@ -286,8 +290,22 @@ export class GuidenceItemComponent implements OnInit{
     }
 
     guidenceItemEditAction(id: number) {
+        this.guidenceItemFormGroup = this.formBuilder.group({
+            id: 0,
+            'agencyRbRdso':[null, Validators.compose([Validators.required, Validators.maxLength(250)]), this.duplicateWithIdAndAuthority.bind(this) ],
+            'date': [null, Validators.required, this.duplicateWithIdAndDate.bind(this) ],
+            'detailsOfIssue': [null],
+            'heading': [null , Validators.maxLength(250) ],
+            'letterNo' : [null , Validators.compose([Validators.required, Validators.maxLength(250)]) , this.duplicateWithId.bind(this) ],
+            'reportContinue' : [null, Validators.maxLength(250) ],
+            'response': [null, Validators.maxLength(250) ],
+            'shortDescription' : [null, Validators.maxLength(250) ],
+            'status' : [null],
+            'closedRemark' : [null,Validators.maxLength(250)]
+        });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.GET_GUIDENCE_ITEM_ID+id).subscribe((responseData) => {
             this.editguidenceItemResponse = responseData;
+            this.id = this.editguidenceItemResponse.id;
             this.guidenceItemFormGroup.patchValue({
                 id: this.editguidenceItemResponse.id,
                 agencyRbRdso:this.editguidenceItemResponse.agencyRbRdso,
@@ -300,7 +318,7 @@ export class GuidenceItemComponent implements OnInit{
                 shortDescription: this.editguidenceItemResponse.shortDescription,
                 status: this.editguidenceItemResponse.status,
                 closedRemark: this.editguidenceItemResponse.closedRemark
-            })
+            });
         } ,error => {})
     }
 
@@ -344,7 +362,71 @@ export class GuidenceItemComponent implements OnInit{
     }
 
     NewGuidenceItem () {
+        this.createForm();
         this.addGuidenceItem = true;
     }
-
+    
+    duplicate() {
+        const q = new Promise((resolve, reject) => {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.EXISTS_GUIDENCE_ITEM +
+            this.guidenceItemFormGroup.controls['agencyRbRdso'].value+'/'+this.guidenceItemFormGroup.controls['date'].value+'/'+this.guidenceItemFormGroup.controls['letterNo'].value
+          ).subscribe((duplicate) => {
+            if (duplicate) {
+              resolve({ 'duplicate': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicate': true }); });
+        });
+        return q;
+    }
+    
+   duplicateWithId() {
+        const q = new Promise((resolve, reject) => {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.EXISTS_GUIDENCE_ITEM_WITH_ID+
+            this.id+'/'+this.guidenceItemFormGroup.controls['agencyRbRdso'].value+'/'+this.guidenceItemFormGroup.controls['date'].value+'/'+this.guidenceItemFormGroup.controls['letterNo'].value
+          ).subscribe((duplicate) => {
+              console.log('** with id ***'+duplicate);
+            if (duplicate) {
+              resolve({ 'duplicateWithId': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateWithId': true }); });
+        });
+        return q;
+   }
+    
+   duplicateWithIdAndAuthority() {
+        const q = new Promise((resolve, reject) => {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.EXISTS_GUIDENCE_ITEM_WITH_ID+
+            this.id+'/'+this.guidenceItemFormGroup.controls['agencyRbRdso'].value+'/'+this.guidenceItemFormGroup.controls['date'].value+'/'+this.guidenceItemFormGroup.controls['letterNo'].value
+          ).subscribe((duplicate) => {
+              console.log('** with id ***'+duplicate);
+            if (duplicate) {
+              resolve({ 'duplicateWithIdAndAuthority': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateWithIdAndAuthority': true }); });
+        });
+        return q;
+   }
+    
+   duplicateWithIdAndDate() {
+        const q = new Promise((resolve, reject) => {
+          this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.GUIDENCE_ITEM.EXISTS_GUIDENCE_ITEM_WITH_ID+
+            this.id+'/'+this.guidenceItemFormGroup.controls['agencyRbRdso'].value+'/'+this.guidenceItemFormGroup.controls['date'].value+'/'+this.guidenceItemFormGroup.controls['letterNo'].value
+          ).subscribe((duplicate) => {
+              console.log('** with id ***'+duplicate);
+            if (duplicate) {
+              resolve({ 'duplicateWithIdAndDate': true });
+            } else {
+              resolve(null);
+            }
+          }, () => { resolve({ 'duplicateWithIdAndDate': true }); });
+        });
+        return q;
+   }
+    
 }

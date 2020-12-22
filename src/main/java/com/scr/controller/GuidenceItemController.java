@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
 import com.scr.model.GuidenceItem;
+import com.scr.model.Works;
 import com.scr.services.ContentManagementService;
 import com.scr.services.GuidenceItemService;
 import com.scr.util.Constants;
@@ -177,6 +179,42 @@ public class GuidenceItemController {
 			log.error("Error while getting DivisionHistory Details"+e.getMessage());
 			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
 		}	
+	}
+	
+	@RequestMapping(value = "/existsGuidenceItem/{agencyRbRdso}/{date}/{letterNo}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsGuidenceItem(@PathVariable("agencyRbRdso") String agencyRbRdso,@PathVariable("date") String date,@PathVariable("letterNo") String letterNo){
+		try {
+			return guidenceItemService.existsGuidenceItem(agencyRbRdso,Helper.convertStringToTimestamp(date),letterNo);
+		} catch (Exception e) {
+			log.error("Error while checking exists guidence item.");
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existsGuidenceItemWithId/{id}/{agencyRbRdso}/{date}/{letterNo}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsWorkNameAndId(@PathVariable("id") Integer id,@PathVariable("agencyRbRdso") String agencyRbRdso,@PathVariable("date") String date,@PathVariable("letterNo") String letterNo){
+		log.info("Entered into existsGuidenceItemWithId function");
+		Boolean result;
+		try {
+			Optional<GuidenceItem> existsGuidenceItem = guidenceItemService.findByAgencyRbRdsoAndDateAndLetterNo(agencyRbRdso,Helper.convertStringToTimestamp(date),letterNo);
+			
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(existsGuidenceItem.isPresent()) {
+				GuidenceItem guidenceItem = existsGuidenceItem.get();
+				log.info("comparing with id's");
+				if (id.equals(guidenceItem.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			log.error("Error while checking exists id and guidence item..."+e.getMessage());
+			return false;
+		}
+		
 	}
 
 }

@@ -34,10 +34,16 @@
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="{{FiledLabels.AUTHORITY}}" [formControl]="guidenceItemFormGroup.controls['agencyRbRdso']" />
+                                                                    <input matInput placeholder="{{FiledLabels.AUTHORITY}}" [formControl]="guidenceItemFormGroup.controls['agencyRbRdso']" required />
+                                                                    <mat-error *ngIf="guidenceItemFormGroup.controls['agencyRbRdso'].hasError('required') && guidenceItemFormGroup.controls['agencyRbRdso'].touched"
+                                                                		class="alert alert-danger">Enter Authority</mat-error>
                                                                     <mat-error
 		                                                                *ngIf="guidenceItemFormGroup.controls['agencyRbRdso'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
+		                                                            </mat-error>
+		                                                            <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['agencyRbRdso'].hasError('duplicateWithIdAndAuthority')"
+		                                                                class="alert alert-danger">Already exists
 		                                                            </mat-error>
                                                                 </mat-form-field>
                                                             </div>
@@ -54,10 +60,16 @@
 	                                                        </div> -->
                                                             <div class="col-md-3">
                                                                 <mat-form-field>
-                                                                    <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}"  [max]="maxDate" [formControl]="guidenceItemFormGroup.controls['date']">
+                                                                    <input matInput [matDatepicker]="picker" placeholder="{{FiledLabels.DATE}}"  [max]="maxDate" [formControl]="guidenceItemFormGroup.controls['date']" required>
                                                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                                        <mat-datepicker #picker  ></mat-datepicker><!-- (yearSeleceted)="close($event)"
- -->                                                                </mat-form-field>
+                                                                        <mat-datepicker #picker  ></mat-datepicker><!-- (yearSeleceted)="close($event)" -->
+                                                                        <mat-error *ngIf="guidenceItemFormGroup.controls['date'].hasError('required') && guidenceItemFormGroup.controls['date'].touched"
+                                                                		class="alert alert-danger">Select Date</mat-error>
+                                                                		<mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['date'].hasError('duplicateWithIdAndDate')"
+		                                                                class="alert alert-danger">Already exists
+		                                                            </mat-error>    
+                                                                </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
@@ -70,11 +82,22 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-form-field fxFlex="30">
-                                                                    <input matInput placeholder="{{FiledLabels.LETTER_NO}}" [formControl]="guidenceItemFormGroup.controls['letterNo']" />
+                                                                    <input matInput placeholder="{{FiledLabels.LETTER_NO}}" [formControl]="guidenceItemFormGroup.controls['letterNo']" required />
+                                                                    <mat-error *ngIf="guidenceItemFormGroup.controls['letterNo'].hasError('required') && guidenceItemFormGroup.controls['letterNo'].touched"
+                                                                		class="alert alert-danger">Enter Letter No</mat-error>
+                                                                    <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['letterNo'].hasError('duplicate')"
+		                                                                class="alert alert-danger">Already exists
+		                                                            </mat-error>
+		                                                            <mat-error
+		                                                                *ngIf="guidenceItemFormGroup.controls['letterNo'].hasError('duplicateWithId')"
+		                                                                class="alert alert-danger">Already exists
+		                                                            </mat-error>
                                                                     <mat-error
 		                                                                *ngIf="guidenceItemFormGroup.controls['letterNo'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only
 		                                                            </mat-error>
+		                                                            
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-3">

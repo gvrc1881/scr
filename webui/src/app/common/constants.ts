@@ -194,7 +194,9 @@ export const Constants = {
                 UPDATE_GUIDENCE_ITEM:"/updateGuidenceItem",
                 DELETE_GUIDENCE_ITEM:"/deleteGuidenceItem/",
                 GUIDENCE_ITEM_UPLOAD_FILES:"/guidenceItemUploadFiles",
-                ATTACHMENT_LIST:"/guidenceItemAttachedDocumentList/"
+                ATTACHMENT_LIST:"/guidenceItemAttachedDocumentList/",
+                EXISTS_GUIDENCE_ITEM:"/existsGuidenceItem/",
+                EXISTS_GUIDENCE_ITEM_WITH_ID:"/existsGuidenceItemWithId/"
             },
             WORK:{
                 GET_WORK:"/findAllWorks",

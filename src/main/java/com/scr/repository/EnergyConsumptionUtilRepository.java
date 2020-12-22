@@ -549,6 +549,7 @@ public class EnergyConsumptionUtilRepository{
 				
 				response.setId(resultSet.getLong("curid"));
 				response.setMaxLoadTimeHhmm(resultSet.getString("max_load_time_hhmm"));
+				response.setCurMaxLoadTimeDate(resultSet.getString("cur_max_load_time_date"));
 				response.setRemarks(resultSet.getString("remarks"));				
 				response.setDataDiv(division);
 				

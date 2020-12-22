@@ -71,6 +71,7 @@ public class EnergyConsumptionResponse {
 	private String remarks;	
 	private String jointMeter;	
 	private String energyReadingDate;
+	private String curMaxLoadTimeDate;
 	public Long getId() {
 		return id;
 	}
@@ -388,6 +389,12 @@ public class EnergyConsumptionResponse {
 	}
 	public void setEnergyReadingDate(String energyReadingDate) {
 		this.energyReadingDate = energyReadingDate;
+	}
+	public String getCurMaxLoadTimeDate() {
+		return curMaxLoadTimeDate;
+	}
+	public void setCurMaxLoadTimeDate(String curMaxLoadTimeDate) {
+		this.curMaxLoadTimeDate = curMaxLoadTimeDate;
 	}
 	@Override
 	public String toString() {

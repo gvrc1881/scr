@@ -67,6 +67,7 @@
 	                                                            	<input matInput [owlDateTime]="dt1" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.FROM_DATE}}"
                                                                 (dateTimeChange)="addEvent($event)" 
+                                                                [max] = "maxDate"
                                                                 [formControl]="tractionEnergyTariffFormGroup.controls['fromDate']" required>                                                                
                                                                 <owl-date-time #dt1 [showSecondsTimer]=true
                                                                     ></owl-date-time>
@@ -95,6 +96,7 @@
 	                                                            <mat-form-field fxFlex="30">
 	                                                            	<input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                                 [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.THRU_DATE}}"
+                                                                [min] = "toMinDate"
                                                                 [formControl]="tractionEnergyTariffFormGroup.controls['thruDate']" >                                                                
                                                                 <owl-date-time #dt2 [showSecondsTimer]=true
                                                                     ></owl-date-time>
