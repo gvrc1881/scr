@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule, MatMenuModule, MatTableModule, MatPaginatorModule, MatTabsModule, MatSelectModule, MatGridListModule } from  '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,10 +24,10 @@ import { InspectionDocumentComponent } from './components/inpection-document-dia
 import { ComplianceDocumentComponent } from './components/compliance-document-dialog/compliance-document-dialog.component';
 import { AssistanceDocumentComponent } from './components/assistance-document-dialog/assistance-document-dialog.component';
 // Import angular-fusioncharts
-//import { FusionChartsModule } from 'angular-fusioncharts';
+import { FusionChartsModule } from 'angular-fusioncharts';
 // Import FusionCharts library and chart modules
-//import * as FusionCharts from 'fusioncharts';
-//import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { SatPopoverModule } from '@ncstate/sat-popover';
@@ -54,7 +54,7 @@ import { AgmCoreModule } from '@agm/core';
 //import { MilestoneTargetsComponent } from './components/milestone-targets/milestone-targets.component';
 
 // Pass the fusioncharts library and chart modules
-//FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
 @NgModule({
   declarations: [
@@ -79,7 +79,7 @@ import { AgmCoreModule } from '@agm/core';
   ],
   imports: [
     BrowserModule,
-    //FusionChartsModule,
+    FusionChartsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,    
