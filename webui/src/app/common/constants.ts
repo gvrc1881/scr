@@ -239,7 +239,9 @@ export const Constants = {
                 GET_PARAMETER_NAMES_BASED_ON_ASSET_TYPES:"/getAssetParameterNamesBasedOnAssetTypes/",
                 GET_ASSETIDS_BY_ASSETTYPE_FACILITYID_FROMKM_TOKM:"/assetIdsByAssetTypeAndFacilityId/",
                 GET_ASSETIDS_BY_FACILITYID_FROMKM_TOKM:"/assetIdsByFacilityId/",
-                GET_MAKE_MODEL:"/findMakeModel/"
+                GET_MAKE_MODEL:"/findMakeModel/",
+                EXIST_FACILITY_ASSETTYPEID:"/findByFacilityAssetTypeId/",
+                EXIST_FACILITY_ASSETTYPEID_AND_ID:"/findByFacilityIdAssetTypeAndId/",
             },
             OHELOCATION:{
                 GET_OHE_LOCATION:"/findAllOheLocationItems",
