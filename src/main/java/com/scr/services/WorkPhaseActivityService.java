@@ -46,7 +46,7 @@ public class WorkPhaseActivityService {
 				if (wPAData.isPresent()) {
 					
 					WorkPhaseActivity updateWorkActivityData = wPAData.get();
-			
+			 
 					      
 					updateWorkActivityData.setWorkPhaseId(workPhaseActivity.getWorkPhaseId());
 					updateWorkActivityData.setName(workPhaseActivity.getName());

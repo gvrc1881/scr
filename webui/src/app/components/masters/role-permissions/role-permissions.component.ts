@@ -11,7 +11,7 @@ import { Constants } from 'src/app/common/constants';
 @Component({
   selector: 'app-role-permissions',
   templateUrl: './role-permissions.component.html',
-  styleUrls: ['role-permissions.component.css']
+  //styleUrls: ['role-permissions.component.css']
   
 })
 export class RolePermissionsComponent implements OnInit {

@@ -18,7 +18,7 @@ export interface ProjectPhaseActivityModel{
     createdBy: String;
     createdOn: Date;
     updatedBy: String;
-    updateOn: Date;
+    updateOn: Date; 
  
 
 

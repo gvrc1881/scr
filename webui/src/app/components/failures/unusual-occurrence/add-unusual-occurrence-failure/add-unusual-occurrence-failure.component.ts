@@ -327,7 +327,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     });
     return q;
   }
-  duplicateSubStationAndLocationAndFromDateTimeID() {
+  duplicateSubStationAndLocationAndFromDateTimeID() { 
     const q = new Promise((resolve, reject) => {
 
       let id=this.id;        

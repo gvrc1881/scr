@@ -216,7 +216,7 @@ processNewProcess(workId) {
 	        	disableClose: false,
 	        	height: '600px',
 	        	width: '80%',       
-	        	data:response,       
+	        	data:response,        
 	      	});            
 	    }, error => this.commonService.showAlertMessage(error));
 	   

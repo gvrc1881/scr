@@ -40,7 +40,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataSource: MatTableDataSource<ProjectPhaseActivityModel>;
     displayedColumns = ['sno','projectPhaseName', 'name','description','sequence','dependencyToStart','uom','isCheckList','isObjectIdRequired','depotType','assetType','plannedStartDate','targetCompletionDate','commenceDate','completionDate','actions'];
-    enableUpdate: boolean; 
+    enableUpdate: boolean;  
     workList:any;
     PhaseActivityList:any;
     activity = [];

@@ -460,7 +460,7 @@ timDuration(){
   }
   onGoBack() {
     this.router.navigate(['../'], { relativeTo: this.route });
-  }
+  } 
 
 
 }

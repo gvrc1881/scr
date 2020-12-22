@@ -264,7 +264,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
       })
     }else if(this.update){
       data = {
-        "id":this.id,
+        "id":this.id, 
         'occurrence': this.addFailureOccurrenceFailFromGroup.value.occurrence ,
         'trainNo':this.addFailureOccurrenceFailFromGroup.value.trainNo,
         'place':this.addFailureOccurrenceFailFromGroup.value.place, 

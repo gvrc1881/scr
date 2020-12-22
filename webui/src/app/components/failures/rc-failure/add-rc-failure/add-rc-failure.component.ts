@@ -376,6 +376,6 @@ findFacilities(){
         }
       }, () => { resolve({ 'duplicateSubStationAndOccurenceID': true }); });
     });
-    return q;
+    return q; 
   }
 }
