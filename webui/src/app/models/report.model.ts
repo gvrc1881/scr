@@ -41,4 +41,5 @@ export class ReportModel{
     workSection:any;
     agency:any;
     WpaName:any;
+    driveName:any;
 }

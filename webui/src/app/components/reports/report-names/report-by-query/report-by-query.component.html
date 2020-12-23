@@ -39,7 +39,7 @@
                                                        </div>
 
                                                        <!-- TO DATE -->
-                                                       <div *ngIf="(names.parameterName=='toDate' || names.parameterName=='failureFromDate' ||
+                                                       <div *ngIf="(names.parameterName=='toDate' || names.parameterName=='toDate' ||
                                         names.parameterName=='failureToDate')">
                                                             <mat-form-field>
                                                                  <input matInput [matDatepicker]="picker2"
@@ -366,6 +366,20 @@
                                                                  </mat-select>
                                                             </mat-form-field>
                                                        </div>
+
+                                                       <div *ngIf="(names.parameterName=='driveName')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Drive Cat Name"
+                                                                      [formControl]="reportsByQuery.controls['driveName']">
+                                                                      <mat-option
+                                                                           *ngFor="let driveNameData of driveNameData"
+                                                                           [value]="driveNameData.driveCategoryName">
+                                                                           {{ driveNameData.driveCategoryName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
 
                                                   </div>
                                                   <div class="col-md-3">

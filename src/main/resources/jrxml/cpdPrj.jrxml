@@ -199,7 +199,7 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 	<variable name="catenaBl" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{bal6}]]></variableExpression>
 	</variable>
-	<variable name="catenOd" class="java.lang.String">
+	<variable name="catenOd" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{od6}]]></variableExpression>
 	</variable>
 	<variable name="contactBl" class="java.lang.Integer" calculation="Sum">
@@ -913,7 +913,18 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="20" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="792" y="0" width="55" height="20" uuid="472c5d0f-4dc1-4f5f-9a1a-6bdd8945cb58"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="847" y="0" width="44" height="20" uuid="c62dd278-db48-4d89-a266-de86fe53e4a5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="20">
@@ -926,7 +937,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{foundationBal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
@@ -938,7 +951,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{foundationOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -950,7 +965,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{mastBl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -962,7 +979,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{mastOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -974,7 +993,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{bridgeBl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -986,7 +1007,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{bridgeOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -998,7 +1021,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{boomBl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1010,7 +1035,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{boomOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1022,7 +1049,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{BracketBl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1034,7 +1063,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{BracketOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1046,7 +1077,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{catenaBl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1058,7 +1091,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{catenOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1070,7 +1105,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{contactOd}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1082,7 +1119,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{contactBl}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -1095,7 +1134,7 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total ]]></text>
 			</staticText>
@@ -1108,7 +1147,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{crsRKM}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -1120,7 +1161,9 @@ crs_tgt_RKM , crs_tgt_TKM , crs_target_date , w_id , wg_id
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{crsTKM}]]></textFieldExpression>
 			</textField>
 			<staticText>

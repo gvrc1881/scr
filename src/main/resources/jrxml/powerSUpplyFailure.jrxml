@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="powerSupplyFailure" pageWidth="920" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="880" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9115cd95-9249-4142-9a5d-3e2df0d46941">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="powerSupplyFailure" pageWidth="920" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="880" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9115cd95-9249-4142-9a5d-3e2df0d46941">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="failureFromDate" class="java.lang.String">
+	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="failureToDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="zone" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="reportHeader" class="java.lang.String">
+	<parameter name="toDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -21,7 +15,7 @@ created_date,
 facility_name,
 asset_id,
 extended_of,
-duration::time as duration,
+duration,
 f.remarks,
 to_char(f.from_date_time, 'HH24:MI')as from,
 to_char(f.thru_date_time, 'HH24:MI')as to
@@ -29,8 +23,8 @@ to_char(f.thru_date_time, 'HH24:MI')as to
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-to_char(f.from_date_time, 'yyyy-mm-dd')::date >=$P{failureFromDate} ::date
-and to_char(f.thru_date_time, 'yyyy-mm-dd')::date <=$P{failureToDate} ::date
+to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
+and to_char(f.thru_date_time, 'yyyy-mm-dd')::date <= $P{toDate}::date
 and type_of_failure ='POWER_FAILURE'
 --and current_status = 'ACTIVE'
 
@@ -42,7 +36,7 @@ f.remarks,FAC.division,created_date]]>
 	<field name="facility_name" class="java.lang.String"/>
 	<field name="asset_id" class="java.lang.String"/>
 	<field name="extended_of" class="java.lang.String"/>
-	<field name="duration" class="java.sql.Time"/>
+	<field name="duration" class="java.lang.String"/>
 	<field name="remarks" class="java.lang.String"/>
 	<field name="from" class="java.lang.String"/>
 	<field name="to" class="java.lang.String"/>
@@ -50,35 +44,21 @@ f.remarks,FAC.division,created_date]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="75" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="880" height="42" uuid="3d1e1cc1-369f-4e8b-ab1b-7ea768763e2f"/>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="880" height="25" uuid="a64148f1-a2b3-4ecd-aef9-32a93f68825d"/>
 				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="42" width="880" height="33" uuid="05d982e2-b964-44f8-8d22-1499e9959482"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{reportHeader}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Power Supply Failures ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -93,7 +73,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Sl.No]]></text>
 			</staticText>
@@ -107,7 +87,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>
 			</staticText>
@@ -121,7 +101,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[TSS]]></text>
 			</staticText>
@@ -135,7 +115,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[From]]></text>
 			</staticText>
@@ -149,7 +129,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[To]]></text>
 			</staticText>
@@ -163,7 +143,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dur In Min]]></text>
 			</staticText>
@@ -177,7 +157,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Feed Extended From]]></text>
 			</staticText>
@@ -191,7 +171,7 @@ f.remarks,FAC.division,created_date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Remarks]]></text>
 			</staticText>

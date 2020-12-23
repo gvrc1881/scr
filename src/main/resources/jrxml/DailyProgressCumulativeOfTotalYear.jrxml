@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2" language="java" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15b6e6c2-969a-4ae9-86dc-79222fc19081">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2" pageWidth="600" pageHeight="850" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15b6e6c2-969a-4ae9-86dc-79222fc19081">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="failureFromDate" class="java.lang.String">
+	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="failureToDate" class="java.lang.String">
+	<parameter name="toDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -15,8 +15,8 @@ sum(case when  internal_external='TRUE' then 1 else 0 end) as extern
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-f.created_date >=$P{failureFromDate} ::date
-and f.created_date <=$P{failureToDate} ::date
+f.created_date >= $P{fromDate}::date
+and f.created_date <= $P{toDate}::date
  group by FAC.division,type_of_failure,train_no]]>
 	</queryString>
 	<field name="division" class="java.lang.String"/>
@@ -30,8 +30,15 @@ and f.created_date <=$P{failureToDate} ::date
 	<columnHeader>
 		<band height="50" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="303" height="20" uuid="700e77a7-abd1-48f1-83ed-d7084fb1dfd3"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="0" y="0" width="560" height="30" uuid="700e77a7-abd1-48f1-83ed-d7084fb1dfd3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cumulative of the Last Year - Total Reported Cases]]></text>
@@ -65,7 +72,7 @@ and f.created_date <=$P{failureToDate} ::date
 				<text><![CDATA[Division]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="403" y="30" width="152" height="20" uuid="fd4b1f8a-4a89-4c2c-9501-61d9deb9b83a"/>
+				<reportElement x="403" y="30" width="157" height="20" uuid="fd4b1f8a-4a89-4c2c-9501-61d9deb9b83a"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -159,7 +166,7 @@ and f.created_date <=$P{failureToDate} ::date
 				<textFieldExpression><![CDATA[$F{inter}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="403" y="0" width="152" height="26" uuid="58c6279d-15b1-4bdf-8f0b-513f1adbba73"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="403" y="0" width="157" height="26" uuid="58c6279d-15b1-4bdf-8f0b-513f1adbba73"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -172,14 +179,37 @@ and f.created_date <=$P{failureToDate} ::date
 			</textField>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="403" y="0" width="156" height="20" uuid="068c6f4c-8b39-4d3d-9086-9adc232a4c95"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="303" y="0" width="100" height="20" uuid="a12ce30f-0274-4f12-b1d7-eeb55e11a45e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Generated On:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="203" y="0" width="100" height="20" uuid="6013383d-f32e-4f8c-b0bc-38f4149aecf2"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="0" width="100" height="20" uuid="446edfc5-cb2d-4d5d-91ca-9bd595334b04"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 	<noData>
 		<band height="25">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="25" uuid="d7d4703d-227f-44ba-b47b-42f38d138dc4"/>
+				<reportElement x="0" y="0" width="560" height="25" forecolor="#F40334" uuid="d7d4703d-227f-44ba-b47b-42f38d138dc4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NILL]]></text>
+				<text><![CDATA[No Data Found]]></text>
 			</staticText>
 		</band>
 	</noData>

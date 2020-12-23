@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2_cumOfCurrentYear" pageWidth="555" pageHeight="802" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e678888e-5c8c-4e5b-bb54-15d8fc54d3fd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2_cumOfCurrentYear" pageWidth="600" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e678888e-5c8c-4e5b-bb54-15d8fc54d3fd">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="failureFromDate" class="java.lang.String">
+	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="failureToDate" class="java.lang.String">
+	<parameter name="toDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -17,8 +17,8 @@ LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
 -- type_of_failure='FAILURE'
 -- and
- f.created_date >=$P{failureFromDate}::date
-and f.created_date <=$P{failureToDate}::date
+ f.created_date >=$P{fromDate}::date
+and f.created_date <=$P{toDate}::date
 group by FAC.division,type_of_failure,train_no,internal_external]]>
 	</queryString>
 	<field name="division" class="java.lang.String"/>
@@ -46,7 +46,7 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<text><![CDATA[No of Incidences]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="30" width="103" height="20" uuid="f6291119-3d28-49d7-9033-12400b5e5f17"/>
+				<reportElement x="49" y="30" width="54" height="20" uuid="f6291119-3d28-49d7-9033-12400b5e5f17"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -74,11 +74,18 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<text><![CDATA[No of Trains]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="303" height="20" uuid="6d830854-0c86-4a3e-8bdd-41d0ca198e78"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="0" y="0" width="560" height="30" uuid="6d830854-0c86-4a3e-8bdd-41d0ca198e78"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ Cumulative of the Current Year - Reported Cases ]]></text>
+				<text><![CDATA[Cumulative of the Current Year - Reported Cases ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="303" y="30" width="100" height="20" uuid="3cd74c17-31cb-4ec4-acbf-68ce759cb94b"/>
@@ -95,7 +102,7 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<text><![CDATA[Internal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="403" y="30" width="152" height="20" uuid="4ec5950f-f528-4a17-8149-323824143253"/>
+				<reportElement x="403" y="30" width="157" height="20" uuid="4ec5950f-f528-4a17-8149-323824143253"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -108,12 +115,26 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				</textElement>
 				<text><![CDATA[External]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="49" height="20" uuid="8dbf5270-66f6-4940-a32c-4b108814179e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="103" height="30" uuid="7552f1e8-e6ff-426e-a977-c90a3a1b6579"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="49" y="0" width="54" height="30" uuid="7552f1e8-e6ff-426e-a977-c90a3a1b6579"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -161,7 +182,7 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<textFieldExpression><![CDATA[$F{inter}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="403" y="0" width="152" height="30" uuid="73b9a73a-99ab-421e-a1b8-73c2530aae51"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="403" y="0" width="157" height="30" uuid="73b9a73a-99ab-421e-a1b8-73c2530aae51"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -172,16 +193,49 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{extern}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="49" height="30" uuid="4be4d47f-c0bf-4dcf-b3d0-c6f47990b023"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="203" y="0" width="100" height="20" uuid="3a883fc5-9b08-467c-9c36-5a506682240e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="303" y="0" width="100" height="20" uuid="50afd914-bca9-45ab-aa7a-5423b4fc7e1e"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="403" y="0" width="74" height="20" uuid="3e09e1a2-4330-41bf-9801-bfb2c13607eb"/>
+				<text><![CDATA[Generated On]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="477" y="0" width="83" height="20" uuid="e0a36e68-80f7-49bf-b087-5f8e35791a8e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 	<noData>
 		<band height="25">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="25" uuid="61ca6a3d-a8a3-462c-99e7-7c3611704246"/>
+				<reportElement x="0" y="0" width="560" height="25" forecolor="#F4094B" uuid="61ca6a3d-a8a3-462c-99e7-7c3611704246"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NILL]]></text>
+				<text><![CDATA[No Data Found]]></text>
 			</staticText>
 		</band>
 	</noData>

@@ -66,6 +66,7 @@ export class ReportByQueryComponent implements OnInit {
        workData:any;
        workGroupData:any;
        spaData:any;
+       driveNameData:any;
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -113,7 +114,8 @@ this.workName();
               this.tpcBoardDetails();
               this.wpaNameDetails();
               this.reportParameterNames();
-
+              this.driveName();
+              
               ReportPayload.GET.reportId = this.id;
               for (let i = 0; i < this.userHierarchy.length; i++) {
                      if (this.userHierarchy[i].depotType == 'ZONE') {
@@ -157,7 +159,11 @@ this.workName();
                      'workSection': [null], 
                      'WpaName': [null],
                      'agency': [null],
-                     'format': [null]
+                     'format': [null],
+                     'driveName': [null],
+                   
+                     
+                     
               });
        }
        selectedValue($event, Type) {
@@ -236,6 +242,21 @@ this.workName();
                               
                          });
                  }
+
+
+                 driveName() {
+                     const driveName: ReportParameterModel[] = [];
+                     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
+                            this.driveNameData = data;
+
+                            console.log('** name driveName***'+this.driveNameData);
+                     }
+                     );
+       
+              }
+
+             
+
               /*group() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.GROUPS_SECTIONS.GET_GROUPS_SECTIONS).subscribe((data) => {
                      this.workGroupData = data;
@@ -382,6 +403,7 @@ this.workName();
               this.reportModel.agency = this.reportsByQuery.controls.agency.value;
               this.reportModel.WpaName = this.reportsByQuery.controls.WpaName.value;
               this.reportModel.formatType = this.reportsByQuery.controls.format.value;
+              this.reportModel.driveName = this.reportsByQuery.controls.driveName.value;
 
               console.log("generateReport" + this.id)
               console.log("generateReport" + JSON.stringify(this.reportModel));

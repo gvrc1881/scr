@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T_WAGONAOH_POH_withduesReport" pageWidth="840" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="800" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38f87bea-f57e-4bb5-ab53-428b173e319d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T_WAGONAOH_POH_withduesReport" pageWidth="840" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="800" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="38f87bea-f57e-4bb5-ab53-428b173e319d">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="40"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="zone" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="reportHeader" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="toDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select $P{reportHeader}||' '||date_of_status::date as reportheader,asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
+		<![CDATA[select asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
 , ash1.Schedule_date POH_DONE_DATE , ash2.Schedule_date AOH_DONE_DATE, asa1.duration poh_duration, asa1.uom_of_duration poh_uom_duration,
 case when asa1.uom_of_duration ='Time in Years' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date +(asa1.duration||' years')::interval
      when asa1.uom_of_duration ='Time in Months' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date+(asa1.duration||' months')::interval
@@ -35,7 +32,7 @@ asset_id, asset_type, asu1.facility_id ,division, facility_name
 from product_category_member pcm, Facility f  , asset_status_update asu1
 where asu1.facility_id = f.Facility_id and
 asu1.asset_type = pcm.product_id
-and  pcm.product_category_id ='TOWERCAR'
+and  pcm.product_category_id ='TW'
 group by asset_id, asset_type, asu1.facility_id ,division,facility_name
 )asu
 
@@ -72,9 +69,9 @@ and asu.latest_date_of_status = asu_st.date_of_status
 and asu.facility_id = amd.Facility_id
 and asu.asset_type = amd.asset_type
 and asu.asset_id = amd.asset_id
- and date_of_status=$P{fromDate}::date]]>
+ and date_of_status >= $P{fromDate}::date
+and date_of_status <= $P{toDate}::date]]>
 	</queryString>
-	<field name="reportheader" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="facility_name" class="java.lang.String"/>
 	<field name="asset_type" class="java.lang.String"/>
@@ -96,21 +93,14 @@ and asu.asset_id = amd.asset_id
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="59" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="800" height="32" uuid="9aaa0f95-fd7d-4645-ac02-91df966aa0fb"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{zone}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="32" width="800" height="27" uuid="86997cef-b76f-4411-896f-286033dc2b97"/>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="31" uuid="a6a9b695-bba5-44d4-ba5b-70b0b2377f88"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{reportheader}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[AOH/POH Details of Tower Cars Available over South Central Railway]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -325,7 +315,7 @@ and asu.asset_id = amd.asset_id
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{make}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="455" y="0" width="101" height="20" uuid="588a2bf8-7b05-40e6-a1fc-d8e3649c2ef0"/>
 				<box>
 					<pen lineWidth="0.75"/>
@@ -337,7 +327,7 @@ and asu.asset_id = amd.asset_id
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{date_of_manufacture}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="556" y="0" width="67" height="20" uuid="2450a5d2-ce5b-40c9-a6c4-e76f8f4d3fbf"/>
 				<box>
 					<pen lineWidth="0.75"/>
@@ -349,7 +339,7 @@ and asu.asset_id = amd.asset_id
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{poh_due_date}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="623" y="0" width="67" height="20" uuid="365dc6c5-8826-4605-bbe9-dd9b8c867d44"/>
 				<box>
 					<pen lineWidth="0.75"/>

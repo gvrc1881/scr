@@ -19,9 +19,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-
-select
+		<![CDATA[select
 a.work_name , a.work_group , a.section , a.agency , a.phase_name , a.wpa_name , a.population TQ , a.uom ,
 case when p_t.total_done_till_last_month is null then 0 else p_t.total_done_till_last_month end as total_done_till_last_month ,
 case when total_done_in_current_month is null then 0 else total_done_in_current_month end as total_done_in_current_month ,
@@ -183,18 +181,18 @@ left outer join
 	) dp_r
 on  (a.wg_id = dp_r.wg_id and a.wpa_id = dp_r.wpa_id  )
  where
-case when '' != '' then a.work_name =''
+case when $P{workName} != '' then a.work_name = $P{workName}
 else a.work_name is not null or a.work_name is null
 end
 
-and case when '' != '' then a.work_group =''
+and case when $P{group} != '' then a.work_group = $P{group}
 else a.work_group is not null or a.work_group is null
 end
 
-and case when '' != '' then a.section =''
+and case when $P{section} != '' then a.section = $P{section}
 else a.section is not null or a.section is null
 end
-and case when '' != '' then a.agency =''
+and case when $P{agency} != '' then a.agency = $P{agency}
 else a.agency is not null or a.agency is null
 end
 and a.wpa_name = $P{wpaName}
