@@ -51,8 +51,8 @@
                                                                 <mat-select placeholder="{{FiledLabels.FEED_OF}}" (selectionChange)="updateFeedOff($event)"
                                                                     [formControl]="addGridFailFromGroup.controls['feedOff']" required>
                                                                     <mat-option *ngFor="let depot of facilityList"
-                                                                        [value]="depot.unitId">
-                                                                        {{ depot.unitCode }}
+                                                                        [value]="depot.facilityId">
+                                                                        {{ depot.facilityName }}
                                                                     </mat-option>
                                                                 </mat-select>                                                            
                                                             </mat-form-field>                                                        

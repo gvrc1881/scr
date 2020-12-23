@@ -6,7 +6,7 @@
 				<nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item"><a [routerLink]="['/powerBlocks']">Power Block</a></li>   
+                        <li class="breadcrumb-item"><a [routerLink]="['/daily-summary']">Daily Summary</a></li>   
                         <li class="breadcrumb-item active" aria-current="page">TW status Change</li>
                     </ol>
                 </nav>
@@ -310,7 +310,7 @@
 								<div class="clear"> </div>
 							</div>
 									
-		                
+							<div style="width: 100%; overflow: auto; display: table;">
 		                	<div class="mat-elevation-z8" *ngIf = enableTable>
 		                		<mat-table [dataSource]="dataSource" matSort>
 		                			<ng-container matColumnDef="sno">
@@ -393,7 +393,7 @@
                                     <ng-container matColumnDef="dateOfStatus">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.STATUS_DATE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">	    
-												<mat-form-field>
+												<mat-form-field floatLabel="never">
 													<input matInput [matDatepicker]="picker1"
 														placeholder="{{FiledLabels.STATUS_DATE}}"
 														(dateChange)="addEvent($event)" 
@@ -434,7 +434,7 @@
 									<ng-container matColumnDef="targetDateOfReady">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DATE_OF_CHANGE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field>
+	                                        	<mat-form-field floatLabel="never">
 													<input matInput [matDatepicker]="picker2"
 														placeholder="{{FiledLabels.DATE}}"
 														[max]="maxDate"
@@ -498,6 +498,8 @@
 	                                    </mat-row>
 		                		</mat-table>
 							</div>
+							</div>
+							<div style="width: 100%; overflow: auto; display: table;">
 							 <div class="mat-elevation-z8" *ngIf = enableStausTable>
 		                		<mat-table [dataSource]="statusDataSource" matSort>
 									<ng-container matColumnDef="sno">
@@ -528,7 +530,7 @@
 								<ng-container matColumnDef="stats">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_STATUS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
-								</ng-container> 
+								</ng-container>  
 							 
 								<ng-container matColumnDef="targetDateReady">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DATE_OF_CHANGE}}</mat-header-cell>
@@ -553,7 +555,7 @@
 	                                    </mat-row>
 		                		</mat-table>
 							</div> 
-								
+						</div>	
 							
                		</div>                 
             	</div>

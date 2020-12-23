@@ -77,8 +77,13 @@ public class AssetStatusUpdateController {
 		logger.info("Request Parameters = " + assetStatusUpdate.toString());
 		try {
 			logger.info("Calling service with request parameters.");
-			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);
-			assetStatusUpdate.setSeqId(asu.getId().toString());
+			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);	
+			if(asu.getFacilityId() != null)
+			{
+				Optional<Facility> fac = facilityRepository.findByFacilityName(asu.getFacilityId());
+				assetStatusUpdate.setFacilityId(fac.get().getFacilityId());
+			}
+			assetStatusUpdate.setSeqId(asu.getId().toString());			
 			assetStatusService.save(assetStatusUpdate);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetStatusUpdate Added successfully", Constants.SUCCESS_CODE);
@@ -93,25 +98,7 @@ public class AssetStatusUpdateController {
 		}
 	}
 
-	/*
-	 * @PostMapping(value="/addAssetStatus")
-	 * 
-	 * @ResponseBody public ResponseStatus addAssetStatus(@RequestBody
-	 * List<AssetStatusUpdate> assetStatusUpdate) {
-	 * logger.info("*** Enter into AssetStatusUpdate function ***"); try {
-	 * assetStatusService.addAssetStatus(assetStatusUpdate); logger.
-	 * info("Preparing the return response and assetStatusUpdate function end ");
-	 * return Helper.findResponseStatus("AssetStatusUpdate Data Added Successfully",
-	 * Constants.SUCCESS_CODE); }catch(NullPointerException npe) {
-	 * logger.error("ERROR >> While adding AssetStatusUpdate. "+npe.getMessage());
-	 * return
-	 * Helper.findResponseStatus("AssetStatusUpdate Addition is Failed with "+npe.
-	 * getMessage(), Constants.FAILURE_CODE); } catch (Exception e) {
-	 * logger.error("ERROR >> While adding AssetStatusUpdate Data. "+e.getMessage())
-	 * ; return
-	 * Helper.findResponseStatus("AssetStatusUpdate   Addition is Failed with "+e.
-	 * getMessage(), Constants.FAILURE_CODE); } }
-	 */
+
 	@RequestMapping(value = "/findAssetStatusById/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<AssetStatusUpdate> findAssetStatusById(@PathVariable Long id) {
 		Optional<AssetStatusUpdate> assetStatusUpdate = null;
@@ -135,6 +122,12 @@ public class AssetStatusUpdateController {
 		logger.info("Request Parameters = " + assetStatusUpdate.toString());
 		try {
 			logger.info("Calling service with request parameters.");
+			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);	
+			if(asu.getFacilityId() != null)
+			{
+				Optional<Facility> fac = facilityRepository.findByFacilityName(asu.getFacilityId());
+				assetStatusUpdate.setFacilityId(fac.get().getFacilityId());
+			}			
 			assetStatusService.save(assetStatusUpdate);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetStatus Updated successful", Constants.SUCCESS_CODE);

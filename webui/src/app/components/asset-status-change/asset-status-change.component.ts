@@ -72,6 +72,7 @@ export class AssetStatusChangeComponent implements OnInit {
     enableStausTable:boolean;
     updateStatusChangeFormGroup:FormGroup;
     enableButton:any;
+    facility:any;
 
     constructor(
       public dialog: MatDialog,
@@ -87,7 +88,7 @@ export class AssetStatusChangeComponent implements OnInit {
   }
   
   ngOnInit() {
-    console.log("divisionHierarchy=="+JSON.stringify(this.divisionHierarchy));
+   
     this.getAllData();     
       this.findDivision();
       this.findChangeStatus();    
@@ -203,7 +204,7 @@ export class AssetStatusChangeComponent implements OnInit {
      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.
       GET_TOWERCARS_BASEDON_DIVISION+division+'/'+subDivision+'/'+facilityId).subscribe((data) => {
              this.AssetStatusList = data;
-          
+          console.log("asset status respone=="+JSON.stringify(this.AssetStatusList));
             if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
                 this.AssetStatusList[i].sno = i + 1;        
@@ -319,11 +320,16 @@ export class AssetStatusChangeComponent implements OnInit {
 
       console.log("response=="+this.editStatusResponse.facilityId);
        
-        this.updateStatusChangeFormGroup.patchValue ({
+      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.editStatusResponse.facilityId).subscribe((response) => {
+        this.facility = response;
+        console.log("response fac=="+JSON.stringify(this.facility));
+         this.updateStatusChangeFormGroup.patchValue({ facilityId: this.facility.facilityName })       	
+});
+        this.updateStatusChangeFormGroup.patchValue ({ 
           id: this.editStatusResponse.id,
           assetType:this.editStatusResponse.assetType,
           assetId:this.editStatusResponse.assetId,
-          facilityId:this.editStatusResponse.facilityId,
+         // facilityId:this.editStatusResponse.facilityId,
           dateOfStatus:!!this.editStatusResponse.dateOfStatus ? new Date(this.editStatusResponse.dateOfStatus) : '',         
           currentStatus:this.editStatusResponse.currentStatus,         
           targetDateOfReady:!!this.editStatusResponse.targetDateOfReady ? new Date(this.editStatusResponse.targetDateOfReady) : '',

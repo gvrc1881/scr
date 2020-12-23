@@ -103,7 +103,7 @@ findFacilities(){
     this.enableStation=true;
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.facilityHierarchy[i].unitType == 'RCC'){     
+      if( this.facilityHierarchy[i].depotType == 'RCC'){     
          
        this.facilityList.push(this.facilityHierarchy[i]);
           

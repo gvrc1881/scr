@@ -113,7 +113,7 @@ findFacilities(){
     this.enableExtend=true;
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-      if( this.facilityHierarchy[i].unitType == 'TSS'){
+      if( this.facilityHierarchy[i].depotType == 'TSS'){
       
        this.facilityList.push(this.facilityHierarchy[i]);
           //this.facilityHierarchy.facilityList;

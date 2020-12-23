@@ -91,15 +91,16 @@ public class AssetStatusUpdateMapper {
 			}	
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
-			
+			logger.info("*** asset staus records== ***"+asu.toString());
 			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData2.getFacilityId());
 			logger.info("*** before set values ***");
 			
 			if(asu.isPresent())
 			{
 				asur.setAsuId(asu.get().getId());
-				asur.setChangeOfStatus(asu.get().getCurrentStatus());
+				asur.setCurrentStatus(asu.get().getCurrentStatus());
 				asur.setDateOfStatus(asu.get().getDateOfStatus());
+				asur.setStatus(asu.get().getStatus());
 				asur.setRemarks(asu.get().getRemarks());
 				asur.setEditPermission(true);
 			
@@ -110,7 +111,7 @@ public class AssetStatusUpdateMapper {
 			asur.setAssetType(assetMasterData2.getAssetType());
 			asur.setAssetId(assetMasterData2.getAssetId());
 			asur.setDateOfManufacture(assetMasterData2.getDateOfCommision());
-			asur.setFacilityId(fac.get().getFacilityId());
+			asur.setFacilityId(fac.get().getFacilityName());
 			asur.setModel(assetMasterData2.getModel());
 			asur.setMake(assetMasterData2.getMake());			
 			logger.info("*** object values****"+asur.toString());
@@ -170,8 +171,9 @@ public class AssetStatusUpdateMapper {
 			if(asu.isPresent())
 			{
 				asur.setAsuId(asu.get().getId());
-				asur.setChangeOfStatus(asu.get().getCurrentStatus());
+				asur.setCurrentStatus(asu.get().getCurrentStatus());
 				asur.setDateOfStatus(asu.get().getDateOfStatus());
+				asur.setStatus(asu.get().getStatus());
 				asur.setRemarks(asu.get().getRemarks());
 				asur.setEditPermission(true);
 			
@@ -182,7 +184,7 @@ public class AssetStatusUpdateMapper {
 			asur.setAssetType(amd.get().getAssetType());
 			asur.setAssetId(amd.get().getAssetId());
 			asur.setDateOfManufacture(amd.get().getDateOfCommision());
-			asur.setFacilityId(fac.get().getFacilityId());
+			asur.setFacilityId(fac.get().getFacilityName());
 			asur.setModel(amd.get().getModel());
 			asur.setMake(amd.get().getMake());		
 			

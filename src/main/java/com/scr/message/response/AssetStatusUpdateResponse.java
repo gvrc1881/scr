@@ -17,8 +17,8 @@ public class AssetStatusUpdateResponse {
 	private LocalDate nextAoh;
 	private LocalDate nextPoh;
 	private Timestamp dateOfStatus;
-	private String changeOfStatus;
-	private String newStatus;
+	private String currentStatus;
+	private String status;
 	private Timestamp statusDate;
 	private String remarks;
 	private boolean editPermission;
@@ -80,22 +80,9 @@ public class AssetStatusUpdateResponse {
 		this.dateOfStatus = dateOfStatus;
 	}
 
-	public String getChangeOfStatus() {
-		return changeOfStatus;
-	}
+	
 
-	public void setChangeOfStatus(String changeOfStatus) {
-		this.changeOfStatus = changeOfStatus;
-	}
-
-	public String getNewStatus() {
-		return newStatus;
-	}
-
-	public void setNewStatus(String newStatus) {
-		this.newStatus = newStatus;
-	}
-
+	
 	public Date getStatusDate() {
 		return statusDate;
 	}
@@ -144,14 +131,32 @@ public class AssetStatusUpdateResponse {
 		AsuId = asuId;
 	}
 
+	public String getCurrentStatus() {
+		return currentStatus;
+	}
+
+	public void setCurrentStatus(String currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "AssetStatusUpdateResponse [assetType=" + assetType + ", assetId=" + assetId + ", make=" + make
 				+ ", model=" + model + ", facilityId=" + facilityId + ", dateOfManufacture=" + dateOfManufacture
 				+ ", nextAoh=" + nextAoh + ", nextPoh=" + nextPoh + ", dateOfStatus=" + dateOfStatus
-				+ ", changeOfStatus=" + changeOfStatus + ", newStatus=" + newStatus + ", statusDate=" + statusDate
+				+ ", currentStatus=" + currentStatus + ", status=" + status + ", statusDate=" + statusDate
 				+ ", remarks=" + remarks + ", editPermission=" + editPermission + ", AsuId=" + AsuId + "]";
 	}
+
+
 
 	
 

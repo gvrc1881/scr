@@ -50,8 +50,8 @@
                                                                 <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
                                                                     [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                     <mat-option *ngFor="let depot of facilityList"
-                                                                        [value]="depot.unitId">
-                                                                        {{ depot.unitCode }}
+                                                                        [value]="depot.facilityId">
+                                                                        {{ depot.facilityName }}
                                                                     </mat-option>
                                                                 </mat-select>                                                            
                                                             </mat-form-field>

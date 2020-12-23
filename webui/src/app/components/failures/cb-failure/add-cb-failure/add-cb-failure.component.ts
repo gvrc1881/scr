@@ -288,7 +288,7 @@ export class AddCbFailureComponent implements OnInit {
       this.enableStation=true;
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-        if( this.facilityHierarchy[i].unitType == 'TSS'|| this.facilityHierarchy[i].unitType == 'SP'|| this.facilityHierarchy[i].unitType == 'SSP'){
+        if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
             //this.facilityHierarchy.facilityList;
