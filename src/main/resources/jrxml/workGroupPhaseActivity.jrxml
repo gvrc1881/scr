@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="standard_Phase_Activities" pageWidth="1750" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1710" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="171f42ba-63f2-4440-a9a3-dc7be99f8800">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="350"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="workName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="section" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="agency" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="thruDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="group" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select w.id w_id ,   wp.id wp_id  , wg.id wg_id ,
+w.work_name ,  agency , code,  doubling_trippling,
+wg.rkm, wg.section, siding_yard_station, wg.tkm, work_group,
+ wp.id wpa_id,
+asset_type , wpa.dependency_to_start wpa_dependency_to_start , depot_type , wpa.description wpa_description , is_check_list , is_object_id_required , wpa.name wpa_name ,
+wpa.sequence  wpa_sequence, work_phase_id , uom
+commence_date , wp.target_completion_date , wp.dependency_to_start , wp.description , phase_name , wp.planned_start_date ,
+wp.sequence wp_sequence, wp.status  , wp.target_completion_date , weightage
+from works w, work_phases wp , work_group wg , work_phase_activity wpa
+where w.id = wp.work_id
+and  w.id = wg.work_id
+and wpa.work_phase_id = wp.id
+
+ and case when $P{group} != '' then work_group =$P{group}
+else work_group is not null or work_group is null
+end
+
+and case when $P{workName} != '' then w.work_name = $P{workName}
+else w.work_name is not null or w.work_name is null
+end
+
+ and case when $P{section} != '' then wg.section =$P{section}
+else wg.section is not null or wg.section is null
+end
+
+and case when $P{agency} != '' then agency =$P{agency}
+else agency is not null or agency is null
+end
+
+and case when $P{fromDate} != '' then to_char(wp.planned_start_date,'dd-mm-yyyy')  >= $P{fromDate}
+else wp.planned_start_date is not null or wp.planned_start_date is null
+end
+
+and case when $P{thruDate} != '' then to_char(wp.target_completion_date,'dd-mm-yyyy')  <=$P{thruDate}
+else wp.target_completion_date is not null or wp.target_completion_date is null
+end
+]]>
+	</queryString>
+	<field name="w_id" class="java.lang.Integer"/>
+	<field name="wp_id" class="java.lang.Integer"/>
+	<field name="wg_id" class="java.lang.Long"/>
+	<field name="work_name" class="java.lang.String"/>
+	<field name="agency" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="doubling_trippling" class="java.lang.String"/>
+	<field name="rkm" class="java.lang.Double"/>
+	<field name="section" class="java.lang.String"/>
+	<field name="siding_yard_station" class="java.lang.String"/>
+	<field name="tkm" class="java.lang.Double"/>
+	<field name="work_group" class="java.lang.String"/>
+	<field name="wpa_id" class="java.lang.Integer"/>
+	<field name="asset_type" class="java.lang.String"/>
+	<field name="wpa_dependency_to_start" class="java.lang.String"/>
+	<field name="depot_type" class="java.lang.String"/>
+	<field name="wpa_description" class="java.lang.String"/>
+	<field name="is_check_list" class="java.lang.String"/>
+	<field name="is_object_id_required" class="java.lang.String"/>
+	<field name="wpa_name" class="java.lang.String"/>
+	<field name="wpa_sequence" class="java.lang.Double"/>
+	<field name="work_phase_id" class="java.lang.Integer"/>
+	<field name="commence_date" class="java.lang.String"/>
+	<field name="target_completion_date" class="java.sql.Date"/>
+	<field name="dependency_to_start" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="phase_name" class="java.lang.String"/>
+	<field name="planned_start_date" class="java.sql.Date"/>
+	<field name="wp_sequence" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="weightage" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="1710" height="30" uuid="9c1f0124-815b-487b-8044-347f9c8a2b69"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Work Group Phase Activities]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="20" uuid="28fab4ba-a869-4f0a-8ad3-eef499eadf26"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="291" height="20" uuid="8c368a13-03e1-4310-bb55-b6a40c02bca5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Work Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="0" width="95" height="20" uuid="5fb8f1ea-d7b2-4b6c-9726-fbf6bbc5e93b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Work Group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="652" y="0" width="88" height="20" uuid="e67b374a-4c81-4302-875d-3bffcb41636f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="740" y="0" width="114" height="20" uuid="cdeeac46-ef6b-42f8-affa-fc23d72ff3ea"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Doubling Trippling]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="854" y="0" width="68" height="20" uuid="71fce35a-6679-4478-a348-45e10b36e525"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RKM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="922" y="0" width="65" height="20" uuid="29936827-9412-44a3-b5d6-d81caf244955"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TKM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="987" y="0" width="119" height="20" uuid="f079033e-d9c9-4f28-bba4-6159d4bfba07"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Siding Yard Station]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1476" y="0" width="234" height="20" uuid="04327099-5647-4314-a405-265d87a7f1f4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1106" y="0" width="100" height="20" uuid="1b176701-61da-47a9-95f5-fdd3fdb1b1d3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="538" y="0" width="114" height="20" uuid="c374ec0a-a08c-4cf2-873d-50de135b7c04"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target CompDate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="112" height="20" uuid="ad32f1a5-26d3-4291-be14-644873eec6e9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plan Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1206" y="0" width="100" height="20" uuid="388619e9-6507-4a0c-ad0e-fb6157574af1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phase Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1306" y="0" width="100" height="20" uuid="209b8aba-8e25-45ad-a0bd-96d9b70cd6ff"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Wpa Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1406" y="0" width="70" height="20" uuid="332e43d5-56b0-48b0-be79-cf36bd22761f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Depot Type]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="40" height="20" uuid="fe8da574-fa8d-40ff-a4fe-fb8adf2c9258"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1106" y="0" width="100" height="20" uuid="19cbce95-0814-48b0-ba2b-5aa70a3e39b9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="538" y="0" width="114" height="20" uuid="47dbcc81-1bec-45bb-9630-93c01411adae"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{target_completion_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="426" y="0" width="112" height="20" uuid="031e2cbd-bcf8-4b08-8703-54b9a011c82f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{planned_start_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1206" y="0" width="100" height="20" uuid="7dc5c287-2ecf-4b84-ba06-e5ae0d753c0f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{phase_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1306" y="0" width="100" height="20" uuid="6ca9ad54-85b4-47ca-af81-ccfe72bccbde"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{wpa_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1406" y="0" width="70" height="20" uuid="718f2a50-d72a-4f02-801d-d5b6614f79d5"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{depot_type}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="331" y="0" width="95" height="20" uuid="f49e3796-2ce1-4603-9c76-be88df5667d3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{work_group}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="40" y="0" width="291" height="20" uuid="7da8d4bb-6769-445f-baeb-e0d412962f57"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{work_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="652" y="0" width="88" height="20" uuid="c45824aa-573f-4a59-8878-66dfa6bc3eee"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{section}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="740" y="0" width="114" height="20" uuid="a8f49f29-4cc0-4b6d-83de-fbb10e3e4fb9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{doubling_trippling}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="854" y="0" width="68" height="20" uuid="be2119af-c9df-4a5a-bf45-a93d896e3035"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rkm}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="922" y="0" width="65" height="20" uuid="8c52a321-5f85-4e60-b07a-c1938a7a9084"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tkm}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="987" y="0" width="119" height="20" uuid="977b3b2a-8376-485c-b9ab-53f09ef42538"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{siding_yard_station}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1476" y="0" width="234" height="20" uuid="a833fe8f-a938-4111-88d7-4184ff31908d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="857" y="0" width="65" height="20" uuid="1333d231-110c-4e3b-befa-a697ab93841f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="922" y="0" width="65" height="20" uuid="d5055e20-6a2c-4589-b2cf-a8879b88d4c6"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="1526" y="0" width="184" height="20" uuid="e088fd5d-0c41-445f-94f4-77aa4c07c3e4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1426" y="0" width="100" height="20" uuid="cf96006b-666a-4e6e-8e10-eca3c068ec88"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On : ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="28">
+			<staticText>
+				<reportElement x="0" y="0" width="1710" height="28" forecolor="#F7114A" uuid="752b85ac-89f2-4049-835c-09e7066de435"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

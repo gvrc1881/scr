@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyEngergyMeterReport" pageWidth="900" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="22309e2d-f810-4bdc-aea6-ac3a2a45b6ec">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyEngergyMeterReport" pageWidth="900" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="22309e2d-f810-4bdc-aea6-ac3a2a45b6ec">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -19,7 +19,7 @@ ec.cmd,ec.rmd,ec.pf,ec.cpf,ec.vol_min,ec.vol_max,
 ec.max_load,max_load_time_hhmm as time
 --to_char("max_load_time_hhmm", 'HH:MI')as time
 from v_energy_consumption ec
-where ec.energy_reading_date >= $P{fromDate}::date
+where ec.energy_reading_date >=$P{fromDate}::date
 and ec.energy_reading_date <= $P{toDate}::date]]>
 	</queryString>
 	<field name="energy_reading_date" class="java.sql.Date"/>
@@ -39,11 +39,11 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 	<field name="time" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
-	</background> 
+	</background>
 	<title>
-		<band height="45" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="716" y="25" width="144" height="20" uuid="6d87181b-198f-4ec8-8d1b-ff29afda4e49"/>
+				<reportElement x="716" y="0" width="144" height="20" uuid="6d87181b-198f-4ec8-8d1b-ff29afda4e49"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -55,7 +55,7 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 				<textFieldExpression><![CDATA[$F{energy_reading_date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="25" width="716" height="20" uuid="a46fc83f-2e75-4ddf-a63a-82709fd3940e"/>
+				<reportElement x="0" y="0" width="716" height="20" uuid="a46fc83f-2e75-4ddf-a63a-82709fd3940e"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -65,20 +65,6 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[Date : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="860" height="25" uuid="ae47656f-3cd0-466b-aa02-281127893416"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Daily TRD Position]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -471,10 +457,10 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 		<band height="37">
 			<staticText>
 				<reportElement x="0" y="0" width="860" height="37" forecolor="#DE1515" uuid="de9cde64-3066-463d-82c3-8daac0af8bea"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO DATA FOUND]]></text>
+				<text><![CDATA[  NO DATA FOUND]]></text>
 			</staticText>
 		</band>
 	</noData>

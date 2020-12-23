@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LOSS OF PUNCTUALITY CASES" pageWidth="950" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="910" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cc764a85-98fd-4e6e-8924-23a3226e3121">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="78"/>
+	<import value="org.opentaps.base.entities.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+
+	<parameter name="SUBREPORT_DIR" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{SUBREPORT_DIR}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="toDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select d.type_of_failure, d.FY, d.month1, d.week1, d.date1, Cum_delay_time_daily, Cum_delay_time_weekly, Cum_delay_time_monthly, Cum_delay_time_fy,
+daily_count,w_count,m_count,fy_count
+from (
+select  type_of_failure, FY, Sum(delay_time) Cum_delay_time_fy, sum(daily_count) fy_count
+ from v_failures_count_duration_daily
+ group by type_of_failure, FY
+) fy,
+(select type_of_failure, FY, month1, Sum(delay_time) Cum_delay_time_monthly, sum(daily_count) m_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1,   FY
+) m,
+(select type_of_failure, FY, month1, week1 , Sum(delay_time)    Cum_delay_time_weekly, sum(daily_count) w_count
+ from v_failures_count_duration_daily
+ group by    type_of_failure, month1, week1 ,   FY
+) w,
+(
+select type_of_failure, FY, month1, week1 , date1,  Sum(delay_time) Cum_delay_time_daily, sum(daily_count) daily_count
+ from v_failures_count_duration_daily
+ group by   type_of_failure, month1, week1, date1, FY
+) d
+where date1 ::date >=  $P{fromDate}::date
+and date1 ::date <=$P{toDate} ::date
+and D.type_of_failure ='FAILURE_OCCURENCE'
+and D.FY= w.FY
+and  D.FY= m.FY
+and  D.FY= fy.FY
+and D.type_of_failure= fy.type_of_failure
+and  D.month1= m.month1
+and  D.month1= w.month1
+and D.type_of_failure= m.type_of_failure
+and  D.week1= w.week1
+and D.type_of_failure= w.type_of_failure ;]]>
+	</queryString>
+	<field name="type_of_failure" class="java.lang.String"/>
+	<field name="fy" class="java.lang.String"/>
+	<field name="month1" class="java.lang.Double"/>
+	<field name="week1" class="java.lang.Double"/>
+	<field name="date1" class="java.lang.String"/>
+	<field name="cum_delay_time_daily" class="java.lang.Double"/>
+	<field name="cum_delay_time_weekly" class="java.lang.Double"/>
+	<field name="cum_delay_time_monthly" class="java.lang.Double"/>
+	<field name="cum_delay_time_fy" class="java.lang.Double"/>
+	<field name="daily_count" class="java.math.BigDecimal"/>
+	<field name="w_count" class="java.math.BigDecimal"/>
+	<field name="m_count" class="java.math.BigDecimal"/>
+	<field name="fy_count" class="java.math.BigDecimal"/>
+	<group name="sub">
+		<groupExpression><![CDATA[$F{fy}]]></groupExpression>
+	</group>
+	<group name="Event"/>
+	<group name="Event2"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="46" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="26" width="910" height="20" uuid="edae3a3b-a310-4529-bfe4-251d1f5965eb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="styled"/>
+				<textFieldExpression><![CDATA["<b>Generated On : </b>"+ new SimpleDateFormat("dd-MMM-yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="26" uuid="75761799-3e76-4d23-a01a-f92366978e8d"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I. Loss Of Punctuallity of Trains on TRD Account]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="20" uuid="466c2d44-7552-44a6-972c-ba47adf4c06a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[On Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="100" y="0" width="100" height="20" uuid="7438e279-9d90-4dc4-a43c-937001985c80"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{date1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="200" y="0" width="100" height="20" uuid="c385582f-9a87-40db-bdba-9029632507c3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[MCount]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="300" y="0" width="100" height="20" uuid="f267ce33-5d1f-4bf7-ba67-2e2c90663583"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{m_count}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="100" height="20" uuid="cce22fb0-e8a1-4f35-a559-749e6e5b4829"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[FyCount]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="500" y="0" width="100" height="20" uuid="e4579999-1508-4ebf-a1a3-f2aa09f1c598"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy_count}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="102" height="20" uuid="b1440fc3-905a-411e-ad16-d6432e6ee9ea"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[FYear]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="702" y="0" width="208" height="20" uuid="136c6325-227d-413d-a4f8-79a1f9d9bfbe"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="80">
+			<staticText>
+				<reportElement x="0" y="1" width="910" height="20" uuid="8d39d7ec-a433-4fc1-87f8-e1a6a3014b60"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II.Cumulative of the Last Year - Reported Cases (Up to the same Date)]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="21" width="200" height="59" uuid="e63ab987-f41e-4251-bc40-daec87eb6b69"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="ef6ef597-d66b-49f1-a7e1-8101d4a68387"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ III. Cumulative of the Current Year - Reported Cases ]]></text>
+			</staticText>
+		</band>
+		<band height="70">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="c0cc335f-7fda-4c2e-8b14-f7cbdc5c2ef6"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IV. Cumulative of the Last Year - Total Reported Cases]]></text>
+			</staticText>
+		</band>
+		<band height="78">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="b4ba0d7b-c1bf-4dbe-9b8e-9c28bd3e7330"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[V. Position of Breakdown Vehicles and Tower Cars]]></text>
+			</staticText>
+		</band>
+		<band height="74">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="90f6f002-54a4-4b87-bb69-7bb25a8f724c"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VI. Position of Breakdown vehicles and Tower cars]]></text>
+			</staticText>
+		</band>
+		<band height="76">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="9ebf9dbe-5fa3-4acf-ab73-758893ea7cd1"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VII. 220/132 KV Power Supply Failures ]]></text>
+			</staticText>
+		</band>
+		<band height="78">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="4d464f21-00df-49ce-bbea-4acde19b8c50"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIII. Unusual: ]]></text>
+			</staticText>
+		</band>
+		<band height="77">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="17b7d472-bcaf-4a28-a46c-da90b27feb7f"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily TRD Position (Energy)]]></text>
+			</staticText>
+		</band>
+		<band height="75">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" uuid="56f197e2-b456-4c73-9f68-31bd15782caa"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CB Tripping Position]]></text>
+			</staticText>
+		</band>
+		<band height="71">
+			<staticText>
+				<reportElement x="0" y="1" width="910" height="20" uuid="e99fd147-37a4-4dc6-ac54-a025addef522"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AOH/POH Details of Tower Cars Available over South Central Railway]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="910" height="20" uuid="4c76919c-6eec-4669-a97a-08491798bd0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"+" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="910" height="20" forecolor="#FF0033" uuid="5af75660-ed73-44b9-86d9-e85644d0ccd4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
