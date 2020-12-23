@@ -125,13 +125,15 @@ public class AssetStatusUpdateMapper {
 	public List<AssetStatusUpdateResponse> prepareAssetStatusUpdateDataBasedOnFacility(AssetMasterData assetMasterData2,
 			String facilityId) {
 		List<AssetStatusUpdateResponse> assetstatus = new ArrayList<>();
-		Optional<AssetMasterData> amd = assetMastersRepository.getByFacilityIdAndAssetId(facilityId,assetMasterData2.getAssetId());	
+		List<AssetMasterData> amd = assetMastersRepository.getFacilityId(facilityId);	
 		logger.info("*** in mapper class ***"+amd);
+		for (AssetMasterData assetMasterData : amd) {
+			
 		
 			AssetStatusUpdateResponse asur = new AssetStatusUpdateResponse();
 			
 			logger.info("*** before ashhh ***");
-			List<AssetsScheduleHistory>	ashList = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
+			List<AssetsScheduleHistory>	ashList = assetsScheduleHistoryRepository.findByAssetTypeAndAssetIdAndFacilityId(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId());
 			for (AssetsScheduleHistory assetsScheduleHistory : ashList) {
 				
 				Optional<AssetsScheduleHistory> ashistory = assetsScheduleHistoryRepository.getByAssetTypeAndAssetIdAndFacilityIdAndScheduleCode(assetsScheduleHistory.getAssetType(),assetsScheduleHistory.getAssetId(),assetsScheduleHistory.getFacilityId(),assetsScheduleHistory.getScheduleCode());
@@ -162,10 +164,10 @@ public class AssetStatusUpdateMapper {
 				}
 				}
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
-					(amd.get().getAssetType(),amd.get().getAssetId(),amd.get().getFacilityId());
+					(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId());
 			//Optional<AssetStatusUpdate> asuMax = assetStatusUpdateRepository.findByDateOfStatus(asu.get().getDateOfStatus());
 			
-			Optional<Facility> fac = facilityRepository.findByFacilityId(amd.get().getFacilityId());
+			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData.getFacilityId());
 			
 			logger.info("*** before set values ***");
 			if(asu.isPresent())
@@ -181,18 +183,18 @@ public class AssetStatusUpdateMapper {
 			else {
 				asur.setEditPermission(false);
 			}
-			asur.setAssetType(amd.get().getAssetType());
-			asur.setAssetId(amd.get().getAssetId());
-			asur.setDateOfManufacture(amd.get().getDateOfCommision());
+			asur.setAssetType(assetMasterData.getAssetType());
+			asur.setAssetId(assetMasterData.getAssetId());
+			asur.setDateOfManufacture(assetMasterData.getDateOfCommision());
 			asur.setFacilityId(fac.get().getFacilityName());
-			asur.setModel(amd.get().getModel());
-			asur.setMake(amd.get().getMake());		
+			asur.setModel(assetMasterData.getModel());
+			asur.setMake(assetMasterData.getMake());		
 			
 			
 					
 			logger.info("*** object values****"+asur.toString());
 			assetstatus.add(asur );
-		
+	}
 		
 		return assetstatus;
 	}
