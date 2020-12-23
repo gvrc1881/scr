@@ -207,7 +207,16 @@ export class AssetStatusChangeComponent implements OnInit {
           console.log("asset status respone=="+JSON.stringify(this.AssetStatusList));
             if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
-                this.AssetStatusList[i].sno = i + 1;        
+                this.AssetStatusList[i].sno = i + 1;
+                if(this.AssetStatusList[i].dateOfStatus){
+                  this.AssetStatusList[i].dateOfStatus = new Date(this.AssetStatusList[i].dateOfStatus);
+                }
+                if(this.AssetStatusList[i].targetDateOfReady){
+                  this.AssetStatusList[i].targetDateOfReady = !!this.AssetStatusList[i].targetDateOfReady ? new Date(this.AssetStatusList[i].dateOfStatus):'';
+                }
+                this.AssetStatusList[i].dateOfManufacture = this.datePipe.transform(this.AssetStatusList[i].dateOfManufacture, 'dd-MM-yyyy');  
+                this.AssetStatusList[i].nextAoh = this.datePipe.transform(this.AssetStatusList[i].nextAoh, 'dd-MM-yyyy'); 
+                this.AssetStatusList[i].nextPoh = this.datePipe.transform(this.AssetStatusList[i].nextPoh, 'dd-MM-yyyy');      
                 this.activity.push(this.AssetStatusList[i]);
               }
             }
@@ -286,6 +295,7 @@ export class AssetStatusChangeComponent implements OnInit {
                       this.dataSource=new MatTableDataSource();
                       this.getAllData();
                       this.enableUpdate=false;
+                      this.editPermission = false;
                       this.addPermission=true;
                       }else{
                         this.commonService.showAlertMessage("Assets Status Data Updating Failed.");

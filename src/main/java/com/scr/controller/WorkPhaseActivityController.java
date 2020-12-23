@@ -99,10 +99,7 @@ private Logger log = Logger.getLogger(WorkPhaseController.class);
 		
 		List<WorkPhases> workPhaseList = new ArrayList<>();
 		log.info("Paselist==="+workPhaseList.size());
-		
-		
-			
-			// String phaseIds[]=workPhases.split(",");			
+					
 			
 			for(Integer workPhaseId:workPhaseIds)
 			{

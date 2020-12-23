@@ -78,12 +78,13 @@ public class AssetStatusUpdateController {
 		try {
 			logger.info("Calling service with request parameters.");
 			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);	
+			assetStatusUpdate.setSeqId(asu.getId().toString());	
 			if(asu.getFacilityId() != null)
 			{
 				Optional<Facility> fac = facilityRepository.findByFacilityName(asu.getFacilityId());
 				assetStatusUpdate.setFacilityId(fac.get().getFacilityId());
 			}
-			assetStatusUpdate.setSeqId(asu.getId().toString());			
+					
 			assetStatusService.save(assetStatusUpdate);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetStatusUpdate Added successfully", Constants.SUCCESS_CODE);

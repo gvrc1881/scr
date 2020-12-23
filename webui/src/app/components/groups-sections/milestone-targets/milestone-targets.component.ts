@@ -203,9 +203,9 @@ export class MilestoneTargetsComponent implements OnInit {
         }else if (this.title == Constants.EVENTS.UPDATE ) {
             let id: number = this.editTargetsResponse.id;
             var updateTargets={
-                'id':id,
-                'workId':workId,
-                'workGroupId':workGroupId,
+                'id':this.editTargetsResponse.id,
+                'workId':this.editTargetsResponse.workId,
+                'workGroupId':this.editTargetsResponse.workGroupId,
                 'targetType':targetType,
                 'rkm':rkm,
                 'tkm':tkm,
@@ -213,7 +213,7 @@ export class MilestoneTargetsComponent implements OnInit {
                 'status':status,
                 'remarks':remarks,
                 "updatedBy": this.loggedUserData.username,
-                     "updatedOn": new Date()
+                "updatedOn": new Date()
             }
             this.sendAndRequestService.requestForPUT(Constants.app_urls.PROJECT_ADMIN.MILESTONE_TARGETS.UPDATE, updateTargets, false).subscribe(response => {
                 this.commonService.showAlertMessage('Successfully updated');
@@ -243,6 +243,7 @@ export class MilestoneTargetsComponent implements OnInit {
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.MILESTONE_TARGETS.GET_MILESTONE_TARGETS_BY_ID+id).subscribe((responseData) => {
             this.editTargetsResponse = responseData;
+            console.log("milestoneatargets=="+JSON.stringify(this.editTargetsResponse));
             this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+this.editTargetsResponse.workId.id).subscribe((response) => {
                 this.project = response;
                    this.milestoneTargetsFormGroup.patchValue({ workId: this.project.workName })       	

@@ -412,4 +412,9 @@ public List<WorkGroup> findAllWorkGroups() {
 	return workGroupRepository.findAll();
 }
 
+public List<WorkPhases> getWorkPhasesBasedOnWorkId(Works works) {
+	// TODO Auto-generated method stub
+	return workPhaseRepository.findByWorkId(works);
+}
+
 }

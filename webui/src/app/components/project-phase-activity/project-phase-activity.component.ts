@@ -83,6 +83,7 @@ export class ProjectPhaseActivityComponent implements OnInit {
   getWorkPhase(){
     this.sendAndRequestService.requestForGET( Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_PHASES_BASED_ON_WORK + this.searchInputFormGroup.value.work.id).subscribe((response) => {
         this.workPhaseList = response;
+        console.log("phaseslist=="+JSON.stringify(this.workPhaseList));
      });
   }
   applyFilter(filterValue: string) {

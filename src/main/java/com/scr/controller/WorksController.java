@@ -307,17 +307,18 @@ public class WorksController {
 	@RequestMapping(value = "/getWorkPhasesBasedOnWork/{workId}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<WorkPhases> getWorkPhasesBasedOnWork(@PathVariable("workId") Integer workId){
 		log.info("Enter into getWorkPhasesBasedOnWork function ");
-		List<WorkPhases> workGroups = null;
+		List<WorkPhases> workPhases = null;
 		try {
+			log.info("workId=="+workId);
 			Optional<Works> work = worksServices.findById(workId);
 			if (work.isPresent()) {
-				workGroups = worksServices.getWorkPhasesBasedOnWork(work.get());
+				workPhases = workPhaseService.getWorkPhasesBasedOnWorkId(work.get());
 			}
-			return workGroups;
+			return workPhases;
 		} catch (Exception e) {
 			log.error("Error >>  while find work phase Details by work id, "+e.getMessage());
 		}
-		return workGroups;
+		return workPhases;
 	}
 	
 	@RequestMapping(value = "/getWPADailyProgressBasedOnGroupActivity/{workId}/{workGroupId}/{workPhaseId}/{date}" , method = RequestMethod.GET , headers = "Accept=application/json")

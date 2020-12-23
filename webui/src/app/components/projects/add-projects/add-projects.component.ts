@@ -131,9 +131,7 @@ addEvent($event) {
   
 }
 addTargetEvent($event) {
-console.log("target date==")
-
-  
+console.log("target date==") 
 
   this.toTargetDate = new Date($event.value);
   
@@ -218,7 +216,7 @@ createProjectForm(){
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
-
+        this.minDate =new Date(this.resp.commencementDate),
         this.toMinDate=new Date(this.resp.targetStartDate),
         this.toTargetDate=new Date(this.resp.commencementDate),
         this.addProjectFormGroup.patchValue({
