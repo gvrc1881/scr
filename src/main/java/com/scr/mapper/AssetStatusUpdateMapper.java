@@ -161,7 +161,7 @@ public class AssetStatusUpdateMapper {
 							asur.setNextAoh(resultDate);
 							asur.setNextPoh(resultDate);
 						}
-				}
+				} 
 				}
 			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId());
