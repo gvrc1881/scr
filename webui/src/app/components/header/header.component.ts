@@ -694,7 +694,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         currentTab: !!path && path.includes("electrification-targets") || path.includes("sidings")
           || path.includes("track") || path.includes("amd") || path.includes("work") || path.includes("guidenceItem") || path.includes("ohe-location") || path.includes("gantry")
           || path.includes("sectors") || path.includes("copy-wp-and-wpa") || path.includes("sub-sectors") || path.includes("elementary-sections")
-           || path.includes("work-daily-progress") || path.includes("Special-works") ? "open" : "",
+           || path.includes("work-daily-progress")  ? "open" : "",
         subMenus: [
           {
             subMenuName: "Asset Master",
@@ -797,14 +797,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('projectDailyProgress', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("work-daily-progress") ? "active-item" : "",
           },
-          {
-            subMenuName: "Special Works",
-            subMenuURL: "Special-works",
-            subMenuIcon: "fa fa-track",
-            rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
-            currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
-          },
+         
         ]
       },
       {
@@ -1042,7 +1035,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission:true,
        // permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
-          || path.includes("officers-movement") || path.includes("powerBlocks") ? "open" : "",
+          || path.includes("officers-movement") || path.includes("powerBlocks") || path.includes("asset-status-change") || path.includes("Special-works") ? "open" : "",
         subMenus: [
           {
             subMenuName: "Daily Summary",
@@ -1087,6 +1080,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
            // permission: true,
            permission: this.commonService.findPermission('ASSET STATUS CHANGE', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("asset-status-change") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Special Works",
+            subMenuURL: "Special-works",
+            subMenuIcon: "fa fa-track",
+            rolePermission: this.rolePermission,
+            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
           },
         ]
       },
