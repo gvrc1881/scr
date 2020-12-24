@@ -735,7 +735,7 @@ export const Constants = {
                 GET_ALL_TOWERCARS:"/findAllAssetStatus",
                 GET_TOWERCAR_ID:"/findAssetStatusById/",
                 DELETE:"/deleteAssetStatus/",
-                EXIST_BY_ASSETYPE_ASSETID_FACILITY:"/ExistsByAssetTypeAndAssetIdAndFacilityId/"
+                EXIST_BY_ASSETID:"/ExistsByAssetId/"
             }
         },
         ASSET_REGISTER:{

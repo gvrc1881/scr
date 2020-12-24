@@ -181,7 +181,7 @@ var result = {
 }
 this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
   disableClose: false,
-  height: '600px',
+  height: '400px',
   width: '80%',       
   data:result,  
 });            

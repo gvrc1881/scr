@@ -54,46 +54,11 @@ public class AssetStatusUpdateService {
 		assetStatusRepository.deleteById(id);
 	}
 	
-	public Boolean existsByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId, String facilityId) {
+	public Boolean existsByAssetId(String assetId) {
 		// TODO Auto-generated method stub
-		return assetStatusRepository.existsByAssetTypeAndAssetIdAndFacilityId(assetType,assetId,facilityId);
+		return assetStatusRepository.existsByAssetId(assetId);
 	}
+
 	
-/*	
-public void addAssetStatus(List<AssetStatusUpdate> assetStatusUpdate) {
-	
-	for (AssetStatusUpdate assetStatusUpdate2 : assetStatusUpdate) {
-		
-		
-		
-	}
-		
-		for (AssetStatusUpdate workPhase : workPhasesData) {
-			
-			Optional<WorkPhases> wPData = workPhaseRepository.findByWorkIdAndPhaseName(workPhase.getWorkId(),workPhase.getPhaseName());
-			if (wPData.isPresent()) {
-				WorkPhases updateWorkPhaseData = wPData.get();
-				updateWorkPhaseData.setWorkId(workPhase.getWorkId());
-				updateWorkPhaseData.setPhaseName(workPhase.getPhaseName());
-				updateWorkPhaseData.setDescription(workPhase.getDescription());
-				updateWorkPhaseData.setSequence(workPhase.getSequence());
-				updateWorkPhaseData.setDependencyToStart(workPhase.getDependencyToStart());
-				updateWorkPhaseData.setWeightage(workPhase.getWeightage());
-				updateWorkPhaseData.setStatus(workPhase.getStatus());
-				updateWorkPhaseData.setPlannedStartDate(workPhase.getPlannedStartDate());
-				updateWorkPhaseData.setTargetCompletionDate(workPhase.getTargetCompletionDate());				
-				updateWorkPhaseData.setCommenceDate(workPhase.getCommenceDate());
-				updateWorkPhaseData.setCompletionDate(workPhase.getCompletionDate());
-				
-				workPhaseRepository.save(updateWorkPhaseData);
-			} else {
-				 workPhaseRepository.save(workPhasesData);
-			}
-			
-		} 
-		
-		
-	}
-*/
 
 }

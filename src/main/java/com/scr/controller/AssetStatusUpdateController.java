@@ -205,14 +205,14 @@ public class AssetStatusUpdateController {
 		return ResponseEntity.ok((amd));
 	}
 	
-	@RequestMapping(value = "/ExistsByAssetTypeAndAssetIdAndFacilityId/{assetType}/{assetId}/{facilityId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean ExistsByAssetTypeAndAssetIdAndFacilityId(@PathVariable("assetType") String assetType ,@PathVariable("assetId") String assetId,@PathVariable("facilityId") String facilityId){
-			logger.info("Exist====="+assetType+"assetId"+assetId+"facilityID=="+facilityId);
+	@RequestMapping(value = "/ExistsByAssetId/{assetId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean ExistsByAssetId(@PathVariable("assetId") String assetId){
+			logger.info("Exist=====assetId"+assetId);
 		try {
-            logger.info("Request for checking exists assetType and assetId and facilityID...");
-			return assetStatusService.existsByAssetTypeAndAssetIdAndFacilityId(assetType,assetId,facilityId);
+            logger.info("Request for checking exists  assetId ...");
+			return assetStatusService.existsByAssetId(assetId);
 		} catch (Exception e) {
-			logger.error("Error while  checking exists assetType and assetId and facilityID...."+e.getMessage());
+			logger.error("Error while  checking exists  assetId ...."+e.getMessage());
 			return false;
 		}
 	}
