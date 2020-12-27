@@ -172,7 +172,7 @@ public class FootPatrollingInspectionService {
 			
 			List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();
 			liContentManagements = commonMapper.prepareForUpdateContentManagementList(file, compliancePath, Constants.COMPLIANCES,
-					"","","","Compliance","","","","","", Integer.parseInt(complianceRequest.getUpdatedBy()), complianceRequest.getAttachment());
+					"","","","Compliance","","","","","", Integer.parseInt(complianceRequest.getUpdatedBy()), complianceRequest.getDocument());
 			
 			Long commonFileId = (long) 0.0;
 			
@@ -182,7 +182,7 @@ public class FootPatrollingInspectionService {
 				commonFileId = liContentManagements.get(0).getCommonFileId();
 			}
 			else {
-				commonFileId = complianceRequest.getAttachment() != null ? Long.parseLong(complianceRequest.getAttachment()) : (long) 0.0;
+				commonFileId = complianceRequest.getDocument() != null ? Long.parseLong(complianceRequest.getDocument()) : (long) 0.0;
 				log.info("find file = "+commonFileId);
 			}
 			

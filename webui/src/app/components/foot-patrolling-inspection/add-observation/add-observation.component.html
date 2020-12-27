@@ -59,7 +59,7 @@
                                                         <div class="col-md-3">
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="{{FiledLabels.OBSERVATION_ITEM}}"
-                                                                    [formControl]="addObservationFormGroup.controls['observationItem']" required>
+                                                                    [formControl]="addObservationFormGroup.controls['observationItem']"  (selectionChange)="getSeverityPriority()" required>
                                                                     <mat-option *ngFor="let observationItem of observationItemData"
                                                                         [value]="observationItem.observationItem">
                                                                         {{ observationItem.observationItem}}
@@ -71,7 +71,7 @@
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="{{FiledLabels.SEVERITY}}"
                                                                     [formControl]="addObservationFormGroup.controls['severity']">
-                                                                    <mat-option *ngFor="let observationItem of observationItemData"
+                                                                    <mat-option *ngFor="let observationItem of severityPriorityData"
                                                                         [value]="observationItem.severity">
                                                                         {{ observationItem.severity}}
                                                                     </mat-option>
@@ -82,7 +82,7 @@
                                                             <mat-form-field fxFlex="30">
                                                                 <mat-select placeholder="{{FiledLabels.PRIORITY}}"
                                                                     [formControl]="addObservationFormGroup.controls['priority']">
-                                                                    <mat-option *ngFor="let observationItem of observationItemData"
+                                                                    <mat-option *ngFor="let observationItem of severityPriorityData"
                                                                         [value]="observationItem.priority">
                                                                         {{ observationItem.priority}}
                                                                     </mat-option>

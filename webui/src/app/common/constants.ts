@@ -77,7 +77,8 @@ export const Constants = {
             GET_TSS_FEEDER_BASED_ON_FEEDER_ID: "/getTssFeederBasedOnFeederId",
             GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
             GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
-            GET_ONLY_WAREHOUSE_DEPOT:"/getWarehouseFacilityNames"
+            GET_ONLY_WAREHOUSE_DEPOT:"/getWarehouseFacilityNames",
+            GET_SEVERITY_PRIORITY_ON_OBSITEM:"/getSeverityPriorityOnObsItem/"
         },        
         MASTERS:{
             ROLE_TYPE:{
@@ -200,6 +201,7 @@ export const Constants = {
             },
             WORK:{
                 GET_WORK:"/findAllWorks",
+                GET_WORK_GROUP:"/findAllWorkGroups",
                 GET_WORK_ID:"/findWork/",
                 SAVE_WORK:"/addWork",
                 UPDATE_WORK:"/updateWork",

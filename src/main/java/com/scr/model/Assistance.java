@@ -38,8 +38,14 @@ public class Assistance {
 	@Column(name="assistance")
 	private String assistance;
 	
+	@Column(name="created_by")
+	private String createdBy;
+	
 	@Column(name="requested_by")
 	private String requestedBy;
+	
+	@Column(name = "updated_by")
+	private String updatedBy;
 	
 	@Temporal(TemporalType.DATE)
 	private Date requestedDate;
@@ -175,13 +181,29 @@ public class Assistance {
 		this.attachment = attachment;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "Assistance [id=" + id + ", workId=" + workId + ", workGroupId=" + workGroupId + ", typeOfAssistance="
-				+ typeOfAssistance + ", assistance=" + assistance + ", requestedBy=" + requestedBy + ", requestedDate="
-				+ requestedDate + ", requestTo=" + requestTo + ", responseBy=" + responseBy + ", responseDate="
-				+ responseDate + ", response=" + response + ", remark=" + remark + ", status=" + status
-				+ ", attachment=" + attachment + "]";
+				+ typeOfAssistance + ", assistance=" + assistance + ", createdBy=" + createdBy + ", requestedBy="
+				+ requestedBy + ", updatedBy=" + updatedBy + ", requestedDate=" + requestedDate + ", requestTo="
+				+ requestTo + ", responseBy=" + responseBy + ", responseDate=" + responseDate + ", response=" + response
+				+ ", remark=" + remark + ", status=" + status + ", attachment=" + attachment + "]";
 	}
 	
 	

@@ -43,6 +43,7 @@ export class AddAssistanceComponent implements OnInit {
   assistanceFormErrors: any;
   workList:any;
   workData:any;
+  usersData:any;
   attachedImages:any;
   toMinDate=new Date();
   today=new Date();
@@ -79,8 +80,9 @@ export class AddAssistanceComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-    console.log("obsId"+this.id)
-    this.createObservationForm();
+    this.getWorkGroup();
+    this.getUserDetails();
+    this.createAssistanceForm();
     if (!isNaN(this.id)) {
       this.addAssistanceFormGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
@@ -129,7 +131,7 @@ export class AddAssistanceComponent implements OnInit {
         status: this.resp.status,
         
       });
-      var commonId = !!this.resp.document && this.resp.document;
+      var commonId = !!this.resp.attachment && this.resp.attachment;
       this.spinnerService.hide();
       this.findAttachedFiles(commonId);
     })
@@ -158,7 +160,7 @@ export class AddAssistanceComponent implements OnInit {
     }
   }
 
-  createObservationForm() {
+  createAssistanceForm() {
     this.addAssistanceFormGroup
       = this.formBuilder.group({
         id: 0,
@@ -171,10 +173,9 @@ export class AddAssistanceComponent implements OnInit {
         'requestTo': [''],
         'responseBy':[''],
         'responseDate': [''],
-        'response': ['',Validators.maxLength(255)],
-        'remark': ['',Validators.maxLength(255)],
-        'status': ['',Validators.maxLength(255)],
-
+        'response': [''],
+        'remark': [''],
+        'status': ['']
       });
   }
   
@@ -200,7 +201,8 @@ export class AddAssistanceComponent implements OnInit {
         response: this.addAssistanceFormGroup.value.response,
         remark: this.addAssistanceFormGroup.value.remark,
         status: this.addAssistanceFormGroup.value.status,
-        
+        "createdBy": this.loggedUserData.id,
+
       }
       let formdata: FormData = new FormData();
       for(var i=0;i<this.selectedFiles.length;i++){
@@ -218,7 +220,7 @@ export class AddAssistanceComponent implements OnInit {
       formdata.append('response', save.response);
       formdata.append('remark', save.remark);
       formdata.append('status', save.status);
-
+      formdata.append('createdBy', save.createdBy);
 
       this.sendAndRequestService.requestForPOST(Constants.app_urls.PROJECT_ADMIN.ASSISTANCE.SAVE_ASSISTANCE,formdata, true).subscribe(response => {
         this.spinnerService.hide();
@@ -250,6 +252,8 @@ export class AddAssistanceComponent implements OnInit {
         remark: this.addAssistanceFormGroup.value.remark,
         status: this.addAssistanceFormGroup.value.status, 
         attachment: this.resp.attachment,
+        "updatedBy": this.loggedUserData.id,
+
       }
       let formdata: FormData = new FormData();
       for(var i=0;i<this.selectedFiles.length;i++){
@@ -269,6 +273,7 @@ export class AddAssistanceComponent implements OnInit {
       formdata.append('remark', update.remark);
       formdata.append('status', update.status);
       formdata.append('attachment',update.attachment);
+      formdata.append('updatedBy', update.updatedBy);
       this.sendAndRequestService.requestForPUT(Constants.app_urls.PROJECT_ADMIN.ASSISTANCE.UPDATE_ASSISTANCE,formdata, true).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;
@@ -328,12 +333,13 @@ export class AddAssistanceComponent implements OnInit {
   });
   }
   getWorkGroup(){
-    var workId = this.addAssistanceFormGroup.value.workId ;
-  this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_GROUPS_BASED_ON_WORK+workId).subscribe((data) => {
+  this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK_GROUP).subscribe((data) => {
              this.workData = data;
-             console.log("workGroupData"+JSON.stringify(data))
-             console.log("workGroupDataLength"+this.workData.length)
-
+        });
+}
+getUserDetails(){
+  this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_ALLUSERS).subscribe((data) => {
+             this.usersData = data;
         });
 }
 }

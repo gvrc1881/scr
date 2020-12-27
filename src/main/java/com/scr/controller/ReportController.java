@@ -584,5 +584,11 @@ public class ReportController {
 		log.info("** preparing response and getStandardPhasesOnWorkType function end ***");
 			return new ResponseEntity<List<StandardPhases>>(standardPhases, HttpStatus.OK);		
 	}
-	
+	@RequestMapping(value = "/getSeverityPriorityOnObsItem/{observationItem}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<ObservationsCheckList>> getSeverityPriorityOnObsItem(@PathVariable("observationItem") String observationItem){
+		log.info("** Enter into getSeverityPriorityOnObsItem functions ***");
+		List<ObservationsCheckList> obsCheckList= reportService.getSeverityPriorityOnObsItem(observationItem);
+		log.info("** preparing response and getStandardPhasesOnWorkType function end ***");
+			return new ResponseEntity<List<ObservationsCheckList>>(obsCheckList, HttpStatus.OK);		
+	}
 }

@@ -31,6 +31,7 @@ static Logger logger = LogManager.getLogger(AssistanceMapper.class);
 			assistance.setResponse(request.getResponse());
 			assistance.setRemark(request.getRemark());
 			assistance.setStatus(request.getStatus());
+			assistance.setCreatedBy(request.getCreatedBy());
 			assistance.setAttachment(String.valueOf(commonFileId));
 		}
 		return assistance;
@@ -50,6 +51,7 @@ static Logger logger = LogManager.getLogger(AssistanceMapper.class);
 			assistance.setResponse(request.getResponse());
 			assistance.setRemark(request.getRemark());
 			assistance.setStatus(request.getStatus());
+			assistance.setUpdatedBy(request.getUpdatedBy());			
 			assistance.setAttachment(String.valueOf(commonFileId));
 		}
 		return assistance;

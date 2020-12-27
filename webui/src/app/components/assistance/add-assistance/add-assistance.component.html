@@ -36,7 +36,7 @@
                                                 
                                                 	<div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
-                                                            <mat-select  placeholder="Project" [formControl]="addAssistanceFormGroup.controls['workId']" (selectionChange)="getWorkGroup()"  required>
+                                                            <mat-select  placeholder="Project" [formControl]="addAssistanceFormGroup.controls['workId']"  required>
                                                                 <mat-option *ngFor="let works of workList"
                                                                     [value]="works.id">
                                                                     {{ works.workName }}
@@ -84,10 +84,16 @@
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Request To" [formControl]="addAssistanceFormGroup.controls['requestTo']" ></textarea>
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="Request To" 
+                                                                [formControl]="addAssistanceFormGroup.controls['requestTo']" required>
+                                                                <mat-option *ngFor="let usersData of usersData"
+                                                                    [value]="usersData.username" > 
+                                                                {{ usersData.username }}-{{usersData.designation}}
+                                                                </mat-option>
+                                                            </mat-select>                                                       
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> 
 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">

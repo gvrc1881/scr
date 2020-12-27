@@ -466,4 +466,9 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 			
 			return standardPhasesRepository.findByTypeOfWork(typeOfWork);
 		}
+	
+	public List<ObservationsCheckList> getSeverityPriorityOnObsItem(String observationItem) {
+		
+		return observationCheckListRepository.findByObservationItem(observationItem);
+	}
 }

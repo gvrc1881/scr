@@ -20,7 +20,9 @@ public class AssistanceRequest {
 	private String remark;
 	private String status;
 	private String attachment;
-	
+	private String createdBy;
+	private String updatedBy;
+
 	
 	public Long getId() {
 		return id;
@@ -105,6 +107,18 @@ public class AssistanceRequest {
 	}
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 	
 	

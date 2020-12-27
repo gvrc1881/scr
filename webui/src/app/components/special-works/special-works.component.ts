@@ -81,12 +81,8 @@ export class SpecialWorksComponent implements OnInit {
       for (let i = 0; i < this.specialWorksList.length; i++) {
         this.specialWorksList[i].sno = i + 1;
         this.specialWorksList[i].dateOfWork = this.datePipe.transform(this.specialWorksList[i].dateOfWork, 'dd-MM-yyyy');
-                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.specialWorksList[i].facilityId)).subscribe((data) => {
-                  this.spinnerService.hide();
-                  this.facilityData = data;
-                  this.specialWorksList[i].facilityId = this.facilityData.facilityName;
-                });
-                specialWorks.push(this.specialWorksList[i]);
+        this.specialWorksList[i].facilityId = this.specialWorksList[i].facilityId;
+        specialWorks.push(this.specialWorksList[i]);
       }
       this.filterData.gridData = specialWorks;
       this.dataSource = new MatTableDataSource(specialWorks);

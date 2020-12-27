@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder,FormGroup } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDatepickerInputEvent, MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
+import { MatDialogRef, MatDialog,DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import { Constants } from 'src/app/common/constants';
 import { FuseConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -124,7 +124,7 @@ getObservationDetails(obsId:any){
           compliedDateTime:new Date(this.resp.compliedDateTime), 
           
         });
-        var commonId = !!this.resp.attachment && this.resp.document;
+        var commonId = !!this.resp.document && this.resp.document;
         this.spinnerService.hide();
         this.findAttachedFiles(commonId);
       })

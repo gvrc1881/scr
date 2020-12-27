@@ -15,5 +15,8 @@ public interface ObservationCheckListRepository extends JpaRepository<Observatio
 
 	List<ObservationsCheckList> findByLastUpdatedStampLessThanEqualAndLastUpdatedStampGreaterThan(
 			Timestamp currenTimestamp, Timestamp previousTimestamp);
+	
+	List<ObservationsCheckList> findByObservationItem(String observationItem);
+
 
 }

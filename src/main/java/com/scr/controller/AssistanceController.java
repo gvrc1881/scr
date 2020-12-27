@@ -76,7 +76,8 @@ public class AssistanceController {
 				@RequestParam("responseDate") Date responseDate,
 				@RequestParam("response") String response,
 				@RequestParam("remark") String remark,
-				@RequestParam("status") String status
+				@RequestParam("status") String status,
+				@RequestParam("createdBy") String createdBy
 
 				) {
 			try {
@@ -94,8 +95,7 @@ public class AssistanceController {
 				assistanceRequest.setResponse(response);
 				assistanceRequest.setRemark(remark);
 				assistanceRequest.setStatus(status);
-				
-
+				assistanceRequest.setCreatedBy(createdBy);
 				assistanceService.saveAssistance(assistanceRequest, file);
 				return Helper.findResponseStatus("Assistance Data Added Successfully", Constants.SUCCESS_CODE);
 			}catch (Exception e) {
@@ -122,6 +122,7 @@ public class AssistanceController {
 				@RequestParam("response") String response,
 				@RequestParam("remark") String remark,
 				@RequestParam("status") String status,
+				@RequestParam("updatedBy") String updatedBy,
 				@RequestParam("attachment") String attachment) {
 			try {
 				logger.info("Update Assistance");
@@ -139,6 +140,7 @@ public class AssistanceController {
 				assistanceRequest.setResponse(response);
 				assistanceRequest.setRemark(remark);
 				assistanceRequest.setStatus(status);
+				assistanceRequest.setUpdatedBy(updatedBy);
 				assistanceRequest.setAttachment(attachment);
 				logger.info("calling update assistance");
 				String assistanceStatus = assistanceService.updateAssistanceData(assistanceRequest, file);

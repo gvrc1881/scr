@@ -13,5 +13,6 @@ export interface AssistanceModel {
     response: string;
     remark:string;
     status: string;
-    
+    attachment: String;
+
 }

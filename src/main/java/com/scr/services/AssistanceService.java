@@ -50,7 +50,7 @@ public class AssistanceService {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 		
 		liContentManagements = commonMapper.prepareContentManagementList(file, assistancePath, Constants.ASSISTANCE,
-				"","","","Assistance","","","","","", Integer.parseInt(assistanceRequest.getRequestedBy()));
+				"","","","Assistance","","","","","", Integer.parseInt(assistanceRequest.getCreatedBy()));
 		
 		if(liContentManagements != null && !liContentManagements.isEmpty()) {
 			contentManagementRepository.saveAll(liContentManagements);
@@ -68,7 +68,7 @@ public class AssistanceService {
 	public String updateAssistanceData(@Valid AssistanceRequest assistanceRequest, List<MultipartFile> file) {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();
 		liContentManagements = commonMapper.prepareForUpdateContentManagementList(file, assistancePath, Constants.ASSISTANCE,
-				"","","","Assistance","","","","","", Integer.parseInt(assistanceRequest.getResponseBy()), assistanceRequest.getAttachment());
+				"","","","Assistance","","","","","", Integer.parseInt(assistanceRequest.getUpdatedBy()), assistanceRequest.getAttachment());
 		
 		Long commonFileId = (long) 0.0;
 		if(liContentManagements!=null && !liContentManagements.isEmpty()) {
@@ -104,5 +104,5 @@ public class AssistanceService {
 		// TODO Auto-generated method stub
 		assistanceRepository.deleteById(id);
 	}
-
+	
 }

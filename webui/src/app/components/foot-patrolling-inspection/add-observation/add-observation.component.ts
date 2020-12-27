@@ -42,6 +42,7 @@ export class AddObservationComponent implements OnInit {
   attachedImages:any;
   observationCategoryData:any;
   observationItemData:any;
+  severityPriorityData:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   observations: ObservationModel[] = [];
 
@@ -107,6 +108,12 @@ export class AddObservationComponent implements OnInit {
                  this.observationItemData = data;
         		});
     }
+    getSeverityPriority(){
+      var observationItem = this.addObservationFormGroup.value.observationItem ;
+    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SEVERITY_PRIORITY_ON_OBSITEM + observationItem).subscribe((data) => {
+                 this.severityPriorityData = data;
+        		});
+    }
     getInspectionDetails(insId:any){
       this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + insId).subscribe((data) => {
         this.inspList = data;
@@ -120,12 +127,14 @@ export class AddObservationComponent implements OnInit {
   getObservationDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_ID+id).subscribe((resp) => {
         this.resp = resp;
+        console.log("resp"+JSON.stringify(this.resp))
         if(this.resp.observationCategory) {
           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBSERVATION_CHECK_LIST_BASED_ON_OBSCATE +this.resp.observationCategory).subscribe(response => {
              this.spinnerService.hide();
              this.observationItemData = response;
            })
        }
+       
         this.insId = this.resp.inspectionSeqId;
         console.log("this.insIdEdit"+this.insId);
         this.getInspectionDetails(this.insId);
@@ -142,7 +151,7 @@ export class AddObservationComponent implements OnInit {
         this.spinnerService.hide();
         this.findAttachedFiles(commonId);
       })
-     
+     console.log("severityResp"+this.resp.severity)
   }
 
   findAttachedFiles(commonId){
