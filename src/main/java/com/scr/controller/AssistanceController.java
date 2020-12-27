@@ -63,7 +63,7 @@ public class AssistanceController {
 	//Add Assistance
 		@PostMapping(value="/addAssistance",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 		@ResponseBody
-		public ResponseStatus addObservation(
+		public ResponseStatus addAssistance(
 				@RequestParam("file") List<MultipartFile> file, 
 				@RequestParam("workId") Works workId,
 				@RequestParam("workGroupId") WorkGroup workGroupId,
