@@ -18,12 +18,25 @@ public interface AssetStatusUpdateRepository extends JpaRepository<AssetStatusUp
 	List<AssetStatusUpdate> findAll();
 	
 	
-	Optional<AssetStatusUpdate> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,
-			String facilityId);
-	
-	@Query(value = "SELECT case when count(asu)> 0 then true else false  end  FROM AssetStatusUpdate asu WHERE  asu.assetId = :assetId ")
+	/*Optional<AssetStatusUpdate> findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId,
+			String facilityId);*/
 
-	Boolean existsByAssetId(@Param("assetId") String assetId);
+
+
+	Optional<AssetStatusUpdate> getByAssetId(String assetId);
+
+	@Query(value = "SELECT max(dateOfStatus)  FROM AssetStatusUpdate asu ")
+	Timestamp findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId, String facilityId);
+
+
+	Optional<AssetStatusUpdate> findByAssetTypeAndAssetIdAndFacilityIdAndDateOfStatus(String assetType, String assetId,
+			String facilityId, Timestamp astu);
+
+	
+	List<AssetStatusUpdate> findByAssetIdOrderByDateOfStatusDesc(String assetId);
+
+
+	
 
 
 	

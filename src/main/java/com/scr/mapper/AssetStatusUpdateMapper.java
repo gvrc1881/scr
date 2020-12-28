@@ -89,25 +89,38 @@ public class AssetStatusUpdateMapper {
 					}
 			}
 			}	
-			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
+			Timestamp astu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
-			logger.info("*** asset staus records== ***"+asu.toString());
+			logger.info("astuuuu==="+astu.toString());
+		if(astu != null)
+		{
+				logger.info("in for loop==");
+				Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityIdAndDateOfStatus
+				(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId(),astu);
+				logger.info("after asu=="+asu.toString());
+				if(asu.isPresent())
+				{
+					asur.setAsuId(asu.get().getId());
+					asur.setCurrentStatus(asu.get().getCurrentStatus());
+					asur.setDateOfStatus(asu.get().getDateOfStatus());
+					asur.setStatus(asu.get().getStatus());
+					asur.setRemarks(asu.get().getRemarks());
+					asur.setEditPermission(true);
+				
+				}
+				else {
+					asur.setEditPermission(false);
+				}
+		
+				logger.info("*** asset staus records== ***"+asu.toString());
+		}
+			/*Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
+					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());*/
+			
 			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData2.getFacilityId());
 			logger.info("*** before set values ***");
 			
-			if(asu.isPresent())
-			{
-				asur.setAsuId(asu.get().getId());
-				asur.setCurrentStatus(asu.get().getCurrentStatus());
-				asur.setDateOfStatus(asu.get().getDateOfStatus());
-				asur.setStatus(asu.get().getStatus());
-				asur.setRemarks(asu.get().getRemarks());
-				asur.setEditPermission(true);
 			
-			}
-			else {
-				asur.setEditPermission(false);
-			}
 			asur.setAssetType(assetMasterData2.getAssetType());
 			asur.setAssetId(assetMasterData2.getAssetId());
 			asur.setDateOfManufacture(assetMasterData2.getDateOfCommision());
@@ -163,26 +176,36 @@ public class AssetStatusUpdateMapper {
 						}
 				}
 				}
-			Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
+			Timestamp astu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId());
-			//Optional<AssetStatusUpdate> asuMax = assetStatusUpdateRepository.findByDateOfStatus(asu.get().getDateOfStatus());
+			logger.info("astuuuu==="+astu.toString());
+		if(astu != null)
+		{
+				logger.info("in for loop==");
+				Optional<AssetStatusUpdate> asu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityIdAndDateOfStatus
+				(assetMasterData.getAssetType(),assetMasterData.getAssetId(),assetMasterData.getFacilityId(),astu);
+				logger.info("after asu=="+asu.toString());
+				if(asu.isPresent())
+				{
+					asur.setAsuId(asu.get().getId());
+					asur.setCurrentStatus(asu.get().getCurrentStatus());
+					asur.setDateOfStatus(asu.get().getDateOfStatus());
+					asur.setStatus(asu.get().getStatus());
+					asur.setRemarks(asu.get().getRemarks());
+					asur.setEditPermission(true);
+				
+				}
+				else {
+					asur.setEditPermission(false);
+				}
+		
+				logger.info("*** asset staus records== ***"+asu.toString());
+		}
 			
 			Optional<Facility> fac = facilityRepository.findByFacilityId(assetMasterData.getFacilityId());
 			
 			logger.info("*** before set values ***");
-			if(asu.isPresent())
-			{
-				asur.setAsuId(asu.get().getId());
-				asur.setCurrentStatus(asu.get().getCurrentStatus());
-				asur.setDateOfStatus(asu.get().getDateOfStatus());
-				asur.setStatus(asu.get().getStatus());
-				asur.setRemarks(asu.get().getRemarks());
-				asur.setEditPermission(true);
 			
-			}
-			else {
-				asur.setEditPermission(false);
-			}
 			asur.setAssetType(assetMasterData.getAssetType());
 			asur.setAssetId(assetMasterData.getAssetId());
 			asur.setDateOfManufacture(assetMasterData.getDateOfCommision());

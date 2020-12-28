@@ -50,7 +50,7 @@ export class AddCbFailureComponent implements OnInit {
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
-//  depotHierarchy:any = JSON.parse(localStorage.getItem('facilityData'));
+
 
   divisionList:any; 
   facilityList:any;
@@ -284,8 +284,8 @@ export class AddCbFailureComponent implements OnInit {
    
     this.facilityList=[]; 
      if(this.loggedUserData.username == 'tpc_admin'){
-
-      this.enableStation=true;
+console.log("facility in tpc===="+this.facilityHierarchy);
+    //  this.enableStation=true;
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
         if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
@@ -297,13 +297,14 @@ export class AddCbFailureComponent implements OnInit {
      }     
 
     } else {
-      this.enableStation=true;
+      //this.enableStation=true;
+      console.log("facility in else===="+this.facilityHierarchy);
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
         if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
-            //this.facilityHierarchy.facilityList;
+           // this.facilityHierarchy.facilityList;
             
         }
      } 

@@ -31,18 +31,18 @@
 
                                                 <div class="col-md-12">
 
-                                                    <!-- <div class="col-md-3">
+                                               <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.SUB_STATION}}" (ngModelChange)="findEquipments()"
                                                                 [formControl]="addCbFailFromGroup.controls['subStation']" required>
                                                                 <mat-option *ngFor="let depot of facilityList"
-                                                                    [value]="depot.unitId">
-                                                                    {{ depot.unitCode }}
+                                                                    [value]="depot.facilityId">
+                                                                    {{ depot.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div> -->
-                                                    <div *ngIf ="enableStation">
+                                                     <div *ngIf ="enableStation">
                                                     </div>
                                                     <div *ngIf="!enableStation; else StationElseBlock">
                                                         <div class="col-md-3">
@@ -69,7 +69,7 @@
                                                                 </mat-select>                                                            
                                                             </mat-form-field>
                                                         </div>
-                                                    </ng-template>
+                                                    </ng-template> 
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.EQUIPMENT}}"

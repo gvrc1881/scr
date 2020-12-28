@@ -29,6 +29,7 @@ import com.scr.model.Drives;
 import com.scr.model.Facility;
 import com.scr.model.TssFeederMaster;
 import com.scr.model.WorkPhases;
+import com.scr.model.Works;
 import com.scr.repository.FacilityRepository;
 import com.scr.services.AssetMasterDataService;
 import com.scr.services.AssetStatusUpdateService;
@@ -194,6 +195,10 @@ public class AssetStatusUpdateController {
 				logger.info("*** in 2nd else if condtion ");
 				amd = assetMasterDataService.getByFacilityId(facilityId);
 			}
+			else if (facilityId != null) {
+				logger.info("*** in 2nd else if condtion ");
+				amd = assetMasterDataService.getByFacilityId(facilityId);
+			}
 			//logger.info("*** size **8"+amd.size());
 
 		} catch (NullPointerException e) {
@@ -205,16 +210,21 @@ public class AssetStatusUpdateController {
 		return ResponseEntity.ok((amd));
 	}
 	
-	@RequestMapping(value = "/ExistsByAssetId/{assetId}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean ExistsByAssetId(@PathVariable("assetId") String assetId){
-			logger.info("Exist=====assetId"+assetId);
+
+	@RequestMapping(value = "/getByAssetId/{assetId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<AssetStatusUpdate> getByAssetId(@PathVariable("assetId") String assetId){
+		logger.info("Enter into findworkPhasesBasedOnWorkId function ");
+		List<AssetStatusUpdate> assetStatusUpdate = null;
 		try {
-            logger.info("Request for checking exists  assetId ...");
-			return assetStatusService.existsByAssetId(assetId);
+			assetStatusUpdate = assetStatusService.findByAssetId(assetId);
+			
+			return assetStatusUpdate;
 		} catch (Exception e) {
-			logger.error("Error while  checking exists  assetId ...."+e.getMessage());
-			return false;
+			logger.error("Error >>  whilefind AssetStatus Details by assetId, "+e.getMessage());
 		}
+		return assetStatusUpdate;
 	}
+	
+	
 
 }

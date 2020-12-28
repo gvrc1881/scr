@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NumberValidationsModule } from 'src/app/modules/number-validations.module';
 import { DecimalValidationsModule } from 'src/app/modules/decimal-validations.module';
 import { CommonDirectivesModule } from 'src/app/modules/common-directives.module';
+import { AssetStatusDialogComponent } from 'src/app/components/asset-status-change/asset-status-history/asset-status-history.component';
 
 
 
@@ -27,7 +28,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         AssetStatusChangeComponent,
-
+        AssetStatusDialogComponent
         
        
     ],
@@ -48,6 +49,7 @@ const routes: Routes = [
     exports:[
         AssetStatusChangeComponent
     ],
+    entryComponents: [ AssetStatusDialogComponent ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AssetStatusChangeModule {

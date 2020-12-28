@@ -12,6 +12,7 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, Dat
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { DatePipe } from '@angular/common';
 import { Location } from '@angular/common';
+import { AssetStatusDialogComponent } from 'src/app/components/asset-status-change/asset-status-history/asset-status-history.component';
 
 @Component({
   selector: 'app-asset-status-change',
@@ -62,6 +63,7 @@ export class AssetStatusChangeComponent implements OnInit {
     divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
     subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));
     depotHierarchy:any = JSON.parse(localStorage.getItem('depotData'));
+    loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
     divisionList: any;
     subDivisionList: any;
     depotList :any;
@@ -73,6 +75,13 @@ export class AssetStatusChangeComponent implements OnInit {
     updateStatusChangeFormGroup:FormGroup;
     enableButton:any;
     facility:any;
+    userDefaultData:any;
+    division:any;
+    subDivision:any;
+    depots:any;
+    enableDivision :boolean;
+    enableSubDivision :boolean;
+    enableDepot: boolean;
 
     constructor(
       public dialog: MatDialog,
@@ -88,7 +97,7 @@ export class AssetStatusChangeComponent implements OnInit {
   }
   
   ngOnInit() {
-   
+  
     this.getAllData();     
       this.findDivision();
       this.findChangeStatus();    
@@ -97,12 +106,38 @@ export class AssetStatusChangeComponent implements OnInit {
         'subDiv': [null]  ,
         'facilityId':[null]   
     });
+    // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
+    //   this.userDefaultData = data;
+    //   if (this.userDefaultData.division) {
+    //     this.division = this.userDefaultData.division.toUpperCase();
+       
+    //   }
+    //   if (this.userDefaultData.subDivision) {        
+    //     this.subDivision = this.userDefaultData.subDivision.toUpperCase();
+    //   //  this.subDivisionList(this.userDefaultData.division);
+    //   }
+    //   if (this.userDefaultData.depot) {
+    //     this.depots = this.userDefaultData.subDivision.toUpperCase();
+    //      // this.depotList(this.userDefaultData.subDivision);
+    //   }
+    // },
+    //   error => error => {
+    //     console.log(' >>> ERROR ' + error);
+    //   });
 
   
      
   }
 
   findDivision(){
+
+    if(!this.enableDivision){
+
+      this.enableDepot = true;
+      this.enableDivision=false;
+      this.enableSubDivision = false; 
+      this.findFacility();
+    }
     this.divisionList=[];    
 
     for (let i = 0; i < this.divisionHierarchy.length; i++) {
@@ -110,9 +145,8 @@ export class AssetStatusChangeComponent implements OnInit {
         
            if( this.divisionHierarchy[i].depotType == 'DIV'){
            
-              // this.divisionList.push(this.divisionHierarchy[i]);
               this.divisionHierarchy.divisionList;
-              
+              this.enableDivision = true;
            }
         }
 
@@ -129,7 +163,7 @@ export class AssetStatusChangeComponent implements OnInit {
            if(this.subDivisionHierarchy[i].division == division && this.subDivisionHierarchy[i].depotType == 'SUB_DIV'){
            
                this.subDivisionList.push(this.subDivisionHierarchy[i]);           
-              
+               this.enableSubDivision = true;
                
            }
         }
@@ -148,10 +182,25 @@ export class AssetStatusChangeComponent implements OnInit {
            
                this.depotList.push(this.depotHierarchy[i]);
                //this.depotHierarchy.depotList;
+               this.enableDepot = true;
                
            }
         }
 
+  }
+
+  findFacility(){
+    this.depotList=[];  
+    for (let i = 0; i < this.depotHierarchy.length; i++) {
+        
+      if( this.depotHierarchy[i].depotType == 'OHE' ){
+      
+          this.depotList.push(this.depotHierarchy[i]);
+          //this.depotHierarchy.depotList;
+          this.enableDepot = true;
+          
+      }
+   }
   }
 
   findChangeStatus(){
@@ -204,7 +253,7 @@ export class AssetStatusChangeComponent implements OnInit {
      this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.
       GET_TOWERCARS_BASEDON_DIVISION+division+'/'+subDivision+'/'+facilityId).subscribe((data) => {
              this.AssetStatusList = data;
-          console.log("asset status respone=="+JSON.stringify(this.AssetStatusList));
+        
             if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
                 this.AssetStatusList[i].sno = i + 1;
@@ -251,7 +300,7 @@ export class AssetStatusChangeComponent implements OnInit {
       this.resp = response;
    
       if (this.resp.code == Constants.CODES.SUCCESS) {
-        this.commonService.showAlertMessage("TW Status Data Updated Successfully");
+        this.commonService.showAlertMessage("TW Status Data Added Successfully");
         this.searchInputFormGroup.reset();
         this.dataSource=new MatTableDataSource();
         this.getAllData();
@@ -259,12 +308,12 @@ export class AssetStatusChangeComponent implements OnInit {
         this.addPermission=true;
         //this.router.navigate(['../'], { relativeTo: this.route });
       } else {
-        this.commonService.showAlertMessage("TW Status Updating Failed.");
+        this.commonService.showAlertMessage("TW Status Added Failed.");
       }
     }, error => {
       console.log('ERROR >>>');
       this.spinnerService.hide();
-      this.commonService.showAlertMessage("TW Status Updating Failed.");
+      this.commonService.showAlertMessage("TW Status Added Failed.");
     });
    
   }
@@ -272,7 +321,7 @@ export class AssetStatusChangeComponent implements OnInit {
     
   
                   var updatestatus={
-                    id:this.editStatusResponse.id,
+                   // id:this.editStatusResponse.id,
                     assetType:this.updateStatusChangeFormGroup.value.assetType,
                     assetId:this.updateStatusChangeFormGroup.value.assetId,
                     facilityId:this.updateStatusChangeFormGroup.value.facilityId,                  
@@ -390,6 +439,27 @@ export class AssetStatusChangeComponent implements OnInit {
     });
 }
 
+history(){
+  
+  this.dialog.open(AssetStatusDialogComponent, {
+    height: '600px',
+    width: '80%', 
+    data:this.editStatusResponse.assetId,
+    
+  });
+
+}
+
+twHistory(row){
+  
+  this.dialog.open(AssetStatusDialogComponent, {
+    height: '600px',
+    width: '80%', 
+    data:row.assetId,
+    
+  });
+
+}
   
   
   }

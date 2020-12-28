@@ -53,11 +53,15 @@ public class AssetStatusUpdateService {
 		// TODO Auto-generated method stub
 		assetStatusRepository.deleteById(id);
 	}
-	
-	public Boolean existsByAssetId(String assetId) {
+
+	public List<AssetStatusUpdate> findByAssetId(String assetId) {
 		// TODO Auto-generated method stub
-		return assetStatusRepository.existsByAssetId(assetId);
-	}
+		return assetStatusRepository.findByAssetIdOrderByDateOfStatusDesc(assetId);
+	}		
+
+
+
+	
 
 	
 
