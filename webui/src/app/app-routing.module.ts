@@ -545,6 +545,11 @@ const routes: Routes = [
     loadChildren: './components/asset-status-change/asset-status-change.module#AssetStatusChangeModule',
      canActivate: [AuthGuard]
    },
+   {
+    path: 'asset-schedule-progress',
+    loadChildren: './components/drives/drive-daily-progress/drive-daily-progress.module#DriveDailyProgressModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

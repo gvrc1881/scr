@@ -7,14 +7,14 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
                         <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Drive Daily Progress</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{breadCrumb}}</li>
                     </ol>
                 </nav>
             </div>
             <div class="clear"> </div>
             <div class="row-fluid">
             	 <div class="panel panel-primary">
-                    <div class="panel-heading">Drive Daily Progress Information</div>
+                    <div class="panel-heading">{{titleName}}</div>
                     <div class="panel-body">
                     	<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
@@ -24,7 +24,8 @@
                                 	<mat-form-field>
                                     	<input matInput [matDatepicker]="picker1"
                                         	placeholder="{{FiledLabels.FROM_DATE}}"
-                                            [formControl]="searchInputFormGroup.controls['fromDate']" >
+                                        	[max] = "maxDate"
+                                            [formControl]="searchInputFormGroup.controls['fromDate']" required>
                                         	<mat-datepicker-toggle matSuffix [for]="picker1">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>                                                           
@@ -32,7 +33,7 @@
                                 </div>
                                 <div class="col-md-3">
                                 	<mat-form-field fxFlex="30" class="example-full-width">
-                                    	<mat-select placeholder="{{FiledLabels.DEPOT}}" [formControl]="searchInputFormGroup.controls['facilityId']" >
+                                    	<mat-select placeholder="{{FiledLabels.DEPOT}}" [formControl]="searchInputFormGroup.controls['facilityId']" required>
                                         	<mat-option *ngFor="let depot of depotsList"
                                             	[value]="depot.facilityId">
                                                 	{{ depot.facilityName }}
@@ -95,7 +96,7 @@
 												    </mat-form-field> -->
 	                                            </mat-cell>
 	                                        </ng-container>
-	                                        
+											<div *ngIf="requestType != 'Schedule Progress' ">
 	                                        <ng-container matColumnDef="assetType">
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ASSET_TYPE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row">
@@ -106,7 +107,7 @@
 												    </mat-form-field> -->
 	                                            </mat-cell>
 	                                        </ng-container>
-	                                        
+	                                        </div>
 	                                        <ng-container matColumnDef="alreadyDone" >
 	                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ALREADY_DONE}}</mat-header-cell>
 	                                            <mat-cell *matCellDef="let row"> 
@@ -119,7 +120,7 @@
 	                                        </ng-container>
 	                                        
 	                                        <ng-container matColumnDef="performedCount">
-	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>Performed Count</mat-header-cell>
+	                                        	<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.PERFORMED_COUNT}}</mat-header-cell>
 	                                        	<ng-container *matCellDef="let row" >
 	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else idReqElseBlock">
 	                                        		<mat-form-field fxFlex="30">

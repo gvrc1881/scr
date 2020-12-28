@@ -1035,7 +1035,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission:true,
        // permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
-          || path.includes("officers-movement") || path.includes("powerBlocks") || path.includes("asset-status-change") || path.includes("Special-works") ? "open" : "",
+          || path.includes("officers-movement") || path.includes("powerBlocks") || path.includes("asset-status-change") || path.includes("Special-works") || path.includes("asset-schedule-progress")? "open" : "",
         subMenus: [
           {
             subMenuName: "Daily Summary",
@@ -1088,6 +1088,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Asset Schedule Progress",
+            subMenuURL:  "asset-schedule-progress",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Asset Schedule Progress', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("asset-schedule-progress") ? "active-item" : "",
           },
         ]
       },

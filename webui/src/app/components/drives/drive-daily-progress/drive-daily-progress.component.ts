@@ -40,7 +40,7 @@ export class DriveDailyProgressComponent implements OnInit {
     dailyProgressDate: any;
     depotType: any;
     dataSource: MatTableDataSource<DriveModel>;
-    displayedColumns = ['sno', 'drive','description','assetType','alreadyDone','performedCount','ids', 'actions']; //,'depot'
+    displayedColumns : any;
     searchInputFormGroup: FormGroup;
     depotTypeList = [];
     drivesList: any;
@@ -51,6 +51,10 @@ export class DriveDailyProgressComponent implements OnInit {
     facilityId: any;
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     driveDailyProgressDialogRef:MatDialogRef<ViewDriveDailyProgressComponent>;
+    requestType: string;
+    titleName: any;
+    breadCrumb: any;
+    maxDate = new Date();
     
     constructor (
         private spinnerService: Ng4LoadingSpinnerService,
@@ -65,6 +69,23 @@ export class DriveDailyProgressComponent implements OnInit {
     ngOnInit () {
         
        // console.log('in ng oninit function'+JSON.stringify(this.depotTypeList));
+        if(this.router.url == "/asset-schedule-progress") {
+            this.requestType = "Schedule Progress";
+            this.titleName = "Asset Schedule Progress Information";
+            this.FiledLabels.DRIVE  = "Asset type & Sch Code"
+            this.FiledLabels.PERFORMED_COUNT = "Schedule Performed";
+            this.breadCrumb = "Asset Schedule Progress";
+            this.FiledLabels.FROM_DATE = "Sch Date";
+            this.displayedColumns = ['sno', 'drive','description','alreadyDone','performedCount','ids', 'actions'];  
+        }else {
+            this.requestType = "Daily Progress";
+            this.titleName = "Drive Daily Progress Information";
+            this.breadCrumb = "Drive Daily Progress";
+            this.FiledLabels.DRIVE = "Drive";
+            this.FiledLabels.PERFORMED_COUNT = "Performed Count"
+            this.FiledLabels.FROM_DATE = "Date";
+            this.displayedColumns = ['sno', 'drive','description','assetType','alreadyDone','performedCount','ids', 'actions'];    
+        }
         this.searchInputFormGroup = this.formBuilder.group({
             'fromDate': [null],
             'depotType' : [null],
@@ -128,13 +149,13 @@ export class DriveDailyProgressComponent implements OnInit {
         const drivesData: DriveModel [] = [];
         this.dataSource = new MatTableDataSource(drivesData);
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT
-        +this.searchInputFormGroup.controls['fromDate'].value +'/' + this.searchInputFormGroup.controls['facilityId'].value
+        +this.searchInputFormGroup.controls['fromDate'].value +'/' + this.searchInputFormGroup.controls['facilityId'].value +'/'+this.requestType
             ).subscribe((data) => {
                 this.drivesList = data;
           for (let i = 0; i < this.drivesList.length; i++) {
             this.drivesList[i].sno = i + 1;
             this.drivesList[i].drive = this.drivesList[i];
-             this.drivesList[i].performedCount;
+             /*
               this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_BASED_ON_DRIVE_FROM_DATE
               +this.drivesList[i].id+'/'+this.searchInputFormGroup.controls['fromDate'].value
                   ).subscribe((data) =>{
@@ -145,9 +166,10 @@ export class DriveDailyProgressComponent implements OnInit {
                           });
                       this.DDProgress = data;
                       if(this.DDProgress != null) {
+                           this.drivesList[i].performedCount = this.DDProgress.performedCount;
                           this.drivesList[i].facilityId = this.DDProgress.depot;
                           }
-                      });
+                      }); */
           //  this.driveTargetList[i].driveId = this.driveTargetList[i].driveId['name'];
             drivesData.push(this.drivesList[i]);
           }

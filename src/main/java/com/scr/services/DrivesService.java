@@ -21,6 +21,7 @@ import com.scr.mapper.DriveMapper;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.DriveTargetResponse;
+import com.scr.message.response.DrivesResponse;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
@@ -672,12 +673,74 @@ public class DrivesService {
 		return driveRepository.findByFromDateAndDepotType(fromDate,depotType);
 	}
 
-	public List<Drives> getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
-			Date fromDate,Date toDate, String depotType ) {
-		// TODO Auto-generated method stub
+	public List<DrivesResponse> getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+			Date fromDate,Date toDate, String depotType, String requestType, String driveCategoryName ) {
 		logger.info("** depot type***"+depotType);
+		List<Drives> drivesList = null;
+		List<DrivesResponse> drivesResponseList = new ArrayList<>();
 		Optional<FunctionalLocationTypes> functionalLocationType = functionalLocationTypesRepository.findByCode(depotType);
-		return driveRepository.findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
+		Optional<DriveCategory> driveCategory = driveCategoryRepository.findByDriveCategoryName(driveCategoryName);
+		if ("Schedule Progress".equals(requestType)) {
+			if (driveCategory.isPresent()) {
+				List<DriveCategoryAsso> driveCategoryAssos = driveCategoryAssoRepository.findByDriveCategoryId(driveCategory.get());
+				List<Long> drives =  new ArrayList<>();
+				for (DriveCategoryAsso driveCategoryAsso : driveCategoryAssos) {
+					drives.add(driveCategoryAsso.getDriveId().getId());
+				}
+				drivesList = driveRepository.findByIdInAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(drives,functionalLocationType.get(),fromDate,toDate);
+			}
+		}else {
+			if (driveCategory.isPresent()) {
+				List<DriveCategoryAsso> driveCategoryAssos = driveCategoryAssoRepository.findByDriveCategoryId(driveCategory.get());
+				List<Long> drives =  new ArrayList<>();
+				for (DriveCategoryAsso driveCategoryAsso : driveCategoryAssos) {
+					drives.add(driveCategoryAsso.getDriveId().getId());
+				}
+				drivesList = driveRepository.findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndIdNotIn(functionalLocationType.get(),fromDate,toDate,drives);
+			} else 
+			drivesList = driveRepository.findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),fromDate,toDate);
+			logger.info("** in else condition size ***"+drivesList.size());
+		}
+		if (drivesList != null) {
+			for (Drives drives : drivesList) {
+				DrivesResponse driveResponse = new DrivesResponse();
+				Optional<DriveDailyProgress> DDProgress = this.findByDriveIdAndPerformedDate(drives,fromDate);
+				if (DDProgress.isPresent()) {
+					driveResponse.setPerformedCount(DDProgress.get().getPerformedCount());
+					driveResponse.setFacilityId(DDProgress.get().getDepot());
+				}else
+					driveResponse.setPerformedCount(0);
+				List<DriveDailyProgress> alreadyDDProgressList = this.findByDriveIdAndPerformedDateLessThan(drives,fromDate);
+				double alreadyDoneCount = 0;
+				for (DriveDailyProgress driveDailyProgress : alreadyDDProgressList) {
+					alreadyDoneCount = alreadyDoneCount+driveDailyProgress.getPerformedCount();
+				}
+				driveResponse.setAlreadyDone(alreadyDoneCount);
+				driveResponse.setName(drives.getName());
+				driveResponse.setId(drives.getId());
+				driveResponse.setActive(drives.getActive());
+				driveResponse.setAssetDescription(drives.getAssetDescription());
+				driveResponse.setAssetType(drives.getAssetType());
+				driveResponse.setChecklist(drives.getChecklist());
+				driveResponse.setCreatedBy(drives.getCreatedBy());
+				driveResponse.setCreatedOn(drives.getCreatedOn());
+				driveResponse.setCriteria(drives.getCriteria());
+				driveResponse.setDepotType(drives.getDepotType());
+				driveResponse.setDescription(drives.getDescription());
+				driveResponse.setFromDate(drives.getFromDate());
+				driveResponse.setToDate(drives.getToDate());
+				driveResponse.setFunctionalUnit(drives.getFunctionalUnit());
+				driveResponse.setIsIdRequired(drives.getIsIdRequired());
+				driveResponse.setStatusId(drives.getStatusId());
+				driveResponse.setTarget_qty(drives.getTarget_qty());
+				driveResponse.setUpdatedBy(drives.getUpdatedBy());
+				driveResponse.setUpdatedOn(drives.getUpdatedOn());
+				driveResponse.setFrequency(drives.getFrequency());
+				drivesResponseList.add(driveResponse);
+			}
+		}
+		
+		return drivesResponseList;
 	}
 
 	public DriveDailyProgress saveDriveDailyProgressRecord(@Valid DriveRequest driveDailyProgressRequest) {
@@ -883,6 +946,10 @@ public void saveTargets(List<DriveTarget> driveTarget) {
 
 public List<DriveCategoryAsso> findByDriveCategoryIdAndStatusId(DriveCategory driveCategory, int activeStatusId) {
 	return driveCategoryAssoRepository.findByDriveCategoryIdAndStatusId(driveCategory,activeStatusId);
+}
+
+public Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName) {
+	return driveCategoryRepository.findByDriveCategoryName(driveCategoryName);
 }
 
 

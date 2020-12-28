@@ -50,6 +50,12 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
 			FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate);
 
+	List<Drives> findByIdInAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
+			List<Long> drives, FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate);
+
+	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndIdNotIn(
+			FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate, List<Long> drives);
+
 	
 	
 }

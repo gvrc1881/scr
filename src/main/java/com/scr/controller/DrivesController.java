@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
+import com.scr.message.response.DrivesResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
@@ -47,7 +48,6 @@ import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
 import com.scr.model.Stipulations;
-import com.scr.model.WorkPhases;
 import com.scr.repository.ChecklistRepository;
 import com.scr.repository.DriveCategoryAssoRepository;
 import com.scr.repository.DriveProgressRecordRepository;
@@ -1230,17 +1230,23 @@ public class DrivesController {
 		}
 	}
 	
-	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<Drives>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId  ) throws JSONException {
+	@RequestMapping(value = "/getDrivesBasedOnFromDateAndDepot/{fromDate}/{facilityId}/{requestType}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<DrivesResponse>> getDrivesBasedOnFromDateAndDepotType(@PathVariable("fromDate") Date fromDate , @PathVariable("facilityId") String facilityId, @PathVariable("requestType") String requestType  ) throws JSONException {
 		logger.info("Enter into getDrivesBasedOnFromDateAndDepotType function");
-		logger.info("** formdate ***"+fromDate+"** facility Id***"+facilityId);
-		List<Drives> drivesList = null;
+		logger.info("** formdate ***"+fromDate+"** facility Id***"+facilityId+"** category  Name **"+requestType);
+		List<DrivesResponse> drivesList = null;
 		Date toDate = fromDate;
+		String driveCategoryName = null;
 		try {			
 			logger.info("Calling service for dirves data");
 			Optional<Facility> facilityData = facilityService.findByFacilityId(facilityId);
 			if (facilityData.isPresent()) {
-				drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType());	
+				if ("OHE".equals(facilityData.get().getDepotType())) {
+					driveCategoryName = "OHE SCHEDULES";
+				}else {
+					driveCategoryName = "PSI SCHEDULES";
+				}
+				drivesList = service.getDrivesBasedOnFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(fromDate,toDate,facilityData.get().getDepotType(),requestType,driveCategoryName);	
 			}
 			
 			logger.info("Fetched drives size = "+drivesList.size());
