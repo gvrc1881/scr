@@ -34,6 +34,7 @@ export class CopyWPAndWPAComponent implements OnInit {
     SPActivity = [];
     enableCopy: boolean;
     workName: any;
+    checked: boolean;
 
     constructor(
         public dialog: MatDialog,
@@ -93,7 +94,7 @@ export class CopyWPAndWPAComponent implements OnInit {
       this.sendAndRequestService.requestForGET
       (Constants.app_urls.STANDARD_PHASES.GET_STANDARD_PHASES_ON_TYPEOFWORK+this.searchInputFormGroup.value.typeOfWork).subscribe((data) => {
         this.standardPhasesList = data;
-         console.log('*** length ***'+this.standardPhasesList);
+        // console.log('*** length ***'+this.standardPhasesList);
     },error => {} );
 
     }
@@ -106,6 +107,7 @@ export class CopyWPAndWPAComponent implements OnInit {
         if (this.selectedItems.length > 0) {
           this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.COPY_WP_AND_WPA, copyObject, true).subscribe(data => {
             this.spinnerService.hide();
+              this.checked = false;
             this.commonService.showAlertMessage("Copied Successfully");
               this.selectedItems = [];
               this.SPActivity = [];
@@ -121,13 +123,16 @@ export class CopyWPAndWPAComponent implements OnInit {
     
     getStandardPhaseActivities() {
         this.SPActivity = [];
+        this.checked = false;
+        this.enableCopy = false;
+        this.selectedItems = [];
         this.dataSource = new MatTableDataSource(this.SPActivity);
         this.sendAndRequestService.requestForPOST(Constants.app_urls.STANDARD_PHASE_ACTIVITY.GET_SPA_BASED_ON_SP,this.searchInputFormGroup.value.standardPhase,false).subscribe((data) => {
                 this.standardPhaseActivityList = data;
             //console.log('*** data ***'+JSON.stringify(data));
             for (var i = 0; i < this.standardPhaseActivityList.length; i++) {
                 this.standardPhaseActivityList[i].sno = i + 1;
-                this.standardPhaseActivityList[i].checked = true;
+               // this.standardPhaseActivityList[i].checked = true;
                 this.SPActivity.push(this.standardPhaseActivityList[i]);
             }
             this.dataSource = new MatTableDataSource(this.SPActivity);
@@ -145,6 +150,21 @@ export class CopyWPAndWPAComponent implements OnInit {
           }
         }
       }
+    
+    selectAll(event) {
+        for (var i = 0; i < this.standardPhaseActivityList.length; i++) {
+                if(event.target.checked) {
+                    this.standardPhaseActivityList[i].checked = true;
+                    this.selectedItems.push(this.standardPhaseActivityList[i]); 
+                    this.enableCopy = true;   
+                }else {
+                    this.standardPhaseActivityList[i].checked = false;
+                    this.selectedItems = [];
+                    this.enableCopy = false;
+                }
+                
+            }
+    }
 
 
 }

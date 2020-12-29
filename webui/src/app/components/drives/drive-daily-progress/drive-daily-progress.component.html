@@ -124,7 +124,7 @@
 	                                        	<ng-container *matCellDef="let row" >
 	                                        	<mat-cell  *ngIf = "row.isIdRequired =='Yes' ; else idReqElseBlock">
 	                                        		<mat-form-field fxFlex="30">
-														<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" [value]="row.performedCount" 
+														<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" [value]="row.performedCount"  
 												                 [(ngModel)]="row.performedCount" readonly>
 												    </mat-form-field>
 	                                        	<!-- <input matInput   decimalNumber [(ngModel)]="row.performedCount" /> -->
@@ -132,7 +132,7 @@
 	                                        	<ng-template #idReqElseBlock>
 	                                            	<mat-cell>
 		                                        		<mat-form-field fxFlex="30">
-															<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" [value]="row.performedCount" 
+															<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" numbersOnly  [value]="row.performedCount" decimalNumber 
 													                 [(ngModel)]="row.performedCount" >
 													    </mat-form-field>
 		                                        	</mat-cell>

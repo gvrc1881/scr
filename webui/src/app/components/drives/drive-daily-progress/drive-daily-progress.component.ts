@@ -98,7 +98,7 @@ export class DriveDailyProgressComponent implements OnInit {
         var message = '';
         var failedMessage = ''; 
         let saveDriveDailyProgress = {
-            id: 0,
+            id: 3,
             driveId: row.drive.id,
             performedCount: row.performedCount,
             performedDate: this.searchInputFormGroup.controls['fromDate'].value,
@@ -107,12 +107,13 @@ export class DriveDailyProgressComponent implements OnInit {
         }
         message = 'Saved';
         failedMessage = "Saving";
-        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_DRIVE_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.PROGRESS_RECORD.SAVE_D_DAILY_PROGRESS_RECORD ,saveDriveDailyProgress, false).subscribe(response => {
             this.spinnerService.hide();
             this.resp = response;
-            if(this.resp) {
+            if(this.resp.code == 200 && !!this.resp ) {
 				this.commonService.showAlertMessage("Drive Daily Progress Data Saved Successfully");            
-            }
+            }else 
+               this.commonService.showAlertMessage("Drive Daily Progress Data Saving Failed");  
           });  
     }
     

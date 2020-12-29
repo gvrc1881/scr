@@ -64,9 +64,11 @@
 	                                    <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
 	                               	</ng-container>
 	                               	<ng-container matColumnDef="check">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CHECK}}</span></mat-header-cell>
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CHECK}}</span>
+	                                		<h6 class="viewStyle col-xs-4"><input type="checkbox"  [(ngModel)]="checked" (change)="selectAll($event)" /></h6>
+	                                	</mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                    		<input type="checkbox"   (change)="onCheckboxChange($event,row)" />
+	                                    		<input type="checkbox" [(ngModel)]="row.checked" (change)="onCheckboxChange($event,row)" />
 	                                    	</mat-cell>
 	                                </ng-container>
 	                               	<ng-container matColumnDef="standardPhaseName">

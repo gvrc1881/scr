@@ -156,6 +156,7 @@ export class WorksComponent implements OnInit {
         WorksPayload.ADD_PAYLOAD.division = this.workFormGroup.value.division;
         WorksPayload.ADD_PAYLOAD.estdLatestAnticCost = this.workFormGroup.value.estdLatestAnticCost;
         WorksPayload.ADD_PAYLOAD.executedBy = this.workFormGroup.value.executedBy;
+        WorksPayload.ADD_PAYLOAD.executingAgency = this.workFormGroup.value.executingAgency;
         WorksPayload.ADD_PAYLOAD.financialProgressPercentage = this.workFormGroup.value.financialProgressPercentage;
         WorksPayload.ADD_PAYLOAD.latestRevisedCost = this.workFormGroup.value.latestRevisedCost;
         WorksPayload.ADD_PAYLOAD.pbLawLswp = this.workFormGroup.value.pbLawLswp;
@@ -194,6 +195,7 @@ export class WorksComponent implements OnInit {
 	        WorksPayload.UPDATE_PAYLOAD.division = this.workFormGroup.value.division;
 	        WorksPayload.UPDATE_PAYLOAD.estdLatestAnticCost = this.workFormGroup.value.estdLatestAnticCost;
 	        WorksPayload.UPDATE_PAYLOAD.executedBy = this.workFormGroup.value.executedBy;
+            WorksPayload.UPDATE_PAYLOAD.executingAgency = this.workFormGroup.value.executingAgency;
 	        WorksPayload.UPDATE_PAYLOAD.financialProgressPercentage = this.workFormGroup.value.financialProgressPercentage;
 	        WorksPayload.UPDATE_PAYLOAD.latestRevisedCost = this.workFormGroup.value.latestRevisedCost;
 	        WorksPayload.UPDATE_PAYLOAD.pbLawLswp = this.workFormGroup.value.pbLawLswp;

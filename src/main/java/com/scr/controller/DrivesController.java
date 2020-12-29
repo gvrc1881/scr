@@ -1259,6 +1259,19 @@ public class DrivesController {
 		return ResponseEntity.ok((drivesList));
 	}
 	
+	@RequestMapping(value = "/saveDDailyProgressRecord", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveDDailyProgressRecord(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
+		logger.info("** performed count **"+driveDailyProgressRequest.getPerformedCount() +"** drive **"+driveDailyProgressRequest.getDriveId());
+		DriveDailyProgress DDProgress = null;
+		try {			
+			DDProgress = service.saveDriveDailyProgressRecord(driveDailyProgressRequest);
+			return Helper.findResponseStatus("Drive Daily  Progress added successfully", Constants.SUCCESS_CODE);
+		}catch (Exception e) {
+			logger.error("ERROR >> While adding Drive Daily Progress data. "+e.getMessage());
+			return Helper.findResponseStatus("Drive Daily Progressr save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
 	@RequestMapping(value = "/saveDriveDailyProgressRecord", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<DriveDailyProgress> saveDriveDailyProgressRecord(@Valid @RequestBody DriveRequest driveDailyProgressRequest) throws JSONException {		
 		logger.info("** performed count **"+driveDailyProgressRequest.getPerformedCount() +"** drive **"+driveDailyProgressRequest.getDriveId());
