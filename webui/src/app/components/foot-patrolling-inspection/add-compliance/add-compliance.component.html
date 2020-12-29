@@ -32,11 +32,11 @@
 
                                                 <div class="col-md-12">
 
-                                            <div class="col-md-3">Location:{{obsData.location}}</div>
-                                            <div class="col-md-3">Observation Category:{{obsData.observationCategory}}</div>
-                                            <div class="col-md-3">Oobservation Item:{{obsData.observationItem}}</div>
-                                            <div class="col-md-3">Action Required:{{obsData.actionRequired}}</div>
-                                            <div class="col-md-3">Description:{{obsData.description}}</div>
+                                            <div class="col-md-3" *ngIf="obsData">Location:{{obsData.location}}</div>
+                                            <div class="col-md-3" *ngIf="obsData">Observation Category:{{obsData.observationCategory}}</div>
+                                            <div class="col-md-3" *ngIf="obsData">Oobservation Item:{{obsData.observationItem}}</div>
+                                            <div class="col-md-3" *ngIf="obsData">Action Required:{{obsData.actionRequired}}</div>
+                                            <div class="col-md-3" *ngIf="obsData">Description:{{obsData.description}}</div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.STATUS}}" 

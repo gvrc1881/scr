@@ -42,7 +42,6 @@ export class AddObservationComponent implements OnInit {
   attachedImages:any;
   observationCategoryData:any;
   observationItemData:any;
-  severityPriorityData:any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   observations: ObservationModel[] = [];
 
@@ -108,12 +107,7 @@ export class AddObservationComponent implements OnInit {
                  this.observationItemData = data;
         		});
     }
-    getSeverityPriority(){
-      var observationItem = this.addObservationFormGroup.value.observationItem ;
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SEVERITY_PRIORITY_ON_OBSITEM + observationItem).subscribe((data) => {
-                 this.severityPriorityData = data;
-        		});
-    }
+    
     getInspectionDetails(insId:any){
       this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.FP_INSPECTION.GET_FP_INSPECTION_ID + insId).subscribe((data) => {
         this.inspList = data;
@@ -185,8 +179,6 @@ export class AddObservationComponent implements OnInit {
         'location': ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
         'observationCategory': [''],
         'observationItem': [''],
-        'severity': [''],
-        'priority': [''],
         'actionRequired':[null],
         'attachment': [''],
         'description': ['',Validators.maxLength(255)],
