@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 1,
         menuName: 'Dashboard',
-        menuUrl: 'dashboard',
+        menuUrl: 'energy-graph',
         icon: "fa fa-home",
         color: "",
         isSelected: true,
@@ -638,7 +638,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: this.commonService.findPermission('CONFIG', 'menu', 'view'),
+        permission: this.commonService.findPermission('MAT CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") ? "open" : "",
         subMenus: [
           {
@@ -701,7 +701,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "amd",
             subMenuIcon: "fa fas fa-cloud",
             rolePermission: this.rolePermission,
-            permission:this.commonService.findPermission('Asset Master', 'submenu', 'view'),
+            permission:true,
+            //permission:this.commonService.findPermission('Asset Master', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("amd") ? "active-item" : "",
           },
           {

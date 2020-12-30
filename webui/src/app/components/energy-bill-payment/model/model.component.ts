@@ -68,7 +68,7 @@ export class ModelComponent implements OnInit{
 
     ngOnInit () {
 
-        var permissionName = this.commonService.getPermissionNameByLoggedData("CONFIG","Model") ;
+        var permissionName = this.commonService.getPermissionNameByLoggedData("MAT CONFIG","Model") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
