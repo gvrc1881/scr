@@ -216,7 +216,7 @@
 					                              </table>
 					                            </div>
 						                      <button *ngIf="addEnable" class="mat-raised-button mat-accent" color="accent" class="d-inline"
-							                        mat-raised-button="" type="submit">
+							                        mat-raised-button="" [disabled]="contentManagementFormGroup.invalid" type="submit">
 							                       {{title}}
 							                    </button>&nbsp;
 							                    <div class="p-12 d-inline">

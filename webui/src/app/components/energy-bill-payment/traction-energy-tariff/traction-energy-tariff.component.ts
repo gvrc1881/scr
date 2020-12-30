@@ -121,10 +121,10 @@ export class TractionEnergyTariffComponent implements OnInit{
     	this.addPermission = false;
     	this.tractionEnergyTariffId = id;
     	this.contentManagementFormGroup = this.formBuilder.group({
-            contentCategory: ['', Validators.required],
+            contentCategory: [''],
             description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
             uploadFiles: ['', Validators.required],
-            contentTopic: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+            contentTopic: [''],
         });
     }
     

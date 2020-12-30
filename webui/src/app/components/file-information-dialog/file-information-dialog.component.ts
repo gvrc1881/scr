@@ -17,6 +17,7 @@ export class FilesInformationDialogComponent implements OnInit {
     public response: any = [];
     type: string;
     url:string;
+    appUrl=environment.apiUrl;
     schedulerDisplayedColumns = ['sno', 'fileName', 'actions'];
     schedulerDataSource: MatTableDataSource<any>;
     @ViewChild(MatPaginator, { static: true }) schedulerPaginator: MatPaginator;
@@ -60,6 +61,8 @@ export class FilesInformationDialogComponent implements OnInit {
                     "sno": i + 1,
                     "fileName": this.response[i].originalFileName,
                     "type": this.type,
+                    "commonFileId": this.response[i].commonFileId,
+                    "genOps": this.response[i].genOps,
                     "rowid":this.response[i].id,
                     "path": this.sanitizer.bypassSecurityTrustUrl(this.response[i].changeFileName)
                 });

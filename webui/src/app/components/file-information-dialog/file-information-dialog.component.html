@@ -42,6 +42,11 @@
                                     <ng-container matColumnDef="actions">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
+                                        	<form ngNoForm target="_blank" action="{{appUrl+'/download/'+row.commonFileId+'/'+row.genOps+'/'+row.fileName}}" method="GET">
+						                      <button mat-icon-button matTooltip="Download" type="submit">
+						                        <mat-icon style="color:#0091ea;">cloud_download</mat-icon>
+						                      </button>
+						                    </form>
                                            <button mat-icon-button matTooltip="Delete"
                                                 (click)="delete(row.rowid)"> 
                                                 <mat-icon style="color: rgb(161, 56, 48);">delete</mat-icon>

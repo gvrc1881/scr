@@ -500,7 +500,7 @@ public class DrivesService {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 		
 		liContentManagements = commonMapper.prepareContentManagementList(file, stipulationPath, Constants.STIPULATION,
-				"","","","Stipulations","","","","","", Integer.parseInt(stipulationsRequest.getCreatedBy()));
+				"","","stipulations","Stipulations","","","","","", Integer.parseInt(stipulationsRequest.getCreatedBy()));
 		
 		if(liContentManagements != null && !liContentManagements.isEmpty()) {
 			repository.saveAll(liContentManagements);
@@ -566,7 +566,7 @@ public class DrivesService {
 		List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
 		
 		liContentManagements = commonMapper.prepareContentManagementList(file, inspectionPath, Constants.INSPECTION,
-				"","","","Inspections","","","","","", Integer.parseInt(request.getCreatedBy()));
+				"","","inspections","Inspections","","","","","", Integer.parseInt(request.getCreatedBy()));
 				
 		if(liContentManagements != null && !liContentManagements.isEmpty()) {
 			repository.saveAll(liContentManagements);

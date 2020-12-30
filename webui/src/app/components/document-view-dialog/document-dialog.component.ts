@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { ContentManagementModel } from 'src/app/models/content-management.model';
+import {environment} from './../../../environments/environment';
 
 @Component({
     selector: 'document-dialog',
@@ -9,7 +10,8 @@ import { ContentManagementModel } from 'src/app/models/content-management.model'
 export class DocumentDialogComponent implements OnInit {
     public response:any=[];
     type:string;
-    contentManagementDisplayedColumns = ['sno', 'name', 'gen/ops', 'description'];
+    contentManagementDisplayedColumns = ['sno', 'name', 'gen/ops', 'description','actions'];
+    url=environment.apiUrl;
     contentManagementDataSource: MatTableDataSource<ContentManagementModel>;
     @ViewChild(MatPaginator, { static: true }) schedulerPaginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
