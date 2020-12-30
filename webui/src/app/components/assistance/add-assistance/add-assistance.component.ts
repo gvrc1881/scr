@@ -115,10 +115,13 @@ export class AddAssistanceComponent implements OnInit {
   getAssistanceDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.PROJECT_ADMIN.ASSISTANCE.GET_ASSISTANCE_ID+id).subscribe((resp) => {
       this.resp = resp;
+      let work = this.resp.workId
+        console.log("list==="+this.resp.workId.id);
+        if (this.resp) {
       this.addAssistanceFormGroup.patchValue({
         id: this.resp.id,
-        workId: this.resp.workId,
-        workGroupId: this.resp.workGroupId,
+        workId: this.resp.workId.id,
+        workGroupId: this.resp.workGroupId.id,
         typeOfAssistance: this.resp.typeOfAssistance,
         assistance: this.resp.assistance,
         requestedBy: this.resp.requestedBy,
@@ -134,7 +137,10 @@ export class AddAssistanceComponent implements OnInit {
       var commonId = !!this.resp.attachment && this.resp.attachment;
       this.spinnerService.hide();
       this.findAttachedFiles(commonId);
+    }
+    this.spinnerService.hide();
     })
+
      
   }
 

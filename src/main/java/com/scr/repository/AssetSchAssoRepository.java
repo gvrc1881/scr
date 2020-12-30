@@ -2,16 +2,11 @@ package com.scr.repository;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.scr.model.AssetScheduleAssoc;
-import com.scr.model.TssFeederMaster;
-
-
-
 
 
 @Repository
@@ -30,6 +25,9 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
     Optional<AssetScheduleAssoc> findByAsaSeqId(String asaSeqId);
 
 	Optional<AssetScheduleAssoc> findByTargetPlanMonths(String seqId);
+	
+	List<AssetScheduleAssoc> findByIsDpr(String isDpr);
+
 
 	
 }

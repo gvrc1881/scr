@@ -731,6 +731,13 @@ export const Constants = {
         		GET_SMH_DATA_BASED_ON_PBID:"/getSMHDataBasedOnPbId/",
         		GET_SMH_DATA_FOR_OPERATION:"/getSMHDataForOperation/"
             },
+            ASSET_MONTHLY_TARGETS:{
+                GET_ASSET_MONTHLY_TARGETS:"/findAllMonthlyTargetItems",
+                SAVE_ASSET_MONTHLY_TARGETS:"/addMonthlyTargetItem",
+                UPDATE_ASSET_MONTHLY_TARGETS:"/updateAssetMonthlyTarget",
+                GET_ASSET_MONTHLY_TARGET_BY_ID:"/findAssetMonthlyTargetById/",
+                GET_SCHEDULES_BASED_ON_DPR:"/getScheduleAssocOnDpr/"
+            },
             ASSET_STATUS_CHANGE:{
                 GET_TOWERCARS_BASEDON_DIVISION:"/getTowerCarBasedOnDivsion/",
                 SAVE:"/addAssetStatusChange",

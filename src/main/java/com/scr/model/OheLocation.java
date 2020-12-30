@@ -3,14 +3,14 @@ package com.scr.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-
+import java.math.BigDecimal;
 
 /**
  * The persistent class for the ohe_location database table.
  * 
  */
 @Entity
-@Table(name = "ohe_location" , uniqueConstraints={@UniqueConstraint(columnNames ={"seq_id", "data_div"})})
+@Table(name = "ohe_location")
 @NamedQuery(name="OheLocation.findAll", query="SELECT o FROM OheLocation o")
 public class OheLocation implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -58,7 +58,6 @@ public class OheLocation implements Serializable {
 
 	private String heading;
 
-	@Column(name="kilometer")
 	private Double kilometer;
 
 	@Column(name="last_updated_stamp")
@@ -126,7 +125,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -134,7 +133,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getAdeeSection() {
-		return this.adeeSection;
+		return adeeSection;
 	}
 
 	public void setAdeeSection(String adeeSection) {
@@ -142,7 +141,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getAltitude() {
-		return this.altitude;
+		return altitude;
 	}
 
 	public void setAltitude(String altitude) {
@@ -150,7 +149,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getChainage() {
-		return this.chainage;
+		return chainage;
 	}
 
 	public void setChainage(String chainage) {
@@ -158,15 +157,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getChainageRemark() {
-		return this.chainageRemark;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
+		return chainageRemark;
 	}
 
 	public void setChainageRemark(String chainageRemark) {
@@ -174,7 +165,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public Timestamp getCreatedStamp() {
-		return this.createdStamp;
+		return createdStamp;
 	}
 
 	public void setCreatedStamp(Timestamp createdStamp) {
@@ -182,7 +173,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public Timestamp getCreatedTxStamp() {
-		return this.createdTxStamp;
+		return createdTxStamp;
 	}
 
 	public void setCreatedTxStamp(Timestamp createdTxStamp) {
@@ -190,7 +181,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getCurvature() {
-		return this.curvature;
+		return curvature;
 	}
 
 	public void setCurvature(String curvature) {
@@ -198,7 +189,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getCurvatureRemark() {
-		return this.curvatureRemark;
+		return curvatureRemark;
 	}
 
 	public void setCurvatureRemark(String curvatureRemark) {
@@ -206,7 +197,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getDataDiv() {
-		return this.dataDiv;
+		return dataDiv;
 	}
 
 	public void setDataDiv(String dataDiv) {
@@ -214,7 +205,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public Timestamp getDate() {
-		return this.date;
+		return date;
 	}
 
 	public void setDate(Timestamp date) {
@@ -222,7 +213,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getDivision() {
-		return this.division;
+		return division;
 	}
 
 	public void setDivision(String division) {
@@ -230,7 +221,7 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getEngFeature() {
-		return this.engFeature;
+		return engFeature;
 	}
 
 	public void setEngFeature(String engFeature) {
@@ -238,195 +229,11 @@ public class OheLocation implements Serializable {
 	}
 
 	public String getFacilityId() {
-		return this.facilityId;
+		return facilityId;
 	}
 
 	public void setFacilityId(String facilityId) {
 		this.facilityId = facilityId;
-	}
-
-	public String getHeading() {
-		return this.heading;
-	}
-
-	public void setHeading(String heading) {
-		this.heading = heading;
-	}
-
-	public double getKilometer() {
-		return this.kilometer;
-	}
-
-	public void setKilometer(double kilometer) {
-		this.kilometer = kilometer;
-	}
-
-	public Timestamp getLastUpdatedStamp() {
-		return this.lastUpdatedStamp;
-	}
-
-	public void setLastUpdatedStamp(Timestamp lastUpdatedStamp) {
-		this.lastUpdatedStamp = lastUpdatedStamp;
-	}
-
-	public Timestamp getLastUpdatedTxStamp() {
-		return this.lastUpdatedTxStamp;
-	}
-
-	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
-		this.lastUpdatedTxStamp = lastUpdatedTxStamp;
-	}
-
-	public String getLatitude() {
-		return this.latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getLongitude() {
-		return this.longitude;
-	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-	public String getMajorSection() {
-		return this.majorSection;
-	}
-
-	public void setMajorSection(String majorSection) {
-		this.majorSection = majorSection;
-	}
-
-	public String getOheFeature() {
-		return this.oheFeature;
-	}
-
-	public void setOheFeature(String oheFeature) {
-		this.oheFeature = oheFeature;
-	}
-
-	public String getOheMast() {
-		return this.oheMast;
-	}
-
-	public void setOheMast(String oheMast) {
-		this.oheMast = oheMast;
-	}
-
-	public String getOheSequence() {
-		return this.oheSequence;
-	}
-
-	public void setOheSequence(String oheSequence) {
-		this.oheSequence = oheSequence;
-	}
-
-	public String getPwi() {
-		return this.pwi;
-	}
-
-	public void setPwi(String pwi) {
-		this.pwi = pwi;
-	}
-
-	public String getRemarkOne() {
-		return this.remarkOne;
-	}
-
-	public void setRemarkOne(String remarkOne) {
-		this.remarkOne = remarkOne;
-	}
-
-	public String getRemarkTwo() {
-		return this.remarkTwo;
-	}
-
-	public void setRemarkTwo(String remarkTwo) {
-		this.remarkTwo = remarkTwo;
-	}
-
-	public String getSatellites() {
-		return this.satellites;
-	}
-
-	public void setSatellites(String satellites) {
-		this.satellites = satellites;
-	}
-
-	public String getSection() {
-		return this.section;
-	}
-
-	public void setSection(String section) {
-		this.section = section;
-	}
-
-	public String getSeqId() {
-		return this.seqId;
-	}
-
-	public void setSeqId(String seqId) {
-		this.seqId = seqId;
-	}
-
-	public String getSequenceNo() {
-		return this.sequenceNo;
-	}
-
-	public void setSequenceNo(String sequenceNo) {
-		this.sequenceNo = sequenceNo;
-	}
-
-	public String getSpan() {
-		return this.span;
-	}
-
-	public void setSpan(String span) {
-		this.span = span;
-	}
-
-	public String getSpanRemark() {
-		return this.spanRemark;
-	}
-
-	public void setSpanRemark(String spanRemark) {
-		this.spanRemark = spanRemark;
-	}
-
-	public String getSpeed() {
-		return this.speed;
-	}
-
-	public void setSpeed(String speed) {
-		this.speed = speed;
-	}
-
-	public String getStructureType() {
-		return this.structureType;
-	}
-
-	public void setStructureType(String structureType) {
-		this.structureType = structureType;
-	}
-
-	public String getTrackLine() {
-		return this.trackLine;
-	}
-
-	public void setTrackLine(String trackLine) {
-		this.trackLine = trackLine;
-	}
-
-	public String getValidity() {
-		return this.validity;
-	}
-
-	public void setValidity(String validity) {
-		this.validity = validity;
 	}
 
 	public String getFoundation() {
@@ -437,6 +244,86 @@ public class OheLocation implements Serializable {
 		this.foundation = foundation;
 	}
 
+	public String getHeading() {
+		return heading;
+	}
+
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
+
+	public Double getKilometer() {
+		return kilometer;
+	}
+
+	public void setKilometer(Double kilometer) {
+		this.kilometer = kilometer;
+	}
+
+	public Timestamp getLastUpdatedStamp() {
+		return lastUpdatedStamp;
+	}
+
+	public void setLastUpdatedStamp(Timestamp lastUpdatedStamp) {
+		this.lastUpdatedStamp = lastUpdatedStamp;
+	}
+
+	public Timestamp getLastUpdatedTxStamp() {
+		return lastUpdatedTxStamp;
+	}
+
+	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
+		this.lastUpdatedTxStamp = lastUpdatedTxStamp;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getMajorSection() {
+		return majorSection;
+	}
+
+	public void setMajorSection(String majorSection) {
+		this.majorSection = majorSection;
+	}
+
+	public String getOheFeature() {
+		return oheFeature;
+	}
+
+	public void setOheFeature(String oheFeature) {
+		this.oheFeature = oheFeature;
+	}
+
+	public String getOheMast() {
+		return oheMast;
+	}
+
+	public void setOheMast(String oheMast) {
+		this.oheMast = oheMast;
+	}
+
+	public String getOheSequence() {
+		return oheSequence;
+	}
+
+	public void setOheSequence(String oheSequence) {
+		this.oheSequence = oheSequence;
+	}
+
 	public String getProject() {
 		return project;
 	}
@@ -445,8 +332,116 @@ public class OheLocation implements Serializable {
 		this.project = project;
 	}
 
-	public void setKilometer(Double kilometer) {
-		this.kilometer = kilometer;
+	public String getPwi() {
+		return pwi;
+	}
+
+	public void setPwi(String pwi) {
+		this.pwi = pwi;
+	}
+
+	public String getRemarkOne() {
+		return remarkOne;
+	}
+
+	public void setRemarkOne(String remarkOne) {
+		this.remarkOne = remarkOne;
+	}
+
+	public String getRemarkTwo() {
+		return remarkTwo;
+	}
+
+	public void setRemarkTwo(String remarkTwo) {
+		this.remarkTwo = remarkTwo;
+	}
+
+	public String getSatellites() {
+		return satellites;
+	}
+
+	public void setSatellites(String satellites) {
+		this.satellites = satellites;
+	}
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getSeqId() {
+		return seqId;
+	}
+
+	public void setSeqId(String seqId) {
+		this.seqId = seqId;
+	}
+
+	public String getSequenceNo() {
+		return sequenceNo;
+	}
+
+	public void setSequenceNo(String sequenceNo) {
+		this.sequenceNo = sequenceNo;
+	}
+
+	public String getSpan() {
+		return span;
+	}
+
+	public void setSpan(String span) {
+		this.span = span;
+	}
+
+	public String getSpanRemark() {
+		return spanRemark;
+	}
+
+	public void setSpanRemark(String spanRemark) {
+		this.spanRemark = spanRemark;
+	}
+
+	public String getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(String speed) {
+		this.speed = speed;
+	}
+
+	public String getStructureType() {
+		return structureType;
+	}
+
+	public void setStructureType(String structureType) {
+		this.structureType = structureType;
+	}
+
+	public String getTrackLine() {
+		return trackLine;
+	}
+
+	public void setTrackLine(String trackLine) {
+		this.trackLine = trackLine;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getValidity() {
+		return validity;
+	}
+
+	public void setValidity(String validity) {
+		this.validity = validity;
 	}
 
 	@Override
