@@ -6,7 +6,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+                        	<li class="breadcrumb-item" *ngIf="requestType == 'Schedule Progress' ; else driveProgressElseBlock"><a [routerLink]="['/ashd']">SCH Maintainance</a></li>
+	                        <ng-template #driveProgressElseBlock>
+	                        	<li class="breadcrumb-item"><a [routerLink]="['/drives']">Drives </a></li>
+	                        </ng-template>
                         <li class="breadcrumb-item active" aria-current="page">{{breadCrumb}}</li>
                     </ol>
                 </nav>

@@ -4,7 +4,7 @@ import { DriveProgressIdModel } from 'src/app/models/drive.model';
 import { DatePipe } from '@angular/common';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { Constants } from 'src/app/common/constants';
-
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 
@@ -19,6 +19,7 @@ export class ViewDriveDailyProgressComponent implements OnInit {
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     public response:any=[];
+    title: string;
     DDProgressDisplayedColumns = ['sno', 'drive', 'depot', 'date', 'performedCount'];
     DDProgressDataSource: MatTableDataSource<DriveProgressIdModel>;
     @ViewChild(MatPaginator, { static: true }) schedulerPaginator: MatPaginator;
@@ -26,13 +27,18 @@ export class ViewDriveDailyProgressComponent implements OnInit {
     @ViewChild('filter', { static: true }) filter: ElementRef;
     constructor(@Inject(MAT_DIALOG_DATA) private data,
                 private datePipe: DatePipe,
+                private router: Router,
                 public dialogRef: MatDialogRef<ViewDriveDailyProgressComponent>) {
         if (data) {
             this.response = data;                     
         }
     }
 
-    ngOnInit() {      
+    ngOnInit() {
+        if(this.router.url == "/asset-schedule-progress")
+            this.title = "Asset Schedule Progress Details";
+        else
+            this.title = "Drive Daily Progress Details";
         const DDProgressData: DriveProgressIdModel[] = [];
             for (let i = 0; i < this.response.length; i++) {               
                   this.response[i].sno = i + 1;

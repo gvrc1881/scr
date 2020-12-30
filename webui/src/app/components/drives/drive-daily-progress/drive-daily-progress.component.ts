@@ -111,9 +111,15 @@ export class DriveDailyProgressComponent implements OnInit {
             this.spinnerService.hide();
             this.resp = response;
             if(this.resp.code == 200 && !!this.resp ) {
-				this.commonService.showAlertMessage("Drive Daily Progress Data Saved Successfully");            
-            }else 
-               this.commonService.showAlertMessage("Drive Daily Progress Data Saving Failed");  
+                if(this.router.url == "/asset-schedule-progress") 
+				    this.commonService.showAlertMessage("Asset Schedule Progress Data Saved Successfully");
+                 else 
+                    this.commonService.showAlertMessage("Drive Daily Progress Data Saved Successfully");                 
+            }else
+                if(this.router.url == "/asset-schedule-progress") 
+                    this.commonService.showAlertMessage("Asset Schedule Progress Data Saving Failed");
+                else
+                    this.commonService.showAlertMessage("Drive Daily Progress Data Saving Failed");
           });  
     }
     
