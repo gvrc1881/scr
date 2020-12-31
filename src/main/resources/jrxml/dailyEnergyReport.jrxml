@@ -6,9 +6,6 @@
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[select ec.energy_reading_date,ec.location as tssfeeder,
 ec.kwh as kwh,
@@ -19,8 +16,7 @@ ec.cmd,ec.rmd,ec.pf,ec.cpf,ec.vol_min,ec.vol_max,
 ec.max_load,max_load_time_hhmm as time
 --to_char("max_load_time_hhmm", 'HH:MI')as time
 from v_energy_consumption ec
-where ec.energy_reading_date >= $P{fromDate}::date
-and ec.energy_reading_date <= $P{toDate}::date]]>
+where ec.energy_reading_date = $P{fromDate}::date]]>
 	</queryString>
 	<field name="energy_reading_date" class="java.sql.Date"/>
 	<field name="tssfeeder" class="java.lang.String"/>
@@ -39,7 +35,7 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 	<field name="time" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
-	</background> 
+	</background>
 	<title>
 		<band height="45" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
@@ -275,7 +271,7 @@ and ec.energy_reading_date <= $P{toDate}::date]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Remarks]]></text>

@@ -13,17 +13,15 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-
-select precautionary_measure ,
+		<![CDATA[select pm.precautionary_measure precautionary_measure1,pmm.precautionary_measure,
 created_date ,
 count ,
-location ,
+pm.location ,
 pm.remarks ,
 fac.facility_name ,
 pm.data_div
-from precautionary_measure pm, facility fac
-where  pm.facility_id = fac.facility_id
+from precautionary_measure pm, facility fac, precautionary_measures_master pmm
+where  pm.facility_id = fac.facility_id and  pmm.id = pm.precautionary_measure
 and case when '' != '' then pm.facility_id = ''
 else pm.facility_id is not null or pm.facility_id is null end
 
@@ -31,20 +29,10 @@ and case when '' != '' then to_char(created_date,'yyyy-mm-dd') >= ''
 else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end
 
 and case when  '' != '' then to_char(created_date,'yyyy-mm-dd') <= ''
-else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end
-
-
-
-
-
-
-
-
-
-
-]]>
+else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end]]>
 	</queryString>
-	<field name="precautionary_measure" class="java.lang.Integer"/>
+	<field name="precautionary_measure1" class="java.lang.Integer"/>
+	<field name="precautionary_measure" class="java.lang.String"/>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="count" class="java.lang.Integer"/>
 	<field name="location" class="java.lang.String"/>
