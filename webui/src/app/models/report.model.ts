@@ -42,4 +42,5 @@ export class ReportModel{
     agency:any;
     WpaName:any;
     driveName:any;
+    feederName:any;
 }

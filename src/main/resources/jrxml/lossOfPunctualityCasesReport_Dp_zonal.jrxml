@@ -9,12 +9,7 @@
 	<parameter name="SUBREPORT_DIR" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false">
 		<defaultValueExpression><![CDATA[$P{SUBREPORT_DIR}]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fromDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
+	
 	<queryString>
 		<![CDATA[Select d.type_of_failure, d.FY, d.month1, d.week1, d.date1, Cum_delay_time_daily, Cum_delay_time_weekly, Cum_delay_time_monthly, Cum_delay_time_fy,
 daily_count,w_count,m_count,fy_count
@@ -36,9 +31,7 @@ select type_of_failure, FY, month1, week1 , date1,  Sum(delay_time) Cum_delay_ti
  from v_failures_count_duration_daily
  group by   type_of_failure, month1, week1, date1, FY
 ) d
-where date1 ::date >=  $P{fromDate}::date
-and date1 ::date <=$P{toDate} ::date
-and D.type_of_failure ='FAILURE_OCCURENCE'
+where D.type_of_failure ='FAILURE_OCCURENCE'
 and D.FY= w.FY
 and  D.FY= m.FY
 and  D.FY= fy.FY

@@ -67,6 +67,7 @@ export class ReportByQueryComponent implements OnInit {
        workGroupData:any;
        spaData:any;
        driveNameData:any;
+       feederNameData:any;
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -115,7 +116,7 @@ this.workName();
               this.wpaNameDetails();
               this.reportParameterNames();
               this.driveName();
-              
+              this.feederName();
               ReportPayload.GET.reportId = this.id;
               for (let i = 0; i < this.userHierarchy.length; i++) {
                      if (this.userHierarchy[i].depotType == 'ZONE') {
@@ -161,7 +162,7 @@ this.workName();
                      'agency': [null],
                      'format': [null],
                      'driveName': [null],
-                   
+                     'feederName': [null],
                      
                      
               });
@@ -250,6 +251,18 @@ this.workName();
                             this.driveNameData = data;
 
                             console.log('** name driveName***'+this.driveNameData);
+                     }
+                     );
+       
+              }
+
+
+             feederName() {
+                     const feederName: ReportParameterModel[] = [];
+                     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_FEEDERS).subscribe((data) => {
+                            this.feederNameData = data;
+
+                            console.log('** name feederNameData***'+this.feederNameData);
                      }
                      );
        

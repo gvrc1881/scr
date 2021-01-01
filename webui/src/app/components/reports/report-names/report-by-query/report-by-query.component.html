@@ -380,6 +380,18 @@
                                                             </mat-form-field>
                                                        </div>
 
+                                                       <div *ngIf="(names.parameterName=='feederName')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Feeder Name"
+                                                                      [formControl]="reportsByQuery.controls['feederName']">
+                                                                      <mat-option
+                                                                           *ngFor="let feederNameData of feederNameData"
+                                                                           [value]="feederNameData.feederName">
+                                                                           {{ driveNameData.feederName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
 
                                                   </div>
                                                   <div class="col-md-3">
