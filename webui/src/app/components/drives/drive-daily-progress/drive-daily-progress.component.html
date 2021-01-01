@@ -135,8 +135,8 @@
 	                                        	<ng-template #idReqElseBlock>
 	                                            	<mat-cell>
 		                                        		<mat-form-field fxFlex="30">
-															<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}" numbersOnly  [value]="row.performedCount" decimalNumber 
-													                 [(ngModel)]="row.performedCount" >
+															<input matInput placeholder="{{FiledLabels.PERFORMED_COUNT}}"   [value]="row.performedCount"  
+													               (keypress)="numberOnly($event)"  [(ngModel)]="row.performedCount" >
 													    </mat-form-field>
 		                                        	</mat-cell>
 	                                            </ng-template>

@@ -96,7 +96,8 @@ pagination = Constants.PAGINATION_NUMBERS;
       }
       if (this.userDefaultData.division) {
         this.divisionCode = this.userDefaultData.division.toUpperCase();
-        if(previousUrl != "/energy-consumption/"){
+       // commented by adiReddy  if(previousUrl != "/energy-consumption/"){
+        if(previousUrl == "/energy-consumption"){
           let query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + 0+ '/' + this.divisionCode : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
             this.selectedDivision = this.divisionCode;
             console.log(this.divisionCode)
@@ -116,7 +117,8 @@ pagination = Constants.PAGINATION_NUMBERS;
     this.spinnerService.show();
     this.findFeedersList();
     this.divisionDetails();
-    if (previousUrl == '/energy-consumption/') {
+    // commented by  adiReddy   if (previousUrl == '/energy-consumption/') {
+    if (previousUrl != '/energy-consumption') {
       var query = !!localStorage.getItem('query') ? localStorage.getItem('query') : this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
       console.log('query = ' + query);
       if (localStorage.getItem('query')) {
@@ -128,6 +130,7 @@ pagination = Constants.PAGINATION_NUMBERS;
           this.radioList[1].checked = false;
           this.selectedExactDate = new Date(values[0]);
           this.divisionCode = values[3];
+          this.selectedDivision = this.divisionCode;
         } else {
           this.exactDate = false;
           this.radioList[0].checked = false;
@@ -136,9 +139,13 @@ pagination = Constants.PAGINATION_NUMBERS;
           this.selectedBWTo = new Date(values[1]);
           this.divisionCode = values[3];
           this.feederId = values[2]
+          this.selectedFeederId = this.feederId;
+          this.selectedDivision = this.divisionCode;
         }
       }
-      localStorage.setItem('query', '');
+      query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
+      localStorage.setItem('query', query);
+      this.findEnergyConsumptionData(query)
     }
 
     this.filterData = {
@@ -312,6 +319,7 @@ pagination = Constants.PAGINATION_NUMBERS;
          this.findEnergyConsumptionData(query);
       }
     }
+      localStorage.setItem('query', query);
   }
   exactDateEvent($event) {
     this.selectedExactDate = new Date($event.value);

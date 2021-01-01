@@ -132,7 +132,7 @@
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.performedCount" 
-												    	[(ngModel)]="row.performedCount" (ngModelChange)="check(row)">
+												    	[(ngModel)]="row.performedCount" (keypress)="numberOnly($event)" (ngModelChange)="check(row)">
                                                             <span class="error" *ngIf="row.errorMessage">Con't Exceed Population</span>
 												</mat-form-field>
 	                                        </mat-cell>

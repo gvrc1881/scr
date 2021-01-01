@@ -190,6 +190,15 @@ export class DriveDailyProgressComponent implements OnInit {
         });
     }
     
+    numberOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+    
+      }
+    
     viewDialog(driveId) {
     	this.spinnerService.show();    
 	    this.sendAndRequestService.requestForGET(Constants.app_urls.PROGRESS_RECORD.GET_DDPROGRESS_DATA_BASED_ON_DRIVE + driveId).subscribe((response) => {     
@@ -424,9 +433,6 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     });
   }
     
-    
-    
-
   onGoBack(): void {
     this.dialogRef.close();
   }
