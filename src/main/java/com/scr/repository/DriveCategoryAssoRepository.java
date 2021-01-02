@@ -33,9 +33,38 @@ public interface DriveCategoryAssoRepository extends JpaRepository<DriveCategory
 	
 	List<DriveCategoryAsso> findByDriveCategoryId(DriveCategory driveCategory);
 
-	Optional<DriveCategoryAsso> findByDriveCategoryId(Optional<DriveCategory> driveCategory);
+	
 
 	List<DriveCategoryAsso> findByDriveCategoryIdAndStatusId(DriveCategory driveCategory, int activeStatusId);
+
+	Optional<DriveCategoryAsso> findByDriveCategoryId(Optional<DriveCategory> driveCategory);
+	
+
+	Optional<DriveCategoryAsso> findByDriveCategoryId(Long categoryId);
+
+
+
+	List<DriveCategoryAsso> getByDriveCategoryIdAndStatusId(Optional<DriveCategory> driveCategory, int activeStatusId);
+
+	Optional<DriveCategoryAsso> getByDriveCategoryIdAndDriveIdAndStatusId(DriveCategory driveCategoryId, Drives driveId,
+			int activeStatusId);
+
+	Optional<DriveCategoryAsso> getByDriveCategoryIdAndDriveIdAndStatusId(Optional<DriveCategory> driveCategory,
+			Optional<Drives> drivId, int activeStatusId);
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 }

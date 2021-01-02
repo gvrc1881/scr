@@ -710,7 +710,13 @@ public class CommonUtility {
 						List<Facility> divFacilityList = facilityService.findByDivision(facilityName);
 							facilityList.addAll(divFacilityList);
 					}else if("SUB_DIV".equals(currentFacility.getDepotType()) ) {
-						List<Facility> subDivFacilityList = facilityService.findBySubDivision(currentFacility.getFacilityName());
+						String facilityName  = null; 
+						if(currentFacility.getFacilityName().contains("_")){
+							String facilityNameArray[] = currentFacility.getFacilityName().split("_");
+							facilityName = facilityNameArray[0];
+						} else 
+							facilityName = currentFacility.getFacilityName();
+						List<Facility> subDivFacilityList = facilityService.findBySubDivision(facilityName);
 							facilityList.addAll(subDivFacilityList);
 					}else if("OHE".equals(currentFacility.getDepotType())) {
 						facilityList.add(currentFacility);

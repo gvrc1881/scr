@@ -35,7 +35,23 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 	List<Facility> findByUnitName();*/
 
 	@Query(value = "select distinct unitName from DriveTarget")
-	List<Facility> findDistinctByUnitName();
+	List<Facility> findDistinctByUnitName();	
+
+	Optional<DriveTarget> findByDriveIdAndUnitName(Drives driveId, String unitName);
+
+	
+
+	DriveTarget getByDriveIdAndUnitName(Drives drives2, String zone);
+
+	Optional<DriveTarget> findByDriveIdAndUnitName(Optional<Drives> drive, String zone);
+
+	
+
+	
+
+	
+
+	
 
 	
 

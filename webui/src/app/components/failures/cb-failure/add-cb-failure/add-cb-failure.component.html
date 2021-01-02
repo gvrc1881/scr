@@ -234,17 +234,20 @@
 
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addCbFailFromGroup.controls['trippedIdentifiedFault']">Trip Indent</mat-checkbox>                                                        
+                                                        <mat-checkbox [formControl]="addCbFailFromGroup.controls['trippedIdentifiedFault']">{{FiledLabels.TRIP_IDENTIFIED}}</mat-checkbox> 
+                                                                                                              
                                                 </div>
 
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addCbFailFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addCbFailFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
+                                                                                                                   
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addCbFailFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addCbFailFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox> 
+                                                                                                
                                                       </div>
 
                                                      <!-- actionPlan -->

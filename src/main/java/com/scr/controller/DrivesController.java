@@ -29,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
+import com.scr.message.response.AssetStatusUpdateResponse;
+import com.scr.message.response.DriveTargetResponse;
 import com.scr.message.response.DrivesResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.ContentManagement;
@@ -53,6 +55,7 @@ import com.scr.repository.DriveCategoryAssoRepository;
 import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
+import com.scr.repository.FacilityRepository;
 import com.scr.services.DrivesService;
 import com.scr.services.FacilityService;
 import com.scr.services.MeasureOrActivityListService;
@@ -90,7 +93,8 @@ public class DrivesController {
 	@Autowired
 	private DriveProgressRecordRepository driveProgressRecordRepository;
 	
-	
+	@Autowired
+	private FacilityRepository facilityRepository;
 	
 	
 	@RequestMapping(value = "/drives", method = RequestMethod.GET , headers = "Accept=application/json")
@@ -1563,17 +1567,19 @@ public class DrivesController {
 		return ResponseEntity.ok((drives));
 	}
 	
-	@RequestMapping(value = "/getTargetsBasedOnDrive/{category}/{driveId}/{unitType}/{unitName}", method = RequestMethod.GET , headers = "Accept=application/json")
-	public ResponseEntity<List<Drives>> getTargetsBasedOnDrive(@PathVariable("category") Long categoryId,@PathVariable("driveId") Long driveId,@PathVariable("unitType") String unitType,@PathVariable("unitName") String unitName) throws JSONException {
+	/*@RequestMapping(value = "/getTargetsBasedOnDrive/{category}/{driveId}/{zone}/{division}/{subDivision}/{facility}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> getTargetsBasedOnDrive(@PathVariable("category") Long categoryId,@PathVariable("driveId") Long driveId,
+			@PathVariable("zone") String zone,@PathVariable("division") String division,
+			@PathVariable("subDivision") String subDivision,@PathVariable("facility") String facility) throws JSONException {
 		logger.info("Enter into getTargetsBasedOnDrive function");	
 		Optional<DriveCategory> driveCategory = service.findDriveCategoryById(categoryId);
 		Optional<DriveCategoryAsso> drives= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
 				
-		List<Drives> driveList = null;
+		List<Drives> driveList = new ArrayList<>();
 		
 		try {	
 			
-			if(driveCategory != null )
+			if(driveCategory != null && driveId.equals("null") && zone.equals("null") && division.equals("null") && subDivision.equals("null") && facility.equals("null")  )
 			{	
 				logger.info("if condition");
 				if (driveCategory.isPresent()) {
@@ -1583,8 +1589,7 @@ public class DrivesController {
 				}
 				else 
 				{
-					
-						
+										
 						Drives drive = service.findDriveCategoryById(driveCategory.get(),driveId);
 					
 					
@@ -1598,13 +1603,14 @@ public class DrivesController {
 		logger.info("driveslist==="+driveList.size());
 		logger.info("Exit from getTargetsBasedOnDrive function");
 		return ResponseEntity.ok((driveList));
-	}
+	}*/
 	
 	@PostMapping(value="/saveTargets")
 	@ResponseBody
 	public ResponseStatus saveTargets(@RequestBody List<DriveTarget> driveTarget) {
 		logger.info("*** Enter into saveTargets function ***");
-		try {			
+		try {	
+			logger.info("*** saveTargets function ***"+driveTarget.toString());
 			service.saveTargets(driveTarget);
 			logger.info("Preparing the return response and saveTargets function end ");
 			return Helper.findResponseStatus("DriveTarget Data Added Successfully", Constants.SUCCESS_CODE);
@@ -1616,6 +1622,302 @@ public class DrivesController {
 			logger.error("ERROR >> While adding DriveTarget Data. "+e.getMessage());
 			return Helper.findResponseStatus("DriveTarget   Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
+	}
+	
+	@RequestMapping(value = "/getTargetsBasedOnDrive/{category}/{driveId}/{zone}/{division}/{subDivision}/{facility}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<DriveTargetResponse>> getTargetsBasedOnDrive(@PathVariable("category") Long categoryId,@PathVariable("driveId") String driveId,
+			@PathVariable("zone") String zone,@PathVariable("division") String division,
+			@PathVariable("subDivision") String subDivision,@PathVariable("facility") String facility) throws JSONException {
+		
+		logger.info("Enter into getTargetsBasedOnDrive function");	
+		logger.info("categoryId=="+categoryId);
+		logger.info("driveId=="+driveId);
+		logger.info("zone=="+zone);
+		logger.info("division=="+division);
+		logger.info("subDivision=="+subDivision);
+		logger.info("facility=="+facility);
+		Optional<DriveCategory> driveCategory = service.findDriveCategoryById(categoryId);		
+		
+		List<Drives> drives = null;
+		List<DriveTargetResponse> driveTargetReponse = new ArrayList<>();		
+		try {
+
+			if (categoryId != null && driveId.equals("null") && !zone.equals("null") && division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in if condiction");
+				Optional<DriveCategory> driveCategry = service.findDriveCategoryById(categoryId);
+				if(driveCategry.isPresent())
+				{
+					drives = service.getByCategoryId(driveCategry.get());
+					logger.info("drives=="+drives.size());
+				}			
+				
+				driveTargetReponse = service.getByDriveId(drives,zone);
+				
+			}
+			else	if (categoryId != null && !driveId.equals("null") && !zone.equals("null") && division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 1st else if condition");				
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");
+					
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),zone);	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+			else if (categoryId != null && driveId.equals("null") && !zone.equals("null") && !division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 2nd else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+				String div = division+"_DIV";
+				Optional<Facility> fac = facilityRepository.findByFacilityNameAndZone(div,zone);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			
+			else if(categoryId != null && !driveId.equals("null") && !zone.equals("null") && !division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 3nd else if condiction");
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");
+					String div = division+"_DIV";
+					Optional<Facility> fac = facilityRepository.findByFacilityNameAndZone(div,zone);
+					
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),fac.get().getFacilityName());	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && !division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 4th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+				String div = division+"_DIV";
+				Optional<Facility> fac = facilityRepository.findByFacilityName(div);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else	if (categoryId != null && !driveId.equals("null") && zone.equals("null") && !division.equals("null") && subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 5th  else if condition");				
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");
+					String div = division+"_DIV";
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),div);	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && !division.equals("null") && !subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 6th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+				String subDiv = subDivision+"_SUB_DIV";				
+				Optional<Facility> fac = facilityRepository.findByFacilityNameAndDivision(subDiv,division);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && !division.equals("null") && !subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 7th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+				Optional<Facility> fac = facilityRepository.findByFacilityNameAndDivisionAndSubDivision(facility,division,subDivision);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else if(categoryId != null && !driveId.equals("null") && zone.equals("null") && !division.equals("null") && !subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 8th else if condiction");	
+							if(driveCategory.isPresent())
+							{
+								Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+							Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+							logger.info("active drive cat=="+drive);								
+								if(drive.isPresent())
+								{
+								logger.info("for loop for drives and cat==");
+								String subDiv = subDivision+"_SUB_DIV";	
+								Optional<Facility> fac = facilityRepository.findByFacilityNameAndDivision(subDiv,division);
+								
+								driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),fac.get().getFacilityName());	
+								
+								logger.info("for loop end=="+driveTargetReponse.size());
+							
+							
+							logger.info("drive cast asso"+driveTargetReponse.toString());
+							
+							}
+						}
+						}
+			else if(categoryId != null && !driveId.equals("null") && zone.equals("null") && !division.equals("null") && !subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 9th else if condiction");
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");
+					Optional<Facility> fac = facilityRepository.findByFacilityNameAndDivisionAndSubDivision(facility,division,subDivision);
+					
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),fac.get().getFacilityName());	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && division.equals("null") && !subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 10th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+				String subDiv = subDivision+"_SUB_DIV";	
+				Optional<Facility> fac = facilityRepository.findByFacilityName(subDiv);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else	if (categoryId != null && !driveId.equals("null") && zone.equals("null") && division.equals("null") && !subDivision.equals("null")&& facility.equals("null")) {
+				logger.info("in 11th  else if condition");				
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");
+					String subDiv = subDivision+"_SUB_DIV";
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),subDiv);	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && division.equals("null") && !subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 12th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}							
+				Optional<Facility> fac = facilityRepository.findByFacilityNameAndSubDivision(facility,subDivision);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else if(categoryId != null && !driveId.equals("null") && zone.equals("null") && division.equals("null") && !subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 13th else if condiction");	
+							if(driveCategory.isPresent())
+							{
+								Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+							Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+							logger.info("active drive cat=="+drive);								
+								if(drive.isPresent())
+								{
+								logger.info("for loop for drives and cat==");
+								
+								Optional<Facility> fac = facilityRepository.findByFacilityNameAndSubDivision(facility,subDivision);
+								
+								driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),fac.get().getFacilityName());	
+								
+								logger.info("for loop end=="+driveTargetReponse.size());
+							
+							
+							logger.info("drive cast asso"+driveTargetReponse.toString());
+							
+							}
+						}
+						}
+			else if (categoryId != null && driveId.equals("null") && zone.equals("null") && division.equals("null") && subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 14th else if condiction");
+				if(driveCategory.isPresent()) {
+					
+					drives = service.getByCategoryId(driveCategory.get());
+					logger.info("drives=="+drives.size());					
+				}
+					
+				Optional<Facility> fac = facilityRepository.findByFacilityName(facility);
+				driveTargetReponse = service.getByDriveId(drives,fac);
+				
+			}
+			else	if (categoryId != null && !driveId.equals("null") && zone.equals("null") && division.equals("null") && subDivision.equals("null")&& !facility.equals("null")) {
+				logger.info("in 11th  else if condition");				
+				if(driveCategory.isPresent())
+				{
+					Optional<Drives> drivId = service.findDriveById(Long.parseLong(driveId));
+				Optional<DriveCategoryAsso> drive= driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategory,drivId,Constants.ACTIVE_STATUS_ID);
+				logger.info("active drive cat=="+drive);								
+					if(drive.isPresent())
+					{
+					logger.info("for loop for drives and cat==");					
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),facility);	
+					
+					logger.info("for loop end=="+driveTargetReponse.size());
+				
+				
+				logger.info("drive cast asso"+driveTargetReponse.toString());
+				
+				}
+			}
+			}
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the targets data = " + npe.getMessage());
+		} catch (Exception e) {
+			logger.error("ERROR >>> while fetching the targets data = " + e.getMessage());
+		}
+		logger.info("Exit from getTowerCarBasedOnDivsion function");
+		return ResponseEntity.ok((driveTargetReponse));
 	}
 	
 	

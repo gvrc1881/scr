@@ -885,65 +885,37 @@ public class DrivesService {
 	}*/
 
 
-
-
-	public List<Drives> getByCategoryId(DriveCategory driveCategory) {
-		// TODO Auto-generated method stub
-		List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
-		List<Drives> drivesList = new ArrayList<>();
-		
-		
-		Date date = new Date();
-		for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
-			
-			
-			Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
-			if (drive.isPresent()) {
-				drivesList.add(drive.get());
-			}
-		} 
-	       return drivesList;
-	}
-	
-		
-
-	public Drives findDriveCategoryById(DriveCategory driveCategory, Long driveId) {
-		List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
-		
-            Drives drives=null;
-		
-		
-		Date date = new Date();
-		for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
-			
-			
-			Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
-			if (drive.equals(driveId)) {
-				
-				 return drives;
-				
-			} 
-		}
-		return drives;
-	      
-	}
-
 	
 public void saveTargets(List<DriveTarget> driveTarget) {	
 	
 
 	for (DriveTarget driveTarget2 : driveTarget) {
 		
+		Optional<DriveTarget> dtData = driveTargetRepository.findByDriveIdAndUnitName(driveTarget2.getDriveId(), driveTarget2.getUnitName());
 		
+		if (dtData.isPresent()) {
+			
+			DriveTarget saveDriveTarget = dtData.get();
+			
+			saveDriveTarget.setDriveId(driveTarget2.getDriveId());
+			saveDriveTarget.setUnitName(driveTarget2.getUnitName());
+			saveDriveTarget.setUnitType(driveTarget2.getUnitType());
+			saveDriveTarget.setPoulation(driveTarget2.getPoulation());
+			saveDriveTarget.setTarget(driveTarget2.getTarget());
+			saveDriveTarget.setUpdatedBy(driveTarget2.getCreatedBy());
+			saveDriveTarget.setUpdatedOn(driveTarget2.getCreatedOn());
+			
+			driveTargetRepository.save(saveDriveTarget);
+		} else {
+			driveTargetRepository.save(driveTarget2);
+		}
 		
-		 driveTargetRepository.save(driveTarget2);
 		
 	}
 			
 	 
 	
 }
-
 public List<DriveCategoryAsso> findByDriveCategoryIdAndStatusId(DriveCategory driveCategory, int activeStatusId) {
 	return driveCategoryAssoRepository.findByDriveCategoryIdAndStatusId(driveCategory,activeStatusId);
 }
@@ -952,6 +924,189 @@ public Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName)
 	return driveCategoryRepository.findByDriveCategoryName(driveCategoryName);
 }
 
+public List<Drives> getByCategoryId(DriveCategory driveCategory) {
+	// TODO Auto-generated method stub
+	List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+	List<Drives> drivesList = new ArrayList<>();	
+	
+	Date date = new Date();
+	for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
+		
+		
+		Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+		if (drive.isPresent()) {
+			drivesList.add(drive.get());
+		}
+	} 
+       return drivesList;
+}
+
+public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory driveCategoryId, Drives driveId,String zone) {
+	logger.info("in service before drive cat assoc");
+	//List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategoryId);
+	Optional<DriveCategoryAsso> driveCatAssoc = driveCategoryAssoRepository.getByDriveCategoryIdAndDriveIdAndStatusId(driveCategoryId,driveId,Constants.ACTIVE_STATUS_ID);
+	
+	Optional<Facility> fac = facilityRepository.findByFacilityName(zone);
+	logger.info("before response");
+	
+	List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();	
+	if(driveCatAssoc.isPresent()) {
+		DriveTargetResponse dtr = new DriveTargetResponse();		
+		Optional<Drives> drive =driveRepository.findById(driveCatAssoc.get().getId());
+		Optional<DriveTarget> driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,zone);
+		Double target = 0D;
+		String population = "0"; 
+		logger.info("before objects=");
+		if (driveTarget.isPresent()) {			
+			
+			dtr.setDriveId(driveId);
+			dtr.setAssetType(drive.get().getAssetType());
+			dtr.setUnitType(fac.get().getDepotType());
+			dtr.setUnitName(zone);
+			dtr.setTarget(driveTarget.get().getTarget());
+			dtr.setPoulation(driveTarget.get().getPoulation());
+			
+		}
+	
+		else {
+			dtr.setDriveId(driveId);
+			dtr.setAssetType(drive.get().getAssetType());
+			dtr.setUnitType(fac.get().getDepotType());
+			dtr.setUnitName(zone);
+			dtr.setPoulation(population);
+			dtr.setTarget(target);
+		}
+	
+		logger.info("after objects=="+dtr.toString());
+	
+	driveTargetResponse.add(dtr);
+	}
+	
+       return driveTargetResponse;
+}
+
+public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) {	
+	
+	Optional<Facility> fac = facilityRepository.findByFacilityName(zone);
+	List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();	
+	
+	for (Drives drives2 : drives) {		
+	
+		logger.info("in for loop");	
+		logger.info("drives in for loop"+drives.size());
+		DriveTargetResponse dtr = new DriveTargetResponse();			
+			
+			Double target = 0D;
+			String population = "0"; 
+			
+			logger.info("in drive if condition");
+			DriveTarget driveTarget = driveTargetRepository.getByDriveIdAndUnitName(drives2,zone);
+			logger.info("In drive target driveId"+driveTarget);
+			
+			logger.info("before objects=");
+			if (driveTarget != null) {
+				logger.info("in if drive present=="+drives2);
+				
+				dtr.setDriveId(driveTarget.getDriveId());
+				dtr.setAssetType(drives2.getAssetType());
+				dtr.setUnitType(fac.get().getDepotType());
+				dtr.setUnitName(zone);
+				dtr.setTarget(driveTarget.getTarget());
+				dtr.setPoulation(driveTarget.getPoulation());
+				logger.info("population in targets=="+driveTarget.getPoulation());
+				
+			}		
+			else {
+				dtr.setDriveId(drives2);
+				dtr.setAssetType(drives2.getAssetType());
+				dtr.setUnitType(fac.get().getDepotType());
+				dtr.setUnitName(zone);
+				dtr.setPoulation(population);
+				dtr.setTarget(target);
+			}
+			
+			logger.info("after objects=="+dtr.toString());
+			driveTargetResponse.add(dtr);
+			}
+		
+		
+	
+		
+	return driveTargetResponse;
+
+
+
+}
+
+public List<DriveTargetResponse> getByDriveId(List<Drives> drives, Optional<Facility> fac) {
+	
+	
+	logger.info("facility in service=="+fac.get().getFacilityName());
+List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();	
+	
+	for (Drives drives2 : drives) {		
+	
+		logger.info("in for loop");	
+		logger.info("drives in for loop"+drives.size());
+		DriveTargetResponse dtr = new DriveTargetResponse();			
+			
+			Double target = 0D;
+			String population = "0"; 
+			double targetAggregation = 0;
+			logger.info("in drive if condition");
+			DriveTarget driveTarget = driveTargetRepository.getByDriveIdAndUnitName(drives2,fac.get().getFacilityName());
+			logger.info("In drive target driveId"+driveTarget);
+			/*List<Facility> facilityList = facilityRepository.findBySubDivision(fac.get().getSubDivision());
+			logger.info("*** facility list ***"+facilityList.size());
+			for (Facility facility : facilityList) {
+				logger.info("*** in loop ****");
+				logger.info("** facility object***"+facility.toString());
+				DriveTarget Dtarget = driveTargetRepository.getByDriveIdAndUnitName(drives2,facility.getFacilityName());
+				logger.info("** target object***"+Dtarget.toString());
+				targetAggregation = targetAggregation + Dtarget.getTarget();
+				logger.info("*** target aggregation***"+targetAggregation);
+			}*/
+			
+			logger.info("before objects=");
+			if (driveTarget != null) {
+				logger.info("in if drive present=="+drives2);
+				
+				dtr.setDriveId(driveTarget.getDriveId());
+				dtr.setAssetType(drives2.getAssetType());
+				dtr.setUnitType(fac.get().getDepotType());
+				dtr.setUnitName(fac.get().getFacilityName());			
+				dtr.setTarget(driveTarget.getTarget());
+				dtr.setPoulation(driveTarget.getPoulation());
+				logger.info("population in targtes=="+driveTarget.getPoulation());
+				
+			}		
+			else {
+				dtr.setDriveId(drives2);
+				dtr.setAssetType(drives2.getAssetType());
+				dtr.setUnitType(fac.get().getDepotType());
+				dtr.setUnitName(fac.get().getFacilityName());
+				dtr.setPoulation(population);
+				dtr.setTarget(target);
+			}
+			
+			logger.info("after objects=="+dtr.toString());
+			driveTargetResponse.add(dtr);
+			}
+		
+		
+	
+		
+	return driveTargetResponse;
+
+	
+}
+
+
+
+
+
+
+}
 
 
 
@@ -961,4 +1116,4 @@ public Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName)
 		
 		
 	
-}
+

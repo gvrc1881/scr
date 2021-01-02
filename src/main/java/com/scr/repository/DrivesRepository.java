@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.scr.message.response.DriveTargetResponse;
 import com.scr.model.DriveCategoryAsso;
 import com.scr.model.Drives;
 import com.scr.model.FunctionalLocationTypes;
@@ -55,6 +56,24 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndIdNotIn(
 			FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate, List<Long> drives);
+
+
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
 
 	
 	

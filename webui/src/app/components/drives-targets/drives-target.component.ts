@@ -24,10 +24,14 @@ export class DrivesTargetComponent implements OnInit {
     deletePermission: boolean = true;
     userdata: any = JSON.parse(localStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    displayedColumns = ['sno','driveId','assetType','unitType','unitName', 'target', 'population','actions'];    
+    displayedColumns = ['sno','driveId','assetType','unitType','unitName', 'target', 'poulation'];    
     dataSource: MatTableDataSource<DriveTargetModel>;
     driveTargetFormGroup:FormGroup;
-    facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+    divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+    subDivisionHierarchy:any =JSON.parse(localStorage.getItem('subDivData'));
+    depotHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild('filter', { static: true }) filter: ElementRef;
@@ -46,6 +50,14 @@ export class DrivesTargetComponent implements OnInit {
     editTargetResponse:any;
     responseStatus:any;
     id:any;
+    zoneList:any;
+    divisionList:any;
+    subDivisionList:any;
+    depotsList:any;
+    enableZone:boolean;
+    enableDivision:boolean;
+    enableSubDivision:boolean;
+    enableDepot:boolean;
   
     constructor(
       private spinnerService: Ng4LoadingSpinnerService,
@@ -66,14 +78,15 @@ export class DrivesTargetComponent implements OnInit {
   
       this.spinnerService.show();
      // this.getDriveTargetData();
-     this.findDepoTypeList();
-    this.findUnitNames();  
+     this.findZone();
 
       this.driveTargetFormGroup = this.formBuilder.group({
            'driveCategory': [null,Validators.required ],
            'drive' : [null  ],
-           'unitType' : [null  ],
-           'unitName' : [null ],
+           'zone' : [null  ],
+           'division' : [null ],
+           'subDivision':[null],
+           'facility':[null]
        });
 
      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CATEGORY.GET_DRIVE_CATEGORY).subscribe((data) => {
@@ -92,7 +105,7 @@ export class DrivesTargetComponent implements OnInit {
     },error => {} ); 
 
 }
-  findDepoTypeList() {
+  /* findDepoTypeList() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FUNCTIONAL_LOCATION_TYPES)
       .subscribe((depoTypes) => {
         this.depoTypeList = depoTypes;
@@ -112,13 +125,13 @@ export class DrivesTargetComponent implements OnInit {
        } 
    }
 
-   updateAssertType($event) {
+  updateAssertType($event) {
   console.log("event==")
     if ($event.value) {
       console.log("eventvalue=="+$event.value)
       this.facility = [];
       console.log("facility=="+this.facility);
-      this.facility = this.facilityHierarchy.filter(element => {
+      this.facility = this.facilityList.filter(element => {
         console.log("return==="+this.facilityHierarchy.element)
         return element.depotType == $event.value;
        
@@ -126,26 +139,107 @@ export class DrivesTargetComponent implements OnInit {
       
     }
   }
+   */
+
+  findZone(){
+    this.zoneList = [];
+    this.divisionList = [];
+    this.subDivisionList = [];
+    this.depotsList = [];
+
+    this.zoneHierarchy.zoneList;
+    this.enableZone = true;
+       
+   if(this.zoneHierarchy.length>0)
+   {
    
-    applyFilter(filterValue: string) {
+     this.enableZone=true;
+   }
+   else if(this.divisionHierarchy.length>0){
+    
+     this.enableZone=false;
+     this.enableDivision=true;    
+     
+   }
+   else if(this.subDivisionHierarchy.length>0){
+    this.enableZone=false;
+    this.enableDivision=false;    
+    this.enableSubDivision=true;
+   }
+   else{
+    this.enableZone=false;
+    this.enableDivision=false;  
+    this.enableSubDivision=false;
+    this.enableDepot=true;
+   }
+
+   
+}
+findDivisions(){
+let zone: string = this.driveTargetFormGroup.value.zone;
+this.divisionList=[];    
+
+for (let i = 0; i < this.divisionHierarchy.length; i++) {
+    
+       if(this.divisionHierarchy[i].zone == zone&& this.divisionHierarchy[i].depotType == 'DIV'){
+                 
+           this.divisionHierarchy.divisionList;
+           this.enableDivision = true;
+       }
+    }
+}
+
+findSubDivision(){     
+
+  let  division: string = this.driveTargetFormGroup.value.division; 
+  this.subDivisionList=[];  
+  for (let i = 0; i < this.subDivisionHierarchy.length; i++) {
+      
+         if(this.subDivisionHierarchy[i].division == division && this.subDivisionHierarchy[i].depotType == 'SUB_DIV'){
+         
+            // this.subDivisionList.push(this.subDivisionHierarchy[i]); 
+             this.subDivisionHierarchy.subDivisionList; 
+             
+             this.enableSubDivision = true;             
+         }
+      }
+}
+
+findDepot(){
+            this.depotsList=[]; 
+            let subDivision = this.driveTargetFormGroup.value.subDivision;
+            for (let i = 0; i < this.depotHierarchy.length; i++) {
+                
+                  if(this.depotHierarchy[i].subDivision == subDivision  ){
+                  
+                     // this.depotsList.push(this.depotHierarchy[i]); 
+                     this.depotHierarchy.depotsList;
+                      this.enableDepot = true;
+                      
+                  }
+                }
+              }
+              
+  applyFilter(filterValue: string) {
       filterValue = filterValue.trim(); // Remove whitespace
       filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
       this.dataSource.filter = filterValue;
     }
 
     getDriveTargets() {
-
       let driveCategoryId = this.driveTargetFormGroup.value.driveCategory; 
       let driveId = this.driveTargetFormGroup.value.drive; 
-      let unitType = this.driveTargetFormGroup.value.unitType; 
-      let unitName = this.driveTargetFormGroup.value.unitName; 
-
-      console.log("category=="+driveCategoryId);
+      let zone = this.driveTargetFormGroup.value.zone; 
+      let division = this.driveTargetFormGroup.value.division; 
+      let subDivision = this.driveTargetFormGroup.value.subDivision;
+      let facility = this.driveTargetFormGroup.value.facility;      
       this.targetsList = [];
       this.target = []; 
-       this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.GET_TARGETS_BASEDON_DRIVE+driveCategoryId+'/'+driveId+'/'+unitType+'/'+unitName).subscribe((data) => {
+      console.log("category=="+driveId+'-'+driveCategoryId+'-'+zone+'-'+division+'-'+subDivision+'-'+facility);
+       this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.TARGETS.GET_TARGETS_BASEDON_DRIVE+
+        driveCategoryId+'/'+this.driveTargetFormGroup.value.drive+'/'+zone+'/'+division+'/'+subDivision+'/'+facility).subscribe((data) => {
                this.targetsList = data;
-
+                  console.log("targetslist=="+JSON.stringify(this.targetsList));
                   for (var i = 0; i < this.targetsList.length; i++) {
                this.targetsList[i].sno = i + 1;              
                this.target.push(this.targetsList[i]);  }
@@ -155,17 +249,11 @@ export class DrivesTargetComponent implements OnInit {
        });
     }
 
-saveAction(){
+  saveTarget(){
 
-  let targets = {
-
-      driveId : this.driveTargetFormGroup.value.drive, 
-       unitType : this.driveTargetFormGroup.value.unitType, 
-       unitName : this.driveTargetFormGroup.value.unitName ,
-       population:this.driveTargetFormGroup.value.population ,
-       target:this.driveTargetFormGroup.value.target
-};
-this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.TARGETS.SAVE_TARGETS, targets, false).subscribe(response => {
+    console.log("save target calling")
+  
+this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.TARGETS.SAVE_TARGETS,  this.target, false).subscribe(response => {
   this.spinnerService.hide();
   this.resp = response;
 

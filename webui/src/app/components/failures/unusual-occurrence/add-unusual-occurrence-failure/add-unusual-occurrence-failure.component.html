@@ -107,12 +107,14 @@
                                                    
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
+                                                                                                                  
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox>  
+                                                        <mat-hint> (Checked:External UnChecked:Internal )</mat-hint>                                                         
                                                       </div>
 
                                                       <div class="col-md-3">

@@ -30,7 +30,7 @@
 			                    		</mat-select>                                                            
 			                    	</mat-form-field>
 			                    </div>
-			                    <div class="col-md-3">
+			                    <div class="col-md-2">
 			                    	<mat-form-field fxFlex="30" class="example-full-width">
 			                    		<mat-select  placeholder="{{FiledLabels.DRIVE}}" [formControl]="driveTargetFormGroup.controls['drive']"  >
 			                    			<mat-option *ngFor="let drive of drivesList"
@@ -39,15 +39,60 @@
 			                    			</mat-option>
 			                    		</mat-select>                                                            
 			                    	</mat-form-field>
-			                    </div>
-			                    <div class="col-md-3">
+								</div>
+								<div class="col-md-2" *ngIf = "enableZone">
+									<mat-form-field fxFlex="30" class="example-full-width">
+									  <mat-select placeholder="{{FiledLabels.ZONE}}" 
+										[formControl]="driveTargetFormGroup.controls['zone']" (ngModelChange)="findDivisions()">
+										<mat-option *ngFor="let zoneData of zoneHierarchy"
+										  [value]="zoneData.facilityName">
+										  {{ zoneData.facilityName }}
+										</mat-option>
+									  </mat-select>
+									</mat-form-field>
+								  </div>
+								  <div class="col-md-2" *ngIf = "enableDivision">
+									<mat-form-field fxFlex="30" class="example-full-width">
+									  <mat-select placeholder="{{FiledLabels.DIVISION}}" 
+										[formControl]="driveTargetFormGroup.controls['division']" (ngModelChange)="findSubDivision()">
+										<mat-option *ngFor="let divisionData of divisionHierarchy"
+										  [value]="divisionData.division">
+										  {{ divisionData.facilityName }}
+										</mat-option>
+									  </mat-select>
+									</mat-form-field>
+								  </div>
+								  <div class="col-md-2" *ngIf = "enableSubDivision">
+									<mat-form-field fxFlex="30" class="example-full-width">
+									  <mat-select placeholder="{{FiledLabels.SUB_DIV}}" 
+										[formControl]="driveTargetFormGroup.controls['subDivision']" (ngModelChange)="findDepot()">
+										<mat-option *ngFor="let subDivData of subDivisionHierarchy"
+										  [value]="subDivData.subDivision">
+										  {{ subDivData.facilityName }}
+										</mat-option>
+									  </mat-select>
+									</mat-form-field>
+								  </div>
+								  <div class="col-md-2" *ngIf = "enableDepot">
+									<mat-form-field fxFlex="30" class="example-full-width">
+									  <mat-select placeholder="{{FiledLabels.DEPOT}}" 
+										[formControl]="driveTargetFormGroup.controls['facility']" >
+										<mat-option *ngFor="let depotData of depotHierarchy"
+										  [value]="depotData.facilityName">
+										  {{ depotData.facilityName }}
+										</mat-option>
+									  </mat-select>
+									  
+									</mat-form-field>
+								  </div>
+			                    <!-- <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.UNIT_TYPE}}" 
                                             (selectionChange)="updateAssertType($event)"
                                             [formControl]="driveTargetFormGroup.controls['unitType']">
                                             <mat-option *ngFor="let depoType of depoTypeList"
                                                 [value]="depoType.code">
-                                                {{ depoType.code }}
+                                                {{ depoType.code }} 
                                             </mat-option>
                                         </mat-select>                                        
                                     </mat-form-field>
@@ -63,7 +108,7 @@
                                             </mat-option>
                                         </mat-select>                                        
                                     </mat-form-field>
-                                </div>		                
+                                </div>		                 -->
 	                            <div class="col-md-2 mt-15">
 									<div class="float-right" style="float: right;">
 										<button class="mat-raised-button mat-accent" color="accent"
@@ -85,7 +130,7 @@
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
 													<input matInput  [value]="row.driveId" 
-												    	[(ngModel)]="row.name" readonly>
+												    	[(ngModel)]="row.driveId.name" readonly>
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>
@@ -102,13 +147,8 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UNIT_TYPE}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
-													<mat-select 
-													[(ngModel)]="row.unitType">
-													<mat-option *ngFor="let depoType of depoTypeList"
-													[value]="depoType.code">
-													{{ depoType.code }}
-												</mat-option>
-												</mat-select> 
+													<input matInput  [value]="row.unitType" 
+												    	[(ngModel)]="row.unitType" readonly>
 													
 												</mat-form-field>
 	                                        </mat-cell>
@@ -117,13 +157,8 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UNIT_NAME}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
-													<mat-select [(ngModel)]="row.unitName" >
-                                            <mat-option
-                                                *ngFor="let functionalUnit of facilityHierarchy"
-                                                [value]="functionalUnit.facilityName">
-                                                {{ functionalUnit.facilityName }}
-                                            </mat-option>
-                                        </mat-select>													
+													<input matInput  [value]="row.unitName" 
+												    	[(ngModel)]="row.unitName" readonly>												
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>
@@ -136,16 +171,16 @@
 												</mat-form-field>
 	                                        </mat-cell>
                                     </ng-container>
-                                    <ng-container matColumnDef="population">
+                                    <ng-container matColumnDef="poulation">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POPULATION}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never">
-													<input matInput  [value]="row.population" 
-												    	[(ngModel)]="row.population" >
+													<input matInput  [value]="row.poulation" 
+												    	[(ngModel)]="row.poulation" >
 												</mat-form-field>
 	                                        </mat-cell>
 									</ng-container>
-									<ng-container matColumnDef="actions">
+									<!-- <ng-container matColumnDef="actions">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>
 										<mat-cell *matCellDef="let row">
 											<a mat-icon-button matTooltip="Edit" *ngIf="editPermission"> 
@@ -159,7 +194,7 @@
 												<mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
 											  </button>
 											</mat-cell>
-									</ng-container> 
+									</ng-container>  -->
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
 	                                    </mat-row>
@@ -168,7 +203,7 @@
 		                	<div class="col-md-6 mt-15" *ngIf="enableSave">
 			                	<div class="float-right" style="float: right;" >
 	                                 	<button mat-raised-button color="accent" 
-																(click)="saveAction()">
+																(click)="saveTarget()">
 															    	Save
 										</button>
 	                            </div>

@@ -181,6 +181,14 @@ public class DriveTarget implements Serializable {
 	}
 
 
+	@Override
+	public String toString() {
+		return "DriveTarget [id=" + id + ", unitType=" + unitType + ", unitName=" + unitName + ", target=" + target
+				+ ", poulation=" + poulation + ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdOn="
+				+ createdOn + ", updatedOn=" + updatedOn + ", statusId=" + statusId + ", driveId=" + driveId + "]";
+	}
+
+
 
 	
 }

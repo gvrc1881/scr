@@ -210,18 +210,20 @@
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.MAX_DEMAND}}" decimalNumber
-                                                                [formControl]="addGridFailFromGroup.controls['maxDemand']"                                                          >                                                           
+                                                                [formControl]="addGridFailFromGroup.controls['maxDemand']" >                                                           
                                                         </mat-form-field>
                                                     </div>
 
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addGridFailFromGroup.controls['dl']">Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addGridFailFromGroup.controls['dl']">{{FiledLabels.LOCAL}}</mat-checkbox>  
+                                                            <mat-hint> (Internal fault of equipment of TSS) </mat-hint>                                                      
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addGridFailFromGroup.controls['ie']">External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addGridFailFromGroup.controls['ie']">{{FiledLabels.EXTERNAL}}</mat-checkbox> 
+                                                        <mat-hint> (Failure of Incoming supply from Local/Grid sub station)</mat-hint>                                                         
                                                       </div>
 
                                                      <!-- actionPlan -->

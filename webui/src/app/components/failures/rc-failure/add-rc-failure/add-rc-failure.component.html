@@ -131,12 +131,14 @@
                                                   
                                                      <!-- assetId -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addRcFailFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
+                                                            <mat-checkbox [formControl]="addRcFailFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
+                                                            <mat-hint> (Card failure/any other equipment of TSS/Switching station)</mat-hint>                                                       
                                                     </div>
 
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addRcFailFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
+                                                        <mat-checkbox [formControl]="addRcFailFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox>
+                                                        <mat-hint> (Due to S&T dept/MUX)</mat-hint>                                                          
                                                       </div>
 
                                                      <!-- actionPlan -->

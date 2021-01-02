@@ -8,6 +8,8 @@ public class DriveTargetResponse {
 
 	
 	private Long id;
+	
+	private String AssetType;
 
 	
 	private String unitType;
@@ -37,7 +39,7 @@ public class DriveTargetResponse {
 	
 	private Drives driveId;
 	
-	private Integer divisionAggregation;
+	private double aggregation;
 
 	public Long getId() {
 		return id;
@@ -45,6 +47,14 @@ public class DriveTargetResponse {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getAssetType() {
+		return AssetType;
+	}
+
+	public void setAssetType(String assetType) {
+		AssetType = assetType;
 	}
 
 	public String getUnitType() {
@@ -70,6 +80,8 @@ public class DriveTargetResponse {
 	public void setTarget(double target) {
 		this.target = target;
 	}
+
+	
 
 	public String getPoulation() {
 		return poulation;
@@ -127,11 +139,23 @@ public class DriveTargetResponse {
 		this.driveId = driveId;
 	}
 
-	public Integer getDivisionAggregation() {
-		return divisionAggregation;
+	public double getAggregation() {
+		return aggregation;
 	}
 
-	public void setDivisionAggregation(Integer divisionAggregation) {
-		this.divisionAggregation = divisionAggregation;
+	public void setAggregation(double aggregation) {
+		this.aggregation = aggregation;
 	}
+
+	@Override
+	public String toString() {
+		return "DriveTargetResponse [id=" + id + ", AssetType=" + AssetType + ", unitType=" + unitType + ", unitName="
+				+ unitName + ", target=" + target + ", population=" + poulation + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", statusId="
+				+ statusId + ", driveId=" + driveId + ", aggregation=" + aggregation + "]";
+	}
+
+	
+
+
 }
