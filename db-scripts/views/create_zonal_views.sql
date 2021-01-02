@@ -58,14 +58,16 @@ ALTER TABLE public.v_asset_master_data
 
 -- DROP VIEW public.v_asset_monthly_targets;
 
-CREATE OR REPLACE VIEW public.v_asset_monthly_targets AS
- SELECT amt.seq_id,
+drop view v_asset_monthly_targets;
+create view v_asset_monthly_targets as
+SELECT amt.seq_id,
     amt.facility_id,
     fac.facility_name,
     fac.facility_type_id,
     fac.depot_type,
     amt.schedule_type,
     amt.asset_type,
+    amt.total_population,
     amt.target_jan,
     amt.target_feb,
     amt.target_mar,
@@ -78,15 +80,92 @@ CREATE OR REPLACE VIEW public.v_asset_monthly_targets AS
     amt.target_oct,
     amt.target_nov,
     amt.target_dec,
-    amt.target_jan + amt.target_feb + amt.target_mar + amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec AS total_target_year,
+	amt.target_apr + amt.target_may as cum_target_may ,
+    	amt.target_apr + amt.target_may + amt.target_june as cum_target_Jun ,
+	amt.target_apr + amt.target_may + amt.target_june as target_qtr1 ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july  as cum_target_Jul ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug  as cum_target_aug ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep as cum_target_sep ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep as target_qtr2 ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct as cum_target_oct ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov as cum_target_nov ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec as cum_target_dec ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec as target_qtr3 ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan as cum_target_jan ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan + amt.target_feb as cum_target_feb ,
+	amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan + amt.target_feb + amt.target_mar  as cum_target_mar ,
+	amt.target_jan + amt.target_feb + amt.target_mar + amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec AS total_target_year,
     amt.year,
     btrim((amt.year::text || '-'::text) || (((amt.year::integer + 1) % 100)::text)) AS fy
    FROM asset_monthly_targets amt,
     facility fac
   WHERE amt.facility_id::text = fac.facility_id::text;
 
-ALTER TABLE public.v_asset_monthly_targets
-    OWNER TO postgres;
+SELECT ddp.id,
+    ddp.activity_id,
+    ddp.created_by,
+    ddp.created_on,
+    ddp.depot,
+    ddp.division,
+    ddp.performed_count,
+    ddp.performed_date,
+    ddp.section,
+    ddp.status_id,
+        CASE
+            WHEN ddp.status_id = 1 THEN 'No'::text
+            ELSE 'Yes'::text
+        END AS deleted_status,
+    ddp.supervisor,
+    ddp.updated_by,
+    ddp.updated_on,
+    ddp.drive_id,
+    d.active AS drv_active,
+    d.asset_description AS drv_asset_description,
+    d.asset_type AS drv_asset_type,
+    d.checklist AS drv_checklist,
+    d.created_by AS drv_created_by,
+    d.criteria AS drv_criteria,
+    d.description AS drv_description,
+    d.from_date AS drv_from_date,
+    d.frequency AS drv_frequency,
+    d.functional_unit AS drv_functional_unit,
+    d.is_id_required AS drv_is_id_required,
+    d.name AS drv_name,
+    d.status_id AS drv_status_id,
+    d.target_qty AS drv_target_qty,
+    d.to_date AS drv_to_date,
+    d.updated_by AS drv_updated_by,
+    d.depot_type AS drv_depot_type,
+    d.drv_deleted_status,
+    d.id AS drv_id
+   FROM drive_daily_progress ddp,
+    v_drives d
+  WHERE ddp.drive_id = d.id;
+
+/*
+v_asset_monthly_targets_div depends on view v_monthly_cum_targets 
+
+view v_assets_schedule_history_targets depends on view v_monthly_cum_targets 
+view v_asset_sch_count_fy_mon_daily depends on view v_assets_schedule_history_targets 
+view v_assets_schedule_completed_targets depends on view v_assets_schedule_history_targets 
+view v_assets_schedule_counts depends on view v_monthly_cum_targets 
+view v_sch_all_days_done_run_count_fac_asstype_sch depends on view v_monthly_cum_targets 
+view v_sch_done_daily_run_count_fac_asstype_sch depends on view v_monthly_cum_targets 
+
+HINT: Use DROP ... CASCADE to drop the dependent objects too. SQL state: 2BP01
+
+DETAIL:  drop cascades to view v_monthly_cum_targets
+drop cascades to view v_asset_monthly_targets_div
+drop cascades to view v_assets_schedule_history_targets
+drop cascades to view v_asset_sch_count_fy_mon_daily
+drop cascades to view v_assets_schedule_completed_targets
+drop cascades to view v_assets_schedule_counts
+drop cascades to view v_sch_all_days_done_run_count_fac_asstype_sch
+drop cascades to view v_sch_done_daily_run_count_fac_asstype_sch
+*/
+
+
+
 
 
 

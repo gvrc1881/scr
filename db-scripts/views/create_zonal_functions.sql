@@ -810,3 +810,64 @@ $BODY$;
 ALTER FUNCTION public.user_func_location(text)
     OWNER TO postgres;
 
+-----5
+
+-- select * from date_dd_mm_fy_details('2020-04-15')
+--select * from information_schema.columns where table_name ='v_now_dd_mm_fy_data'
+--drop function date_dd_mm_fy_details(given_date date);
+CREATE OR REPLACE FUNCTION public.date_dd_mm_fy_details(
+                given_date date)
+    RETURNS TABLE(
+                                yyyy       double precision, mm     double precision,
+                dd           double precision, yy integer, fy_yyyyyy  text,
+                fy_yyyy text, fy_start_yyyy          double precision,
+                fy_start_date    date, fy_end_date          date
+                )
+               
+    LANGUAGE 'plpgsql'
+ 
+
+    COST 100
+    VOLATILE
+    ROWS 1000
+AS $BODY$
+BEGIN
+   RETURN QUERY
+--select given_date::date as ret_date;
+ 
+
+SELECT date_part('year'::text, a.date) AS yyyy,
+    date_part('month'::text, a.date) AS mm,
+    date_part('day'::text, a.date) AS dd,
+    mod(date_part('year'::text, a.date)::integer, 100) AS yy,
+        CASE
+            WHEN date_part('month'::text, a.date) > 3::double precision THEN (date_part('year'::text, a.date) || '-'::text) || (mod(date_part('year'::text, a.date)::integer, 100) + 1)
+            ELSE ((date_part('year'::text, a.date)::integer - 1) || '-'::text) || mod(date_part('year'::text, a.date)::integer, 100)
+        END AS fy_yyyyyy,
+        CASE
+            WHEN date_part('month'::text, a.date) > 3::double precision THEN (mod(date_part('year'::text, a.date)::integer, 100) || '-'::text) || (mod(date_part('year'::text, a.date)::integer, 100) + 1)
+            ELSE ((mod(date_part('year'::text, a.date)::integer, 100) - 1) || '-'::text) || mod(date_part('year'::text, a.date)::integer, 100)
+        END AS fy_yyyy,
+        CASE
+            WHEN date_part('month'::text, a.date) > 3::double precision THEN date_part('year'::text, a.date)
+            ELSE (date_part('year'::text, a.date)::integer - 1)::double precision
+        END AS fy_start_yyyy,
+        CASE
+            WHEN date_part('month'::text, a.date) > 3::double precision THEN to_date(date_part('year'::text, a.date) || '-04-01'::text, 'yyyy-mm-dd'::text)
+            ELSE to_date((date_part('year'::text, a.date) - 1::double precision) || '-04-01'::text, 'yyyy-mm-dd'::text)
+        END AS fy_start_date,
+        CASE
+            WHEN date_part('month'::text, a.date) > 3::double precision THEN to_date((date_part('year'::text, a.date) + 1::double precision) || '-03-31'::text, 'yyyy-mm-dd'::text)
+            ELSE to_date(date_part('year'::text, a.date) || '-03-31'::text, 'yyyy-mm-dd'::text)
+        END AS fy_end_date
+   FROM ( SELECT given_date::date AS date) a;
+ 
+
+-- end of query
+ 
+
+ 
+
+END; $BODY$;
+
+----------------

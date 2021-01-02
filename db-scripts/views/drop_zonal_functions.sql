@@ -6,3 +6,5 @@ DROP FUNCTION public.day_div_tss_energy_consumption_v(date, character varying);
 DROP FUNCTION public.period_tss_energy_consumption_v(character varying, date, date);
 ---4
 DROP FUNCTION public.user_func_location(text);
+--5
+DROP FUNCTION public.user_func_location(date);
