@@ -92,8 +92,9 @@ pagination = Constants.PAGINATION_NUMBERS;
       this.userDefaultData = data;
       if (this.userDefaultData.zone) {
         this.zoneCode = this.userDefaultData.zone.toUpperCase();
-        this.getDivisions(this.userDefaultData.zone);
+        //this.getDivisions(this.userDefaultData.zone);
       }
+       this.divisionsList = this.divisionData;
       if (this.userDefaultData.division) {
         this.divisionCode = this.userDefaultData.division.toUpperCase();
        // commented by adiReddy  if(previousUrl != "/energy-consumption/"){
@@ -116,7 +117,7 @@ pagination = Constants.PAGINATION_NUMBERS;
     var permissionName = this.commonService.getPermissionNameByLoggedData("Energy Consumption", "Energy Consumption");
     this.spinnerService.show();
     this.findFeedersList();
-    this.divisionDetails();
+   // this.divisionDetails();
     // commented by  adiReddy   if (previousUrl == '/energy-consumption/') {
     if (previousUrl != '/energy-consumption') {
       var query = !!localStorage.getItem('query') ? localStorage.getItem('query') : this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;

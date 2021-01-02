@@ -33,7 +33,7 @@
 	                                                    <div class="col-md-12">
 	                                                    	<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.METER_NUMBER}}" [formControl]="energyMeterFormGroup.controls['meterNo']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.METER_NUMBER}}" [formControl]="energyMeterFormGroup.controls['meterNo']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 									                        <div *ngIf ="enableEndReadings">
@@ -80,7 +80,7 @@
 		                                                    </div> -->
 		                                                    <div class="col-md-3">
 		                                                        <mat-form-field fxFlex="30">
-		                                                             <input matInput [owlDateTime]="dt1" style="width: 94%;"
+		                                                             <input matInput autocomplete="off" [owlDateTime]="dt1" style="width: 94%;"
 		                                                                [owlDateTimeTrigger]="dt1" placeholder="{{FiledLabels.START_DATE}}"                                                                
 		                                                                (dateTimeChange)="addEvent($event)"  [max]="maxDate"
 		                                                                [formControl]="energyMeterFormGroup.controls['startDate']" required >                                                                
@@ -96,49 +96,49 @@
 		                                                    </div>  
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.MULTIPLICATION_FACTOR}}" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" required />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.MULTIPLICATION_FACTOR}}" decimalNumber [formControl]="energyMeterFormGroup.controls['multiplicationFac']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.START_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" required />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.START_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKvah']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.START_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" required />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.START_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startKwh']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.START_RKVAH_LAG}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" required />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.START_RKVAH_LAG}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLag']" required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.START_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']"  required />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.START_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['startRkvahLead']"  required />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.METER_MAKE}}"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.METER_MAKE}}"  [formControl]="energyMeterFormGroup.controls['meterMake']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.METER_MODEL}}"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.METER_MODEL}}"  [formControl]="energyMeterFormGroup.controls['meterModel']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.CMD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.CMD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['cmd']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 		                                                    <div *ngIf ="enableEndReadings">
   															<div class="col-md-3">
 		                                                        <mat-form-field fxFlex="30">
 	    															<!-- <input matInput type="datetime-local" placeholder="End Date" [formControl]="energyMeterFormGroup.controls['endDate']"> -->
-	  																<input matInput [owlDateTime]="dt2" style="width: 94%;"
+	  																<input matInput autocomplete="off" [owlDateTime]="dt2" style="width: 94%;"
 		                                                                [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.END_DATE}}"
 		                                                                [min]="toMinDate"
 		                                                                [formControl]="energyMeterFormGroup.controls['endDate']">                                                                
@@ -149,28 +149,28 @@
   															</div>
   															<div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.END_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.END_KVAH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKvah']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.END_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKwh']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.END_KWH}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endKwh']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                       <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.END_RKVAH_LAG}}"  decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.END_RKVAH_LAG}}"  decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLag']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        <div class="col-md-2">
 	                                                            <mat-form-field fxFlex="30">
-	                                                                <input matInput placeholder="{{FiledLabels.END_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
+	                                                                <input matInput autocomplete="off" placeholder="{{FiledLabels.END_RKVAH_LEAD}}" decimalNumber [formControl]="energyMeterFormGroup.controls['endRkvahLead']" />
 	                                                            </mat-form-field>
 	                                                        </div>
 	                                                        </div>
   															<div class="col-md-3">
 	                                                            <mat-form-field fxFlex="30">
-	                                                            	<textarea matInput placeholder="{{FiledLabels.REMARKS}}" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
+	                                                            	<textarea matInput autocomplete="off" placeholder="{{FiledLabels.REMARKS}}" [formControl]="energyMeterFormGroup.controls['remarks']" ></textarea>
 	                                                                <mat-error
 		                                                                *ngIf="energyMeterFormGroup.controls['remarks'].hasError('maxlength')"
 		                                                                class="alert alert-danger">Max 250 characters only

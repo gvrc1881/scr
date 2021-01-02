@@ -112,7 +112,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     //this.maxDateMax = this.datePipe.transform(new Date(), 'yyyy-MM-dd') +" 00:00:00";
     let dte = new Date();
    // this.minDateMax = dte.getDate() - 1;//, 'yyyy-MM-dd') +" 00:00:00";
-   this.minDateMax.setDate(dte.getDate() - 1)
+   // this.minDateMax.setDate(dte.getDate() - 1)
   }
 
   createForm() {
@@ -176,6 +176,13 @@ export class AddEnergyConsumptionComponent implements OnInit {
   findEnergyConsumptionById(id) {
      this.resp = JSON.parse(localStorage.getItem("ec"));
     console.log(this.resp);
+      let energyReadingDate = new Date(this.resp.energyReadingDate.split("-").reverse().join("-"));
+      this.maxDateMax.setDate(energyReadingDate.getDate());
+      this.maxDateMax.setMonth(energyReadingDate.getMonth());
+      this.maxDateMax.setFullYear(energyReadingDate.getFullYear());
+      this.minDateMax.setDate(energyReadingDate.getDate() - 1)
+      this.minDateMax.setMonth(energyReadingDate.getMonth());
+      this.minDateMax.setFullYear(energyReadingDate.getFullYear());
      this.checkCurrentDateId();
     this.addEnergyConsumptionFailFromGroup.patchValue({
       id: this.resp.id,
@@ -246,7 +253,8 @@ export class AddEnergyConsumptionComponent implements OnInit {
   }
 
   updateRKVAHLag($event ) {
-    if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lag)) {
+    //if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lag)) {
+    if (parseFloat($event.target.value)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lag: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lag)) * parseFloat(this.resp.Multification_Factor) });
       this.rkvahLangValidation = false;
       this.checkCurrentDateId();
@@ -258,11 +266,11 @@ export class AddEnergyConsumptionComponent implements OnInit {
   }
 
   updateRKVAHLead($event) {
-    if (parseFloat($event.target.value) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead)) {
+    if (parseFloat($event.target.value)) {
       this.addEnergyConsumptionFailFromGroup.patchValue({ Consumption_RKVAH_Lead: (parseFloat($event.target.value) - parseFloat(this.resp.Old_RKVAH_Lead)) * parseFloat(this.resp.Multification_Factor) });
       this.rkvahLeadValidation = false;
         if(parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_KWH) >= parseFloat(this.resp.Old_KWH) && parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_KVAH) >= parseFloat(this.resp.Old_KVAH) &&
-          parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_RKVAH_Lag) >= parseFloat(this.resp.Old_RKVAH_Lag) && parseFloat($event.target.value) >= parseFloat(this.resp.Old_RKVAH_Lead) ){
+          parseFloat(this.addEnergyConsumptionFailFromGroup.value.Current_RKVAH_Lag) && parseFloat($event.target.value) ){
             this.update = true; 
         }else {
             this.update = false;    
