@@ -30,7 +30,7 @@ split_part( split_part(div_row, ';',  5  ) , ',' , 3) gnt_Mea_id ,
 split_part( split_part(div_row, ';',  6  ) , ',' , 1) ::integer ned_done ,
 split_part( split_part(div_row, ';',  6  ) , ',' , 2) ned,
 split_part( split_part(div_row, ';',  6  ) , ',' , 3) ned_Mea_id
-from
+from  
 
 (
 
