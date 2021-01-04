@@ -683,11 +683,14 @@ public class DrivesService {
 		if ("Schedule Progress".equals(requestType)) {
 			if (driveCategory.isPresent()) {
 				List<DriveCategoryAsso> driveCategoryAssos = driveCategoryAssoRepository.findByDriveCategoryId(driveCategory.get());
-				List<Long> drives =  new ArrayList<>();
-				for (DriveCategoryAsso driveCategoryAsso : driveCategoryAssos) {
-					drives.add(driveCategoryAsso.getDriveId().getId());
+				if (driveCategoryAssos.size() > 0 ) {
+					List<Long> drives =  new ArrayList<>();
+					for (DriveCategoryAsso driveCategoryAsso : driveCategoryAssos) {
+						drives.add(driveCategoryAsso.getDriveId().getId());
+					}
+					drivesList = driveRepository.findByDepotTypeAndIdInAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(functionalLocationType.get(),drives,fromDate,toDate);
+					logger.info("*** drives list size***"+drivesList.size());
 				}
-				drivesList = driveRepository.findByIdInAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(drives,functionalLocationType.get(),fromDate,toDate);
 			}
 		}else {
 			if (driveCategory.isPresent()) {

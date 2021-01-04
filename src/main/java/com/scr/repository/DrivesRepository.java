@@ -53,9 +53,15 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 	List<Drives> findByIdInAndDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
 			List<Long> drives, FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate);
+	
+	@Query(value = " select d from Drives d where d.depotType = :functionalLocationTypes and d.id not in (:drives) and fromDate <= :fromDate and toDate >= :toDate or toDate is null " )
+	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndIdNotIn(@Param("functionalLocationTypes")
+			FunctionalLocationTypes functionalLocationTypes,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate, @Param("drives")List<Long> drives);
 
-	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNullAndIdNotIn(
-			FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate, List<Long> drives);
+	@Query(value = " select d from Drives d where d.depotType = :functionalLocationTypes and d.id in (:drives) and fromDate <= :fromDate and toDate >= :toDate or toDate is null " )
+	List<Drives> findByDepotTypeAndIdInAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(@Param("functionalLocationTypes")
+			FunctionalLocationTypes functionalLocationTypes, @Param("drives")List<Long> drives,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
+
 
 
 
