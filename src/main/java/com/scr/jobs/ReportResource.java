@@ -132,6 +132,8 @@ public class ReportResource {
 		}
 
 		parameters.put("ActivityType", report.getActivityType());
+		parameters.put("driveName", report.getDriveName());
+
 
 		log.info(" ****** PARAMETERS BODY ***** " + parameters);
 		

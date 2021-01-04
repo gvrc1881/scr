@@ -58,6 +58,8 @@ public class ReportRequest {
 	private String agency;
 	private Works workName;
 	private String WpaName;
+	private String driveName;
+
 	
 	public ObservationsCheckList getObservationCategory() {
 		return observationCategory;
@@ -377,6 +379,14 @@ public class ReportRequest {
 
 	public void setFormatType(String formatType) {
 		this.formatType = formatType;
+	}
+
+	public String getDriveName() {
+		return driveName;
+	}
+
+	public void setDriveName(String driveName) {
+		this.driveName = driveName;
 	}
 
 	

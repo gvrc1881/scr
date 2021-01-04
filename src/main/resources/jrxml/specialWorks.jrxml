@@ -22,13 +22,13 @@ fac.facility_name ,
 pm.data_div
 from precautionary_measure pm, facility fac, precautionary_measures_master pmm
 where  pm.facility_id = fac.facility_id and  pmm.id = pm.precautionary_measure
-and case when '' != '' then pm.facility_id = ''
+and case when $P{depot} != '' then pm.facility_id = $P{depot}
 else pm.facility_id is not null or pm.facility_id is null end
 
-and case when '' != '' then to_char(created_date,'yyyy-mm-dd') >= ''
+and case when $P{fromDate} != '' then to_char(created_date,'yyyy-mm-dd') >= $P{fromDate}
 else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end
 
-and case when  '' != '' then to_char(created_date,'yyyy-mm-dd') <= ''
+and case when  $P{toDate} != '' then to_char(created_date,'yyyy-mm-dd') <= $P{toDate}
 else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end]]>
 	</queryString>
 	<field name="precautionary_measure1" class="java.lang.Integer"/>

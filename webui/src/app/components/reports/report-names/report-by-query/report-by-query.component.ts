@@ -417,6 +417,7 @@ this.workName();
               this.reportModel.WpaName = this.reportsByQuery.controls.WpaName.value;
               this.reportModel.formatType = this.reportsByQuery.controls.format.value;
               this.reportModel.driveName = this.reportsByQuery.controls.driveName.value;
+              this.reportModel.feederName = this.reportsByQuery.controls.feederName.value;
 
               console.log("generateReport" + this.id)
               console.log("generateReport" + JSON.stringify(this.reportModel));
