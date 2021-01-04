@@ -550,6 +550,11 @@ const routes: Routes = [
     loadChildren: './components/drives/drive-daily-progress/drive-daily-progress.module#DriveDailyProgressModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'asset-monthly-targets',
+    loadChildren: './components/asset-monthly-targets/asset-monthly-targets.module#AssetMonthlyTargetsModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

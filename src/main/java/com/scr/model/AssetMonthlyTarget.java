@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "asset_monthly_targets" , uniqueConstraints={@UniqueConstraint(name = "old_pk_asset_monthly_targets_uniq", columnNames ={"asset_type", "year", "schedule_type", "facility_id", "data_div"})})
+@Table(name = "asset_monthly_targets" , uniqueConstraints={@UniqueConstraint(columnNames ={"asset_type", "year", "schedule_type", "facility_id", "data_div"})})
 @NamedQuery(name="AssetMonthlyTarget.findAll", query="SELECT a FROM AssetMonthlyTarget a")
 public class AssetMonthlyTarget implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -54,6 +54,9 @@ public class AssetMonthlyTarget implements Serializable {
 
 	@Column(name="seq_id")
 	private String seqId;
+	
+	@Column(name="total_population")
+	private Integer  totalPopulation;
 
 	@Column(name="target_apr")
 	private double targetApr;
@@ -92,7 +95,8 @@ public class AssetMonthlyTarget implements Serializable {
 	private double targetSep;
 
 	private String year;
-
+	
+	
 	public AssetMonthlyTarget() {
 	}
 
@@ -302,6 +306,14 @@ public class AssetMonthlyTarget implements Serializable {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public Integer getTotalPopulation() {
+		return totalPopulation;
+	}
+
+	public void setTotalPopulation(Integer totalPopulation) {
+		this.totalPopulation = totalPopulation;
 	}
 
 }

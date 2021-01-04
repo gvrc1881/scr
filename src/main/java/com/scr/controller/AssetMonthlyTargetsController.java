@@ -9,13 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.AssetMonthlyTarget;
 import com.scr.model.AssetScheduleAssoc;
+import com.scr.model.TssFeederMaster;
+import com.scr.model.WPASectionTargets;
 import com.scr.services.AssetMonthlyTargetsService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -88,30 +93,59 @@ public class AssetMonthlyTargetsController {
 		}
 	}
 	
-	@RequestMapping(value = "/updateAssetMonthlyTarget" ,method = RequestMethod.PUT , headers = "Accept=application/json")
-	public ResponseStatus updateAssetMonthlyTarget(@RequestBody AssetMonthlyTarget assetMonthlyTarget) {
-		log.info("Enter into updateAssetMonthlyTarget function with below request parameters ");
-		log.info("Request Parameters = "+assetMonthlyTarget.toString());
+	
+	@PostMapping(value = "/updateAssetMonthlyTarget")
+	@ResponseBody
+	public ResponseStatus updateAssetMonthlyTarget(@RequestBody List<AssetMonthlyTarget> assetMonthlyTarget) {
+		log.info("*** Enter into updateAssetMonthlyTarget function ***");
 		try {
-			log.info("Calling service with request parameters.");
-			targetsService.save(assetMonthlyTarget);
-			log.info("Preparing the return response");
-			return Helper.findResponseStatus("Asset MonthlyTarget updated successfully", Constants.SUCCESS_CODE);	
-		}catch(NullPointerException npe) {
-			log.error("ERROR >> While updating Asset MonthlyTarget. "+npe.getMessage());
-			return Helper.findResponseStatus("Asset MonthlyTarget update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
-		}
-		catch (Exception e) {
-			log.error("ERROR >> While updating Asset MonthlyTarget data. "+e.getMessage());
-			return Helper.findResponseStatus("Asset MonthlyTarget update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			targetsService.updateAssetMonthlyTarget(assetMonthlyTarget);
+			log.info("Preparing the return response and updateAssetMonthlyTarget function end ");
+			return Helper.findResponseStatus("Asset MonthlyTarget  Data updated Successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			log.error("ERROR >> While adding Asset MonthlyTarget Data. " + npe.getMessage());
+			return Helper.findResponseStatus("Asset MonthlyTarget update is Failed with " + npe.getMessage(),
+					Constants.FAILURE_CODE);
+		} catch (Exception e) {
+			log.error("ERROR >> While Asset MonthlyTarget update Data. " + e.getMessage());
+			return Helper.findResponseStatus("Asset MonthlyTarget update is Failed with " + e.getMessage(),
+					Constants.FAILURE_CODE);
 		}
 	}
-	@RequestMapping(value = "/getScheduleAssocOnDpr/{isDpr}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<AssetScheduleAssoc>> getScheduleAssocOnDpr(@PathVariable("isDpr") String isDpr){
-		log.info("** Enter into getScheduleAssocOnDpr functions ***");
-		List<AssetScheduleAssoc> scheduleAssocList= targetsService.getScheduleAssocOnDpr(isDpr);
-		log.info("** preparing response and getScheduleAssocOnDpr function end ***");
-			return new ResponseEntity<List<AssetScheduleAssoc>>(scheduleAssocList, HttpStatus.OK);		
-	}
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/getScheduleAssocOnDpr/{isDpr}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<AssetScheduleAssoc> getScheduleAssocOnDpr(@PathVariable("isDpr") String isDpr) {
+		log.info("** Enter into getScheduleAssocOnDpr function ***");
+		Optional<AssetScheduleAssoc> scheduleAssocList = null;
+		try {
+			log.info("** isDpr = " + isDpr);
+			scheduleAssocList = targetsService.findByIsDpr(isDpr);
+			if (scheduleAssocList.isPresent()) {
+				return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.CONFLICT);
 
+		} catch (Exception e) {
+			log.error("Error >>  while find  get ScheduleAssoc OnDpr" + e.getMessage());
+			return new ResponseEntity<AssetScheduleAssoc>(scheduleAssocList.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	@RequestMapping(value = "/getAssetMonthlyTargetsBasedOnFacilityIdYear/{facilityId}/{year}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<AssetMonthlyTarget> getAssetMonthlyTargetsBasedOnFacilityIdYear(
+			@PathVariable("facilityId") String facilityId,@PathVariable("year") String year) {
+		log.info("Enter into getAssetMonthlyTargetsBasedOnFacilityIdYear function Id***" + facilityId + "facilityId"
+				+ year + "**year***");
+		List<AssetMonthlyTarget> assetMonthlyTarget = null;
+
+		try {
+			assetMonthlyTarget = targetsService.findByFacilityIdAndYear(facilityId,year);
+			return assetMonthlyTarget;
+		} catch (Exception e) {
+			log.error("Error >>  while find Asset MonthlyTarget data" + e.getMessage());
+		}
+		return assetMonthlyTarget;
+	}
+	
+	
 }

@@ -1,0 +1,135 @@
+<ng4-loading-spinner> </ng4-loading-spinner>
+
+<div class="content">
+    <div class="">
+        <div class="col-12">
+            <div class="breadcrumb-section">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/ashd']">Ashd</a></li>   
+                        <li class="breadcrumb-item active" aria-current="page">Asset Monthly Targets</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="clear"> </div>
+            <div class="row-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Asset Monthly Targets Information</div>
+                    <div class="panel-body">
+                        <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">{{title}} Asset Monthly Targets</div>
+                                <div class="panel-body">
+                                    <div class="p-24">
+                                        <div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                                            <form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24"
+                                            fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
+                                            [formGroup]="addAssetMonthlyTargetsFormGroup" (ngSubmit)="assetMonthlyTargetsSubmit();">
+                                            
+                                                <div class="container">
+                                                <div class="form-row">  
+                                                    <div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Months" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetPlanMonths']"/>
+                                                        </mat-form-field>
+                                                    </div>                                                  
+                                                    <div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Population" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['totalPopulation']"/>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Apr" numbersOnly  [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetApr']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="May" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetMay']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Jun" numbersOnly  [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetJune']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Jul" numbersOnly  [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetJuly']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Aug" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetAug']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Sep"  numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetSep']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Oct" numbersOnly  [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetOct']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Nov" numbersOnly  [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetNov']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Dec" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetDec']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Jan" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetJan']"/>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Feb" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetFeb']"/>
+                                                        </mat-form-field>
+                                                    </div><div class="col-md-1">
+                                                        <mat-form-field fxFlex="10">
+                                                            <input matInput  placeholder="Mar" numbersOnly [formControl]="addAssetMonthlyTargetsFormGroup.controls['targetMar']"/>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                                              
+                                       
+                                       
+                                        <div class="clearfix"></div>
+
+                                        <div class="col-md-3 mt-15">
+                                            <div class="float-right" style="float: right;">
+                                                <button class="mat-raised-button mat-accent" color="accent"
+                                                    class="d-inline" mat-raised-button="" type="submit"
+                                                    [disabled]="addAssetMonthlyTargetsFormGroup.invalid" *ngIf="save">
+                                                    {{title}}
+                                                </button>
+                                               &nbsp;&nbsp;
+                                                <span class="mat-raised-button mat-accent d-inline"
+                                                    (click)="onGoBack()" color="warn" mat-raised-button="">
+                                                    Back
+                                                </span>
+                                            </div>
+
+                                            </div>    
+
+              </div>
+            </div>
+    
+
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+    

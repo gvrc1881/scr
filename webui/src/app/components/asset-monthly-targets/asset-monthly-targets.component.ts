@@ -1,0 +1,96 @@
+import { OnInit, Component, ViewChild,ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef } from '@angular/material';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { CommonService } from 'src/app/common/common.service';
+import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
+import { Constants } from 'src/app/common/constants';
+import { environment } from './../../../environments/environment';
+import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { AssetMonthltTargetsModel } from 'src/app/models/asset-monthly-targets.model';
+import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+@Component({
+    selector: 'asset-monthly-targets',
+    templateUrl: './asset-monthly-targets.component.html',
+    styleUrls: ['./asset-monthly-targets.component.css']
+})
+export class AssetMonthlyTargetsComponent implements OnInit {
+        
+    FiledLabels = FieldLabelsConstant.LABELS;
+    facilityData: any;
+    workGroupList: any;
+    workPhaseList: any;
+    searchInputFormGroup: FormGroup;
+    assetMonthlyTargetsList =  [];
+    dataSource: MatTableDataSource<AssetMonthltTargetsModel>;
+    displayedColumns = ['sno','assetType','scheduleType','totalPopulaion','targetApr','targetMay','targetJune','targetJuly',
+    'targetAug','targetSep','targetOct','targetNov','targetDec','targetJan','targetFeb','targetMar'];
+    enableSave: boolean;
+    res: any;
+    
+    
+    constructor(
+        public dialog: MatDialog,
+        private formBuilder: FormBuilder,
+        private spinnerService: Ng4LoadingSpinnerService,
+        private commonService: CommonService,
+        private sendAndRequestService:SendAndRequestService        
+    ) {
+    }
+        
+    ngOnInit() {
+        this.depotTypeForOhe();
+       this.searchInputFormGroup = this.formBuilder.group({
+            'facilityId': [null , Validators.required ],
+            'year' : [null , Validators.required ]
+        });
+     
+    }
+    
+    saveAction() {
+       this.sendAndRequestService.requestForPOST(Constants.app_urls.OPERATIONS.ASSET_MONTHLY_TARGETS.UPDATE_ASSET_MONTHLY_TARGETS,this.assetMonthlyTargetsList,false).subscribe((response) => {
+            this.spinnerService.hide();
+           this.res = response;
+           if( this.res.code == 200 ){
+                this.commonService.showAlertMessage("Targets Updated Successfully");
+           } else {
+               this.commonService.showAlertMessage("Targets Updation failed");
+           }    
+       })     
+    }
+    
+    getAssetMonthlyTargets(){
+        this.assetMonthlyTargetsList = [];
+        this.enableSave = false;
+        this.dataSource = new MatTableDataSource(this.assetMonthlyTargetsList);
+       // this.spinnerService.show();
+        this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_MONTHLY_TARGETS.GET_ASSET_MONTHLY_TARGETS_BASED_ON_FACILITYID_YEAR
+            +this.searchInputFormGroup.value.facilityId +'/' + this.searchInputFormGroup.value.year
+            ).subscribe((response) => {
+                this.assetMonthlyTargetsList = response;
+                console.log('** rseponse **'+JSON.stringify(this.assetMonthlyTargetsList));
+                if(this.assetMonthlyTargetsList.length > 0) {
+                    for(let i =0 ; i < this.assetMonthlyTargetsList.length ; i++ ){
+                        this.assetMonthlyTargetsList[i].sno = i+1;
+                       console.log('targets'+this.assetMonthlyTargetsList[i].targetApr);
+                    }
+                    this.enableSave = true;
+                }
+                 this.dataSource = new MatTableDataSource(this.assetMonthlyTargetsList);
+        });
+    }
+    
+    depotTypeForOhe()
+  {  
+         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE).subscribe((data) => {
+           this.facilityData = data;
+  }
+         );
+
+ }
+    
+    
+    
+    
+}

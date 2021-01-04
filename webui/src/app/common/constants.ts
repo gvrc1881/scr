@@ -736,7 +736,8 @@ export const Constants = {
                 SAVE_ASSET_MONTHLY_TARGETS:"/addMonthlyTargetItem",
                 UPDATE_ASSET_MONTHLY_TARGETS:"/updateAssetMonthlyTarget",
                 GET_ASSET_MONTHLY_TARGET_BY_ID:"/findAssetMonthlyTargetById/",
-                GET_SCHEDULES_BASED_ON_DPR:"/getScheduleAssocOnDpr/"
+                GET_SCHEDULES_BASED_ON_DPR:"/getScheduleAssocOnDpr/",
+                GET_ASSET_MONTHLY_TARGETS_BASED_ON_FACILITYID_YEAR:"/getAssetMonthlyTargetsBasedOnFacilityIdYear/"
             },
             ASSET_STATUS_CHANGE:{
                 GET_TOWERCARS_BASEDON_DIVISION:"/getTowerCarBasedOnDivsion/",

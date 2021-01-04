@@ -26,7 +26,7 @@ public interface AssetSchAssoRepository extends JpaRepository<AssetScheduleAssoc
 
 	Optional<AssetScheduleAssoc> findByTargetPlanMonths(String seqId);
 	
-	List<AssetScheduleAssoc> findByIsDpr(String isDpr);
+	Optional<AssetScheduleAssoc> findByIsDpr(String isDpr);
 
 
 	

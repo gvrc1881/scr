@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 1,
         menuName: 'Dashboard',
-        menuUrl: 'energy-graph',
+        menuUrl: 'dashboard',
         icon: "fa fa-home",
         color: "",
         isSelected: true,
@@ -638,7 +638,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
-        permission: this.commonService.findPermission('MAT CONFIG', 'menu', 'view'),
+        permission: this.commonService.findPermission('CONFIG', 'menu', 'view'),
         currentTab: !!path && path.includes("make") || path.includes("model") || path.includes("product") || path.includes("product-category") || path.includes("product-category-member") ? "open" : "",
         subMenus: [
           {
@@ -701,8 +701,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "amd",
             subMenuIcon: "fa fas fa-cloud",
             rolePermission: this.rolePermission,
-            permission:true,
-            //permission:this.commonService.findPermission('Asset Master', 'submenu', 'view'),
+            permission:this.commonService.findPermission('Asset Master', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("amd") ? "active-item" : "",
           },
           {
@@ -1036,7 +1035,9 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         permission:true,
        // permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
-          || path.includes("officers-movement") || path.includes("powerBlocks") || path.includes("asset-status-change") || path.includes("Special-works") || path.includes("asset-schedule-progress")? "open" : "",
+          || path.includes("officers-movement") || path.includes("powerBlocks") 
+          || path.includes("asset-status-change") || path.includes("Special-works") 
+          || path.includes("asset-schedule-progress")|| path.includes("asset-monthly-targets")? "open" : "",
         subMenus: [
           {
             subMenuName: "Daily Summary",
@@ -1097,6 +1098,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             permission: this.commonService.findPermission('Asset Schedule Progress', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("asset-schedule-progress") ? "active-item" : "",
+          },
+          {
+            subMenuName: "Asset Monthly Targets",
+            subMenuURL:  "asset-monthly-targets",
+            subMenuIcon: "fa fa-file",
+            permission: true,
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("asset-monthly-targets") ? "active-item" : "",
           },
         ]
       },
