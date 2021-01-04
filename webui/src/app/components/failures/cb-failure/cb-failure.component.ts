@@ -108,8 +108,8 @@ export class CbFailureComponent implements OnInit {
      
       for (let i = 0; i < this.CbFailList.length; i++) {
         this.CbFailList[i].sno = i + 1;
-        this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.CbFailList[i].fromDateTime = this.datePipe.transform(this.CbFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.CbFailList[i].thruDateTime = this.datePipe.transform(this.CbFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.CbFailList[i].divisionLocal=this.CbFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.CbFailList[i].internalExternal=this.CbFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         this.CbFailList[i].trippedIdentifiedFault=this.CbFailList[i].trippedIdentifiedFault == 'true' ? 'TrippIndentified': 'Transient',

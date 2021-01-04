@@ -101,10 +101,10 @@ export class GridFailureComponent implements OnInit {
       console.log(this.gridFailList)
       for (let i = 0; i < this.gridFailList.length; i++) {
         this.gridFailList[i].sno = i + 1;
-        this.gridFailList[i].fromDateTime = this.datePipe.transform(this.gridFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.gridFailList[i].thruDateTime = this.datePipe.transform(this.gridFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.gridFailList[i].feedExtendedFromDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedFromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.gridFailList[i].feedExtendedThruDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedThruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.gridFailList[i].fromDateTime = this.datePipe.transform(this.gridFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.gridFailList[i].thruDateTime = this.datePipe.transform(this.gridFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.gridFailList[i].feedExtendedFromDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedFromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.gridFailList[i].feedExtendedThruDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedThruDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.gridFailList[i].divisionLocal=this.gridFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.gridFailList[i].internalExternal=this.gridFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         

@@ -209,6 +209,7 @@ export const FieldLabelsConstant = {
        LOA_DATE:"Loa Date",
        LINE_TYPE:"Line Type",
       LOCATION_POSITION: "Location Position",
+      LOAD_RELIEF_BREAK_DOWN:"Load Relief/Break Down",
       LOCATION_TYPE: "Location Type",
       LONGITUDE: "Longitude",
       LONGITUDINAL_DN: "Longitudinal Dn",

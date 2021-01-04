@@ -112,8 +112,8 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
       console.log(this.UnusualOccurrenceFailList)
       for (let i = 0; i < this.UnusualOccurrenceFailList.length; i++) {
         this.UnusualOccurrenceFailList[i].sno = i + 1;
-        this.UnusualOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.UnusualOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+        this.UnusualOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.UnusualOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.UnusualOccurrenceFailList[i].divisionLocal=this.UnusualOccurrenceFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.UnusualOccurrenceFailList[i].internalExternal=this.UnusualOccurrenceFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.UnusualOccurrenceFailList[i].subStation).subscribe((data) => {
@@ -174,8 +174,8 @@ getActionsFailureData() {
     this.ActionsFailListActions = data;   
     for (let i = 0; i < this.ActionsFailListActions.length; i++) {
       this.ActionsFailListActions[i].sno = i + 1;
-      this.ActionsFailListActions[i].fromTime = this.datePipe.transform(this.ActionsFailListActions[i].fromTime, 'dd-MM-yyyy hh:mm:ss');
-      this.ActionsFailListActions[i].thruTime = this.datePipe.transform(this.ActionsFailListActions[i].thruTime, 'dd-MM-yyyy hh:mm:ss');
+      this.ActionsFailListActions[i].fromTime = this.datePipe.transform(this.ActionsFailListActions[i].fromTime, 'dd-MM-yyyy HH:mm:ss');
+      this.ActionsFailListActions[i].thruTime = this.datePipe.transform(this.ActionsFailListActions[i].thruTime, 'dd-MM-yyyy HH:mm:ss');
       
       ActionsFail.push(this.ActionsFailListActions[i]);    
     }

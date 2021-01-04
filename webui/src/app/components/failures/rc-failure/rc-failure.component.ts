@@ -94,8 +94,8 @@ export class RcFailureComponent implements OnInit {
       this.RcFailList = data;      
       for (let i = 0; i < this.RcFailList.length; i++) {
         this.RcFailList[i].sno = i + 1;
-        this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');        
+        this.RcFailList[i].fromDateTime = this.datePipe.transform(this.RcFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');        
         this.RcFailList[i].divisionLocal=this.RcFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.RcFailList[i].internalExternal=this.RcFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.RcFailList[i].subStation).subscribe((data) => {

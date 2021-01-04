@@ -98,8 +98,8 @@ export class FailureOccurrenceComponent implements OnInit {
       console.log(this.FailureOccurrenceFailList)
       for (let i = 0; i < this.FailureOccurrenceFailList.length; i++) {
         this.FailureOccurrenceFailList[i].sno = i + 1;
-         this.FailureOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy hh:mm:ss');
-        this.FailureOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy hh:mm:ss');
+         this.FailureOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
+        this.FailureOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.FailureOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.FailureOccurrenceFailList[i].divisionLocal=this.FailureOccurrenceFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.FailureOccurrenceFailList[i].internalExternal=this.FailureOccurrenceFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         FailureOccurrenceFail.push(this.FailureOccurrenceFailList[i]);

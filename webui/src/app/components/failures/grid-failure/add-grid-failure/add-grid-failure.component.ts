@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Constants } from 'src/app/common/constants';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+
+
 
 
 @Component({
@@ -29,6 +31,7 @@ export class AddGridFailureComponent implements OnInit {
   reportedList=[];
   gridFailFormErrors: any;
   feedersList:any;
+  loadReliefList:any;
   extendedFromList:any=[];
   resp: any;
   reportDescriptionFlag=false;
@@ -44,6 +47,7 @@ export class AddGridFailureComponent implements OnInit {
   divisionList:any;
   duration:any;
   dur:any;
+  myModel:boolean=true;
   enableStation:boolean;
   enableExtend:boolean;
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
@@ -75,13 +79,13 @@ export class AddGridFailureComponent implements OnInit {
       maxDemand: {},
       dl: {},
       ie: {},
+      loadReliefBreakDown:{},
       remarks: {}
     };
   }
 
-  ngOnInit() {
-    console.log("facility=="+JSON.stringify(this.facilityHierarchy));
-   // this.findFacilities();
+  ngOnInit() {   
+    this.findLoadReliefBreakDown();
     this.id = +this.route.snapshot.params['id'];    
     
     if (!isNaN(this.id)) {
@@ -102,8 +106,13 @@ export class AddGridFailureComponent implements OnInit {
       this.update = false;
       this.title = Constants.EVENTS.ADD;
     }
+
+   
+
+  
   }
 
+ 
 findFacilities(){
    
   this.facilityList=[];   
@@ -120,7 +129,7 @@ findFacilities(){
           
       }
    }     
-
+ 
   } else {
      this.enableStation=true;
      this.enableExtend=true;
@@ -138,6 +147,7 @@ findFacilities(){
   }    
 }
 
+
   createForm() {
     this.addGridFailFromGroup
       = this.formBuilder.group({
@@ -153,8 +163,11 @@ findFacilities(){
         'maxDemand': [null],
         'dl': [null],
         'ie': [null],
-        'remarks': [null, Validators.maxLength(250)]
+        'loadReliefBreakDown':[null,Validators.compose([Validators.required])],
+        'remarks': [null, Validators.maxLength(250)]   ,
+          
       });
+     
   }
   updateForm() {
    
@@ -172,9 +185,11 @@ findFacilities(){
         'maxDemand': [null],
         'dl': [null],
         'ie': [null],
+        'loadReliefBreakDown':[null,Validators.compose([Validators.required])],
         'remarks': [null, Validators.maxLength(250)]
       });
   }
+
 
   onFormValuesChanged() {
     for (const field in this.gridFailFormErrors) {
@@ -182,7 +197,8 @@ findFacilities(){
         continue;
       }
       this.gridFailFormErrors[field] = {};
-      const control = this.addGridFailFromGroup.get(field);
+      const control = this.addGridFailFromGroup.get(field);   
+  
       if (control && control.dirty && !control.valid) {
         this.gridFailFormErrors[field] = control.errors;
       }
@@ -267,19 +283,8 @@ timDuration(){
 
 //   }
 }
+ 
   updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value)
-      this.extendedFromList = [];
-      //this.reportDescriptionFlag = $event.value == Constants.YES ? true : false;
-      this.facilityList.map(element => {
-        if(element.unitId != $event.value){
-          this.extendedFromList.push(element);
-        }
-      });
-    }
-  }
-  updateFeedOf($event){
     if ($event.value) {
       console.log($event.value)
       this.extendedFromList = [];
@@ -290,6 +295,12 @@ timDuration(){
         }
       });
     }
+  }
+  findLoadReliefBreakDown(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.GRID_FAILURE)
+    .subscribe((resp) => {
+      this.loadReliefList = resp;
+    });
   }
   getGridFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
@@ -314,6 +325,7 @@ timDuration(){
           maxDemand: this.resp.maxDemand,
           dl: this.resp.divisionLocal =='true' ? true: false,
           ie: this.resp.internalExternal == 'true' ? true : false,
+          loadReliefBreakDown:this.resp.loadReliefBreakDown,
           remarks: this.resp.remarks
         });
         this.facilityList.map(element => {
@@ -360,6 +372,7 @@ timDuration(){
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
         "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'true' : 'false',
         "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'true' : 'false',
+        "loadReliefBreakDown":this.addGridFailFromGroup.value.loadReliefBreakDown,
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.GRID_FAILURE,
         "createdDate": this.addGridFailFromGroup.value.fromDateTime,
@@ -396,6 +409,7 @@ timDuration(){
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
         "divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'true' : 'false',
         "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'true' : 'false',
+        "loadReliefBreakDown":this.addGridFailFromGroup.value.loadReliefBreakDown,
         "remarks": this.addGridFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addGridFailFromGroup.value.fromDateTime,
