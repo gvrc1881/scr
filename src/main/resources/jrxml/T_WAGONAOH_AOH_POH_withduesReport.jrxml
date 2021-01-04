@@ -6,11 +6,8 @@
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
+		<![CDATA[select $P{fromDate} fromDate, asu.division,  Facility_name , asu.asset_type, asu.asset_id tower_car_no, type , make ,MODEL,  date_of_manufacture
 , ash1.Schedule_date POH_DONE_DATE , ash2.Schedule_date AOH_DONE_DATE, asa1.duration poh_duration, asa1.uom_of_duration poh_uom_duration,
 case when asa1.uom_of_duration ='Time in Years' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date +(asa1.duration||' years')::interval
      when asa1.uom_of_duration ='Time in Months' and asa1.duration is not null and ash1.Schedule_date is not null then ash1.Schedule_date+(asa1.duration||' months')::interval
@@ -69,9 +66,9 @@ and asu.latest_date_of_status = asu_st.date_of_status
 and asu.facility_id = amd.Facility_id
 and asu.asset_type = amd.asset_type
 and asu.asset_id = amd.asset_id
- and date_of_status >= $P{fromDate}::date
-and date_of_status <= $P{toDate}::date]]>
+ and date_of_status = $P{fromDate}::date]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="facility_name" class="java.lang.String"/>
 	<field name="asset_type" class="java.lang.String"/>
@@ -93,7 +90,7 @@ and date_of_status <= $P{toDate}::date]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="31" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="800" height="31" uuid="a6a9b695-bba5-44d4-ba5b-70b0b2377f88"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -101,6 +98,20 @@ and date_of_status <= $P{toDate}::date]]>
 				</textElement>
 				<text><![CDATA[AOH/POH Details of Tower Cars Available over South Central Railway]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="109" height="29" uuid="15604437-7a9e-4d25-8c5c-ede3b16666df"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="31" width="100" height="29" uuid="4453ad64-a591-483a-80f8-2308cdb786fa"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="towercarpositionbreakdown_subreport" pageWidth="700" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f294aea-69bd-40b5-bed3-c20c56b1b815">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="towercarpositionbreakdown_subreport" pageWidth="700" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f294aea-69bd-40b5-bed3-c20c56b1b815">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select facility_name,asu.asset_id,status,date_of_status,defect_observed || asu.remarks as remarks,
+		<![CDATA[select facility_name,asu.asset_id,status,date_of_status,defect_observed || asu.remarks as remarks,$P{fromDate} fromDate,
 target_date_of_ready
 from asset_status_update asu
 left join facility f on asu.facility_id=f.facility_id
-where date_of_status ::date >=$P{fromDate}::date
-and date_of_status ::date <=$P{toDate}::date]]>
+where date_of_status ::date = $P{fromDate}::date
+]]>
 	</queryString>
 	<field name="facility_name" class="java.lang.String"/>
 	<field name="asset_id" class="java.lang.String"/>
 	<field name="status" class="java.lang.String"/>
 	<field name="date_of_status" class="java.sql.Timestamp"/>
 	<field name="remarks" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="target_date_of_ready" class="java.sql.Timestamp"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="49" splitType="Stretch">
+	<title>
+		<band height="29">
 			<staticText>
 				<reportElement x="0" y="0" width="660" height="29" uuid="28cdacfc-0333-4fff-9862-074e657efa85"/>
 				<box>
@@ -42,6 +40,10 @@ and date_of_status ::date <=$P{toDate}::date]]>
 				</textElement>
 				<text><![CDATA[Position of Breakdown vehicles and Tower cars]]></text>
 			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="29" width="110" height="20" uuid="568f05d4-9a18-412f-81c6-c0bbe401f49e"/>
 				<box>
@@ -140,6 +142,27 @@ and date_of_status ::date <=$P{toDate}::date]]>
 				</textElement>
 				<text><![CDATA[TDC]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="29" uuid="5d27aa1c-d43c-420c-ac33-593a163fd642"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : - ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="0" width="100" height="29" uuid="2e50a5cc-a67c-4bba-891e-b631d3d24073"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

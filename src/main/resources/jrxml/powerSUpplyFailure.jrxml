@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="powerSupplyFailure" pageWidth="920" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="880" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9115cd95-9249-4142-9a5d-3e2df0d46941">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="powerSupplyFailure" pageWidth="920" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="880" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9115cd95-9249-4142-9a5d-3e2df0d46941">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="toDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -18,15 +15,13 @@ extended_of,
 duration,
 f.remarks,
 to_char(f.from_date_time, 'HH24:MI')as from,
-to_char(f.thru_date_time, 'HH24:MI')as to
+to_char(f.thru_date_time, 'HH24:MI')as to,$P{fromDate} fromDate
 
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
 to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
-and to_char(f.thru_date_time, 'yyyy-mm-dd')::date <= $P{toDate}::date
 and type_of_failure ='POWER_FAILURE'
---and current_status = 'ACTIVE'
 
 Group by asset_id,  facility_name,duration,extended_of,
 to_char(f.from_date_time, 'HH24:MI'),to_char(f.thru_date_time, 'HH24:MI'),relay_indication ,
@@ -40,11 +35,12 @@ f.remarks,FAC.division,created_date]]>
 	<field name="remarks" class="java.lang.String"/>
 	<field name="from" class="java.lang.String"/>
 	<field name="to" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="25" splitType="Stretch">
+		<band height="47" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="880" height="25" uuid="a64148f1-a2b3-4ecd-aef9-32a93f68825d"/>
 				<box>
@@ -59,6 +55,27 @@ f.remarks,FAC.division,created_date]]>
 				</textElement>
 				<text><![CDATA[Power Supply Failures ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="50" height="22" uuid="46f5c42a-6613-489f-b19c-3a3b262ef266"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="25" width="100" height="22" uuid="9f57e2a0-1266-4843-9298-1a51be7f23fd"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -289,11 +306,14 @@ f.remarks,FAC.division,created_date]]>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="780" y="0" width="100" height="20" uuid="8094c2e4-787b-45bc-98b1-978cd10fa196"/>
+				<reportElement x="691" y="0" width="189" height="20" uuid="8094c2e4-787b-45bc-98b1-978cd10fa196"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="691" y="0" width="89" height="20" uuid="c3810f92-76f6-47e3-9a1a-295d9b39156e"/>
+				<reportElement x="550" y="0" width="141" height="20" uuid="c3810f92-76f6-47e3-9a1a-295d9b39156e"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Generated on : ]]></text>
 			</staticText>

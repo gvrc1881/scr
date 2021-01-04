@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2_cumOfCurrentYear" pageWidth="600" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e678888e-5c8c-4e5b-bb54-15d8fc54d3fd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2_cumOfCurrentYear" pageWidth="600" pageHeight="802" whenNoDataType="NoDataSection" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e678888e-5c8c-4e5b-bb54-15d8fc54d3fd">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select FAC.division,count(type_of_failure) as no_of_incidences,count(train_no) as no_of_trains,sum(case when  internal_external='FALSE' then 1 else 0 end) as inter,
+		<![CDATA[select $P{fromDate} fromDate , FAC.division,count(type_of_failure) as no_of_incidences,count(train_no) as no_of_trains,sum(case when  internal_external='FALSE' then 1 else 0 end) as inter,
 sum(case when  internal_external='TRUE' then 1 else 0 end) as extern
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
--- type_of_failure='FAILURE'
--- and
+
  f.created_date >=$P{fromDate}::date
-and f.created_date <=$P{toDate}::date
+
 group by FAC.division,type_of_failure,train_no,internal_external]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="no_of_incidences" class="java.lang.Long"/>
 	<field name="no_of_trains" class="java.lang.Long"/>
@@ -29,6 +26,24 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<title>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="560" height="30" uuid="6d830854-0c86-4a3e-8bdd-41d0ca198e78"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cumulative of the Current Year - Reported Cases ]]></text>
+			</staticText>
+		</band>
+	</title>
 	<columnHeader>
 		<band height="50">
 			<staticText>
@@ -74,20 +89,6 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				<text><![CDATA[No of Trains]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="560" height="30" uuid="6d830854-0c86-4a3e-8bdd-41d0ca198e78"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cumulative of the Current Year - Reported Cases ]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="303" y="30" width="100" height="20" uuid="3cd74c17-31cb-4ec4-acbf-68ce759cb94b"/>
 				<box>
 					<pen lineWidth="0.75"/>
@@ -129,6 +130,27 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				</textElement>
 				<text><![CDATA[S No]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="103" height="30" uuid="5885ae7f-97df-4bc7-8806-2e7eacbf487c"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="0" width="100" height="30" uuid="697668d9-7c87-438e-b5e3-f788be44aa87"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

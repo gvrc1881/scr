@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2" pageWidth="600" pageHeight="850" whenNoDataType="AllSectionsNoDetail" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15b6e6c2-969a-4ae9-86dc-79222fc19081">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DP_TOP_PAGE_subreport2" pageWidth="600" pageHeight="850" whenNoDataType="NoDataSection" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15b6e6c2-969a-4ae9-86dc-79222fc19081">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select FAC.division,count(type_of_failure)as no_of_incidences,count(train_no) as no_of_trains,sum(case when  internal_external='FALSE' then 1 else 0 end) as inter,
+		<![CDATA[select $P{fromDate} fromDate, FAC.division,count(type_of_failure)as no_of_incidences,count(train_no) as no_of_trains,sum(case when  internal_external='FALSE' then 1 else 0 end) as inter,
 sum(case when  internal_external='TRUE' then 1 else 0 end) as extern
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-f.created_date >= $P{fromDate}::date
-and f.created_date <= $P{toDate}::date
+f.created_date = $P{fromDate}::date
+
  group by FAC.division,type_of_failure,train_no]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="no_of_incidences" class="java.lang.Long"/>
 	<field name="no_of_trains" class="java.lang.Long"/>
@@ -27,8 +25,8 @@ and f.created_date <= $P{toDate}::date
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="50" splitType="Stretch">
+	<title>
+		<band height="30">
 			<staticText>
 				<reportElement x="0" y="0" width="560" height="30" uuid="700e77a7-abd1-48f1-83ed-d7084fb1dfd3"/>
 				<box>
@@ -43,6 +41,10 @@ and f.created_date <= $P{toDate}::date
 				</textElement>
 				<text><![CDATA[Cumulative of the Last Year - Total Reported Cases]]></text>
 			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="50" splitType="Stretch">
 			<staticText>
 				<reportElement x="303" y="30" width="100" height="20" uuid="dcad99b2-0e2c-45f1-bcf4-4d73b40e8f09"/>
 				<box>
@@ -113,6 +115,27 @@ and f.created_date <= $P{toDate}::date
 				</textElement>
 				<text><![CDATA[No of Incidences]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="103" height="30" uuid="9687ca2a-a77f-417e-a5e2-f313885acf10"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="0" width="100" height="30" uuid="018d51bd-7ade-400c-a7c1-3737acd3edba"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

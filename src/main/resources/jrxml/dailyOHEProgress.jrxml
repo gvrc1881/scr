@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select depot, division ,
+		<![CDATA[select depot, division ,$P{date} fromDate,
 split_part(depot_row, ';',  7  ) as  sc1,
 split_part( split_part(depot_row, ';',  1  ) , ',' , 1) sc1_AT ,
 split_part( split_part(depot_row, ';',  1  ) , ',' , 2) sc1_st ,
@@ -288,6 +288,7 @@ group by depot, division
 	</queryString>
 	<field name="depot" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="sc1" class="java.lang.String"/>
 	<field name="sc1_at" class="java.lang.String"/>
 	<field name="sc1_st" class="java.lang.String"/>

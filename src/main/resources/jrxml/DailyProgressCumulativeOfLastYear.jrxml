@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DpTopPageSubCumLastyear_subreport1" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ffeada2-ba87-4a88-9300-e3885a4dfe27">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DpTopPageSubCumLastyear_subreport1" pageWidth="555" pageHeight="802" whenNoDataType="NoDataSection" columnWidth="515" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ffeada2-ba87-4a88-9300-e3885a4dfe27">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select FAC.division,count(type_of_failure)as no_of_incidence,count(train_no) as no_of_trains
+		<![CDATA[select $P{fromDate} fromDate, FAC.division,count(type_of_failure)as no_of_incidence,count(train_no) as no_of_trains
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-f.created_date>=to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'  and
-f.created_date<=to_date($P{toDate},'yyyy-mm-dd') - interval '1 year'
+f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
+
  group by FAC.division,type_of_failure,train_no]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="no_of_incidence" class="java.lang.Long"/>
 	<field name="no_of_trains" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="45" splitType="Stretch">
+	<title>
+		<band height="34">
 			<staticText>
-				<reportElement x="0" y="0" width="515" height="25" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
+				<reportElement x="0" y="0" width="514" height="34" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -40,6 +38,10 @@ f.created_date<=to_date($P{toDate},'yyyy-mm-dd') - interval '1 year'
 				</textElement>
 				<text><![CDATA[Cumulative of the Last Year - Reported Cases (Up to the same Date)]]></text>
 			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="25" width="177" height="20" uuid="0349782a-b076-49c6-825f-1c1fea8047be"/>
 				<box>
@@ -82,6 +84,25 @@ f.created_date<=to_date($P{toDate},'yyyy-mm-dd') - interval '1 year'
 				</textElement>
 				<text><![CDATA[No.of.incidences]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="177" height="25" uuid="5e065ee3-8a10-4ac0-929b-4fa120789c57"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="177" y="0" width="100" height="25" uuid="0f5300b8-6735-4c74-9f2a-82e593a5a2f7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

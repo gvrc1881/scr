@@ -9,11 +9,8 @@
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select pm.precautionary_measure precautionary_measure1,pmm.precautionary_measure,
+		<![CDATA[select pm.precautionary_measure precautionary_measure1,pmm.precautionary_measure,$P{fromDate} fromDate,
 created_date ,
 count ,
 pm.location ,
@@ -27,12 +24,11 @@ else pm.facility_id is not null or pm.facility_id is null end
 
 and case when $P{fromDate} != '' then to_char(created_date,'yyyy-mm-dd') >= $P{fromDate}
 else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end
-
-and case when  $P{toDate} != '' then to_char(created_date,'yyyy-mm-dd') <= $P{toDate}
-else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end]]>
+]]>
 	</queryString>
 	<field name="precautionary_measure1" class="java.lang.Integer"/>
 	<field name="precautionary_measure" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="count" class="java.lang.Integer"/>
 	<field name="location" class="java.lang.String"/>
@@ -60,6 +56,24 @@ else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyy
 			</staticText>
 		</band>
 	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="20" uuid="c7468941-d0c6-4df9-b730-ccac37e5679b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="147" height="20" uuid="3c4ecdb7-cf00-46aa-b521-6d0f239dc55a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>

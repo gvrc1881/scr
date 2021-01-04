@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select ec.energy_reading_date,ec.location as tssfeeder,
+		<![CDATA[select ec.energy_reading_date,ec.location as tssfeeder,$P{fromDate} fromDate,
 ec.kwh as kwh,
 ec.kvah as kvah,
 ec.rkvah_lag as rkvahlag,
@@ -20,6 +20,7 @@ where ec.energy_reading_date = $P{fromDate}::date]]>
 	</queryString>
 	<field name="energy_reading_date" class="java.sql.Date"/>
 	<field name="tssfeeder" class="java.lang.String"/>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="kwh" class="java.math.BigDecimal"/>
 	<field name="kvah" class="java.math.BigDecimal"/>
 	<field name="rkvahlag" class="java.math.BigDecimal"/>

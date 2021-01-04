@@ -6,11 +6,8 @@
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select sum(case when status='IN_USE' or status = 'READY_TO_USE' and asset_type like'%4_%' then 1 else 0 end ) as fourwhavlsrvice,
+		<![CDATA[select $P{fromDate} fromDate, sum(case when status='IN_USE' or status = 'READY_TO_USE' and asset_type like'%4_%' then 1 else 0 end ) as fourwhavlsrvice,
  sum(case when status='UNDER_POH' and asset_type like'%4_%' then 1 else 0 end ) as fourwhunderpoh,
  sum(case when status='UNDER_AOH'and asset_type like'%4_%' then 1 else 0 end ) as fourwhunderaoh,
  sum(case when status='UNDER_REPAIR'and asset_type like'%4_%' then 1 else 0 end ) as fourwhunderrepair,
@@ -21,7 +18,7 @@
  division,asset_type
 from
 (
-select a.* , f.division from asset_status_update a ,
+select $P{fromDate} fromDate, a.* , f.division from asset_status_update a ,
 (select max(date_of_status) date_of_status_max, asset_id,asset_type, facility_id
    from asset_status_update asu_st  where asset_type in(
 select product_id
@@ -42,10 +39,11 @@ and a.facility_id = b.facility_id
 and f.facility_id = a.facility_id
 order by 3
 ) c
-where date_of_status >= $P{fromDate}::date
-and date_of_status <= $P{toDate}::date
+where date_of_status = $P{fromDate}::date
+
 group by division,asset_type]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="fourwhavlsrvice" class="java.lang.Long"/>
 	<field name="fourwhunderpoh" class="java.lang.Long"/>
 	<field name="fourwhunderaoh" class="java.lang.Long"/>
@@ -66,8 +64,8 @@ group by division,asset_type]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="61" splitType="Stretch">
+	<title>
+		<band height="27">
 			<staticText>
 				<reportElement x="0" y="0" width="660" height="27" uuid="37c8af75-3b64-4f13-b441-138003ffb731"/>
 				<box>
@@ -82,6 +80,10 @@ group by division,asset_type]]>
 				</textElement>
 				<text><![CDATA[Position of Breakdown vehicles and Tower cars]]></text>
 			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement x="50" y="27" width="103" height="34" uuid="17f77a57-0a53-4602-8187-920973bc4bd1"/>
 				<box>
@@ -190,6 +192,27 @@ group by division,asset_type]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Division]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="27" uuid="4b12f838-5570-4b8c-88b1-a22b3585ab9b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date : -]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="100" height="27" uuid="b61e959f-d837-41c1-ac60-6fa5f5f7779c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

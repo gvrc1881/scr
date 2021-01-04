@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CBTripping_PositionReport" pageWidth="800" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ffa18e9-1470-4fc8-a6de-8e303a05b764">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CBTripping_PositionReport" pageWidth="800" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ffa18e9-1470-4fc8-a6de-8e303a05b764">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="toDate" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
-		<![CDATA[select
+		<![CDATA[select $P{fromDate} fromDate,
 created_date,
 FAC.division,
 facility_name,
@@ -22,14 +19,15 @@ to_char(f.thru_date_time, 'HH24:MI')as closedat
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
-and to_char(f.thru_date_time, 'yyyy-mm-dd')::date <=$P{toDate}::date
+to_char(f.from_date_time, 'yyyy-mm-dd')::date = $P{fromDate}::date
+
 and type_of_failure ='POWER_FAILURE'
 and current_status = 'ACTIVE'
 Group by asset_id,  facility_name,
 to_char(f.from_date_time, 'HH24:MI'),to_char(f.thru_date_time, 'HH24:MI'),relay_indication ,
 f.remarks,FAC.division,created_date]]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="facility_name" class="java.lang.String"/>
@@ -42,7 +40,7 @@ f.remarks,FAC.division,created_date]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="25" splitType="Stretch">
+		<band height="50" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="760" height="25" uuid="3be80c51-5050-4a95-b2e5-ac375a05097e"/>
 				<box>
@@ -57,6 +55,27 @@ f.remarks,FAC.division,created_date]]>
 				</textElement>
 				<text><![CDATA[CB TRIPPING POSITION  ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="108" height="25" uuid="d4782f2a-e36c-4146-9a6b-cea96e82c266"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :-]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="108" y="25" width="110" height="25" uuid="f2877dfc-49bb-469e-abe6-b290da6703d7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
