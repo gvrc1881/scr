@@ -191,4 +191,115 @@ public class PrecautionaryMeasureController {
 		}
 	}
 	
+	//Precautionary Measure Master
+	
+	@RequestMapping(value = "/findAllPrecautionaryMeasureMaster", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<PrecautionaryMeasuresMaster> findAllPrecautionaryMeasureMaster() throws JSONException {
+		logger.info("Enter into findAll PrecautionaryMeasure Master function");
+		List<PrecautionaryMeasuresMaster> precautionaryMeasMasteList = null;
+		try {
+			logger.info("Calling service for PrecautionaryMeasure data");
+			precautionaryMeasMasteList = precautionaryMeasureService.findAllPreMeaMaster();
+			logger.info("Fetched precautionaryMeasure data = " + precautionaryMeasMasteList.size());
+			return precautionaryMeasMasteList;
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the PrecautionaryMeasure Master data = " + npe.getMessage());
+		} catch (Exception e) {
+			logger.error("ERROR >>> while fetching the PrecautionaryMeasure Master data = " + e.getMessage());
+		}
+		logger.info("Exit from findAll PrecautionaryMeasure Master function");
+		return precautionaryMeasMasteList;
+	}
+	
+	@RequestMapping(value="/addPrecautionaryMeasureMaster",method=RequestMethod.POST,headers="Accept=application/json")
+	public ResponseStatus addPrecautionaryMeasureMaster(@RequestBody PrecautionaryMeasuresMaster precautionaryMeasureMaster) {
+		logger.info("Enter into addPrecautionaryMeasures function with below request parameters ");
+		logger.info("Request Parameters = "+precautionaryMeasureMaster.toString());
+		try {
+			logger.info("Calling service with request parameters.");
+			precautionaryMeasureService.save(precautionaryMeasureMaster);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("precautionaryMeasure Master Added successfully",Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding precautionaryMeasure Master data. "+npe.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding precautionaryMeasure Master data. "+e.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/updatePrecautionaryMeasureMaster" ,method = RequestMethod.PUT , headers = "Accept=application/json")
+	public ResponseStatus updatePrecautionaryMeasureMaster(@RequestBody PrecautionaryMeasuresMaster precautionaryMeasureMaster) {
+		logger.info("Enter into updatePrecautionaryMeasure function with below request parameters ");
+		logger.info("Request Parameters = "+precautionaryMeasureMaster.toString());
+		try {
+			logger.info("Calling service with request parameters.");
+			precautionaryMeasureService.save(precautionaryMeasureMaster);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("precautionaryMeasure Master Updated successful", Constants.SUCCESS_CODE);	
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While updating precautionaryMeasure Master data. "+npe.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master update is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While updating precautionaryMeasure Master data. "+e.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master update is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/deletePrecautionaryMeasureMaster/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
+	public ResponseStatus deletePrecautionaryMeasureMasterById(@PathVariable Integer id) {
+		logger.info("Enter into deletePrecautionaryMeasure MasterById function");
+		logger.info("Selected precautionaryMeasure Master Id = "+id);
+		try {
+			precautionaryMeasureService.deletePrecautionaryMeasureMasterById(id);
+			return Helper.findResponseStatus("precautionaryMeasure Master deleted successfully", Constants.SUCCESS_CODE);
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >> While deleting precautionaryMeasure Master data"+npe.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master Deletion is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error("ERROR >> While deleting precautionaryMeasure Master data"+e.getMessage());
+			return Helper.findResponseStatus("precautionaryMeasure Master Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+	}
+	
+	@RequestMapping(value = "/existPrecautionaryMeasure/{precautionaryMeasure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existPrecautionaryMeasure(@PathVariable("precautionaryMeasure") String precautionaryMeasure ){
+			
+		try {
+            logger.info("Request for checking exists precautionary Measure...");
+			return precautionaryMeasureService.existsByPrecautionaryMeasure(precautionaryMeasure);
+		} catch (Exception e) {
+			logger.error("Error while checking exists precautionary Measure..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/existPrecautionaryMeasureById/{id}/{precautionaryMeasure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existPrecautionaryMeasureById(@PathVariable("id") Integer id,@PathVariable("precautionaryMeasure") String precautionaryMeasure){
+		
+		logger.info("id=="+id+"precautionaryMeasure=="+precautionaryMeasure);
+		Boolean result;
+		try {
+			Optional<PrecautionaryMeasuresMaster> precautionaryMeasureData = precautionaryMeasureService.findByPrecautionaryMeasure(precautionaryMeasure);	
+			if(precautionaryMeasureData.isPresent()) {
+				PrecautionaryMeasuresMaster precautionaryMeasuresMaster = precautionaryMeasureData.get();
+				logger.info("***id ***"+precautionaryMeasuresMaster.getId());
+				if (id.equals(precautionaryMeasuresMaster.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and precautionary Measures Master..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	
 }

@@ -283,8 +283,13 @@ export const Constants = {
                 DELETE_SPECIAL_WORKS:"/deletePrecautionaryMeasure/",
                 GET_PRECAUTIONARY_MEASURES_BASED_ON_STATUS:"/getprecautionaryMeasureBasedOnActive/",
                 EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE:"/findByFacilityIdPrecautionaryMeasureAndCreatedDate/",
-                EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE_ID:"/existFacilityIdPrecautionaryMeasureAndDateOfWorkAndId/"
-
+                EXIST_FACILITY_ID_AND_PRECAU_MEA_DATE_ID:"/existFacilityIdPrecautionaryMeasureAndDateOfWorkAndId/",
+                GET_PRE_MEA_MAS:"/findAllPrecautionaryMeasureMaster",
+                SAVE_PRE_MEA_MAS:"/addPrecautionaryMeasureMaster",
+                UPDATE_PRE_MEA_MAS:"/updatePrecautionaryMeasureMaster",
+                DELETE_PRE_MEA_MAS:"/deletePrecautionaryMeasureMaster/",
+                EXIST_PRE_MEA:"/existPrecautionaryMeasure/",
+                EXIST_PRE_MEA_ID:"/existPrecautionaryMeasureById/"
             },
             SUBSECTOR:{
                 GET_SUB_SECTOR:"/findAllSubSector",

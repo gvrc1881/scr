@@ -536,6 +536,11 @@ const routes: Routes = [
      canActivate: [AuthGuard]
    },
    {
+    path: 'Special-works-master',
+    loadChildren: './components/special-works-master/special-works-master.module#SpecialWorksMasterModule',
+     canActivate: [AuthGuard]
+   },
+   {
     path: 'Special-works',
     loadChildren: './components/special-works/special-works.module#SpecialWorksModule',
      canActivate: [AuthGuard]

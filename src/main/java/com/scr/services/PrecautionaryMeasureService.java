@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.PrecautionaryMeasureMapper;
+import com.scr.model.GantryMasterData;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
@@ -69,5 +70,28 @@ public class PrecautionaryMeasureService {
 			pm.add(precautionaryMeasure);
 		}
 		 return pm;
+	}
+	
+	//precautionary Measure Master
+	
+	public void save(PrecautionaryMeasuresMaster precautionaryMeasureMaster) {
+		precautionaryMeasureMasterRepository.save(precautionaryMeasureMaster);
+	}
+	
+	public void deletePrecautionaryMeasureMasterById(Integer id) {
+		// TODO Auto-generated method stub
+		precautionaryMeasureMasterRepository.deleteById(id);
+	}
+	public List<PrecautionaryMeasuresMaster> findAllPreMeaMaster() {
+		// TODO Auto-generated method stub
+		return precautionaryMeasureMasterRepository.findAll();
+	}
+	public Boolean existsByPrecautionaryMeasure(String precautionaryMeasure) {
+		// TODO Auto-generated method stub
+		return precautionaryMeasureMasterRepository.existsByPrecautionaryMeasure(precautionaryMeasure);
+	}
+	
+	public Optional<PrecautionaryMeasuresMaster> findByPrecautionaryMeasure(String precautionaryMeasure) {
+		return precautionaryMeasureMasterRepository.findByPrecautionaryMeasure(precautionaryMeasure);
 	}
 }

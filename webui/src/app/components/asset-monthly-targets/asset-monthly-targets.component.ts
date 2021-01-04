@@ -18,6 +18,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 export class AssetMonthlyTargetsComponent implements OnInit {
         
     FiledLabels = FieldLabelsConstant.LABELS;
+    addPermission: boolean = true;
     facilityData: any;
     workGroupList: any;
     workPhaseList: any;
@@ -40,6 +41,8 @@ export class AssetMonthlyTargetsComponent implements OnInit {
     }
         
     ngOnInit() {
+        var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","ASSET MONTHLY TARGETS") ;
+  	    this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
         this.depotTypeForOhe();
        this.searchInputFormGroup = this.formBuilder.group({
             'facilityId': [null , Validators.required ],
@@ -59,7 +62,13 @@ export class AssetMonthlyTargetsComponent implements OnInit {
            }    
        })     
     }
-    
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim();
+        filterValue = filterValue.toLowerCase();
+         this.dataSource.filter = filterValue;
+      
+        
+      }
     getAssetMonthlyTargets(){
         this.assetMonthlyTargetsList = [];
         this.enableSave = false;

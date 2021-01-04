@@ -680,7 +680,9 @@ export const FieldLabelsConstant = {
     ASSISTANCE_AND_REMARKS_DATA:'Assistance And Remarks Data',
     ASSISTANCE_AND_REMARKS_FORM:'Assistance And Remarks Form',
     SPECIAL_WORKS_DATA:'Special Works Data',
+    SPECIAL_WORKS_MASTER_DATA:'Special Works Master Data',
     SPECIAL_WORKS_FORM:'Special Works Form',
+    SPECIAL_WORKS_MATER_FORM:'Special Works Mater Form',
     TOWERCAR_STATUS:'TowerCar Status'
    }
 };

@@ -1036,7 +1036,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
        // permission: this.commonService.findPermission('ash', 'menu', 'view'),
         currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
           || path.includes("officers-movement") || path.includes("powerBlocks") 
-          || path.includes("asset-status-change") || path.includes("Special-works") 
+          || path.includes("asset-status-change") || path.includes("Special-works") || path.includes("Special-works-master")
           || path.includes("asset-schedule-progress")|| path.includes("asset-monthly-targets")? "open" : "",
         subMenus: [
           {
@@ -1084,13 +1084,21 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("asset-status-change") ? "active-item" : "",
           },
           {
+            subMenuName: "Special Works Master",
+            subMenuURL: "Special-works-master",
+            subMenuIcon: "fa fa-track",
+            rolePermission: this.rolePermission,
+            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("Special-works-master") ? "active-item" : "",
+          },
+          {
             subMenuName: "Special Works",
             subMenuURL: "Special-works",
             subMenuIcon: "fa fa-track",
             rolePermission: this.rolePermission,
             permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Special-works") ? "active-item" : "",
-          },
+          }, 
           {
             subMenuName: "Asset Schedule Progress",
             subMenuURL:  "asset-schedule-progress",
