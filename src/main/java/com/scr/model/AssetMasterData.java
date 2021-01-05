@@ -1127,4 +1127,50 @@ public class AssetMasterData implements Serializable {
 		this.currentRating = currentRating;
 	}
 
+	@Override
+	public String toString() {
+		return "AssetMasterData [id=" + id + ", adeeSection=" + adeeSection + ", assetId=" + assetId + ", assetType="
+				+ assetType + ", batch=" + batch + ", capacityRating=" + capacityRating + ", codalLife=" + codalLife
+				+ ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", createdStamp=" + createdStamp
+				+ ", createdTxStamp=" + createdTxStamp + ", dataDiv=" + dataDiv + ", dateOfCommision=" + dateOfCommision
+				+ ", dateOfManufacture=" + dateOfManufacture + ", dateOfReceived=" + dateOfReceived
+				+ ", elementarySection=" + elementarySection + ", end1Side1=" + end1Side1 + ", end2Side2=" + end2Side2
+				+ ", equippedDate=" + equippedDate + ", expiryDate=" + expiryDate + ", facilityId=" + facilityId
+				+ ", implantation=" + implantation + ", kilometer=" + kilometer + ", lastUpdatedStamp="
+				+ lastUpdatedStamp + ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", locationPosition="
+				+ locationPosition + ", lugDate=" + lugDate + ", majorSection=" + majorSection + ", make=" + make
+				+ ", model=" + model + ", namePlateDetails=" + namePlateDetails + ", oemSerial=" + oemSerial
+				+ ", parentAssetType=" + parentAssetType + ", parentAssetTypeId=" + parentAssetTypeId + ", part1="
+				+ part1 + ", part2=" + part2 + ", part3=" + part3 + ", positionId=" + positionId + ", remark1="
+				+ remark1 + ", remark2=" + remark2 + ", rlyAssignedSerial=" + rlyAssignedSerial + ", section=" + section
+				+ ", seqId=" + seqId + ", source=" + source + ", station=" + station + ", stripDate=" + stripDate
+				+ ", structure=" + structure + ", type=" + type + ", vendor=" + vendor + ", voltage=" + voltage
+				+ ", warrantyAmc=" + warrantyAmc + ", warrantyAmcEndDate=" + warrantyAmcEndDate + ", line=" + line
+				+ ", stagger=" + stagger + ", stagger1=" + stagger1 + ", stagger2=" + stagger2 + ", stagger3="
+				+ stagger3 + ", stay1InsulatorMake=" + stay1InsulatorMake + ", stay1InsulatorBatch="
+				+ stay1InsulatorBatch + ", bracket1InsulatorMake=" + bracket1InsulatorMake + ", bracket1InsulatorBatch="
+				+ bracket1InsulatorBatch + ", stag1Ton9InsulatorMake=" + stag1Ton9InsulatorMake
+				+ ", stag1Ton9InsulatorBatch=" + stag1Ton9InsulatorBatch + ", rod1InsulatorMake=" + rod1InsulatorMake
+				+ ", rod1InsulatorBatch=" + rod1InsulatorBatch + ", pedestal1InsulatorMake=" + pedestal1InsulatorMake
+				+ ", pedestal1InsulatorBatch=" + pedestal1InsulatorBatch + ", core1InsulatorMake=" + core1InsulatorMake
+				+ ", core1InsulatorBatch=" + core1InsulatorBatch + ", stay2InsulatorMake=" + stay2InsulatorMake
+				+ ", stay2InsulatorBatch=" + stay2InsulatorBatch + ", bracket2InsulatorMake=" + bracket2InsulatorMake
+				+ ", bracket2InsulatorBatch=" + bracket2InsulatorBatch + ", stag2Ton9InsulatorMake="
+				+ stag2Ton9InsulatorMake + ", stag2Ton9InsulatorBatch=" + stag2Ton9InsulatorBatch
+				+ ", rod2InsulatorMake=" + rod2InsulatorMake + ", rod2InsulatorBatch=" + rod2InsulatorBatch
+				+ ", pedestal2InsulatorMake=" + pedestal2InsulatorMake + ", pedestal2InsulatorBatch="
+				+ pedestal2InsulatorBatch + ", core2InsulatorMake=" + core2InsulatorMake + ", stay3InsulatorMake="
+				+ stay3InsulatorMake + ", stay3InsulatorBatch=" + stay3InsulatorBatch + ", bracket3InsulatorMake="
+				+ bracket3InsulatorMake + ", bracket3InsulatorBatch=" + bracket3InsulatorBatch
+				+ ", stag3Ton9InsulatorMake=" + stag3Ton9InsulatorMake + ", stag3Ton9InsulatorBatch="
+				+ stag3Ton9InsulatorBatch + ", rod3InsulatorMake=" + rod3InsulatorMake + ", rod3InsulatorBatch="
+				+ rod3InsulatorBatch + ", pedestal3InsulatorMake=" + pedestal3InsulatorMake
+				+ ", pedestal3InsulatorBatch=" + pedestal3InsulatorBatch + ", core3InsulatorMake=" + core3InsulatorMake
+				+ ", core3InsulatorBatch=" + core3InsulatorBatch + ", halfTensionLength=" + halfTensionLength
+				+ ", burden=" + burden + ", adoptedRatio=" + adoptedRatio + ", availableRatio=" + availableRatio
+				+ ", core2InsulatorBatch=" + core2InsulatorBatch + ", datessRopeReplaced=" + datessRopeReplaced
+				+ ", tsTrackSeparation=" + tsTrackSeparation + ", date9tonInsulatorTested=" + date9tonInsulatorTested
+				+ ", voltageRating=" + voltageRating + ", currentRating=" + currentRating + "]";
+	}
+
 }

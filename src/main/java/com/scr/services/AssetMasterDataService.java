@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.AssetMasterDataMapper;
 import com.scr.mapper.AssetStatusUpdateMapper;
@@ -17,6 +18,8 @@ import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
 import com.scr.repository.AssetMasterFormParameterRepository;
 import com.scr.repository.AssetMastersRepository;
+import com.scr.search.models.SearchCriteria;
+import com.scr.specifications.UserSpecification;
 
 @Service
 public class AssetMasterDataService {
@@ -127,12 +130,96 @@ public class AssetMasterDataService {
 		}
 	
 	public Boolean existsByFacilityIdAndAssetTypeAndAssetId(String facilityId, String assetType,String assetId) {
-		 //TODO Auto-generated method stub
+		 
 		return assetMastersRepository.existsByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
 	}
 	
 	public Optional<AssetMasterData> findByFacilityIdAndAssetTypeAndAssetId(String facilityId,String assetType,String assetId) {
-		// TODO Auto-generated method stub
 		return assetMastersRepository.findByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
+	}
+
+	public List<AssetMasterData> findSearch(AssetMasterData assetMasterData) {
+		List<AssetMasterData> results = null;
+		try {
+			if(assetMasterData != null) {
+				List<UserSpecification> specifications = new ArrayList<UserSpecification>();
+				
+				if(assetMasterData.getType() != null && !assetMasterData.getType().isEmpty()) {
+					UserSpecification type = 
+						      new UserSpecification(new SearchCriteria("type", ":", assetMasterData.getType().toUpperCase()));
+					specifications.add(type);
+				}
+				if(assetMasterData.getFacilityId() != null && !assetMasterData.getFacilityId().isEmpty()) {
+					UserSpecification facilityId = 
+						      new UserSpecification(new SearchCriteria("facilityId", ":", assetMasterData.getFacilityId().toUpperCase()));
+					specifications.add(facilityId);
+				}
+				if(assetMasterData.getAssetType() != null) {					
+					UserSpecification assetType = 
+						      new UserSpecification(new SearchCriteria("assetType", ":", assetMasterData.getAssetType().toUpperCase()));
+					specifications.add(assetType);
+				}
+				if(assetMasterData.getAssetId() != null && !assetMasterData.getAssetId().isEmpty()) {
+					UserSpecification assetId = 
+						      new UserSpecification(new SearchCriteria("assetId", ":", assetMasterData.getAssetId().toUpperCase()));
+					specifications.add(assetId);
+				}
+				if(assetMasterData.getAdeeSection() != null && !assetMasterData.getAdeeSection().isEmpty()) {
+					UserSpecification adeeSection = 
+						      new UserSpecification(new SearchCriteria("adeeSection", ":", assetMasterData.getAdeeSection().toUpperCase()));
+					specifications.add(adeeSection);
+				}
+				if(assetMasterData.getMajorSection() != null && !assetMasterData.getMajorSection().isEmpty()) {
+					UserSpecification majorSection = 
+						      new UserSpecification(new SearchCriteria("majorSection", ":", assetMasterData.getMajorSection().toUpperCase()));
+					specifications.add(majorSection);
+				}
+				if(assetMasterData.getSection() != null && !assetMasterData.getSection().isEmpty()) {
+					UserSpecification section = 
+						      new UserSpecification(new SearchCriteria("section", ":", assetMasterData.getSection().toUpperCase()));
+					specifications.add(section);
+				}
+				if(assetMasterData.getLocationPosition() != null && !assetMasterData.getLocationPosition().isEmpty()) {
+					UserSpecification locationPosition = 
+						      new UserSpecification(new SearchCriteria("locationPosition", ":", assetMasterData.getLocationPosition().toUpperCase()));
+					specifications.add(locationPosition);
+				}if(assetMasterData.getKilometer() != null ) {
+					UserSpecification kilometer = 
+						      new UserSpecification(new SearchCriteria("kilometer", ">", assetMasterData.getKilometer()));
+					specifications.add(kilometer);
+				}if(assetMasterData.getElementarySection() != null && !assetMasterData.getElementarySection().isEmpty()) {
+					UserSpecification elementarySection = 
+						      new UserSpecification(new SearchCriteria("elementarySection", ":", assetMasterData.getElementarySection().toUpperCase()));
+					specifications.add(elementarySection);
+				}
+				
+				if(!specifications.isEmpty()) {					
+					if(specifications.size() == 1)
+						results = assetMastersRepository.findAll(specifications.get(0));
+					else if(specifications.size() == 2)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)));
+					else if(specifications.size() == 3)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)));
+					else if(specifications.size() == 4)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)));
+					else if(specifications.size() == 5)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)));
+					else if(specifications.size() == 6)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)));
+					else if(specifications.size() == 7)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)));
+					else if(specifications.size() == 8)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)));
+					else if(specifications.size() == 9)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)));
+					else if(specifications.size() == 10)
+						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)).and(specifications.get(9)));
+				    logger.info("resulst : "+results.size());
+				}
+			}
+		}catch (Exception e) {
+			logger.error("ERROR >>> while finding the search results, "+e.getMessage());
+		}
+		return results;
 	}
 }

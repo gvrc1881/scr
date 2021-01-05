@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.scr.model.AssetMasterData;
 
-public interface AssetMastersRepository extends JpaRepository<AssetMasterData, Long>{
+public interface AssetMastersRepository extends JpaRepository<AssetMasterData, Long>, JpaSpecificationExecutor<AssetMasterData>{
 	List<AssetMasterData> findAll();
 	List<AssetMasterData> findByAssetIdAndFacilityId(String assetId,String facilityId);
 	List<AssetMasterData> findByAssetTypeAndFacilityId(String assetType,String facilityId);
