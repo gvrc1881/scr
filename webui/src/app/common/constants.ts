@@ -244,6 +244,7 @@ export const Constants = {
                 GET_MAKE_MODEL:"/findMakeModel/",
                 EXIST_FACILITY_ASSETTYPEID:"/findByFacilityAssetTypeId/",
                 EXIST_FACILITY_ASSETTYPEID_AND_ID:"/findByFacilityIdAssetTypeAndId/",
+                ASSET_MASTER_DATA_SEARCH:"/assetMasterDataSearch"
             },
             OHELOCATION:{
                 GET_OHE_LOCATION:"/findAllOheLocationItems",
@@ -921,6 +922,6 @@ export const Constants = {
         "ASSET_STATUS_TYPES":"ASSET_STATUS_TYPES",
         "GRID_FAILURE":"GRID_FAILURE"
     },
-    PAGINATION_NUMBERS:[30, 60, 100, 150, 200, 250]
+    PAGINATION_NUMBERS:[25, 50, 75, 100, 150, 200]
 
 };

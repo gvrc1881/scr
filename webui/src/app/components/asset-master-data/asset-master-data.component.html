@@ -768,7 +768,6 @@
                                             <mat-cell *matCellDef="let row" style="cursor: pointer">
                                                 {{row.adeeSection}}</mat-cell>
                                         </ng-container>
-
                                         <ng-container matColumnDef="majorSection">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>MajorSection
                                             </mat-header-cell>
@@ -821,7 +820,7 @@
                                         <mat-row *matRowDef="let row; columns: assetMasterDisplayColumns;">
                                         </mat-row>
                                     </mat-table>
-                                    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageNo" [pageSizeOptions]="[10, 20, 30, 200]"
+                                    <mat-paginator [pageSize]="pageSize" [pageIndex]="pageNo"
                                     (page)="getServerData($event)"></mat-paginator>
                                 </div>
                             </div>

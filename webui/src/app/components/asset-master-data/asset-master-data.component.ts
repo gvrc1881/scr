@@ -84,10 +84,10 @@ export class AssetMasterDataComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pageSize = 10;
+    this.pageSize = 25;
     this.pageNo = 0;
     this.reportModel = new ReportModel();
-    this.getAllAssetMasterData(0, 30);
+    this.getAllAssetMasterData(0, 29);
     this.findFunctionalUnits();
     this.findZones();
     this.findDepoTypeList();
@@ -640,7 +640,6 @@ export class AssetMasterDataComponent implements OnInit {
     }, error => { })
   }
 
-
   deleteAssetMasterDataItem(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
@@ -780,7 +779,7 @@ export class AssetMasterDataComponent implements OnInit {
     console.log($event);
     console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
     if (((parseInt($event.pageIndex) + 1) * parseInt($event.pageSize)) == $event.length) {
-      this.getAllAssetMasterData($event.length + 1, $event.length + 30);
+      this.getAllAssetMasterData($event.length + 1, $event.length + 25);
     }
   }
 }

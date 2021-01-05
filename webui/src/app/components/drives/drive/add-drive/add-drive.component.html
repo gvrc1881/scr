@@ -36,7 +36,7 @@
                                                             <input matInput placeholder="{{FiledLabels.NAME}}"
                                                                 [formControl]="addDriveFormGroup.controls['name']"
                                                                 required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"
-                                                                oninput="this.value = this.value.toUpperCase()">
+                                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                                                             <mat-error
                                                                 *ngIf="addDriveFormGroup.controls['name'].hasError('required') && addDriveFormGroup.controls['name'].touched"
                                                                 class="alert alert-danger">Enter Name</mat-error>

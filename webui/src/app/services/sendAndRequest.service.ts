@@ -34,7 +34,7 @@ export class SendAndRequestService {
     // METHOD FOR POST REQUESTS
     requestForPOST(requestUrl, requestData: any, flag) {
     
-        console.log(flag)
+        console.log(requestData)
         if (flag == true) {
 
             let header = new HttpHeaders({

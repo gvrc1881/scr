@@ -18,45 +18,46 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 })
 export class AmdComponent implements OnInit {
 
-  pagination =Constants.PAGINATION_NUMBERS;
+  pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-	addPermission: boolean = true;
-  	editPermission: boolean = true;
-    deletePermission: boolean = true;
-    amdList:any;
-    filterData;
-    reportModel: ReportModel;
-    pageSize: number;
-    pageNo: number;
-  	displayedColumns =['sno', 'type', 'facilityId', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition' , 'kilometer', 'elementarySection', 'actions'];
-  	confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  	facilityData: any;
-    dataSource: MatTableDataSource<AssetMasterDataModel>;
-    gridData = [];
-  	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  	@ViewChild(MatSort, { static: true }) sort: MatSort;
-  	@ViewChild('filter', { static: true }) filter: ElementRef;  	
-    dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
-    depoTypeList = [];
-    assetTypeList = [];
-    scheduleList=[];
-    allFunctionalUnitsList: any;
+  addPermission: boolean = true;
+  editPermission: boolean = true;
+  deletePermission: boolean = true;
+  amdList: any;
+  filterData;
+  reportModel: ReportModel;
+  pageSize: number;
+  pageNo: number;
+  displayedColumns = ['sno', 'type', 'facilityId', 'assetType', 'assetId', 'adeeSection', 'majorSection', 'section', 'locationPosition', 'kilometer', 'elementarySection', 'actions'];
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  facilityData: any;
+  dataSource: MatTableDataSource<AssetMasterDataModel>;
+  gridData = [];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('filter', { static: true }) filter: ElementRef;
+  dataViewDialogRef: MatDialogRef<DataViewDialogComponent>;
+  depoTypeList = [];
+  assetTypeList = [];
+  scheduleList = [];
+  allFunctionalUnitsList: any;
+  private searchQuery= new Map<string, string>();
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private sendAndRequestService:SendAndRequestService
+    private sendAndRequestService: SendAndRequestService
   ) { }
-  
+
   ngOnInit() {
     this.pageSize = 0;
     this.pageNo = 0;
     this.reportModel = new ReportModel();
     this.getAllAssetMasterData(0, 30);
-    var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER", "OHE ASSET MASTER") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER", "OHE ASSET MASTER");
     this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
@@ -97,7 +98,7 @@ export class AmdComponent implements OnInit {
         this.assetTypeList = assetTypes;
       })
   }
- 
+
   findFunctionalUnits() {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES)
       .subscribe((units) => {
@@ -106,21 +107,21 @@ export class AmdComponent implements OnInit {
   }
   getAllAssetMasterData(from: number, to: number) {
     this.spinnerService.show();
-    const assetMasterData: AssetMasterDataModel[] = [];  
+    const assetMasterData: AssetMasterDataModel[] = [];
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA + '/' + from + '/' + to).subscribe((data) => {
       this.amdList = data;
       for (let i = 0; i < this.amdList.length; i++) {
-          this.amdList[i].sno = i+1;
-          this.amdList[i].facilityId = this.amdList[i].facilityId;
-          assetMasterData.push(this.amdList[i]);
-        }
+        this.amdList[i].sno = i + 1;
+        this.amdList[i].facilityId = this.amdList[i].facilityId;
+        assetMasterData.push(this.amdList[i]);
+      }
       this.filterData.gridData = assetMasterData;
       this.dataSource = new MatTableDataSource(assetMasterData);
-      this.commonService.updateDataSource(this.dataSource,this.displayedColumns);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
       this.filterData.dataSource = this.dataSource;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-  } , error => {});
+    }, error => { });
 
   }
   processEditAction(id) {
@@ -129,60 +130,95 @@ export class AmdComponent implements OnInit {
   delete(id) {
     this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
       disableClose: false
-      
+
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.spinnerService.show();
         this.sendAndRequestService.requestForDELETE(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.DELETE_ASSET_MASTER_DATA, id)
-        .subscribe(data => {
-          this.spinnerService.hide();
-          this.commonService.showAlertMessage("Deleted Asset MasterData Successfully");
-          this.getAllAssetMasterData(0, 30);
-        }, error => {
-          console.log('ERROR >>>');
-          this.spinnerService.hide();
-          this.commonService.showAlertMessage("Asset MasterData Deletion failed.");
-        })
+          .subscribe(data => {
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Deleted Asset MasterData Successfully");
+            this.getAllAssetMasterData(0, 30);
+          }, error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Asset MasterData Deletion failed.");
+          })
       }
       this.confirmDialogRef = null;
     });
   }
-  updatePagination() {
+
+  updatePagination(columnName: string, value: string) {
+    console.log(columnName + " : " + JSON.stringify(value));
+   
+    if (this.searchQuery.size == 0) {
+      this.searchQuery.set(columnName, value.trim());
+    } else {
+      if (value.trim() == '' && this.searchQuery.has(columnName)) {
+        this.searchQuery.delete(columnName);
+      } else {
+        this.searchQuery.set(columnName, value.trim());
+      }
+    }
+    console.log(this.searchQuery);
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
+if(this.searchQuery.size != 0){
+  let jsonObject = {};  
+this.searchQuery.forEach((value, key) => {  
+    jsonObject[key] = value  
+});  
+const assetMasterData: AssetMasterDataModel[] = [];
+  this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.ASSET_MASTER_DATA_SEARCH, jsonObject, false).subscribe((data) => {
+     console.log(data);
+        this.amdList = data;
+      for (let i = 0; i < this.amdList.length; i++) {
+        this.amdList[i].sno = i + 1;
+        this.amdList[i].facilityId = this.amdList[i].facilityId;
+        assetMasterData.push(this.amdList[i]);
+      }
+      this.filterData.gridData = assetMasterData;
+      this.dataSource = new MatTableDataSource(assetMasterData);
+      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+      this.filterData.dataSource = this.dataSource;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort; 
+    }, error => { });
+  }
   }
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); 
-    filterValue = filterValue.toLowerCase(); 
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.filterData.dataSource.filter = filterValue;
   }
   ViewData(data) {
     var result = {
       'title': this.Titles.ASSET_MASTER_DATA,
       'dataSource': [
-          
-      { label:FieldLabelsConstant.LABELS.DEPOT_TYPE, value:data.depotType },
-      { label:FieldLabelsConstant.LABELS.DEPOT, value:data.facilityId },
-      { label:FieldLabelsConstant.LABELS.ASSET_TYPE, value:data.assetType },
-      { label:FieldLabelsConstant.LABELS.ASSET_ID, value:data.assetId },
-      { label:FieldLabelsConstant.LABELS.ADEE_SECTION, value:data.adeeSection },
-      { label:FieldLabelsConstant.LABELS.MAJOR_SECTION, value:data.majorSection },
-      { label:FieldLabelsConstant.LABELS.LOCATION_POSITION, value:data.locationPosition },
-      { label:FieldLabelsConstant.LABELS.KILOMETER, value:data.kilometer },
-      { label:FieldLabelsConstant.LABELS.ELEMENTARY_SECTIONS, value:data.elementarySections },
-      { label:FieldLabelsConstant.LABELS.CREATED_ON, value:data.createdOn },
-      { label:FieldLabelsConstant.LABELS.DATE_OF_COMMISSION, value:data.dateOfCommision },
-      { label:FieldLabelsConstant.LABELS.DATE_OF_MANUFACTURE, value:data.dateOfManufacture },
-      { label:FieldLabelsConstant.LABELS.DATE_OF_RECEIVED, value:data.dateOfReceived },
-      { label:FieldLabelsConstant.LABELS.EQUIPPED_DATE, value:data.equippedDate },
-      { label:FieldLabelsConstant.LABELS.EXPIRY_DATE, value:data.expiryDate },
-      { label:FieldLabelsConstant.LABELS.LUG_DATE, value:data.lugDate },
-      { label:FieldLabelsConstant.LABELS.STRIP_DATE, value:data.stripDate },
-      { label:FieldLabelsConstant.LABELS.WARRANTY_AMC_ENDDATE, value:data.warrantyAmcEndDate }
-          
-    ]
+
+        { label: FieldLabelsConstant.LABELS.DEPOT_TYPE, value: data.depotType },
+        { label: FieldLabelsConstant.LABELS.DEPOT, value: data.facilityId },
+        { label: FieldLabelsConstant.LABELS.ASSET_TYPE, value: data.assetType },
+        { label: FieldLabelsConstant.LABELS.ASSET_ID, value: data.assetId },
+        { label: FieldLabelsConstant.LABELS.ADEE_SECTION, value: data.adeeSection },
+        { label: FieldLabelsConstant.LABELS.MAJOR_SECTION, value: data.majorSection },
+        { label: FieldLabelsConstant.LABELS.LOCATION_POSITION, value: data.locationPosition },
+        { label: FieldLabelsConstant.LABELS.KILOMETER, value: data.kilometer },
+        { label: FieldLabelsConstant.LABELS.ELEMENTARY_SECTIONS, value: data.elementarySections },
+        { label: FieldLabelsConstant.LABELS.CREATED_ON, value: data.createdOn },
+        { label: FieldLabelsConstant.LABELS.DATE_OF_COMMISSION, value: data.dateOfCommision },
+        { label: FieldLabelsConstant.LABELS.DATE_OF_MANUFACTURE, value: data.dateOfManufacture },
+        { label: FieldLabelsConstant.LABELS.DATE_OF_RECEIVED, value: data.dateOfReceived },
+        { label: FieldLabelsConstant.LABELS.EQUIPPED_DATE, value: data.equippedDate },
+        { label: FieldLabelsConstant.LABELS.EXPIRY_DATE, value: data.expiryDate },
+        { label: FieldLabelsConstant.LABELS.LUG_DATE, value: data.lugDate },
+        { label: FieldLabelsConstant.LABELS.STRIP_DATE, value: data.stripDate },
+        { label: FieldLabelsConstant.LABELS.WARRANTY_AMC_ENDDATE, value: data.warrantyAmcEndDate }
+
+      ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {
       disableClose: false,
@@ -191,10 +227,11 @@ export class AmdComponent implements OnInit {
       data: result,
     });
   }
+
   getServerData($event) {
     console.log($event);
     console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
-    if (((parseInt($event.pageIndex) + 1) * parseInt($event.pageSize)) == $event.length) {
+    if (((parseInt($event.pageIndex)) * parseInt($event.pageSize)) + (5 * parseInt($event.pageIndex)) == $event.length) {
       this.getAllAssetMasterData($event.length + 1, $event.length + 30);
     }
   }
