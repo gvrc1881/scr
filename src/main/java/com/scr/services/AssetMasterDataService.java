@@ -19,7 +19,7 @@ import com.scr.model.AssetMasterDataFormParameter;
 import com.scr.repository.AssetMasterFormParameterRepository;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.search.models.SearchCriteria;
-import com.scr.specifications.UserSpecification;
+import com.scr.specifications.AssetMasterDataSpecification;
 
 @Service
 public class AssetMasterDataService {
@@ -142,54 +142,54 @@ public class AssetMasterDataService {
 		List<AssetMasterData> results = null;
 		try {
 			if(assetMasterData != null) {
-				List<UserSpecification> specifications = new ArrayList<UserSpecification>();
+				List<AssetMasterDataSpecification> specifications = new ArrayList<AssetMasterDataSpecification>();
 				
 				if(assetMasterData.getType() != null && !assetMasterData.getType().isEmpty()) {
-					UserSpecification type = 
-						      new UserSpecification(new SearchCriteria("type", ":", assetMasterData.getType().toUpperCase()));
+					AssetMasterDataSpecification type = 
+						      new AssetMasterDataSpecification(new SearchCriteria("type", ":", assetMasterData.getType().toUpperCase()));
 					specifications.add(type);
 				}
 				if(assetMasterData.getFacilityId() != null && !assetMasterData.getFacilityId().isEmpty()) {
-					UserSpecification facilityId = 
-						      new UserSpecification(new SearchCriteria("facilityId", ":", assetMasterData.getFacilityId().toUpperCase()));
+					AssetMasterDataSpecification facilityId = 
+						      new AssetMasterDataSpecification(new SearchCriteria("facilityId", ":", assetMasterData.getFacilityId().toUpperCase()));
 					specifications.add(facilityId);
 				}
 				if(assetMasterData.getAssetType() != null) {					
-					UserSpecification assetType = 
-						      new UserSpecification(new SearchCriteria("assetType", ":", assetMasterData.getAssetType().toUpperCase()));
+					AssetMasterDataSpecification assetType = 
+						      new AssetMasterDataSpecification(new SearchCriteria("assetType", ":", assetMasterData.getAssetType().toUpperCase()));
 					specifications.add(assetType);
 				}
 				if(assetMasterData.getAssetId() != null && !assetMasterData.getAssetId().isEmpty()) {
-					UserSpecification assetId = 
-						      new UserSpecification(new SearchCriteria("assetId", ":", assetMasterData.getAssetId().toUpperCase()));
+					AssetMasterDataSpecification assetId = 
+						      new AssetMasterDataSpecification(new SearchCriteria("assetId", ":", assetMasterData.getAssetId().toUpperCase()));
 					specifications.add(assetId);
 				}
 				if(assetMasterData.getAdeeSection() != null && !assetMasterData.getAdeeSection().isEmpty()) {
-					UserSpecification adeeSection = 
-						      new UserSpecification(new SearchCriteria("adeeSection", ":", assetMasterData.getAdeeSection().toUpperCase()));
+					AssetMasterDataSpecification adeeSection = 
+						      new AssetMasterDataSpecification(new SearchCriteria("adeeSection", ":", assetMasterData.getAdeeSection().toUpperCase()));
 					specifications.add(adeeSection);
 				}
 				if(assetMasterData.getMajorSection() != null && !assetMasterData.getMajorSection().isEmpty()) {
-					UserSpecification majorSection = 
-						      new UserSpecification(new SearchCriteria("majorSection", ":", assetMasterData.getMajorSection().toUpperCase()));
+					AssetMasterDataSpecification majorSection = 
+						      new AssetMasterDataSpecification(new SearchCriteria("majorSection", ":", assetMasterData.getMajorSection().toUpperCase()));
 					specifications.add(majorSection);
 				}
 				if(assetMasterData.getSection() != null && !assetMasterData.getSection().isEmpty()) {
-					UserSpecification section = 
-						      new UserSpecification(new SearchCriteria("section", ":", assetMasterData.getSection().toUpperCase()));
+					AssetMasterDataSpecification section = 
+						      new AssetMasterDataSpecification(new SearchCriteria("section", ":", assetMasterData.getSection().toUpperCase()));
 					specifications.add(section);
 				}
 				if(assetMasterData.getLocationPosition() != null && !assetMasterData.getLocationPosition().isEmpty()) {
-					UserSpecification locationPosition = 
-						      new UserSpecification(new SearchCriteria("locationPosition", ":", assetMasterData.getLocationPosition().toUpperCase()));
+					AssetMasterDataSpecification locationPosition = 
+						      new AssetMasterDataSpecification(new SearchCriteria("locationPosition", ":", assetMasterData.getLocationPosition().toUpperCase()));
 					specifications.add(locationPosition);
 				}if(assetMasterData.getKilometer() != null ) {
-					UserSpecification kilometer = 
-						      new UserSpecification(new SearchCriteria("kilometer", ">", assetMasterData.getKilometer()));
+					AssetMasterDataSpecification kilometer = 
+						      new AssetMasterDataSpecification(new SearchCriteria("kilometer", ">", assetMasterData.getKilometer()));
 					specifications.add(kilometer);
 				}if(assetMasterData.getElementarySection() != null && !assetMasterData.getElementarySection().isEmpty()) {
-					UserSpecification elementarySection = 
-						      new UserSpecification(new SearchCriteria("elementarySection", ":", assetMasterData.getElementarySection().toUpperCase()));
+					AssetMasterDataSpecification elementarySection = 
+						      new AssetMasterDataSpecification(new SearchCriteria("elementarySection", ":", assetMasterData.getElementarySection().toUpperCase()));
 					specifications.add(elementarySection);
 				}
 				

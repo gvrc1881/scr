@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.scr.model.AssetMasterData;
 import com.scr.search.models.SearchCriteria;
 
-public class UserSpecification implements Specification<AssetMasterData> {
+public class AssetMasterDataSpecification implements Specification<AssetMasterData> {
 
     /**
 	 * 
@@ -18,7 +18,7 @@ public class UserSpecification implements Specification<AssetMasterData> {
 	private static final long serialVersionUID = 1L;
 	private SearchCriteria criteria;
 
-    public UserSpecification(SearchCriteria searchCriteria) {
+    public AssetMasterDataSpecification(SearchCriteria searchCriteria) {
 		this.criteria = searchCriteria;
 	}
 
