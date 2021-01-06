@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select depot, division ,$P{date} fromDate,
+		<![CDATA[select facility_id,depot_name, division ,$P{date} fromDate,
 split_part(depot_row, ';',  7  ) as  sc1,
 split_part( split_part(depot_row, ';',  1  ) , ',' , 1) sc1_AT ,
 split_part( split_part(depot_row, ';',  1  ) , ',' , 2) sc1_st ,
@@ -180,7 +180,7 @@ from
 (
 
 -- concatenate one depot as a row
-Select 	depot, division ,
+Select 	facility_id, division ,depot_name,
 string_agg(asset_type||','||schedule_type||','||poulation||','||
  Target_set_this_month||','||
 		   Cum_target_this_month||','||
@@ -189,7 +189,8 @@ tg_depot||','||progress_till_last_month ||','|| progress_this_month||','|| progr
 --tg_depot ,progress_till_last_month , progress_this_month, progress_of_day , report_order
 from
 (
-select  facility_id , b.depot ,division , b.drv_id ,  b.drv_name , drv_frequency , tg.facility_name, b.report_order ,
+select
+	b.facility_id , b.depot_name ,division , b.drv_id ,  b.drv_name , drv_frequency , tg.facility_name, b.report_order ,
 case when asset_type is null then b.drv_name else asset_type end as asset_type,
 	case when schedule_type is null then b.drv_name else schedule_type end as schedule_type,
 case when total_population::integer is null then 0 else total_population::integer end as poulation,
@@ -201,12 +202,12 @@ case when total_population::integer is null then 0 else total_population::intege
 	case when progress_of_day::integer is null then 0 else progress_of_day::integer end as progress_of_day
 	from
 	(
-	select facility_id ,depot , division ,  drv_id ,  drv_name , drv_frequency , report_order
-	from ( select facility_id ,facility_name depot,division  from facility
+	select facility_id ,depot_name , division ,  drv_id ,  drv_name , drv_frequency , report_order
+	from ( select facility_id ,facility_name depot_name,division  from facility
 		  where zone = 'SCR' and depot_type='OHE'
 		 ) div ,
 		  ( select dca.drv_id ,  dca.drv_name , drv_frequency , report_order from v_drive_category_asso dca
-		  where drive_category_id = 17 order by drv_id ) a
+		  where drive_category_id = 17  order by drv_id ) a
 	)b
 	left outer join
 	-- targets
@@ -243,50 +244,52 @@ case when total_population::integer is null then 0 else total_population::intege
 			and depot_type= 'OHE'
 			order by facility_name
 		) tg
-		 on (b.depot = facility_name and b.drv_name =tg.asset_type_schedule)
+		 on (b.depot_name = facility_name and b.drv_name =tg.asset_type_schedule)
 	left outer join
 	--- to get the count till end of last month
-	(select sum(performed_count) progress_till_last_month, drive_id, drv_name , depot
+	(select sum(performed_count) progress_till_last_month, drive_id, drv_name , depot facility_id
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
 		and drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and performed_date::date < date_trunc('month',now()::Date)::date --now() to replace date parameter
-		group by drive_id, drv_name , depot
+		and performed_date::date < date_trunc('month',$P{date}::Date)::date --now() to replace date parameter
+		group by drive_id, drv_name ,facility_id
 	 ) TLm -- Till last month
-	 on (b.depot = tlm.depot  and b.drv_id = tlm.drive_id and b.drv_name =tlm.drv_name)
+	 on (b.facility_id = tlm.facility_id  and b.drv_id = tlm.drive_id and b.drv_name =tlm.drv_name)
 
 	left outer join
 	--- to get the count of current month
-		(select sum(performed_count) progress_this_month, drive_id, drv_name , depot
+		(select
+		 case when sum(performed_count) is null then 0 else sum(performed_count) end as progress_this_month,
+		 drive_id, drv_name , depot facility_id
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
 		and drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and performed_date::date = date_trunc('month',now()::Date)::date  --now() to replace date parameter
-		and performed_date::date <= date_trunc('month',now()::Date)::date --now() to replace date parameter
-		group by drive_id, drv_name , depot
+		and date_trunc('month',performed_date::date) = date_trunc('month',$P{date}::Date)::date  --now() to replace date parameter
+		and date_trunc('year',performed_date::date) = date_trunc('year',$P{date}::Date)::date --now() to replace date parameter
+		group by drive_id, drv_name , facility_id
 		 ) CM -- current month
-	 on (b.depot = cm.depot  and b.drv_id = cm.drive_id and b.drv_name =cm.drv_name)
+	 on (b.facility_id = cm.facility_id  and b.drv_id = cm.drive_id and b.drv_name =cm.drv_name)
 	Left Outer Join
 	--- to get the count of given day
 		(
-		select performed_count progress_of_day, drive_id, drv_name , depot
+		select performed_count progress_of_day, drive_id, drv_name , depot facility_id
 		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
 		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
 		and drv_from_date >= fy_start_date
 		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and performed_date::date = date_trunc('month',now()::Date)::date  --now() to replace date parameter
+		and performed_date::date = $P{date}::date
 		) day
-		 on (b.depot = day.depot  and b.drv_id = day.drive_id and b.drv_name =day.drv_name)
-	order by depot, division , report_order
+		 on (b.facility_id = day.facility_id  and b.drv_id = day.drive_id and b.drv_name =day.drv_name)
+	order by b.facility_id, division , report_order
 ) bs
-group by depot, division
+group by bs.facility_id, division,depot_name
 
--- concatenate one depot as a row
 ) fi -- split depot row to 13 values]]>
 	</queryString>
-	<field name="depot" class="java.lang.String"/>
+	<field name="facility_id" class="java.lang.String"/>
+	<field name="depot_name" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
 	<field name="fromdate" class="java.lang.String"/>
 	<field name="sc1" class="java.lang.String"/>
@@ -1635,7 +1638,7 @@ group by depot, division
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{depot}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{depot_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="150" y="0" width="50" height="20" uuid="95e07390-459f-484d-837e-be0f3d799a6f"/>
