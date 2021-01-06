@@ -94,13 +94,7 @@ export class  SubSectorComponent implements OnInit {
       this.subSectorList = data;
       for (let i = 0; i < this.subSectorList.length; i++) {
         this.subSectorList[i].sno = i + 1;
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.subSectorList[i].facilityId)).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityData = data;
-          this.subSectorList[i].facilityId = this.facilityData.facilityName;
-        }, error => {
-          this.spinnerService.hide();
-      });
+        this.subSectorList[i].facilityId = this.subSectorList[i].facilityId;
       subSector.push(this.subSectorList[i]);
     }
     this.filterData.gridData = subSector;

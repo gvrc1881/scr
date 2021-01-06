@@ -97,13 +97,7 @@ export class SectorComponent implements OnInit {
       this.sectorList = data;
       for (let i = 0; i < this.sectorList.length; i++) {
         this.sectorList[i].sno = i + 1;
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.sectorList[i].facilityId)).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityData = data;
-          this.sectorList[i].facilityId = this.facilityData.facilityName;
-        }, error => {
-          this.spinnerService.hide();
-      });
+        this.sectorList[i].facilityId = this.sectorList[i].facilityId;
       sector.push(this.sectorList[i]);
     }
     this.filterData.gridData = sector;

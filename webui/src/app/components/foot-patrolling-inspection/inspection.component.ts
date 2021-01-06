@@ -138,14 +138,9 @@ export class InspectionComponent implements OnInit {
                 this.fpInspectionsList[i].sno = i+1;
                 this.fpInspectionsList[i].startTime = this.datePipe.transform(this.fpInspectionsList[i].startTime, 'dd-MM-yyyy hh:mm:ss');
                 this.fpInspectionsList[i].stopTime = this.datePipe.transform(this.fpInspectionsList[i].stopTime, 'dd-MM-yyyy hh:mm:ss');
-                this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.fpInspectionsList[i].facilityId)).subscribe((data) => {
-		        this.spinnerService.hide();
-	    	    this.facilityData = data;
-	        	this.fpInspectionsList[i].facilityId = this.facilityData.facilityName;
-	        });
+                this.fpInspectionsList[i].facilityId = this.fpInspectionsList[i].facilityId;
                 footPatrollingInspection.push(this.fpInspectionsList[i]);              
             }
-
             this.filterData.gridData = footPatrollingInspection;
             this.dataSource = new MatTableDataSource(footPatrollingInspection);
             this.commonService.updateDataSource(this.dataSource, this.displayedColumns);

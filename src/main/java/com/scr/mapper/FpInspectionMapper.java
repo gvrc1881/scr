@@ -2,18 +2,28 @@ package com.scr.mapper;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.scr.message.request.InspectionRequest;
 import com.scr.model.Compliance;
+import com.scr.model.Facility;
+import com.scr.model.FootPatrollingInspection;
 import com.scr.model.Observation;
+import com.scr.model.OheLocation;
+import com.scr.repository.FacilityRepository;
 
 @Component
 public class FpInspectionMapper {
 	static Logger logger = LogManager.getLogger(FpInspectionMapper.class);
+	
+	@Autowired
+	private FacilityRepository facilityRepository;
 	
 	public Observation prepareObservationsModel(@Valid InspectionRequest request, List<MultipartFile> file, Long commonFileId) {
 		Observation observations = null;
@@ -71,5 +81,17 @@ public class FpInspectionMapper {
 			compliance.setUpdatedBy(request.getUpdatedBy());			
 		}
 		return compliance;
+	}
+	
+	public FootPatrollingInspection prepareFootPatrollingInspectionData(
+			FootPatrollingInspection footPatrollingInspection) {
+		if (footPatrollingInspection.getFacilityId() != null ) {
+			Optional<Facility> facility  = facilityRepository.findByFacilityId(footPatrollingInspection.getFacilityId());
+			if (facility.isPresent()) {
+				footPatrollingInspection.setFacilityId(facility.get().getFacilityName());
+			}
+		}
+		
+		return footPatrollingInspection;
 	}
 }

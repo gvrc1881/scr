@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -7,6 +8,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.scr.mapper.FacilityCommonMapper;
 import com.scr.message.request.OheLocationAndAssetsRequest;
 import com.scr.model.AssetMasterData;
 import com.scr.model.OheLocation;
@@ -24,11 +26,20 @@ public class OheLocationService {
 	
 	@Autowired
 	private AssetMastersRepository assetMastersRepository;
+	@Autowired
+	private FacilityCommonMapper facilityCommonMapper;
 
-	
-	public List<OheLocation> findAll(){
-		return oheLocationRepository.findAll();
+	public List<OheLocation> findAll() {
+		logger.info("Calling mapper for preparing to get Ohe Location Data Allmodel object");
+		List<OheLocation> oheLoc = new ArrayList<>();
+		List<OheLocation> oheLocationData = oheLocationRepository.findAll();
+		for (OheLocation oheLocation : oheLocationData) {
+			oheLocation = facilityCommonMapper.prepareOheLocationData(oheLocation);
+			oheLoc.add(oheLocation);
+		}
+		 return oheLoc;
 	}
+	
 	
 	public void save(OheLocation oheLocation) {
 		oheLocationRepository.save(oheLocation);

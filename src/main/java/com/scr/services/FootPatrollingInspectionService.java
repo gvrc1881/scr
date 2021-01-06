@@ -19,6 +19,7 @@ import com.scr.model.ContentManagement;
 import com.scr.model.FootPatrollingInspection;
 import com.scr.mapper.CommonMapper;
 import com.scr.model.Observation;
+import com.scr.model.SubSector;
 import com.scr.repository.ComplianceRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.FootPatrollingInspectionRepository;
@@ -55,8 +56,14 @@ public class FootPatrollingInspectionService {
 	private String compliancePath;
 	
 	public List<FootPatrollingInspection> findAll() {
-		// TODO Auto-generated method stub
-		return footPatrollingInspectionRepository.findAll();
+		log.info("Calling mapper for preparing to get footPatrolling Inspection Data Allmodel object");
+		List<FootPatrollingInspection> fpIns = new ArrayList<>();
+		List<FootPatrollingInspection> footPatrollingInspectionData = footPatrollingInspectionRepository.findAll();
+		for (FootPatrollingInspection footPatrollingInspection : footPatrollingInspectionData) {
+			footPatrollingInspection = fpInspectionMapper.prepareFootPatrollingInspectionData(footPatrollingInspection);
+			fpIns.add(footPatrollingInspection);
+		}
+		 return fpIns;
 	}
 	public FootPatrollingInspection save(FootPatrollingInspection footPatrollingInspection) {
 		// TODO Auto-generated method stub

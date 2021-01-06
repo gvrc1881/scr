@@ -1,9 +1,16 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.mapper.FacilityCommonMapper;
+import com.scr.model.GantryMasterData;
 import com.scr.model.Line;
 import com.scr.model.Sector;
 import com.scr.repository.LineRepository;
@@ -11,16 +18,29 @@ import com.scr.repository.SectorRepository;
 
 @Service
 public class SectorService {
+	static Logger logger = LogManager.getLogger(SectorService.class);
+
 
 	@Autowired
 	private SectorRepository sectorRepository;
 	@Autowired
 	private LineRepository lineRepository;
+	@Autowired
+	private FacilityCommonMapper facilityCommonMapper;
 
+
+	
 	public List<Sector> findAll() {
-		// TODO Auto-generated method stub
-		return sectorRepository.findAll();
+		logger.info("Calling mapper for preparing to get Sector Data Allmodel object");
+		List<Sector> sec = new ArrayList<>();
+		List<Sector> sectorData = sectorRepository.findAll();
+		for (Sector sector : sectorData) {
+			sector = facilityCommonMapper.prepareSectorData(sector);
+			sec.add(sector);
+		}
+		 return sec;
 	}
+	
 	public List<Line> findAllOrderByLineCodeAsc() {
 		// TODO Auto-generated method stub
 		return lineRepository.findAllOrderByLineCodeAsc();

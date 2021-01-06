@@ -95,13 +95,7 @@ export class GantryComponent implements OnInit {
       this.gantryList = data;
       for (let i = 0; i < this.gantryList.length; i++) {
         this.gantryList[i].sno = i + 1;
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+JSON.stringify(this.gantryList[i].facilityId)).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityData = data;
-          this.gantryList[i].facilityId = this.facilityData.facilityName;
-        }, error => {
-          this.spinnerService.hide();
-      });
+        this.gantryList[i].facilityId = this.gantryList[i].facilityId;
       gantry.push(this.gantryList[i]);
     }
     this.filterData.gridData = gantry;
