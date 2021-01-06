@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="875" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="835" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8568e421-b6ac-4cd9-b179-6f3a556f0aa3">
+	<property name="ireport.zoom" value="1.0000000000000027"/>
+	<property name="ireport.x" value="186"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fromDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[-- Filter only one date
+
+select $P{fromDate} date,feed_of,facility_name,
+split_part( split_part(div_row, ';',  1  ) , ',' , 1) month_total_interruption ,
+split_part( split_part(div_row, ';',  1  ) , ',' , 2) fy_total_interruption ,
+split_part( split_part(div_row, ';',  1  ) , ',' , 3) load_relief_break_down,
+split_part( split_part(div_row, ';',  1  ) , ',' , 4) mm ,
+split_part( split_part(div_row, ';',  1  ) , ',' , 5) month_count
+	FROM
+	(
+select feed_of,facility_name,string_agg(month_total_interruption::text||','||fy_total_interruption::text||','||
+						  case when load_relief_break_down is null then '--' else load_relief_break_down::text end||','||
+case when mm = 1 then 'Jan' when mm =  2 then 'Feb' when mm =  3 then 'Mar'
+when mm =  4 then 'Apr' when mm =  5 then 'May' when mm =  6 then 'Jun' when mm =  7 then 'Jul'
+when mm =  8 then 'Aug' when mm =  9 then 'Sep' when mm =  10 then 'Oct' when mm =  11 then 'Nov'
+										when mm =  12 then 'Dec' end
+										||','||	month_count::text  ,
+						  ';' ) as div_row
+--	||','|| ||','||  ||','||
+	--   ||','|| fy_total_interruption
+from
+(
+select mn.feed_of,mn.facility_name,mn.load_relief_break_down,mm,
+case when mn.month_total_interruption is null then 0 else month_total_interruption end as month_total_interruption,
+case when mn.month_count is null then 0 else  month_count end as month_count,
+case when fy_total_interruption is null then 0 else fy_total_interruption end as fy_total_interruption
+from
+(
+select fai.feed_of,fac.facility_name,EXTRACT(MONTH FROM from_date_time) mm ,count(*) month_count, load_relief_break_down,
+		sum(EXTRACT(EPOCH FROM (thru_date_time - from_date_time))/60) month_total_interruption
+from failures fai,facility  fac
+where type_of_failure ='GRID_FAILURE'  and fac.facility_id = fai.feed_of
+and EXTRACT(MONTH FROM from_date_time) =  (select mm from public.date_dd_mm_fy_details($P{fromDate}::date)) and
+EXTRACT(YEAR  FROM from_date_time) =  (select yyyy from public.date_dd_mm_fy_details($P{fromDate}::date))
+group by fai.feed_of,fac.facility_name ,EXTRACT(MONTH FROM from_date_time),load_relief_break_down
+)mn
+left outer join
+(select fai.feed_of,fac.facility_name,count(*), load_relief_break_down,
+		sum(EXTRACT(EPOCH FROM (thru_date_time - from_date_time))/60) fy_total_interruption
+from failures fai,facility  fac
+where type_of_failure ='GRID_FAILURE'  and fac.facility_id = fai.feed_of
+and from_date_time > (select fy_start_date from date_dd_mm_fy_details($P{fromDate}::date))
+		and from_date_time < (select fy_end_date from date_dd_mm_fy_details($P{fromDate}::date))
+
+group by fai.feed_of ,fac.facility_name,load_relief_break_down
+) fy_sum on (fy_sum.feed_of = mn.feed_of )--and fy_sum.load_relief_break_down = mn.load_relief_break_down)
+)tss_wise
+group by feed_of,facility_name
+)a]]>
+	</queryString>
+	<field name="date" class="java.lang.String"/>
+	<field name="feed_of" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="month_total_interruption" class="java.lang.String"/>
+	<field name="fy_total_interruption" class="java.lang.String"/>
+	<field name="load_relief_break_down" class="java.lang.String"/>
+	<field name="mm" class="java.lang.String"/>
+	<field name="month_count" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="835" height="31" backcolor="#D64A4A" uuid="faf97957-0b09-47d1-9bf1-b0b38dcb2ff3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Power Supply Failures For The Month of ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="68" height="41" uuid="d820358f-cbd1-4ca9-ab72-99ce5de96d8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[From Date : ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="31" width="100" height="41" uuid="d6ef93e2-056d-4f62-87b8-6080fee872ea"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="55" splitType="Stretch">
+			<staticText>
+				<reportElement x="168" y="0" width="100" height="55" uuid="bf592030-3fa5-4fd2-9411-3fbfd5a1c257"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. of Interruptions]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="0" width="100" height="55" uuid="202a4ee7-63e3-4789-a77c-3c7c010823d5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interruption on Account of Load Relief in minutes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="0" width="100" height="55" uuid="28fc42c9-d9b5-4762-8557-5f44046b6f86"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Duration in Minutes (for the month)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="571" y="0" width="132" height="55" uuid="70e7294e-6093-4230-8743-cc818adefae3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Duration of Interruption in Minutes (for the Year)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="0" width="100" height="55" uuid="8486a0bd-455a-4e8d-aa7f-320c67bdc42d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Name of the TSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="103" height="55" uuid="ca23a968-f255-43f3-96e6-be10a75d7921"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interruption on Account ofBreakdowns in minutes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="703" y="0" width="132" height="55" uuid="188f42f2-dac2-4563-b7fa-37f2de2b2533"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reason for Supply Failure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="68" height="55" uuid="eb4c214d-1d85-4651-8bc9-0d1895d00579"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="571" y="0" width="132" height="20" uuid="9b8877c8-5b15-4a3f-a1fd-7bf09dd87d90"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="268" y="0" width="100" height="20" uuid="bdbf046d-8062-4efa-a135-ed4909e15356"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="368" y="0" width="103" height="20" uuid="b3571c80-a03a-4cd4-b801-2b1a6164a8e7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="703" y="0" width="132" height="20" uuid="f50dc969-9f6d-4ff5-a110-1f72459e3297"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<noData>
+		<band height="26">
+			<staticText>
+				<reportElement x="0" y="0" width="835" height="26" forecolor="#F02C2C" backcolor="#C12525" uuid="7e491a93-4eaa-424f-b07a-0a1ffdc43175"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
