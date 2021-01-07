@@ -42,7 +42,8 @@ export class AmdComponent implements OnInit {
   assetTypeList = [];
   scheduleList = [];
   allFunctionalUnitsList: any;
-  private searchQuery= new Map<string, string>();
+  private searchQuery = new Map<string, string>();
+  jsonObject = {};
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
@@ -153,7 +154,7 @@ export class AmdComponent implements OnInit {
 
   updatePagination(columnName: string, value: string) {
     console.log(columnName + " : " + JSON.stringify(value));
-   
+
     if (this.searchQuery.size == 0) {
       this.searchQuery.set(columnName, value.trim());
     } else {
@@ -166,29 +167,36 @@ export class AmdComponent implements OnInit {
     console.log(this.searchQuery);
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
-if(this.searchQuery.size != 0){
-  let jsonObject = {};  
-this.searchQuery.forEach((value, key) => {  
-    jsonObject[key] = value  
-});  
-const assetMasterData: AssetMasterDataModel[] = [];
-  this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.ASSET_MASTER_DATA_SEARCH, jsonObject, false).subscribe((data) => {
-     console.log(data);
+    if (this.searchQuery.size != 0) {
+      this.jsonObject = {};
+      this.searchQuery.forEach((value, key) => {
+        this.jsonObject[key] = value
+      });
+      this.jsonObject['from'] = 1;
+      this.jsonObject['to'] = 29;
+      this.updatePaginationResults();
+    }
+  }
+
+  updatePaginationResults(){
+    const assetMasterData: AssetMasterDataModel[] = [];
+      this.sendAndRequestService.requestForPOST(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.ASSET_MASTER_DATA_SEARCH, this.jsonObject, false).subscribe((data) => {
+        console.log(data);
         this.amdList = data;
-      for (let i = 0; i < this.amdList.length; i++) {
-        this.amdList[i].sno = i + 1;
-        this.amdList[i].facilityId = this.amdList[i].facilityId;
-        assetMasterData.push(this.amdList[i]);
-      }
-      this.filterData.gridData = assetMasterData;
-      this.dataSource = new MatTableDataSource(assetMasterData);
-      this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
-      this.filterData.dataSource = this.dataSource;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort; 
-    }, error => { });
+        for (let i = 0; i < this.amdList.length; i++) {
+          this.amdList[i].sno = i + 1;
+          this.amdList[i].facilityId = this.amdList[i].facilityId;
+          assetMasterData.push(this.amdList[i]);
+        }
+        this.filterData.gridData = assetMasterData;
+        this.dataSource = new MatTableDataSource(assetMasterData);
+        this.commonService.updateDataSource(this.dataSource, this.displayedColumns);
+        this.filterData.dataSource = this.dataSource;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, error => { });
   }
-  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
@@ -231,9 +239,16 @@ const assetMasterData: AssetMasterDataModel[] = [];
   getServerData($event) {
     console.log($event);
     console.log($event.pageIndex + " : " + $event.pageSize + " : " + $event.length);
-    if (((parseInt($event.pageIndex)) * parseInt($event.pageSize)) + (5 * parseInt($event.pageIndex)) == $event.length) {
-      this.getAllAssetMasterData($event.length + 1, $event.length + 30);
-    }
+    //if (((parseInt($event.pageIndex)) * parseInt($event.pageSize)) + (5 * parseInt($event.pageIndex)) == $event.length+($event.pageIndex)) {
+      if(Object.keys(this.jsonObject).length == 0){
+        this.getAllAssetMasterData($event.length + 1, $event.length + 29);
+      }else{
+        this.jsonObject['from'] = $event.length + 1;
+        this.jsonObject['to'] = $event.length + 29;
+        console.log(this.jsonObject);
+        this.updatePaginationResults();
+      }
+    //}
   }
 }
 

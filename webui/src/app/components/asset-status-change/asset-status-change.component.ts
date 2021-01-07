@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -46,7 +46,7 @@ export class AssetStatusChangeComponent implements OnInit {
     statusDataSource: MatTableDataSource<AssetStatusChangeModel>;
     dataSource: MatTableDataSource<AssetStatusChangeModel>;
     statusDisplayedColumns = ['sno','facility','asset', 'asetId','dateStatus','curentStatus','stats','targetDateReady','remark','actions'];
-    displayedColumns = ['sno','facilityId','assetType', 'assetId','make','model','dateOfManufacture','nextAoh','nextPoh','dateOfStatus','currentStatus','status','targetDateOfReady','remarks','actions'];
+    displayedColumns = ['sno','facility','asset', 'asetId','make','model','dateOfManufacture','nextAoh','nextPoh','dateStatus','curentStatus','stats','targetDateReady','remark','actions'];
     enableUpdate: boolean;    
     AssetStatusList:any;
     activity = [];
@@ -83,6 +83,15 @@ export class AssetStatusChangeComponent implements OnInit {
     enableSubDivision :boolean;
     enableDepot: boolean;
 
+
+    userForm: FormGroup;
+    @ViewChild('modalClose', {static: false}) modalClose:ElementRef;
+    formFlag = 'add';
+    items = [];
+	  itemCount = 0;
+	  params = {offset: 0, limit: 10}; 
+
+
     constructor(
       public dialog: MatDialog,
       private formBuilder: FormBuilder,
@@ -106,6 +115,31 @@ export class AssetStatusChangeComponent implements OnInit {
         'subDiv': [null]  ,
         'facilityId':[null]   
     });
+
+    this.userForm = new FormGroup({
+		  'id': new FormControl(null),
+		  'name': new FormControl(null, Validators.required),
+		  'jobTitle': new FormControl(null, Validators.required)
+    });
+    
+
+    this.updateStatusChangeFormGroup = this.formBuilder.group({
+     // 'id':[null],
+      'assetType':[null],
+      'assetId':[null],
+      'facilityId':[null],
+      'dateOfStatus':[null],
+      'currentStatus':[null],
+      'targetDateOfReady':[null],
+      'make':[null],
+      'model':[null],
+      'dateOfManufacture':[null],
+      'nextPoh':[null],
+      'nextAoh':[null],
+      'status':[null],
+      'remarks':[null]
+    })
+
     // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
     //   this.userDefaultData = data;
     //   if (this.userDefaultData.division) {
@@ -128,7 +162,11 @@ export class AssetStatusChangeComponent implements OnInit {
   
      
   }
-
+  getData(item)
+	{
+		this.updateStatusChangeFormGroup.patchValue(item);
+		this.formFlag = 'edit';
+	}
   findDivision(){
 
     if(!this.enableDivision){
@@ -317,11 +355,23 @@ export class AssetStatusChangeComponent implements OnInit {
     });
    
   }
+  reloadItems(params) {
+    //this.dataSource.filteredData.filter.query(params).then(items => this.items = items);
+  }
+  reloadTableManually(){
+		this.reloadItems(this.params);
+		//this.dataSource.find.then(count => this.itemCount = count);
+	}
   updateStatusChangeSubmit(){
-    
-  
-                  var updatestatus={
-                   // id:this.editStatusResponse.id,
+    //console.log('hello......')
+    this.userForm.value.id= this.dataSource.filteredData.length + 1;
+    this.dataSource.filteredData.unshift(this.updateStatusChangeFormGroup.value);
+    //this.reloadTableManually();
+		//Close modal
+		this.modalClose.nativeElement.click();
+		//User form reset
+		this.userForm.reset();
+               /*   var updatestatus={
                     assetType:this.updateStatusChangeFormGroup.value.assetType,
                     assetId:this.updateStatusChangeFormGroup.value.assetId,
                     facilityId:this.updateStatusChangeFormGroup.value.facilityId,                  
@@ -353,7 +403,7 @@ export class AssetStatusChangeComponent implements OnInit {
                       console.log('ERROR >>>');
                       this.spinnerService.hide();
                       this.commonService.showAlertMessage("Assets Status Data Updating Failed.");
-                    })
+                    })*/
      
 }
 
