@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scr.message.request.AssetMasterDataSearchRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -242,13 +244,13 @@ public class AssetMasterDataController {
 	}
 	
 	@RequestMapping(value = "/assetMasterDataSearch", method = RequestMethod.POST, headers = "Accept=application/json")
-	public List<AssetMasterData> assetMasterDataSCO(@RequestBody AssetMasterData assetMasterData) {
+	public List<AssetMasterData> assetMasterDataSCO(@RequestBody AssetMasterDataSearchRequest assetMasterDataSearchRequest) {
 		log.info("Enter into assetMasterDataSearch function with below request parameters ");
-		log.info("Request Parameters = " + assetMasterData.toString());
+		log.info("Request Parameters = " + assetMasterDataSearchRequest.toString());
 		List<AssetMasterData> results = null;
 		try {
 			log.info("Calling service with request parameters.");
-			results = assetMasterDataService.findSearch(assetMasterData);
+			results = assetMasterDataService.findSearch(assetMasterDataSearchRequest);
 			log.info("Preparing the return response");
 			//return Helper.findResponseStatus("find assetMasterDataSearch results successfully", Constants.SUCCESS_CODE);
 		} catch (NullPointerException npe) {

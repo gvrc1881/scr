@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.AssetMasterDataMapper;
 import com.scr.mapper.AssetStatusUpdateMapper;
+import com.scr.message.request.AssetMasterDataSearchRequest;
 import com.scr.message.response.AssetStatusUpdateResponse;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetMasterDataFormParameter;
@@ -138,7 +139,7 @@ public class AssetMasterDataService {
 		return assetMastersRepository.findByFacilityIdAndAssetTypeAndAssetId(facilityId,assetType,assetId);
 	}
 
-	public List<AssetMasterData> findSearch(AssetMasterData assetMasterData) {
+	public List<AssetMasterData> findSearch(AssetMasterDataSearchRequest assetMasterData) {
 		List<AssetMasterData> results = null;
 		try {
 			if(assetMasterData != null) {
@@ -193,28 +194,35 @@ public class AssetMasterDataService {
 					specifications.add(elementarySection);
 				}
 				
-				if(!specifications.isEmpty()) {					
+				if(!specifications.isEmpty()) {				
+					Pageable paging = PageRequest.of(assetMasterData.getFrom(), assetMasterData.getTo());
+					Page<AssetMasterData> data = null;
 					if(specifications.size() == 1)
-						results = assetMastersRepository.findAll(specifications.get(0));
-					else if(specifications.size() == 2)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)));
+						data = assetMastersRepository.findAll(specifications.get(0), paging);
+					else if(specifications.size() == 2) 
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)), paging);
 					else if(specifications.size() == 3)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)), paging);
 					else if(specifications.size() == 4)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)), paging);
 					else if(specifications.size() == 5)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)), paging);
 					else if(specifications.size() == 6)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)), paging);
 					else if(specifications.size() == 7)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)), paging);
 					else if(specifications.size() == 8)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)), paging);
 					else if(specifications.size() == 9)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)));
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)), paging);
 					else if(specifications.size() == 10)
-						results = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)).and(specifications.get(9)));
-				    logger.info("resulst : "+results.size());
+						data = assetMastersRepository.findAll(Specification.where(specifications.get(0)).and(specifications.get(1)).and(specifications.get(2)).and(specifications.get(3)).and(specifications.get(4)).and(specifications.get(5)).and(specifications.get(6)).and(specifications.get(7)).and(specifications.get(8)).and(specifications.get(9)), paging);
+				    
+					if(data != null)
+						results = data.getContent();
+					logger.info("resulst : "+results.size());
+				}else {
+					logger.info("hello......");
 				}
 			}
 		}catch (Exception e) {
