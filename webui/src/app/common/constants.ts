@@ -844,6 +844,12 @@ export const Constants = {
                 UPDATE_ASSISTANCE:"/updateAssistance",
                 DELETE_ASSISTANCE:"/deleteAssistance/"
             }
+    },
+     THERMOVISION:{
+        THERMOVISION_MEASURE:{
+            GET_THERMO_MEASURES:"/getThermovisionMeasures/",
+            SAVE_THERMO_MEASURE:"/saveThermovisionMeasures"
+        }    
     }
 },
     EVENTS:{

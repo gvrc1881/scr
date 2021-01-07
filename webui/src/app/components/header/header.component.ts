@@ -1297,6 +1297,26 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
 
         ]
       },
+      {
+        ID: 18,
+        menuName: 'THERMOVISION',
+        menuUrl: 'thermovision-measure',
+        icon: "fa fa-thermometer-full",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('THERMOVISION', 'menu', 'view'),
+        currentTab: !!path && path.includes("thermovision-measure") ? "open" : "",
+        subMenus: [       
+          {
+            subMenuName: "Thermovision Measure",
+            subMenuURL: "thermovision-measure",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Thermovision Measure', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("thermovision-measure") ? "active-item" : "",
+          },
+        ]
+      },
     ];
   //  this.clicked = path;
     localStorage.setItem("MenusList", this.MenusList);

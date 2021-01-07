@@ -560,6 +560,11 @@ const routes: Routes = [
     loadChildren: './components/asset-monthly-targets/asset-monthly-targets.module#AssetMonthlyTargetsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'thermovision-measure',
+    loadChildren: './components/thermovision/thermovision-measure/thermovision-measure.module#ThermovisionMeasureModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

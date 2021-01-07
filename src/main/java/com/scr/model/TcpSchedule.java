@@ -94,4 +94,12 @@ public class TcpSchedule implements Serializable {
 		this.dateTime = dateTime;
 	}
 
+	@Override
+	public String toString() {
+		return "TcpSchedule [id=" + id + ", location=" + location + ", assetType=" + assetType + ", dateTime="
+				+ dateTime + ", by=" + by + ", generalRemark=" + generalRemark + ", facility=" + facility + "]";
+	}
+	
+	
+
 }

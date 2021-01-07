@@ -25,6 +25,7 @@ export const FieldLabelsConstant = {
       ALREADY_DONE: "Already Done",
       ALTITUDE: "Altitude",
       AMOUNT: "Amount",
+      AMBIENT_TEMP:"Ambient Temp",
       TOWERCAR_TYPE:"TW Type",
       TOWERCAR_NO:"TW Id",
       POH:"Next POH",
@@ -33,6 +34,7 @@ export const FieldLabelsConstant = {
       NEW_STATUS:"New status",
       CURRENT_STATUS:"Current Status",
       CHANGE_OF_STATUS:"New status",
+      CRITICALITY: "Criticality",
       MANF_YEAR:"Mnf Year",
       APPROVAL_DATE: "Approval Date",
       APPROVED_BY: "Approved By",
@@ -62,6 +64,7 @@ export const FieldLabelsConstant = {
       REMARKS_SHUNTING:"Remarks Shunting",
       REMARKS_NO:"Remarks No",
       AUTO_DEAD:"Auto Dead",
+      C_CLAMP: "C-Clamp",
       CMD: "CMD",
       COMMENTS: "Comments",
       CODE:"Code",
@@ -151,6 +154,7 @@ export const FieldLabelsConstant = {
       FEED_OFF: "Feed Off",
       FEEDER: "Feeder",
       FINANCIAL_PROGRESS_PERCENTAGE: "Financial Progress Percentage",
+      FIXED: "Fixed",
       FOOT_INSPECTION: "Foot Inspection",
       FOOT_PATROLLING: "Foot Patrolling",
       FOOT_PLATE_INSPECTION: "Foot Plate Inspection",
@@ -683,6 +687,7 @@ export const FieldLabelsConstant = {
     SPECIAL_WORKS_MASTER_DATA:'Special Works Master Data',
     SPECIAL_WORKS_FORM:'Special Works Form',
     SPECIAL_WORKS_MATER_FORM:'Special Works Mater Form',
-    TOWERCAR_STATUS:'TowerCar Status'
+    TOWERCAR_STATUS:'TowerCar Status',
+    THERMOVISION_MEASURE_INFORMATION: 'Thermovision Measure Information'
    }
 };
