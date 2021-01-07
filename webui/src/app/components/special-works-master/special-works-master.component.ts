@@ -50,7 +50,7 @@ export class SpecialWorksMasterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var permissionName = this.commonService.getPermissionNameByLoggedData("ASSET REGISTER","PRECAUTIONARY MEASURES") ;
+    var permissionName = this.commonService.getPermissionNameByLoggedData("MAINTENANCE","PRECAUTIONARY MEASURE MASTER") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);

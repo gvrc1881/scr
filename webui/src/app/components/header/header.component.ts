@@ -1104,7 +1104,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "Special-works-master",
             subMenuIcon: "fa fa-track",
             rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('PRECAUTIONARY MEASURES', 'submenu', 'view'),
+            permission: this.commonService.findPermission('PRECAUTIONARY MEASURE MASTER', 'submenu', 'view'),
             currentSubMenu: !!path && path.includes("Special-works-master") ? "active-item" : "",
           },
           {
