@@ -27,7 +27,7 @@ select type_of_failure, FY, month1, week1 , date1,  Sum(delay_time) Cum_delay_ti
  from v_failures_count_duration_daily
  group by   type_of_failure, month1, week1, date1, FY
 ) d
-where fy.type_of_failure= 'UNUSUAL_OCCURRENCE'
+where fy.type_of_failure= 'UNUSUAL_OCCURENCE'
 and D.FY= w.FY
 and  D.FY= m.FY
 and  D.FY= fy.FY
