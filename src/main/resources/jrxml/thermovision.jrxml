@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovision" pageWidth="1000" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fbdf8d56-efb2-4628-9e20-bb5ab5f8340e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="depot" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+rs.id rs_id,
+rs.facility_id rs_facility_id,
+rs.facility_name rs_facility_name,
+
+rs.tcp_check_point_part,
+rs.tcp_check_point_description,
+rs.tcp_type_of_check_point,
+rs.tcp_display_group,
+rs.tcp_display_order,
+rs.tcp_active,
+rs.tcp_commparison_points ,
+
+
+-- current measures v_thermovision_measures cur_m
+cur_m.tcpm_id ,
+cur_m.tcpm_fixed_measure,
+cur_m.tcpm_c_clamp_measure ,
+cur_m.tcpm_ambient_temp,
+cur_m.tcpm_image_id,
+cur_m.tcpm_remark,
+cur_m.tcpm_criticality,
+cur_m.tcpm_variance_with_other_point ,
+-- previous readings
+	pre1_m.tcps_date as pre1_m_tcps_date,
+	pre1_m.tcpm_fixed_measure as pre1_m_tcpm_fixed_measure,
+	pre1_m.tcpm_c_clamp_measure as pre1_m_tcpm_c_clamp_measure,
+	pre2_m.tcps_date as pre2_m_tcps_date,
+	pre2_m.tcpm_fixed_measure as pre2_m_tcpm_fixed_measure,
+	pre2_m.tcpm_c_clamp_measure as pre2_m_tcpm_c_clamp_measure,
+	pre3_m.tcps_date as pre3_m_tcps_date,
+	pre3_m.tcpm_fixed_measure as pre3_m_tcpm_fixed_measure,
+	pre3_m.tcpm_c_clamp_measure as pre3_m_tcpm_c_clamp_measure,
+	-- 3 previous fixed measure and dates
+case when pre1_m.tcps_date is null then ' ' else
+pre1_m.tcps_date::date || '(' ||
+case when pre1_m.tcpm_fixed_measure is null then ' ' else pre1_m.tcpm_fixed_measure end ||')'
+end as previous_1_fixed_details,
+case when pre2_m.tcps_date is null then ' ' else
+pre2_m.tcps_date::date || '(' ||
+case when pre2_m.tcpm_fixed_measure is null then ' ' else pre2_m.tcpm_fixed_measure end ||')'
+end as previous_2_fixed_details,
+
+case when pre3_m.tcps_date is null then ' ' else
+pre3_m.tcps_date::date || '(' ||
+case when pre3_m.tcpm_fixed_measure is null then ' ' else pre3_m.tcpm_fixed_measure end ||')'
+end as previous_3_fixed_details,
+
+-- 3 previous c_clamp measures and dates
+case when pre1_m.tcps_date is null then ' ' else
+pre1_m.tcps_date::date || '(' ||
+case when pre1_m.tcpm_c_clamp_measure is null then ' ' else pre1_m.tcpm_c_clamp_measure end ||')'
+end as previous_1_c_clamp_details,
+
+case when pre2_m.tcps_date is null then ' ' else
+pre2_m.tcps_date::date || '(' ||
+case when pre2_m.tcpm_c_clamp_measure is null then ' ' else pre2_m.tcpm_c_clamp_measure end ||')'
+end as previous_2_c_clamp_details,
+
+case when pre3_m.tcps_date is null then ' ' else
+pre3_m.tcps_date::date || '(' ||
+case when pre3_m.tcpm_c_clamp_measure is null then ' ' else pre3_m.tcpm_c_clamp_measure end ||')'
+end as previous_3_c_clamp_details,
+
+-- 3 previous fixed and c_clamp measures and dates
+case when pre1_m.tcps_date is null then ' ' else
+pre1_m.tcps_date::date || '(F - ' ||
+case when pre1_m.tcpm_fixed_measure is null then ' ' else pre1_m.tcpm_fixed_measure end ||'/c_c - ' ||
+case when pre1_m.tcpm_c_clamp_measure is null then ' ' else pre1_m.tcpm_c_clamp_measure end || ' ) ' --||
+end as previous_1_details,
+
+case when pre2_m.tcps_date is null then ' ' else
+pre2_m.tcps_date::date || '(F - ' ||
+case when pre2_m.tcpm_fixed_measure is null then ' ' else pre2_m.tcpm_fixed_measure end ||'/c_c - ' ||
+case when pre2_m.tcpm_c_clamp_measure is null then ' ' else pre2_m.tcpm_c_clamp_measure end || ' ) ' --||
+end as previous_2_details,
+
+case when pre3_m.tcps_date is null then ' ' else
+pre3_m.tcps_date::date || '(F - ' ||
+case when pre3_m.tcpm_fixed_measure is null then ' ' else pre3_m.tcpm_fixed_measure end ||'/c_c - ' ||
+case when pre3_m.tcpm_c_clamp_measure is null then ' ' else pre3_m.tcpm_c_clamp_measure end || ' ) '
+end as previous_3_details,
+
+-- cur schedule
+cur.tcps_facility_id,
+cur.tcps_facility_name ,
+cur.tcps_date::Date, cur.tcps_date_time, cur.tcps_time,
+cur.tcps_by,
+cur.tcps_general_remark
+-- facility/station tss /sp/ssp etc
+--select *
+from (select id ,facility_id , facility_name , vtpc.*
+	 from v_thermovision_check_points vtpc,
+	  facility f where f.id =  18413 -- requested_station
+	  and f.id =  vtpc.tcp_facility_id
+	  and upper(vtpc.tcp_active) = 'YES'
+	  ) rs
+left outer join v_tcp_schedule cur
+on (cur.tcps_date::date = '2021-01-03' -- Schedule_date
+	and rs.id = cur.tcps_facility_id::integer)
+left outer join ( select tcp_sch_id ,
+split_part(tcp_sch_id, ',',  1 )  as  Pre_tcp_sch_1,
+split_part(tcp_sch_id, ',',  2 )  as  Pre_tcp_sch_2,
+split_part(tcp_sch_id, ',',  3 )  as  Pre_tcp_sch_3,
+split_part(tcp_sch_id, ',',  4 )  as  Pre_tcp_sch_4
+from (
+select	string_agg(tcps_id::character varying,',' order by a.tcps_date desc) tcp_sch_id
+from (select ROW_NUMBER() OVER() seq ,cur_h.tcps_date ,cur_h.tcps_id
+from v_tcp_schedule	cur_h
+where cur_h.tcps_date::Date < $P{date} ::date
+	  and cur_h.tcps_facility_id = $P{depot} ::integer
+order by tcps_date desc limit  4
+) a	 )b
+) p on (1=1)
+
+left outer join v_thermovision_measures cur_m
+on (cur.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id )
+left outer join v_thermovision_measures pre1_m
+on (Pre_tcp_sch_1::bigint = pre1_m.tcpm_tcp_schedule_id and  tcp_id = pre1_m.tcpm_tcp_id )
+left outer join v_thermovision_measures pre2_m
+on (Pre_tcp_sch_2::bigint = pre2_m.tcpm_tcp_schedule_id and  tcp_id = pre2_m.tcpm_tcp_id )
+left outer join v_thermovision_measures pre3_m
+on (Pre_tcp_sch_3::bigint = pre3_m.tcpm_tcp_schedule_id and  tcp_id = pre3_m.tcpm_tcp_id )
+order by tcp_display_order
+;]]>
+	</queryString>
+	<field name="rs_id" class="java.lang.Long"/>
+	<field name="rs_facility_id" class="java.lang.String"/>
+	<field name="rs_facility_name" class="java.lang.String"/>
+	<field name="tcp_check_point_part" class="java.lang.String"/>
+	<field name="tcp_check_point_description" class="java.lang.String"/>
+	<field name="tcp_type_of_check_point" class="java.lang.String"/>
+	<field name="tcp_display_group" class="java.lang.String"/>
+	<field name="tcp_display_order" class="java.lang.String"/>
+	<field name="tcp_active" class="java.lang.String"/>
+	<field name="tcp_commparison_points" class="java.lang.Long"/>
+	<field name="tcpm_id" class="java.lang.Long"/>
+	<field name="tcpm_fixed_measure" class="java.lang.String"/>
+	<field name="tcpm_c_clamp_measure" class="java.lang.String"/>
+	<field name="tcpm_ambient_temp" class="java.lang.Double"/>
+	<field name="tcpm_image_id" class="java.lang.String"/>
+	<field name="tcpm_remark" class="java.lang.String"/>
+	<field name="tcpm_criticality" class="java.lang.Long"/>
+	<field name="tcpm_variance_with_other_point" class="java.lang.Double"/>
+	<field name="pre1_m_tcps_date" class="java.sql.Timestamp"/>
+	<field name="pre1_m_tcpm_fixed_measure" class="java.lang.String"/>
+	<field name="pre1_m_tcpm_c_clamp_measure" class="java.lang.String"/>
+	<field name="pre2_m_tcps_date" class="java.sql.Timestamp"/>
+	<field name="pre2_m_tcpm_fixed_measure" class="java.lang.String"/>
+	<field name="pre2_m_tcpm_c_clamp_measure" class="java.lang.String"/>
+	<field name="pre3_m_tcps_date" class="java.sql.Timestamp"/>
+	<field name="pre3_m_tcpm_fixed_measure" class="java.lang.String"/>
+	<field name="pre3_m_tcpm_c_clamp_measure" class="java.lang.String"/>
+	<field name="previous_1_fixed_details" class="java.lang.String"/>
+	<field name="previous_2_fixed_details" class="java.lang.String"/>
+	<field name="previous_3_fixed_details" class="java.lang.String"/>
+	<field name="previous_1_c_clamp_details" class="java.lang.String"/>
+	<field name="previous_2_c_clamp_details" class="java.lang.String"/>
+	<field name="previous_3_c_clamp_details" class="java.lang.String"/>
+	<field name="previous_1_details" class="java.lang.String"/>
+	<field name="previous_2_details" class="java.lang.String"/>
+	<field name="previous_3_details" class="java.lang.String"/>
+	<field name="tcps_facility_id" class="java.lang.Long"/>
+	<field name="tcps_facility_name" class="java.lang.String"/>
+	<field name="tcps_date" class="java.sql.Date"/>
+	<field name="tcps_date_time" class="java.sql.Timestamp"/>
+	<field name="tcps_time" class="java.lang.String"/>
+	<field name="tcps_by" class="java.lang.String"/>
+	<field name="tcps_general_remark" class="java.lang.String"/>
+	<group name="partGroup">
+		<groupExpression><![CDATA[$F{tcp_check_point_part}]]></groupExpression>
+	</group>
+	<group name="check pint part">
+		<groupExpression><![CDATA[$F{tcp_check_point_part}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="400" height="20" uuid="1b0b1793-44fe-4ff1-839b-c8206748ea03"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tcp_check_point_part}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="960" height="27" uuid="d38aba73-3953-4e94-9962-742ef660a0e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thermo Vision Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="400" height="20" uuid="d1fa8b69-01bd-4e7b-8dc2-97473d715aa4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Part/Group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="133" height="20" uuid="ac3c9ef6-0d05-420b-912e-d14d2a3a7f59"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Points of Comparision]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="628" y="0" width="100" height="20" uuid="daade88d-5fc9-4ce8-b303-68970816e2f6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temp Fixed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="728" y="0" width="100" height="20" uuid="2e21beec-9f46-4c38-8b88-09c58677f95d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temp C Clamp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="828" y="0" width="132" height="20" uuid="9ae58c11-84f5-43f1-93a6-fed81bebc849"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pre Measure C Clamp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="533" y="0" width="95" height="20" uuid="49d4ff76-c3dd-443d-b62f-62bbc0dde1c7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temp Diff]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="400" height="20" uuid="b130ba17-1475-4c2e-bfe0-c0274ca2cba2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcp_check_point_description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="133" height="20" uuid="dae62cb2-fd19-40de-a436-2630902c7446"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcp_type_of_check_point}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="628" y="0" width="100" height="20" uuid="09f853a8-3ea2-4847-85aa-1888e034e0d8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{pre1_m_tcpm_fixed_measure}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="728" y="0" width="100" height="20" uuid="481d4b9d-c290-4d37-aa1e-1308e51c0229"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{pre2_m_tcpm_fixed_measure}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="828" y="0" width="132" height="20" uuid="963aec17-e428-46a8-9eb4-e04f538197c7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{pre3_m_tcpm_fixed_measure}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="533" y="0" width="95" height="20" uuid="299f15c9-9209-4f93-a1fc-9a580d75f1e7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{tcpm_ambient_temp}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="400" y="0" width="133" height="20" uuid="2d03d413-e452-4835-aaf9-c285f01e8a89"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="533" y="0" width="95" height="20" uuid="3b31051b-8148-4976-a704-eea4c2d89399"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="32">
+			<staticText>
+				<reportElement x="0" y="0" width="960" height="32" forecolor="#F61111" uuid="228610b4-9482-48a7-978f-65b949993ff0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Data Found]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
