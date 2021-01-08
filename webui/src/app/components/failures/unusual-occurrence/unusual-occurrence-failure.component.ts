@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
+import { AddActionsComponent } from 'src/app/components/failures/unusual-occurrence/add-actions/add-actions.component';
 
 @Component({
   selector: 'app-unusual-occurrence-failure',
@@ -28,7 +28,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
-    'duration','impact', 'remarks','divisionLocal','internalExternal', 'actions','failureActions'];
+    'duration','divisionLocal','internalExternal', 'actions','failureActions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -48,6 +48,9 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   facilityList;
   filterData; 
   gridData = [];
+  subStation:any;
+  unUsaulOccurenceList:any;
+ 
 
   updatePagination() {
     this.filterData.dataSource = this.filterData.dataSource;
@@ -83,9 +86,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         { "Key": 'causeOfFailure', "Value": " " },
         { "Key": 'fromDateTime', "Value": " " },
         { "Key": 'thruDateTime', "Value": " " },
-        { "Key": 'duration', "Value": " " },
-        { "Key": 'impact', "Value": " " },
-        { "Key": 'remarks', "Value": " " },
+        { "Key": 'duration', "Value": " " },        
         { "Key": 'divisionLocal', "Value": " " },
         { "Key": 'internalExternal', "Value": " " },   
       
@@ -107,7 +108,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   }
   getUnusualOccurrenceFailureData() {
     const UnusualOccurrenceFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE_BASED_ON_DIVISION + Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE+'/'+this.userdata.username).subscribe((data) => {
       this.UnusualOccurrenceFailList = data;
       console.log(this.UnusualOccurrenceFailList)
       for (let i = 0; i < this.UnusualOccurrenceFailList.length; i++) {
@@ -214,7 +215,19 @@ deleteActions(id) {
   });
 }
 
+NewAction(occurenceId){
+//    console.log("substaion=="+JSON.stringify(subStation));
+//    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID +subStation).subscribe((data) => {
+//     this.unUsaulOccurenceList = data;
+//      console.log("occunce list"+JSON.stringify(data))
+     
+//  })
+//  this.facilityId = this.unUsaulOccurenceList.subStation;
+//  console.log("facility_id=="+this.facilityId);
+this.router.navigate(['add-actions/'+occurenceId], { relativeTo: this.route });
 
+
+}
 
 ViewData(data){
   var result = {

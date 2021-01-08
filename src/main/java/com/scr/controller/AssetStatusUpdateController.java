@@ -201,10 +201,10 @@ public class AssetStatusUpdateController {
 			}
 			//logger.info("*** size **8"+amd.size());
 
-		} catch (NullPointerException e) {
-			logger.error(e.getMessage());
+		} catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the response data = "+npe.getMessage());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("ERROR >>> while fetching the response data = "+e.getMessage());
 		}
 		logger.info("Exit from getTowerCarBasedOnDivsion function");
 		return ResponseEntity.ok((amd));

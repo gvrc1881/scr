@@ -35,7 +35,7 @@ public interface AssetStatusUpdateRepository extends JpaRepository<AssetStatusUp
 	
 	List<AssetStatusUpdate> findByAssetIdOrderByDateOfStatusDesc(String assetId);
 
-
+	
 	
 
 

@@ -10,4 +10,6 @@ import com.scr.model.FailureActionsCausesImpact;
 public interface FailureActionsCausesImpactRepository extends JpaRepository<FailureActionsCausesImpact, Long>{
 
 	List<FailureActionsCausesImpact> findAll();
+
+	List<FailureActionsCausesImpact> findByFailureSeqId(String failureSeqId);
 }

@@ -96,7 +96,7 @@ export class GridFailureComponent implements OnInit {
   }
   getGridFailureData() {
     const gridFail: FailureAnalysisModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.GRID_FAILURE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE_BASED_ON_DIVISION + Constants.FAILURE_TYPES.GRID_FAILURE+'/'+this.userdata.username).subscribe((data) => {
       this.gridFailList = data;
       console.log(this.gridFailList)
       for (let i = 0; i < this.gridFailList.length; i++) {

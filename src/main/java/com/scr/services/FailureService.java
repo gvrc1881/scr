@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.scr.model.Failure;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.AssetMasterData;
+import com.scr.model.Facility;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.util.Constants;
@@ -112,4 +113,19 @@ public class FailureService {
 		// TODO Auto-generated method stub
 		return failuresRepository.findBySubStationAndLocationAndFromDateTime(subStation,location,fromDateTime);
 	}
+
+	public List<Failure> findFailureByTypeAndSubStation(String failureType, List<String> fac) {
+		
+		return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	}
+
+	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {
+		
+		return failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
+	}
+
+	
+
+	
+	
 }

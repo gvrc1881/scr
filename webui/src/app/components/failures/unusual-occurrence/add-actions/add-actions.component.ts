@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { Constants } from 'src/app/common/constants';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -6,7 +6,8 @@ import { CommonService } from 'src/app/common/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, DateAdapter, MAT_DATE_FORMATS,MAT_DIALOG_DATA } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-actions',
@@ -17,6 +18,7 @@ export class AddActionsComponent implements OnInit {
 
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
+  actionsPagination = Constants.PAGINATION_NUMBERS;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
@@ -50,7 +52,15 @@ export class AddActionsComponent implements OnInit {
   trainNo:boolean=false;
   maxDate = new Date();
   minDate=new Date();
+  subStation:any;
+  occurenceId:any;
+  occurenceLocation:any;
+  UnusualOccurrenceFailList:any;
+  ActionsFailListActions:any;
   dateFormat = 'dd-MM-yyyy hh:mm:ss';
+  displayedColumnsActions = ['sno', 'failureActivity', 'fromTime', 'thruTime','by','specialRemarks',
+    'remarks','location','trainNo'];
+  dataSourceActions: MatTableDataSource<any>;
 
   constructor(
     private formBuilder: FormBuilder,    
@@ -58,10 +68,13 @@ export class AddActionsComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute,
     private router: Router,
-    private sendAndRequestService: SendAndRequestService
+    private sendAndRequestService: SendAndRequestService,
+    private datePipe: DatePipe,
+   // @Inject(MAT_DIALOG_DATA) public data:any,
   ) {
     // Reactive form errors
     this.failureOccurrenceFailFormErrors = {
+      failureSeqId:{},
       failureActivity: {}, 
       fromTime: {},
       thruTime: {},
@@ -75,8 +88,10 @@ export class AddActionsComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];    
+    this.occurenceId = +this.route.snapshot.params['occurenceId']; 
     this.createForm();
     this.findActions();
+    this.getActionsFailureData();
     this.fromTime=true;
     this.thruTime=true;
     this.location=false;
@@ -86,6 +101,11 @@ export class AddActionsComponent implements OnInit {
     this.rootCause=false;
     this.trainNo=false;
     
+     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+this.occurenceId).subscribe((data) => {
+       this.UnusualOccurrenceFailList = data;   
+       console.log("occurence"+this.UnusualOccurrenceFailList) 
+          this.occurenceLocation = this.UnusualOccurrenceFailList.location
+         },error => {} );
 
     if (!isNaN(this.id)) {
       this.addActionsFailFromGroup.valueChanges.subscribe(() => {
@@ -168,6 +188,7 @@ export class AddActionsComponent implements OnInit {
         this.addActionsFailFromGroup.patchValue({
           id: this.resp.id,
           failureActivity:this.resp.failureActivity,
+          failureSeqId:this.resp.failureSeqId,
           by:this.resp.by,
           specialRemarks:this.resp.specialRemarks,
           trainNo:this.resp.trainNo,
@@ -202,17 +223,33 @@ export class AddActionsComponent implements OnInit {
     });
   }
 
-  NewFailureAction (id) {
-    console.log("failureAction"+id);
-    this.save=true;
-    //this.insId = id;
-   // this.addObservation = true;
-    //this.inspetionDetails();
-  }
+
 
   addEvent($event) {
     this.minDate = new Date($event.value);
   
+  }
+  getActionsFailureData() {
+    const ActionsFail: any[] = [];
+  
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_ACTIONS_ID+this.occurenceId).subscribe((data) => {
+      this.ActionsFailListActions = data;   
+      for (let i = 0; i < this.ActionsFailListActions.length; i++) {
+        this.ActionsFailListActions[i].sno = i + 1;
+        this.ActionsFailListActions[i].fromTime = this.datePipe.transform(this.ActionsFailListActions[i].fromTime, 'dd-MM-yyyy HH:mm:ss');
+        this.ActionsFailListActions[i].thruTime = this.datePipe.transform(this.ActionsFailListActions[i].thruTime, 'dd-MM-yyyy HH:mm:ss');
+        
+        ActionsFail.push(this.ActionsFailListActions[i]);    
+      }
+  
+      this.dataSourceActions = new MatTableDataSource(ActionsFail);
+      //this.dataSourceActions.paginator = this.paginatorActions;
+      //this.dataSourceActions.sort = this.sortActions;
+     
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
   }
 
   onAddFailureAnalysisFormSubmit() {
@@ -227,6 +264,7 @@ export class AddActionsComponent implements OnInit {
     if (this.save) {
       data = {
         'failureActivity': this.addActionsFailFromGroup.value.failureActivity ,
+        'failureSeqId':this.occurenceId,
         'by':this.addActionsFailFromGroup.value.by,
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
@@ -244,7 +282,7 @@ export class AddActionsComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Actions Fail Data "+message+" Successfully");
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
         }else{
           this.commonService.showAlertMessage("Actions Fail Data "+failedMessage+" Failed.");
         }
@@ -257,6 +295,7 @@ export class AddActionsComponent implements OnInit {
       data = {
         "id":this.id,
         'failureActivity': this.addActionsFailFromGroup.value.failureActivity ,
+        'failureSeqId':this.occurenceId,
         'by':this.addActionsFailFromGroup.value.by,
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
@@ -288,7 +327,7 @@ export class AddActionsComponent implements OnInit {
   }
   onGoBack() {
     if (this.save) {
-      this.router.navigate(['../'], { relativeTo: this.route });
+      this.router.navigate(['../../'], { relativeTo: this.route });
     } else if (this.update) {
       this.router.navigate(['../../'], { relativeTo: this.route });
     }

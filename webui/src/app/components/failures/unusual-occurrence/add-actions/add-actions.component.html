@@ -30,6 +30,13 @@
                                                 [formGroup]="addActionsFailFromGroup" (ngSubmit)="onAddFailureAnalysisFormSubmit();">
 
                                                 <div class="col-md-12">
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <input matInput placeholder="{{FiledLabels.LOCATION}}" [formControl]="addActionsFailFromGroup.controls['failureSeqId']" [value]="occurenceLocation" 
+												    	[(ngModel)]="occurenceId" readonly>                                                             
+                                                        </mat-form-field>
+                                                    </div>
                                                      
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
@@ -149,10 +156,97 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <!-- </div>
+                        </div>                 
+            </div>
+            <div class="p-24">
+        
+                <!-- <div class="example-header">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilterActions($event.target.value)"
+                                placeholder="Filter">
+                        </mat-form-field>
+                    </div>
+                    <div class="clear"> </div>
                 </div> -->
+                <div class="row-fluid">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Actions Information</div>
+                <div class="example-container mat-elevation-z8">
+            
+                    <mat-table [dataSource]="dataSourceActions" matSort>
+            
+                        <ng-container matColumnDef="sno">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sno.</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.sno}}</mat-cell>
+                        </ng-container> 
+            
+                        <ng-container matColumnDef="failureActivity">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>failureActivity</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.failureActivity}}</mat-cell>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="fromTime">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>fromTime</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.fromTime}}</mat-cell>
+                        </ng-container> 
+            
+                        <ng-container matColumnDef="thruTime">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>thruTime</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.thruTime}}</mat-cell>
+                        </ng-container> 
+            
+                        <ng-container matColumnDef="by">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Staff Name</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.by}}</mat-cell>
+                        </ng-container> 
+            
+                        <ng-container matColumnDef="specialRemarks">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Details</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.specialRemarks}}</mat-cell>
+                        </ng-container> 
+                   
+                        <ng-container matColumnDef="remarks">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>
+                        </ng-container> 
+                       
+                        <ng-container matColumnDef="location">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.location}}</mat-cell>
+                        </ng-container> 
+                       
+                        <ng-container matColumnDef="trainNo">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>TrainNo</mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.trainNo}}</mat-cell>
+                        </ng-container> 
+                        <!-- <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <a mat-icon-button matTooltip="Edit" > 
+                                    <button mat-icon-button matTooltip="Edit"
+                                        (click)="processEditActions(row.id)">
+                                        <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
+                                    </button>
+                                </a>
+                                <button mat-icon-button matTooltip="Delete"
+                                    (click)="deleteActions(row.id)"
+                                    > 
+                                    <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container> -->
+                        <mat-header-row *matHeaderRowDef="displayedColumnsActions"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsActions;">
+                        </mat-row>
+                    </mat-table>
+                   
+                    <mat-paginator #paginatorActions [pageSizeOptions]="actionsPagination"></mat-paginator>
+                </div>
+                </div>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>

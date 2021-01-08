@@ -447,8 +447,8 @@ function(){
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addCbFailFromGroup.value.fromDateTime,
-        "updatedBy": this.loggedUserData.username,
-        "updatedOn": new Date()
+        "createdBy": this.loggedUserData.username,
+        "lastUpdatedStamp": new Date()
       }   
       message = 'Updated';
       failedMessage = "Updating";

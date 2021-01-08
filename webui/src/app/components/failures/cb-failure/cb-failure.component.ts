@@ -21,9 +21,9 @@ export class CbFailureComponent implements OnInit {
   Titles = FieldLabelsConstant.TITLE;
   editPermission: boolean = true;
   addPermission: boolean = true;
-  deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  deletePermission: boolean = true; 
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   displayedColumns = ['sno', 'subStation', 'fromDateTime', 'thruDateTime',
     'duration', 'relayIndication', 'natureOfClosure', 'rValue',
      'xValue', 'zConstant','faultDistance','actualFaultDistance','current','voltage',
@@ -51,6 +51,8 @@ export class CbFailureComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    console.log("loggedUserData==="+JSON.stringify(this.loggedUserData));
     var permissionName = this.commonService.getPermissionNameByLoggedData("FAILURES","CB FAIL") ;
   	this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
@@ -103,7 +105,7 @@ export class CbFailureComponent implements OnInit {
   }
   getCbFailureData() {
     const CbFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE_BASED_ON_DIVISION+ Constants.FAILURE_TYPES.CB_FAILURE+'/'+this.loggedUserData.username).subscribe((data) => {
       this.CbFailList = data;
      
       for (let i = 0; i < this.CbFailList.length; i++) {

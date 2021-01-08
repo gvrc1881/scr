@@ -89,9 +89,11 @@ public class AssetStatusUpdateMapper {
 					}
 			}
 			}	
+			logger.info("before max date");
+			logger.info("master records=="+assetMasterData2.getAssetType()+assetMasterData2.getAssetId()+assetMasterData2.getFacilityId());
 			Timestamp astu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
 					(assetMasterData2.getAssetType(),assetMasterData2.getAssetId(),assetMasterData2.getFacilityId());
-			logger.info("astuuuu==="+astu.toString());
+			logger.info("astuuuu==="+astu);
 		if(astu != null)
 		{
 				logger.info("in for loop==");

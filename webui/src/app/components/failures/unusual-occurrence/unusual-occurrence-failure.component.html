@@ -18,11 +18,12 @@
                     <div class="panel-heading">UnusualOccurrence Failure Information</div>
                     <div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                            <div class="p-24" style="text-align: right" > <!--*ngIf="addPermission"-->
+                             <div class="p-24" style="text-align: right" > 
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                     [routerLink]="['add-unusual-occurrence-failure']"> 
                                     Add Unusual Occurrence Failure
-                                </button></div>
+                                </button>
+                            </div> 
 
                             <div class="p-24">
 
@@ -90,35 +91,35 @@
                                             <mat-cell *matCellDef="let row"> {{row.thruDateTime}}</mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="impact">
+                                        <!-- <ng-container matColumnDef="impact">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.IMPACT}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.impact}}</mat-cell>
-                                        </ng-container>
+                                        </ng-container> -->
                                         
                                         <ng-container matColumnDef="duration">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.DURATION}}</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[6].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.duration}}</mat-cell>
                                         </ng-container>
                                        
 
-                                        <ng-container matColumnDef="remarks">
+                                        <!-- <ng-container matColumnDef="remarks">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.REMARKS}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>
-                                        </ng-container>
+                                        </ng-container> -->
                                                                                 
                                         <ng-container matColumnDef="divisionLocal">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.DIVISION_LOCAL}}</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[9].Value" [filter]="filterData"/>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[7].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
                                         </ng-container>
@@ -126,7 +127,7 @@
                                         <ng-container matColumnDef="internalExternal">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.INTERNAL_EXTERNAL}}</span>
-                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
+                                                <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[8].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.internalExternal}}</mat-cell>
                                         </ng-container>                               
@@ -139,6 +140,10 @@
                                                 <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row">
+                                                <button mat-icon-button matTooltip="View"
+                                                (click)="ViewData(row)">
+                                            <mat-icon style="color: rgb(0, 145, 234);">preview</mat-icon>
+                                                </button>
                                                 <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
                                                     <button mat-icon-button matTooltip="Edit"
                                                         (click)="processEditAction(row.id)">
@@ -159,8 +164,8 @@
                                                         <input matInput type="text" disabled (keyup) ="updatePagination()" />
                                                     </mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
-                                                  <span class="mat-raised-button mat-accent" [routerLink]="['add-actions']" 
-                                                  color="accent" mat-raised-button="">
+                                                  <span class="mat-raised-button mat-accent"  
+                                                  (click)="NewAction(row.id)" color="accent" mat-raised-button="">
                                                    Add Actions
                                                 </span>                                              
                                               </mat-cell>
@@ -181,11 +186,11 @@
                             <div class="panel-heading">Actions Information</div>
                             <div class="panel-body">
                                 <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                                    <div class="p-24" style="text-align: right" > <!--*ngIf="addPermission"-->
-                                        <!-- <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                    <!-- <div class="p-24" style="text-align: right" > 
+                                         <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
                                             [routerLink]="['add-actions']"> 
                                             Add Actions
-                                        </button></div> -->
+                                        </button></div>  -->
         
                                     <div class="p-24">
         
@@ -250,7 +255,7 @@
                                                 <ng-container matColumnDef="actions">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
                                                     <mat-cell *matCellDef="let row">
-                                                        <a mat-icon-button matTooltip="Edit" > <!--*ngIf="editPermission"-->
+                                                        <a mat-icon-button matTooltip="Edit" > 
                                                             <button mat-icon-button matTooltip="Edit"
                                                                 (click)="processEditActions(row.id)">
                                                                 <mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
@@ -258,7 +263,7 @@
                                                         </a>
                                                         <button mat-icon-button matTooltip="Delete"
                                                             (click)="deleteActions(row.id)"
-                                                            > <!--*ngIf="deletePermission"-->
+                                                            > 
                                                             <mat-icon style="color: rgb(244, 67, 54);">delete</mat-icon>
                                                         </button>
                                                     </mat-cell>
@@ -274,7 +279,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                         <!-- ACTIONS -->
 
                     </div>

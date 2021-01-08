@@ -60,6 +60,24 @@ public class FailureActionsCausesImpactController {
 			 logger.info("Exit from failure actions function");
 		return actionsList;	
 	}
+	 @RequestMapping(value = "/actionsBasedOnFailureId/{failureSeqId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+		public List<FailureActionsCausesImpact> findActionsByFailureSeqId(@PathVariable("failureSeqId") String failureSeqId) throws JSONException {
+			 List<FailureActionsCausesImpact> actionsList = null;
+			 try {
+				   logger.info("Calling service for failure actions data");	
+			
+				   actionsList = failureImpactService.findByFailureSeqId(failureSeqId);
+			 logger.info("Fetched failure actions data***"+actionsList.size());
+			return actionsList;
+		}catch (NullPointerException npe) {
+			logger.error("ERROR >>> while fetching the failure actions data = "+npe.getMessage());
+		}
+		catch (Exception e) {
+			logger.error("ERROR >>> while fetching the failure actions data = "+e.getMessage());
+		}
+			 logger.info("Exit from failure actions function");
+		return actionsList;	
+	}
 	 
 	@RequestMapping(value = "/saveActions", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveActions(@RequestBody FailureActionsCausesImpact failureRequest) throws JSONException {	

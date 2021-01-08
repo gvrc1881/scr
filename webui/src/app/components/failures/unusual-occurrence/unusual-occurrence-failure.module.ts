@@ -38,7 +38,7 @@ const routes: Routes = [
         component: AddActionsComponent
     },
     {
-        path        : 'add-actions',
+        path        : 'add-actions/:occurenceId',
         component:   AddActionsComponent
     } , 
   

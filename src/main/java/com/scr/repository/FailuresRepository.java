@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 //import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
+import com.scr.model.Facility;
 import com.scr.model.Failure;
 import com.scr.model.MeasureOrActivityList;
 
@@ -51,6 +52,14 @@ public interface FailuresRepository extends JpaRepository<Failure, Long> {
 	Optional<Failure> findByOccurrenceAndPlaceAndFromDateTime(String occurrence,String place,Timestamp fromDateTime);
 	
 	Optional<Failure> findBySubStationAndLocationAndFromDateTime(String subStation,String location,Timestamp fromDateTime);
+
+	List<Failure> findByTypeOfFailureAndSubStationInAndCurrentStatus(String failureType, List<String> fac,String active);
+
+	List<Failure> findByTypeOfFailureAndFeedOfInAndCurrentStatus(String failureType, List<String> fac, String active);
+
+	
+
+	
 
 }
 	

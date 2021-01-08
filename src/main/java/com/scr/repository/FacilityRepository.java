@@ -16,6 +16,7 @@ import com.scr.model.Facility;
 @Repository
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	
+	
 	List<Facility> findBySubDivision(String subDivision);
 //facility names In asscending order
 	List<Facility> findByDepotTypeOrderByFacilityNameAsc(String depotType);
@@ -24,14 +25,18 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 
 	@Query("FROM Facility ORDER BY facilityName ASC")
     List<Facility> findAllOrderByFacilityNameAsc();
+	
 	Optional<Facility> findByFacilityName(String facilityName);
 
 	Optional<Facility> findByFacilityId(String facilityId);
 
+	
 	List<Facility> findByParentDepot(String facilityName);
 
+	
 	List<Facility> findByDivision(String facilityName);
-
+	
+	
 	List<Facility> findByZone(String zone);
 
 	List<Facility> findByParentFacilityId(String facilityName);

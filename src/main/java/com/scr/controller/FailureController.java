@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.sql.Timestamp;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Failure;
 import com.scr.model.FailureActionsCausesImpact;
@@ -25,11 +27,14 @@ import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Model;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.TssFeederMaster;
+import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.services.FailureActionsCausesImpactService;
 import com.scr.services.FailureService;
+import com.scr.services.UserDefualtFacConsIndEtcService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 import com.scr.model.AssetMasterData;
+import com.scr.model.Facility;
 
 
 @RestController
@@ -43,6 +48,9 @@ public class FailureController {
 	
 	@Autowired
 	private FailureActionsCausesImpactService failureImpactService;
+	
+	@Autowired
+	private CommonUtility  commonUtility;
 	
 	@RequestMapping(value = "/failuresByType/{failureType}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Failure>> findFailureByType(
@@ -354,6 +362,38 @@ public Boolean findBySubStationAndLocationAndFromDateTimeAndId(@PathVariable("id
 		logger.error("Error while checking exists id and subStation..."+e.getMessage());
 		return false;
 	}
+}
+
+@RequestMapping(value = "/failuresByTypesbasedOnDivision/{failureType}/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+public ResponseEntity<List<Failure>> findFailureByType(
+			@PathVariable("failureType") String failureType,@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+	logger.info("Enter into failures function");
+	logger.info("failureType = "+failureType);
+	logger.info("user=="+loggedUserData);
+	List<Failure> failureList = null;
+	List<String> fac= new ArrayList<>();
+	try {			
+		logger.info("Calling service for getting relevent type data");
+		List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+		logger.info("facilities=="+facility.size());
+		for (Facility facility2 : facility) {
+			
+			fac.add(facility2.getFacilityId());
+			
+		}
+		if(failureType.equals("GRID_FAILURE")) {
+			failureList = failureService.findFailureByTypeAndFeedOf(failureType,fac);
+		}else
+			
+		failureList = failureService.findFailureByTypeAndSubStation(failureType,fac);	
+		logger.info("Fetched data = "+failureList);
+	} catch (NullPointerException e) {			
+		logger.error("ERROR >>> while fetching the failure type data = "+e.getMessage());
+	} catch (Exception e) {			
+		logger.error("ERROR >>> while fetching the failure type data = "+e.getMessage());
+	}
+	logger.info("Exit from failures function");
+	return ResponseEntity.ok((failureList));
 }
 	
 }

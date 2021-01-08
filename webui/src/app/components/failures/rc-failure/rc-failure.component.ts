@@ -90,7 +90,7 @@ export class RcFailureComponent implements OnInit {
   }
   getRcFailureData() {
     const RcFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.RC_FAILURE).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE_BASED_ON_DIVISION + Constants.FAILURE_TYPES.RC_FAILURE+'/'+this.userdata.username).subscribe((data) => {
       this.RcFailList = data;      
       for (let i = 0; i < this.RcFailList.length; i++) {
         this.RcFailList[i].sno = i + 1;

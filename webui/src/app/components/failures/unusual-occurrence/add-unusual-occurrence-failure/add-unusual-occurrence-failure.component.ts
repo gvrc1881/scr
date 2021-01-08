@@ -313,10 +313,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     const q = new Promise((resolve, reject) => {
               
       let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
-      let location: string = this.addUnusualOccurrenceFromGroup.controls['location'].value;
+      //let location: string = this.addUnusualOccurrenceFromGroup.value.location;
       let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
     
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME+subStation+'/'+location+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME+subStation+'/'+this.addUnusualOccurrenceFromGroup.value.location+'/'+fromDateTime)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndLocationAndFromDateTime': true });
@@ -332,10 +332,10 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
 
       let id=this.id;        
       let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
-      let location: string = this.addUnusualOccurrenceFromGroup.controls['location'].value;
+      //let location: string = this.addUnusualOccurrenceFromGroup.value.location;
       let fromDateTime: string =this.sendAndRequestService.convertIndiaStandardTimeToTimestamp( this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
     
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID+id+'/'+subStation+'/'+location+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID+id+'/'+subStation+'/'+this.addUnusualOccurrenceFromGroup.value.location+'/'+fromDateTime)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndLocationAndFromDateTimeID': true });
