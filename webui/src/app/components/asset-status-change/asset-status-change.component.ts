@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators ,FormArray,FormControl} from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { CommonService } from 'src/app/common/common.service';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -13,6 +13,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { DatePipe } from '@angular/common';
 import { Location } from '@angular/common';
 import { AssetStatusDialogComponent } from 'src/app/components/asset-status-change/asset-status-history/asset-status-history.component';
+import { BehaviorSubject } from 'rxjs'
 
 @Component({
   selector: 'app-asset-status-change',
@@ -40,16 +41,15 @@ export class AssetStatusChangeComponent implements OnInit {
     Titles = FieldLabelsConstant.TITLE;
     searchInputFormGroup: FormGroup;
     standardPhaseActivityList: any;
-    save: boolean ;
-    update: boolean ;
+    save: boolean ;    
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     statusDataSource: MatTableDataSource<AssetStatusChangeModel>;
-    dataSource: MatTableDataSource<AssetStatusChangeModel>;
+    dataSource: MatTableDataSource<AssetStatusChangeModel> ;
     statusDisplayedColumns = ['sno','facility','asset', 'asetId','dateStatus','curentStatus','stats','targetDateReady','remark','actions'];
-    displayedColumns = ['sno','facility','asset', 'asetId','make','model','dateOfManufacture','nextAoh','nextPoh','dateStatus','curentStatus','stats','targetDateReady','remark','actions'];
+    displayedColumns = ['sno','facilityId','assetType', 'assetId','make','nextAoh','nextPoh','dateOfStatus','actions'];
     enableUpdate: boolean;    
     AssetStatusList:any;
-    activity = [];
+    activity = [];    
     resp: any; 
     maxDate = new Date();
     toMinDate=new Date();   
@@ -82,15 +82,9 @@ export class AssetStatusChangeComponent implements OnInit {
     enableDivision :boolean;
     enableSubDivision :boolean;
     enableDepot: boolean;
-
-
-    userForm: FormGroup;
-    @ViewChild('modalClose', {static: false}) modalClose:ElementRef;
-    formFlag = 'add';
-    items = [];
-	  itemCount = 0;
-	  params = {offset: 0, limit: 10}; 
-
+    controls: FormArray;
+    statusList:any;
+    list: BehaviorSubject<AssetStatusChangeModel> = new BehaviorSubject(this.statusList);
 
     constructor(
       public dialog: MatDialog,
@@ -115,58 +109,21 @@ export class AssetStatusChangeComponent implements OnInit {
         'subDiv': [null]  ,
         'facilityId':[null]   
     });
-
-    this.userForm = new FormGroup({
-		  'id': new FormControl(null),
-		  'name': new FormControl(null, Validators.required),
-		  'jobTitle': new FormControl(null, Validators.required)
-    });
-    
-
-    this.updateStatusChangeFormGroup = this.formBuilder.group({
-     // 'id':[null],
-      'assetType':[null],
-      'assetId':[null],
-      'facilityId':[null],
-      'dateOfStatus':[null],
-      'currentStatus':[null],
-      'targetDateOfReady':[null],
-      'make':[null],
-      'model':[null],
-      'dateOfManufacture':[null],
-      'nextPoh':[null],
-      'nextAoh':[null],
-      'status':[null],
-      'remarks':[null]
-    })
-
-    // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
-    //   this.userDefaultData = data;
-    //   if (this.userDefaultData.division) {
-    //     this.division = this.userDefaultData.division.toUpperCase();
-       
-    //   }
-    //   if (this.userDefaultData.subDivision) {        
-    //     this.subDivision = this.userDefaultData.subDivision.toUpperCase();
-    //   //  this.subDivisionList(this.userDefaultData.division);
-    //   }
-    //   if (this.userDefaultData.depot) {
-    //     this.depots = this.userDefaultData.subDivision.toUpperCase();
-    //      // this.depotList(this.userDefaultData.subDivision);
-    //   }
-    // },
-    //   error => error => {
-    //     console.log(' >>> ERROR ' + error);
+  
+    //   const toGroups = this.list.value.map(entity => {
+    //     return new FormGroup({
+    //      dateOfStatus:  new FormControl(entity.dateOfStatus, Validators.required)
+        
+    //     },{updateOn: "blur"});
     //   });
 
+    //  this.controls = new FormArray(toGroups);
   
      
   }
-  getData(item)
-	{
-		this.updateStatusChangeFormGroup.patchValue(item);
-		this.formFlag = 'edit';
-	}
+
+  
+
   findDivision(){
 
     if(!this.enableDivision){
@@ -249,6 +206,32 @@ export class AssetStatusChangeComponent implements OnInit {
          this.commonService.showAlertMessage("Error in Get")
       });
   }
+
+
+  updateField(index, field) {
+    const control = this.getControl(index, field);
+    if (control.valid) {
+      this.statusList.update(index,field,control.value);
+    }
+
+   }
+
+  getControl(index, fieldName) {
+    const a  = this.controls.at(index).get(fieldName) as FormControl;
+    return this.controls.at(index).get(fieldName) as FormControl;
+  }
+  update(index, field, value) {
+    this.statusList = this.statusList.map((e, i) => {
+      if (index === i) {
+        return {
+          ...e,
+          [field]: value
+        }
+      }
+      return e;
+    });
+    this.list.next(this.statusList);
+  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -280,8 +263,9 @@ export class AssetStatusChangeComponent implements OnInit {
   
   getAssetStatusChange() { 
     
+    let statusList : AssetStatusChangeModel[] = [];
     this.AssetStatusList = [];
-    this.activity = []; 
+    this.activity  = [];   
     let division=this.searchInputFormGroup.value.dataDiv;
  
     let subDivision=this.searchInputFormGroup.value.subDiv;
@@ -295,19 +279,21 @@ export class AssetStatusChangeComponent implements OnInit {
             if(data) {
               for (var i = 0; i < this.AssetStatusList.length; i++) {
                 this.AssetStatusList[i].sno = i + 1;
-                if(this.AssetStatusList[i].dateOfStatus){
-                  this.AssetStatusList[i].dateOfStatus = new Date(this.AssetStatusList[i].dateOfStatus);
-                }
+                 if(this.AssetStatusList[i].dateOfStatus){
+                   this.AssetStatusList[i].dateOfStatus = new Date(this.AssetStatusList[i].dateOfStatus);
+                 }
                 if(this.AssetStatusList[i].targetDateOfReady){
                   this.AssetStatusList[i].targetDateOfReady = !!this.AssetStatusList[i].targetDateOfReady ? new Date(this.AssetStatusList[i].dateOfStatus):'';
                 }
                 this.AssetStatusList[i].dateOfManufacture = this.datePipe.transform(this.AssetStatusList[i].dateOfManufacture, 'dd-MM-yyyy');  
                 this.AssetStatusList[i].nextAoh = this.datePipe.transform(this.AssetStatusList[i].nextAoh, 'dd-MM-yyyy'); 
-                this.AssetStatusList[i].nextPoh = this.datePipe.transform(this.AssetStatusList[i].nextPoh, 'dd-MM-yyyy');      
+                this.AssetStatusList[i].nextPoh = this.datePipe.transform(this.AssetStatusList[i].nextPoh, 'dd-MM-yyyy'); 
+                //this.AssetStatusList[i].dateOfStatus = this.datePipe.transform(this.AssetStatusList[i].dateOfStatus,'dd-MM-yyyy');     
                 this.activity.push(this.AssetStatusList[i]);
               }
             }
-         this.dataSource = new MatTableDataSource(this.activity);         
+         this.dataSource = new MatTableDataSource(this.activity);  
+         this.activity = this.statusList ;  
          this.enableStausTable = false;
          this.enableTable=true;  
         this. title = Constants.EVENTS.ADD;       
@@ -355,23 +341,12 @@ export class AssetStatusChangeComponent implements OnInit {
     });
    
   }
-  reloadItems(params) {
-    //this.dataSource.filteredData.filter.query(params).then(items => this.items = items);
-  }
-  reloadTableManually(){
-		this.reloadItems(this.params);
-		//this.dataSource.find.then(count => this.itemCount = count);
-	}
+  /*
   updateStatusChangeSubmit(){
-    //console.log('hello......')
-    this.userForm.value.id= this.dataSource.filteredData.length + 1;
-    this.dataSource.filteredData.unshift(this.updateStatusChangeFormGroup.value);
-    //this.reloadTableManually();
-		//Close modal
-		this.modalClose.nativeElement.click();
-		//User form reset
-		this.userForm.reset();
-               /*   var updatestatus={
+    
+  
+                  var updatestatus={
+                   // id:this.editStatusResponse.id,
                     assetType:this.updateStatusChangeFormGroup.value.assetType,
                     assetId:this.updateStatusChangeFormGroup.value.assetId,
                     facilityId:this.updateStatusChangeFormGroup.value.facilityId,                  
@@ -403,9 +378,9 @@ export class AssetStatusChangeComponent implements OnInit {
                       console.log('ERROR >>>');
                       this.spinnerService.hide();
                       this.commonService.showAlertMessage("Assets Status Data Updating Failed.");
-                    })*/
+                    })
      
-}
+} 
 
 
   editStatusChange(id){
@@ -453,8 +428,8 @@ export class AssetStatusChangeComponent implements OnInit {
 
     
 
-    
-  }
+} */
+  
 
   addEvent($event) {
     this.toMinDate = new Date($event.value); 
@@ -489,16 +464,16 @@ export class AssetStatusChangeComponent implements OnInit {
     });
 }
 
-history(){
+// history(){
   
-  this.dialog.open(AssetStatusDialogComponent, {
-    height: '600px',
-    width: '80%', 
-    data:this.editStatusResponse.assetId,
+//   this.dialog.open(AssetStatusDialogComponent, {
+//     height: '600px',
+//     width: '80%', 
+//     data:this.editStatusResponse.assetId,
     
-  });
+//   });
 
-}
+// }
 
 twHistory(row){
   
