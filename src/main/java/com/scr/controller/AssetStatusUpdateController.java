@@ -124,7 +124,9 @@ public class AssetStatusUpdateController {
 		logger.info("Request Parameters = " + assetStatusUpdate.toString());
 		try {
 			logger.info("Calling service with request parameters.");
-			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);	
+			logger.info("date_of_status"+assetStatusUpdate.getDateOfStatus());
+			AssetStatusUpdate asu = assetStatusService.save(assetStatusUpdate);
+			assetStatusUpdate.setSeqId(asu.getId().toString());
 			if(asu.getFacilityId() != null)
 			{
 				Optional<Facility> fac = facilityRepository.findByFacilityName(asu.getFacilityId());

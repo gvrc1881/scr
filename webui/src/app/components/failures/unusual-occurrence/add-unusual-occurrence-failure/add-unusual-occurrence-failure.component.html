@@ -49,14 +49,7 @@
                                                             <input matInput placeholder="{{FiledLabels.LOCATION}}"
                                                                 [formControl]="addUnusualOccurrenceFromGroup.controls['location']" pattern="^[a-zA-Z,0-9,/]+(\s[a-zA-Z,0-9]+)?$" required>                                                           
                                                         </mat-form-field>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.CAUSE_OF_FAILURE}}" 
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['causeOfFailure']"> </textarea>                                                                                                             
-                                                        </mat-form-field>
-                                                    </div>
+                                                    </div>                                                 
 
 
                                                   <div class="col-md-3">
@@ -82,7 +75,7 @@
                                                     </div>  
                                                     
                                                     <div class="col-md-3">
-                                                        <mat-form-field>
+                                                        <mat-form-field fxFlex="30">
                                                              <input matInput [owlDateTime]="dt2" style="width: 94%;"                                                             
                                                                 [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.RESOLVE_TIME}}"
                                                                 (dateTimeChange)="addResloveEvent($event)" [min]="minDate"  [max]="maxDate"
@@ -103,20 +96,36 @@
                                                                 [(ngModel)]="duration"   >  
                                                                                                                         
                                                         </mat-form-field>
+                                                    </div>      
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="{{FiledLabels.CAUSE_OF_FAILURE}}" 
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['causeOfFailure']"> </textarea>                                                                                                             
+                                                        </mat-form-field>
+                                                    </div>                                           
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.MAJOR_SECTION}}"
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['majorSection']"  >                                                           
+                                                        </mat-form-field>
                                                     </div>
-                                                   
-                                                     <!-- assetId -->
-                                                     <div class="col-md-3" fxFlex="30">                                                        
-                                                            <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
-                                                                                                                  
-                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <input matInput placeholder="{{FiledLabels.MINOR_SECTION}}"
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['minorSection']" >                                                           
+                                                        </mat-form-field>
+                                                    </div> 
+                                                      <!-- assetId -->
+                                                      <div class="col-md-3" fxFlex="30">                                                        
+                                                        <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
+                                                                                                              
+                                                </div>
 
-                                                     <!-- subAssetType -->
-                                                     <div class="col-md-3" fxFlex="30">                                                        
-                                                        <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox>  
-                                                        <mat-hint> (Checked:External UnChecked:Internal )</mat-hint>                                                         
-                                                      </div>
-
+                                                 <!-- subAssetType -->
+                                                 <div class="col-md-3" fxFlex="30">                                                        
+                                                    <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox>  
+                                                    <mat-hint> (Checked:External UnChecked:Internal )</mat-hint>                                                         
+                                                  </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="{{FiledLabels.IMPACT}}" 
@@ -124,9 +133,7 @@
                                                                 > </textarea>                                                                                                             
                                                         </mat-form-field>
                                                     </div>
-
-                                                     <!-- actionPlan -->
-                                                     <div class="clearfix"></div>
+                                                                                                       
                                                      <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="{{FiledLabels.REMARKS}}" 
@@ -141,7 +148,7 @@
                                                                 class="alert alert-danger">Max 250 characters only
                                                             </mat-error>
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div>                                                    
 
                                                     
                                                 <div class="clearfix"></div>

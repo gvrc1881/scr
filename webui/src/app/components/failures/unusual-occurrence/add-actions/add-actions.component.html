@@ -86,9 +86,9 @@
 
                                                     <div class="col-md-3" *ngIf="specialRemarks">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="{{FiledLabels.DETAILS}}" 
+                                                            <textarea matInput placeholder="{{FiledLabels.DETAILS}}" 
                                                                 [formControl]="addActionsFailFromGroup.controls['specialRemarks']"
-                                                                >                                                           
+                                                                > </textarea>                                                           
                                                         </mat-form-field>
                                                     </div>
 

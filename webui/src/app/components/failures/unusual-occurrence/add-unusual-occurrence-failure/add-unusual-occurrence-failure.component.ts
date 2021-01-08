@@ -62,6 +62,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       divisionLocal: {},
       internalExternal: {}, 
       impact:{},
+      majorSection:{},
+      minorSection:{},
       remarks:{}
     };
   }
@@ -150,6 +152,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'divisionLocal': [null],
         'internalExternal': [null], 
         'impact': [null],
+        'majorSection':[null],
+        'minorSection':[null],
         'remarks': [null, Validators.maxLength(250)]
       });
   }
@@ -166,6 +170,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'divisionLocal': [null],
         'internalExternal': [null], 
         'impact': [null],
+        'majorSection':[null],
+        'minorSection':[null],
         'remarks': [null, Validators.maxLength(250)]
       });
   }
@@ -201,6 +207,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
           divisionLocal:this.resp.divisionLocal  == 'true' ? true: false,
           internalExternal:this.resp.internalExternal == 'true' ? true: false,
           impact:this.resp.impact,
+          majorSection:this.resp.majorSection,
+          minorSection:this.resp.minorSection,
           remarks: this.resp.remarks
         });
         /* this.feedersList.map(element => {
@@ -242,6 +250,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal == true ?  'true' : 'false',
         'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
+        'majorSection':this.addUnusualOccurrenceFromGroup.value.majorSection,
+        'minorSection':this.addUnusualOccurrenceFromGroup.value.minorSection,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE,
         "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,
@@ -276,6 +286,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal== true ? 'true' : 'false',
         'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal== true ? 'true' : 'false', 
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
+        'majorSection':this.addUnusualOccurrenceFromGroup.value.majorSection,
+        'minorSection':this.addUnusualOccurrenceFromGroup.value.minorSection,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,

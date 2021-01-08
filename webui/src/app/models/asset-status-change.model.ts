@@ -5,6 +5,7 @@ export interface AssetStatusChangeModel{
     remarks :string,
     facilityId :string,
     status :string,
+    dateOfStatus:Date,
     createdOn :Date,
   createdStamp: Date,
   createdTxStamp :Date, 

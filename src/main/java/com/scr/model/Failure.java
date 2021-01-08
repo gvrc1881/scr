@@ -173,6 +173,12 @@ public class Failure implements Serializable {
 	@Column(name="load_relief_break_down")
 	private String loadReliefBreakDown;
 	
+	@Column(name="major_section")
+	private String majorSection;
+	
+	@Column(name="minor_section")
+	private String minorSection;
+	
 	public Failure() {
 		
 	}
@@ -618,6 +624,14 @@ public class Failure implements Serializable {
 		this.loadReliefBreakDown = loadReliefBreakDown;
 	}
 
+	public String getMinorSection() {
+		return minorSection;
+	}
+
+	public void setMinorSection(String minorSection) {
+		this.minorSection = minorSection;
+	}
+
 	@Override
 	public String toString() {
 		return "Failure [id=" + id + ", actualFaultDistance=" + actualFaultDistance + ", assetId=" + assetId
@@ -639,8 +653,10 @@ public class Failure implements Serializable {
 				+ thruDateTime + ", timeDelay=" + timeDelay + ", tpcBoard=" + tpcBoard + ", trainNo=" + trainNo
 				+ ", trippedIdentifiedFault=" + trippedIdentifiedFault + ", typeOfFailure=" + typeOfFailure
 				+ ", voltage=" + voltage + ", xValue=" + xValue + ", zConstant=" + zConstant + ", loadReliefBreakDown="
-				+ loadReliefBreakDown + "]";
+				+ loadReliefBreakDown + ", majorSection=" + majorSection + ", minorSection=" + minorSection + "]";
 	}
+
+	
 
 
 

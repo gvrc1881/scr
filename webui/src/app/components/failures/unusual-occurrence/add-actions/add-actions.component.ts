@@ -160,8 +160,32 @@ export class AddActionsComponent implements OnInit {
         this.updateActions(true, true, false, false, false,true, false, false);
       }else if($event.value === 'DAMAGE'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      }else if($event.value === 'AVAILABILITY'){
-        this.updateActions(true, true, false, true, false,true, false, false);
+      }else if($event.value === 'TRIPPING DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      }else if($event.value === 'SEGRGATION IF ANY'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'FIR DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'TOWER WAGON MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'ROAD VEHICLE MOVEMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'OFFICERS AT SITE '){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'OFFICERS AT CONTROL ROOM'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'SUPERVISORS AT SITE '){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'SUPERVISORS AT CONTROL ROOM'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'BLOCK DETAILS'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'FAILED EQUIPMENT'){
+        this.updateActions(false, false, false, false, false,true, false, false);
+      } else if($event.value === 'INVESTIGATION'){
+        this.updateActions(false, false, false, false, false,true, false, false);
       }
     }
   }

@@ -241,6 +241,7 @@ export const FieldLabelsConstant = {
       MONTH: "Month",
       MULTIPLICATION_FACTOR: "Multiplication Factor",
       MANUAL_ENTRY:"Manual Entry",
+      MINOR_SECTION:"Minor Section",
       NAME: "Name",
       NAME_OF_STAFF: "Name Of Staff",
       NATURE_OF_CLOSURE: "Nat Of Closure",
