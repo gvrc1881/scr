@@ -62,6 +62,11 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
 	Optional<Facility> findByFacilityNameAndDivisionAndSubDivision(String division, String subDivision,
 			String facility);
 	Optional<Facility> findByFacilityNameAndSubDivision(String facility, String subDivision);
+	List<Facility> findByZoneOrderByFacilityNameAsc(String facilityName);
+	List<Facility> findByDivisionOrderByFacilityNameAsc(String facilityName);
+	List<Facility> findBySubDivisionOrderByFacilityNameAsc(String facilityName);
+	List<Facility> findByParentDepotOrderByFacilityNameAsc(String facilityName);
+	List<Facility> findByParentFacilityIdOrderByFacilityNameAsc(String facilityName);
 	
 	
 	

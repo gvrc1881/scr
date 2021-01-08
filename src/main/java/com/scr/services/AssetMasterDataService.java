@@ -103,7 +103,7 @@ public class AssetMasterDataService {
 	public List<AssetStatusUpdateResponse> getByDataDiv(String div) {
 		// TODO Auto-generated method stub
 		List<AssetMasterData> amd = assetMastersRepository.getByDataDiv(div);
-		List<AssetStatusUpdateResponse> assetStatusUpdate = null;
+		List<AssetStatusUpdateResponse> assetStatusUpdate = new ArrayList<>();
 		 logger.info("*** amd list ***"+amd.size());
 			for (AssetMasterData assetMasterData : amd) 
 			{

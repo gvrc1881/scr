@@ -594,6 +594,8 @@ export const Constants = {
             FAILURE_TYPE_SAVE:'/saveFailureByType',
             FAILURE_TYPE_UPDATE:'/updateFailureByType', 
             GET_ACTIONS:'/actions',
+            GET_ACTIONS_ID:'/actionsBasedOnFailureId/',
+            FAILURE_BY_TYPE_BASED_ON_DIVISION:"/failuresByTypesbasedOnDivision/",
             SAVE_ACTIONS:'/saveActions',
             UPDATE_ACTIONS:'/updateActions',
             DELETE_ACTIONS:'/deleteActions/',

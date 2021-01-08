@@ -23,27 +23,27 @@ public class FacilityService {
 
 	public List<Facility> findByParentDepot(String facilityName) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findByParentDepot(facilityName);
+		return facilityRepository.findByParentDepotOrderByFacilityNameAsc(facilityName);
 	}
 
 	public List<Facility> findBySubDivision(String facilityName) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findBySubDivision(facilityName);
+		return facilityRepository.findBySubDivisionOrderByFacilityNameAsc(facilityName);
 	}
 
 	public List<Facility> findByDivision(String facilityName) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findByDivision(facilityName);
+		return facilityRepository.findByDivisionOrderByFacilityNameAsc(facilityName);
 	}
 
 	public List<Facility> findByZone(String facilityName) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findByZone(facilityName);
+		return facilityRepository.findByZoneOrderByFacilityNameAsc(facilityName);
 	}
 
 	public List<Facility> findByParentFacilityId(String facilityName) {
 		// TODO Auto-generated method stub
-		return facilityRepository.findByParentFacilityId(facilityName);
+		return facilityRepository.findByParentFacilityIdOrderByFacilityNameAsc(facilityName);
 	}
 	
 	public void save(Facility facility) {
