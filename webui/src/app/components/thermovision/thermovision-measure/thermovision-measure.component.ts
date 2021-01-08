@@ -42,6 +42,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     enableSave: boolean;
     maxDate = new Date();
     resp: any;
+    ambientTemp : any;
     
   
 
@@ -67,7 +68,10 @@ export class ThermovisionMeasureComponent implements OnInit{
             'generalRemark' : [null]
         });
         this.divisionDetails();
-        
+        /*
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TCP_SCHEDULES_BASED_ON_FACID+18413).subscribe((response) => {
+            console.log('*** get schedules ***'+JSON.stringify(response));    
+        }); */
     }
     
     saveAction(){
@@ -97,14 +101,38 @@ export class ThermovisionMeasureComponent implements OnInit{
                     this.enableSave = true;
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
+                        // console.log('infor***'+JSON.stringify(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint));
+                        if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED_CClamp"){
+                           // console.log('** in if condition');
+                            this.thermovisionMeasureData[i].enableFixed = true;
+                            this.thermovisionMeasureData[i].enableCClamp = true;
+                        }else if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED"){
+                            //console.log('** in else if condition');
+                            this.thermovisionMeasureData[i].enableFixed = true;
+                            this.thermovisionMeasureData[i].enableCClamp = false;
+                        }else {
+                           // console.log('** else condition');
+                            this.thermovisionMeasureData[i].enableCClamp = true;
+                            this.thermovisionMeasureData[i].enableFixed = false;
+                        }
                         this.thermovisionMeasureData[i].tcpsDate = this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd');
                         this.thermovisionMeasureData[i].tcpsGeneralRemark = this.inputFormGroup.value.generalRemark;
                         this.thermovisionMeasureData[i].tcpsBy = this.inputFormGroup.value.by;
+                        //console.log('infor***'+JSON.stringify(this.thermovisionMeasureData[i]));
                         this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);                            
                     }
                     this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
                 }
         });    
+    }
+    
+    applyAmbientTemp(){
+        if(this.thermovisionMeasuresList.length > 0){
+           for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
+                this.thermovisionMeasuresList[i].tcpmAmbientTemp = this.ambientTemp;                    
+           }
+            this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList); 
+        }
     }
     
     divisionDetails() {

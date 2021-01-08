@@ -46,11 +46,16 @@ public class ThermovisionMeasureUtilRepository {
 				while(resultSet != null && resultSet.next()) {
 					response = new ThermovisionMeasureResponse();
 					response.setTcpmCriticality(resultSet.getLong("tcpm_criticality"));
-					response.setPre1MTcpmMeasure(resultSet.getString("pre1_m_tcpm_measure"));
+					response.setTcpmFixedMeasure(resultSet.getString("tcpm_fixed_measure"));
+					response.setTcpmCClampMeasure(resultSet.getString("tcpm_c_clamp_measure"));
+					response.setPre1MTcpmFixedMeasure(resultSet.getString("pre1_m_tcpm_fixed_measure"));
+					response.setPre1MTcpmCClampMeasure(resultSet.getString("pre1_m_tcpm_c_clamp_measure"));
 					response.setPre1MTcpsDate(resultSet.getTimestamp("pre1_m_tcps_date"));
-					response.setPre2MTcpmMeasure(resultSet.getString("pre2_m_tcpm_measure"));
+					response.setPre2MTcpmFixedMeasure(resultSet.getString("pre2_m_tcpm_fixed_measure"));
+					response.setPre2MTcpmCClampMeasure(resultSet.getString("pre2_m_tcpm_c_clamp_measure"));
 					response.setPre2MTcpsDate(resultSet.getTimestamp("pre2_m_tcps_date"));
-					response.setPre3MTcpmMeasure(resultSet.getString("pre3_m_tcpm_measure"));
+					response.setPre3MTcpmFixedMeasure(resultSet.getString("pre3_m_tcpm_fixed_measure"));
+					response.setPre3MTcpmCClampMeasure(resultSet.getString("pre3_m_tcpm_c_clamp_measure"));
 					response.setPre3MTcpsDate(resultSet.getTimestamp("pre3_m_tcps_date"));
 					response.setRsFacilityId(resultSet.getString("rs_facility_id"));
 					response.setRsFacilityName(resultSet.getString("rs_facility_name"));
@@ -63,7 +68,7 @@ public class ThermovisionMeasureUtilRepository {
 					response.setTcpmAmbientTemp(resultSet.getDouble("tcpm_ambient_temp"));
 					response.setTcpmId(resultSet.getLong("tcpm_id"));
 					response.setTcpmImageId(resultSet.getString("tcpm_image_id"));
-					response.setTcpmMeasure(resultSet.getString("tcpm_measure"));
+					//response.setTcpmMeasure(resultSet.getString("tcpm_measure"));
 					response.setTcpmRemark(resultSet.getString("tcpm_remark"));
 					response.setTcpmVarianceWithOtherPoint(resultSet.getDouble("tcpm_variance_with_other_point"));
 					response.setTcpsBy(resultSet.getString("tcps_by"));

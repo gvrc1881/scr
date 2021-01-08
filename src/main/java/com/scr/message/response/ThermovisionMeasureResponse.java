@@ -14,6 +14,8 @@ public class ThermovisionMeasureResponse {
 	private String tcpDisplayOrder;
 	private Long tcpCommparisonPoints;
 	private Long tcpmId;
+	private String tcpmFixedMeasure;
+	private String tcpmCClampMeasure;
 	private String tcpmMeasure;
 	private double tcpmAmbientTemp;
 	private String tcpmImageId;
@@ -21,11 +23,14 @@ public class ThermovisionMeasureResponse {
 	private Long tcpmCriticality;
 	private double tcpmVarianceWithOtherPoint;
 	private Timestamp pre1MTcpsDate;
-	private String pre1MTcpmMeasure;
+	private String pre1MTcpmFixedMeasure;
+	private String pre1MTcpmCClampMeasure;
 	private Timestamp pre2MTcpsDate;
-	private String pre2MTcpmMeasure;
+	private String pre2MTcpmFixedMeasure;
+	private String pre2MTcpmCClampMeasure;
 	private Timestamp pre3MTcpsDate;
-	private String pre3MTcpmMeasure;
+	private String pre3MTcpmFixedMeasure;
+	private String pre3MTcpmCClampMeasure;
 	private Long tcpsFacilityId;
 	private String tcpsFacilityName;
 	private Timestamp tcpsDate;
@@ -114,6 +119,22 @@ public class ThermovisionMeasureResponse {
 		this.tcpmId = tcpmId;
 	}
 
+	public String getTcpmFixedMeasure() {
+		return tcpmFixedMeasure;
+	}
+
+	public void setTcpmFixedMeasure(String tcpmFixedMeasure) {
+		this.tcpmFixedMeasure = tcpmFixedMeasure;
+	}
+
+	public String getTcpmCClampMeasure() {
+		return tcpmCClampMeasure;
+	}
+
+	public void setTcpmCClampMeasure(String tcpmCClampMeasure) {
+		this.tcpmCClampMeasure = tcpmCClampMeasure;
+	}
+
 	public String getTcpmMeasure() {
 		return tcpmMeasure;
 	}
@@ -122,7 +143,14 @@ public class ThermovisionMeasureResponse {
 		this.tcpmMeasure = tcpmMeasure;
 	}
 
-	
+	public double getTcpmAmbientTemp() {
+		return tcpmAmbientTemp;
+	}
+
+	public void setTcpmAmbientTemp(double tcpmAmbientTemp) {
+		this.tcpmAmbientTemp = tcpmAmbientTemp;
+	}
+
 	public String getTcpmImageId() {
 		return tcpmImageId;
 	}
@@ -163,12 +191,20 @@ public class ThermovisionMeasureResponse {
 		pre1MTcpsDate = pre1mTcpsDate;
 	}
 
-	public String getPre1MTcpmMeasure() {
-		return pre1MTcpmMeasure;
+	public String getPre1MTcpmFixedMeasure() {
+		return pre1MTcpmFixedMeasure;
 	}
 
-	public void setPre1MTcpmMeasure(String pre1mTcpmMeasure) {
-		pre1MTcpmMeasure = pre1mTcpmMeasure;
+	public void setPre1MTcpmFixedMeasure(String pre1mTcpmFixedMeasure) {
+		pre1MTcpmFixedMeasure = pre1mTcpmFixedMeasure;
+	}
+
+	public String getPre1MTcpmCClampMeasure() {
+		return pre1MTcpmCClampMeasure;
+	}
+
+	public void setPre1MTcpmCClampMeasure(String pre1mTcpmCClampMeasure) {
+		pre1MTcpmCClampMeasure = pre1mTcpmCClampMeasure;
 	}
 
 	public Timestamp getPre2MTcpsDate() {
@@ -179,12 +215,20 @@ public class ThermovisionMeasureResponse {
 		pre2MTcpsDate = pre2mTcpsDate;
 	}
 
-	public String getPre2MTcpmMeasure() {
-		return pre2MTcpmMeasure;
+	public String getPre2MTcpmFixedMeasure() {
+		return pre2MTcpmFixedMeasure;
 	}
 
-	public void setPre2MTcpmMeasure(String pre2mTcpmMeasure) {
-		pre2MTcpmMeasure = pre2mTcpmMeasure;
+	public void setPre2MTcpmFixedMeasure(String pre2mTcpmFixedMeasure) {
+		pre2MTcpmFixedMeasure = pre2mTcpmFixedMeasure;
+	}
+
+	public String getPre2MTcpmCClampMeasure() {
+		return pre2MTcpmCClampMeasure;
+	}
+
+	public void setPre2MTcpmCClampMeasure(String pre2mTcpmCClampMeasure) {
+		pre2MTcpmCClampMeasure = pre2mTcpmCClampMeasure;
 	}
 
 	public Timestamp getPre3MTcpsDate() {
@@ -195,12 +239,20 @@ public class ThermovisionMeasureResponse {
 		pre3MTcpsDate = pre3mTcpsDate;
 	}
 
-	public String getPre3MTcpmMeasure() {
-		return pre3MTcpmMeasure;
+	public String getPre3MTcpmFixedMeasure() {
+		return pre3MTcpmFixedMeasure;
 	}
 
-	public void setPre3MTcpmMeasure(String pre3mTcpmMeasure) {
-		pre3MTcpmMeasure = pre3mTcpmMeasure;
+	public void setPre3MTcpmFixedMeasure(String pre3mTcpmFixedMeasure) {
+		pre3MTcpmFixedMeasure = pre3mTcpmFixedMeasure;
+	}
+
+	public String getPre3MTcpmCClampMeasure() {
+		return pre3MTcpmCClampMeasure;
+	}
+
+	public void setPre3MTcpmCClampMeasure(String pre3mTcpmCClampMeasure) {
+		pre3MTcpmCClampMeasure = pre3mTcpmCClampMeasure;
 	}
 
 	public Long getTcpsFacilityId() {
@@ -259,28 +311,23 @@ public class ThermovisionMeasureResponse {
 		this.tcpsGeneralRemark = tcpsGeneralRemark;
 	}
 
-	public double getTcpmAmbientTemp() {
-		return tcpmAmbientTemp;
-	}
-
-	public void setTcpmAmbientTemp(double tcpmAmbientTemp) {
-		this.tcpmAmbientTemp = tcpmAmbientTemp;
-	}
-
 	@Override
 	public String toString() {
 		return "ThermovisionMeasureResponse [rsId=" + rsId + ", rsFacilityId=" + rsFacilityId + ", rsFacilityName="
 				+ rsFacilityName + ", tcpCheckPointPart=" + tcpCheckPointPart + ", tcpCheckPointDescription="
 				+ tcpCheckPointDescription + ", tcpTypeOfCheckPoint=" + tcpTypeOfCheckPoint + ", tcpDisplayGroup="
 				+ tcpDisplayGroup + ", tcpDisplayOrder=" + tcpDisplayOrder + ", tcpCommparisonPoints="
-				+ tcpCommparisonPoints + ", tcpmId=" + tcpmId + ", tcpmMeasure=" + tcpmMeasure + ", tcpmAmbientTemp="
+				+ tcpCommparisonPoints + ", tcpmId=" + tcpmId + ", tcpmFixedMeasure=" + tcpmFixedMeasure
+				+ ", tcpmCClampMeasure=" + tcpmCClampMeasure + ", tcpmMeasure=" + tcpmMeasure + ", tcpmAmbientTemp="
 				+ tcpmAmbientTemp + ", tcpmImageId=" + tcpmImageId + ", tcpmRemark=" + tcpmRemark + ", tcpmCriticality="
 				+ tcpmCriticality + ", tcpmVarianceWithOtherPoint=" + tcpmVarianceWithOtherPoint + ", pre1MTcpsDate="
-				+ pre1MTcpsDate + ", pre1MTcpmMeasure=" + pre1MTcpmMeasure + ", pre2MTcpsDate=" + pre2MTcpsDate
-				+ ", pre2MTcpmMeasure=" + pre2MTcpmMeasure + ", pre3MTcpsDate=" + pre3MTcpsDate + ", pre3MTcpmMeasure="
-				+ pre3MTcpmMeasure + ", tcpsFacilityId=" + tcpsFacilityId + ", tcpsFacilityName=" + tcpsFacilityName
-				+ ", tcpsDate=" + tcpsDate + ", tcpsDateTime=" + tcpsDateTime + ", tcpsTime=" + tcpsTime + ", tcpsBy="
-				+ tcpsBy + ", tcpsGeneralRemark=" + tcpsGeneralRemark + "]";
+				+ pre1MTcpsDate + ", pre1MTcpmFixedMeasure=" + pre1MTcpmFixedMeasure + ", pre1MTcpmCClampMeasure="
+				+ pre1MTcpmCClampMeasure + ", pre2MTcpsDate=" + pre2MTcpsDate + ", pre2MTcpmFixedMeasure="
+				+ pre2MTcpmFixedMeasure + ", pre2MTcpmCClampMeasure=" + pre2MTcpmCClampMeasure + ", pre3MTcpsDate="
+				+ pre3MTcpsDate + ", pre3MTcpmFixedMeasure=" + pre3MTcpmFixedMeasure + ", pre3MTcpmCClampMeasure="
+				+ pre3MTcpmCClampMeasure + ", tcpsFacilityId=" + tcpsFacilityId + ", tcpsFacilityName="
+				+ tcpsFacilityName + ", tcpsDate=" + tcpsDate + ", tcpsDateTime=" + tcpsDateTime + ", tcpsTime="
+				+ tcpsTime + ", tcpsBy=" + tcpsBy + ", tcpsGeneralRemark=" + tcpsGeneralRemark + "]";
 	}
 
 }

@@ -1,0 +1,21 @@
+.mat-column-sno {
+    max-width: 80px;
+}
+.mat-column-description {
+    max-width: 400px;
+}
+.mat-column-fixed {
+    max-width: 200px;
+}
+.mat-column-c-clamp {
+    max-width: 200px;
+}
+.mat-column-ambientTemp {
+    max-width: 120px;
+}
+.mat-column-criticality {
+    max-width: 120px;
+}
+.mat-column-remark {
+    max-width: 170px;
+}

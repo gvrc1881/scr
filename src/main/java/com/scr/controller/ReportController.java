@@ -54,6 +54,7 @@ import com.scr.model.StandardPhases;
 import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
+import com.scr.model.TcpSchedule;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.TssFeederMaster;
@@ -591,4 +592,13 @@ public class ReportController {
 		log.info("** preparing response and getStandardPhasesOnWorkType function end ***");
 			return new ResponseEntity<List<ObservationsCheckList>>(obsCheckList, HttpStatus.OK);		
 	}
+	
+	@RequestMapping(value = "/getTcpSchedulesBasedOnFacId/{facId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<TcpSchedule>> getTcpSchedulesBasedOnFacId(@PathVariable("facId") Long facId){
+		log.info("** Enter into getTcpSchedulesBasedOnFacId functions ***");
+		List<TcpSchedule> tcpSchedules= reportService.getTcpSchedulesBasedOnFacId(facId);
+		log.info("** preparing response and getTcpSchedulesBasedOnFacId function end ***");
+			return new ResponseEntity<List<TcpSchedule>>(tcpSchedules, HttpStatus.OK);		
+	}
+	
 }

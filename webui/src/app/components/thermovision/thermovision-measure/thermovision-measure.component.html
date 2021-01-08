@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.DEPOT}}" [formControl]="inputFormGroup.controls['facilityId']"  >
+                                        <mat-select placeholder="{{FiledLabels.STATION}}" [formControl]="inputFormGroup.controls['facilityId']"  >
                                             <mat-option *ngFor="let depot of depotsList "
                                                 [value]="depot.id">
                                                 {{ depot.facilityName}}
@@ -77,6 +77,12 @@
 								</div>
 							</form>
                     	</div>
+                    	<div class="clear"></div>
+                    	<div class = "col-md-3" >
+                        	<mat-form-field fxFlex="30">
+                            	<input matInput placeholder = "{{FiledLabels.AMBIENT_TEMP}}" decimalNumber [(ngModel)]="ambientTemp"  (ngModelChange)="applyAmbientTemp()" />
+                            </mat-form-field>
+                        </div>
                     	<div class="clear"> </div>
 		                	 <div class="mat-elevation-z8">
 		                		<mat-table [dataSource]="dataSource" matSort>
@@ -92,27 +98,47 @@
 	                                </ng-container>
 	                                <ng-container matColumnDef="fixed">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.FIXED}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<ng-container *matCellDef="let row" >
+	                                    	<mat-cell *ngIf = "row.enableFixed   ; else fixedElseBlock">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmMeasure" 
-												    	[(ngModel)]="row.tcpmMeasure" >
+													<input matInput  [value]="row.tcpmFixedMeasure"  decimalNumber
+												    	[(ngModel)]="row.tcpmFixedMeasure" >
 												</mat-form-field>
 	                                        </mat-cell>
+	                                        <ng-template #fixedElseBlock>
+	                                        <mat-cell></mat-cell>
+	                                        	<!-- {{row.enableFixed}}
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+													<input matInput  [value]="row.tcpmFixedMeasure" 
+												    	[(ngModel)]="row.tcpmFixedMeasure" readonly>
+												</mat-form-field> -->
+	                                        </ng-template>
+	                                        </ng-container>
 	                                </ng-container>
 	                                <ng-container matColumnDef="c-clamp">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.C_CLAMP}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<ng-container *matCellDef="let row" >
+	                                    	<mat-cell *ngIf = "row.enableCClamp   ; else CClampElseBlock">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmMeasure" 
-												    	[(ngModel)]="row.tcpmMeasure">
+													<input matInput  [value]="row.tcpmCClampMeasure" decimalNumber
+												    	[(ngModel)]="row.tcpmCClampMeasure">
 												</mat-form-field>
 	                                        </mat-cell>
+	                                        <ng-template #CClampElseBlock>
+	                                        <mat-cell></mat-cell>
+	                                        	<!-- {{row.enableCClamp}}
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+													<input matInput  [value]="row.tcpmCClampMeasure" 
+												    	[(ngModel)]="row.tcpmCClampMeasure" readonly>
+												</mat-form-field> -->
+	                                        </ng-template>
+	                                        </ng-container>
 	                                </ng-container>
 	                                <ng-container matColumnDef="ambientTemp">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AMBIENT_TEMP}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmAmbientTemp" 
+													<input matInput  [value]="row.tcpmAmbientTemp" decimalNumber
 												    	[(ngModel)]="row.tcpmAmbientTemp">
 												</mat-form-field>
 	                                        </mat-cell>
@@ -121,7 +147,7 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CRITICALITY}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmCriticality" 
+													<input matInput  [value]="row.tcpmCriticality" decimalNumber
 												    	[(ngModel)]="row.tcpmCriticality">
 												</mat-form-field>
 	                                        </mat-cell>

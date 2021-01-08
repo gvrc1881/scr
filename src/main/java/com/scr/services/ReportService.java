@@ -44,6 +44,7 @@ import com.scr.model.StandardPhases;
 import com.scr.model.StatusItem;
 import com.scr.model.Stipulations;
 import com.scr.model.SubDivision;
+import com.scr.model.TcpSchedule;
 import com.scr.model.TpcBoard;
 import com.scr.model.TpcBoardReportingFacility;
 import com.scr.model.TssFeederMaster;
@@ -87,6 +88,7 @@ import com.scr.repository.StipulationRepository;
 import com.scr.repository.SubDivisionRepository;
 import com.scr.repository.TPCBoardDepotAssocRepository;
 import com.scr.repository.TPCBoardRepository;
+import com.scr.repository.TcpScheduleRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.UserDefualtFacConsIndEtcRepository;
 import com.scr.repository.ZoneRepository;
@@ -186,6 +188,9 @@ public class ReportService {
 	
 	@Autowired
 	private StandardPhaseActivityRepository standardPhaseActivityRepository;
+	
+	@Autowired
+	private TcpScheduleRepository tcpScheduleRepository;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -470,5 +475,8 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<ObservationsCheckList> getSeverityPriorityOnObsItem(String observationItem) {
 		
 		return observationCheckListRepository.findByObservationItem(observationItem);
+	}
+	public List<TcpSchedule> getTcpSchedulesBasedOnFacId(Long facId) {
+		return tcpScheduleRepository.findByFacilityId(facId);
 	}
 }

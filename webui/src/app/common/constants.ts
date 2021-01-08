@@ -78,7 +78,8 @@ export const Constants = {
             GET_PRODUCT_CATEGORY_TYPE:"/getAllProductCategoryType",
             GET_FACILITY_BASED_ON_TPC_BOARD:"/getFacilityNameBasedOnTpcBoard/",
             GET_ONLY_WAREHOUSE_DEPOT:"/getWarehouseFacilityNames",
-            GET_SEVERITY_PRIORITY_ON_OBSITEM:"/getSeverityPriorityOnObsItem/"
+            GET_SEVERITY_PRIORITY_ON_OBSITEM:"/getSeverityPriorityOnObsItem/",
+            GET_TCP_SCHEDULES_BASED_ON_FACID:"/getTcpSchedulesBasedOnFacId/"
         },        
         MASTERS:{
             ROLE_TYPE:{
