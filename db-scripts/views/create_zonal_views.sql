@@ -50,7 +50,45 @@ CREATE OR REPLACE VIEW public.v_asset_master_data AS
 
 ALTER TABLE public.v_asset_master_data
     OWNER TO postgres;
+----69
 
+
+
+-- View: public.v_drives
+
+-- DROP VIEW public.v_drives;
+
+CREATE OR REPLACE VIEW public.v_drives AS 
+ SELECT drives.id,
+    drives.active,
+    drives.asset_description,
+    drives.asset_type,
+    drives.checklist,
+    drives.created_by,
+    drives.created_on,
+    drives.criteria,
+    drives.description,
+    drives.from_date,
+    drives.functional_unit,
+    drives.is_id_required,
+    drives.frequency,
+    drives.name,
+    drives.status_id,
+        CASE
+            WHEN drives.status_id = 1 THEN 'No'::text
+            ELSE 'Yes'::text
+        END AS drv_deleted_status,
+    drives.target_qty,
+    drives.to_date,
+    drives.updated_by,
+    drives.updated_on,
+    drives.depot_type
+   FROM drives;
+
+ALTER TABLE public.v_drives
+  OWNER TO postgres;
+  
+  
 --3
 -- View: v_asset_monthly_targets
 
@@ -675,7 +713,9 @@ SELECT cur.seq_id,
 
 -- DROP VIEW public.v_failures_count_duration_daily;
 
-CREATE OR REPLACE VIEW public.v_failures_count_duration_daily AS
+
+CREATE OR REPLACE VIEW public.v_failures_count_duration_daily
+ AS
  SELECT f.type_of_failure,
     count(*) AS daily_count,
     sum(date_part('day'::text, f.thru_date_time - f.from_date_time) * 24::double precision * 60::double precision + date_part('hour'::text, f.thru_date_time - f.from_date_time) * 60::double precision + date_part('minute'::text, f.thru_date_time - f.from_date_time)) AS delay_time,
@@ -692,15 +732,21 @@ CREATE OR REPLACE VIEW public.v_failures_count_duration_daily AS
             WHEN date_part('month'::text, f.from_date_time) = 1::double precision OR date_part('month'::text, f.from_date_time) = 2::double precision OR date_part('month'::text, f.from_date_time) = 3::double precision THEN (btrim(to_char(date_part('year'::text, (f.from_date_time - '1 year'::interval)::date), '9999'::text)) || '-'::text) || btrim(to_char(mod(date_part('year'::text, f.from_date_time)::integer, 100), '99'::text))
             WHEN date_part('month'::text, f.from_date_time) = 4::double precision OR date_part('month'::text, f.from_date_time) = 5::double precision OR date_part('month'::text, f.from_date_time) = 6::double precision OR date_part('month'::text, f.from_date_time) = 7::double precision OR date_part('month'::text, f.from_date_time) = 8::double precision OR date_part('month'::text, f.from_date_time) = 9::double precision OR date_part('month'::text, f.from_date_time) = 10::double precision OR date_part('month'::text, f.from_date_time) = 11::double precision OR date_part('month'::text, f.from_date_time) = 12::double precision THEN (btrim(to_char(date_part('year'::text, f.from_date_time), '9999'::text)) || '-'::text) || btrim(to_char(mod(date_part('year'::text, (f.from_date_time + '1 year'::interval)::date)::integer, 100), '99'::text))
             ELSE NULL::text
-        END AS fy
+        END AS fy,
+		fac.division,
+	case 
+		when f.internal_external = 'true'  then 'External'
+		when f.internal_external ='false' then 'Internal'
+		end internal_external
    FROM failures f
-     LEFT JOIN facility fac ON f.facility_id::text = fac.facility_id::text
+     LEFT JOIN facility fac ON f.sub_station::text = fac.facility_id::text
   GROUP BY (date_part('year'::text, f.from_date_time)), (date_part('month'::text, f.from_date_time)), (date_part('week'::text, f.from_date_time)), (to_char(f.from_date_time, 'yyyy-mm-dd'::text)), (
         CASE
             WHEN date_part('month'::text, f.from_date_time) = 1::double precision OR date_part('month'::text, f.from_date_time) = 2::double precision OR date_part('month'::text, f.from_date_time) = 3::double precision THEN (btrim(to_char(date_part('year'::text, (f.from_date_time - '1 year'::interval)::date), '9999'::text)) || '-'::text) || btrim(to_char(mod(date_part('year'::text, f.from_date_time)::integer, 100), '99'::text))
             WHEN date_part('month'::text, f.from_date_time) = 4::double precision OR date_part('month'::text, f.from_date_time) = 5::double precision OR date_part('month'::text, f.from_date_time) = 6::double precision OR date_part('month'::text, f.from_date_time) = 7::double precision OR date_part('month'::text, f.from_date_time) = 8::double precision OR date_part('month'::text, f.from_date_time) = 9::double precision OR date_part('month'::text, f.from_date_time) = 10::double precision OR date_part('month'::text, f.from_date_time) = 11::double precision OR date_part('month'::text, f.from_date_time) = 12::double precision THEN (btrim(to_char(date_part('year'::text, f.from_date_time), '9999'::text)) || '-'::text) || btrim(to_char(mod(date_part('year'::text, (f.from_date_time + '1 year'::interval)::date)::integer, 100), '99'::text))
             ELSE NULL::text
-        END), f.type_of_failure, f.facility_id, fac.facility_name, fac.facility_type_id, fac.depot_type, f.sub_station;
+        END), f.type_of_failure, f.facility_id, fac.facility_name, fac.facility_type_id, fac.depot_type, f.sub_station
+		,fac.division,f.internal_external;
 
 ALTER TABLE public.v_failures_count_duration_daily
     OWNER TO postgres;
@@ -3592,3 +3638,131 @@ CREATE OR REPLACE VIEW public.v_drive_category_asso AS
 
 ALTER TABLE public.v_drive_category_asso
   OWNER TO postgres;
+  
+  
+  
+  
+  ------73
+  
+  -- View: public.v_asset_monthly_targets
+
+-- DROP VIEW public.v_asset_monthly_targets;
+
+CREATE OR REPLACE VIEW public.v_asset_monthly_targets AS 
+ SELECT amt.seq_id,
+    amt.facility_id,
+    fac.facility_name,
+    fac.facility_type_id,
+    fac.depot_type,
+    amt.schedule_type,
+    amt.asset_type,
+    amt.total_population,
+    amt.target_jan,
+    amt.target_feb,
+    amt.target_mar,
+    amt.target_apr,
+    amt.target_may,
+    amt.target_june AS target_jun,
+    amt.target_july AS target_jul,
+    amt.target_aug,
+    amt.target_sep,
+    amt.target_oct,
+    amt.target_nov,
+    amt.target_dec,
+    amt.target_apr + amt.target_may AS cum_target_may,
+    amt.target_apr + amt.target_may + amt.target_june AS cum_target_jun,
+    amt.target_apr + amt.target_may + amt.target_june AS target_qtr1,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july AS cum_target_jul,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug AS cum_target_aug,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep AS cum_target_sep,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep AS target_qtr2,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct AS cum_target_oct,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov AS cum_target_nov,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec AS cum_target_dec,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec AS target_qtr3,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan AS cum_target_jan,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan + amt.target_feb AS cum_target_feb,
+    amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec + amt.target_jan + amt.target_feb + amt.target_mar AS cum_target_mar,
+    amt.target_jan + amt.target_feb + amt.target_mar + amt.target_apr + amt.target_may + amt.target_june + amt.target_july + amt.target_aug + amt.target_sep + amt.target_oct + amt.target_nov + amt.target_dec AS total_target_year,
+    amt.year,
+    btrim((amt.year::text || '-'::text) || (((amt.year::integer + 1) % 100)::text)) AS fy
+   FROM asset_monthly_targets amt,
+    facility fac
+  WHERE amt.facility_id::text = fac.facility_id::text;
+
+ALTER TABLE public.v_asset_monthly_targets
+  OWNER TO postgres;
+
+------------------74
+
+--drop view v_thermovision_check_points cascade;
+create view v_thermovision_check_points as
+select 
+tcp.id as  tcp_id,
+tcp.facility_id as  tcp_facility_id ,
+f.facility_name tcp_facility_name,
+f.depot_type as tcp_station_type ,
+check_point_part as  tcp_check_point_part,
+check_point_description as  tcp_check_point_description,
+type_of_check_point as  tcp_type_of_check_point,
+display_group as  tcp_display_group,
+display_order as  tcp_display_order,
+active as  tcp_active,
+commparison_points as  tcp_commparison_points
+from thermovision_check_points tcp
+left outer join facility f on (tcp.facility_id::text = f.facility_id) ;
+
+
+------------------75
+
+--drop view v_tcp_schedule cascade;
+create view v_tcp_schedule as 
+select 
+tcps.id as  tcps_id,
+tcps.facility_id as  tcps_facility_id,
+f.facility_name as tcps_facility_name,
+f.depot_type as tcps_station_type ,
+location as  tcps_location,
+asset_type as  tcps_asset_type,
+date_time as  tcps_date,
+tcps.date_time AS tcps_date_time,
+to_char(tcps.date_time, 'HH:MM'::text) AS tcps_time,
+by as  tcps_by,
+general_remark as  tcps_general_remark
+from tcp_schedule tcps ,  facility f
+where tcps.facility_id::text = f.facility_id ;
+
+------------------76
+
+--drop view  v_thermovision_measures ; 
+
+create view  v_thermovision_measures as
+SELECT vtcp.tcp_check_point_part,
+    vtcp.tcp_check_point_description,
+    vtcp.tcp_type_of_check_point,
+    vtcp.tcp_display_group,
+    vtcp.tcp_display_order,
+    vtcp.tcp_active,
+    vtcp.tcp_commparison_points,
+    tcpm.id AS tcpm_id,
+    tcpm.tcp_schedule_id AS tcpm_tcp_schedule_id,
+    tcpm.tcp_id AS tcpm_tcp_id,
+    tcpm.fixed_measure AS tcpm_fixed_measure,
+	tcpm.c_clamp_measure AS tcpm_c_clamp_measure,
+    tcpm.ambient_temp AS tcpm_ambient_temp,
+    tcpm.image_id AS tcpm_image_id,
+    tcpm.remark AS tcpm_remark,
+    tcpm.criticality AS tcpm_criticality,
+    tcpm.variance_with_other_point AS tcpm_variance_with_other_point,
+    vtcps.tcps_facility_id,
+    vtcps.tcps_facility_name,
+    vtcps.tcps_station_type,
+    vtcps.tcps_location,
+    vtcps.tcps_asset_type,
+    vtcps.tcps_date,
+    vtcps.tcps_date_time,
+    vtcps.tcps_time
+   FROM thermovision_measures tcpm,
+    v_tcp_schedule vtcps,
+    v_thermovision_check_points vtcp
+  WHERE tcpm.tcp_schedule_id = vtcps.tcps_id AND tcpm.tcp_id = vtcp.tcp_id;

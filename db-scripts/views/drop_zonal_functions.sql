@@ -8,3 +8,5 @@ DROP FUNCTION public.period_tss_energy_consumption_v(character varying, date, da
 DROP FUNCTION public.user_func_location(text);
 --5
 DROP FUNCTION public.user_func_location(date);
+---6
+drop function tcp_measure_v_func( requested_station integer, 	Schedule_date date	);

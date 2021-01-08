@@ -1,4 +1,11 @@
-
+--76
+drop view  v_thermovision_measures ; 
+--75
+drop view v_tcp_schedule ;
+--74
+drop view v_thermovision_check_points;
+--73
+DROP VIEW public.v_asset_monthly_targets;
 --72
 DROP VIEW public.v_drive_category_asso;
 --71
