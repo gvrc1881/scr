@@ -587,8 +587,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             subMenuURL: "cb-failure",
             subMenuIcon: "fa fa-file",
             rolePermission: this.rolePermission,
-            permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-            //permission:true,
+            //permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
+            permission:true,
             currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
           },
           {
@@ -895,7 +895,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 12,
         menuName: 'ENERGY',
-        menuUrl: 'energyMeter',
+        menuUrl: 'energy-consumption',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,

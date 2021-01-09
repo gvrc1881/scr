@@ -179,6 +179,14 @@ public class Failure implements Serializable {
 	@Column(name="minor_section")
 	private String minorSection;
 	
+	private String contentLink;
+	
+	@Column(name="CB_internal_failure")
+	private String cbInternalFailure;
+	
+	@Column(name="CB_external_failure")
+	private String cbExternalFailure;
+	
 	public Failure() {
 		
 	}
@@ -632,6 +640,38 @@ public class Failure implements Serializable {
 		this.minorSection = minorSection;
 	}
 
+	public String getMajorSection() {
+		return majorSection;
+	}
+
+	public void setMajorSection(String majorSection) {
+		this.majorSection = majorSection;
+	}
+
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
+	public String getCbInternalFailure() {
+		return cbInternalFailure;
+	}
+
+	public void setCbInternalFailure(String cbInternalFailure) {
+		this.cbInternalFailure = cbInternalFailure;
+	}
+
+	public String getCbExternalFailure() {
+		return cbExternalFailure;
+	}
+
+	public void setCbExternalFailure(String cbExternalFailure) {
+		this.cbExternalFailure = cbExternalFailure;
+	}
+
 	@Override
 	public String toString() {
 		return "Failure [id=" + id + ", actualFaultDistance=" + actualFaultDistance + ", assetId=" + assetId
@@ -653,8 +693,12 @@ public class Failure implements Serializable {
 				+ thruDateTime + ", timeDelay=" + timeDelay + ", tpcBoard=" + tpcBoard + ", trainNo=" + trainNo
 				+ ", trippedIdentifiedFault=" + trippedIdentifiedFault + ", typeOfFailure=" + typeOfFailure
 				+ ", voltage=" + voltage + ", xValue=" + xValue + ", zConstant=" + zConstant + ", loadReliefBreakDown="
-				+ loadReliefBreakDown + ", majorSection=" + majorSection + ", minorSection=" + minorSection + "]";
+				+ loadReliefBreakDown + ", majorSection=" + majorSection + ", minorSection=" + minorSection
+				+ ", contentLink=" + contentLink + ", cbInternalFailure=" + cbInternalFailure + ", cbExternalFailure="
+				+ cbExternalFailure + "]";
 	}
+
+	
 
 	
 

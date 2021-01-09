@@ -611,7 +611,9 @@ export const Constants = {
             EXIST_SUBSTATION_EQUPMENT_FROMDATETIME_ID:'/findBySubStationAndEquipmentAndFromDateTimeAndId/',
             EXIST_SUBSTATION_OCCURENCE_ID:'/findBySubStationAndOccurenceAndId/',
             EXIST_OCCURENCE_PLACE_FROMDATETIME_ID:'/findByOccurenceAndPlaceAndFromDateTimeAndId/',
-            EXIST_STATION_LOCATION_FROMDATETIME_ID:'/findBySubStationAndLocationAndFromDateTimeAndId/'
+            EXIST_STATION_LOCATION_FROMDATETIME_ID:'/findBySubStationAndLocationAndFromDateTimeAndId/',
+            UNUSUALOCCURENCE_FAILURE_UPLOAD_FILES:"/unUsualOccurenceFailureUploadFiles",
+            UNUSUALOCCURENCE_FAILURE_ATTACHMENT_LIST:"/unUsualOccurenceFailureAttachedDocumentList/",
 
              
         },
@@ -929,7 +931,9 @@ export const Constants = {
         "MILESTONE_TARGET_TYPES":"MILESTONE_TARGET_TYPES",
         "MILESTONE_TARGET_STATUS_TYPE":"MILESTONE_TARGET_STATUS_TYPE",
         "ASSET_STATUS_TYPES":"ASSET_STATUS_TYPES",
-        "GRID_FAILURE":"GRID_FAILURE"
+        "GRID_FAILURE":"GRID_FAILURE",
+        "CB_INTERNAL_FAILURE":"CB_INTERNAL_FAILURE",
+        "CB_EXTERNAL_FAILURE":"CB_EXTERNAL_FAILURE"
     },
     PAGINATION_NUMBERS:[25, 50, 75, 100, 150, 200]
 
