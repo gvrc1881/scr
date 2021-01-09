@@ -49,8 +49,7 @@ export class AssetStatusDialogComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         public dialogRef: MatDialogRef<AssetStatusChangeModel>,
         private formBuilder: FormBuilder, 
-        private commonService: CommonService,
-        private location: Location,
+        private commonService: CommonService,        
         private route: ActivatedRoute,
         private router: Router, 
     ){
@@ -113,6 +112,7 @@ export class AssetStatusDialogComponent implements OnInit {
             if (this.resp.code == Constants.CODES.SUCCESS) {
             this.commonService.showAlertMessage("Assets Status Data Updated Successfully");           
             this.assetStatusDataSource=new MatTableDataSource(); 
+            this.updateStatusChangeFormGroup.reset();
             this.editPermission = false;  
             this.getAllData();         
             }else{
@@ -182,7 +182,8 @@ findChangeStatus(){
       });
   }
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.getAllData();
+   this.editPermission=false;
   }  
    
 }
