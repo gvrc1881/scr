@@ -175,7 +175,7 @@ export class AddCbFailureComponent implements OnInit {
         'cbExternalFailure': [null], 
         'remarks': [null, Validators.maxLength(250)]
       });
-  }
+  } 
   updateForm() {
   
     this.addCbFailFromGroup

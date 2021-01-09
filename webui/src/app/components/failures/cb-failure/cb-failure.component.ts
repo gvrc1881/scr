@@ -183,7 +183,7 @@ export class CbFailureComponent implements OnInit {
       { label:FieldLabelsConstant.LABELS.PHASE_ANGLE, value:data.phaseAngle },
       { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
       { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure },
-      { label:FieldLabelsConstant.LABELS.EXTERNAL, value:data.cbExternalFailure },
+      { label:FieldLabelsConstant.LABELS.EXTERNAL, value:data.cbExternalFailure }, 
       { label:FieldLabelsConstant.LABELS.TRIPPED_IDENTIFIED_FAULT, value:data.trippedIdentifiedFault },
       { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
       { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime }

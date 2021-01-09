@@ -51,7 +51,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   facilityList;
   filterData; 
   gridData = [];
-  subStation:any;
+  subStation:any; 
   unUsaulOccurenceList:any;
   contentCategoryList: any;
     contentTopicList: any;

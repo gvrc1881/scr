@@ -181,7 +181,7 @@ export const FieldLabelsConstant = {
       GEN_OPS: "Gen Ops",
       GUAGE: "Guage",
       GROUP:"Group",
-      HEADING: "Heading",
+      HEADING: "Heading", 
       IDS: "Ids",
       IMPACT: "No of Trains Effected",
       INCHARGE: "Incharge",

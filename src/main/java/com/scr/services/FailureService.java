@@ -48,7 +48,7 @@ public class FailureService {
 	private ContentManagementRepository contentManagementRepository;
 	
 	@Value("${uuo.path}")
-	private String uuoPath;
+	private String uuoPath; 
 	
 	public List<Failure> findFailureByType(String typeOfFailure) {
 		return failuresRepository.findByTypeOfFailureAndCurrentStatus(typeOfFailure, Constants.ACTIVE);
