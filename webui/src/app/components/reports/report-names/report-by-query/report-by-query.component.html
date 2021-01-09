@@ -54,47 +54,71 @@
 
                                                        <!-- ZONE -->
                                                        <div *ngIf="(names.parameterName=='zone')">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <mat-select placeholder="Zone" [(ngModel)]="zoneCode"
-                                                                      [formControl]="reportsByQuery.controls['zone']"
-                                                                      (selectionChange)="selectedValue($event,'ZONE')">
-                                                                      <mat-option *ngFor="let zone of zoneData"
-                                                                           [value]="zone.code">
-                                                                           {{ zone.code}}
-                                                                      </mat-option>
-                                                                 </mat-select>
-                                                            </mat-form-field>
+                                                            <div *ngIf = "checkZoneUser ; else checkZoneUsereElseBlock">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                 <mat-select placeholder="Zone" [(ngModel)]="zoneCode"
+	                                                                      [formControl]="reportsByQuery.controls['zone']"
+	                                                                      (selectionChange)="selectedValue($event,'ZONE')">
+	                                                                      <mat-option *ngFor="let zone of zoneData"
+	                                                                           [value]="zone.zone">
+	                                                                           {{ zone.zone}}
+	                                                                      </mat-option>
+	                                                                 </mat-select>
+	                                                            </mat-form-field>
+                                                            </div>
+                                                            <ng-template #checkZoneUsereElseBlock>
+                                                            	<mat-form-field fxFlex="30">
+																	<input matInput formControlName="zone" [value]="zoneCode"
+																    	[(ngModel)]="zoneCode" readonly>
+																</mat-form-field>
+                                                            </ng-template>
                                                        </div>
 
                                                        <!-- DIVISION -->
                                                        <div *ngIf="(names.parameterName=='division')">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <!-- [(ngModel)]="userDefaultData.division"-->
-                                                                 <mat-select placeholder="Division" [(ngModel)]="divCode"
-                                                                      [formControl]="reportsByQuery.controls['division']"
-                                                                      (selectionChange)="selectedValue($event,'DIVISION')">
-                                                                      <mat-option *ngFor="let division of divisionsData"
-                                                                           [value]="division.code">
-                                                                           {{ division.code}}
-                                                                      </mat-option>
-                                                                 </mat-select>
-                                                            </mat-form-field>
+                                                       		<div *ngIf = "checkDivisionUser ; else checkDivisionUserElseBlock">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                 <!-- [(ngModel)]="userDefaultData.division"-->
+	                                                                 <mat-select placeholder="Division" [(ngModel)]="divCode"
+	                                                                      [formControl]="reportsByQuery.controls['division']"
+	                                                                      (selectionChange)="selectedValue($event,'DIVISION')">
+	                                                                      <mat-option *ngFor="let division of divisionsData"
+	                                                                           [value]="division.division">
+	                                                                           {{ division.division}}
+	                                                                      </mat-option>
+	                                                                 </mat-select>
+	                                                            </mat-form-field>
+                                                            </div>
+                                                            <ng-template #checkDivisionUserElseBlock>
+                                                            	<mat-form-field fxFlex="30">
+																	<input matInput formControlName="division" [value]="divCode"
+																    	[(ngModel)]="divCode" readonly>
+																</mat-form-field>
+                                                            </ng-template>
                                                        </div>
 
                                                        <!-- SUB DIVISON -->
                                                        <div *ngIf="(names.parameterName=='subDivision')">
-                                                            <mat-form-field fxFlex="30">
-                                                                 <!--[(ngModel)] ="userDefaultData.subDivision"-->
-                                                                 <mat-select placeholder="Sub Division" [(ngModel)]="subDivisionCode"
-                                                                      [formControl]="reportsByQuery.controls['subDivision']"
-                                                                      (selectionChange)="selectedValue($event,'SUB DIVISION')">
-                                                                      <mat-option
-                                                                           *ngFor="let subDivision of subDivisionData"
-                                                                           [value]="subDivision.code">
-                                                                           {{ subDivision.code}}
-                                                                      </mat-option>
-                                                                 </mat-select>
-                                                            </mat-form-field>
+                                                       		<div *ngIf = "checkSubDivUser ; else checkSubDivUserElseBlock">
+	                                                            <mat-form-field fxFlex="30">
+	                                                                 <!--[(ngModel)] ="userDefaultData.subDivision"-->
+	                                                                 <mat-select placeholder="Sub Division" [(ngModel)]="subDivisionCode"
+	                                                                      [formControl]="reportsByQuery.controls['subDivision']"
+	                                                                      (selectionChange)="selectedValue($event,'SUB DIVISION')">
+	                                                                      <mat-option
+	                                                                           *ngFor="let subDivision of subDivisionData"
+	                                                                           [value]="subDivision.subDivision">
+	                                                                           {{ subDivision.subDivision}}
+	                                                                      </mat-option>
+	                                                                 </mat-select>
+	                                                            </mat-form-field>
+                                                            </div>
+                                                            <ng-template #checkSubDivUserElseBlock>
+                                                            	<mat-form-field fxFlex="30">
+																	<input matInput formControlName="subDivision" [value]="subDivisionCode"
+																    	[(ngModel)]="subDivisionCode" readonly>
+																</mat-form-field>
+                                                            </ng-template>
                                                        </div>
 
                                                        <!-- FACILITY NAME -->

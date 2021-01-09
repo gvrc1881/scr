@@ -41,7 +41,7 @@ export class ReportByQueryComponent implements OnInit {
        submitedForm: any;
        facilityId: any;
        warehouseFacilityData:any;
-       userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
+      // userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
        reportModel: ReportModel;
        formValuses: any;
        zoneList: FacilityModel[] = [];
@@ -68,6 +68,14 @@ export class ReportByQueryComponent implements OnInit {
        spaData:any;
        driveNameData:any;
        feederNameData:any;
+       orginalZoneData: any = JSON.parse(localStorage.getItem('zoneData'));
+       orginalDivisionsData: any = JSON.parse(localStorage.getItem('divisionData'));
+       orginalSubDivisionData: any = JSON.parse(localStorage.getItem('subDivData'));
+       orginalDepotData: any = JSON.parse(localStorage.getItem('depotData'));
+       checkZoneUser: boolean;
+       checkDivisionUser: boolean;
+       checkSubDivUser: boolean;
+    
        constructor(
               private Activatedroute: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -77,13 +85,16 @@ export class ReportByQueryComponent implements OnInit {
               private previousRouterUrl: PreviousRouteService) { }
 
        ngOnInit() {
+           this.getContextData();
+           console.log('*** test ***'+JSON.stringify(this.divisionsData));
+           
               let previousUrl = '/' + this.router.url.split('/')[1];// this.previousRouterUrl.getPreviousUrl();
 this.workName();
 
               console.log(this.router.url.split('/')[1])
               this.reportModel = new ReportModel();
               console.log(previousUrl)
-              this.zoneCodeList();
+              //this.zoneCodeList();
               if (previousUrl === '/daily-progress-reports') {
                      this.assetType = 'TowerCar';
               }
@@ -118,6 +129,7 @@ this.workName();
               this.driveName();
               this.feederName();
               ReportPayload.GET.reportId = this.id;
+           /*
               for (let i = 0; i < this.userHierarchy.length; i++) {
                      if (this.userHierarchy[i].depotType == 'ZONE') {
                             this.zoneList.push(this.userHierarchy[i]);
@@ -133,6 +145,7 @@ this.workName();
                             this.subDivList.push(this.userHierarchy[i]);
                      }
               }
+           */
               this.reportsByQuery = this.formBuilder.group({
                      'fromDate': [null],
                      'toDate': [null],
@@ -317,29 +330,47 @@ this.workName();
 
        }*/
 
-       zoneCodeList() {
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
-                     this.zoneData = data;
-                     if (data) {
+       getContextData() {
+              //this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_LIST).subscribe((data) => {
+                     //this.zoneData = data;
+                     //if (data) {
                             this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.userData.userName).subscribe((data) => {
                                    this.userDefaultData = data;
+                                //console.log('*** user data ***'+JSON.stringify(this.userDefaultData));
+                                    if(this.orginalZoneData.length > 0){
+                                               this.checkZoneUser = true;
+                                               this.checkDivisionUser = true;
+                                               this.checkSubDivUser = true;
+                                               this.zoneData = this.orginalZoneData;
+                                           } else if(this.orginalDivisionsData.length > 0 ){
+                                                this.checkZoneUser = false;
+                                                this.checkDivisionUser = true;
+                                                this.checkSubDivUser = true;
+                                                this.divisionsData = this.orginalDivisionsData;
+                                           } else if(this.orginalSubDivisionData.length > 0 ){
+                                                this.checkSubDivUser = true;
+                                                this.checkZoneUser = false;
+                                                this.checkDivisionUser = false;
+                                                this.subDivisionData = this.orginalSubDivisionData;
+                                          } else {
+                                                this.checkZoneUser = false;
+                                                this.checkDivisionUser = false;
+                                                this.checkSubDivUser = false;
+                                                this.facilityId = this.orginalDepotData;
+                                          }
                                    if (this.userDefaultData.zone) {
                                           this.zoneCode = this.userDefaultData.zone;
                                           this.reportModel.zone = this.userDefaultData.zone;
                                           this.divisionCode(this.userDefaultData.zone);
                                    }
                                    if (this.userDefaultData.division) {
-                                   //		  console.log('** div code***'+this.userDefaultData.division);
-		                 		this.divCode =  this.userDefaultData.division.toUpperCase( );
-		                     	// console.log('** div code***'+this.divCode);
+           		                 		this.divCode =  this.userDefaultData.division.toUpperCase( );
                                           this.reportModel.division = this.userDefaultData.division;
                                           this.subDivision(this.userDefaultData.division);
                                    }
 
                                    if (this.userDefaultData.subDivision) {
-                                   		//	console.log('** sub div code***'+this.userDefaultData.subDivision);
-		                 		this.subDivisionCode =  this.userDefaultData.subDivision.toUpperCase( );
-			                	// console.log('** sub div code***'+this.subDivisionCode);
+           		                 		 this.subDivisionCode =  this.userDefaultData.subDivision.toUpperCase( );
                                           this.reportModel.subDivision = this.userDefaultData.subDivision;
                                           this.facility(this.userDefaultData.subDivision);
                                    }
@@ -347,8 +378,8 @@ this.workName();
                                    error => error => {
                                           console.log(' >>> ERROR ' + error);
                                    })
-                     }
-              });
+                     //}
+              //});
        }
        observationCheckList() {
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_OBS_CHECK_LIST).subscribe((data) => {
@@ -454,26 +485,43 @@ this.workName();
               )
        }
        divisionCode(zoneCode: any) {
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_OBJECT + zoneCode).subscribe((data) => {
+           this.divisionsData = this.orginalDivisionsData.filter(value => {
+            return value.zone.toLowerCase() == zoneCode.toLowerCase();
+           });
+            /*  
+            this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ZONE_OBJECT + zoneCode).subscribe((data) => {
                      this.zoneObject = data;
                      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_ZONE + this.zoneObject.id).subscribe((data) => {
                             this.divisionsData = data;
                      })
-              })
+              }) */
        }
        subDivision(divisionCode: any) {
-              this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_OBJECT + divisionCode).subscribe((data) => {
+           //console.log('*** sub div ***'+JSON.stringify(this.subDivisionData));
+            this.subDivisionData = this.orginalSubDivisionData.filter(value => {
+                return value.division.toLowerCase() == divisionCode.toLowerCase();
+            });  
+            /* this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_OBJECT + divisionCode).subscribe((data) => {
                      this.divisionObject = data;
                      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_SUBDIVISION_BASED_ON_DIVISION + this.divisionObject.id).subscribe((data) => {
                             this.subDivisionData = data;
                      })
-              })
+              }) */
        }
        facility(code: any) {
+           this.facilityId = this.orginalDepotData.filter(value => {
+               if(value.subDivision != null){
+                return value.subDivision.toLowerCase() == code.toLowerCase();   
+               }
+                
+            });
+           
+           /*
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_SUBDIVISION + code).subscribe((data) => {
                      this.facilityId = data;
               }
               )
+           */
        }
        onGoBack() {
               this.location.back();

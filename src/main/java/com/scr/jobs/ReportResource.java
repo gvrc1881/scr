@@ -141,7 +141,7 @@ public class ReportResource {
 		if (reportRepryObject.isPresent()) {
 			ReportRepository reportRepry = reportRepryObject.get();
 			jrxmlFileName = reportRepry.getJrxmlName();
-			if (reportRepry.getSubReportDetails() != null) {
+			if (reportRepry.getSubReportDetails() != null && reportRepry.getSubReportDetails().length() > 0) {
 				String[] subReportNameAndJRXMLName = reportRepry.getSubReportDetails().split(";");
 				for (String nameAndJRXMLName : subReportNameAndJRXMLName) {
 					String[] subReportDetailsArray = nameAndJRXMLName.split(",");
@@ -184,7 +184,7 @@ public class ReportResource {
 		 * } catch (Exception e) { e.printStackTrace(); } finally {
 		 * closeJDBCObjects.releaseResouces(con, ps, resultSet); }
 		 */
-
+		log.info("before try block ***");
 		try {
 			con = dataSource.getConnection();
 			Resource resource = resourceLoader.getResource("classpath:jrxml/" + jrxmlFileName);
