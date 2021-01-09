@@ -44,6 +44,11 @@ export class EnergyMeterComponent implements OnInit{
     tssFeeder: any;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     maxDate = new Date();
+    orginalDivisionsData: any = JSON.parse(localStorage.getItem('divisionData'));
+    checkDivisionUser: boolean;
+    divCode: string;
+    userDefaultData: any;
+    orginalTssFeeders: any
 
     constructor(
         private commonService: CommonService,
@@ -58,14 +63,44 @@ export class EnergyMeterComponent implements OnInit{
     }
 
     ngOnInit () {
+         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_MASTER_DETAILS).subscribe((data) => {
+            this.orginalTssFeeders = data;
+            } , error => {});
     	var permissionName = this.commonService.getPermissionNameByLoggedData("ENERGY","ENERGY METER") ;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName);
     	this.editPermission = this.commonService.getPermissionByType("Edit", permissionName);
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
         this.getAllEnergyMeterData();
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_MASTER_DETAILS).subscribe((data) => {
-            this.tssFeederMaterList = data;
-            } , error => {});
+        
+        if(this.orginalDivisionsData.length > 0){
+            this.checkDivisionUser = true;
+        }else {
+            this.checkDivisionUser = false;   
+        }
+        this.getUserContext();
+    }
+    
+    getUserContext(){
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUserData.username).subscribe((data) => {
+                                   this.userDefaultData = data;
+                if(this.userDefaultData.division) {
+                    this.divCode = this.userDefaultData.division.toUpperCase();
+                    console.log("*** code **"+this.divCode)
+                    this.tssFeederMaterList = this.orginalTssFeeders.filter(value => {
+                            return value.dataDiv.toLowerCase() == this.divCode.toLowerCase();
+                    });
+                    
+                }
+       });    
+    }
+    
+    getTssFeeders($event){
+        if($event.value){
+            this.tssFeederMaterList = this.orginalTssFeeders.filter(value => {
+                    return value.dataDiv.toLowerCase() == $event.value.toLowerCase();
+            });    
+        }
+           
     }
     
     duplicateFeederAndStartDate() {
@@ -217,7 +252,8 @@ export class EnergyMeterComponent implements OnInit{
             'remarks' : [null,Validators.maxLength(250)],
             'startDate': [null,Validators.required],
             'endDate': [null],
-            'feederId': [null]
+            'feederId': [null],
+            'dataDiv':[null]
         });
         this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER_ID+id).subscribe((responseData) => {
             this.editEnergyMeterResponse = responseData;
@@ -246,6 +282,7 @@ export class EnergyMeterComponent implements OnInit{
                 endDate: !!this.editEnergyMeterResponse.endDate ? new Date(this.editEnergyMeterResponse.endDate) : ''
             })
             this.toMinDate = new Date(this.editEnergyMeterResponse.startDate);
+            this.getUserContext();
             
         } ,error => {})
         this.id=id;
@@ -259,15 +296,17 @@ export class EnergyMeterComponent implements OnInit{
     
     getAllEnergyMeterData() {
         const energyMeter : EnergyMeterModel[] = [];
-        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER).subscribe((data) => {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ENERGY_METER.GET_ENERGY_METER+'/'+this.loggedUserData.username).subscribe((data) => {
             this.energyMeterList = data;
             this.spinnerService.show();
             for (let i = 0; i < this.energyMeterList.length; i++) {
                 this.energyMeterList[i].sno = i+1;
+                /*
                 this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TSS_FEEDER_BASED_ON_FEEDER_ID+'/'+this.energyMeterList[i].feederId).subscribe((response) => {
                 	this.tssFeeder = response;
                 	this.energyMeterList[i].feederId = this.tssFeeder.feederName;
                 });
+                */
                 energyMeter.push(this.energyMeterList[i]);              
             }
             this.energyMeterDataSource = new MatTableDataSource(energyMeter);
@@ -320,6 +359,7 @@ export class EnergyMeterComponent implements OnInit{
     newEnergyMeter() {
         this.addEnergyMeter = true;
         this.enableEndReadings = false;
+        this.getUserContext();
         this.energyMeterFormGroup = this.formBuilder.group({
             id: 0,
             'meterNo' : [null],
@@ -338,7 +378,8 @@ export class EnergyMeterComponent implements OnInit{
             'remarks' : [null,Validators.maxLength(250)],
             'startDate': [null,Validators.required, this.duplicateFeederAndStartDate.bind(this)],
             'endDate': [null],
-            'feederId': [null,Validators.required , this.dupllicateFeederhavingEndDate.bind(this)]
+            'feederId': [null,Validators.required , this.dupllicateFeederhavingEndDate.bind(this)],
+            'dataDiv':[null]
         });
     }
     

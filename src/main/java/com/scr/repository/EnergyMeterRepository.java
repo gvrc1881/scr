@@ -1,6 +1,7 @@
 package com.scr.repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,7 @@ public interface EnergyMeterRepository extends JpaRepository<EnergyMeter, Long>{
 	
 	@Query(value = "SELECT case when count(tet)> 0 then true else false  end  FROM EnergyMeter tet WHERE tet.feederId = :feederId and tet.endDate is  null")
 	Boolean existsByFeederAndEndDateIsNull(@Param("feederId")String feeder);
+
+	List<EnergyMeter> findByDataDivIn(List<String> divisions);
 
 }

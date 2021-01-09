@@ -38,6 +38,27 @@
 	                                                        </div>
 									                        <div *ngIf ="enableEndReadings">
 									                        </div>
+									                        <div class="col-md-3">
+		                                                       		<div *ngIf = "checkDivisionUser ; else checkDivisionUserElseBlock">
+			                                                            <mat-form-field fxFlex="30">
+			                                                                 <!-- [(ngModel)]="userDefaultData.division"-->
+			                                                                 <mat-select placeholder="Division" [(ngModel)]="divCode"
+			                                                                      [formControl]="energyMeterFormGroup.controls['dataDiv']"
+			                                                                      (selectionChange)="getTssFeeders($event)">
+			                                                                      <mat-option *ngFor="let division of orginalDivisionsData"
+			                                                                           [value]="division.division">
+			                                                                           {{ division.division}}
+			                                                                      </mat-option>
+			                                                                 </mat-select>
+			                                                            </mat-form-field>
+		                                                            </div>
+		                                                            <ng-template #checkDivisionUserElseBlock>
+		                                                            	<mat-form-field fxFlex="30">
+																			<input matInput formControlName="division" [value]="divCode"
+																		    	[(ngModel)]="divCode" readonly>
+																		</mat-form-field>
+		                                                            </ng-template>
+		                                                       </div>
 									                        <div *ngIf="!enableEndReadings; else feederElseBlock">
 									                        	<div class="col-md-3">
 									                             <mat-form-field fxFlex="30">

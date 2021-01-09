@@ -43,13 +43,13 @@ public class EnergyMeterController {
 	
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/findAllEnergyMeter", method = RequestMethod.GET, headers = "Accept=application/json")
-	public List<EnergyMeter> findAllEnergyMeter() throws JSONException {
+	@RequestMapping(value = "/findAllEnergyMeter/{userName}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<EnergyMeter> findAllEnergyMeter(@PathVariable("userName") String userName) throws JSONException {
 		log.info("Enter into findAllEnergyMeter function");
 		List<EnergyMeter> energyMeterList = null;
 		try {
 			log.info("Calling service for energy meters data");
-			energyMeterList = energyMeterService.findAll();
+			energyMeterList = energyMeterService.findAll(userName);
 			log.info("Fetched energy meters data = "+energyMeterList.size());
 			return energyMeterList;
 		} catch (NullPointerException npe) {
