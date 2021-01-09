@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { AddActionsComponent } from 'src/app/components/failures/unusual-occurrence/add-actions/add-actions.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
+
 
 @Component({
   selector: 'app-unusual-occurrence-failure',
@@ -27,8 +30,8 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 'thruDateTime',
-    'duration','divisionLocal','internalExternal', 'actions','failureActions'];
+  occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 
+  'thruDateTime',  'duration','internalExternal', 'actions','failureActions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -50,6 +53,17 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   gridData = [];
   subStation:any;
   unUsaulOccurenceList:any;
+  contentCategoryList: any;
+    contentTopicList: any;
+    uploadFile: boolean = false;
+    contentManagementFormGroup: FormGroup;
+    selectedFiles: File[] = [];
+    filesExists: boolean = false;
+    unUsualOccurenceFailId: any;
+    documentDialogRef:MatDialogRef<DocumentDialogComponent>;
+    pattern = "[a-zA-Z][a-zA-Z ]*";
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    id: any;
  
 
   updatePagination() {
@@ -64,6 +78,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     private sendAndRequestService: SendAndRequestService,
     private router: Router,
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private datePipe: DatePipe,
   ) { }
@@ -77,7 +92,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     this.spinnerService.show();
     this.getUnusualOccurrenceFailureData();
 
-    this.getActionsFailureData();
+    this.getActionsFailureData();    
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
@@ -85,9 +100,9 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         { "Key": 'location', "Value": " " },
         { "Key": 'causeOfFailure', "Value": " " },
         { "Key": 'fromDateTime', "Value": " " },
-        { "Key": 'thruDateTime', "Value": " " },
+     { "Key": 'thruDateTime', "Value": " " },
         { "Key": 'duration', "Value": " " },        
-        { "Key": 'divisionLocal', "Value": " " },
+      //  { "Key": 'divisionLocal', "Value": " " },
         { "Key": 'internalExternal', "Value": " " },   
       
        
@@ -97,7 +112,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
        paginator: this.paginator,
        sort: this.sort
      
-    }; 
+    };   
 
 
   }
@@ -243,13 +258,8 @@ ViewData(data){
           { label:FieldLabelsConstant.LABELS.IMPACT, value:data.impact },
           { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
           { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
-          { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
-          { label:FieldLabelsConstant.LABELS.ACTIONS, value:data.actions },
-          { label:FieldLabelsConstant.LABELS.FAILURE_ACTIONS, value:data.failureActions }
-
-  
-  
-  
+          { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal }
+        
   
   ]
   }
@@ -260,4 +270,95 @@ ViewData(data){
     data:result,  
   });            
 }
+
+viewDocumentDetails(id){
+  this.spinnerService.show();    
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.UNUSUALOCCURENCE_FAILURE_ATTACHMENT_LIST + id).subscribe((response) => {     
+    this.spinnerService.hide(); 
+    this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
+        disableClose: false,
+        height: '600px',
+        width: '80%',       
+        data:response,       
+      });            
+  }, error => this.commonService.showAlertMessage(error));
+}    
+
+fileUpload(id) {
+  this.uploadFile = true;
+  this.addPermission = false;
+  this.unUsualOccurenceFailId = id;
+  this.contentManagementFormGroup = this.formBuilder.group({
+        contentCategory: [''],
+        description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        uploadFiles: ['', Validators.required],
+        contentTopic: [''],
+    });
+  }
+    public get f() { return this.contentManagementFormGroup.controls; }
+    
+onContentManagementSubmit () {
+  //console.log('*** guidence item id ***'+this.guidenceItemId);
+  let category = this.contentManagementFormGroup.value.contentCategory;
+    this.uploadFile = false;
+  let saveDetails = {
+    'unUsualOccurenceFailId': this.unUsualOccurenceFailId,
+            'description': this.contentManagementFormGroup.value.description,
+            'divisionCode': this.loggedUserData.divisionCode,
+            'createdBy': this.loggedUserData.id,
+            'createdDate': new Date(),
+            'contentCategory': 'OPERATIONS',
+            'zonal': 'zonal',
+            'FU': 'division',
+            'contentTopic': 'UUO',
+      }
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('unUsualOccurenceFailId', saveDetails.unUsualOccurenceFailId);
+      formdata.append('contentCategory', saveDetails.contentCategory);
+      formdata.append('description', saveDetails.description);
+      formdata.append('divisionCode', saveDetails.divisionCode);
+      formdata.append('createdBy', saveDetails.createdBy);
+      formdata.append('zonal', saveDetails.zonal);
+      formdata.append('FU', saveDetails.FU);
+      formdata.append('contentTopic', saveDetails.contentTopic);
+  this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.UNUSUALOCCURENCE_FAILURE_UPLOAD_FILES, formdata, true).subscribe(data => {
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
+            this.selectedFiles = [];
+            this.filesExists = false;
+            //window.location.reload();
+        }, error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Files Uploading Failed.");
+        })
+        
+}
+
+upload(event) {
+    if (event.target.files.length > 0) { this.filesExists = true; }
+    for (var i = 0; i < event.target.files.length; i++) {
+        this.selectedFiles.push(event.target.files[i]);
+    }
+}
+
+removeFile(id) {
+    this.selectedFiles.splice(id, 1);
+    if(this.selectedFiles.length === 0) {
+      this.filesExists = false;
+        this.contentManagementFormGroup.reset();
+    }
+}
+
+close() {
+  this.contentManagementFormGroup.reset();
+    this.uploadFile = false;
+    this.selectedFiles = [];
+    this.filesExists = false;
+    this.addPermission = true;
+}
+
 }

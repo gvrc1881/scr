@@ -183,7 +183,7 @@ export const FieldLabelsConstant = {
       GROUP:"Group",
       HEADING: "Heading",
       IDS: "Ids",
-      IMPACT: "Impact",
+      IMPACT: "No of Trains Effected",
       INCHARGE: "Incharge",
       INDICATION: "Indication",
       INSPECTION: "Inspection",

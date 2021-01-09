@@ -1,20 +1,30 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.sql.Timestamp;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.model.Failure;
 import com.scr.model.MeasureOrActivityList;
+import com.scr.model.Works;
+import com.scr.mapper.ContentManagementMapper;
+import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
+import com.scr.model.ContentManagement;
 import com.scr.model.Facility;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.AssetMastersRepository;
+import com.scr.repository.ContentManagementRepository;
 import com.scr.util.Constants;
 
 
@@ -22,11 +32,23 @@ import com.scr.util.Constants;
 @Service
 public class FailureService {
 	
+	private static Logger logger = LogManager.getLogger(FailureService.class);
+	
+	
 	@Autowired
 	private FailuresRepository failuresRepository;
 	
 	@Autowired
 	private AssetMastersRepository assetMasterdataRepository;
+	
+	@Autowired
+	private ContentManagementMapper contentManagementMapper;
+	
+	@Autowired
+	private ContentManagementRepository contentManagementRepository;
+	
+	@Value("${uuo.path}")
+	private String uuoPath;
 	
 	public List<Failure> findFailureByType(String typeOfFailure) {
 		return failuresRepository.findByTypeOfFailureAndCurrentStatus(typeOfFailure, Constants.ACTIVE);
@@ -122,6 +144,56 @@ public class FailureService {
 	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {
 		
 		return failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
+	}
+
+	public ResponseStatus storeUploadedFiles(List<MultipartFile> file, String contentCategory, String description,
+			String divisionCode, String createdBy, String zonal, String fU, String contentTopic, Long unUsualOccurenceFailId) 
+	{
+		ResponseStatus responseStatus = new ResponseStatus();
+		try {
+			ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(uuoPath, contentCategory );
+			if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
+				List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+				ContentManagement fileId = contentManagementRepository.findTopByOrderByCommonFileIdDesc();
+				Long commonFileId = (long) 0.0; 
+				if(fileId == null || fileId.getCommonFileId() == null) {
+					commonFileId = (long) 1;
+				}else {
+					commonFileId = fileId.getCommonFileId()+1;
+				}
+				Optional<Failure> uuoFailure =failuresRepository.findById(unUsualOccurenceFailId);
+				if (uuoFailure.isPresent()) {
+					Failure failure = uuoFailure.get();
+					if (failure.getContentLink() != null) {
+						commonFileId = Long.parseLong(failure.getContentLink());
+					} else {
+						failure.setContentLink(String.valueOf(commonFileId));
+					}
+					
+					failuresRepository.save(failure);
+				}
+				
+				for(MultipartFile mf: file)
+				{
+					String folderPath = folderResponse.getMessage();
+					liContentManagements.add(contentManagementMapper.saveAndStoreDetails(mf, divisionCode, createdBy, zonal,fU, contentTopic, description, contentCategory, folderPath, commonFileId));									
+				}
+				if(!liContentManagements.isEmpty()) {
+					liContentManagements = contentManagementRepository.saveAll(liContentManagements);
+					logger.info("Files Details saved in to Database Successfully.");
+				}
+			}					
+			responseStatus.setCode(Constants.SUCCESS_CODE);
+			responseStatus.setMessage(Constants.JOB_SUCCESS_MESSAGE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while saving files "+e.getMessage());
+			responseStatus.setCode(Constants.FAILURE_CODE);
+			responseStatus.setMessage("ERROR >>> "+e.getMessage());
+		}
+		return responseStatus;
+		
+		
 	}
 
 	

@@ -14,10 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
@@ -28,12 +32,15 @@ import com.scr.model.Model;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.TssFeederMaster;
 import com.scr.model.UserDefualtFacConsIndEtc;
+import com.scr.model.Works;
+import com.scr.services.ContentManagementService;
 import com.scr.services.FailureActionsCausesImpactService;
 import com.scr.services.FailureService;
 import com.scr.services.UserDefualtFacConsIndEtcService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
 import com.scr.model.AssetMasterData;
+import com.scr.model.ContentManagement;
 import com.scr.model.Facility;
 
 
@@ -45,6 +52,9 @@ public class FailureController {
 	
 	@Autowired
 	private FailureService failureService;
+	
+	@Autowired
+	private ContentManagementService contentManagementService;
 	
 	@Autowired
 	private FailureActionsCausesImpactService failureImpactService;
@@ -396,4 +406,55 @@ public ResponseEntity<List<Failure>> findFailureByType(
 	return ResponseEntity.ok((failureList));
 }
 	
+
+@PostMapping("/unUsualOccurenceFailureUploadFiles")
+@ResponseBody
+public ResponseStatus uploadAttachedFiles(
+		@RequestParam("file") List<MultipartFile> file,
+		@RequestParam("unUsualOccurenceFailId") Long unUsualOccurenceFailId,
+		@RequestParam("contentCategory") String contentCategory,
+		@RequestParam("description") String description,
+		@RequestParam("divisionCode") String divisionCode,
+		@RequestParam("createdBy") String createdBy,
+		@RequestParam("zonal") String zonal,
+		@RequestParam("FU") String FU,
+		@RequestParam("contentTopic") String contentTopic) {
+	ResponseStatus responseStatus = new ResponseStatus();
+	try {
+		logger.info("File Name: "+contentCategory);
+		logger.info("fun_unit=="+FU);
+		responseStatus = failureService.storeUploadedFiles(file, contentCategory, description, divisionCode, createdBy, zonal,FU, contentTopic,unUsualOccurenceFailId);
+		logger.info("File Saved Successfully!");
+	} catch (NullPointerException e) {
+		logger.error(e);
+		return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+	} catch (Exception e) {
+		logger.error(e);
+		return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+	}
+	return responseStatus;
+}
+
+@RequestMapping(value = "/unUsualOccurenceFailureAttachedDocumentList/{unUsualOccurenceFailId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("unUsualOccurenceFailId") Long unUsualOccurenceFailId){
+	List<ContentManagement> contentManagementList = new ArrayList<>();
+	try {
+		logger.info("Getting Project  Details  = "+unUsualOccurenceFailId);	
+		Optional<Failure> uuoObj =failureService.findFailureTypeById(unUsualOccurenceFailId);
+		if (uuoObj.isPresent()) {
+			Failure uuoFailure = uuoObj.get();
+			if(uuoFailure.getContentLink() != null) {
+				contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(uuoFailure.getContentLink()));
+			}
+			
+			logger.info("content size:::"+contentManagementList.size());
+		}
+		return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.error("Error while getting DivisionHistory Details"+e.getMessage());
+		return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+	}	
+}
+
 }

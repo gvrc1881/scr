@@ -27,7 +27,7 @@ export class CbFailureComponent implements OnInit {
   displayedColumns = ['sno', 'subStation', 'fromDateTime', 'thruDateTime',
     'duration', 'relayIndication', 'natureOfClosure', 'rValue',
      'xValue', 'zConstant','faultDistance','actualFaultDistance','current','voltage',
-     'trippedIdentifiedFault','divisionLocal','internalExternal', 'actions'];
+     'trippedIdentifiedFault', 'actions'];
   dataSource: MatTableDataSource<any>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -80,8 +80,8 @@ export class CbFailureComponent implements OnInit {
         { "Key": 'voltage', "Value": " " },
         { "Key": 'phaseAngle', "Value": " " },
         { "Key": 'trippedIdentifiedFault', "Value": " " },
-        { "Key": 'divisionLocal', "Value": " " },
-        { "Key": 'internalExternal', "Value": " " },
+        //{ "Key": 'divisionLocal', "Value": " " },
+       // { "Key": 'internalExternal', "Value": " " },
         { "Key": 'remarks', "Value": " " },
       
        
@@ -182,8 +182,8 @@ export class CbFailureComponent implements OnInit {
       { label:FieldLabelsConstant.LABELS.VOLTAGE, value:data.voltage },
       { label:FieldLabelsConstant.LABELS.PHASE_ANGLE, value:data.phaseAngle },
       { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
-      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
-      { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure },
+      { label:FieldLabelsConstant.LABELS.EXTERNAL, value:data.cbExternalFailure },
       { label:FieldLabelsConstant.LABELS.TRIPPED_IDENTIFIED_FAULT, value:data.trippedIdentifiedFault },
       { label:FieldLabelsConstant.LABELS.FROM_DATE_TIME, value:data.fromDateTime },
       { label:FieldLabelsConstant.LABELS.THRU_DATE_TIME, value:data.thruDateTime }

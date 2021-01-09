@@ -46,6 +46,8 @@ export class AddCbFailureComponent implements OnInit {
   difference:any;
   duration:any;
   result:any;
+  cbInternalFailList:any;
+  cbExternalFailList:any;
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
@@ -94,6 +96,8 @@ export class AddCbFailureComponent implements OnInit {
    // console.log("facilityData=="+this.depotHierarchy);
     this.findRelayIndicationStatus();
     this.findNatureOfCloseStatus();
+    this.findCbInternal();
+    this.findCbExternal();
    // this.findFacilities();
     this.id = +this.route.snapshot.params['id'];   
   
@@ -167,8 +171,8 @@ export class AddCbFailureComponent implements OnInit {
         'voltage': [null],
         'phaseAngle': [null],
         'trippedIdentifiedFault': [null],
-        'divisionLocal': [null],
-        'internalExternal': [null], 
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null], 
         'remarks': [null, Validators.maxLength(250)]
       });
   }
@@ -195,8 +199,8 @@ export class AddCbFailureComponent implements OnInit {
         'voltage': [null],
         'phaseAngle': [null],
         'trippedIdentifiedFault': [null],
-        'divisionLocal': [null],
-        'internalExternal': [null], 
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null], 
         'remarks': [null, Validators.maxLength(250)]
       });
   }
@@ -230,7 +234,7 @@ export class AddCbFailureComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          relayIndication:this.resp.relayIndication,
+          relayIndication:this.resp.relayIndication.split(","),
           natureOfClosure:this.resp.natureOfClosure, 
           rValue:this.resp.rValue,
           xValue:this.resp.xValue,
@@ -241,8 +245,10 @@ export class AddCbFailureComponent implements OnInit {
           voltage:this.resp.voltage,
           phaseAngle:this.resp.phaseAngle,
           trippedIdentifiedFault:this.resp.trippedIdentifiedFault== 'true' ?  true : false,
-          divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
-          internalExternal:this.resp.internalExternal == 'true' ? true: false,
+         // divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
+         // internalExternal:this.resp.internalExternal == 'true' ? true: false,
+         cbInternalFailure:this.resp.cbInternalFailure,
+         cbExternalFailure:this.resp.cbExternalFailure,
           remarks: this.resp.remarks
         });
         this.feedersList.map(element => {
@@ -269,6 +275,19 @@ export class AddCbFailureComponent implements OnInit {
     });
   }
 
+  findCbInternal(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_INTERNAL_FAILURE)
+    .subscribe((resp) => {
+      this.cbInternalFailList = resp;
+    });
+  }
+
+  findCbExternal(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_EXTERNAL_FAILURE)
+    .subscribe((resp) => {
+      this.cbExternalFailList = resp;
+    });
+  }
   addEvent($event) {
     this.toMinDate = new Date($event.value);
     this.currentDate = new Date($event.value);
@@ -377,6 +396,7 @@ function(){
     if (this.save) {
      
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
+      let relay=this.addCbFailFromGroup.value.relayIndication;
      
       data = {
         'subStation': this.addCbFailFromGroup.value.subStation , 
@@ -385,7 +405,7 @@ function(){
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 
-        'relayIndication': this.addCbFailFromGroup.value.relayIndication, 
+        'relayIndication': relay.toString(), 
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue':this.addCbFailFromGroup.value.rValue,
         'xValue':this.addCbFailFromGroup.value.xValue,
@@ -396,8 +416,10 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault== true ?  'true' : 'false',
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal== true ?  'true' : 'false',
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'true' : 'false', 
+        //'divisionLocal': this.addCbFailFromGroup.value.divisionLocal== true ?  'true' : 'false',
+        //'internalExternal': this.addCbFailFromGroup.value.internalExternal== true ? 'true' : 'false', 
+        'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
+        'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdDate":this.addCbFailFromGroup.value.fromDateTime,
@@ -423,6 +445,7 @@ function(){
       })
     }else if(this.update){
       let casc=this.addCbFailFromGroup.value.cascadeAssets;
+      let relay=this.addCbFailFromGroup.value.relayIndication;
       data = {
         "id":this.id,
         'subStation': this.addCbFailFromGroup.value.subStation , 
@@ -431,7 +454,7 @@ function(){
         'fromDateTime': this.addCbFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addCbFailFromGroup.value.thruDateTime,
         'duration': this.addCbFailFromGroup.value.duration, 
-        'relayIndication': this.addCbFailFromGroup.value.relayIndication, 
+        'relayIndication': relay.toString(),
         'natureOfClosure': this.addCbFailFromGroup.value.natureOfClosure, 
         'rValue': this.addCbFailFromGroup.value.rValue,
         'xValue': this.addCbFailFromGroup.value.xValue, 
@@ -442,8 +465,10 @@ function(){
         'voltage': this.addCbFailFromGroup.value.voltage,
         'phaseAngle': this.addCbFailFromGroup.value.phaseAngle,
         'trippedIdentifiedFault': this.addCbFailFromGroup.value.trippedIdentifiedFault== true ?  'true' : 'false',
-        'divisionLocal': this.addCbFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
-        'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
+        //'divisionLocal': this.addCbFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        //'internalExternal': this.addCbFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
+        'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
+        'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addCbFailFromGroup.value.fromDateTime,

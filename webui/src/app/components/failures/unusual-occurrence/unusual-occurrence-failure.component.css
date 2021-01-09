@@ -1,0 +1,30 @@
+
+.mat-column-sno {
+    flex: 0 0 100px;
+  }
+  .mat-column-subStation {
+    flex: 0 0 100px;
+  }
+  .mat-column-location {
+    flex: 0 0 100px;
+  }
+  .mat-column-causeOfFailure {
+    flex: 0 0 150px;
+  }
+  .mat-column-fromDateTime {
+    flex: 0 0 100px;
+  }
+  .mat-column-duration {
+    flex: 0 0 100px;
+  }
+
+ .mat-column-internalExternal {
+    flex: 0 0 100px;
+  }
+ 
+  .mat-column-actions {
+    flex: 0 0 200px;
+  }
+  .mat-column-failureActions {
+    flex: 0 0 180px;
+  } 
