@@ -32,7 +32,7 @@ export class ThermovisionMeasureComponent implements OnInit{
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
     inputFormGroup: FormGroup;
-    divisionsList: any;
+    //divisionsList: any;
     depotsData: any = JSON.parse(localStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
@@ -43,7 +43,11 @@ export class ThermovisionMeasureComponent implements OnInit{
     maxDate = new Date();
     resp: any;
     ambientTemp : any;
-    
+    divisionsList: any = JSON.parse(localStorage.getItem('divisionData'));
+    checkDivisionUser: boolean;
+    divCode: string;
+    userDefaultData: any;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
   
 
     constructor(
@@ -67,11 +71,31 @@ export class ThermovisionMeasureComponent implements OnInit{
             'by' : [null],
             'generalRemark' : [null]
         });
-        this.divisionDetails();
+        //this.divisionDetails();
         /*
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TCP_SCHEDULES_BASED_ON_FACID+18413).subscribe((response) => {
             console.log('*** get schedules ***'+JSON.stringify(response));    
         }); */
+        if(this.divisionsList.length > 0){
+            this.checkDivisionUser = true;
+        }else {
+            this.checkDivisionUser = false;   
+        }
+        this.getUserContext();
+        
+    }
+    
+    getUserContext(){
+        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUserData.username).subscribe((data) => {
+                                   this.userDefaultData = data;
+                if(this.userDefaultData.division) {
+                    this.divCode = this.userDefaultData.division.toUpperCase();
+                    this.inputFormGroup.patchValue({'division':this.divCode});
+                    if(this.inputFormGroup.value.division) {
+                        this.getDepots();
+                    }
+                }
+       });    
     }
     
     saveAction(){

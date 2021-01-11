@@ -24,25 +24,34 @@
                                     	<input matInput [matDatepicker]="picker2"
                                         	placeholder="{{FiledLabels.DATE}}"
                                             	  [max]="maxDate"
-                                                	[formControl]="inputFormGroup.controls['dateTime']" >
+                                                	[formControl]="inputFormGroup.controls['dateTime']" required>
                                       	<mat-datepicker-toggle matSuffix [for]="picker2">
                                     	</mat-datepicker-toggle>
                                     	<mat-datepicker #picker2></mat-datepicker>                                                           
                                     </mat-form-field>
                                 </div>
+                                
+                                <div class="col-md-2">
+		                        	<div *ngIf = "checkDivisionUser ; else checkDivisionUserElseBlock">
+		                                    <mat-form-field fxFlex="30" class="example-full-width">
+		                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="inputFormGroup.controls['division']"  (selectionChange)="getDepots()">
+		                                            <mat-option *ngFor="let divisionsList of divisionsList "
+		                                                [value]="divisionsList.division">
+		                                                {{ divisionsList.division}}
+		                                            </mat-option>
+		                                        </mat-select>
+		                                    </mat-form-field>
+		                           </div>
+		                           <ng-template #checkDivisionUserElseBlock>
+		                           	<mat-form-field fxFlex="30">
+										<input matInput formControlName="division" [value]="divCode"
+											[(ngModel)]="divCode" readonly>
+										</mat-form-field>
+		                          </ng-template>
+		                        </div>
                                 <div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="inputFormGroup.controls['division']"  (selectionChange)="getDepots()">
-                                            <mat-option *ngFor="let divisionsList of divisionsList "
-                                                [value]="divisionsList.code">
-                                                {{ divisionsList.code}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-2">
-                                    <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.STATION}}" [formControl]="inputFormGroup.controls['facilityId']"  >
+                                        <mat-select placeholder="{{FiledLabels.STATION}}" [formControl]="inputFormGroup.controls['facilityId']"  required>
                                             <mat-option *ngFor="let depot of depotsList "
                                                 [value]="depot.id">
                                                 {{ depot.facilityName}}

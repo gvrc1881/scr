@@ -88,7 +88,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="Gender"
-                                                                [formControl]="users.controls['gender']">
+                                                                [formControl]="users.controls['gender']" required> 
                                                                 <mat-option *ngFor="let gender of genders"
                                                                     [value]="gender.ID">
                                                                     {{ gender.Gender}}
@@ -151,7 +151,7 @@
                                                             <input matInput placeholder="Password" type="password"
                                                                 size="15" maxlength="15"
                                                                 pattern="^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^!&*+=]).*$"
-                                                                [formControl]="users.controls['password']">
+                                                                [formControl]="users.controls['password']" required>
                                                             <mat-error
                                                                 *ngIf="users.controls['password'].hasError('required') && users.controls['password'].touched"
                                                                 class="alert alert-danger">Enter Password</mat-error>
@@ -164,7 +164,7 @@
                                                                 class="alert alert-danger">Your password must contain at least one uppercase, one lowercase, one number and one special character</mat-error> 
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="Select Role" [disabled] ="!rolePermission"
                                                                 [formControl]="users.controls['role']">
@@ -198,11 +198,11 @@
                                                                 class="alert alert-danger">Select department</mat-error>
 
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="Select Division"  [disabled] ="!rolePermission"
-                                                                [formControl]="users.controls['repositoryCode']">
+                                                                [formControl]="users.controls['repositoryCode']" required>
                                                                 <mat-option value="All">All</mat-option>
                                                                 <mat-option *ngFor="let repository of repositoryList"
                                                                     [value]="repository.repositoryCode">

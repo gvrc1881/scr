@@ -60,10 +60,10 @@ export class UsersComponent implements OnInit {
             email: {},
             mobilenum: {},
             password: {},
-            role: {},
-            department: {},
             repositoryCode:{}
         };
+            //role: {},
+            //department: {},
     }
 
     ngOnInit() {
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
         this.id = +this.route.snapshot.params['id'];
         this.rolePermission = this.commonService.rolePermission();        
         if (!isNaN(this.id)) {
-
+            console.log('in if condiition');
             this.users = this.formBuilder.group({
                 id: 0,
                 'userName': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
@@ -79,22 +79,21 @@ export class UsersComponent implements OnInit {
                 'lastName': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
                 'gender': [null, Validators.required],
                 'email': [null, Validators.compose([Validators.required])],
-                'mobilenum': [null, Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(10)])],
-                'role': [null, Validators.required],
-                'department': [null, Validators.required],
+                'mobilenum': [null, Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(12)])],
                 'repositoryCode': [null, Validators.required]
             });
+                //'role': [null, Validators.required],
+                //'department': [null, Validators.required],
 
-
-
+        /*
             this.users.valueChanges.subscribe(() => {
                 this.onFormValuesChanged();
-            });
+            }); */
             this.spinnerService.show();
             this.saveUser = false;
             this.updateUser = true;
             this.checkInput = true;
-            this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID+'/'+this.id)
+            this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.GET_USERS_BYID+this.id)
                 .subscribe(resp => {
                     
 this.resp = resp;
@@ -103,16 +102,15 @@ this.resp = resp;
                         userName: this.resp.username,
                         firstName: this.resp.first_name,
                         lastName: this.resp.last_name,
-                        email: this.resp.email,
                         gender: this.resp.gender,
+                        email: this.resp.email,
                         mobilenum: this.resp.phone,
-                        role: this.resp.roleTypeId,
-                        department: this.resp.department,
                         repositoryCode:this.resp.divisionCode,
                     });
                     this.spinnerService.hide();
                 });
         } else {
+            console.log('in else condiition');
             this.users = this.formBuilder.group({
                 id: 0,
                 'userName': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
@@ -122,10 +120,11 @@ this.resp = resp;
                 'email': [null, Validators.compose([Validators.required]), this.emailValidation.bind(this)],               
                 'mobilenum': [null, Validators.compose([Validators.required, Validators.minLength(10)])],
                 'password': [null, Validators.compose([Validators.required, Validators.minLength(8)])],
-                'role': [null, Validators.required],
-                'department': [null, Validators.required],
                 'repositoryCode': [null, Validators.required]
             });
+            
+            //'role': [null, Validators.required],
+              //  'department': [null, Validators.required],
 
 
 
@@ -263,7 +262,7 @@ this.resp = resp;
                 "last_name": var_lastName,
                 "gender": var_gender,
                 "day_of_birth":null,               
-                "department": var_department,
+                "department": "1",
                 "designation":null,
                 "address":null,
                 "phone": var_mobilenumber,
@@ -271,11 +270,11 @@ this.resp = resp;
                 "expire_date":null,
                 "privilege_id": "87",
                 "createdBy": null,                
-                "roleTypeId": var_role,
+                "roleTypeId": "1",
                 "status_id": 1,
                 "divisionCode":repositoryCode    
                 }         
-                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.SAVE_USER, saveUsersModel, false).subscribe((data) => {
+                this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.SAVE_USERS, saveUsersModel, false).subscribe((data) => {
                 this.data = data;
                 this.commonService.showAlertMessage('User Added Successfully.')
                 if (this.data) {
@@ -297,7 +296,7 @@ this.resp = resp;
 
         else if (this.updateUser) {
          
-            this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.UPDATE_USER,{
+            this.sendAndRequestService.requestForPOST(Constants.app_urls.MASTERS.USERS.UPDATE_USERS,{
 
                 "user_id": var_id,
                 "id":var_id,
