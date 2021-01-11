@@ -83,7 +83,7 @@
                                         </div>
 
                                         <!-- div -->
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <mat-form-field fxFlex="30">
                                                 <mat-select placeholder="{{FiledLabels.DIVISION}}"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['div']"
@@ -94,7 +94,18 @@
                                                     </mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                        </div>
+                                        </div> -->
+                                        <div class="col-md-3"  >
+                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                              <mat-select placeholder="{{FiledLabels.DIVISION}}" 
+                                                [formControl]="addFailureAnalysisFormGroup.controls['div']" >
+                                                <mat-option *ngFor="let divisionData of divisionHierarchy"
+                                                  [value]="divisionData.facilityName">
+                                                  {{ divisionData.facilityName }}
+                                                </mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
                                         <div class="clearfix"></div>
                                         <!-- failureSection -->
                                         <div class="col-md-3">
@@ -109,7 +120,7 @@
                                         </div>
 
                                         <!-- assetType -->
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <mat-form-field fxFlex="30">
                                                 <input matInput placeholder="{{FiledLabels.ASSET_TYPE}}"
                                                     [formControl]="addFailureAnalysisFormGroup.controls['assetType']">
@@ -118,7 +129,18 @@
                                                     class="alert alert-danger">Max 255 characters only
                                                 </mat-error>
                                             </mat-form-field>
-                                        </div>
+                                        </div> -->
+                                        <div class="col-md-3"  >
+                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                              <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}" 
+                                                [formControl]="addFailureAnalysisFormGroup.controls['assetType']" >
+                                                <mat-option *ngFor="let assetTypes of assetsList"
+                                                  [value]="assetTypes.productId">
+                                                  {{ assetTypes.productId }}
+                                                </mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
 
                                         <!-- assetId -->
                                         <div class="col-md-3">

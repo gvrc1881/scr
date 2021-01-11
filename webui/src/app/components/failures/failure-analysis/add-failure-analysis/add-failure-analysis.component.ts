@@ -20,6 +20,7 @@ export class AddFailureAnalysisComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -41,6 +42,7 @@ export class AddFailureAnalysisComponent implements OnInit {
   currentDate = new Date();
   targetDate=new Date();
   completeDate = new Date();
+  assetsList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -79,6 +81,7 @@ export class AddFailureAnalysisComponent implements OnInit {
     this.getsData();
     this.findYesNoStatus();
     this.findDivisions();
+    this.findAssetTypes();
     this.createForm();
     if (!isNaN(this.id)) {
       this.addFailureAnalysisFormGroup.valueChanges.subscribe(() => {
@@ -96,13 +99,35 @@ export class AddFailureAnalysisComponent implements OnInit {
     }
   }
 
-  findDivisions(){
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
-    .subscribe((resp) => {
-      this.divisionList = resp;
-    });
-  }
+  // findDivisions(){
+  //   this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)
+  //   .subscribe((resp) => {
+  //     this.divisionList = resp;
+  //   });
+  // }
 
+  findDivisions(){
+   
+    this.divisionList=[];    
+
+    for (let i = 0; i < this.divisionHierarchy.length; i++) {
+        
+           if( this.divisionHierarchy[i].depotType == 'DIV'){           
+               
+               this.divisionHierarchy.divisionList;
+              
+           }
+        }
+}
+findAssetTypes(){
+  
+  this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_ALL_ASSET_TYPES).subscribe((data) => {
+    this.assetsList = data;
+    this.spinnerService.hide();
+  }, error => {
+    this.spinnerService.hide();
+  });
+}
   createForm() {
     this.addFailureAnalysisFormGroup
       = this.formBuilder.group({
