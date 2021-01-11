@@ -565,6 +565,11 @@ const routes: Routes = [
     loadChildren: './components/thermovision/thermovision-measure/thermovision-measure.module#ThermovisionMeasureModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'check-points',
+    loadChildren: './components/thermovision-check-points/check-points.module#CheckPointsModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

@@ -1,7 +1,6 @@
 package com.scr.model;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,9 +34,9 @@ public class ThermovisionCheckPoints implements Serializable {
 	private Long commparisonPoints;
 
 	@ManyToOne
-	@JoinColumn(name = "facilityId")
-	private Facility facility;
-
+	@JoinColumn(name = "facility_id")
+	private Facility facilityId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -102,12 +101,14 @@ public class ThermovisionCheckPoints implements Serializable {
 		this.commparisonPoints = commparisonPoints;
 	}
 
-	public Facility getFacility() {
-		return facility;
+	public Facility getFacilityId() {
+		return facilityId;
 	}
 
-	public void setFacility(Facility facility) {
-		this.facility = facility;
+	public void setFacilityId(Facility facilityId) {
+		this.facilityId = facilityId;
 	}
+
+	
 
 }

@@ -1315,6 +1315,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("thermovision-measure") ? "active-item" : "",
           },
+          {
+            subMenuName: "Check Points",
+            subMenuURL: "check-points",
+            subMenuIcon: "fa fa-file",
+            permission: this.commonService.findPermission('Thermovision Check Points', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("check-points") ? "active-item" : "",
+          },
         ]
       },
     ];
