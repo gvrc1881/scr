@@ -17,11 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.mapper.CommonMapper;
+import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.DriveMapper;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveRequest;
 import com.scr.message.response.DriveTargetResponse;
 import com.scr.message.response.DrivesResponse;
+import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetScheduleActivityAssoc;
 import com.scr.model.ContentManagement;
 import com.scr.model.CrsEigInspections;
@@ -37,6 +39,7 @@ import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
+import com.scr.model.GuidenceItem;
 import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
@@ -136,6 +139,13 @@ public class DrivesService {
 	
 	@Autowired
 	private FacilityRepository facilityRepository;
+	
+	@Autowired
+	private ContentManagementMapper contentManagementMapper;
+	
+	@Value("${drive.path}")
+	private String drivePath;
+	
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -1102,6 +1112,53 @@ List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();
 	return driveTargetResponse;
 
 	
+}
+
+public ResponseStatus storeUploadedFiles(List<MultipartFile> multipartFile, String contentCategory, String description,
+		String divisionCode, String createdBy, String zonal, String fU, String contentTopic, Long driveId) {
+	ResponseStatus responseStatus = new ResponseStatus();
+	try {
+		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(drivePath, contentCategory );
+		if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
+			List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+			ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+			Long commonFileId = (long) 0.0; 
+			if(fileId == null || fileId.getCommonFileId() == null) {
+				commonFileId = (long) 1;
+			}else {
+				commonFileId = fileId.getCommonFileId()+1;
+			}
+			Optional<Drives> drive =driveRepository.findById(driveId);
+			if (drive.isPresent()) {
+				Drives driveDetails = drive.get();
+				if (driveDetails.getContentLink() != null) {
+					commonFileId = Long.parseLong(driveDetails.getContentLink());
+				} else {
+					driveDetails.setContentLink(String.valueOf(commonFileId));
+				}
+				
+				driveRepository.save(driveDetails);
+			}
+			
+			for(MultipartFile mf: multipartFile)
+			{
+				String folderPath = folderResponse.getMessage();
+				liContentManagements.add(contentManagementMapper.saveAndStoreDetails(mf, divisionCode, createdBy, zonal, fU, contentTopic, description, contentCategory, folderPath, commonFileId));									
+			}
+			if(!liContentManagements.isEmpty()) {
+				liContentManagements = repository.saveAll(liContentManagements);
+									logger.info("Files Details saved in to Database Successfully.");
+			}
+		}					
+		responseStatus.setCode(Constants.SUCCESS_CODE);
+		responseStatus.setMessage(Constants.JOB_SUCCESS_MESSAGE);
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.error("Error while saving files "+e.getMessage());
+		responseStatus.setCode(Constants.FAILURE_CODE);
+		responseStatus.setMessage("ERROR >>> "+e.getMessage());
+	}
+	return responseStatus;
 }
 
 

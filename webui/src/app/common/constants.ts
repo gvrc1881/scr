@@ -434,7 +434,9 @@ export const Constants = {
                 EXISTS_DRIVE_DESCRIPTION:"/existsDriveDescription/",
                 GET_DIRIVES_BASED_ON_FROMDATE_AND_DEPOT:"/getDrivesBasedOnFromDateAndDepot/",
                 GET_DRIVES_BASED_ON_CHECKLIST:"/getDriveCheckList",
-                COPY_DRIVES:"/copyDrives"
+                COPY_DRIVES:"/copyDrives",
+                DRIVE_UPLOAD_FILES:"/driveUploadFiles",
+                ATTACHMENT_LIST:"/driveAttachedDocumentList/"
                
             },
             DRIVE_CATEGORY:{

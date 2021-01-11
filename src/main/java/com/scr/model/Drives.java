@@ -88,6 +88,8 @@ public class Drives implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "depot_type", foreignKey = @ForeignKey(name = "fk_drives_depot_type"))
 	private FunctionalLocationTypes depotType;
+	
+	private String contentLink;
 
 	public Long getId() {
 		return id;
@@ -251,6 +253,14 @@ public class Drives implements Serializable {
 		this.frequency = frequency;
 	}
 	
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
 	@Override
 	public String toString() {
 		return "Drive [id=" + id + ", frequency=" + frequency +"]";

@@ -135,7 +135,7 @@ public class ContentManagementMapper {
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setCreatedBy(Integer.parseInt(createdBy));
 		contentManagement.setStatusId(Constants.ACTIVE_STATUS_ID);
-		
+		contentManagement.setZonal(zonal);
 		return contentManagement;
 	}
 

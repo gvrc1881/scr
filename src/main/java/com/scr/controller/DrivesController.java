@@ -46,6 +46,7 @@ import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
 import com.scr.model.FailureAnalysis;
+import com.scr.model.GuidenceItem;
 import com.scr.model.InspectionType;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Product;
@@ -56,6 +57,7 @@ import com.scr.repository.DriveProgressRecordRepository;
 import com.scr.repository.DriveTargetRepository;
 import com.scr.repository.DrivesRepository;
 import com.scr.repository.FacilityRepository;
+import com.scr.services.ContentManagementService;
 import com.scr.services.DrivesService;
 import com.scr.services.FacilityService;
 import com.scr.services.MeasureOrActivityListService;
@@ -95,6 +97,9 @@ public class DrivesController {
 	
 	@Autowired
 	private FacilityRepository facilityRepository;
+	
+	@Autowired
+	private ContentManagementService contentManagementService;
 	
 	
 	@RequestMapping(value = "/drives", method = RequestMethod.GET , headers = "Accept=application/json")
@@ -1918,6 +1923,55 @@ public class DrivesController {
 		}
 		logger.info("Exit from getTowerCarBasedOnDivsion function");
 		return ResponseEntity.ok((driveTargetReponse));
+	}
+	
+	
+	@PostMapping("/driveUploadFiles")
+	@ResponseBody
+	public ResponseStatus uploadAttachedFiles(
+			@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("driveId") Long driveId,
+			@RequestParam("contentCategory") String contentCategory,
+			@RequestParam("description") String description,
+			@RequestParam("divisionCode") String divisionCode,
+			@RequestParam("createdBy") String createdBy,
+			@RequestParam("zonal") String zonal,
+			@RequestParam("FU") String FU,
+			@RequestParam("contentTopic") String contentTopic) {
+		ResponseStatus responseStatus = new ResponseStatus();
+		try {
+			logger.info("File Name: "+contentCategory);
+			responseStatus = service.storeUploadedFiles(file, contentCategory, description, divisionCode, createdBy, zonal, FU, contentTopic,driveId);
+			logger.info("File Saved Successfully!");
+		} catch (NullPointerException e) {
+			logger.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		} catch (Exception e) {
+			logger.error(e);
+			return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+		}
+		return responseStatus;
+	}
+	
+	@RequestMapping(value = "/driveAttachedDocumentList/{driveId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+	public ResponseEntity<List<ContentManagement>> getDocumentList( @PathVariable("driveId") Long driveId){
+		List<ContentManagement> contentManagementList = new ArrayList<>();
+		try {
+			logger.info("Getting documents based on drive   id  = "+driveId);	
+			Optional<Drives>  drive= service.findDriveById(driveId);
+			if (drive.isPresent()) {
+				Drives driveDetails = drive.get();
+				if(driveDetails.getContentLink() != null) {
+					contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(driveDetails.getContentLink()));
+				}
+				logger.info("content size:::"+contentManagementList.size());
+			}
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while getting DivisionHistory Details"+e.getMessage());
+			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+		}	
 	}
 	
 	
