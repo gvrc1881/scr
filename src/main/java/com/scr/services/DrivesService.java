@@ -939,17 +939,29 @@ public Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName)
 
 public List<Drives> getByCategoryId(DriveCategory driveCategory) {
 	// TODO Auto-generated method stub
+	logger.info("service calling");
 	List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
 	List<Drives> drivesList = new ArrayList<>();	
 	
 	Date date = new Date();
+	logger.info("drives from assoc==="+driveCatAssocList.size());
 	for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
 		
+		List<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+		logger.info("drives from validations==="+drive.size());
+		for (Drives drives : drive) {
+		logger.info("drives=="+drives.toString());
+		Optional<DriveCategoryAsso> validDrives = driveCategoryAssoRepository.getByDriveIdAndDriveCategoryIdAndStatusId(drives,driveCategory,Constants.ACTIVE_STATUS_ID);
 		
-		Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
-		if (drive.isPresent()) {
-			drivesList.add(drive.get());
+		if(validDrives.isPresent())
+		{
+		drivesList.add(drives);
 		}
+	}
+		
+		/*if (drive.isPresent()) {
+			drivesList.add(drive.get());
+		}*/
 	} 
        return drivesList;
 }
@@ -965,31 +977,32 @@ public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory dr
 	List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();	
 	if(driveCatAssoc.isPresent()) {
 		DriveTargetResponse dtr = new DriveTargetResponse();		
-		Optional<Drives> drive =driveRepository.findById(driveCatAssoc.get().getId());
+		Optional<Drives> drive =driveRepository.findByIdAndStatusId(driveCatAssoc.get().getDriveId().getId(),Constants.ACTIVE_STATUS_ID);
 		Optional<DriveTarget> driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,zone);
-		Double target = 0D;
+		logger.info("drive reponsee=="+driveTarget);
+		double target = 0;
 		String population = "0"; 
 		logger.info("before objects=");
 		if (driveTarget.isPresent()) {			
 			
-			dtr.setDriveId(driveId);
-			dtr.setAssetType(drive.get().getAssetType());
-			dtr.setUnitType(fac.get().getDepotType());
-			dtr.setUnitName(zone);
+			
 			dtr.setTarget(driveTarget.get().getTarget());
 			dtr.setPoulation(driveTarget.get().getPoulation());
 			
 		}
 	
 		else {
-			dtr.setDriveId(driveId);
-			dtr.setAssetType(drive.get().getAssetType());
-			dtr.setUnitType(fac.get().getDepotType());
-			dtr.setUnitName(zone);
+			logger.info("in else condition");
+			
 			dtr.setPoulation(population);
 			dtr.setTarget(target);
 		}
-	
+		
+		dtr.setDriveId(driveId);
+		dtr.setAssetType(drive.get().getAssetType());
+		
+		dtr.setUnitType(fac.get().getDepotType());
+		dtr.setUnitName(zone);
 		logger.info("after objects=="+dtr.toString());
 	
 	driveTargetResponse.add(dtr);
@@ -1009,7 +1022,7 @@ public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) 
 		logger.info("drives in for loop"+drives.size());
 		DriveTargetResponse dtr = new DriveTargetResponse();			
 			
-			Double target = 0D;
+			double target = 0;
 			String population = "0"; 
 			
 			logger.info("in drive if condition");
@@ -1021,9 +1034,7 @@ public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) 
 				logger.info("in if drive present=="+drives2);
 				
 				dtr.setDriveId(driveTarget.getDriveId());
-				dtr.setAssetType(drives2.getAssetType());
-				dtr.setUnitType(fac.get().getDepotType());
-				dtr.setUnitName(zone);
+				
 				dtr.setTarget(driveTarget.getTarget());
 				dtr.setPoulation(driveTarget.getPoulation());
 				logger.info("population in targets=="+driveTarget.getPoulation());
@@ -1031,13 +1042,14 @@ public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) 
 			}		
 			else {
 				dtr.setDriveId(drives2);
-				dtr.setAssetType(drives2.getAssetType());
-				dtr.setUnitType(fac.get().getDepotType());
-				dtr.setUnitName(zone);
+				
 				dtr.setPoulation(population);
 				dtr.setTarget(target);
 			}
 			
+			dtr.setAssetType(drives2.getAssetType());
+			dtr.setUnitType(fac.get().getDepotType());
+			dtr.setUnitName(zone);
 			logger.info("after objects=="+dtr.toString());
 			driveTargetResponse.add(dtr);
 			}
@@ -1084,24 +1096,20 @@ List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();
 			if (driveTarget != null) {
 				logger.info("in if drive present=="+drives2);
 				
-				dtr.setDriveId(driveTarget.getDriveId());
-				dtr.setAssetType(drives2.getAssetType());
-				dtr.setUnitType(fac.get().getDepotType());
-				dtr.setUnitName(fac.get().getFacilityName());			
+				dtr.setDriveId(driveTarget.getDriveId());						
 				dtr.setTarget(driveTarget.getTarget());
 				dtr.setPoulation(driveTarget.getPoulation());
 				logger.info("population in targtes=="+driveTarget.getPoulation());
 				
 			}		
 			else {
-				dtr.setDriveId(drives2);
-				dtr.setAssetType(drives2.getAssetType());
-				dtr.setUnitType(fac.get().getDepotType());
-				dtr.setUnitName(fac.get().getFacilityName());
+				dtr.setDriveId(drives2);				
 				dtr.setPoulation(population);
 				dtr.setTarget(target);
 			}
-			
+			dtr.setAssetType(drives2.getAssetType());
+			dtr.setUnitType(fac.get().getDepotType());
+			dtr.setUnitName(fac.get().getFacilityName());	
 			logger.info("after objects=="+dtr.toString());
 			driveTargetResponse.add(dtr);
 			}

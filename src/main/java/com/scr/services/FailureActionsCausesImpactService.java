@@ -44,9 +44,11 @@ public class FailureActionsCausesImpactService {
 		return failureActionsRepository.findById(id);
 	}
 
-	public List<FailureActionsCausesImpact> findByFailureSeqId(String failureSeqId) {
+	public List<FailureActionsCausesImpact> findByFailureSeqId(Long failureSeqId) {
 		
 		return failureActionsRepository.findByFailureSeqId(failureSeqId);
 	}
+
+	
 
 }

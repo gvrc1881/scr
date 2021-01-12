@@ -66,7 +66,7 @@ public class FailureActionsCausesImpactController {
 			 try {
 				   logger.info("Calling service for failure actions data");	
 			
-				   actionsList = failureImpactService.findByFailureSeqId(failureSeqId);
+				   actionsList = failureImpactService.findByFailureSeqId(Long.parseLong(failureSeqId));
 			 logger.info("Fetched failure actions data***"+actionsList.size());
 			return actionsList;
 		}catch (NullPointerException npe) {
@@ -87,7 +87,7 @@ public class FailureActionsCausesImpactController {
 			logger.info("Calling service with request parameters.");
 			FailureActionsCausesImpact failureImpact = failureImpactService.saveActions(failureRequest);
 			failureRequest.setSeqId(failureImpact.getId().toString());
-			failureRequest.setFailureSeqId(failureImpact.getId());
+			failureRequest.setFailureSeqId(failureRequest.getFailureSeqId());
 			failureImpactService.saveActions(failureRequest);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus(" Added Successfully", Constants.SUCCESS_CODE);
@@ -108,7 +108,7 @@ public class FailureActionsCausesImpactController {
 		try {			
 			logger.info("Calling service with request parameters.");
 			FailureActionsCausesImpact failureImpact = failureImpactService.saveActions(failureRequest);
-			failureRequest.setFailureSeqId(failureImpact.getId());
+			failureRequest.setFailureSeqId(failureRequest.getFailureSeqId());
 			failureImpactService.saveActions(failureRequest);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus(" Added Successfully", Constants.SUCCESS_CODE);

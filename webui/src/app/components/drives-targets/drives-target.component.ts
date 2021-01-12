@@ -9,6 +9,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { R3TargetBinder } from '@angular/compiler';
 
 @Component({
   selector: 'app-drives-targets',
@@ -46,7 +47,7 @@ export class DrivesTargetComponent implements OnInit {
     facility:any;
     targetsList:any;
     target:any;
-    enableSave:boolean;
+    enableSave:boolean=false;
     editTargetResponse:any;
     responseStatus:any;
     id:any;
@@ -244,7 +245,10 @@ findDepot(){
                this.targetsList[i].sno = i + 1;              
                this.target.push(this.targetsList[i]);  }
            this.dataSource = new MatTableDataSource(this.target);  
-           this.enableSave=true;        
+           if(this.targetsList.length > 0){
+            this.enableSave=true; 
+           }
+                 
            //this.addPermission=false;
        });
     }

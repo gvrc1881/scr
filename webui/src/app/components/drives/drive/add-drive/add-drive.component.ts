@@ -307,6 +307,7 @@ export class AddDriveComponent implements OnInit {
         //this.save = false;
         console.log("this.save==="+this.save);
       this.toMinDate = new Date(this.resp.fromDate);
+      this.depotCode = this.resp.depotType['code'];
         if (this.resp.depotType != null) {
           this.findAssetTypeList(Constants.ASSERT_TYPE[this.resp.depotType['code']]);
         }
@@ -315,6 +316,7 @@ export class AddDriveComponent implements OnInit {
   }
   typeId = [];
   assertTypeId = [];
+
   onAddDriveFormSubmit() {
     
     this.isSubmit = true;

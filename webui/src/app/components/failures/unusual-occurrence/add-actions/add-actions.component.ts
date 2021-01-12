@@ -54,6 +54,7 @@ export class AddActionsComponent implements OnInit {
   minDate=new Date();
   subStation:any;
   occurenceId:any;
+  failure:any;
   occurenceLocation:any;
   UnusualOccurrenceFailList:any;
   ActionsFailListActions:any;
@@ -129,6 +130,7 @@ export class AddActionsComponent implements OnInit {
       = this.formBuilder.group({
         id: 0,
         'failureActivity': [null], 
+        'failureSeqId':[null],
         'fromTime': [null],
         'thruTime': [null],
         'by':[null],
@@ -149,42 +151,43 @@ export class AddActionsComponent implements OnInit {
     this.trainNo=tn;
   }
   
-  updateFeedOff($event){
-    if ($event.value) {
-      console.log($event.value);
-      if($event.value === 'EVENT'){
+  updateFeedOff(){
+    let action=this.addActionsFailFromGroup.controls['failureActivity'].value;
+    if (action) {
+      console.log(action);
+      if(action === 'EVENT'){
         this.updateActions(true, true, false, false, false,true, false, false);
-      }else if($event.value === 'REPURCUSSION'){
+      }else if(action === 'REPURCUSSION'){
         this.updateActions(true, true, false, false, false,true, false, true);
-      }else if($event.value === 'WORK DONE'){
+      }else if(action === 'WORK DONE'){
         this.updateActions(true, true, false, false, false,true, false, false);
-      }else if($event.value === 'DAMAGE'){
+      }else if(action === 'DAMAGE'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      }else if($event.value === 'TRIPPING DETAILS'){
+      }else if(action === 'TRIPPING DETAILS'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      }else if($event.value === 'SEGRGATION IF ANY'){
+      }else if(action === 'SEGRGATION IF ANY'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'FIR DETAILS'){
+      } else if(action === 'FIR DETAILS'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'TOWER WAGON MOVEMENT'){
+      } else if(action === 'TOWER WAGON MOVEMENT'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'ROAD VEHICLE MOVEMENT'){
+      } else if(action === 'ROAD VEHICLE MOVEMENT'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'OFFICERS AT SITE '){
+      } else if(action === 'OFFICERS AT SITE '){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'OFFICERS AT CONTROL ROOM'){
+      } else if(action === 'OFFICERS AT CONTROL ROOM'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'SUPERVISORS AT SITE '){
+      } else if(action === 'SUPERVISORS AT SITE '){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'SUPERVISORS AT CONTROL ROOM'){
+      } else if(action === 'SUPERVISORS AT CONTROL ROOM'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'BLOCK DETAILS'){
+      } else if(action === 'BLOCK DETAILS'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
+      } else if(action === 'LAST MAINTENANCE DETAILS AND FOOT PATROLLING'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'FAILED EQUIPMENT'){
+      } else if(action === 'FAILED EQUIPMENT'){
         this.updateActions(false, false, false, false, false,true, false, false);
-      } else if($event.value === 'INVESTIGATION'){
+      } else if(action === 'INVESTIGATION'){
         this.updateActions(false, false, false, false, false,true, false, false);
       }
     }
@@ -209,10 +212,17 @@ export class AddActionsComponent implements OnInit {
         this.resp = resp;
         console.log(this.resp);
         this.minDate=new Date(this.resp.fromTime),
+        
+         console.log("get response=="+JSON.stringify(this.resp));
+       this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+this.resp.failureSeqId).subscribe((response) => {
+        this.failure = response;
+        console.log("failures=="+JSON.stringify(this.failure));
+           this.addActionsFailFromGroup.patchValue({ failureSeqId: this.failure.location })
+          });
         this.addActionsFailFromGroup.patchValue({
           id: this.resp.id,
           failureActivity:this.resp.failureActivity,
-          failureSeqId:this.resp.failureSeqId,
+         // failureSeqId:this.occurenceLocation,
           by:this.resp.by,
           specialRemarks:this.resp.specialRemarks,
           trainNo:this.resp.trainNo,
@@ -221,7 +231,10 @@ export class AddActionsComponent implements OnInit {
           thruTime:!!this.resp.thruTime ? new Date(this.resp.thruTime) : '',
           remarks: this.resp.remarks
         });   
-          
+          if(this.resp.failureActivity!=null)
+          {
+            this.updateFeedOff();
+          }
         this.spinnerService.hide();
 
       })

@@ -1703,9 +1703,9 @@ public class DrivesController {
 					if(drive.isPresent())
 					{
 					logger.info("for loop for drives and cat==");
-					String div = division+"_DIV";
-					Optional<Facility> fac = facilityRepository.findByFacilityNameAndZone(div,zone);
 					
+					Optional<Facility> fac = facilityRepository.findByFacilityNameAndZone(division,zone);
+					logger.info("fac=="+fac);
 					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),fac.get().getFacilityName());	
 					
 					logger.info("for loop end=="+driveTargetReponse.size());

@@ -11,5 +11,5 @@ public interface FailureActionsCausesImpactRepository extends JpaRepository<Fail
 
 	List<FailureActionsCausesImpact> findAll();
 
-	List<FailureActionsCausesImpact> findByFailureSeqId(String failureSeqId);
+	List<FailureActionsCausesImpact> findByFailureSeqId(Long failureSeqId);
 }
