@@ -17,6 +17,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -71,7 +72,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   ngOnInit() {
     //this.findRelayIndicationStatus();
   //  this.findNatureOfCloseStatus();
-    this.findFeedersList();
+    this.findDepots();
     this.id = +this.route.snapshot.params['id'];      
     if (!isNaN(this.id)) {
       this.updateForm();
@@ -127,17 +128,30 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       this.duration=""
     }
   }
-  findFeedersList(){
+  // findFeedersList(){
     
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE)
+  //   this.spinnerService.show();
+  //   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DEPOTTYPE_FOR_OHE)
    
-      .subscribe((response) => {       
+  //     .subscribe((response) => {       
         
-        this.facilityList = response;       
+  //       this.facilityList = response;       
      
-        this.spinnerService.hide();
-      })
+  //       this.spinnerService.hide();
+  //     })
+  // }
+  findDepots(){
+
+    this.facilityList=[]; 
+    for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+      if( this.facilityHierarchy[i].depotType == 'OHE'){
+         
+         this.facilityList.push(this.facilityHierarchy[i]);
+         // this.facilityHierarchy.facilityList;
+          
+      }
+   } 
   }
   createForm() {
     this.addUnusualOccurrenceFromGroup
