@@ -182,6 +182,7 @@ export const FieldLabelsConstant = {
       GUAGE: "Guage",
       GROUP:"Group",
       HEADING: "Heading", 
+      DRIVE_ID:"Drive No",
       IDS: "Ids",
       IMPACT: "No of Trains Effected",
       INCHARGE: "Incharge",

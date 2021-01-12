@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.scr.model.DriveCategory;
@@ -22,7 +23,12 @@ public interface DriveCategoryRepository extends JpaRepository<DriveCategory, Lo
 	
 	Optional<DriveCategory> findById(Long driveCategoryId);
 
-	Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName);	
+	Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName);
+	
+	@Query("FROM DriveCategory ORDER BY createdOn DESC")
+	List<DriveCategory> findByStatusIdAndOrderByCeatedOnDesc(int activeStatusId);
+
+	
 
 	//List<DriveCategory> getByDriveIdAndStatusId(Drives drives, int activeStatusId);
 

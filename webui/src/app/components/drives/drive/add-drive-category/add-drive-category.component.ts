@@ -220,6 +220,8 @@ export class AddDriveCategoryComponent implements OnInit {
         "fromDate": this.addDriveCategoryFormGroup.value.fromDate,
         "toDate": this.addDriveCategoryFormGroup.value.toDate,
         "authority": this.addDriveCategoryFormGroup.value.authority,
+        "createdBy":this.resp.createdBy, 
+        "createdOn": this.resp.createdOn, 
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }

@@ -160,6 +160,14 @@ public class DriveCategoryAsso implements Serializable {
 		this.reportDisplayId = reportDisplayId;
 	}
 
+	@Override
+	public String toString() {
+		return "DriveCategoryAsso [id=" + id + ", active=" + active + ", createdBy=" + createdBy + ", updatedBy="
+				+ updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", driveId=" + driveId
+				+ ", driveCategoryId=" + driveCategoryId + ", statusId=" + statusId + ", reportSubHeading="
+				+ reportSubHeading + ", reportOrder=" + reportOrder + ", reportDisplayId=" + reportDisplayId + "]";
+	}
+
 
 
 }

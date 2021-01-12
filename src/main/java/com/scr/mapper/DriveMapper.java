@@ -117,7 +117,7 @@ public class DriveMapper {
 			drive.setDescription(driveRequest.getDescription());
 			drive.setFromDate(driveRequest.getFromDate());
 			drive.setToDate(driveRequest.getToDate());
-
+logger.info("depot=="+driveRequest.getDepotType());
 			if (driveRequest.getDepotType() != null && !driveRequest.getDepotType().isEmpty()) {
 				//Optional<Facility> facility = facilityRepository.findByFacilityName(driveRequest.getFunctionalUnit());
 				Optional<FunctionalLocationTypes> functional = functionLocationTypesRepository.findByCode(driveRequest.getDepotType());

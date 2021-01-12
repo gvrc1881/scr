@@ -17,7 +17,7 @@ public class FailureActionsCausesImpact implements Serializable {
 	private Long id;
 	
 	@Column(name="failure_seq_id")
-	private String failureSeqId ;
+	private Long failureSeqId ;
 	
 	@Column(name="failure_activity")
 	private String failureActivity ;
@@ -75,11 +75,13 @@ public class FailureActionsCausesImpact implements Serializable {
 		this.id = id;
 	}
 
-	public String getFailureSeqId() {
+	
+
+	public Long getFailureSeqId() {
 		return failureSeqId;
 	}
 
-	public void setFailureSeqId(String failureSeqId) {
+	public void setFailureSeqId(Long failureSeqId) {
 		this.failureSeqId = failureSeqId;
 	}
 

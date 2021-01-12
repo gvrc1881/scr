@@ -149,7 +149,7 @@ public class DrivesService {
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
-		return driveRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+		return driveRepository.findByStatusIdAndOrderByCreatedOnDesc(Constants.ACTIVE_STATUS_ID);
 	}	
 
 	public @Valid boolean saveDriveData(@Valid DriveRequest driveRequest) throws Exception {
@@ -202,7 +202,7 @@ public class DrivesService {
 
 	// DRIVE CATEGORY
 	public List<DriveCategory> findAllDriveCategory() {
-		return driveCategoryRepository.findByStatusId(Constants.ACTIVE_STATUS_ID);
+		return driveCategoryRepository.findByStatusIdAndOrderByCeatedOnDesc(Constants.ACTIVE_STATUS_ID);
 	}	
 
 	public @Valid boolean saveDriveCategoryData(@Valid DriveRequest driveRequest) {

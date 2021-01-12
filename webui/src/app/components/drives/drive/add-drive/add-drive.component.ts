@@ -284,13 +284,14 @@ export class AddDriveComponent implements OnInit {
     .subscribe((resp) => {
         this.resp = resp;
         this.getFunctionalUnits(this.resp.depotType['code'] );
+        console.log("")
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
           description: this.resp.description,
           fromDate: new Date(this.resp.fromDate),
           toDate: !!this.resp.toDate ? new Date(this.resp.toDate) : '',
-          depoType: !!this.resp.depotType ? this.resp.depotType['id'] : '',          
+          depoType:!! this.resp.depotType ? this.resp.depotType['id'] : '',          
           assetType: this.resp.assetType,
           frequency: this.resp.frequency,
           assetDescription: this.resp.assetDescription,
@@ -364,7 +365,7 @@ export class AddDriveComponent implements OnInit {
         "description": this.addDriveFormGroup.value.description,
         "fromDate": this.addDriveFormGroup.value.fromDate,
         "toDate": this.addDriveFormGroup.value.toDate,
-        "depotType": this.depotCode,
+        "depotType":  this.depotCode,
         "assetType": this.addDriveFormGroup.value.assetType,
         "frequency":this.addDriveFormGroup.value.frequency,
         "assetDescription": this.addDriveFormGroup.value.assetDescription,
@@ -373,10 +374,13 @@ export class AddDriveComponent implements OnInit {
         "isIdRequired": this.addDriveFormGroup.value.isIdRequired,
         "functionalUnit": this.addDriveFormGroup.value.functionalUnit,
         "checklist": this.addDriveFormGroup.value.checklist,
-        "active": this.addDriveFormGroup.value.status,       
+        "active": this.addDriveFormGroup.value.status,    
+        "createdBy":this.resp.createdBy, 
+        "createdOn": this.resp.createdOn, 
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }
+      console.log("update=="+this.depotCode);
       this.sendAndRequestService.requestForPUT(Constants.app_urls.DRIVE.DRIVE.UPDATE_DRIVE, updateDriveModel, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;

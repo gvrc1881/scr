@@ -114,6 +114,13 @@ public class DriveCategory implements Serializable {
 	public void setStatusId(Integer statusId) {
 		this.statusId = statusId;
 	}
+	@Override
+	public String toString() {
+		return "DriveCategory [id=" + id + ", driveCategoryName=" + driveCategoryName + ", description=" + description
+				+ ", authority=" + authority + ", fromDate=" + fromDate + ", toDate=" + toDate + ", createdBy="
+				+ createdBy + ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn
+				+ ", statusId=" + statusId + "]";
+	}
 
 	
 }

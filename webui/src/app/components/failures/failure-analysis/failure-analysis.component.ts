@@ -23,6 +23,7 @@ export class FailureAnalysisComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   userdata: any = JSON.parse(localStorage.getItem('userData'));
+  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   displayedColumns = ['sno', 'reported', 'div','date',
@@ -32,6 +33,7 @@ export class FailureAnalysisComponent implements OnInit {
   dataSource: MatTableDataSource<FailureAnalysisModel>;
   filterData;
   gridData = [];
+  divisionList:any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -92,9 +94,23 @@ export class FailureAnalysisComponent implements OnInit {
     this.filterData.dataSource = this.filterData.dataSource;
     this.filterData.dataSource.paginator = this.paginator;
   }
+
+  findDivisions(){
+   
+    this.divisionList=[];    
+
+    for (let i = 0; i < this.divisionHierarchy.length; i++) {
+        
+           if( this.divisionHierarchy[i].depotType == 'DIV'){           
+               
+               this.divisionHierarchy.divisionList;
+              
+           }
+        }
+}
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES+'/'+this.divisionList).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;

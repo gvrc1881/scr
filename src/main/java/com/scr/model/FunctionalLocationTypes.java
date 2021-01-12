@@ -104,6 +104,13 @@ public class FunctionalLocationTypes implements Serializable {
 		this.updatedOn = updatedOn;
 	}
 
+	@Override
+	public String toString() {
+		return "FunctionalLocationTypes [id=" + id + ", code=" + code + ", description=" + description + ", remark="
+				+ remark + ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", updatedBy=" + updatedBy
+				+ ", updatedOn=" + updatedOn + "]";
+	}
+
 	
 	
 	

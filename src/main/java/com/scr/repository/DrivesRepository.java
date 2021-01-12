@@ -46,7 +46,7 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 
 
 
-	Optional<Drives> findByIdAndToDateGreaterThanEqualOrToDateIsNull(Long id, Date date);
+	
 
 	List<Drives> findByDepotTypeAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(
 			FunctionalLocationTypes functionalLocationTypes, Date fromDate, Date toDate);
@@ -61,6 +61,21 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	@Query(value = " select d from Drives d where d.depotType = :functionalLocationTypes and d.id in (:drives) and fromDate <= :fromDate and toDate >= :toDate or toDate is null " )
 	List<Drives> findByDepotTypeAndIdInAndFromDateLessThanEqualAndToDateGreaterThanEqualOrToDateIsNull(@Param("functionalLocationTypes")
 			FunctionalLocationTypes functionalLocationTypes, @Param("drives")List<Long> drives,@Param("fromDate") Date fromDate,@Param("toDate") Date toDate);
+
+
+
+	
+
+	//List<Drives> findByToDateGreaterThanEqualOrToDateIsNullAndId(Date date, Long id);
+
+	List<Drives> findByToDateGreaterThanEqualOrToDateIsNullAndIdAndStatusId(Date date, Long id, int activeStatusId);
+
+	@Query("FROM Drives ORDER BY createdOn DESC")
+	List<Drives> findByStatusIdAndOrderByCreatedOnDesc(int activeStatusId);
+
+	
+
+	//Optional<Drives> findByToDateGreaterThanEqualOrToDateIsNullAndId(Date date, Long id);
 
 
 
