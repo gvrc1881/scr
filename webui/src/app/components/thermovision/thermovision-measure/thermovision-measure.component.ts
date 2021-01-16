@@ -36,7 +36,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     depotsData: any = JSON.parse(localStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
-    displayedColumns =['sno','description','fixed','c-clamp','ambientTemp','criticality','remark']//,'fixed',
+    displayedColumns =['sno','description','fixed','c-clamp','ambientTemp','criticality','remark','fixedDiff','CClampDiff']//,'fixed',
     dataSource: MatTableDataSource<any>;
     thermovisionMeasuresList: any[] = [];
     enableSave: boolean;
@@ -85,6 +85,28 @@ export class ThermovisionMeasureComponent implements OnInit{
         
     }
     
+    compareTwoPoints(row){
+        console.log('rowvalue***'+JSON.stringify(row));
+        //console.log('rowvalue***'+row.tcpCommparisonPoints);
+        if(row.tcpCommparisonPoints){
+            let index = row.tcpCommparisonPoints + 1;
+           // console.log('indext is '+JSON.stringify(this.thermovisionMeasureData[index]));
+            let indexObject = this.thermovisionMeasureData[index];
+            //console.log('***value'+indexObject.tcpmFixedMeasure);
+            if(row.tcpmFixedMeasure && indexObject.tcpmFixedMeasure){
+                let commpare = row.tcpmFixedMeasure - indexObject.tcpmFixedMeasure;
+       //         console.log('*** in if condtiton ***'+commpare);
+                row.fixedDiff = Math.abs(commpare);
+               // console.log('** value is ****'+Math.abs(commpare));
+            }else if(row.tcpmCClampMeasure && indexObject.tcpmCClampMeasure){
+                let commpare = row.tcpmCClampMeasure - indexObject.tcpmCClampMeasure;
+         //       console.log('*** in else if condtiton ***'+commpare);
+                row.CClampDiff = Math.abs(commpare);
+            }
+        }
+        console.log('** end fun ***'+JSON.stringify(row));
+    }
+    
     getUserContext(){
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUserData.username).subscribe((data) => {
                                    this.userDefaultData = data;
@@ -125,6 +147,8 @@ export class ThermovisionMeasureComponent implements OnInit{
                     this.enableSave = true;
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
+                        this.thermovisionMeasureData[i].fixedDiff = '';
+                        this.thermovisionMeasureData[i].CClampDiff = '';
                         // console.log('infor***'+JSON.stringify(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint));
                         if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED_CClamp"){
                            // console.log('** in if condition');

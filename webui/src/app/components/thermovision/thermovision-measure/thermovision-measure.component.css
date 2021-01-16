@@ -19,3 +19,9 @@
 .mat-column-remark {
     max-width: 170px;
 }
+.mat-column-fixedDiff {
+    max-width: 150px;
+}
+.mat-column-CClampDiff {
+    max-width: 150px;
+}

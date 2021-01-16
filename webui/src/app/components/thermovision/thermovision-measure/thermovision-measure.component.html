@@ -111,7 +111,7 @@
 	                                    	<mat-cell *ngIf = "row.enableFixed   ; else fixedElseBlock">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.tcpmFixedMeasure"  decimalNumber
-												    	[(ngModel)]="row.tcpmFixedMeasure" >
+												    	[(ngModel)]="row.tcpmFixedMeasure" (ngModelChange)="compareTwoPoints(row)">
 												</mat-form-field>
 	                                        </mat-cell>
 	                                        <ng-template #fixedElseBlock>
@@ -169,7 +169,27 @@
 												    	[(ngModel)]="row.tcpmRemark">
 												</mat-form-field>
 	                                        </mat-cell>
-	                                </ng-container>-->
+	                                </ng-container>
+	                                <ng-container matColumnDef="fixedDiff">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>Fixed Diff</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.fixedDiff}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
+													<input matInput  [value]="row.tcpmRemark" 
+												    	[(ngModel)]="row.tcpmRemark">
+												</mat-form-field> -->
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="CClampDiff">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>CClamp Diff</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.CClampDiff}}
+	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
+													<input matInput  [value]="row.tcpmRemark" 
+												    	[(ngModel)]="row.tcpmRemark">
+												</mat-form-field> -->
+	                                        </mat-cell>
+	                                </ng-container>
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
 	                                    </mat-row>
