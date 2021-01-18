@@ -130,7 +130,7 @@ public class ContentManagementMapper {
 		double megabytes = Math.round((kilobytes / 1024) * 100.0) / 100.0;
 		logger.info("mega bytes = "+megabytes);
 		contentManagement.setFileSize(kilobytes+" KB");
-		contentManagement.setChangeFileName(rootLocation+"\\"+changedFileName);
+		contentManagement.setChangeFileName(rootLocation+"/"+changedFileName);
 		contentManagement.setCreatedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setModifiedDate(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		contentManagement.setCreatedBy(Integer.parseInt(createdBy));
