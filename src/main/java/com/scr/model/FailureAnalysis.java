@@ -21,7 +21,7 @@ public class FailureAnalysis implements Serializable {
 	private long id;
 
 	@Column(name = "failure_id")
-	private String failure_id;
+	private String failureId;
 	@Column(name = "reported")
 	private String reported;
 	@Column(name = "reportDescription")
@@ -78,6 +78,16 @@ public class FailureAnalysis implements Serializable {
 
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "avoidable")
+	private String avoidable;
+	
+	@Column(name = "remark_details")
+	private String remarkDetails;
+	
+	@Column(name = "remark_brief")
+	private String remarkBrief;
+	
 
 	public long getId() {
 		return id;
@@ -87,13 +97,7 @@ public class FailureAnalysis implements Serializable {
 		this.id = id;
 	}
 
-	public String getFailure_id() {
-		return failure_id;
-	}
-
-	public void setFailure_id(String failure_id) {
-		this.failure_id = failure_id;
-	}
+	
 
 	public String getReported() {
 		return reported;
@@ -293,6 +297,52 @@ public class FailureAnalysis implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getFailureId() {
+		return failureId;
+	}
+
+	public void setFailureId(String failureId) {
+		this.failureId = failureId;
+	}
+
+	public String getAvoidable() {
+		return avoidable;
+	}
+
+	public void setAvoidable(String avoidable) {
+		this.avoidable = avoidable;
+	}
+
+	public String getRemarkDetails() {
+		return remarkDetails;
+	}
+
+	public void setRemarkDetails(String remarkDetails) {
+		this.remarkDetails = remarkDetails;
+	}
+
+	public String getRemarkBrief() {
+		return remarkBrief;
+	}
+
+	public void setRemarkBrief(String remarkBrief) {
+		this.remarkBrief = remarkBrief;
+	}
+
+	@Override
+	public String toString() {
+		return "FailureAnalysis [id=" + id + ", failureId=" + failureId + ", reported=" + reported
+				+ ", reportDescription=" + reportDescription + ", repurcussion=" + repurcussion + ", date=" + date
+				+ ", div=" + div + ", section=" + section + ", assetType=" + assetType + ", assetId=" + assetId
+				+ ", subAssetType=" + subAssetType + ", subAssetId=" + subAssetId + ", make=" + make + ", model="
+				+ model + ", rootCause=" + rootCause + ", actionPlan=" + actionPlan + ", actionStatus=" + actionStatus
+				+ ", approvedBy=" + approvedBy + ", actionTargetDate=" + actionTargetDate + ", actionCompletedDate="
+				+ actionCompletedDate + ", actionDescription=" + actionDescription + ", createdBy=" + createdBy
+				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", statusId="
+				+ statusId + ", description=" + description + ", avoidable=" + avoidable + ", remarkDetails="
+				+ remarkDetails + ", remarkBrief=" + remarkBrief + "]";
 	}
 
 }

@@ -86,9 +86,8 @@ public class FailureController {
 		logger.info("Enter into saveFailureByType function with below request parameters r value***"+failureRequest.getrValue()+"** x valu **"+failureRequest.getxValue());
 		logger.info("Request Parameters = "+failureRequest.toString());
 		try {			
-			logger.info("Calling service with request parameters.");
-			Failure failure = failureService.saveFailureByType(failureRequest);
-			failureRequest.setFailureSeqId(failure.getId().toString());
+			logger.info("Calling service with request parameters.");		
+			
 			failureService.saveFailureByType(failureRequest);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("Failure Type "+failureRequest.getTypeOfFailure()+" Added Successfully", Constants.SUCCESS_CODE);

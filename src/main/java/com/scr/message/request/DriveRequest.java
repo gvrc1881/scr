@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Column;
+
 public class DriveRequest {
 
 	private Long id;
@@ -126,6 +128,11 @@ public class DriveRequest {
 	private Timestamp actionCompletedDate;
 	private String actionDescription;
 	
+	private String avoidable;	
+	
+	private String remarkDetails;	
+	
+	private String remarkBrief;
 	// DRIVE CATEGORY
 	private String authority;
 	
@@ -790,6 +797,30 @@ public class DriveRequest {
 	
 	
 	
+
+	public String getAvoidable() {
+		return avoidable;
+	}
+
+	public void setAvoidable(String avoidable) {
+		this.avoidable = avoidable;
+	}
+
+	public String getRemarkDetails() {
+		return remarkDetails;
+	}
+
+	public void setRemarkDetails(String remarkDetails) {
+		this.remarkDetails = remarkDetails;
+	}
+
+	public String getRemarkBrief() {
+		return remarkBrief;
+	}
+
+	public void setRemarkBrief(String remarkBrief) {
+		this.remarkBrief = remarkBrief;
+	}
 
 	public String getDiv() {
 		return div;

@@ -420,6 +420,9 @@ logger.info("depot=="+driveRequest.getDepotType());
 			failureAnalysis.setActionTargetDate(request.getActionTargetDate());
 			failureAnalysis.setActionCompletedDate(request.getActionCompletedDate());
 			failureAnalysis.setActionDescription(request.getActionDescription());
+			failureAnalysis.setAvoidable(request.getAvoidable());
+			failureAnalysis.setRemarkBrief(request.getRemarkBrief());
+			failureAnalysis.setRemarkDetails(request.getRemarkDetails());
 			
 			failureAnalysis.setCreatedBy(request.getCreatedBy());
 			failureAnalysis.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -451,6 +454,9 @@ logger.info("depot=="+driveRequest.getDepotType());
 			failureAnalysis.setActionTargetDate(request.getActionTargetDate());
 			failureAnalysis.setActionCompletedDate(request.getActionCompletedDate());
 			failureAnalysis.setActionDescription(request.getActionDescription());
+			failureAnalysis.setAvoidable(request.getAvoidable());
+			failureAnalysis.setRemarkBrief(request.getRemarkBrief());
+			failureAnalysis.setRemarkDetails(request.getRemarkDetails());
 			
 			failureAnalysis.setUpdatedBy(request.getUpdatedBy());
 			failureAnalysis.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));

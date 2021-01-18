@@ -87,7 +87,8 @@ export class AddCbFailureComponent implements OnInit {
       trippedIdentifiedFault: {},
       divisionLocal: {},
       internalExternal: {}, 
-      remarks:{}
+      remarks:{},
+     
     };
   }
 
@@ -173,7 +174,8 @@ export class AddCbFailureComponent implements OnInit {
         'trippedIdentifiedFault': [null],
         'cbInternalFailure': [null],
         'cbExternalFailure': [null], 
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+        
       });
   } 
   updateForm() {
@@ -201,7 +203,8 @@ export class AddCbFailureComponent implements OnInit {
         'trippedIdentifiedFault': [null],
         'cbInternalFailure': [null],
         'cbExternalFailure': [null], 
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+       
       });
   }
 
@@ -249,7 +252,8 @@ export class AddCbFailureComponent implements OnInit {
          // internalExternal:this.resp.internalExternal == 'true' ? true: false,
          cbInternalFailure:this.resp.cbInternalFailure,
          cbExternalFailure:this.resp.cbExternalFailure,
-          remarks: this.resp.remarks
+          remarks: this.resp.remarks,
+         
         });
         this.feedersList.map(element => {
           if(element.id != this.resp.id){
@@ -303,7 +307,7 @@ export class AddCbFailureComponent implements OnInit {
    
     this.facilityList=[]; 
      if(this.loggedUserData.username == 'tpc_admin'){
-console.log("facility in tpc===="+this.facilityHierarchy);
+console.log("facility in tpc===="+JSON.stringify(this.facilityHierarchy));
     //  this.enableStation=true;
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
@@ -317,12 +321,13 @@ console.log("facility in tpc===="+this.facilityHierarchy);
 
     } else {
       //this.enableStation=true;
-      console.log("facility in else===="+this.facilityHierarchy);
+      console.log("facility in else===="+JSON.stringify(this.facilityHierarchy));
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
         if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
+           console.log("facility list in tss=="+JSON.stringify(this.facilityList));
            // this.facilityHierarchy.facilityList;
             
         }
@@ -421,6 +426,7 @@ function(){
         'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
         'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
+       
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdDate":this.addCbFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
@@ -470,6 +476,7 @@ function(){
         'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
         'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
+       
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addCbFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,

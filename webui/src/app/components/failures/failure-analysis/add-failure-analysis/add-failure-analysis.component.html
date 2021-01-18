@@ -304,6 +304,37 @@
                                                 </mat-error>
                                             </mat-form-field>
                                         </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field fxFlex="30">
+                                                <input matInput placeholder="{{FiledLabels.AVOIDABLE}}"
+                                                    [formControl]="addFailureAnalysisFormGroup.controls['avoidable']">
+                                                    <mat-error
+                                                    *ngIf="addFailureAnalysisFormGroup.controls['avoidable'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['avoidable'].touched"
+                                                    class="alert alert-danger">Max 255 characters only
+                                                </mat-error>
+                                               
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field fxFlex="30">
+                                                <input matInput placeholder="{{FiledLabels.REAMRK_BRIEF}}"
+                                                    [formControl]="addFailureAnalysisFormGroup.controls['remarkBrief']">
+                                                    <mat-error
+                                                    *ngIf="addFailureAnalysisFormGroup.controls['remarkBrief'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['remarkBrief'].touched"
+                                                    class="alert alert-danger">Max 255 characters only
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <mat-form-field fxFlex="30">
+                                                <input matInput placeholder="{{FiledLabels.REMARK_DETAILS}}"
+                                                    [formControl]="addFailureAnalysisFormGroup.controls['remarkDetails']">
+                                                    <mat-error
+                                                    *ngIf="addFailureAnalysisFormGroup.controls['remarkDetails'].hasError('maxlength') && addFailureAnalysisFormGroup.controls['remarkDetails'].touched"
+                                                    class="alert alert-danger">Max 255 characters only
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
 
                                         <div class="clearfix"></div>
                                         <div class="col-md-3 mt-15">

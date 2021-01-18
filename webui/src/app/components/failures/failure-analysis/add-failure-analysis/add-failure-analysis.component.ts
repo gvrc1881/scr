@@ -72,7 +72,10 @@ export class AddFailureAnalysisComponent implements OnInit {
       approvedBy: {},
       actionTargetDate: {},
       actionCompletedDate: {},
-      actionDescription: {}
+      actionDescription: {},
+      avoidable:{},
+      remarkBrief:{},
+      remarkDetails:{}
     };
   }
 
@@ -150,7 +153,10 @@ findAssetTypes(){
         'approvedBy': [null,Validators.maxLength(255)],
         'actionTargetDate': [null],
         'actionCompletedDate': [null],
-        'actionDescription': [null, Validators.compose([Validators.required, Validators.maxLength(255)])]
+        'actionDescription': [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+        'avoidable':[null, Validators.maxLength(250)],
+      'remarkBrief':[null, Validators.maxLength(250)],
+      'remarkDetails':[null, Validators.maxLength(250)]
       });
       this.addFailureAnalysisFormGroup.patchValue({
 
@@ -221,6 +227,9 @@ findAssetTypes(){
           actionTargetDate: !!this.resp.actionTargetDate ? new Date(this.resp.actionTargetDate) : '',
           actionCompletedDate: !!this.resp.actionCompletedDate ? new Date(this.resp.actionCompletedDate) : '',
           actionDescription: this.resp.actionDescription,
+          avoidable:this.resp.avoidable,
+          remarkBrief:this.resp.remarkBrief,
+          remarkDetails:this.resp.remarkDetails
         });
         this.spinnerService.hide();
       })
@@ -266,6 +275,9 @@ findAssetTypes(){
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
+        'avoidable':this.addFailureAnalysisFormGroup.value.avoidable,
+        'remarkBrief':this.addFailureAnalysisFormGroup.value.remarkBrief,
+        'remarkDetails':this.addFailureAnalysisFormGroup.value.remarkDetails,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -307,6 +319,9 @@ findAssetTypes(){
         "actionTargetDate": this.addFailureAnalysisFormGroup.value.actionTargetDate,
         "actionCompletedDate": this.addFailureAnalysisFormGroup.value.actionCompletedDate,
         "actionDescription": this.addFailureAnalysisFormGroup.value.actionDescription,
+        'avoidable':this.addFailureAnalysisFormGroup.value.avoidable,
+        'remarkBrief':this.addFailureAnalysisFormGroup.value.remarkBrief,
+        'remarkDetails':this.addFailureAnalysisFormGroup.value.remarkDetails,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()
       }   

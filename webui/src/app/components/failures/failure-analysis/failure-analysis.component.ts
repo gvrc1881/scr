@@ -60,6 +60,7 @@ export class FailureAnalysisComponent implements OnInit {
 
     this.spinnerService.show();
     this.getFailureAnalysisData();
+    this.findDivisions();
     this.filterData = {
       filterColumnNames: [
         { "Key": 'sno', "Value": " " },
@@ -98,6 +99,7 @@ export class FailureAnalysisComponent implements OnInit {
   findDivisions(){
    
     this.divisionList=[];    
+    console.log("divison list=="+JSON.stringify(this.divisionHierarchy));
 
     for (let i = 0; i < this.divisionHierarchy.length; i++) {
         
@@ -110,7 +112,8 @@ export class FailureAnalysisComponent implements OnInit {
 }
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES+'/'+this.divisionList).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES
+    ).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {
         this.driveTargetList[i].sno = i + 1;
@@ -180,7 +183,11 @@ export class FailureAnalysisComponent implements OnInit {
         { label:FieldLabelsConstant.LABELS.APPROVED_BY, value:data.approvedBy},
         { label:FieldLabelsConstant.LABELS.ACTION_TARGET_DATE, value:data.actionTargetDate},
         { label:FieldLabelsConstant.LABELS.ACTION_COMPLETED_DATE, value:data.actionCompletedDate},
-        { label:FieldLabelsConstant.LABELS.ACTION_DESCRIPTION, value:data.actionDescription}
+        { label:FieldLabelsConstant.LABELS.ACTION_DESCRIPTION, value:data.actionDescription},
+        { label:FieldLabelsConstant.LABELS.AVOIDABLE, value:data.avoidable},
+        { label:FieldLabelsConstant.LABELS.REAMRK_BRIEF, value:data.remarkBrief},
+        { label:FieldLabelsConstant.LABELS.REMARK_DETAILS, value:data.remarkDetails},
+
     ]
     }
     this.dataViewDialogRef = this.dialog.open(DataViewDialogComponent, {

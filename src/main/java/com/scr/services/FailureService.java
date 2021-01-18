@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scr.model.Failure;
+import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Works;
 import com.scr.mapper.ContentManagementMapper;
@@ -25,6 +26,7 @@ import com.scr.model.Facility;
 import com.scr.repository.FailuresRepository;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.ContentManagementRepository;
+import com.scr.repository.DriveFailureAnalysisRepository;
 import com.scr.util.Constants;
 
 
@@ -47,16 +49,35 @@ public class FailureService {
 	@Autowired
 	private ContentManagementRepository contentManagementRepository;
 	
+	@Autowired
+	private DriveFailureAnalysisRepository driveFailureAnalysisRepository;
+	
 	@Value("${uuo.path}")
 	private String uuoPath; 
 	
 	public List<Failure> findFailureByType(String typeOfFailure) {
 		return failuresRepository.findByTypeOfFailureAndCurrentStatus(typeOfFailure, Constants.ACTIVE);
 	}
-
 	public Failure saveFailureByType(@Valid Failure failureRequest) {
 		failureRequest.setCurrentStatus(Constants.ACTIVE);
-		return failuresRepository.save(failureRequest);
+		logger.info("failure reqst=="+failureRequest.getTypeOfFailure());
+		Failure failure = failuresRepository.save(failureRequest);
+		failureRequest.setFailureSeqId(failure.getId().toString());
+		if (failureRequest.getTypeOfFailure().equals("FAILURE_OCCURENCE")) {
+			logger.info("in if condition");
+			 
+			FailureAnalysis	failureAnalysis = new FailureAnalysis();
+			logger.info("before set");	
+			
+			logger.info("before save"+failureRequest.getId().toString());
+			failureAnalysis.setFailureId(failure.getId().toString());
+			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);
+			logger.info("save=="+failureAnalysis);
+			driveFailureAnalysisRepository.save(failureAnalysis);
+			
+		}
+		
+		return  failure ;
 	}
 
 	public String deleteFailureTypeById(Long id) {

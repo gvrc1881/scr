@@ -93,7 +93,7 @@ export class FailureOccurrenceComponent implements OnInit {
   }
   getFailureOccurrenceFailureData() {
     const FailureOccurrenceFail: any[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE_BASED_ON_DIVISION + Constants.FAILURE_TYPES.FAILURE_OCCURRENCE+'/'+this.userdata.username).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE + Constants.FAILURE_TYPES.FAILURE_OCCURRENCE).subscribe((data) => {
       this.FailureOccurrenceFailList = data;
       console.log(this.FailureOccurrenceFailList)
       for (let i = 0; i < this.FailureOccurrenceFailList.length; i++) {
