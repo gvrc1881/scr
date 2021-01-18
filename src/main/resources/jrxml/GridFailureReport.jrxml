@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="675" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="635" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="875" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="835" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa3d40b6-1d9b-43d9-b193-f3ae3ed93140">
 	<property name="ireport.zoom" value="1.0000000000000027"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="49"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="date" class="java.lang.String">
+	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-select f.created_date,f.remarks,
+		<![CDATA[select $P{fromDate} fromDate, f.created_date,f.remarks,
+facility_name,
 f.max_demand,
 f.thru_date_time,
 to_char(f.thru_date_time,'hh24:mi') as thruTime,
@@ -16,12 +16,16 @@ f.from_date_time,
 to_char(f.from_date_time,'hh24:mi') as fromTime,
 f.extended_of,
 f.feed_of from failures f
-where  to_char(created_date, 'yyyy-mm-dd')::date >=$P{date}::date
+
+LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
+where to_char(created_date, 'yyyy-mm-dd')::date >$P{fromDate} ::date
 and f.type_of_failure ='GRID_FAILURE'
 and f.current_status = 'ACTIVE']]>
 	</queryString>
+	<field name="fromdate" class="java.lang.String"/>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="remarks" class="java.lang.String"/>
+	<field name="facility_name" class="java.lang.String"/>
 	<field name="max_demand" class="java.lang.String"/>
 	<field name="thru_date_time" class="java.sql.Timestamp"/>
 	<field name="thrutime" class="java.lang.String"/>
@@ -33,34 +37,50 @@ and f.current_status = 'ACTIVE']]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="72" splitType="Stretch">
+		<band height="57" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="710" height="31" backcolor="#D64A4A"/>
+				<reportElement x="0" y="0" width="835" height="31" backcolor="#D64A4A" uuid="8fc7e578-76c8-4049-9552-6c4a8cb2924d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Alternative Feeding]]></text>
+				<text><![CDATA[Power Failures]]></text>
 			</staticText>
-			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
-				<reportElement x="542" y="31" width="93" height="26"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+			<staticText>
+				<reportElement x="0" y="31" width="100" height="26" uuid="e2ae91a2-6163-4e4f-b6ff-5f0e54e0f403"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{created_date}]]></textFieldExpression>
+				<text><![CDATA[From Date : ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="31" width="100" height="26" uuid="d2f8416c-7905-4b47-b58a-ed1102ebc547"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="501" y="31" width="41" height="26"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[Date:]]></text>
+				<reportElement x="0" y="31" width="835" height="26" uuid="ef496a93-7e0a-49f6-9ba5-9285813c15d2"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="100" y="0" width="100" height="20"/>
+				<reportElement x="100" y="0" width="100" height="20" uuid="1fa6c7da-a94c-4a36-8805-8054523a88af"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -74,7 +94,7 @@ and f.current_status = 'ACTIVE']]>
 				<text><![CDATA[Extended to ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="0" width="100" height="20"/>
+				<reportElement x="200" y="0" width="100" height="20" uuid="1d210349-43cb-43de-8014-434f3c2cc122"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -88,7 +108,7 @@ and f.current_status = 'ACTIVE']]>
 				<text><![CDATA[From ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="403" y="0" width="100" height="20"/>
+				<reportElement x="403" y="0" width="100" height="20" uuid="f6c9c17d-4d1e-4676-8fbe-61d7c89048f5"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -102,7 +122,7 @@ and f.current_status = 'ACTIVE']]>
 				<text><![CDATA[MD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="503" y="0" width="132" height="20"/>
+				<reportElement x="503" y="0" width="232" height="20" uuid="0ab9fb3c-89eb-4d6b-9893-e189e7e4d295"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -116,7 +136,7 @@ and f.current_status = 'ACTIVE']]>
 				<text><![CDATA[Remarks]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20"/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="39b90617-2daa-4d5e-9765-124ccac379ea"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -130,7 +150,7 @@ and f.current_status = 'ACTIVE']]>
 				<text><![CDATA[Feed of]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="0" width="103" height="20"/>
+				<reportElement x="300" y="0" width="103" height="20" uuid="578dffee-70c3-4a87-bc0f-79f435e747f0"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -143,6 +163,20 @@ and f.current_status = 'ACTIVE']]>
 				</textElement>
 				<text><![CDATA[To]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="735" y="0" width="100" height="20" uuid="c52eb265-2f3d-4b4c-9e96-5714c1d355f3"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Depot ]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -151,7 +185,7 @@ and f.current_status = 'ACTIVE']]>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="503" y="0" width="132" height="20"/>
+				<reportElement stretchType="RelativeToTallestObject" x="503" y="0" width="232" height="20" uuid="a789e6c5-2842-4c09-9693-19ed7a4103aa"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -160,10 +194,10 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{remarks}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="403" y="0" width="100" height="20"/>
+				<reportElement x="403" y="0" width="100" height="20" uuid="d247e75c-f10a-4c30-a984-67a7a50a4674"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -172,10 +206,10 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{max_demand}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{max_demand}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="100" height="20"/>
+				<reportElement x="100" y="0" width="100" height="20" uuid="901415cf-5cea-4ca5-84c7-f9cd6782d515"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -184,10 +218,10 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{extended_of}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{extended_of}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="20"/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="eee58f84-f830-424f-b562-6821d30e1e0b"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -196,10 +230,10 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{feed_of}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{feed_of}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="0" width="100" height="20"/>
+				<reportElement x="200" y="0" width="100" height="20" uuid="422f8c5b-85cf-4735-9bda-70389b217af5"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -208,10 +242,10 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fromtime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fromtime}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="300" y="0" width="103" height="20"/>
+				<reportElement x="300" y="0" width="103" height="20" uuid="54538a63-223f-4da2-9d56-bc8627ed8b7b"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -220,38 +254,50 @@ and f.current_status = 'ACTIVE']]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{thrutime}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{thrutime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="735" y="0" width="100" height="20" uuid="19186bc6-0963-4a9f-baf6-583b69df1951"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="403" y="0" width="100" height="20"/>
+				<reportElement x="503" y="0" width="232" height="20" uuid="25aa960c-0f55-4195-a7a6-88010e867d52"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[Generated On]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="278" y="0" width="63" height="20"/>
+				<reportElement x="300" y="0" width="103" height="20" uuid="0c4ed2fc-e9f6-49b3-98be-cd498a2a57f0"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="341" y="0" width="40" height="20"/>
+				<reportElement x="403" y="0" width="100" height="20" uuid="9899fd95-c07c-49c4-8f0a-dd72a1a9c716"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="503" y="0" width="132" height="20"/>
+				<reportElement x="735" y="0" width="100" height="20" uuid="cfdf2542-4ffb-4d5c-8ba3-d5e51525cf84"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
 	<noData>
 		<band height="26">
 			<staticText>
-				<reportElement x="0" y="0" width="200" height="26" forecolor="#F02C2C" backcolor="#C12525"/>
+				<reportElement x="0" y="0" width="835" height="26" forecolor="#F02C2C" backcolor="#C12525" uuid="cb6e2c32-bf0f-4100-9e84-3ecbd941e99d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
