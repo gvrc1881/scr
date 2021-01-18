@@ -507,6 +507,10 @@ export const Constants = {
                 GET_MEASURES:"/measure/",
                 GET_ACTIVITES:"/activity/",
                 SAVE_ENTY:"/saveEntry"
+            },
+            ASH_DAILY_PROGRESS:{
+                GET_ASH_DAILY_PROGRESS:"/getAshDailyProgress/",
+                SAVE_ASH_DAILY_PROGRESS:"/saveAshDailyProgress"    
             }
         },
         INSPECTIONS:{

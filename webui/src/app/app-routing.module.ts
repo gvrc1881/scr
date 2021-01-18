@@ -570,6 +570,11 @@ const routes: Routes = [
     loadChildren: './components/thermovision-check-points/check-points.module#CheckPointsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'ash-daily-progress',
+    loadChildren: './components/ash-daily-progress/ash-daily-progress.module#AshDailyProgressModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

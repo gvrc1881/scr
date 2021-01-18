@@ -1117,7 +1117,8 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           }, 
           {
             subMenuName: "Asset Schedule Progress",
-            subMenuURL:  "asset-schedule-progress",
+            //subMenuURL:  "asset-schedule-progress",
+            subMenuURL:  "ash-daily-progress",
             subMenuIcon: "fa fa-file",
             permission: this.commonService.findPermission('Asset Schedule Progress', 'submenu', 'view'),
             rolePermission: this.rolePermission,
