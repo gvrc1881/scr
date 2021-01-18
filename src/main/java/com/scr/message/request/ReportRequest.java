@@ -3,16 +3,14 @@
  */  
 package com.scr.message.request;
 
-import java.time.LocalDate;
+import java.util.Date;
 import com.scr.model.AssetsScheduleHistory;
-import com.scr.model.Division;
 import com.scr.model.ElementarySections;
 import com.scr.model.Facility;
 import com.scr.model.ObservationCategory;
 import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.Works;
-import com.scr.model.Zone;
 
 //import java.util.ArrayList;
 
@@ -32,11 +30,11 @@ public class ReportRequest {
 	private String subDivision;
 	private ObservationCategory department;
 	private Facility facility;
-	private LocalDate toDate;
+	private Date toDate;
 	private String productId;
-	private LocalDate fromDate;
-	private LocalDate failureFromDate;
-	private LocalDate failureToDate;
+	private Date fromDate;
+	private Date failureFromDate;
+	private Date failureToDate;
 	private ObservationsCheckList observationCategory;
 	private AssetsScheduleHistory assetType;
 	private AssetsScheduleHistory scheduleCode;
@@ -49,7 +47,7 @@ public class ReportRequest {
 	private ElementarySections elementarySectionCode;
 	private String fromkm;
 	private String tokm;
-	private LocalDate Date;
+	private Date Date;
 	private String materialItem;
 	private String tpcBoard;
 	private String formatType;
@@ -69,27 +67,27 @@ public class ReportRequest {
 		this.observationCategory = observationCategory;
 	}
 
-	public LocalDate getFailureFromDate() {
+	public Date getFailureFromDate() {
 		return failureFromDate;
 	}
 
-	public void setFailureFromDate(LocalDate failureFromDate) {
+	public void setFailureFromDate(Date failureFromDate) {
 		this.failureFromDate = failureFromDate;
 	}
 
-	public LocalDate getFailureToDate() {
+	public Date getFailureToDate() {
 		return failureToDate;
 	}
 
-	public void setFailureToDate(LocalDate failureToDate) {
+	public void setFailureToDate(Date failureToDate) {
 		this.failureToDate = failureToDate;
 	}
 
-	public LocalDate getFromDate() {
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(LocalDate fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 
@@ -103,11 +101,11 @@ public class ReportRequest {
 
 	
 
-	public LocalDate getToDate() {
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(LocalDate toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 
@@ -333,11 +331,11 @@ public class ReportRequest {
 		this.subDivision = subDivision;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return Date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		Date = date;
 	}
 
