@@ -392,7 +392,16 @@ public ResponseEntity<List<Failure>> findFailureByType(
 		}
 		if(failureType.equals("GRID_FAILURE")) {
 			failureList = failureService.findFailureByTypeAndFeedOf(failureType,fac);
-		}else
+		}else if(failureType.equals("FAILURE_OCCURENCE")) {
+			logger.info("fac=="+fac);
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getDivision());
+				
+			}
+			failureList = failureService.findFailureByTypeAndDataDiv(failureType,fac);
+		}
+		else
 			
 		failureList = failureService.findFailureByTypeAndSubStation(failureType,fac);	
 		logger.info("Fetched data = "+failureList);

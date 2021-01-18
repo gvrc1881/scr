@@ -27,6 +27,7 @@ import com.scr.repository.FailuresRepository;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.ContentManagementRepository;
 import com.scr.repository.DriveFailureAnalysisRepository;
+import com.scr.repository.FacilityRepository;
 import com.scr.util.Constants;
 
 
@@ -51,6 +52,9 @@ public class FailureService {
 	
 	@Autowired
 	private DriveFailureAnalysisRepository driveFailureAnalysisRepository;
+	
+	@Autowired
+	private FacilityRepository facilityRepository;
 	
 	@Value("${uuo.path}")
 	private String uuoPath; 
@@ -162,7 +166,8 @@ public class FailureService {
 		return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
 	}
 
-	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {
+	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {	
+	
 		
 		return failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
 	}
@@ -216,8 +221,12 @@ public class FailureService {
 		
 		
 	}
+	public List<Failure> findFailureByTypeAndDataDiv(String failureType, List<String> fac) {
+		logger.info("fac in service=="+fac);		
+		return failuresRepository.findFailureByTypeOfFailureAndDataDivInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	}
 
-	
+
 
 	
 	

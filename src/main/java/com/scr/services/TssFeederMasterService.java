@@ -10,6 +10,7 @@ import com.scr.model.Make;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.TssFeederMaster;
 import com.scr.repository.TssFeederMasterRepository;
+import com.scr.util.Constants;
 
 @Service
 public class TssFeederMasterService {
@@ -48,6 +49,10 @@ public class TssFeederMasterService {
 
 	public Optional<TssFeederMaster> findByFeederId(String feederId) {
 		return tssFeederMasterRepository.findByFeederId(feederId);
+	}
+	public List<TssFeederMaster> getAllOrderByFeederNameAsc(List<String> fac) {
+		
+		return tssFeederMasterRepository.getAllByDataDivIn(fac);
 	}
 
 

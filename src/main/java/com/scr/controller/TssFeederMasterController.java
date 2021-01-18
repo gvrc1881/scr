@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.EnergyMeter;
+import com.scr.model.Facility;
 import com.scr.model.Make;
 import com.scr.model.TssFeederMaster;
 import com.scr.services.TssFeederMasterService;
@@ -33,6 +36,9 @@ public class TssFeederMasterController {
 	@Autowired
 	private TssFeederMasterService tssFeederMasterService;
 	
+	@Autowired
+	private CommonUtility  commonUtility;
+	
 	static Logger log = Logger.getLogger(TssFeederMasterController.class);
 	
 	@CrossOrigin(origins = "*")
@@ -41,6 +47,28 @@ public class TssFeederMasterController {
 		List<TssFeederMaster> tssFeederMasterList = null;
 		try {
 			tssFeederMasterList = tssFeederMasterService.findAllOrderByFeederNameAsc();
+		return tssFeederMasterList;
+		} catch (NullPointerException e) {
+			log.error(e);
+		}
+		catch (Exception e) {
+			log.error(e);
+		}
+		return tssFeederMasterList;	
+	}
+	
+	@RequestMapping(value = "/findAllFeedersBAsedOnDivision/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<TssFeederMaster> findAllFeedersBAsedOnDivision(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+		List<TssFeederMaster> tssFeederMasterList = null;
+		List<String> fac= new ArrayList<>();
+		try {
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getDivision());
+				
+			}
+			tssFeederMasterList = tssFeederMasterService.getAllOrderByFeederNameAsc(fac);
 		return tssFeederMasterList;
 		} catch (NullPointerException e) {
 			log.error(e);

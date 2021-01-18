@@ -65,13 +65,16 @@ export class AddFailureOccurrenceComponent implements OnInit {
       duration: {}, 
       divisionLocal: {},
       internalExternal: {}, 
-      remarks:{}
+      remarks:{},
+      dataDiv:{},
+      subStation:{}
     };
   }
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];    
-    
+    this.findDivisions();
+    //this.findFacilities();
     if (!isNaN(this.id)) {
       this.updateForm();
       this.addFailureOccurrenceFailFromGroup.valueChanges.subscribe(() => {
@@ -139,7 +142,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'duration': [null], 
         'divisionLocal': [null],
         'internalExternal': [null], 
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+        'dataDiv':[null],
+        'subStation':[null]
       });
   }
   updateForm() {
@@ -154,7 +159,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'duration': [null], 
         'divisionLocal': [null],
         'internalExternal': [null], 
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+        'dataDiv':[null],
+        'subStation':[null]
       });
   }
 
@@ -173,18 +180,32 @@ export class AddFailureOccurrenceComponent implements OnInit {
 
   findFacilities(){
    
-    this.facilityList=[];    
+    this.facilityList=[];   
+    let division = this.addFailureOccurrenceFailFromGroup.value.dataDiv; 
 
     for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-           if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+           if(this.facilityHierarchy[i].division == division && this.facilityHierarchy[i].depotType == 'OHE'){
            
-              
-               this.facilityHierarchy.facilityList;
+            this.facilityList.push(this.facilityHierarchy[i]);
+              // this.facilityHierarchy.facilityList;
                
            }
         }
 }
+findDivisions(){
+   
+  this.divisionList=[];    
+
+  for (let i = 0; i < this.divisionHierarchy.length; i++) {
+      
+         if( this.divisionHierarchy[i].depotType == 'DIV'){           
+             
+             this.divisionHierarchy.divisionList;
+            
+         }
+      }
+    }
   getFailureOccurrenceFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
@@ -201,7 +222,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
           duration:this.resp.duration, 
           divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
           internalExternal:this.resp.internalExternal == 'true' ? true: false,
-          remarks: this.resp.remarks
+          remarks: this.resp.remarks,
+          dataDiv:this.resp.dataDiv,
+        subStation:this.resp.subStation
         });
         this.feedersList.map(element => {
           if(element.id != this.resp.id){
@@ -243,6 +266,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
         "createdDate": this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
+        'dataDiv':this.addFailureOccurrenceFailFromGroup.value.dataDiv,
+        'subStation':this.addFailureOccurrenceFailFromGroup.value.subStation,
         "createdBy": this.loggedUserData.username,
         "createdOn": new Date()
       }    
@@ -275,6 +300,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
+        'dataDiv':this.addFailureOccurrenceFailFromGroup.value.dataDiv,
+        'subStation':this.addFailureOccurrenceFailFromGroup.value.subStation,
         "createdDate": this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,
         "updatedOn": new Date()

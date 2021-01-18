@@ -57,6 +57,11 @@ public interface FailuresRepository extends JpaRepository<Failure, Long> {
 
 	List<Failure> findByTypeOfFailureAndFeedOfInAndCurrentStatus(String failureType, List<String> fac, String active);
 
+	List<Failure> findFailureByTypeOfFailureAndDataDivInAndCurrentStatus(String failureType, List<String> facilty,
+			String active);
+
+	
+
 	
 
 	

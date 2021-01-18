@@ -392,6 +392,7 @@ export const Constants = {
             TSS_FEEDER:{
                 GET_FEEDERS:"/findAllTssFeederMaster",
                 GET_FEEDER_ID:"/findFeederById/",
+                GET_FEEDERS_BASEDON_DIVISION:"/findAllFeedersBAsedOnDivision/",
                 SAVE_FEEDER:"/addFeeder",
                 UPDATE_FEEDER:"/updateFeeder",
                 DELETE_FEEDER:"/deleteFeeder/",

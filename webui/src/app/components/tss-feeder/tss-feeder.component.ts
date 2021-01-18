@@ -155,7 +155,7 @@ export class TssFeederComponent implements OnInit{
     getAllFeedersData() {
 
             const feeder : TssFeederModel[] = [];
-            this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_FEEDERS).subscribe((data) => {
+            this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TSS_FEEDER.GET_FEEDERS_BASEDON_DIVISION+this.loggedUserData.username).subscribe((data) => {
                 this.feederList = data;
                 for (let i = 0; i < this.feederList.length; i++) {
                     this.feederList[i].sno = i+1;
