@@ -15,5 +15,6 @@ public interface TPCBoardRepository extends JpaRepository<TpcBoard, Long>{
 	Boolean existsByTpcBoardAndDataDiv(@Param("tpcBoard") String tpcBoard,@Param("dataDiv") String dataDiv);
 	
     Optional<TpcBoard>findByTpcBoardAndDataDiv(String tpcBoard,String dataDiv);
+    List<TpcBoard>findByDataDiv(String dataDiv);
 
 }

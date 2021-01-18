@@ -479,4 +479,10 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<TcpSchedule> getTcpSchedulesBasedOnFacId(Long facId) {
 		return tcpScheduleRepository.findByFacilityId(facId);
 	}
+	public Optional<UserDefualtFacConsIndEtc> findByUserLoginId(String userLoginId) {
+		return userDefualtFacConsIndEtcRepository.findByUserLoginId(userLoginId);
+	}
+	public List<TpcBoard> findByDataDiv(String dataDiv) {
+		return tpcBoardRepository.findByDataDiv(dataDiv);
+	}
 }

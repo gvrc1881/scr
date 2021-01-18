@@ -600,5 +600,30 @@ public class ReportController {
 		log.info("** preparing response and getTcpSchedulesBasedOnFacId function end ***");
 			return new ResponseEntity<List<TcpSchedule>>(tcpSchedules, HttpStatus.OK);		
 	}
-	
+	@RequestMapping(value = "/getDivisionBasedOnUserLoginId/{userLoginId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity <UserDefualtFacConsIndEtc> getDivisionBasedOnUserLoginId(@PathVariable("userLoginId") String userLoginId){
+		log.info("** Enter into getDivisionBasedOnUserLoginId function ***");
+		Optional<UserDefualtFacConsIndEtc> userDefualtFacConsIndEtc = null;
+		try {
+			log.info("** userLoginId = " + userLoginId);
+			userDefualtFacConsIndEtc = reportService.findByUserLoginId(userLoginId);
+			if (userDefualtFacConsIndEtc.isPresent()) {
+				return new ResponseEntity<UserDefualtFacConsIndEtc>(userDefualtFacConsIndEtc.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<UserDefualtFacConsIndEtc>(userDefualtFacConsIndEtc.get(), HttpStatus.CONFLICT);
+
+		} catch (Exception e) {
+			log.error("Error >>  while find getDivision Details by userLoginId, " + e.getMessage());
+			return new ResponseEntity<UserDefualtFacConsIndEtc>(userDefualtFacConsIndEtc.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	@RequestMapping(value = "/getTpcBoardBasedOnDivision/{dataDiv}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public ResponseEntity<List<TpcBoard>> getTpcBoardBasedOnDivision(@PathVariable("dataDiv") String dataDiv){
+		log.info("** Enter into get TpcBoard OnDivision functions ***");
+		List<TpcBoard> boardList= reportService.findByDataDiv(dataDiv);
+		log.info("** preparing response and get TpcBoard OnDivision function end ***");
+			return new ResponseEntity<List<TpcBoard>>(boardList, HttpStatus.OK);		
+	}
+
 }

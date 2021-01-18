@@ -16,6 +16,7 @@ tpcBoardData:any;
 tpcBoardFormGroup: FormGroup;
 depotData:any;
 facilityData:any;
+divisionList:any;
 loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
 userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
 selectedTpcBoard: any = localStorage.getItem('tpcBoard');
@@ -27,8 +28,9 @@ selectedTpcBoard: any = localStorage.getItem('tpcBoard');
   ) { }
 
   ngOnInit() {
-    this.tpcBoardDetails();
+    //this.tpcBoardDetails();
     this.tpcBoardForm();
+    this.divisionData();
   }
 
   tpcBoardForm() {
@@ -44,14 +46,24 @@ selectedTpcBoard: any = localStorage.getItem('tpcBoard');
       }
   }
    
-   tpcBoardDetails()
-    {
-            
-           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_DETAILS).subscribe((data) => {
-             this.tpcBoardData = data;
-    }
-           );
+   tpcBoardDetails(){
+     let dataDiv=this.divisionList.division
+      this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_BASED_ON_DIVISION+dataDiv).subscribe((data) => {
+        this.tpcBoardData = data;
+  }
+      );
 
+   }
+   divisionData(){
+     var username=this.loggedUserData.username
+    this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_LOGIN_USER+username).subscribe((data) => {
+      this.divisionList = data;
+      if(this.divisionList){
+        this.tpcBoardDetails();
+      }
+}
+    );
+   
    }
    getFacilityList(){
     var tpcBoard = this.tpcBoardFormGroup.value.tpcBoard ;
