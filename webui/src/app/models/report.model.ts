@@ -43,4 +43,5 @@ export class ReportModel{
     WpaName:any;
     driveName:any;
     feederName:any;
+    location:any;
 }

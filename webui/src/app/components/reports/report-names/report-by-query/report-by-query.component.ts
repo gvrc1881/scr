@@ -176,7 +176,7 @@ this.workName();
                      'format': [null],
                      'driveName': [null],
                      'feederName': [null],
-                     
+                     'location': [null],
                      
               });
        }
@@ -449,6 +449,7 @@ this.workName();
               this.reportModel.formatType = this.reportsByQuery.controls.format.value;
               this.reportModel.driveName = this.reportsByQuery.controls.driveName.value;
               this.reportModel.feederName = this.reportsByQuery.controls.feederName.value;
+              this.reportModel.location = this.reportsByQuery.controls.location.value;
 
               console.log("generateReport" + this.id)
               this.submitedForm = "";

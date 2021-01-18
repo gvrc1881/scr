@@ -417,6 +417,18 @@
                                                             </mat-form-field>
                                                        </div>
 
+
+
+                                                        <!--location -->
+                                                        <div *ngIf="(names.parameterName=='location')">
+                                                            <mat-form-field fxFlex="30" class="example-full-width">
+                                                                 <input matInput placeholder="Location"
+                                                                      [formControl]="reportsByQuery.controls['location']">
+                                                            </mat-form-field>
+                                                       </div>
+
+
+
                                                   </div>
                                                   <div class="col-md-3">
                                                        <mat-form-field fxFlex="30">
