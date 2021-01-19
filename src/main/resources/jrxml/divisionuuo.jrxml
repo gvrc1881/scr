@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="900" pageHeight="700" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="uuo" pageWidth="900" pageHeight="800" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59001b31-3ab0-4b62-83e5-32e51fe30200">
 	<property name="ireport.zoom" value="0.9090909090909091"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -78,7 +78,7 @@ order by sequence_id::integer , faci_id]]>
 	<title>
 		<band height="101" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="802" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
+				<reportElement x="0" y="0" width="860" height="37" uuid="15a20f55-12b2-40b0-9c45-19a71b4a9604"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -176,7 +176,7 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[Minor Section : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="37" width="802" height="64" uuid="727f4097-2ba6-4232-98a2-a7ae9cc7e90e"/>
+				<reportElement x="0" y="37" width="860" height="64" uuid="727f4097-2ba6-4232-98a2-a7ae9cc7e90e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -209,7 +209,7 @@ order by sequence_id::integer , faci_id]]>
 				<textFieldExpression><![CDATA[$F{status_code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="294" y="0" width="508" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
+				<reportElement x="294" y="0" width="566" height="33" uuid="13ed0403-18a5-45ef-b9d8-d7dbb7aa81b6"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -247,11 +247,11 @@ order by sequence_id::integer , faci_id]]>
 				<text><![CDATA[Generated On:- ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="702" y="0" width="100" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
+				<reportElement x="702" y="0" width="158" height="20" uuid="5563974f-7590-401f-bce0-4332324c417f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="214" y="0" width="80" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
+				<reportElement x="0" y="0" width="294" height="20" uuid="090487ed-df58-431d-a459-d4688da62ed7"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
@@ -264,7 +264,7 @@ order by sequence_id::integer , faci_id]]>
 	<noData>
 		<band height="41">
 			<staticText>
-				<reportElement x="0" y="0" width="802" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
+				<reportElement x="0" y="0" width="860" height="41" forecolor="#EC082B" uuid="fbb0f916-ad6b-4645-83eb-30c566158f0b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
