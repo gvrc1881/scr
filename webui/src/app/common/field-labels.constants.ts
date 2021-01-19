@@ -26,7 +26,7 @@ export const FieldLabelsConstant = {
       ALTITUDE: "Altitude",
       AMOUNT: "Amount",
       AMBIENT_TEMP:"Ambient Temp",
-      TEMP_DIFF: "Temp Diff",
+      TEMP_DIFF:"Temp Diff",
       FIXED_DIFF: "Fixed Diff",
       CCLAMP_DIFF: "C Clamp Diff",
       TOWERCAR_TYPE:"TW Type",
