@@ -128,7 +128,7 @@ this.spinnerService.show();
     }, error => {
       console.log('ERROR >>>');
       this.spinnerService.hide();
-      this.commonService.showAlertMessage("Check Point Saving Failed.");
+      this.commonService.showAlertMessage("Check Point Saving Failed");
     });
   }
 }

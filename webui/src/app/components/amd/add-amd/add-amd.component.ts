@@ -84,7 +84,6 @@ export class AddAmdComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
-   // this.findFunctionalUnits();
     this.findFunctionalUnits();
     this.findZones();
     this.findDepoTypeList();

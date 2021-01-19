@@ -63,7 +63,6 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     ngOnInit () {
         this.getAllTPCBoardDepotAssocData();
         this.divisionData();
-        //this.tpcBoardDetails();
         this.getFacilityNames();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 

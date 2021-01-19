@@ -241,7 +241,6 @@ export class AddSpecialWorksComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_PRECAUTIONARY_MEASURE_DETAILS)
       .subscribe((data) => {
         this.specialWorksData = data;
-        console.log("specialWorksData"+JSON.stringify(data))
       })
   }
 
