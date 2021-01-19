@@ -65,7 +65,12 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	@Query("FROM Drives ORDER BY createdOn DESC")
 	List<Drives> findByStatusIdAndOrderByCreatedOnDesc(int activeStatusId);	
 
-	List<Drives> findByIdAndToDateGreaterThanEqualOrToDateIsNull(Long id, Date date);
+	@Query(value="select d from Drives d where d.id=:id and( d.toDate >=:date or d.toDate is null)")
+	Optional<Drives> findByIdAndToDateGreaterThanEqualOrToDateIsNull(Long id, Date date);
+
+
+
+	
 
 	
 

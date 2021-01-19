@@ -1723,8 +1723,8 @@ public class DrivesController {
 					drives = service.getByCategoryId(driveCategory.get());
 					logger.info("drives=="+drives.size());					
 				}
-				String div = division+"_DIV";
-				Optional<Facility> fac = facilityRepository.findByFacilityName(div);
+				//String div = division+"_DIV";
+				Optional<Facility> fac = facilityRepository.findByFacilityName(division);
 				driveTargetReponse = service.getByDriveId(drives,fac);
 				
 			}
@@ -1738,8 +1738,8 @@ public class DrivesController {
 					if(drive.isPresent())
 					{
 					logger.info("for loop for drives and cat==");
-					String div = division+"_DIV";
-					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),div);	
+					//String div = division+"_DIV";
+					driveTargetReponse = service.getByDriveCategoryIdAndDriveId(drive.get().getDriveCategoryId(),drive.get().getDriveId(),division);	
 					
 					logger.info("for loop end=="+driveTargetReponse.size());
 				

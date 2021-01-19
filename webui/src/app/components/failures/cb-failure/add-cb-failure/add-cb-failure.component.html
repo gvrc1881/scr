@@ -121,7 +121,7 @@
                                                             <input matInput [owlDateTime]="dt2" style="width: 94%;"
                                                               [owlDateTimeTrigger]="dt2" placeholder="{{FiledLabels.CLOSE_TIME}}"
                                                               (dateTimeChange)="addEventCloseDate($event)"                                                               
-                                                              [max]="maxDate"  [min]="toMinDate"
+                                                              [max]="maxDate"  [min]="minDate"
                                                               [formControl]="addCbFailFromGroup.controls['thruDateTime']" (ngModelChange)="timeDuration()" >                                                                
                                                               <owl-date-time #dt2 [showSecondsTimer]=true
                                                                   ></owl-date-time>

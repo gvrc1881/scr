@@ -43,7 +43,15 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 
 	DriveTarget getByDriveIdAndUnitName(Drives drives2, String zone);
 
-	Optional<DriveTarget> findByDriveIdAndUnitName(Optional<Drives> drive, String zone);
+	DriveTarget findByDriveIdAndUnitName(Optional<Drives> drive, String zone);
+
+	
+
+	
+
+	
+
+	
 
 	
 

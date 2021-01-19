@@ -77,7 +77,7 @@
 									<mat-form-field fxFlex="30" class="example-full-width">
 									  <mat-select placeholder="{{FiledLabels.DEPOT}}" 
 										[formControl]="driveTargetFormGroup.controls['facility']" >
-										<mat-option *ngFor="let depotData of depotHierarchy"
+										<mat-option *ngFor="let depotData of depotsList"
 										  [value]="depotData.facilityName">
 										  {{ depotData.facilityName }}
 										</mat-option>

@@ -38,6 +38,7 @@ export class AddRcFailureComponent implements OnInit {
   rectifiedDate=new Date();
   maxDate = new Date();
   minDate=new Date();
+  toMinDate=new Date();
 dateFormat = 'dd-MM-yyyy hh:mm:ss';
   divisionList:any;
   duration:any;
@@ -260,7 +261,7 @@ findFacilities(){
     this.currentDate = new Date($event.value);
   }
   addEventTargetDate($event) {
-    this.minDate = new Date($event.value);
+    this.toMinDate = new Date($event.value);
     this.rectifiedDate = new Date($event.value);
   }
   onAddFailureAnalysisFormSubmit() {

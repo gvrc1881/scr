@@ -213,8 +213,8 @@ findDepot(){
                 
                   if(this.depotHierarchy[i].subDivision == subDivision  ){
                   
-                     // this.depotsList.push(this.depotHierarchy[i]); 
-                     this.depotHierarchy.depotsList;
+                      this.depotsList.push(this.depotHierarchy[i]); 
+                    // this.depotHierarchy.depotsList;
                       this.enableDepot = true;
                       
                   }
@@ -265,7 +265,7 @@ this.sendAndRequestService.requestForPOST(Constants.app_urls.DRIVE.TARGETS.SAVE_
     this.commonService.showAlertMessage("Drive Target Data Updated Successfully");
     this.driveTargetFormGroup.reset();
     this.dataSource=new MatTableDataSource();
-   // this.enableUpdate=false;
+    this.enableSave=false;
     this.addPermission=true;
     //this.router.navigate(['../'], { relativeTo: this.route });
   } else {

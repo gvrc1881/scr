@@ -940,16 +940,15 @@ public Optional<DriveCategory> findByDriveCategoryName(String driveCategoryName)
 public List<Drives> getByCategoryId(DriveCategory driveCategory) {
 	// TODO Auto-generated method stub
 	logger.info("service calling");
-	List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryId(driveCategory);
+	List<DriveCategoryAsso> driveCatAssocList= driveCategoryAssoRepository.findByDriveCategoryIdAndStatusId(driveCategory,Constants.ACTIVE_STATUS_ID);
 	List<Drives> drivesList = new ArrayList<>();	
-	
-	Date date = new Date();
+	Date date= new Date();
 	logger.info("drives from assoc==="+driveCatAssocList.size());
 	for (DriveCategoryAsso driveCategoryAsso : driveCatAssocList) {		
 		
-		List<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
-		logger.info("drives from validations==="+drive.size());
-		for (Drives drives : drive) {
+		Optional<Drives> drive = driveRepository.findByIdAndToDateGreaterThanEqualOrToDateIsNull(driveCategoryAsso.getDriveId().getId(),date);
+		logger.info("drives from validations==="+drive);
+		/*	for (Drives drives : drive) {
 		logger.info("drives=="+drives.toString());
 		Optional<DriveCategoryAsso> validDrives = driveCategoryAssoRepository.getByDriveIdAndDriveCategoryIdAndStatusId(drives,driveCategory,Constants.ACTIVE_STATUS_ID);
 		
@@ -957,11 +956,11 @@ public List<Drives> getByCategoryId(DriveCategory driveCategory) {
 		{
 		drivesList.add(drives);
 		}
-	}
+	}*/
 		
-		/*if (drive.isPresent()) {
-			drivesList.add(drive.get());
-		}*/
+		if (drive.isPresent()) {
+			drivesList.add(drive.get());	
+		}
 	} 
        return drivesList;
 }
@@ -978,16 +977,18 @@ public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory dr
 	if(driveCatAssoc.isPresent()) {
 		DriveTargetResponse dtr = new DriveTargetResponse();		
 		Optional<Drives> drive =driveRepository.findByIdAndStatusId(driveCatAssoc.get().getDriveId().getId(),Constants.ACTIVE_STATUS_ID);
-		Optional<DriveTarget> driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,zone);
+		logger.info("driveid=="+drive);
+		logger.info("fac=="+zone);
+		DriveTarget driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,zone);
 		logger.info("drive reponsee=="+driveTarget);
 		double target = 0;
 		String population = "0"; 
 		logger.info("before objects=");
-		if (driveTarget.isPresent()) {			
+		if (driveTarget != null) {			
 			
 			
-			dtr.setTarget(driveTarget.get().getTarget());
-			dtr.setPoulation(driveTarget.get().getPoulation());
+			dtr.setTarget(driveTarget.getTarget());
+			dtr.setPoulation(driveTarget.getPoulation());
 			
 		}
 	
@@ -999,8 +1000,7 @@ public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory dr
 		}
 		
 		dtr.setDriveId(driveId);
-		dtr.setAssetType(drive.get().getAssetType());
-		
+		dtr.setAssetType(drive.get().getAssetType());		
 		dtr.setUnitType(fac.get().getDepotType());
 		dtr.setUnitName(zone);
 		logger.info("after objects=="+dtr.toString());

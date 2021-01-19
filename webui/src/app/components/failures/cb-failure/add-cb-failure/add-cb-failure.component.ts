@@ -37,7 +37,7 @@ export class AddCbFailureComponent implements OnInit {
   resp: any;
   reportDescriptionFlag=false;
   currentDate = new Date();
-  closeDate=new Date();
+  minDate=new Date();
   maxDate = new Date();
   toMinDate=new Date();
   dateFormat = 'dd-MM-yyyy hh:mm:ss';  
@@ -228,7 +228,7 @@ export class AddCbFailureComponent implements OnInit {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
         this.resp = resp;
-        this.toMinDate = new Date(this.resp.fromDateTime);
+        this.minDate = new Date(this.resp.fromDateTime);
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
@@ -293,12 +293,12 @@ export class AddCbFailureComponent implements OnInit {
     });
   }
   addEvent($event) {
-    this.toMinDate = new Date($event.value);
+    this.minDate = new Date($event.value);
     this.currentDate = new Date($event.value);
   }
   addEventCloseDate($event) {
     this.toMinDate = new Date($event.value);
-    this.closeDate=new Date($event.value);
+   
   }
 
 
