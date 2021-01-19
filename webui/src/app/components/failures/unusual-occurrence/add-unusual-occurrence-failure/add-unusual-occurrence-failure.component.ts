@@ -44,6 +44,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   divisionList:any;
   duration:any;
   facilityList:any;
+  cbInternalFailList:any;
+  cbExternalFailList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -65,7 +67,9 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       impact:{},
       majorSection:{},
       minorSection:{},
-      remarks:{}
+      remarks:{},
+      cbInternalFailure: {},
+      cbExternalFailure: {}, 
     };
   }
 
@@ -73,6 +77,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     //this.findRelayIndicationStatus();
   //  this.findNatureOfCloseStatus();
     this.findDepots();
+    this.findCbExternal();
+    this.findCbInternal();
     this.id = +this.route.snapshot.params['id'];      
     if (!isNaN(this.id)) {
       this.updateForm();
@@ -153,6 +159,19 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
       }
    } 
   }
+  findCbInternal(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_INTERNAL_FAILURE)
+    .subscribe((resp) => {
+      this.cbInternalFailList = resp;
+    });
+  }
+
+  findCbExternal(){
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_EXTERNAL_FAILURE)
+    .subscribe((resp) => {
+      this.cbExternalFailList = resp;
+    });
+  }
   createForm() {
     this.addUnusualOccurrenceFromGroup
       = this.formBuilder.group({
@@ -163,12 +182,14 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndLocationAndFromDateTime.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
-        'divisionLocal': [null],
-        'internalExternal': [null], 
+       // 'divisionLocal': [null],
+       // 'internalExternal': [null], 
         'impact': [null],
         'majorSection':[null],
         'minorSection':[null],
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null]
       });
   }
   updateForm() {
@@ -181,12 +202,14 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndLocationAndFromDateTimeID.bind(this)],
         'thruDateTime': [null],
         'duration': [null], 
-        'divisionLocal': [null],
-        'internalExternal': [null], 
+        //'divisionLocal': [null],
+        //'internalExternal': [null], 
         'impact': [null],
         'majorSection':[null],
         'minorSection':[null],
-        'remarks': [null, Validators.maxLength(250)]
+        'remarks': [null, Validators.maxLength(250)],
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null]
       });
   }
 
@@ -218,9 +241,11 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal  == 'true' ? true: false,
-          internalExternal:this.resp.internalExternal == 'true' ? true: false,
+          //divisionLocal:this.resp.divisionLocal  == 'true' ? true: false,
+         // internalExternal:this.resp.internalExternal == 'true' ? true: false,
           impact:this.resp.impact,
+          cbInternalFailure: this.resp.cbInternalFailure,
+          cbExternalFailure:this.resp.cbExternalFailure, 
           majorSection:this.resp.majorSection,
           minorSection:this.resp.minorSection,
           remarks: this.resp.remarks
@@ -261,12 +286,14 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'fromDateTime': this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         'thruDateTime': this.addUnusualOccurrenceFromGroup.value.thruDateTime,
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
-        'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal == true ?  'true' : 'false',
-        'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal == true ? 'true' : 'false', 
+       // 'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal == true ?  'true' : 'false',
+       // 'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal == true ? 'true' : 'false', 
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'majorSection':this.addUnusualOccurrenceFromGroup.value.majorSection,
         'minorSection':this.addUnusualOccurrenceFromGroup.value.minorSection,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
+        'cbInternalFailure': this.addUnusualOccurrenceFromGroup.value.cbInternalFailure,
+        'cbExternalFailure':this.addUnusualOccurrenceFromGroup.value.cbExternalFailure, 
         "typeOfFailure":Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE,
         "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
@@ -297,12 +324,14 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
         'fromDateTime': this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         'thruDateTime': this.addUnusualOccurrenceFromGroup.value.thruDateTime,
         'duration': this.addUnusualOccurrenceFromGroup.value.duration, 
-        'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal== true ? 'true' : 'false',
-        'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal== true ? 'true' : 'false', 
+       // 'divisionLocal': this.addUnusualOccurrenceFromGroup.value.divisionLocal== true ? 'true' : 'false',
+       // 'internalExternal': this.addUnusualOccurrenceFromGroup.value.internalExternal== true ? 'true' : 'false', 
         'impact':this.addUnusualOccurrenceFromGroup.value.impact,
         'majorSection':this.addUnusualOccurrenceFromGroup.value.majorSection,
         'minorSection':this.addUnusualOccurrenceFromGroup.value.minorSection,
         'remarks': this.addUnusualOccurrenceFromGroup.value.remarks,
+        'cbInternalFailure': this.addUnusualOccurrenceFromGroup.value.cbInternalFailure,
+        'cbExternalFailure':this.addUnusualOccurrenceFromGroup.value.cbExternalFailure, 
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         "updatedBy": this.loggedUserData.username,

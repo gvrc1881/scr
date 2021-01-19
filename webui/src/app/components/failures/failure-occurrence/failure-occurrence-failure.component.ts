@@ -147,11 +147,7 @@ export class FailureOccurrenceComponent implements OnInit {
       'title':this.Titles.FAILURE_OCCURENCE,
       'dataSource':[
         
-      {label:'Occurrence',value:data.occurrence},{label:'TrainNo',value:data.trainNo},
-      {label:'Place', value:data.place},{label:'FromDateTime', value:data.fromDateTime},{label:'ThruDateTime', value:data.thruDateTime},
-     {label:'Duration',value:data.duration},{label:'DivisionLocal',value:data.divisionLocal},
-      {label:'InternalExternal', value:data.internalExternal},{label:'Remarks', value:data.remarks} ,
-    
+  
       { label:FieldLabelsConstant.LABELS.OCCURENCE, value:data.occurrence },
       { label:FieldLabelsConstant.LABELS.TRAIN_NO, value:data.trainNo },
       { label:FieldLabelsConstant.LABELS.PLACE, value:data.place },

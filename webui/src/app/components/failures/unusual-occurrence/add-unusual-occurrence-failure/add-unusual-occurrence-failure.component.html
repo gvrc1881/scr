@@ -116,16 +116,39 @@
                                                         </mat-form-field>
                                                     </div> 
                                                       <!-- assetId -->
-                                                      <div class="col-md-3" fxFlex="30">                                                        
+                                                      <!-- <div class="col-md-3" fxFlex="30">                                                        
                                                         <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['divisionLocal']">{{FiledLabels.LOCAL}}</mat-checkbox> 
                                                                                                               
-                                                </div>
+                                                </div> -->
 
                                                  <!-- subAssetType -->
-                                                 <div class="col-md-3" fxFlex="30">                                                        
+                                                 <!-- <div class="col-md-3" fxFlex="30">                                                        
                                                     <mat-checkbox [formControl]="addUnusualOccurrenceFromGroup.controls['internalExternal']">{{FiledLabels.EXTERNAL}}</mat-checkbox>  
                                                     <mat-hint> (Checked:External UnChecked:Internal )</mat-hint>                                                         
-                                                  </div>
+                                                  </div> -->
+
+                                                  <div class="col-md-3">
+                                                    <mat-form-field fxFlex="30" class="example-full-width">
+                                                        <mat-select placeholder="{{FiledLabels.INTERNAL}}" 
+                                                            [formControl]="addUnusualOccurrenceFromGroup.controls['cbInternalFailure']"  >
+                                                            <mat-option *ngFor="let internal of cbInternalFailList"
+                                                                [value]="internal.statusCode">
+                                                                {{ internal.statusCode }}
+                                                            </mat-option> 
+                                                        </mat-select>                                                            
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field fxFlex="30" class="example-full-width">
+                                                        <mat-select placeholder="{{FiledLabels.EXTERNAL}}" 
+                                                            [formControl]="addUnusualOccurrenceFromGroup.controls['cbExternalFailure']"  >
+                                                            <mat-option *ngFor="let external of cbExternalFailList"
+                                                                [value]="external.statusCode">
+                                                                {{ external.statusCode }}
+                                                            </mat-option>
+                                                        </mat-select>                                                            
+                                                    </mat-form-field>
+                                                </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="{{FiledLabels.IMPACT}}" 

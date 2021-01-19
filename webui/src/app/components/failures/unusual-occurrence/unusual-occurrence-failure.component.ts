@@ -130,8 +130,8 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
         this.UnusualOccurrenceFailList[i].sno = i + 1;
         this.UnusualOccurrenceFailList[i].fromDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].fromDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.UnusualOccurrenceFailList[i].thruDateTime = this.datePipe.transform(this.UnusualOccurrenceFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
-        this.UnusualOccurrenceFailList[i].divisionLocal=this.UnusualOccurrenceFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
-        this.UnusualOccurrenceFailList[i].internalExternal=this.UnusualOccurrenceFailList[i].internalExternal == 'true' ? 'External': 'Internal',
+        //this.UnusualOccurrenceFailList[i].divisionLocal=this.UnusualOccurrenceFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
+        //this.UnusualOccurrenceFailList[i].internalExternal=this.UnusualOccurrenceFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.UnusualOccurrenceFailList[i].subStation).subscribe((data) => {
           this.spinnerService.hide();
           this.facilityList = data;
@@ -257,8 +257,8 @@ ViewData(data){
           { label:FieldLabelsConstant.LABELS.DURATION, value:data.duration },
           { label:FieldLabelsConstant.LABELS.IMPACT, value:data.impact },
           { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
-          { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
-          { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal }
+          { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure },
+          { label:FieldLabelsConstant.LABELS.EXTERNAL, value:data.cbExternalFailure }
         
   
   ]
