@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "daily_progress_summery" , uniqueConstraints={@UniqueConstraint(name = "old_pk_daily_progress_summery_uniq", columnNames ={"seq_id", "data_div"})})
+@Table(name = "daily_progress_summery" , uniqueConstraints={@UniqueConstraint(columnNames ={"seq_id"})})
 @NamedQuery(name="DailyProgressSummery.findAll", query="SELECT d FROM DailyProgressSummery d")
 public class DailyProgressSummery implements Serializable {
 	private static final long serialVersionUID = 1L;
