@@ -31,6 +31,7 @@ export class AddSpecialWorksComponent implements OnInit {
   id: number = 0;
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  depotData: any = JSON.parse(localStorage.getItem('depotData'));
   resp: any;
   title:string = Constants.EVENTS.ADD;
   addSpecialWorksFormGroup: FormGroup;
@@ -63,6 +64,7 @@ export class AddSpecialWorksComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("depotData"+JSON.stringify(this.depotData));
     this.id = +this.route.snapshot.params['id'];
     this.findSpecialWorksList();
     this.depotTypeForOhe();

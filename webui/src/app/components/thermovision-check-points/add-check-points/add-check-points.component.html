@@ -32,7 +32,7 @@
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.DEPOT}}" 
                                                             [formControl]="addCheckPointsFormGroup.controls['facilityId']"  required>
-                                                            <mat-option *ngFor="let depotData of facilityData"
+                                                            <mat-option *ngFor="let depotData of depotData"
                                                               [value]="depotData">
                                                               {{ depotData.facilityName }}
                                                             </mat-option>

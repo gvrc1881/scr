@@ -35,8 +35,8 @@
                                                             <mat-select placeholder="{{FiledLabels.ZONE}}"
                                                                 [formControl]="assetMasterFormGroup.controls['zone']"
                                                                 (ngModelChange)="getDivisions()">
-                                                                <mat-option *ngFor="let zone of zoneList" [value]="zone">
-                                                                    {{ zone.code }}
+                                                                <mat-option *ngFor="let zone of zoneHierarchy" [value]="zone">
+                                                                    {{ zone.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>

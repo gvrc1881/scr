@@ -32,6 +32,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     tpcBoardDepotAssocList : any;
     id: number = 0;
     facilityData:any;
+    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     tpcBoardDepotAssocDataSource: MatTableDataSource<TPCBoardDepotAssocModel>;
     tpcBoardDepotAssocDisplayColumns = ['sno' , 'tpcBoard' ,'unitType','unitName','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -44,6 +45,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     tpcBoardData:any;
     facilityNames:any
     unitType: any;
+    divisionList:any;
 
     constructor(
         private commonService: CommonService,
@@ -60,7 +62,8 @@ export class TPCBoardDepotAssocComponent implements OnInit{
 
     ngOnInit () {
         this.getAllTPCBoardDepotAssocData();
-        this.tpcBoardDetails();
+        this.divisionData();
+        //this.tpcBoardDetails();
         this.getFacilityNames();
         var permissionName = this.commonService.getPermissionNameByLoggedData("TRD CONFIG","TPC Board Assoc") ;//p == 0 ? 'No Permission' : p[0].permissionName;
   		this.addPermission = this.commonService.getPermissionByType("Add", permissionName); 
@@ -228,15 +231,25 @@ duplicateTpcBoard() {
             this.facilityNames = data;
            });
     }
-    tpcBoardDetails()
-    {
-            
-           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_DETAILS).subscribe((data) => {
-             this.tpcBoardData = data;
-    }
-           );
-
+    tpcBoardDetails(){
+        let dataDiv=this.divisionList.division
+         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_BASED_ON_DIVISION+dataDiv).subscribe((data) => {
+           this.tpcBoardData = data;
+     }
+         );
+   
+      }
+      divisionData(){
+        var username=this.loggedUserData.username
+       this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_DIVISION_BASED_ON_LOGIN_USER+username).subscribe((data) => {
+         this.divisionList = data;
+         if(this.divisionList){
+           this.tpcBoardDetails();
+         }
    }
+       );
+      
+      }
     onGoBack() {
         this.tpcBoardDepotAssocFormGroup.reset();
         this.addTPCBoardDepotAssoc = false;

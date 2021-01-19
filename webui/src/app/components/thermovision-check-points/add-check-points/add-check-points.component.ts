@@ -22,6 +22,7 @@ export class AddCheckPointsComponent implements OnInit {
     update: boolean = false;
     id: number = 0;
     isSubmit: boolean = false;
+    depotData: any = JSON.parse(localStorage.getItem('depotData'));
     loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
     resp: any;    
     title:string;      
