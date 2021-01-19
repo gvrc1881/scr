@@ -3736,19 +3736,23 @@ where tcps.facility_id::text = f.facility_id ;
 
 --drop view  v_thermovision_measures ; 
 
-create view  v_thermovision_measures as
-SELECT vtcp.tcp_check_point_part,
+
+select * from v_thermovision_measures
+	drop view v_thermovision_measures ;
+	create view  v_thermovision_measures as
+	 SELECT vtcp.tcp_check_point_part,
     vtcp.tcp_check_point_description,
     vtcp.tcp_type_of_check_point,
     vtcp.tcp_display_group,
     vtcp.tcp_display_order,
     vtcp.tcp_active,
     vtcp.tcp_commparison_points,
+	vtcp.tcp_id as tcp_id ,
     tcpm.id AS tcpm_id,
     tcpm.tcp_schedule_id AS tcpm_tcp_schedule_id,
     tcpm.tcp_id AS tcpm_tcp_id,
     tcpm.fixed_measure AS tcpm_fixed_measure,
-	tcpm.c_clamp_measure AS tcpm_c_clamp_measure,
+    tcpm.c_clamp_measure AS tcpm_c_clamp_measure,
     tcpm.ambient_temp AS tcpm_ambient_temp,
     tcpm.image_id AS tcpm_image_id,
     tcpm.remark AS tcpm_remark,
