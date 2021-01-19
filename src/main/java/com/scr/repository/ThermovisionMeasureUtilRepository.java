@@ -79,6 +79,8 @@ public class ThermovisionMeasureUtilRepository {
 					response.setTcpsGeneralRemark(resultSet.getString("tcps_general_remark"));
 					response.setTcpsTime(resultSet.getString("tcps_time"));
 					response.setTcpTypeOfCheckPoint(resultSet.getString("tcp_type_of_check_point"));
+					response.setfDiff(resultSet.getString("f_diff"));
+					response.setcClampDiff(resultSet.getString("c_clamp_diff"));
 					list.add(response);
 				}
 		}catch (Exception e) {

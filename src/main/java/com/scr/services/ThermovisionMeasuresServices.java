@@ -67,9 +67,8 @@ public class ThermovisionMeasuresServices {
 				if (resultTcpSchedule != null) {
 					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPointDescription(thermovisionMeasureResponse.getTcpCheckPointDescription());
 					if (thermoCheckPointObject.isPresent()) {
-						logger.info("*** finding measure objcet  ***");
+						//logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);
-						logger.info("***before  measure  if condition ***");
 						if (thermoMeasureObject.isPresent()) {
 							thermoMeasureObject.get().setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
 							thermoMeasureObject.get().setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
@@ -89,7 +88,6 @@ public class ThermovisionMeasuresServices {
 							thermovisionMeasures.setTcpId(thermoCheckPointObject.get());
 							thermovisionMeasures.setTcpScheduleId(resultTcpSchedule);
 							thermovisionMeasuresRepository.save(thermovisionMeasures);
-							logger.info("*** measure else condition");
 						}
 					}
 				}

@@ -87,24 +87,28 @@ export class ThermovisionMeasureComponent implements OnInit{
     
     compareTwoPoints(row){
         console.log('rowvalue***'+JSON.stringify(row));
-        //console.log('rowvalue***'+row.tcpCommparisonPoints);
+        //console.log('row comp point ***'+row.tcpCommparisonPoints);
         if(row.tcpCommparisonPoints){
-            let index = row.tcpCommparisonPoints + 1;
-           // console.log('indext is '+JSON.stringify(this.thermovisionMeasureData[index]));
+            let index = row.tcpCommparisonPoints - 1;
+            console.log('*** index value ***'+index);
+            console.log('indext is row '+JSON.stringify(this.thermovisionMeasureData[index]));
             let indexObject = this.thermovisionMeasureData[index];
-            //console.log('***value'+indexObject.tcpmFixedMeasure);
+          //  console.log('*** row fixed measure ****'+row.tcpmFixedMeasure);
+           // console.log('*** index fixed measure ****'+indexObject.tcpmFixedMeasure);
             if(row.tcpmFixedMeasure && indexObject.tcpmFixedMeasure){
                 let commpare = row.tcpmFixedMeasure - indexObject.tcpmFixedMeasure;
        //         console.log('*** in if condtiton ***'+commpare);
                 row.fixedDiff = Math.abs(commpare);
-               // console.log('** value is ****'+Math.abs(commpare));
+                this.thermovisionMeasureData[index].fixedDiff = Math.abs(commpare);
+          //      console.log('** fixed diff ****'+Math.abs(commpare));
             }else if(row.tcpmCClampMeasure && indexObject.tcpmCClampMeasure){
                 let commpare = row.tcpmCClampMeasure - indexObject.tcpmCClampMeasure;
          //       console.log('*** in else if condtiton ***'+commpare);
                 row.CClampDiff = Math.abs(commpare);
+                this.thermovisionMeasureData[index].CClampDiff = Math.abs(commpare);
+            //    console.log('** c clamp  diff ****'+Math.abs(commpare));
             }
         }
-        console.log('** end fun ***'+JSON.stringify(row));
     }
     
     getUserContext(){
@@ -147,26 +151,21 @@ export class ThermovisionMeasureComponent implements OnInit{
                     this.enableSave = true;
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
-                        this.thermovisionMeasureData[i].fixedDiff = '';
-                        this.thermovisionMeasureData[i].CClampDiff = '';
-                        // console.log('infor***'+JSON.stringify(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint));
+                        this.thermovisionMeasureData[i].fixedDiff = this.thermovisionMeasureData[i].fDiff;
+                        this.thermovisionMeasureData[i].CClampDiff = this.thermovisionMeasureData[i].cClampDiff;
                         if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED_CClamp"){
-                           // console.log('** in if condition');
                             this.thermovisionMeasureData[i].enableFixed = true;
                             this.thermovisionMeasureData[i].enableCClamp = true;
                         }else if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED"){
-                            //console.log('** in else if condition');
                             this.thermovisionMeasureData[i].enableFixed = true;
                             this.thermovisionMeasureData[i].enableCClamp = false;
                         }else {
-                           // console.log('** else condition');
                             this.thermovisionMeasureData[i].enableCClamp = true;
                             this.thermovisionMeasureData[i].enableFixed = false;
                         }
                         this.thermovisionMeasureData[i].tcpsDate = this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd');
                         this.thermovisionMeasureData[i].tcpsGeneralRemark = this.inputFormGroup.value.generalRemark;
                         this.thermovisionMeasureData[i].tcpsBy = this.inputFormGroup.value.by;
-                        //console.log('infor***'+JSON.stringify(this.thermovisionMeasureData[i]));
                         this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);                            
                     }
                     this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
