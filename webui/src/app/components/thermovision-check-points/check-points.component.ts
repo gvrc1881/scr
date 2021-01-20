@@ -26,10 +26,18 @@ export class CheckPointsComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   title: string = Constants.EVENTS.UPDATE;
+  depotsData: any = JSON.parse(localStorage.getItem('depotData'));
+
+   distinctDivi:any = this.depotsData.map(item => item.division)
+   .filter((value, index, self) => self.indexOf(value) === index)
+
+   distinctDepotType:any = this.depotsData.map(item => item.depotType)
+   .filter((value, index, self) => self.indexOf(value) === index)
+
   searchInputFormGroup: FormGroup;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataSource: MatTableDataSource<ChekPointsModel>;
-  displayedColumns = ['sno','checkPointPart', 'checkPointDescription','commparisonPoints','displayGroup','displayOrder'];
+  displayedColumns = ['sno','checkPointPart', 'checkPointDescription','commparisonPoints','displayOrder'];
   enableUpdate: boolean; 
   divisionsList:any;
   funLocTypeData:any;
@@ -50,6 +58,8 @@ export class CheckPointsComponent implements OnInit {
 }
 
 ngOnInit() {
+  console.log("distinctThings"+this.distinctDivi)
+  console.log("distinctDepotType"+this.distinctDepotType)
   this.divisionDetails();
   var permissionName = this.commonService.getPermissionNameByLoggedData("THERMOVISION","Thermovision Check Points") ;
   this.addPermission = this.commonService.getPermissionByType("Add", permissionName);

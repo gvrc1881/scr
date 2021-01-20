@@ -31,7 +31,7 @@
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.DEPOT}}" 
-                                                            [formControl]="addCheckPointsFormGroup.controls['facilityId']"  required>
+                                                            [formControl]="addCheckPointsFormGroup.controls['facilityId']" (selectionChange)="getComparisonPoints()"  required>
                                                             <mat-option *ngFor="let depotData of depotData"
                                                               [value]="depotData">
                                                               {{ depotData.facilityName }}
@@ -46,32 +46,35 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Check Point Description" [formControl]="addCheckPointsFormGroup.controls['checkPointDescription']" ></textarea>
+                                                            <textarea matInput placeholder="Check Point Description" [formControl]="addCheckPointsFormGroup.controls['checkPointDescription']"></textarea>
                                                         </mat-form-field>
                                                     </div>  
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="commparison Points" numbersOnly [formControl]="addCheckPointsFormGroup.controls['commparisonPoints']" required/>                                                          
+                                                            <mat-select placeholder="commparison Points"
+                                                                [formControl]="addCheckPointsFormGroup.controls['commparisonPoints']" >
+                                                                <mat-option *ngFor="let comparisonPointsData of comparisonPointsData"
+                                                                    [value]="comparisonPointsData.id">
+                                                                    {{ comparisonPointsData.checkPointDescription}}
+                                                                </mat-option>
+                                                            </mat-select>
                                                         </mat-form-field>
                                                     </div>                                                
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <input matInput placeholder="Type Of CheckPoint"  [formControl]="addCheckPointsFormGroup.controls['typeOfCheckPoint']" required/>                                                          
+                                                            <mat-select placeholder="Type Of CheckPoint"
+                                                                  [formControl]="addCheckPointsFormGroup.controls['typeOfCheckPoint']">
+                                                                <mat-option *ngFor="let checkPoints of checkPoints"
+                                                                  [value]="checkPoints">{{ checkPoints}}
+                                                                </mat-option>
+                                                             </mat-select>                                                      
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="Display Group"  [formControl]="addCheckPointsFormGroup.controls['displayGroup']" required></textarea>                                                         
-                                                        </mat-form-field>
-                                                    </div>
-                                                    
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Display Order" numbersOnly [formControl]="addCheckPointsFormGroup.controls['displayOrder']" required/>                                                          
                                                         </mat-form-field>
                                                     </div>
-                                              
-                                       
                                         <div class="clearfix"></div>
 
                                         <div class="col-md-3 mt-15">

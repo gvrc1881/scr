@@ -30,7 +30,7 @@ export class AddCheckPointsComponent implements OnInit {
     checkPointFormErrors:any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
     facilityData: any;
-   
+    comparisonPointsData:any;
     dependencyValidation:boolean=false;
 
   constructor( private formBuilder: FormBuilder,
@@ -47,12 +47,12 @@ export class AddCheckPointsComponent implements OnInit {
       checkPointDescription: {},
       commparisonPoints:{},
       typOfCheckPoint:{},
-      displayGroup: {},
       displayOrder:{},
       };
   }
 
   ngOnInit() { 
+    console.log("depotData"+JSON.stringify(this.depotData));
     this.depotTypeForOhe(); 
     this.id = +this.route.snapshot.params['id'];
       if (!isNaN(this.id)) { 
@@ -92,7 +92,6 @@ this.addCheckPointsFormGroup = this.formBuilder.group({
   'checkPointDescription': [null],
   'commparisonPoints':[null],
   'typeOfCheckPoint':[null],
-  'displayGroup': [null],
   'displayOrder':[null],
 });
 }
@@ -112,7 +111,6 @@ this.spinnerService.show();
       "checkPointDescription": this.addCheckPointsFormGroup.value.checkPointDescription,
       "commparisonPoints": this.addCheckPointsFormGroup.value.commparisonPoints,
       "typeOfCheckPoint": this.addCheckPointsFormGroup.value.typeOfCheckPoint,
-      "displayGroup": this.addCheckPointsFormGroup.value.displayGroup,
       "displayOrder": this.addCheckPointsFormGroup.value.displayOrder,
     }
     this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.SAVE_CHECK_POINTS, saveCheckPointsModel, false).subscribe(response => {
@@ -144,5 +142,14 @@ depotTypeForOhe()
          );
 
  }
+ getComparisonPoints(){
+  var facilityId = this.addCheckPointsFormGroup.value.facilityId.id ;
+  console.log("facilityId"+facilityId);
+this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.GET_CHECK_POINTS_BASED_ON_FACILITY_ID+facilityId).subscribe((data) => {
+           this.comparisonPointsData = data;
+           console.log("comparisonPointsData"+JSON.stringify(data))
+      });
+}
+public checkPoints = ['FIXED', 'FIXED_CClamp','CClamp'];
 
 }

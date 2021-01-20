@@ -868,6 +868,7 @@ export const Constants = {
             SAVE_CHECK_POINTS:"/addCheckPoints",
             GET_CHECK_POINTS_BASED_ON_FACILITY_ID:"/findCheckPointsBasedOnFacilityId/",
             UPDATE_CHECK_POINTS:"/updateCheckPoints",
+            GET_COMPARISON_POINTS_BASED_ON_FACILITY_DESCRI:"/getComparisonPointsOnFacilityIdAndDescription/"
         }    
     }
 },

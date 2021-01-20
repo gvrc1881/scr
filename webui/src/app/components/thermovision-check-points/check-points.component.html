@@ -17,7 +17,7 @@
             		<div class="panel-heading">Thermovision Check Points</div>
             		<div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                            <div class="p-24" style="text-align: right" *ngIf="addPermission" >
+                            <div class="p-24" style="text-align: right">
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button="" 
                                     [routerLink]="['add-check-points']"> 
                                     Add CheckPoints
@@ -30,9 +30,9 @@
 		            			<div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="searchInputFormGroup.controls['division']">
-                                            <mat-option *ngFor="let divisionsList of divisionsList "
-                                                [value]="divisionsList.code">
-                                                {{ divisionsList.code}}
+                                            <mat-option *ngFor="let distinctDivi of distinctDivi "
+                                                [value]="distinctDivi">
+                                                {{distinctDivi}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -40,9 +40,9 @@
 								<div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}" [formControl]="searchInputFormGroup.controls['depotType']"  (selectionChange)="getFacilitys()">
-                                            <mat-option *ngFor="let funLocTypeData of funLocTypeData "
-                                                [value]="funLocTypeData.code">
-                                                {{ funLocTypeData.code}}
+                                            <mat-option *ngFor="let funLocTypeData of distinctDepotType "
+                                                [value]="funLocTypeData">
+                                                {{ funLocTypeData}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -106,16 +106,6 @@
                                                     <mat-form-field floatLabel="never" [style.width.px]="80">
                                                         <input matInput  [value]="row.commparisonPoints" 
                                                             [(ngModel)]="row.commparisonPoints">
-                                                    </mat-form-field>
-                                                </mat-cell>
-										</ng-container>
-										
-										<ng-container matColumnDef="displayGroup">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>Display Group</span></mat-header-cell>
-                                                <mat-cell *matCellDef="let row">
-                                                    <mat-form-field floatLabel="never" [style.width.px]="80">
-                                                        <input matInput  [value]="row.displayGroup" 
-                                                            [(ngModel)]="row.displayGroup">
                                                     </mat-form-field>
                                                 </mat-cell>
 										</ng-container>

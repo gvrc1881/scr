@@ -1,0 +1,12 @@
+.mat-column-sno {
+    max-width: 80px;
+}
+.mat-column-checkPointPart {
+    max-width: 200px;
+}
+.mat-column-checkPointDescription {
+    max-width: 500px;
+}
+.mat-column-commparisonPoints {
+    max-width: 200px;
+}
