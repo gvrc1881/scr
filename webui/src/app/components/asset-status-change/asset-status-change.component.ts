@@ -47,7 +47,7 @@ export class AssetStatusChangeComponent implements OnInit {
   dataSource: MatTableDataSource<AssetStatusChangeModel>;
   statusDisplayedColumns = ['sno', 'facility', 'asset', 'asetId', 'dateStatus', 'curentStatus', 'stats', 'targetDateReady', 'remark', 'actions'];
   //displayedColumns = ['sno','facilityId','assetType', 'assetId','make','nextAoh','nextPoh','dateOfStatus','actions'];
-  displayedColumns = ['sno', 'facility', 'asset', 'asetId', 'make', 'nextAoh', 'nextPoh', 'dateStatus', 'remark', 'actions'];
+  displayedColumns = ['sno', 'facility', 'asset', 'asetId', 'make', 'nextAoh', 'nextPoh', 'dateStatus', 'stats','remark', 'actions'];
   enableUpdate: boolean;
   AssetStatusList: any;
   activity = [];
@@ -89,6 +89,9 @@ export class AssetStatusChangeComponent implements OnInit {
 
 
   remarksEdit: boolean = false;
+  editAssetId:number=0;
+  dateStatusEdit:boolean = false;
+  statsEdit:boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -309,8 +312,8 @@ export class AssetStatusChangeComponent implements OnInit {
   }
 
   saveAction(row) {
+    
     let towerCar = {
-
       "assetType": row.assetType,
       "assetId": row.assetId,
       "facilityId": row.facilityId,
@@ -436,9 +439,17 @@ export class AssetStatusChangeComponent implements OnInit {
 } */
 
 
-  addEvent($event) {
+  addEvent($event, assetId) {
     this.toMinDate = new Date($event.value);
-
+    console.log('assetId: '+assetId);
+    console.log($event.target.value);
+    this.dateStatusEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['dateOfStatus']= this.toMinDate;
+      }
+    });
+    console.log(this.dataSource.filteredData)
   }
 
   onGoBack() {
@@ -487,9 +498,11 @@ export class AssetStatusChangeComponent implements OnInit {
       data: row.assetId,
     });
   }
-  enableRemarks($event) {
+
+  enableRemarks($event, assetId) {
     console.log($event);
     this.remarksEdit = true;
+    this.editAssetId = assetId
   }
   disableRemarks($event, assetId){
     console.log('assetId: '+assetId);
@@ -502,5 +515,38 @@ export class AssetStatusChangeComponent implements OnInit {
     });
     console.log(this.dataSource.filteredData)
   }  
+  enableDateStatus($event, assetId) {
+    console.log($event);
+    this.dateStatusEdit = true;
+    this.editAssetId = assetId
+  }
+  disableDateStatusEdit($event, assetId){
+    console.log('assetId: '+assetId);
+    console.log($event.target.value);
+    this.dateStatusEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['dateStatus']=$event.target.value;
+      }
+    });
+    console.log(this.dataSource.filteredData)
+  }
+  
+  enableStatus($event, assetId) {
+    console.log($event);
+    this.statsEdit = true;
+    this.editAssetId = assetId
+  }
+  selectedStatus(value, assetId){
+    console.log('assetId: '+assetId);
+    console.log(value);
+    this.statsEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['status']=value;
+      }
+    });
+    console.log(this.dataSource.filteredData)
+  }
 }
 

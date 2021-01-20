@@ -248,7 +248,54 @@
 									<ng-container matColumnDef="dateStatus">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS_DATE}}
 										</mat-header-cell>
-										<mat-cell *matCellDef="let row"> {{row.dateOfStatus}}</mat-cell>
+										<mat-cell *matCellDef="let row" (dblclick)="enableDateStatus($event, row.assetId)">  
+										<span *ngIf="!dateStatusEdit || row.assetId != editAssetId">	
+											{{row.dateOfStatus | date:'dd-MM-yyyy'}}
+										</span>
+										<div class="col-md-12" *ngIf="dateStatusEdit  && row.assetId == editAssetId">
+											<mat-form-field fxFlex="30">
+												<input matInput [matDatepicker]="picker2"
+													placeholder="{{FiledLabels.STATUS_DATE}}"
+													(dateChange)="addEvent($event, row.assetId)" 
+													 required
+													value="{{row.dateOfStatus}}">
+												<mat-datepicker-toggle matSuffix [for]="picker2" >
+												</mat-datepicker-toggle>
+												<mat-datepicker #picker2  (focusout)="disableDateStatusEdit($event, row.assetId)"></mat-datepicker>                                                           
+											</mat-form-field>
+										</div>  
+									<!-- 	<mat-form-field fxFlex="30" >
+											<input matInput [matDatepicker]="picker1"
+												placeholder="{{FiledLabels.DATE}}"
+												(dateChange)="addEvent($event)"										
+												(focusout)="disableDateStatusEdit($event, row.assetId)">
+											<mat-datepicker-toggle matSuffix [for]="picker1">
+											</mat-datepicker-toggle>
+											<mat-datepicker #picker1></mat-datepicker>                                                           
+										</mat-form-field> -->
+										</mat-cell>
+									</ng-container>
+
+									<ng-container matColumnDef="stats">
+										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_STATUS}}
+										</mat-header-cell>
+										<mat-cell *matCellDef="let row" (dblclick)="enableStatus($event, row.assetId)">
+											<span *ngIf="!statsEdit || row.assetId != editAssetId">
+												{{row.status}}
+											</span> 
+											<div class="col-md-12" *ngIf="statsEdit  && row.assetId == editAssetId">
+												<mat-form-field fxFlex="30" class="example-full-width">
+													<mat-select placeholder="{{FiledLabels.NEW_STATUS}}" 
+													(selectionChange)="selectedStatus($event.value, row.assetId)">
+														<mat-option
+																*ngFor="let depot of ChangeStatus"
+																[value]="depot.statusCode">
+																{{ depot.statusCode}}
+															</mat-option>										
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</mat-cell>
 									</ng-container>
 								<!-- 	<ng-container matColumnDef="curentStatus">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -269,11 +316,11 @@
 									<ng-container matColumnDef="remark">
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}
 										</mat-header-cell>
-										<mat-cell *matCellDef="let row"  (dblclick)="enableRemarks($event)">
-											<span *ngIf="!remarksEdit"> 
+										<mat-cell *matCellDef="let row"  (dblclick)="enableRemarks($event, row.assetId)">
+											<span *ngIf="!remarksEdit || row.assetId != editAssetId"> 
 												{{row.remarks}}
 											</span>
-											<mat-form-field fxFlex="20" *ngIf="remarksEdit">
+											<mat-form-field fxFlex="20" *ngIf="remarksEdit  && row.assetId == editAssetId">
 												<input matInput placeholder="{{FiledLabels.REMARKS}}" 
 												(focusout)="disableRemarks($event, row.assetId)" value="{{row.remarks}}"
 												autocomplete="off"/>											
@@ -291,7 +338,7 @@
 											<mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
 										  </a>	 -->
 										  <button mat-raised-button color="accent" 
-													(click)="saveAction(row)">
+													(click)="saveAction(row)" [disabled]="row.dateOfStatus && row.status">
 													Save
 													</button>
 										  <a mat-icon-button matTooltip="History"  
@@ -302,7 +349,8 @@
 										</mat-cell>		
 												<ng-template #permissionElseBlock>
 													<button mat-raised-button color="accent" 
-													(click)="saveAction(row)">
+													(click)="saveAction(row)"
+													[disabled]="row.dateOfStatus==null || row.status == null">
 													{{title}}
 													</button>
 												
