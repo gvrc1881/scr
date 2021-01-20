@@ -286,15 +286,17 @@ ALTER FUNCTION public.asset_schedule_graph(text)
 
 
 --2
--- Function: public.day_div_tss_energy_consumption_v(date, character varying)
-
--- DROP FUNCTION public.day_div_tss_energy_consumption_v(date, character varying);
 
 CREATE OR REPLACE FUNCTION public.day_div_tss_energy_consumption_v(
-    IN record_date date,
-    IN req_division character varying)
-  RETURNS TABLE(div character varying, period_from text, period_to text, recording_date text, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading double precision, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption double precision, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date text, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date text, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, remarks character varying) AS
-$BODY$
+	record_date date,
+	req_division character varying)
+    RETURNS TABLE(div character varying, period_from text, period_to text, recording_date text, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading double precision, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption double precision, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date text, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date text, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, cur_max_load_time_date timestamp without time zone, remarks character varying) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$
 BEGIN
    RETURN QUERY
 
@@ -357,6 +359,7 @@ a.jr_kvah ,
 a.jr_rkvah_lag ,
 a.jr_rkvah_lead ,
 a.max_load_time_hhmm,
+a.cur_max_load_time_date::timestamp without time zone,
 a.remarks
  
 
@@ -385,7 +388,7 @@ to_char(f.joint_reading_date,'dd-mm-yyyy')  joint_reading_date ,
 --f.joint_reading_date ,
  f.no_of_days_lapsed_j_reading, f.jr_kwh, f.jr_kvah, f.jr_rkvah_lag, f.jr_rkvah_lead ,
 f.mavg_reading_date , f.no_of_days_rec_to_avg_reading, f.mavg_kwh_value, f.mavg_kvah_value, f.mavg_rkvah_lag_value, f.mavg_rkvah_lead_value, f.avg_kwh, f.avg_kvah, f.avg_rkvah_lag, f.avg_rkvah_lead ,
-  f.max_load_time_hhmm , f.remarks
+  f.max_load_time_hhmm , f.cur_max_load_time_date::timestamp ,f.remarks
 from
 (
 SELECT
@@ -410,7 +413,7 @@ SELECT
     cur.vol_min cur_vol_min,
     cur.max_load cur_max_load,
     cur.max_load_time_hhmm,
-    cur.max_load_time_date, cur.remarks,
+    cur.max_load_time_date cur_max_load_time_date, cur.remarks,
 --    cur.multiplication_fac ,
 --- recent to required date values
                
@@ -487,14 +490,14 @@ SELECT
 -- end of query
  
 
-END; $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION public.day_div_tss_energy_consumption_v(date, character varying)
-  OWNER TO postgres;
+END; $BODY$;
 
+ALTER FUNCTION public.day_div_tss_energy_consumption_v(date, character varying)
+    OWNER TO postgres;
+	
 --3
+
+
 
 -- FUNCTION: public.period_tss_energy_consumption_v(character varying, date, date)
 
@@ -504,7 +507,7 @@ CREATE OR REPLACE FUNCTION public.period_tss_energy_consumption_v(
 	tss_id character varying,
 	from_date date,
 	to_date date)
-    RETURNS TABLE(requested_tss_id character varying, period_from text, period_to text, req_date date, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading integer, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption numeric, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date date, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date date, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, remarks character varying) 
+    RETURNS TABLE(requested_tss_id character varying, period_from text, period_to text, req_date date, feeder_id character varying, feeder_name character varying, multiplication_fac numeric, requested_reading_date text, no_of_days_lapsed_reading integer, curseq_id character varying, curid bigint, cur_kwh numeric, prev_kwh numeric, consumption numeric, mavg_reading_date date, no_of_days_rec_to_avg_reading integer, mavg_kwh_value numeric, mavg_kvah_value numeric, mavg_rkvah_lag_value numeric, mavg_rkvah_lead_value numeric, avg_kwh numeric, avg_kvah numeric, avg_rkvah_lag numeric, avg_rkvah_lead numeric, first_reading_after_meter_fix text, meter_start_date date, reading_gap_days text, recent_reading_date text, prev_kvah numeric, cur_kvah numeric, prev_rkvah_lag numeric, cur_rkvah_lag numeric, prev_rkvah_lead numeric, cur_rkvah_lead numeric, cur_cmd numeric, cur_rmd numeric, cur_vol_max numeric, cur_vol_min numeric, cur_max_load numeric, joint_meter character varying, joint_reading_date date, no_of_days_lapsed_j_reading integer, jr_kwh numeric, jr_kvah numeric, jr_rkvah_lag numeric, jr_rkvah_lead numeric, max_load_time_hhmm text, cur_max_load_time_date timestamp without time zone, remarks character varying) 
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -570,6 +573,7 @@ a.prev_kwh ,
  a.jr_rkvah_lag, 
  a.jr_rkvah_lead ,
  a.max_load_time_hhmm,
+ a.cur_max_load_time_date::timestamp without time zone,
 	  a.remarks -- added mvag
 from
 (
@@ -587,7 +591,7 @@ recent_rkvah_lead as prev_rkvah_lead, f.cur_rkvah_lead,
 f.cur_cmd, f.cur_rmd, f.cur_vol_max,f. cur_vol_min  , f.cur_max_load   ,
  f.joint_reading_date, f.no_of_days_lapsed_j_reading, f.jr_kwh, f.jr_kvah, f.jr_rkvah_lag, f.jr_rkvah_lead ,
  f.mavg_reading_date , f.no_of_days_rec_to_avg_reading, f.mavg_kwh_value, f.mavg_kvah_value, f.mavg_rkvah_lag_value, f.mavg_rkvah_lead_value, f.avg_kwh, 
- f.avg_kvah, f.avg_rkvah_lag, f.avg_rkvah_lead , f.max_load_time_hhmm,
+ f.avg_kvah, f.avg_rkvah_lag, f.avg_rkvah_lead , f.max_load_time_hhmm, f.cur_max_load_time_date::timestamp ,
 	  f.remarks-- added mvag
 from
 (  
@@ -613,6 +617,7 @@ energy_consume_date ,
     cur.max_load cur_max_load,  
     cur.max_load_time_hhmm,  
     cur.max_load_time_date,  
+	cur.max_load_time_date cur_max_load_time_date, 
     cur.remarks, -- added line
     rec.seq_id rec_seq_id, rec.id , rec.energy_reading_date recent_energy_reading_Date ,  -- added alis rec_seq_id
     rec.location, rec.feeder_id rec_feeder_id,  
@@ -649,13 +654,27 @@ energy_consume_date ,
     case when (rec.energy_reading_date - mavg.energy_reading_date) > 0 then (mavg.rkvah_lead - rec.rkvah_lead) /(rec.energy_reading_date - mavg.energy_reading_date) else 0 end avg_rkvah_lead
      ----- ---- added monthly average readings ended  
    FROM  
-   (   
-   select energy_consume_date, em.feeder_id , em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks ,   
+   (   select energy_consume_date, em.feeder_id , em.id, em.seq_id ,  em.em_start_date , em.em_end_date , em.multiplication_fac , em.remarks ,   
 	em_m_start_reading , em_m_end_reading , em_start_kwh , em_start_kvah , em_start_rkvah_lag , em_start_rkvah_lead ,  
-	 em.feeder_name from v_energy_meter em ,  
+	 em.feeder_name from ( select * from v_energy_meter em1
+						  where (  
+							  -- cases meter fixed before start of given period and end before end of period
+							  (em1.em_start_date <= from_date::date  and em1.em_end_date >= from_date::date)
+						  		or
+							  -- cases meter fixed before start of given period and not ended before end of period
+							  (em1.em_start_date <= from_date::date and em1.em_end_date is NULL)
+							    or
+							  -- cases meter fixed after start of given period and end before end of period
+						   	  (em1.em_start_date <= from_date::date and em1.em_end_date < to_date::date ) 
+							  	or
+							  -- cases meter fixed after start of given period and not yet ended 
+							   (em1.em_start_date <= from_date::date and em1.em_end_date is NULL ) 
+							   )
+						and em1.feeder_id = tss_id
+						  )em ,  
 	-- (select generate_series(from_date::date,  to_date::date, interval '1 day')::date as energy_consume_date )dt   
 	 (select generate_series( from_date::date,  to_date::date, interval '1 day')::date as energy_consume_date )dt   
-	where em.feeder_id = tss_id    
+	where em.feeder_id = tss_id
 	 )  a  
    left outer join v_energy_consumption rec on rec.energy_reading_date = ( SELECT max(cur1.energy_reading_date) AS max  
 		FROM v_energy_consumption cur1  
@@ -695,6 +714,7 @@ END; $BODY$;
 
 ALTER FUNCTION public.period_tss_energy_consumption_v(character varying, date, date)
     OWNER TO postgres;
+
 
 ----4
 -- FUNCTION: public.user_func_location(text)

@@ -618,6 +618,8 @@ SELECT ec.id,
 -- View: public.v_energy_day_consumption_pf_cpr
 
 -- DROP VIEW public.v_energy_day_consumption_pf_cpr;
+
+CREATE OR REPLACE VIEW public.v_energy_day_consumption_pf_cpr AS 
 SELECT cur.seq_id,
     cur.id,
     cur.location,
