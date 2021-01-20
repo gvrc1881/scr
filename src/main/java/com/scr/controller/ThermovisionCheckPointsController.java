@@ -104,7 +104,7 @@ private Logger logger = Logger.getLogger(ThermovisionCheckPointsController.class
 			}
 			return checkPoints;
 		} catch (Exception e) {
-			logger.error("Error >>  while find check points based on facility id, "+e.getMessage());
+			logger.error("Error >>  while find check points based on facility Id, "+e.getMessage());
 		}
 		return checkPoints;
 	}

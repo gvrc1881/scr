@@ -58,8 +58,6 @@ export class CheckPointsComponent implements OnInit {
 }
 
 ngOnInit() {
-  console.log("distinctThings"+this.distinctDivi)
-  console.log("distinctDepotType"+this.distinctDepotType)
   this.divisionDetails();
   var permissionName = this.commonService.getPermissionNameByLoggedData("THERMOVISION","Thermovision Check Points") ;
   this.addPermission = this.commonService.getPermissionByType("Add", permissionName);

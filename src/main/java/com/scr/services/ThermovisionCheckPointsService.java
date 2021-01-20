@@ -10,7 +10,7 @@ import com.scr.repository.ThermovisionCheckPointsRepository;
 
 @Service
 public class ThermovisionCheckPointsService {
-	
+
 	@Autowired
 	private ThermovisionCheckPointsRepository thermovisionCheckPointsRepository;
 

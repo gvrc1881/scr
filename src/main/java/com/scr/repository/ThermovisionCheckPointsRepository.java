@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.scr.model.Facility;
 import com.scr.model.ThermovisionCheckPoints;
 
-
+//check points
 @Repository
 public interface ThermovisionCheckPointsRepository extends JpaRepository<ThermovisionCheckPoints, Long>{
 

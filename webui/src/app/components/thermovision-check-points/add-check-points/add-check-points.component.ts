@@ -52,7 +52,6 @@ export class AddCheckPointsComponent implements OnInit {
   }
 
   ngOnInit() { 
-    console.log("depotData"+JSON.stringify(this.depotData));
     this.depotTypeForOhe(); 
     this.id = +this.route.snapshot.params['id'];
       if (!isNaN(this.id)) { 
@@ -147,7 +146,6 @@ depotTypeForOhe()
   console.log("facilityId"+facilityId);
 this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.GET_CHECK_POINTS_BASED_ON_FACILITY_ID+facilityId).subscribe((data) => {
            this.comparisonPointsData = data;
-           console.log("comparisonPointsData"+JSON.stringify(data))
       });
 }
 public checkPoints = ['FIXED', 'FIXED_CClamp','CClamp'];
