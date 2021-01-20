@@ -90,7 +90,7 @@ from
 	) d_ag  -- division string concatenation
 	group by division
 ) split1
-order by division]]>
+order by division]]>  
 	</queryString>
 	<field name="division" class="java.lang.String"/>
 	<field name="div1_fy" class="java.lang.String"/>

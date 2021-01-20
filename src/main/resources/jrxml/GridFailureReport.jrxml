@@ -21,7 +21,7 @@ LEFT OUTER JOIN facility facility ON (f.extended_of = facility.facility_id )
 where to_char(created_date, 'yyyy-mm-dd')::date =$P{fromDate} ::date
 and f.type_of_failure ='GRID_FAILURE'
 and f.current_status = 'ACTIVE']]>
-	</queryString>
+	</queryString>  
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="remarks" class="java.lang.String"/>
 	<field name="feedof" class="java.lang.String"/>
