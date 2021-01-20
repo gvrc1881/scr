@@ -31,13 +31,13 @@ export class AshDailyProgressComponent implements OnInit{
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    displayedColumns = ['sno', 'schedule', 'progress'];
+    displayedColumns = ['sno', 'schedule', 'progress','monthlyProgress','cumProgress','monthlyTarget','cumTarget'];
     dataSource: MatTableDataSource<any>;
     ashDailyProgressData: any;
     ashDailyProgressList = [];
     inputFormGroup: FormGroup;
     depotsList: any = JSON.parse(localStorage.getItem('depotData'));
-    maxDate = new Date();
+    //maxDate = new Date();
     enableSave: boolean;
     resp: any;
     
@@ -72,7 +72,8 @@ export class AshDailyProgressComponent implements OnInit{
             this.resp = response;
             this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
-                this.commonService.showAlertMessage("Progress Data Updated Successfully");    
+                this.commonService.showAlertMessage("Progress Data Updated Successfully");
+                this.getAshDailyProgress();    
             }else
                 this.commonService.showAlertMessage("Progress Data Updating Failed");
             
@@ -88,6 +89,7 @@ export class AshDailyProgressComponent implements OnInit{
         +this.inputFormGroup.controls['fromDate'].value +'/' + this.inputFormGroup.controls['depot'].value 
             ).subscribe((data) => {
                 this.ashDailyProgressData = data;
+                console.log('*** data ***'+JSON.stringify(data));
              for (let i = 0; i < this.ashDailyProgressData.length; i++) {
                 this.ashDailyProgressData[i].sno = i + 1;
                 this.ashDailyProgressList.push(this.ashDailyProgressData[i]);

@@ -75,6 +75,26 @@
 													</mat-form-field>
 		                                        </mat-cell>
 		                                </ng-container>
+		                                
+		                                <ng-container matColumnDef="monthlyProgress">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MONTHLY_PROGRESS}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.monthlyProgress}}</mat-cell>
+                                        </ng-container>
+                                        
+		                                <ng-container matColumnDef="cumProgress">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CUM_PROGRESS}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.cumProgress}}</mat-cell>
+                                        </ng-container>
+                                        
+                                        <ng-container matColumnDef="monthlyTarget">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.MONTHLY_TARGET}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.monthlyTarget}}</mat-cell>
+                                        </ng-container>
+                                        
+		                                <ng-container matColumnDef="cumTarget">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CUM_TARGET}}</mat-header-cell>
+                                            <mat-cell *matCellDef="let row"> {{row.cumTarget}}</mat-cell>
+                                        </ng-container>
 
                                         <!-- <ng-container matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.ACTIONS}}</mat-header-cell>

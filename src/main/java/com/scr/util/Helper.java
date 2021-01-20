@@ -290,6 +290,34 @@ public class Helper {
 		}
 		return 0;
 	}
+	
+	public static Date getFinancialDate(Date date) {
+		logger.info("Date: "+date);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.MONTH) < 3 ? calendar.get(Calendar.YEAR) - 1 : calendar.get(Calendar.YEAR); 
+		calendar.set(year,03, 01);
+		logger.info(" financial date :"+calendar.getTime());
+		return calendar.getTime();
+	}
+	
+	public static Date getMonthStartDate(Date date) {
+		logger.info("Date: "+date);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH), 01);
+		logger.info(" Month start date :"+calendar.getTime());
+		return calendar.getTime();
+	}
+	
+	public static String getFinancialYear(Date date) {
+		logger.info("Date: "+date);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.MONTH) < 3 ? calendar.get(Calendar.YEAR) - 1 : calendar.get(Calendar.YEAR); 
+		calendar.set(year,03, 01);
+		return String.valueOf(calendar.get(calendar.YEAR));
+	}
 
 
 }

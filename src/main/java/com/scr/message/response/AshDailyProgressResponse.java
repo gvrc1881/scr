@@ -8,6 +8,10 @@ public class AshDailyProgressResponse {
 	private int dailyProgress;
 	private Date date;
 	private Long depotId;
+	private String cumProgress;
+	private String monthlyProgress;
+	private String monthlyTarget;
+	private String cumTarget;
 
 	public Date getDate() {
 		return date;
@@ -39,6 +43,38 @@ public class AshDailyProgressResponse {
 
 	public void setDailyProgress(int dailyProgress) {
 		this.dailyProgress = dailyProgress;
+	}
+
+	public String getCumProgress() {
+		return cumProgress;
+	}
+
+	public void setCumProgress(String cumProgress) {
+		this.cumProgress = cumProgress;
+	}
+
+	public String getMonthlyProgress() {
+		return monthlyProgress;
+	}
+
+	public void setMonthlyProgress(String monthlyProgress) {
+		this.monthlyProgress = monthlyProgress;
+	}
+
+	public String getMonthlyTarget() {
+		return monthlyTarget;
+	}
+
+	public void setMonthlyTarget(String monthlyTarget) {
+		this.monthlyTarget = monthlyTarget;
+	}
+
+	public String getCumTarget() {
+		return cumTarget;
+	}
+
+	public void setCumTarget(String cumTarget) {
+		this.cumTarget = cumTarget;
 	}
 
 }
