@@ -55,11 +55,11 @@ from
 			from
 			(SELECT
 			generate_series( (fy_start_date - interval '5 years')::date , fy_start_date , INTERVAL '1' year )::date FY_start
-			from date_dd_mm_fy_details('2021-01-01'::date)
+			from date_dd_mm_fy_details($P{fromDate}::date)
 			) a ,
 			(select distinct division from facility where division is not null ) fac,
 			(select 'Internal' as internal_external union select 'External' as internal_external) as b
-			where fy_start < ( select fy_start_date from date_dd_mm_fy_details('2021-01-01'::date) ) and fac.division=$P{division}
+			where fy_start < ( select fy_start_date from date_dd_mm_fy_details($P{fromDate}::date) ) and fac.division=$P{division}
 		) FY_D
 		left outer Join
 		(
@@ -73,7 +73,7 @@ from
 				 ELSE ((date_part('year'::text,  from_date_time::date)::integer - 1) || '-'::text) ||
 				 mod(date_part('year'::text,  from_date_time::date)::integer, 100)
 			END AS failure_fy
-			from ( select * from date_dd_mm_fy_details('2021-01-01'::date) ) fy ,  -- date passed
+			from ( select * from date_dd_mm_fy_details($P{fromDate}::date) ) fy ,  -- date passed
 			failures f
 			left outer join failure_analysis fa on (fa.failure_id::integer = f.id)
 			where f.from_date_time::date >= (fy_start_date - interval '5 years')::date
