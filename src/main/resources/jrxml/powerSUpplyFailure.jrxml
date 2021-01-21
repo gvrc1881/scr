@@ -20,7 +20,7 @@ to_char(f.thru_date_time, 'HH24:MI')as to,$P{fromDate} fromDate
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
-to_char(f.from_date_time, 'yyyy-mm-dd')::date = $P{fromDate}::date
+to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
 and type_of_failure ='POWER_FAILURE'
 
 Group by asset_id,  facility_name,duration,extended_of,

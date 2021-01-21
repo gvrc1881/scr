@@ -7,21 +7,24 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select f.created_date,f.remarks,FAC.facility_name as feedof,facility.facility_name as extended,$P{fromDate} as fromDate,
+		<![CDATA[
+select f.created_date,f.remarks,FAC.facility_name as feedof,facility.facility_name as extended,$P{fromDate} as fromDate,
 f.max_demand,f.load_relief_break_down,
-f.feed_of,f.from_date_time as fromTime ,f.thru_date_time as thruTime,
+f.feed_of,
+to_char(f.from_date_time, 'yyyy-mm-dd HH24:MM:SS') as fromTime ,
+to_char(f.thru_date_time, 'yyyy-mm-dd HH24:MM:SS') as thruTime,
 f.duration,
 f.extended_of,
-f.feed_extended_from_date_time,
-f.feed_extended_thru_date_time,
+to_char(f.feed_extended_from_date_time,'yyyy-mm-dd HH24:MM:SS') as feed_extended_from_date_time ,
+to_char(f.feed_extended_thru_date_time, 'yyyy-mm-dd HH24:MM:SS') as feed_extended_thru_date_time ,
 f.feed_extended_duration
 from failures f
 LEFT OUTER JOIN facility FAC ON (f.feed_of = fac.facility_id )
 LEFT OUTER JOIN facility facility ON (f.extended_of = facility.facility_id )
-where to_char(created_date, 'yyyy-mm-dd')::date =$P{fromDate} ::date
+where to_char(created_date, 'yyyy-mm-dd')::date =$P{fromDate}::date
 and f.type_of_failure ='GRID_FAILURE'
 and f.current_status = 'ACTIVE']]>
-	</queryString>  
+	</queryString>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="remarks" class="java.lang.String"/>
 	<field name="feedof" class="java.lang.String"/>
@@ -30,12 +33,12 @@ and f.current_status = 'ACTIVE']]>
 	<field name="max_demand" class="java.lang.String"/>
 	<field name="load_relief_break_down" class="java.lang.String"/>
 	<field name="feed_of" class="java.lang.String"/>
-	<field name="fromtime" class="java.sql.Timestamp"/>
-	<field name="thrutime" class="java.sql.Timestamp"/>
+	<field name="fromtime" class="java.lang.String"/>
+	<field name="thrutime" class="java.lang.String"/>
 	<field name="duration" class="java.lang.String"/>
 	<field name="extended_of" class="java.lang.String"/>
-	<field name="feed_extended_from_date_time" class="java.sql.Timestamp"/>
-	<field name="feed_extended_thru_date_time" class="java.sql.Timestamp"/>
+	<field name="feed_extended_from_date_time" class="java.lang.String"/>
+	<field name="feed_extended_thru_date_time" class="java.lang.String"/>
 	<field name="feed_extended_duration" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -232,7 +235,7 @@ and f.current_status = 'ACTIVE']]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Loa Reli /Break D]]></text>
