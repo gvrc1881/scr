@@ -37,7 +37,7 @@ export class AshDailyProgressComponent implements OnInit{
     ashDailyProgressList = [];
     inputFormGroup: FormGroup;
     depotsList: any = JSON.parse(localStorage.getItem('depotData'));
-    //maxDate = new Date();
+    maxDate = new Date();
     enableSave: boolean;
     resp: any;
     
