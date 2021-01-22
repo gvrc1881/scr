@@ -29,10 +29,10 @@
                                 (ngSubmit)="getCheckPoints();">
 		            			<div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="searchInputFormGroup.controls['division']">
-                                            <mat-option *ngFor="let distinctDivi of distinctDivi "
-                                                [value]="distinctDivi">
-                                                {{distinctDivi}}
+                                        <mat-select placeholder="{{FiledLabels.DIVISION}}" [formControl]="searchInputFormGroup.controls['division']"  (selectionChange)="getDepot()">
+                                            <mat-option *ngFor="let distinctDivi of divisionData "
+                                                [value]="distinctDivi.division">
+                                                {{distinctDivi.division}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -120,7 +120,7 @@
                                                     <mat-form-field floatLabel="never" >
                                                             <mat-select >
                                                             <mat-option *ngFor="let tempDiff of tempDiff"
-                                                            [value]="row.tempDiff" [(ngModel)]="tempDiff.tempDiff">
+                                                            [value]="row.tempDiff" >
                                                               {{ tempDiff }}
                                                             </mat-option>
                                                           </mat-select>

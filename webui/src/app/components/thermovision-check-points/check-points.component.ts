@@ -24,12 +24,12 @@ export class CheckPointsComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   title: string = Constants.EVENTS.UPDATE;
-  depotsData: any = JSON.parse(localStorage.getItem('depotData'));
+  originalDepotsData: any = JSON.parse(localStorage.getItem('depotData'));
+  divisionData: any = JSON.parse(localStorage.getItem('divisionData'));
 
-   distinctDivi:any = this.depotsData.map(item => item.division)
-   .filter((value, index, self) => self.indexOf(value) === index)
+   
 
-   distinctDepotType:any = this.depotsData.map(item => item.depotType)
+   distinctDepotType:any = this.originalDepotsData.map(item => item.depotType)
    .filter((value, index, self) => self.indexOf(value) === index)
 
   searchInputFormGroup: FormGroup;
@@ -149,10 +149,15 @@ divisionDetails() {
 
 getFacilitys(){
   var depotType = this.searchInputFormGroup.value.depotType ;
-this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
-           this.depotsList = data;
-      });
+  this.depotsList = this.originalDepotsData.filter(value => {
+    return value.depotType == depotType;
+  });
 }
-
+getDepot(){
+  var division = this.searchInputFormGroup.value.division ;
+  this.depotsList = this.originalDepotsData.filter(value => {
+    return value.division == division;
+  });
+}
 }
 
