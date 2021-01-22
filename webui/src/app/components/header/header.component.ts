@@ -145,7 +145,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 2,
         menuName: 'Reports',
-        menuUrl: 'daily-progress-reports',
+        menuUrl: 'zonal-reports',
         icon: "fa fa-area-chart",
         color: "#6212EE",
         permission: this.commonService.findPermission('Reports', 'menu', 'view'),
@@ -583,7 +583,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           path.includes("failure-occurrence") || path.includes("actions") || path.includes("failure-analysis") ? "open" : "",
         subMenus: [
           {
-            subMenuName: "CB Failure",
+            subMenuName: "CB Tripping",
             subMenuURL: "cb-failure",
             subMenuIcon: "fa fa-file",
             rolePermission: this.rolePermission,
@@ -601,7 +601,7 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("failure-analysis") ? "active-item" : "",
           },
           {
-            subMenuName: "Grid Failure",
+            subMenuName: "Grid/Supply Failure",
             subMenuURL: "grid-failure",
             subMenuIcon: "fa fa-file",
             permission: this.commonService.findPermission('Grid Failures', 'submenu', 'view'),

@@ -3,6 +3,7 @@ package com.scr.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Works;
 import com.scr.mapper.ContentManagementMapper;
+import com.scr.message.response.FailureResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.ContentManagement;
@@ -117,55 +119,64 @@ public class FailureService {
 		return assetMasterdataRepository.findByAssetIdBasedOnFacilityName(subStation);
 	}
 	
-	public Boolean existsByFeedOfAndFromDateTime(String feedOf, Timestamp fromDateTime) {
+	public Boolean existsByFeedOfAndFromDateTimeAndTypeOfFailure(String feedOf, Timestamp fromDateTime,String typeOfFailure) {
 		 //TODO Auto-generated method stub
-		return failuresRepository.existsByFeedOfAndFromDateTime(feedOf,fromDateTime);
+		return failuresRepository.existsByFeedOfAndFromDateTimeAndTypeOfFailure(feedOf,fromDateTime,typeOfFailure);
 	}
 	
-	public Boolean existsBySubStationAndEquipmentAndFromDateTime(String subStation, String equipment,Timestamp fromDateTime) {
+	public Boolean existsBySubStationAndEquipmentAndFromDateTimeAndTypeOfFailure(String subStation, String equipment,Timestamp fromDateTime,String typeOfFailure) {
 		 //TODO Auto-generated method stub
-		return failuresRepository.existsBySubStationAndEquipmentAndFromDateTime(subStation,equipment,fromDateTime);
+		return failuresRepository.existsBySubStationAndEquipmentAndFromDateTimeAndTypeOfFailure(subStation,equipment,fromDateTime,typeOfFailure);
 	}
-	public Boolean existsBySubStationAndOccurrence(String subStation, Timestamp fromDateTime) {
+	public Boolean existsBySubStationAndOccurrenceAndTypeOfFailure(String subStation, Timestamp fromDateTime,String typeOfFailure) {
 		 //TODO Auto-generated method stub
-		return failuresRepository.existsBySubStationAndOccurrence(subStation,fromDateTime);
+		return failuresRepository.existsBySubStationAndOccurrenceAndTypeOfFailure(subStation,fromDateTime,typeOfFailure);
 	}
-	public Boolean existsByOccurrenceAndPlaceAndFromDateTime(String occurrence, String place,Timestamp fromDateTime) {
+	public Boolean existsByOccurrenceAndPlaceAndFromDateTimeAndTypeOfFailure(String occurrence, String place,Timestamp fromDateTime,String typeOfFailure ) {
 		 //TODO Auto-generated method stub
-		return failuresRepository.existsByOccurrenceAndPlaceAndFromDateTime(occurrence,place,fromDateTime);
+		logger.info("service calling==");
+		return failuresRepository.existsByOccurrenceAndPlaceAndFromDateTimeAndTypeOfFailureAndTypeOfFailure(occurrence,place,fromDateTime,typeOfFailure);
 	}
-	public Boolean existsBySubStationAndLocationAndFromDateTime(String subStation, String location,Timestamp fromDateTime) {
+	public Boolean existsBySubStationAndLocationAndFromDateTimeAndTypeOfFailure(String subStation, String location,String fromDateTime,String typeOfFailure) {
 		 //TODO Auto-generated method stub
-		return failuresRepository.existsBySubStationAndLocationAndFromDateTime(subStation,location,fromDateTime);
+		
+		
+		return failuresRepository.existsBySubStationAndLocationAndFromDateTimeAndTypeOfFailure(subStation,location,Timestamp.valueOf(fromDateTime),typeOfFailure);
 	}
 	
-	public Optional<Failure> findByFeedOfAndFromDateTime(String feedOf, Timestamp fromDateTime) {
+	public Optional<Failure> findByFeedOfAndFromDateTimeAndTypeOfFailure(String feedOf, Timestamp fromDateTime,String typeOfFailure) {
 		// TODO Auto-generated method stub
-		return failuresRepository.findByFeedOfAndFromDateTime(feedOf,fromDateTime);
+		return failuresRepository.findByFeedOfAndFromDateTimeAndTypeOfFailure(feedOf,fromDateTime,typeOfFailure);
 	}
 	
-	public Optional<Failure> findBySubStationAndEquipmentAndFromDateTime(String subStation,String equipment, Timestamp fromDateTime) {
+	public Optional<Failure> findBySubStationAndEquipmentAndFromDateTimeAndTypeOfFailure(String subStation,String equipment, Timestamp fromDateTime,String typeOfFailure) {
 		// TODO Auto-generated method stub
-		return failuresRepository.findBySubStationAndEquipmentAndFromDateTime(subStation,equipment,fromDateTime);
+		return failuresRepository.findBySubStationAndEquipmentAndFromDateTimeAndTypeOfFailure(subStation,equipment,fromDateTime,typeOfFailure);
 	}
-	public Optional<Failure> findBySubStationAndOccurrence(String subStation,Timestamp fromDateTime) {
+	public Optional<Failure> findBySubStationAndOccurrenceAndTypeOfFailure(String subStation,Timestamp fromDateTime,String typeOfFailure) {
 		// TODO Auto-generated method stub
-		return failuresRepository.findBySubStationAndOccurrence(subStation,fromDateTime);
+		return failuresRepository.findBySubStationAndOccurrenceAndTypeOfFailure(subStation,fromDateTime,typeOfFailure);
 	}
-	public Optional<Failure> findByOccurrenceAndPlaceAndFromDateTime(String occurrence,String place,Timestamp fromDateTime) {
+	public Optional<Failure> findByOccurrenceAndPlaceAndFromDateTimeAndTypeOfFailure(String occurrence,String place,Timestamp fromDateTime,String typeOfFailure) {
 		// TODO Auto-generated method stub
-		return failuresRepository.findByOccurrenceAndPlaceAndFromDateTime(occurrence,place,fromDateTime);
+		return failuresRepository.findByOccurrenceAndPlaceAndFromDateTimeAndTypeOfFailure(occurrence,place,fromDateTime,typeOfFailure);
 	}
-	public Optional<Failure> findBySubStationAndLocationAndFromDateTime(String subStation,String location,Timestamp fromDateTime) {
+	public Optional<Failure> findBySubStationAndLocationAndFromDateTimeAndTypeOfFailure(String subStation,String location,Timestamp fromDateTime,String typeOfFailure) {
 		// TODO Auto-generated method stub
-		return failuresRepository.findBySubStationAndLocationAndFromDateTime(subStation,location,fromDateTime);
+		return failuresRepository.findBySubStationAndLocationAndFromDateTimeAndTypeOfFailure(subStation,location,fromDateTime,typeOfFailure);
 	}
+
+	/*public List<Failure> findFailureByTypeAndSubStation(String failureType, List<String> fac) {
+		
+		return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	}*/
 
 	public List<Failure> findFailureByTypeAndSubStation(String failureType, List<String> fac) {
 		
-		return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
-	}
-
+		List<Failure> failure = failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	
+	return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+}
 	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {	
 	
 		
@@ -225,6 +236,13 @@ public class FailureService {
 		logger.info("fac in service=="+fac);		
 		return failuresRepository.findFailureByTypeOfFailureAndDataDivInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
 	}
+	public FailureResponse existsBySubStationAndLocationAndFromDateTime(String subStation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
 
 
 

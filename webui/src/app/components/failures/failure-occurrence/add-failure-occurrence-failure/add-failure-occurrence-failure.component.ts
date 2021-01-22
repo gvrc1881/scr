@@ -332,14 +332,22 @@ findDivisions(){
   duplicateOccurenceAndPlaceAndFromDateTime() {
     
               
-      let occurrence: string = this.addFailureOccurrenceFailFromGroup.controls['occurrence'].value;
+    /*  let occurrence: string = this.addFailureOccurrenceFailFromGroup.controls['occurrence'].value;
       let place: string = this.addFailureOccurrenceFailFromGroup.controls['place'].value;
       let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value);
-     
+     */
+      var  data ={
+         occurrence : this.addFailureOccurrenceFailFromGroup.value.occurrence,
+       place : this.addFailureOccurrenceFailFromGroup.controls['place'].value,
+       fromDateTime : this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value),
+        "typeOfFailure" : Constants.FAILURE_TYPES.FAILURE_OCCURRENCE
+      }
+      console.log("valuess==="+JSON.stringify(data));
       const q = new Promise((resolve, reject) => {
       //this.makeService.existsMakeCode(makeCode)
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME+occurrence+'/'+place+'/'+fromDateTime)
-      .subscribe((duplicate) => {
+     // this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME+occurrence+'/'+place+'/'+fromDateTime+"/"+Constants.FAILURE_TYPES.FAILURE_OCCURRENCE)
+     this.sendAndRequestService.requestForPOST
+      (Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME,data,true) .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateOccurenceAndPlaceAndFromDateTime': true });
         } else {
@@ -352,15 +360,22 @@ findDivisions(){
 
   duplicateOccurenceAndPlaceAndFromDateTimeID() {
     
-    let id=this.id;        
+    /*let id=this.id;        
     let occurrence: string = this.addFailureOccurrenceFailFromGroup.controls['occurrence'].value;
     let place: string = this.addFailureOccurrenceFailFromGroup.controls['place'].value;
     let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value);
-   
+   */ var  data ={
+      id:this.id,
+      occurrence : this.addFailureOccurrenceFailFromGroup.value.occurrence,
+    place : this.addFailureOccurrenceFailFromGroup.controls['place'].value,
+    fromDateTime : this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addFailureOccurrenceFailFromGroup.controls['fromDateTime'].value),
+     "typeOfFailure" : Constants.FAILURE_TYPES.FAILURE_OCCURRENCE
+   }
     const q = new Promise((resolve, reject) => {
     //this.makeService.existsMakeCode(makeCode)
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME_ID+id+'/'+occurrence+'/'+place+'/'+fromDateTime)
-    .subscribe((duplicate) => {
+   // this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME_ID+id+'/'+occurrence+'/'+place+'/'+fromDateTime+"/"+Constants.FAILURE_TYPES.FAILURE_OCCURRENCE)
+   this.sendAndRequestService.requestForPOST
+   (Constants.app_urls.FAILURES.EXIST_OCCURENCE_PLACE_FROMDATETIME_ID,data,true).subscribe((duplicate) => {
       if (duplicate) {
         resolve({ 'duplicateOccurenceAndPlaceAndFromDateTimeID': true });
       } else {

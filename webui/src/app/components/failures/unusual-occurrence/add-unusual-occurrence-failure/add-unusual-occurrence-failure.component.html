@@ -47,7 +47,12 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.LOCATION}}"
-                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']" pattern="^[a-zA-Z,0-9,/]+(\s[a-zA-Z,0-9]+)?$" required>                                                           
+                                                                [formControl]="addUnusualOccurrenceFromGroup.controls['location']" pattern="^[a-zA-Z,0-9,/]+(\s[a-zA-Z,0-9]+)?$" 
+                                                                 required>    
+                                                                <mat-error
+                                                            *ngIf="addUnusualOccurrenceFromGroup.controls['location'].touched"
+                                                            class="alert alert-danger">Special Characters are not allowed
+                                                        </mat-error>                                                       
                                                         </mat-form-field>
                                                     </div>                                                 
 

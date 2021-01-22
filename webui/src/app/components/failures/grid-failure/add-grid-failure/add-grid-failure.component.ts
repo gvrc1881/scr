@@ -442,7 +442,7 @@ timDuration(){
               const q = new Promise((resolve, reject) => {
         let feedOf: string = this.addGridFailFromGroup.value.feedOff;
         let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['fromDateTime'].value);   
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME+feedOf+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME+feedOf+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.GRID_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateFeedOfAndFromDateTime': true });
@@ -461,7 +461,7 @@ timDuration(){
       let feedOf: string = this.addGridFailFromGroup.controls['feedOff'].value;
       let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addGridFailFromGroup.controls['fromDateTime'].value);
   
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME_ID+id+'/'+feedOf+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_FEEDOF_FROMDATETIME_ID+id+'/'+feedOf+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.GRID_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateFeedOfAndFromDateTimeAndID': true });

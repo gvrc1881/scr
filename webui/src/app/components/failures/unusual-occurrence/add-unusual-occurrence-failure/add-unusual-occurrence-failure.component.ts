@@ -25,6 +25,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   title:string;
   relayIndicationList = [];
   natureOfCloseList = [];
+  location :string =""; 
   addUnusualOccurrenceFromGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
@@ -281,7 +282,7 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
     if (this.save) {
       data = {
         'subStation': this.addUnusualOccurrenceFromGroup.value.subStation , 
-        'location': this.addUnusualOccurrenceFromGroup.value.location , 
+        'location': this.addUnusualOccurrenceFromGroup.value.location, 
         'causeOfFailure': this.addUnusualOccurrenceFromGroup.value.causeOfFailure, 
         'fromDateTime': this.addUnusualOccurrenceFromGroup.value.fromDateTime,
         'thruDateTime': this.addUnusualOccurrenceFromGroup.value.thruDateTime,
@@ -367,11 +368,21 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   duplicateSubStationAndLocationAndFromDateTime() {
     const q = new Promise((resolve, reject) => {
               
-      let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
-      //let location: string = this.addUnusualOccurrenceFromGroup.value.location;
-      let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
-    
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME+subStation+'/'+this.addUnusualOccurrenceFromGroup.value.location+'/'+fromDateTime)
+     var  data ={
+        "subStation" : this.addUnusualOccurrenceFromGroup.controls['subStation'].value,
+        "location" : this.addUnusualOccurrenceFromGroup.controls['location'].value,
+        "fromDateTime" :this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value),
+        "typeOfFailure" : Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE
+      } 
+   // let subStation=this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
+   // let location= this.addUnusualOccurrenceFromGroup.controls['location'].value;
+  // let fromDateTime= this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value)
+      console.log("validations=="+JSON.stringify(data));
+ 
+     // this.sendAndRequestService.requestForGET
+     // (Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME+subStation+'/'+location+"/"+fromDateTime+"/"+Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE)
+     this.sendAndRequestService.requestForPOST
+      (Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME,data,true)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndLocationAndFromDateTime': true });
@@ -385,13 +396,21 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
   duplicateSubStationAndLocationAndFromDateTimeID() { 
     const q = new Promise((resolve, reject) => {
 
-      let id=this.id;        
+     /* let id=this.id;        
       let subStation: string = this.addUnusualOccurrenceFromGroup.controls['subStation'].value;
-      //let location: string = this.addUnusualOccurrenceFromGroup.value.location;
+      let location: string = this.addUnusualOccurrenceFromGroup.value.location;
       let fromDateTime: string =this.sendAndRequestService.convertIndiaStandardTimeToTimestamp( this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value);
-    
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID+id+'/'+subStation+'/'+this.addUnusualOccurrenceFromGroup.value.location+'/'+fromDateTime)
-      .subscribe((duplicate) => {
+    */
+   var  data ={
+    id:this.id,
+    "subStation" : this.addUnusualOccurrenceFromGroup.controls['subStation'].value,
+    "location" : this.addUnusualOccurrenceFromGroup.controls['location'].value,
+    "fromDateTime" :this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addUnusualOccurrenceFromGroup.controls['fromDateTime'].value),
+    "typeOfFailure" : Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE
+  } 
+      //this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID+id+'/'+subStation+'/'+location+'/'+fromDateTime+"/"+Constants.FAILURE_TYPES.UNUSUAL_OCCURRENCE_FAILURE)
+      this.sendAndRequestService.requestForPOST
+      (Constants.app_urls.FAILURES.EXIST_STATION_LOCATION_FROMDATETIME_ID,data,true).subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndLocationAndFromDateTimeID': true });
         } else {

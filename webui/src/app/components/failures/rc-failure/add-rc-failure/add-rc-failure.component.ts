@@ -349,7 +349,7 @@ findFacilities(){
       let subStation: string = this.addRcFailFromGroup.controls['subStation'].value;
       let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp( this.addRcFailFromGroup.controls['fromDateTime'].value);
      
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE+subStation+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE+subStation+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.RC_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndOccurence': true });
@@ -368,7 +368,7 @@ findFacilities(){
       let subStation: string = this.addRcFailFromGroup.controls['subStation'].value;
       let fromDateTime: string = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addRcFailFromGroup.controls['fromDateTime'].value);
     
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE_ID+id+'/'+subStation+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_OCCURENCE_ID+id+'/'+subStation+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.RC_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndOccurenceID': true });

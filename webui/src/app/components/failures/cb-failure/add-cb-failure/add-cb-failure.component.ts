@@ -514,7 +514,7 @@ function(){
       let fromDateTime = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.controls['fromDateTime'].value);
       
       
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME+subStation+'/'+equipment+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME+subStation+'/'+equipment+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.CB_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndEquipmentAndFromDateTime': true });
@@ -532,10 +532,10 @@ function(){
          let id=this.id;      
       let subStation: string = this.addCbFailFromGroup.controls['subStation'].value;
       let equipment: string = this.addCbFailFromGroup.controls['equipment'].value;
-      let fromDateTime = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.controls['fromDateTime'].value);   ;
+      let fromDateTime = this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.controls['fromDateTime'].value);   
      
       
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME_ID+id+'/'+subStation+'/'+equipment+'/'+fromDateTime)
+      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.EXIST_SUBSTATION_EQUPMENT_FROMDATETIME_ID+id+'/'+subStation+'/'+equipment+'/'+fromDateTime+'/'+Constants.FAILURE_TYPES.CB_FAILURE)
       .subscribe((duplicate) => {
         if (duplicate) {
           resolve({ 'duplicateSubStationAndEquipmentAndFromDateTimeAndId': true });
