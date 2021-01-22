@@ -93,14 +93,14 @@ private Logger logger = Logger.getLogger(ThermovisionCheckPointsController.class
 //		logger.info("** preparing response and getComparisonPoints OnFacilityId AndDescription function end ***");
 //			return new ResponseEntity<List<ThermovisionCheckPoints>>(checkPointsList, HttpStatus.OK);		
 //	}
-	@RequestMapping(value = "/getComparisonPointsOnFacilityIdAndDescription/{facilityId}/{checkPointDescription}" , method = RequestMethod.GET , headers = "Accept=application/json")
-	public List<ThermovisionCheckPoints> findCheckPointsBasedOnFacilityId(@PathVariable("facilityId") Long facilityId,@PathVariable("checkPointDescription") String checkPointDescription){
+	@RequestMapping(value = "/getComparisonPointsOnFacilityIdAndDescription/{facilityId}/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public List<ThermovisionCheckPoints> findCheckPointsBasedOnFacilityId(@PathVariable("facilityId") Long facilityId,@PathVariable("checkPointDescription") Long id){
 		logger.info("Enter into findCheckPointsBasedOnFacilityId function ");
 		List<ThermovisionCheckPoints> checkPoints = null;
 		try {
 			Optional<Facility> facility = facilityService.findFacilityById(facilityId);
 			if (facility.isPresent()) {
-				checkPoints = thermovisionCheckPointServices.findByFacilityIdAndCheckPointDescription(facility.get(),checkPointDescription);
+				checkPoints = thermovisionCheckPointServices.findByFacilityIdAndIdNotIn(facility.get(),id);
 			}
 			return checkPoints;
 		} catch (Exception e) {

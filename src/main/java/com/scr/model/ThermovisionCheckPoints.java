@@ -1,6 +1,8 @@
 package com.scr.model;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +30,9 @@ public class ThermovisionCheckPoints implements Serializable {
 	private String displayGroup;
 
 	private String displayOrder;
+	
+	@Column(name="display_of_temp_diff")
+	private String displayOfTempDiff;
 
 	private String active;
 
@@ -107,6 +112,14 @@ public class ThermovisionCheckPoints implements Serializable {
 
 	public void setFacilityId(Facility facilityId) {
 		this.facilityId = facilityId;
+	}
+
+	public String getDisplayOfTempDiff() {
+		return displayOfTempDiff;
+	}
+
+	public void setDisplayOfTempDiff(String displayOfTempDiff) {
+		this.displayOfTempDiff = displayOfTempDiff;
 	}
 
 	

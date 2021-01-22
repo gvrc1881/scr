@@ -15,7 +15,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 })
 
 export class AddCheckPointsComponent implements OnInit {
-
+e
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     save: boolean = true;
@@ -32,6 +32,7 @@ export class AddCheckPointsComponent implements OnInit {
     facilityData: any;
     comparisonPointsData:any;
     dependencyValidation:boolean=false;
+    public tempDiff = ['YES','NO'];
 
   constructor( private formBuilder: FormBuilder,
     private spinnerService: Ng4LoadingSpinnerService,
@@ -92,6 +93,7 @@ this.addCheckPointsFormGroup = this.formBuilder.group({
   'commparisonPoints':[null],
   'typeOfCheckPoint':[null],
   'displayOrder':[null],
+  'displayOfTempDiff':['NO']
 });
 }
 
@@ -105,6 +107,7 @@ this.spinnerService.show();
 
   if (this.save) {
     var saveCheckPointsModel = {
+      "active":"Yes",
       "facilityId": this.addCheckPointsFormGroup.value.facilityId,
       "checkPointPart": this.addCheckPointsFormGroup.value.checkPointPart,
       "checkPointDescription": this.addCheckPointsFormGroup.value.checkPointDescription,

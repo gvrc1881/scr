@@ -23,31 +23,28 @@ public class ThermovisionCheckPointsService {
 		return thermovisionCheckPointsRepository.save(checkPoints);
 	}
      public List<ThermovisionCheckPoints> getThermovisionCheckPointsBasedOnFacilityId(Facility facility) {
- 		return thermovisionCheckPointsRepository.findByFacilityId(facility);
+ 		return thermovisionCheckPointsRepository.findByFacilityIdOrderByDisplayOrderAsc(facility);
  	}
      public void updateCheckPoints(List<ThermovisionCheckPoints> checkPointsData) {
  		
  		for (ThermovisionCheckPoints checkPoints : checkPointsData) {
  			
- 			Optional<ThermovisionCheckPoints> cPData = thermovisionCheckPointsRepository.findByFacilityIdAndCheckPointPart(checkPoints.getFacilityId(),checkPoints.getCheckPointPart());
- 			if (cPData.isPresent()) {
- 				ThermovisionCheckPoints updateCheckPointsData = cPData.get();
+ 			List<ThermovisionCheckPoints> cPData = thermovisionCheckPointsRepository.findByFacilityIdOrderByDisplayOrderAsc(checkPoints.getFacilityId());
+ 				ThermovisionCheckPoints updateCheckPointsData = cPData.get(0);
  				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
  				updateCheckPointsData.setCheckPointDescription(checkPoints.getCheckPointDescription());
  				updateCheckPointsData.setCommparisonPoints(checkPoints.getCommparisonPoints());
- 				updateCheckPointsData.setDisplayGroup(checkPoints.getDisplayGroup());
+ 				updateCheckPointsData.setTypeOfCheckPoint(checkPoints.getTypeOfCheckPoint());
  				updateCheckPointsData.setDisplayOrder(checkPoints.getDisplayOrder());
- 				
- 				thermovisionCheckPointsRepository.save(updateCheckPointsData);
- 			}
- 			
+ 				updateCheckPointsData.setDisplayOfTempDiff(checkPoints.getDisplayOfTempDiff());
+ 				thermovisionCheckPointsRepository.save(updateCheckPointsData); 			
  		} 
  		
  		
  	}
      
-     public List<ThermovisionCheckPoints> findByFacilityIdAndCheckPointDescription(Facility facilityId,String checkPointDescription) {
- 		List<ThermovisionCheckPoints> checkPointList = thermovisionCheckPointsRepository.findByFacilityIdAndCheckPointDescription(facilityId,checkPointDescription);
+     public List<ThermovisionCheckPoints> findByFacilityIdAndIdNotIn(Facility facilityId,Long id) {
+ 		List<ThermovisionCheckPoints> checkPointList = thermovisionCheckPointsRepository.findByFacilityIdAndIdNotIn(facilityId,id);
  		return checkPointList;
  	}
 }

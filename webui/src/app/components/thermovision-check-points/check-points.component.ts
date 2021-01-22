@@ -6,10 +6,8 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { Constants } from 'src/app/common/constants';
 import { ChekPointsModel } from 'src/app/models/check-points.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatTableDataSource, MatPaginator,  MatDialogRef, MatDialog, } from '@angular/material';
-import { FuseConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 import { Location } from '@angular/common';
 
 
@@ -37,14 +35,17 @@ export class CheckPointsComponent implements OnInit {
   searchInputFormGroup: FormGroup;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataSource: MatTableDataSource<ChekPointsModel>;
-  displayedColumns = ['sno','checkPointPart', 'checkPointDescription','commparisonPoints','displayOrder'];
+  displayedColumns = ['sno','checkPointPart', 'checkPointDescription','commparisonPoints','displayOrder','tempDiff'];
   enableUpdate: boolean; 
   divisionsList:any;
   funLocTypeData:any;
   depotsList:any;
+  pointsData:any;
   checkPointsList = [];
   res: any;
   enableSave: boolean;
+  checkPoints =[];
+  public tempDiff = ['YES','NO'];
 
 
   constructor(
@@ -53,7 +54,6 @@ export class CheckPointsComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private commonService: CommonService,
     private sendAndRequestService:SendAndRequestService ,  
-    private location: Location,    
 ) {
 }
 
@@ -97,7 +97,11 @@ getCheckPoints() {
            if(this.checkPointsList.length > 0) {
                for(let i =0 ; i < this.checkPointsList.length ; i++ ){
                    this.checkPointsList[i].sno = i+1;
-                  console.log('checkPointPart'+this.checkPointsList[i].checkPointPart);
+                   this.checkPoints = this.checkPointsList.filter(value => {
+                    return value.id != this.checkPointsList[i].id;
+                  });
+                  this.checkPointsList[i].checkPointsList = this.checkPoints;
+                  console.log('checkPointPart'+this.checkPointsList[i].checkPointsList);
                }
                this.enableSave = true;
            }
@@ -106,23 +110,35 @@ getCheckPoints() {
 }
 updateCheckPoints()
  {
-  this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.UPDATE_CHECK_POINTS,this.checkPointsList,false).subscribe((response) => {
+   console.log("checkPoints")
+   for(let i =0 ; i < this.checkPointsList.length ; i++ ){
+    this.checkPointsList[i].checkPointsList = [];
+  }
+  this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.UPDATE_CHECK_POINTS,this.checkPointsList,true).subscribe((response) => {
     this.spinnerService.hide();
+    console.log('** request **'+JSON.stringify(this.checkPointsList));
    this.res = response;
-   if( this.res.code == 200 ){
-        this.commonService.showAlertMessage("Check Points Updated Successfully");
-   } else {
-       this.commonService.showAlertMessage("Check Points Updation failed");
-   }    
-})
+   this.enableSave = false;
+   if (this.res.code == Constants.CODES.SUCCESS) {
+      this.commonService.showAlertMessage("Check Points Data Updated Successfully");
+      this.searchInputFormGroup.reset();
+      this.dataSource=new MatTableDataSource();
+      this.enableUpdate=false;
+      this.addPermission=true;
+      //this.router.navigate(['../'], { relativeTo: this.route });
+    } else {
+      this.commonService.showAlertMessage("Check Points Updating Failed.");
+    }
+  }, error => {
+    console.log('ERROR >>>');
+    this.spinnerService.hide();
+    this.commonService.showAlertMessage("Check Points Updating Failed.");
+  });
  
 }
 
 
-onGoBack() {
- // this.router.navigate(['../'], { relativeTo: this.route });
- this.location.back();
-  }
+
 
 divisionDetails() {
   this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)

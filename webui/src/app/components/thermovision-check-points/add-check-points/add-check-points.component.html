@@ -51,7 +51,7 @@
                                                     </div>  
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="commparison Points"
+                                                            <mat-select placeholder="commparison Point"
                                                                 [formControl]="addCheckPointsFormGroup.controls['commparisonPoints']" >
                                                                 <mat-option *ngFor="let comparisonPointsData of comparisonPointsData"
                                                                     [value]="comparisonPointsData.id">
@@ -73,6 +73,17 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="Display Order" numbersOnly [formControl]="addCheckPointsFormGroup.controls['displayOrder']" required/>                                                          
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="Display Of Temp Diff"
+                                                                [formControl]="addCheckPointsFormGroup.controls['displayOfTempDiff']">
+                                                                <mat-option *ngFor="let tempDiff of tempDiff"
+                                                                    [value]="tempDiff">
+                                                                    {{ tempDiff}}
+                                                                </mat-option>
+                                                            </mat-select>
                                                         </mat-form-field>
                                                     </div>
                                         <div class="clearfix"></div>
