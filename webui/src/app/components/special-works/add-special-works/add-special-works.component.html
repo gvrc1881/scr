@@ -79,7 +79,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                           <textarea matInput placeholder="{{FiledLabels.REMARKS}}"
-                                                            [formControl]="addSpecialWorksFormGroup.controls['remarks']"></textarea>
+                                                            [formControl]="addSpecialWorksFormGroup.controls['remarks']" required></textarea>
                                                           <mat-error
                                                             *ngIf="addSpecialWorksFormGroup.controls['remarks'].hasError('maxlength') && addSpecialWorksFormGroup.controls['remarks'].touched"
                                                             class="alert alert-danger">Max 250 characters only

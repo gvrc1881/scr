@@ -699,7 +699,7 @@ export const FieldLabelsConstant = {
     SPECIAL_WORKS_DATA:'Special Works Data',
     SPECIAL_WORKS_MASTER_DATA:'Special Works Master Data',
     SPECIAL_WORKS_FORM:'Special Works Form',
-    SPECIAL_WORKS_MATER_FORM:'Special Works Mater Form',
+    SPECIAL_WORKS_MATER_FORM:'Special Works Master Form',
     TOWERCAR_STATUS:'TowerCar Status',
     THERMOVISION_MEASURE_INFORMATION: 'Thermovision Measure Information',
     THERMOVISION_CHECK_POINTS:'Thermovision Check Points',

@@ -47,8 +47,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <textarea matInput placeholder="{{FiledLabels.DONE_BY}}"
-                                                                [formControl]="addSpecialWorksFormGroup.controls['doneBy']"
-                                                                required 
+                                                                [formControl]="addSpecialWorksFormGroup.controls['doneBy']"  required 
                                                                 pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$"> </textarea>
                                                             <mat-error
                                                                 *ngIf="addSpecialWorksFormGroup.controls['doneBy'].hasError('pattern') && addSpecialWorksFormGroup.controls['doneBy'].touched"

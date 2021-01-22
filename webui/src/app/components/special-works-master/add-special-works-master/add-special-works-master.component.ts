@@ -79,7 +79,7 @@ export class AddSpecialWorksMasterComponent implements OnInit {
     this.addSpecialWorksFormGroup = this.formBuilder.group({
       id: 0,
       'precautionaryMeasure': [null, Validators.compose([Validators.required]),this.duplicatePrecautionaryMeasure.bind(this)],
-      'doneBy': [null, Validators.compose([Validators.required])]
+      'doneBy': [null]
       
     });
   }
@@ -87,7 +87,7 @@ export class AddSpecialWorksMasterComponent implements OnInit {
     this.addSpecialWorksFormGroup = this.formBuilder.group({
       id: 0,
       'precautionaryMeasure': [null, Validators.compose([Validators.required]),this.duplicatePrecautionaryMeasureByID.bind(this)],
-      'doneBy': [null, Validators.compose([Validators.required])]
+      'doneBy': [null]
       
     });
   }
