@@ -98,11 +98,11 @@ export class RcFailureComponent implements OnInit {
         this.RcFailList[i].thruDateTime = this.datePipe.transform(this.RcFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');        
         this.RcFailList[i].divisionLocal=this.RcFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.RcFailList[i].internalExternal=this.RcFailList[i].internalExternal == 'true' ? 'External': 'Internal',
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.RcFailList[i].subStation).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityList = data;
-          this.RcFailList[i].subStation = this.facilityList.facilityName;
-        });
+        // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.RcFailList[i].subStation).subscribe((data) => {
+        //   this.spinnerService.hide();
+        //   this.facilityList = data;
+        //   this.RcFailList[i].subStation = this.facilityList.facilityName;
+        // });
        
         RcFail.push(this.RcFailList[i]);
       }

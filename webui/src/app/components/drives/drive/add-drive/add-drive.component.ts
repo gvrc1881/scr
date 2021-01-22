@@ -92,9 +92,9 @@ export class AddDriveComponent implements OnInit {
         this.onFormValuesChanged();
       });
       this.spinnerService.show();
-      console.log("save==="+this.save);
+ 
       this.save = false;
-      console.log("saved==="+this.save);
+    
       this.update = true;
       this.title = Constants.EVENTS.UPDATE;
       this.getDriveDataById(this.id);
@@ -166,26 +166,7 @@ export class AddDriveComponent implements OnInit {
     this.getFunctionalUnits(this.depotCode);
 
   }
-  creatDriveForm() {
-    this.addDriveFormGroup = this.formBuilder.group({
-      id: 0,
-      'name': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateName.bind(this)],
-      'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]), this.duplicateDescription.bind(this)],
-      'fromDate': [null, Validators.required],
-      'toDate': [null],
-      'depoType': [null,Validators.compose([Validators.required])],
-      'assetType': [null,Validators.compose([Validators.required])],
-      'frequency':[null],
-      'assetDescription': [null, Validators.maxLength(255)],
-      'criteria': [null, Validators.maxLength(255)],
-      'targetQuantity': [null],
-      'isIdRequired': ['Yes'],
-      'functionalUnit': [null],
-      'checklist': ['No'],
-      'status': ['Yes'],
-      
-    });
-  }
+
   duplicateName() {
     var name =  this.addDriveFormGroup.controls['name'].value
     const q = new Promise((resolve, reject) => {
@@ -304,8 +285,7 @@ export class AddDriveComponent implements OnInit {
           
         });
         this.IsRequire();
-        //this.save = false;
-        console.log("this.save==="+this.save);
+        //this.save = false;       
       this.toMinDate = new Date(this.resp.fromDate);
       this.depotCode = this.resp.depotType['code'];
         if (this.resp.depotType != null) {

@@ -115,11 +115,11 @@ export class CbFailureComponent implements OnInit {
         this.CbFailList[i].divisionLocal=this.CbFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.CbFailList[i].internalExternal=this.CbFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         this.CbFailList[i].trippedIdentifiedFault=this.CbFailList[i].trippedIdentifiedFault == 'true' ? 'ReasonIdentified': 'Transient',
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.CbFailList[i].subStation).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityList = data;
-          this.CbFailList[i].subStation = this.facilityList.facilityName;
-        });
+        // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.CbFailList[i].subStation).subscribe((data) => {
+        //   this.spinnerService.hide();
+        //   this.facilityList = data;
+        //   this.CbFailList[i].subStation = this.facilityList.facilityName;
+        // });
         
         CbFail.push(this.CbFailList[i]);
       }

@@ -29,11 +29,12 @@ export class AddCbFailureComponent implements OnInit {
   addCbFailFromGroup: FormGroup;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   stateList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  depotTypesList = [{ 'id': 1, "value": 'TSS' }, { 'id': 3, "value": 'SP' },
+  { 'id': 3, "value": 'SSP' }];
   driveList = [];
+  depot:any;
   reportedList=[];
-  cbFailFormErrors: any;
-  feedersList:any;
-  extendedFromList:any=[];
+  cbFailFormErrors: any;  
   resp: any;
   reportDescriptionFlag=false;
   currentDate = new Date();
@@ -51,7 +52,7 @@ export class AddCbFailureComponent implements OnInit {
   zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
   divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
   subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
-  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));
 
 
   divisionList:any; 
@@ -68,6 +69,7 @@ export class AddCbFailureComponent implements OnInit {
   ) {
     // Reactive form errors
     this.cbFailFormErrors = {
+      depotType:{},
       subStation: {}, 
       equipment: {}, 
       cascadeAssets: {}, 
@@ -99,12 +101,12 @@ export class AddCbFailureComponent implements OnInit {
     this.findNatureOfCloseStatus();
     this.findCbInternal();
     this.findCbExternal();
-   // this.findFacilities();
+    this.findFacilities();
     this.id = +this.route.snapshot.params['id'];   
   
       if (!isNaN(this.id)) {
       this.updateForm();
-      this.findFacilities();
+     // this.findFacilities();
       this.addCbFailFromGroup.valueChanges.subscribe(() => {
         this.onFormValuesChanged();
       });
@@ -114,7 +116,7 @@ export class AddCbFailureComponent implements OnInit {
       this.title = Constants.EVENTS.UPDATE;       
       this.getCbFailDataById(this.id);
     } else {
-      this.findFacilities();
+     // this.findFacilities();
       this.createForm();
       this.title = Constants.EVENTS.ADD;
     }
@@ -140,21 +142,13 @@ export class AddCbFailureComponent implements OnInit {
         this.spinnerService.hide();
       })
   }
-  findFeedersList(){
-    this.spinnerService.show();
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_CONSUMPTION.FIND_TSS_FEEDER_MASTER )
-      .subscribe((response) => {
-        
-        this.feedersList = response;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
-  }
+ 
 
   createForm() {
     this.addCbFailFromGroup
       = this.formBuilder.group({
         id: 0,
+        'depotType':[null],
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
         'cascadeAssets': [null], 
@@ -184,6 +178,7 @@ export class AddCbFailureComponent implements OnInit {
       = this.formBuilder.group({
 
         id: 0,
+        'depotType':[null],
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
         'cascadeAssets': [null], 
@@ -227,8 +222,15 @@ export class AddCbFailureComponent implements OnInit {
   getCbFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
-        this.resp = resp;
+        this.resp = resp;             
         this.minDate = new Date(this.resp.fromDateTime);
+
+         this.facilityHierarchy.filter(value => {
+            if(value.facilityId == this.resp.subStation){
+              this.addCbFailFromGroup.patchValue({depotType :value.depotType})
+            }
+        });
+
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
           subStation:this.resp.subStation,
@@ -255,11 +257,7 @@ export class AddCbFailureComponent implements OnInit {
           remarks: this.resp.remarks,
          
         });
-        this.feedersList.map(element => {
-          if(element.id != this.resp.id){
-            this.extendedFromList.push(element);
-          }
-        });
+       this. updatesubStation();
         this.spinnerService.hide();
        
 
@@ -307,7 +305,7 @@ export class AddCbFailureComponent implements OnInit {
    
     this.facilityList=[]; 
      if(this.loggedUserData.username == 'tpc_admin'){
-console.log("facility in tpc===="+JSON.stringify(this.facilityHierarchy));
+
     //  this.enableStation=true;
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
@@ -321,19 +319,26 @@ console.log("facility in tpc===="+JSON.stringify(this.facilityHierarchy));
 
     } else {
       //this.enableStation=true;
-      console.log("facility in else===="+JSON.stringify(this.facilityHierarchy));
+      
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
         if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
-           console.log("facility list in tss=="+JSON.stringify(this.facilityList));
+          
            // this.facilityHierarchy.facilityList;
             
         }
      } 
 
     }    
+}
+updatesubStation() {
+ 
+  this.facilityList = this.facilityHierarchy.filter(value => {
+    return value.depotType == this.addCbFailFromGroup.controls['depotType'].value;
+  });
+  
 }
 
 timeDuration(){

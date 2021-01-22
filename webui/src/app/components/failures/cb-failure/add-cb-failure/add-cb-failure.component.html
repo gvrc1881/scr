@@ -42,6 +42,18 @@
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div> -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}" (selectionChange)="updatesubStation()"
+                                                                [formControl]="addCbFailFromGroup.controls['depotType']" >
+                                                                <mat-option *ngFor="let depotType of depotTypesList"
+                                                                    [value]="depotType.value">
+                                                                    {{ depotType.value }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+
                                                      <div *ngIf ="enableStation">
                                                     </div>
                                                     <div *ngIf="!enableStation; else StationElseBlock">

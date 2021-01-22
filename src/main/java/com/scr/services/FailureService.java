@@ -20,6 +20,7 @@ import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
 import com.scr.model.Works;
 import com.scr.mapper.ContentManagementMapper;
+import com.scr.mapper.FailureMapper;
 import com.scr.message.response.FailureResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
@@ -48,6 +49,9 @@ public class FailureService {
 	
 	@Autowired
 	private ContentManagementMapper contentManagementMapper;
+	
+	@Autowired
+	private FailureMapper failureMapper;
 	
 	@Autowired
 	private ContentManagementRepository contentManagementRepository;
@@ -172,15 +176,34 @@ public class FailureService {
 	}*/
 
 	public List<Failure> findFailureByTypeAndSubStation(String failureType, List<String> fac) {
+		List<Failure> failList = new ArrayList<>();
+		Failure fail = new Failure();
+		List<Failure> failure = failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
+		for (Failure failure2 : failure) {
+			
+			failure2= failureMapper.prepareFailureStationData(failure2);
+			failList.add(failure2);
+		}		
 		
-		List<Failure> failure = failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+		 return failList;
+		
+		//List<Failure> failure = failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
 	
-	return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	//return failuresRepository.findByTypeOfFailureAndSubStationInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
 }
 	public List<Failure> findFailureByTypeAndFeedOf(String failureType, List<String> fac) {	
 	
+		List<Failure> failList = new ArrayList<>();
+		Failure fail = new Failure();
+		List<Failure> failure = failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
+		for (Failure failure2 : failure) {
+			
+			failure2= failureMapper.prepareFailureData(failure2);
+			failList.add(failure2);
+		}		
 		
-		return failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
+		 return failList;
+		//return failuresRepository.findByTypeOfFailureAndFeedOfInAndCurrentStatus(failureType,fac,Constants.ACTIVE);
 	}
 
 	public ResponseStatus storeUploadedFiles(List<MultipartFile> file, String contentCategory, String description,
@@ -236,10 +259,7 @@ public class FailureService {
 		logger.info("fac in service=="+fac);		
 		return failuresRepository.findFailureByTypeOfFailureAndDataDivInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
 	}
-	public FailureResponse existsBySubStationAndLocationAndFromDateTime(String subStation) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	
 	

@@ -109,16 +109,16 @@ export class GridFailureComponent implements OnInit {
         this.gridFailList[i].internalExternal=this.gridFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         
      
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].feedOf).subscribe((data) => {
-          this.spinnerService.hide();
-          this.facilityList = data;
-          this.gridFailList[i].feedOf = this.facilityList.facilityName;
-        });
-        this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].extendedOf).subscribe((data) => {
-          this.spinnerService.hide();
-          this.extendedFromList = data;
-          this.gridFailList[i].extendedOf = this.extendedFromList.facilityName;
-        });
+        // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].feedOf).subscribe((data) => {
+        //   this.spinnerService.hide();
+        //   this.facilityList = data;
+        //   this.gridFailList[i].feedOf = this.facilityList.facilityName;
+        // });
+        // this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY+this.gridFailList[i].extendedOf).subscribe((data) => {
+        //   this.spinnerService.hide();
+        //   this.extendedFromList = data;
+        //   this.gridFailList[i].extendedOf = this.extendedFromList.facilityName;
+        // });
   
   
         gridFail.push(this.gridFailList[i]);
