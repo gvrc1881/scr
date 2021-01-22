@@ -101,12 +101,18 @@ export class ThermovisionMeasureComponent implements OnInit{
                 row.fixedDiff = Math.abs(commpare);
                 this.thermovisionMeasureData[index].fixedDiff = Math.abs(commpare);
           //      console.log('** fixed diff ****'+Math.abs(commpare));
-            }else if(row.tcpmCClampMeasure && indexObject.tcpmCClampMeasure){
+            }else {
+                row.fixedDiff = '';
+                this.thermovisionMeasureData[index].fixedDiff = '';
+            }
+            
+            if(row.tcpmCClampMeasure && indexObject.tcpmCClampMeasure){
                 let commpare = row.tcpmCClampMeasure - indexObject.tcpmCClampMeasure;
-         //       console.log('*** in else if condtiton ***'+commpare);
                 row.CClampDiff = Math.abs(commpare);
                 this.thermovisionMeasureData[index].CClampDiff = Math.abs(commpare);
-            //    console.log('** c clamp  diff ****'+Math.abs(commpare));
+            }else {
+                row.CClampDiff = '';
+                this.thermovisionMeasureData[index].CClampDiff = '';
             }
         }
     }

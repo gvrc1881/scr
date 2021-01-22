@@ -2,13 +2,13 @@
     max-width: 80px;
 }
 .mat-column-description {
-    max-width: 400px;
+    max-width: 500px;
 }
 .mat-column-fixed {
-    max-width: 200px;
+    max-width: 150px;
 }
 .mat-column-c-clamp {
-    max-width: 200px;
+    max-width: 150px;
 }
 .mat-column-ambientTemp {
     max-width: 120px;
@@ -20,8 +20,11 @@
     max-width: 170px;
 }
 .mat-column-fixedDiff {
-    max-width: 150px;
+    max-width: 100px;
 }
 .mat-column-CClampDiff {
-    max-width: 150px;
+    max-width: 100px;
+}
+.highlight {
+    background-color: red;
 }

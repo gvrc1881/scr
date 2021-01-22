@@ -172,23 +172,41 @@
 	                                </ng-container>
 	                                <ng-container matColumnDef="fixedDiff">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.FIXED_DIFF}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
-	                                    		{{row.fixedDiff}}
+	                                    	<ng-container *matCellDef="let row" >
+	                                    		<mat-cell *ngIf = "row.tcpDisplayOfTempDiff == 'YES'   ; else fixedDiffElseBlock" 
+	                                    			[ngClass]="{
+											            'highlight' : row.fixedDiff > 5
+											         }"
+	                                    		>
+	                                    			{{row.fixedDiff}}
+	                                    		</mat-cell>
+	                                    		<ng-template #fixedDiffElseBlock>
+	                                        		<mat-cell></mat-cell>
+	                                        	</ng-template>	
 	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.tcpmRemark" 
 												    	[(ngModel)]="row.tcpmRemark">
 												</mat-form-field> -->
-	                                        </mat-cell>
+	                                        </ng-container>
 	                                </ng-container>
 	                                <ng-container matColumnDef="CClampDiff">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CCLAMP_DIFF}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
-	                                    		{{row.CClampDiff}}
+	                                    	<ng-container *matCellDef="let row" >
+	                                    		<mat-cell *ngIf = "row.tcpDisplayOfTempDiff == 'YES'   ; else cClampDiffElseBlock"
+	                                    			[ngClass]="{
+											            'highlight' : row.CClampDiff > 5
+											         }"
+	                                    		>
+	                                    			{{row.CClampDiff}}
+	                                    		</mat-cell>
+	                                    		<ng-template #cClampDiffElseBlock>
+	                                        		<mat-cell></mat-cell>
+	                                        	</ng-template>
 	                                        	<!-- <mat-form-field floatLabel="never" [style.width.px]="100">
 													<input matInput  [value]="row.tcpmRemark" 
 												    	[(ngModel)]="row.tcpmRemark">
 												</mat-form-field> -->
-	                                        </mat-cell>
+											</ng-container>	
 	                                </ng-container>
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">

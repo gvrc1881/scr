@@ -81,6 +81,7 @@ public class ThermovisionMeasureUtilRepository {
 					response.setTcpTypeOfCheckPoint(resultSet.getString("tcp_type_of_check_point"));
 					response.setfDiff(resultSet.getString("f_diff"));
 					response.setcClampDiff(resultSet.getString("c_clamp_diff"));
+					response.setTcpDisplayOfTempDiff(resultSet.getString("tcp_display_of_temp_diff"));
 					list.add(response);
 				}
 		}catch (Exception e) {

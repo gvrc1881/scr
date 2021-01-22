@@ -40,6 +40,7 @@ public class ThermovisionMeasureResponse {
 	private String tcpsGeneralRemark;
 	private String fDiff;
 	private String cClampDiff;
+	private String tcpDisplayOfTempDiff;
 
 	public String getRsId() {
 		return rsId;
@@ -327,6 +328,14 @@ public class ThermovisionMeasureResponse {
 
 	public void setcClampDiff(String cClampDiff) {
 		this.cClampDiff = cClampDiff;
+	}
+
+	public String getTcpDisplayOfTempDiff() {
+		return tcpDisplayOfTempDiff;
+	}
+
+	public void setTcpDisplayOfTempDiff(String tcpDisplayOfTempDiff) {
+		this.tcpDisplayOfTempDiff = tcpDisplayOfTempDiff;
 	}
 
 	@Override
