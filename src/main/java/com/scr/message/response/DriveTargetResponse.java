@@ -39,7 +39,9 @@ public class DriveTargetResponse {
 	
 	private Drives driveId;
 	
-	private double aggregation;
+	private double divisionAggregation;
+	private double subDivisionAggregation;
+	private double depotAggregation;
 
 	public Long getId() {
 		return id;
@@ -139,21 +141,39 @@ public class DriveTargetResponse {
 		this.driveId = driveId;
 	}
 
-	public double getAggregation() {
-		return aggregation;
+	public double getDivisionAggregation() {
+		return divisionAggregation;
 	}
 
-	public void setAggregation(double aggregation) {
-		this.aggregation = aggregation;
+	public void setDivisionAggregation(double divisionAggregation) {
+		this.divisionAggregation = divisionAggregation;
+	}
+
+	public double getSubDivisionAggregation() {
+		return subDivisionAggregation;
+	}
+
+	public void setSubDivisionAggregation(double subDivisionAggregation) {
+		this.subDivisionAggregation = subDivisionAggregation;
+	}
+
+	public double getDepotAggregation() {
+		return depotAggregation;
+	}
+
+	public void setDepotAggregation(double depotAggregation) {
+		this.depotAggregation = depotAggregation;
 	}
 
 	@Override
 	public String toString() {
 		return "DriveTargetResponse [id=" + id + ", AssetType=" + AssetType + ", unitType=" + unitType + ", unitName="
-				+ unitName + ", target=" + target + ", population=" + poulation + ", createdBy=" + createdBy
+				+ unitName + ", target=" + target + ", poulation=" + poulation + ", createdBy=" + createdBy
 				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", statusId="
-				+ statusId + ", driveId=" + driveId + ", aggregation=" + aggregation + "]";
+				+ statusId + ", driveId=" + driveId + ", divisionAggregation=" + divisionAggregation
+				+ ", subDivisionAggregation=" + subDivisionAggregation + ", depotAggregation=" + depotAggregation + "]";
 	}
+
 
 	
 

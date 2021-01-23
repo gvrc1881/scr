@@ -54,14 +54,14 @@
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.subStation}}</mat-cell>
                                         </ng-container>
-                                           <!-- <ng-container matColumnDef="equipment">
+                                            <ng-container matColumnDef="equipment">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.EQUIPMENT}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.equipment}}</mat-cell>
                                         </ng-container>                                        
-                                        <ng-container matColumnDef="cascadeAssets">
+                                      <!--  <ng-container matColumnDef="cascadeAssets">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.CASCADE_ASSETS}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[3].Value" [filter]="filterData"/>
@@ -131,13 +131,13 @@
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.faultDistance}}</mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="actualFaultDistance">
+                                        <!-- <ng-container matColumnDef="actualFaultDistance">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.ACTUAL_FAULT_DISTANCE}}</span>
                                                 <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[13].Value" [filter]="filterData"/>
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let row"> {{row.actualFaultDistance}}</mat-cell>
-                                        </ng-container>
+                                        </ng-container> -->
                                         <ng-container matColumnDef="current">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                 <span>{{FiledLabels.CURRENT}}</span>

@@ -44,6 +44,114 @@ public interface DriveTargetRepository extends JpaRepository<DriveTarget, Long>{
 	DriveTarget getByDriveIdAndUnitName(Drives drives2, String zone);
 
 	DriveTarget findByDriveIdAndUnitName(Optional<Drives> drive, String zone);
+	
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type='DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true) 
+	Double getDivAggregation(Drives drives2, String zone);
+	
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type='SUB_DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true) 
+	Double getSubDivAggregation(Drives drives2, String zone);
+	
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI') \r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true)
+	Double getDepotDivAggregation(Drives drives2, String zone);
+
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type='DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true) 
+	Double getDivAggregation(Optional<Drives> drive, String zone);
+
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type='SUB_DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true)
+	Double getSubDivAggregation(Optional<Drives> drive, String zone);
+
+	@Query(value = "select sum(target),dt.drive_id,f.zone\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI') \r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.zone =:zone \r\n" + 
+			"		group by drive_id,f.zone",nativeQuery=true)
+	Double getDepotDivAggregation(Optional<Drives> drive, String zone);
+	
+	@Query(value ="select sum(target),dt.drive_id,f.division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type='SUB_DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.division =:facilityName \r\n" + 
+			"		group by drive_id,f.division",nativeQuery=true)
+	Double getSubDiviAggregation(Drives drives2, String facilityName);
+
+	@Query(value="select sum(target),dt.drive_id,f.division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI')\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.division =:facilityName \r\n" + 
+			"		group by drive_id,f.division\r\n" ,nativeQuery=true)
+			Double getDepotAggregation(Drives drives2, String facilityName);
+
+	@Query(value ="select sum(target),dt.drive_id,f.division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type='SUB_DIV'\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.division =:facilityName \r\n" + 
+			"		group by drive_id,f.division",nativeQuery=true)
+	Double getSubDivsnAggregation(Optional<Drives> drive, String facilityName);
+
+	@Query(value="select sum(target),dt.drive_id,f.division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI')\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.division =:facilityName \r\n" + 
+			"		group by drive_id,f.division\r\n" ,nativeQuery=true)
+	Double getDepAggregation(Optional<Drives> drive, String facilityName);
+
+	@Query(value="select sum(target),dt.drive_id,f.sub_division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drives2 \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI')\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.sub_division =:facilityName \r\n" + 
+			"		group by drive_id,f.sub_division\r\n",nativeQuery=true)
+	Double getDeptAggregation(Drives drives2, String facilityName);
+
+	@Query(value="select sum(target),dt.drive_id,f.sub_division\r\n" + 
+			"		from drive_target  dt,facility f\r\n" + 
+			"		where dt.drive_id =:drive \r\n" + 
+			"		and dt.unit_type in('OHE','TSS','SP','SSP','PSI')\r\n" + 
+			"		and dt.unit_name=f.facility_name\r\n" + 
+			"		and f.sub_division =:facilityName \r\n" + 
+			"		group by drive_id,f.sub_division\r\n",nativeQuery=true)
+	Double getDepotsAggregation(Optional<Drives> drive, String facilityName);
 
 	
 

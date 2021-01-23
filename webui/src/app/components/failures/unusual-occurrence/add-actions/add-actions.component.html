@@ -49,7 +49,13 @@
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div>
-
+                                                    <div class="col-md-3" *ngIf="specialRemarks">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="{{FiledLabels.DETAILS}}" 
+                                                                [formControl]="addActionsFailFromGroup.controls['specialRemarks']"
+                                                                > </textarea>                                                           
+                                                        </mat-form-field>
+                                                    </div>
                                                     
                                                   <div class="col-md-3" *ngIf="fromTime">
                                                     <mat-form-field>
@@ -84,13 +90,7 @@
                                                         </mat-form-field>
                                                     </div>
 
-                                                    <div class="col-md-3" *ngIf="specialRemarks">
-                                                        <mat-form-field fxFlex="30">
-                                                            <textarea matInput placeholder="{{FiledLabels.DETAILS}}" 
-                                                                [formControl]="addActionsFailFromGroup.controls['specialRemarks']"
-                                                                > </textarea>                                                           
-                                                        </mat-form-field>
-                                                    </div>
+                                                   
 
                                                     <div class="col-md-3" *ngIf="remarks">
                                                         <mat-form-field fxFlex="30">

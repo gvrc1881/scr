@@ -979,16 +979,48 @@ public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory dr
 		Optional<Drives> drive =driveRepository.findByIdAndStatusId(driveCatAssoc.get().getDriveId().getId(),Constants.ACTIVE_STATUS_ID);
 		logger.info("driveid=="+drive);
 		logger.info("fac=="+zone);
-		DriveTarget driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,zone);
+		DriveTarget driveTarget = driveTargetRepository.findByDriveIdAndUnitName(drive,fac.get().getFacilityName());
 		logger.info("drive reponsee=="+driveTarget);
 		double target = 0;
 		String population = "0"; 
 		logger.info("before objects=");
-		if (driveTarget != null) {			
+		if (driveTarget != null) {
+			logger.info("before agg if");
+			if(fac.get().getDepotType().equals("zone")) {
+				logger.info("in if agg");
+			Double driveDivAggregation =	driveTargetRepository.getDivAggregation(drive,zone);
+			Double driveSubAggregation =	driveTargetRepository.getSubDivAggregation(drive,zone);
+			Double driveDepotAggregation =	driveTargetRepository.getDepotDivAggregation(drive,zone);
 			
+			dtr.setDivisionAggregation(driveDivAggregation);
+			dtr.setSubDivisionAggregation(driveSubAggregation);
+			dtr.setDepotAggregation(driveDepotAggregation);
 			
+			}
+			else if(fac.get().getDepotType().equals("DIV")) {
+				
+				logger.info("in else if agg");
+				Double subDivAggregationAtDivlevel = driveTargetRepository.getSubDivsnAggregation(drive,fac.get().getFacilityName());
+				Double depotAggregationAtDivlevel = driveTargetRepository.getDepAggregation(drive,fac.get().getFacilityName());
+				if(subDivAggregationAtDivlevel != null) {
+				dtr.setSubDivisionAggregation(subDivAggregationAtDivlevel);
+				}if(depotAggregationAtDivlevel != null) {
+				dtr.setDepotAggregation(depotAggregationAtDivlevel);
+				}
+				
+			}
+			else if (fac.get().getDepotType().equals("SUB_DIV")) {
+				
+				logger.info("in 2nd else if agg");
+				Double depotAggregationAtSubDivlevel = driveTargetRepository.getDepotsAggregation(drive,fac.get().getFacilityName());
+				if(depotAggregationAtSubDivlevel != null) {
+				dtr.setDepotAggregation(depotAggregationAtSubDivlevel);
+				}
+			}
+			logger.info("close agg");
 			dtr.setTarget(driveTarget.getTarget());
 			dtr.setPoulation(driveTarget.getPoulation());
+			
 			
 		}
 	
@@ -997,12 +1029,15 @@ public List<DriveTargetResponse> getByDriveCategoryIdAndDriveId(DriveCategory dr
 			
 			dtr.setPoulation(population);
 			dtr.setTarget(target);
+			dtr.setDivisionAggregation(0);
+			dtr.setSubDivisionAggregation(0);
+			dtr.setDepotAggregation(0);
 		}
 		
 		dtr.setDriveId(driveId);
 		dtr.setAssetType(drive.get().getAssetType());		
 		dtr.setUnitType(fac.get().getDepotType());
-		dtr.setUnitName(zone);
+		dtr.setUnitName(fac.get().getFacilityName());
 		logger.info("after objects=="+dtr.toString());
 	
 	driveTargetResponse.add(dtr);
@@ -1033,10 +1068,17 @@ public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) 
 			if (driveTarget != null) {
 				logger.info("in if drive present=="+drives2);
 				
+				Double driveDivAggregation =	driveTargetRepository.getDivAggregation(drives2,zone);
+				Double driveSubAggregation =	driveTargetRepository.getSubDivAggregation(drives2,zone);
+				Double driveDepotAggregation =	driveTargetRepository.getDepotDivAggregation(drives2,zone);
+				
 				dtr.setDriveId(driveTarget.getDriveId());
 				
 				dtr.setTarget(driveTarget.getTarget());
 				dtr.setPoulation(driveTarget.getPoulation());
+				dtr.setDivisionAggregation(driveDivAggregation);
+				dtr.setSubDivisionAggregation(driveSubAggregation);
+				dtr.setDepotAggregation(driveDepotAggregation);
 				logger.info("population in targets=="+driveTarget.getPoulation());
 				
 			}		
@@ -1045,6 +1087,9 @@ public List<DriveTargetResponse> getByDriveId(List<Drives> drives, String zone) 
 				
 				dtr.setPoulation(population);
 				dtr.setTarget(target);
+				dtr.setDivisionAggregation(0);
+				dtr.setSubDivisionAggregation(0);
+				dtr.setDepotAggregation(0);
 			}
 			
 			dtr.setAssetType(drives2.getAssetType());
@@ -1095,11 +1140,32 @@ List<DriveTargetResponse> driveTargetResponse = new ArrayList<>();
 			logger.info("before objects=");
 			if (driveTarget != null) {
 				logger.info("in if drive present=="+drives2);
+				if(fac.get().getDepotType().equals("DIV")) {
+					logger.info("for aggregation in if condition");
+					Double subDivAggregationAtDivlevel = driveTargetRepository.getSubDiviAggregation(drives2,fac.get().getFacilityName());
+					Double depotAggregationAtDivlevel = driveTargetRepository.getDepotAggregation(drives2,fac.get().getFacilityName());
+					if(subDivAggregationAtDivlevel != null ) {
+					dtr.setSubDivisionAggregation(subDivAggregationAtDivlevel);
+					}
+					if(depotAggregationAtDivlevel != null) {
+					dtr.setDepotAggregation(depotAggregationAtDivlevel);
+					}
+				}else if(fac.get().getDepotType().equals("SUB_DIV")) {
+					
+					Double depotAggregationAtSubDivlevel = driveTargetRepository.getDeptAggregation(drives2,fac.get().getFacilityName());
+					if(depotAggregationAtSubDivlevel != null) {
+						
+						dtr.setDepotAggregation(depotAggregationAtSubDivlevel);
+					}
+					
+				}
 				
 				dtr.setDriveId(driveTarget.getDriveId());						
 				dtr.setTarget(driveTarget.getTarget());
 				dtr.setPoulation(driveTarget.getPoulation());
+				
 				logger.info("population in targtes=="+driveTarget.getPoulation());
+				
 				
 			}		
 			else {

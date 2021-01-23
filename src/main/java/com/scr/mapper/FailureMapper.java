@@ -25,10 +25,14 @@ public class FailureMapper {
 		if(failure2!= null) {
 			
 			Optional<Facility> facility  = facilityRepository.findByFacilityId(failure2.getFeedOf());
+			if(facility.isPresent()) {
+				failure2.setFeedOf(facility.get().getFacilityName());
+			}
 			Optional<Facility> fac  = facilityRepository.findByFacilityId(failure2.getExtendedOf());
 			
-			failure2.setFeedOf(facility.get().getFacilityName());
+			if(fac.isPresent()) {
 			failure2.setExtendedOf(fac.get().getFacilityName());
+			}
 			
 		}
 		

@@ -30,6 +30,7 @@ export class AddGridFailureComponent implements OnInit {
   driveList = [];
   reportedList=[];
   gridFailFormErrors: any;
+  internalList:any;
   feedersList:any;
   loadReliefList:any;
   extendedFromList:any=[];
@@ -77,7 +78,7 @@ export class AddGridFailureComponent implements OnInit {
       etdate: {},
       eduration: {},
       maxDemand: {},
-      dl: {},
+      cbInternalFailure: {},
       ie: {},
       loadReliefBreakDown:{},
       remarks: {}
@@ -86,6 +87,7 @@ export class AddGridFailureComponent implements OnInit {
 
   ngOnInit() {   
     this.findLoadReliefBreakDown();
+    this.findInternaList();
     this.id = +this.route.snapshot.params['id'];    
     
     if (!isNaN(this.id)) {
@@ -146,7 +148,12 @@ findFacilities(){
 
   }    
 }
-
+findInternaList(){
+  this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.GRID_FAILURE_INTERNAL)
+  .subscribe((resp) => {
+    this.internalList = resp;
+  });
+}
 
   createForm() {
     this.addGridFailFromGroup
@@ -161,7 +168,7 @@ findFacilities(){
         'etdate': [null],
         'eduration': [null],
         'maxDemand': [null],
-        'dl': [null],
+        'cbInternalFailure': [null],
         'ie': [null],
         'loadReliefBreakDown':[null,Validators.compose([Validators.required])],
         'remarks': [null, Validators.maxLength(250)]   ,
@@ -183,7 +190,7 @@ findFacilities(){
         'etdate': [null],
         'eduration': [null],
         'maxDemand': [null],
-        'dl': [null],
+        'cbInternalFailure': [null],
         'ie': [null],
         'loadReliefBreakDown':[null,Validators.compose([Validators.required])],
         'remarks': [null, Validators.maxLength(250)]
@@ -323,7 +330,8 @@ timDuration(){
           
           eduration: this.resp.feedExtendedDuration,
           maxDemand: this.resp.maxDemand,
-          dl: this.resp.divisionLocal =='true' ? true: false,
+         // dl: this.resp.divisionLocal =='true' ? true: false,
+         cbInternalFailure:this.resp.cbInternalFailure,
           ie: this.resp.internalExternal == 'true' ? true : false,
           loadReliefBreakDown:this.resp.loadReliefBreakDown,
           remarks: this.resp.remarks
@@ -370,7 +378,8 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'true' : 'false',
+        "cbInternalFailure":this.addGridFailFromGroup.value.cbInternalFailure,
+       // "divisionLocal": this.addGridFailFromGroup.value.dl== true ?  'true' : 'false',
         "internalExternal": this.addGridFailFromGroup.value.ie == true ? 'true' : 'false',
         "loadReliefBreakDown":this.addGridFailFromGroup.value.loadReliefBreakDown,
         "remarks": this.addGridFailFromGroup.value.remarks,
@@ -407,7 +416,8 @@ timDuration(){
         "feedExtendedThruDateTime": this.addGridFailFromGroup.value.etdate,
         "feedExtendedDuration": this.addGridFailFromGroup.value.eduration,
         "maxDemand": this.addGridFailFromGroup.value.maxDemand,
-        "divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'true' : 'false',
+        "cbInternalFailure":this.addGridFailFromGroup.value.cbInternalFailure,
+        //"divisionLocal": this.addGridFailFromGroup.value.dl== true ? 'true' : 'false',
         "internalExternal": this.addGridFailFromGroup.value.ie== true ? 'true' : 'false',
         "loadReliefBreakDown":this.addGridFailFromGroup.value.loadReliefBreakDown,
         "remarks": this.addGridFailFromGroup.value.remarks,

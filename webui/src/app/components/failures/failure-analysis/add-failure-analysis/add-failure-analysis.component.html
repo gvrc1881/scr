@@ -98,7 +98,7 @@
                                         <div class="col-md-3"  >
                                             <mat-form-field fxFlex="30" class="example-full-width">
                                               <mat-select placeholder="{{FiledLabels.DIVISION}}" 
-                                                [formControl]="addFailureAnalysisFormGroup.controls['div']" >
+                                                [formControl]="addFailureAnalysisFormGroup.controls['div']" required>
                                                 <mat-option *ngFor="let divisionData of divisionHierarchy"
                                                   [value]="divisionData.facilityName">
                                                   {{ divisionData.facilityName }}

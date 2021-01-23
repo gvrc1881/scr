@@ -28,7 +28,7 @@ export class GridFailureComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'feedOf', 'fromDateTime', 'thruDateTime', 'duration', 'extendedOf',
     'feedExtendedFromDateTime', 'feedExtendedThruDateTime', 'feedExtendedDuration', 'maxDemand',
-     'divisionLocal', 'internalExternal', 'remarks', 'actions'];
+      'internalExternal', 'remarks', 'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
 
@@ -105,7 +105,7 @@ export class GridFailureComponent implements OnInit {
         this.gridFailList[i].thruDateTime = this.datePipe.transform(this.gridFailList[i].thruDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.gridFailList[i].feedExtendedFromDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedFromDateTime, 'dd-MM-yyyy HH:mm:ss');
         this.gridFailList[i].feedExtendedThruDateTime = this.datePipe.transform(this.gridFailList[i].feedExtendedThruDateTime, 'dd-MM-yyyy HH:mm:ss');
-        this.gridFailList[i].divisionLocal=this.gridFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
+       // this.gridFailList[i].divisionLocal=this.gridFailList[i].divisionLocal == 'true' ? 'Local': 'Division',
         this.gridFailList[i].internalExternal=this.gridFailList[i].internalExternal == 'true' ? 'External': 'Internal',
         
      
@@ -176,7 +176,7 @@ export class GridFailureComponent implements OnInit {
       { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_THRU_DATE_TIME, value:data.feedExtendedThruDateTime },
       { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_DURATION, value:data.feedExtendedDuration },
       { label:FieldLabelsConstant.LABELS.MAX_DEMAND, value:data.maxDemand },
-      { label:FieldLabelsConstant.LABELS.DIVISION_LOCAL, value:data.divisionLocal },
+      { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure, },
       { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
       { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
       { label:FieldLabelsConstant.LABELS.TYPE_OF_FAILURE, value:data.typeOfFailure }

@@ -43,6 +43,7 @@ export class AddCbFailureComponent implements OnInit {
   toMinDate=new Date();
   dateFormat = 'dd-MM-yyyy hh:mm:ss';  
   failureList:any;
+  
   failurecasList:any;
   difference:any;
   duration:any;

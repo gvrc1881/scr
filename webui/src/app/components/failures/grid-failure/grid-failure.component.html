@@ -115,13 +115,13 @@
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.maxDemand}}</mat-cell>
                             </ng-container>
-                            <ng-container matColumnDef="divisionLocal">
+                            <!-- <ng-container matColumnDef="divisionLocal">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     <span>{{FiledLabels.DIVISION_LOCAL}}</span>
                                     <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[10].Value" [filter]="filterData"/>
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let row"> {{row.divisionLocal}}</mat-cell>
-                            </ng-container> 
+                            </ng-container>  -->
                             <ng-container matColumnDef="internalExternal">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     <span>{{FiledLabels.INTERNAL_EXTERNAL}}</span>

@@ -215,11 +215,21 @@
                                                     </div>
 
                                                      <!-- assetId -->
-                                                     <div class="col-md-3" fxFlex="30">                                                        
+                                                     <!-- <div class="col-md-3" fxFlex="30">                                                        
                                                             <mat-checkbox [formControl]="addGridFailFromGroup.controls['dl']">{{FiledLabels.LOCAL}}</mat-checkbox>  
                                                             <mat-hint> (Internal fault of equipment/Gantry maintenance of TSS) </mat-hint>                                                      
+                                                    </div> -->
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.INTERNAL}}"
+                                                                [formControl]="addGridFailFromGroup.controls['cbInternalFailure']">
+                                                                <mat-option *ngFor="let internal of internalList"
+                                                                    [value]="internal.statusCode">
+                                                                    {{ internal.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
                                                     </div>
-
                                                      <!-- subAssetType -->
                                                      <div class="col-md-3" fxFlex="30">                                                        
                                                         <mat-checkbox [formControl]="addGridFailFromGroup.controls['ie']" [(ngModel)]="myModel">{{FiledLabels.EXTERNAL}}</mat-checkbox> 

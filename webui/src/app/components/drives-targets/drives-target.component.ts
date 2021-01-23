@@ -25,7 +25,7 @@ export class DrivesTargetComponent implements OnInit {
     deletePermission: boolean = true;
     userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    displayedColumns = ['sno','driveId','assetType','unitType','unitName', 'target', 'poulation'];    
+    displayedColumns = ['sno','driveId','assetType','unitType','unitName', 'target', 'poulation','divisionAggregation','subDivisionAggregation','depotAggregation'];    
     dataSource: MatTableDataSource<DriveTargetModel>;
     driveTargetFormGroup:FormGroup;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
