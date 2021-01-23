@@ -35,7 +35,7 @@ export class ComplianceDocumentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.type = localStorage.getItem("complianceFileType");
+        this.type = sessionStorage.getItem("complianceFileType");
         this.prepareTable();
     }
     downloadFile(path, fileName) {
@@ -76,7 +76,7 @@ export class ComplianceDocumentComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.spinnerService.show();
-                var id = localStorage.getItem('complianceFileTypeId');
+                var id = sessionStorage.getItem('complianceFileTypeId');
                 var data ={
                     "id":id,
                     "fileName":rowid,

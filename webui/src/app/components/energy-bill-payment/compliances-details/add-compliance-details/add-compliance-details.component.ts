@@ -31,7 +31,7 @@ export class AddComplianceDetailsComponent implements OnInit {
   pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title: string = Constants.EVENTS.ADD;
@@ -256,7 +256,7 @@ export class AddComplianceDetailsComponent implements OnInit {
   this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
   this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-          var id = localStorage.getItem('complianceFileTypeId');
+          var id = sessionStorage.getItem('complianceFileTypeId');
           var data ={
             "id":commonFileid,
             "fileName":rowid,

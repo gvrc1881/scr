@@ -17,7 +17,7 @@ export class ContentManagementDialogComponent implements OnInit {
     public response:any=[];
     isSubmit:boolean=false;
     pattern = "[a-zA-Z][a-zA-Z ]*";
-    userdata: any = JSON.parse(localStorage.getItem('userData'));
+    userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     contentManagementEditFormGroup: FormGroup;
     constructor(@Inject(MAT_DIALOG_DATA) private data: any, 
     private formBuilder: FormBuilder,

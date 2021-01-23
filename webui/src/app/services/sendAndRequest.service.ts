@@ -13,7 +13,7 @@ import { OwlDateTime } from 'ng-pick-datetime/date-time/date-time.class';
 export class SendAndRequestService {
     myAppUrl: string = environment.apiUrl;
     header: any;
-    accessToken: any = JSON.parse(localStorage.getItem('accessToken'));
+    accessToken: any = JSON.parse(sessionStorage.getItem('accessToken'));
     constructor(private _http: HttpClient) {
         this.header = new HttpHeaders({
             'Content-Type': 'application/json',

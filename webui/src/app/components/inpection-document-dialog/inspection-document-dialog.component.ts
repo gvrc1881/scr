@@ -35,7 +35,7 @@ export class InspectionDocumentComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.type = localStorage.getItem("observationFileType");
+        this.type = sessionStorage.getItem("observationFileType");
         this.prepareTable();
     }
     downloadFile(path, fileName) {
@@ -76,7 +76,7 @@ export class InspectionDocumentComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.spinnerService.show();
-                var id = localStorage.getItem('observationFileTypeId');
+                var id = sessionStorage.getItem('observationFileTypeId');
                 var data ={
                     "id":id,
                     "fileName":rowid,

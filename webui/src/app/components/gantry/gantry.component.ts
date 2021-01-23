@@ -25,7 +25,7 @@ export class GantryComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'facilityId', 'gantryCode', 'elementarySections', 'protectionTraverseCrossover', 'protectionTraverseTurnout', 'protectionLongitudnalUp','protectionLongitudnalDn','normallyOpen','tpcBoard','actions','switch'];
   dataSource: MatTableDataSource<GantryModel>;

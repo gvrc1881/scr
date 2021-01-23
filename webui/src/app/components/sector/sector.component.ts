@@ -26,7 +26,7 @@ export class SectorComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'facilityId', 'sectorCode', 'fromLocation', 'fromLocationType', 'toLocation', 'toLocationType','division','line1','line2','actions','switch'];
   dataSource: MatTableDataSource<SectorModel>;

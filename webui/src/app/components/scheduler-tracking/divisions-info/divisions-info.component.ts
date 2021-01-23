@@ -19,14 +19,14 @@ export class DivisionsInfoComponent implements OnInit {
   status: boolean;
   divisionHistoryDialogRef:MatDialogRef<DivisionHistoryDialogComponent>;
   schedulerData: any;
-  pid:string=localStorage.getItem("pid");
+  pid:string=sessionStorage.getItem("pid");
  
  
   schedulerResponse: any;
   portPattern = "^[0-9]{4}$";
   pattern = "[a-zA-Z][a-zA-Z ]*";
   ipPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   title: string = "Add";
   schedulerDisplayedColumns = ['sno','operationId', 'operationType', 'processedDate', 'startTime', 'endTime',  'totalTablesCount', 'successTablesCount', 'failedTablesCount', 'jobStatus', 'id'];
   schedulerDataSource: MatTableDataSource<SchedulerTrackingModel>;
@@ -76,7 +76,7 @@ export class DivisionsInfoComponent implements OnInit {
 
   viewDivisionDetails(id){
 
-    localStorage.setItem("type", this.route.snapshot.params['name']);
+    sessionStorage.setItem("type", this.route.snapshot.params['name']);
 
     this.spinnerService.show();    
     this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.SCHEDULER_TRACKING.DIVISION_INFO + id).subscribe((response) => {     

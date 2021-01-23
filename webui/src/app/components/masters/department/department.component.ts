@@ -37,7 +37,7 @@ export class DepartmentComponent implements OnInit {
   editDepartResponse: any;
   responseStatus: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   departmentDataSource: MatTableDataSource<DepartmentModel>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;

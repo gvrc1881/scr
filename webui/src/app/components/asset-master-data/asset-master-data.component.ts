@@ -53,7 +53,7 @@ export class AssetMasterDataComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataViewDialogRef: MatDialogRef<DataViewDialogComponent>;
   assetMasterResponse: any;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   assetsList: any;
   assetTypeParametersData: any;
   scheduleList: any;

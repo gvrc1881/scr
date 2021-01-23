@@ -19,7 +19,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
   pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   disabled: boolean = true;
@@ -91,7 +91,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
   }
 
   ngOnInit() {
-    //console.log('parent id = ' + ((localStorage.getItem('ec'))))
+    //console.log('parent id = ' + ((sessionStorage.getItem('ec'))))
     this.id = +this.route.snapshot.params['id'];
     
     this.createForm();
@@ -174,7 +174,7 @@ export class AddEnergyConsumptionComponent implements OnInit {
     }
   }
   findEnergyConsumptionById(id) {
-     this.resp = JSON.parse(localStorage.getItem("ec"));
+     this.resp = JSON.parse(sessionStorage.getItem("ec"));
     console.log(this.resp);
       let energyReadingDate = new Date(this.resp.energyReadingDate.split("-").reverse().join("-"));
       this.maxDateMax.setDate(energyReadingDate.getDate());

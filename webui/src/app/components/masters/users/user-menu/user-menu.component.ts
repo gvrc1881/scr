@@ -30,7 +30,7 @@ export class UserMenuComponent implements OnInit {
     data: any ;
     rolePermission:boolean=true;
     loggedDelete:boolean=true;
-    userdata: any = JSON.parse(localStorage.getItem('userData'));
+    userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     ID: number = 0;
     action: string = "";
     title: string = "Create";

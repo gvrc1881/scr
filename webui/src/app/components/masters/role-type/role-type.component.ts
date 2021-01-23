@@ -37,7 +37,7 @@ export class RoleTypeComponent implements OnInit {
   rolePermission: boolean = true;
   responseStatus: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   dataSource: MatTableDataSource<RoleTypeModel>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -60,7 +60,7 @@ export class RoleTypeComponent implements OnInit {
 
   ngOnInit() {
 
-    if (!!localStorage.getItem("loggedUser")) {
+    if (!!sessionStorage.getItem("loggedUser")) {
       if (!this.commonService.rolePermission()) {
         this._router.navigate(['users']);
       }

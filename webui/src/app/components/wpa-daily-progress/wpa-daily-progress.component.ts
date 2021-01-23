@@ -38,8 +38,8 @@ export class WPADailyProgressComponent implements OnInit {
     displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done'];
     enableSave: boolean;
     maxDate = new Date();
-    workList: any = JSON.parse(localStorage.getItem('projectList'));
-    loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
+    workList: any = JSON.parse(sessionStorage.getItem('projectList'));
+    loggedUser: any = JSON.parse(sessionStorage.getItem('loggedUser'));
     errorMessage: boolean;
 
     constructor(

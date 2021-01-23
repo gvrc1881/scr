@@ -22,8 +22,8 @@ e
     update: boolean = false;
     id: number = 0;
     isSubmit: boolean = false;
-    depotData: any = JSON.parse(localStorage.getItem('depotData'));
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     resp: any;    
     title:string;      
     addCheckPointsFormGroup: FormGroup;

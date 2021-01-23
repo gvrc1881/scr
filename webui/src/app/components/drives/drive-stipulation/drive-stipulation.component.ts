@@ -25,7 +25,7 @@ export class DriveStipulationComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   filterData;
   displayedColumns = ['sno', 'stipulation', 'inspectionId', 'dateOfStipulation', 'dateComplied',
     'compliance', 'attachment', 'compliedBy', 'actions'];
@@ -143,8 +143,8 @@ export class DriveStipulationComponent implements OnInit {
   filesInfor: any;
   viewFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('driveFileType', 'stipulation');
-    localStorage.setItem('driveFileTypeId', id);
+    sessionStorage.setItem('driveFileType', 'stipulation');
+    sessionStorage.setItem('driveFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();

@@ -44,7 +44,7 @@ export class AssetScheduleAssocComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataViewDialogRef: MatDialogRef<DataViewDialogComponent>;
   assetSchassocResponse: any;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   assetsList: any;
   scheduleList: any;
 

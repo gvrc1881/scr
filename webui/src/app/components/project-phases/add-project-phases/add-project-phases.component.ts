@@ -32,7 +32,7 @@ export class AddProjectPhasesComponent implements OnInit {
     update: boolean = false;
     id: number = 0;
     isSubmit: boolean = false;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     resp: any;    
     title:string;      
     workGroupData:any;   

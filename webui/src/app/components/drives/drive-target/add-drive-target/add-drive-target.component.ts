@@ -17,7 +17,7 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 export class AddDriveTargetComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

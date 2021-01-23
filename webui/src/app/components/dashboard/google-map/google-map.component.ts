@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./google-map.component.css'] 
 })
 export class GoogelMapComponent {
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   // google maps zoom level
  zoom: number = 8;
   

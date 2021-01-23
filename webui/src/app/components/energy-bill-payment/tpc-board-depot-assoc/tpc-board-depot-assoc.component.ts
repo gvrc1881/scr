@@ -32,7 +32,7 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     tpcBoardDepotAssocList : any;
     id: number = 0;
     facilityData:any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     tpcBoardDepotAssocDataSource: MatTableDataSource<TPCBoardDepotAssocModel>;
     tpcBoardDepotAssocDisplayColumns = ['sno' , 'tpcBoard' ,'unitType','unitName','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

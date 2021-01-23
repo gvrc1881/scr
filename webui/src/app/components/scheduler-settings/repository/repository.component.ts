@@ -32,7 +32,7 @@ export class RepositoryComponent implements OnInit {
   portPattern = "^[0-9]{4}$";
   pattern = "[a-zA-Z][a-zA-Z ]*";
   ipPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   title: string = "Add";
   repositoryDisplayedColumns = ['sno', 'repositoryCode', 'repositoryName', 'repositoryIp', 'repositoryPort', 'repositoryDbName', 'repositoryUser', 'repositoryPassword', 'id'];
   repositoryDataSource: MatTableDataSource<RepositoryModel>;

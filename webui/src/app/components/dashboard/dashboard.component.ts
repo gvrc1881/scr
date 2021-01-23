@@ -13,7 +13,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class DashboardComponent implements OnInit {
   MenusList: any = [];
   tiles: Tile[] = [];
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
 
   lastProcessedDivisionDataSource: any = {};
   lastProcessedJobsDataSource: any = {};

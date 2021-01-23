@@ -33,7 +33,7 @@ export class ProjectComponent implements OnInit {
     projectList:any; 
     resp:any;
     addEnable: boolean; 
-    userdata: any = JSON.parse(localStorage.getItem('userData'));
+    userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno' ,  'division'  , 'workName' , 'section','executedBy'  , 'latestRevisedCost' , 'actions','WorkPhaseDetails'];
     dataSource: MatTableDataSource<ProjectModel>;

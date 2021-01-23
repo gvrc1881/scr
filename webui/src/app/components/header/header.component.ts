@@ -35,26 +35,26 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     this.loginValidate = this.commonService.loginValidate(window.location.pathname);
-    let refresh = localStorage.getItem("headerRefresh");
+    let refresh = sessionStorage.getItem("headerRefresh");
     const path = window.location.pathname.substring(1);
     if (refresh == 'refresh') {
       this.clicked = path;
       this.findMenus('/dashboard');     
-      this.userdata = JSON.parse(localStorage.getItem('userData'));
+      this.userdata = JSON.parse(sessionStorage.getItem('userData'));
       this.userName = !!this.userdata && !!this.userdata.username && this.userdata.username;
-      localStorage.setItem("headerRefresh", 'noRefresh');
+      sessionStorage.setItem("headerRefresh", 'noRefresh');
     }
   }
   ngOnInit() {
     this.loginValidate = this.commonService.loginValidate(window.location.pathname);
-    if (!!localStorage.getItem('userData')) {
-      this.userdata = JSON.parse(localStorage.getItem('userData'));
+    if (!!sessionStorage.getItem('userData')) {
+      this.userdata = JSON.parse(sessionStorage.getItem('userData'));
       this.userName = !!this.userdata && !!this.userdata.username && this.userdata.username;
     }
     const path = window.location.pathname.substring(1);
     this.dashboard = path == '/dashboard' ? false : true;
-    if (!!localStorage.getItem("loggedUser")) {
-      this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+    if (!!sessionStorage.getItem("loggedUser")) {
+      this.loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
       this.rolePermission = this.commonService.rolePermission();
       this.clicked = path;
       this.findMenus(path);     
@@ -1328,23 +1328,23 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       },
     ];
   //  this.clicked = path;
-    localStorage.setItem("MenusList", this.MenusList);
+    sessionStorage.setItem("MenusList", this.MenusList);
   }
 
   logout() {
     // remove user from local storage to log user out
     console.log('logout')
-    localStorage.setItem("headerRefresh", "");
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userMenuList');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('loggedUser');
-    localStorage.removeItem('menus');
-    localStorage.removeItem('userHierarchy');
-    localStorage.removeItem('zoneData');
-    localStorage.removeItem('divisionData');
-    localStorage.removeItem('subDivData');
-    localStorage.removeItem('depotData');
-    localStorage.removeItem('tpcBoard');
+    sessionStorage.setItem("headerRefresh", "");
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('userMenuList');
+    sessionStorage.removeItem('userData');
+    sessionStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('menus');
+    sessionStorage.removeItem('userHierarchy');
+    sessionStorage.removeItem('zoneData');
+    sessionStorage.removeItem('divisionData');
+    sessionStorage.removeItem('subDivData');
+    sessionStorage.removeItem('depotData');
+    sessionStorage.removeItem('tpcBoard');
   }
 }

@@ -24,7 +24,7 @@ export class ComplianceDetailsComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno','status','action' , 'complianceBy' ,  'compliedDateTime' ,'document', 'actions'] ;
 
@@ -136,8 +136,8 @@ export class ComplianceDetailsComponent implements OnInit {
   filesInfor: any;
   complianceFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('observationFileType', 'compliance');
-    localStorage.setItem('observationFileTypeId', id);
+    sessionStorage.setItem('observationFileType', 'compliance');
+    sessionStorage.setItem('observationFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();

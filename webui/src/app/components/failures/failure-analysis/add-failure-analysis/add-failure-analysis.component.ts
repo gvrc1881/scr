@@ -19,8 +19,8 @@ import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 export class AddFailureAnalysisComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

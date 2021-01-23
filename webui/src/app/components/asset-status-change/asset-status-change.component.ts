@@ -58,13 +58,13 @@ export class AssetStatusChangeComponent implements OnInit {
   id: number;
   editStatusResponse: any;
 
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
-  zoneHierarchy: any = JSON.parse(localStorage.getItem('zoneData'));
-  divisionHierarchy: any = JSON.parse(localStorage.getItem('divisionData'));
-  subDivisionHierarchy: any = JSON.parse(localStorage.getItem('subDivData'));
-  depotHierarchy: any = JSON.parse(localStorage.getItem('depotData'));
-  loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  userHierarchy: any = JSON.parse(sessionStorage.getItem('userHierarchy'));
+  zoneHierarchy: any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionHierarchy: any = JSON.parse(sessionStorage.getItem('divisionData'));
+  subDivisionHierarchy: any = JSON.parse(sessionStorage.getItem('subDivData'));
+  depotHierarchy: any = JSON.parse(sessionStorage.getItem('depotData'));
+  loggedUser: any = JSON.parse(sessionStorage.getItem('loggedUser'));
   divisionList: any;
   subDivisionList: any;
   depotList: any;

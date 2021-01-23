@@ -37,7 +37,7 @@ export class TractionEnergyTariffComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     TractionEneTariffDisplayedColumns = ['sno' ,  'supplier'  , 'rate' , 'fromDate' , 'thruDate' , 'specification' , 'condition' , 'id' ];
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     contentCategoryList: any;
     contentTopicList: any;
     uploadFile: boolean = false;

@@ -49,7 +49,7 @@ export class DailySummaryComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editDailySummaryResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
     subDivList:  FacilityModel [] = [];

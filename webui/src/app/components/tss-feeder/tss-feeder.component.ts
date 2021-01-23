@@ -44,10 +44,10 @@ export class TssFeederComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     feederResponse:any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
-    zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
-    divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
+    zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
+    divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));   
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
     enableZone: boolean ;

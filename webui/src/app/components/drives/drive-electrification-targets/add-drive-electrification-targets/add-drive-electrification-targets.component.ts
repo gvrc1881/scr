@@ -29,7 +29,7 @@ export class AddDriveElectrificationTargetsComponent implements OnInit {
   pagination =Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

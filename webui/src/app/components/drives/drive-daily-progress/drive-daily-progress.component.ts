@@ -47,9 +47,9 @@ export class DriveDailyProgressComponent implements OnInit {
     performedCount: any;
     resp: any;
     DDProgress: any;
-    depotsList: any = JSON.parse(localStorage.getItem('depotData'));
+    depotsList: any = JSON.parse(sessionStorage.getItem('depotData'));
     facilityId: any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     driveDailyProgressDialogRef:MatDialogRef<ViewDriveDailyProgressComponent>;
     requestType: string;
     titleName: any;
@@ -228,7 +228,7 @@ export class AddAssetIdsDriveDialogComponent implements OnInit  {
     facilityId: any;
     selectedAssetIdList: any [] = [];
     assetIdsExists: boolean;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     DDProgressId: any;
     driveId: any;
     performedDate : any;

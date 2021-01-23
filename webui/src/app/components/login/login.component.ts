@@ -99,26 +99,26 @@ export class LoginComponent implements OnInit {
             .subscribe(
               userdata => {
                 this.authenticationService.getUserData(userdata.email, password).subscribe(response => {
-                  localStorage.setItem("menus", response.menus);
-                  localStorage.setItem("loggedUser", JSON.stringify(response));
+                  sessionStorage.setItem("menus", response.menus);
+                  sessionStorage.setItem("loggedUser", JSON.stringify(response));
                   this.user = response;
                   this.router.navigate([this.returnUrl]);
-                    localStorage.setItem("headerRefresh","refresh");
-                    localStorage.setItem("userHierarchy", JSON.stringify(response));
-                        localStorage.setItem("zoneData", JSON.stringify(response.zoneList));
-                        localStorage.setItem("divisionData", JSON.stringify(response.divisionList));
-                        localStorage.setItem("subDivData", JSON.stringify(response.subDivisionList));
-                        localStorage.setItem("depotData", JSON.stringify(response.depotList));
-                        localStorage.setItem("facilityData",JSON.stringify(response.facilityData));
-                        localStorage.setItem("projectList",JSON.stringify(response.projects));
+                    sessionStorage.setItem("headerRefresh","refresh");
+                    sessionStorage.setItem("userHierarchy", JSON.stringify(response));
+                        sessionStorage.setItem("zoneData", JSON.stringify(response.zoneList));
+                        sessionStorage.setItem("divisionData", JSON.stringify(response.divisionList));
+                        sessionStorage.setItem("subDivData", JSON.stringify(response.subDivisionList));
+                        sessionStorage.setItem("depotData", JSON.stringify(response.depotList));
+                        sessionStorage.setItem("facilityData",JSON.stringify(response.facilityData));
+                        sessionStorage.setItem("projectList",JSON.stringify(response.projects));
                     console.log("*** value ***"+JSON.stringify(response.projects));
                   // To get User Hierarchy 
                     /*
                   if (this.user) {
                     this.authenticationService.userHierarchy(this.user.userName)
                       .subscribe(response => {
-                        localStorage.setItem("userHierarchy", JSON.stringify(response));
-                        let userHierarchy = JSON.parse(localStorage.getItem('userHierarchy'));
+                        sessionStorage.setItem("userHierarchy", JSON.stringify(response));
+                        let userHierarchy = JSON.parse(sessionStorage.getItem('userHierarchy'));
                         for (let i = 0; i < userHierarchy.length; i++) {
 
                           if (userHierarchy[i].depotType == 'ZONE')
@@ -134,11 +134,11 @@ export class LoginComponent implements OnInit {
                             this.facilityList.push(userHierarchy[i]);
 
                         }
-                        localStorage.setItem("headerRefresh","refresh");
-                        localStorage.setItem("zoneData", JSON.stringify(this.zoneList));
-                        localStorage.setItem("divisionData", JSON.stringify(this.divisionList));
-                        localStorage.setItem("subDivData", JSON.stringify(this.subDivList));
-                        localStorage.setItem("depotData", JSON.stringify(this.facilityList));
+                        sessionStorage.setItem("headerRefresh","refresh");
+                        sessionStorage.setItem("zoneData", JSON.stringify(this.zoneList));
+                        sessionStorage.setItem("divisionData", JSON.stringify(this.divisionList));
+                        sessionStorage.setItem("subDivData", JSON.stringify(this.subDivList));
+                        sessionStorage.setItem("depotData", JSON.stringify(this.facilityList));
                         
                         
                       }, error => {

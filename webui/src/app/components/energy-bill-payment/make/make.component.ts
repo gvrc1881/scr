@@ -48,7 +48,7 @@ export class MakeComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     makeResponse:any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
 
     constructor( 
         private formBuilder: FormBuilder,

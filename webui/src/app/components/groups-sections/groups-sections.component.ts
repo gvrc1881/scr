@@ -24,7 +24,7 @@ export class GroupsSectionsComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'workId', 'workGroup', 'section', 'agency', 'doublingTrippling', 'division','code','description','tkm','rkm','sidingYardStation','actions','targets'];
   groupsSectionsdataSource: MatTableDataSource<GroupsSectionsModel>;

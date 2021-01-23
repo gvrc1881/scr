@@ -62,8 +62,8 @@ export class SidingsComponent implements OnInit {
     divisionsList:any;
     zonesList:any;
     depotList:any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
     subDivList:  FacilityModel [] = [];

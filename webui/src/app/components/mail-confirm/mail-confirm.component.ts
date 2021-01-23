@@ -98,8 +98,8 @@ export class MailConfirmComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    if(!!localStorage.getItem("email")){
-      this.email = localStorage.getItem("email");
+    if(!!sessionStorage.getItem("email")){
+      this.email = sessionStorage.getItem("email");
     }
     this.createForms();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';

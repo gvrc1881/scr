@@ -47,7 +47,7 @@ export class ModelComponent implements OnInit{
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     modelResponse:any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     
    
     constructor( 

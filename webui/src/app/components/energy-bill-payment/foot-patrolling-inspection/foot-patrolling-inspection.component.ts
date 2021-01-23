@@ -27,7 +27,7 @@ export class FootPatrollingInspectionComponent implements OnInit{
     pagination = Constants.PAGINATION_NUMBERS;
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
@@ -550,7 +550,7 @@ inspetionDetails() {
       this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if (result) {
-              var id = localStorage.getItem('observationFileTypeId');
+              var id = sessionStorage.getItem('observationFileTypeId');
               var data ={
                 "id":commonFileid,
                 "fileName":rowid,
@@ -753,8 +753,8 @@ complianceItemSubmit () {
       comFilesInfor: any;
       compViewFilesDetails(id) {
         this.spinnerService.show();
-        localStorage.setItem('inspectionFileType', 'compliance');
-        localStorage.setItem('inspectionFileTypeId', id);
+        sessionStorage.setItem('inspectionFileType', 'compliance');
+        sessionStorage.setItem('inspectionFileTypeId', id);
         this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION. GET_OBSERVATION_CONTENT_ID+ id).subscribe((response) => {
           this.comFilesInfor = response;
           this.spinnerService.hide();

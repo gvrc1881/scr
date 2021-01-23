@@ -30,8 +30,8 @@ export class AddSpecialWorksComponent implements OnInit {
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  depotData: any = JSON.parse(localStorage.getItem('depotData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
   resp: any;
   title:string = Constants.EVENTS.ADD;
   addSpecialWorksFormGroup: FormGroup;

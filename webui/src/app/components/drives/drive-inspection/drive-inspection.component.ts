@@ -28,7 +28,7 @@ export class DriveInspectionComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'inspectionType', 'section', 'sectionStartLocation', 'sectionEndLocation',
     'dateOfInspection', 'RKM', 'TKM', 'remarks', 'authorisationDate', 'chargingDate', 'attachment',
@@ -147,8 +147,8 @@ export class DriveInspectionComponent implements OnInit {
     this.spinnerService.show();
     this.sendandRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
-      localStorage.setItem('driveFileType', 'inspection');
-      localStorage.setItem('driveFileTypeId', id);     
+      sessionStorage.setItem('driveFileType', 'inspection');
+      sessionStorage.setItem('driveFileTypeId', id);     
       this.spinnerService.hide();
       this.fileInformationDialogRef = this.dialog.open(FilesInformationDialogComponent, {
         disableClose: false,

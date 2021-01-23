@@ -31,7 +31,7 @@ export class UsersComponent implements OnInit {
     status: boolean;
     userFormErrors: any;
     title: string = "User";
-    userdata: any = JSON.parse(localStorage.getItem('userData'));
+    userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     dataSource: MatTableDataSource<UsersModel>;
     response: any;
     rolePermission:boolean= true;

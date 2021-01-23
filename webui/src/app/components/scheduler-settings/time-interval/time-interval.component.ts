@@ -56,7 +56,7 @@ export class TimeIntervalComponent implements OnInit {
   timeIntervalResponse: any;
   timeIntervals=[{ id: 1, interval: 'Daily' }, { id: 2, interval: 'Weekly' }, { id:3, interval:'Fortnightly'}, { id:4, interval:'Monthly'}, { id:5, interval:'Quarterly'}, { id:6, interval:'Half Yearly'},  { id:7, interval:'Yearly'}];
   pattern = "[a-zA-Z][a-zA-Z ]*";
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   title: string = "Add";
   timeIntervalDisplayedColumns = ['sno', 'timeInterval', 'id'];
   timeIntervalDataSource: MatTableDataSource<TimeIntervalModel>;

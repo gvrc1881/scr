@@ -31,7 +31,7 @@ export class AddProjectComponent implements OnInit {
     update: boolean = false;
     id: number = 0;
     isSubmit: boolean = false;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     resp: any;
     title:string;
     addProjectFormGroup: FormGroup;
@@ -40,7 +40,7 @@ export class AddProjectComponent implements OnInit {
     pattern = "[a-zA-Z][a-zA-Z ]*";
     statusItems: any;
     execAgencyList: any;
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     //divisionList:  FacilityModel [] = [];
     divisionList:any;
     maxDate = new Date();

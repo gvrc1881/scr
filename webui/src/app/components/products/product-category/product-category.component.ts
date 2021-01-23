@@ -23,7 +23,7 @@ export class ProductCategoryComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   filterData;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno','productCategoryId', 'categoryName', 'productCategoryTypeId','primaryParentCategoryId', 'actions'];
   dataSource: MatTableDataSource<ProductCategoryModel>;

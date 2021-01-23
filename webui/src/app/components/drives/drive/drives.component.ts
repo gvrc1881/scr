@@ -32,7 +32,7 @@ export class DrivesComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData')); 
+  userdata: any = JSON.parse(sessionStorage.getItem('userData')); 
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'name', 'description', 'fromDate', 'toDate', 'depoType', 'assetType', 'frequency',
    'functionalUnit', 'active', 'actions'];

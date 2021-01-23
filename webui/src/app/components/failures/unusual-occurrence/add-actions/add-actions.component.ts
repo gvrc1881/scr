@@ -19,7 +19,7 @@ export class AddActionsComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   actionsPagination = Constants.PAGINATION_NUMBERS;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

@@ -26,7 +26,7 @@ export class AssetsScheduleComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   assetsScheduleList:any;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   assetsScheduleDisplayColumns = ['sno', 'scheduleCode', 'scheduleName', 'description', 'actions'];
   assetsScheduleDataSource: MatTableDataSource<AssetsScheduleModel>;

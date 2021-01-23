@@ -38,7 +38,7 @@ export class ContentManagementComponent implements OnInit {
     filterData;
     modelList:any;
     visible:boolean;
-    userdata: any = JSON.parse(localStorage.getItem('userData'));
+    userdata: any = JSON.parse(sessionStorage.getItem('userData'));
     contentManagementFormGroup: FormGroup;
     progress: { percentage: number } = { percentage: 0 }
     pattern = "[a-zA-Z][a-zA-Z ]*";

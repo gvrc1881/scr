@@ -27,7 +27,7 @@ export class AshDisplayComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   exactDate: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   filterData;
   facilityList: any;
   selectedExactDate = new Date();
@@ -170,8 +170,8 @@ export class AshDisplayComponent implements OnInit {
   filesInfor: any;
   viewFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('driveFileType', 'stipulation');
-    localStorage.setItem('driveFileTypeId', id);
+    sessionStorage.setItem('driveFileType', 'stipulation');
+    sessionStorage.setItem('driveFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTIONS.STIPULATION.GET_INSPECTION_AND_STIPULATION_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();

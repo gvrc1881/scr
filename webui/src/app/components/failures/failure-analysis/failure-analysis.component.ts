@@ -22,8 +22,8 @@ export class FailureAnalysisComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
-  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
+  divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   displayedColumns = ['sno', 'reported', 'div','date',

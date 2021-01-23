@@ -41,7 +41,7 @@ export class ReportByQueryComponent implements OnInit {
        submitedForm: any;
        facilityId: any;
        warehouseFacilityData:any;
-      // userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
+      // userHierarchy: any = JSON.parse(sessionStorage.getItem('userHierarchy'));
        reportModel: ReportModel;
        formValuses: any;
        zoneList: FacilityModel[] = [];
@@ -49,7 +49,7 @@ export class ReportByQueryComponent implements OnInit {
        subDivList: FacilityModel[] = [];
        facilityList: FacilityModel[] = [];
        pbSwitchControlData: any;
-       userData: any = JSON.parse(localStorage.getItem('loggedUser'));
+       userData: any = JSON.parse(sessionStorage.getItem('loggedUser'));
        userDefaultData: any;
        zoneObject: any;
        zoneCode: any;
@@ -68,10 +68,10 @@ export class ReportByQueryComponent implements OnInit {
        spaData:any;
        driveNameData:any;
        feederNameData:any;
-       orginalZoneData: any = JSON.parse(localStorage.getItem('zoneData'));
-       orginalDivisionsData: any = JSON.parse(localStorage.getItem('divisionData'));
-       orginalSubDivisionData: any = JSON.parse(localStorage.getItem('subDivData'));
-       orginalDepotData: any = JSON.parse(localStorage.getItem('depotData'));
+       orginalZoneData: any = JSON.parse(sessionStorage.getItem('zoneData'));
+       orginalDivisionsData: any = JSON.parse(sessionStorage.getItem('divisionData'));
+       orginalSubDivisionData: any = JSON.parse(sessionStorage.getItem('subDivData'));
+       orginalDepotData: any = JSON.parse(sessionStorage.getItem('depotData'));
        checkZoneUser: boolean;
        checkDivisionUser: boolean;
        checkSubDivUser: boolean;

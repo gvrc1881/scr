@@ -56,7 +56,7 @@ export class GuidenceItemComponent implements OnInit{
     guidenceItemId: any;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     pattern = "[a-zA-Z][a-zA-Z ]*";
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     id: any;
     constructor(
         private commonService: CommonService,

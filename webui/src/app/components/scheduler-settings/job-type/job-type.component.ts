@@ -33,7 +33,7 @@ export class JobTypeComponent implements OnInit {
   jobTypeResponse: any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
   jobTypeNames=[{ id: 1, jobTypeName: 'Staging To Zonal' }]; 
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   title: string = "Add";
   jobTypeDisplayedColumns = ['sno', 'jobTypeName', 'id'];
   jobTypeDataSource: MatTableDataSource<JobTypeModel>;

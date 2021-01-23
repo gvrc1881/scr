@@ -40,11 +40,11 @@ export class EnergyMeterComponent implements OnInit{
     energyMeterResponse: any;
     toMinDate=new Date();
     enableEndReadings: boolean;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     tssFeeder: any;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
     maxDate = new Date();
-    orginalDivisionsData: any = JSON.parse(localStorage.getItem('divisionData'));
+    orginalDivisionsData: any = JSON.parse(sessionStorage.getItem('divisionData'));
     checkDivisionUser: boolean;
     divCode: string;
     userDefaultData: any;

@@ -23,7 +23,7 @@ export class StandardPhasesComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'name', 'description','sequence', 'dependencyToStart', 'typeOfWork','weightage','actions'];
   dataSource: MatTableDataSource<StandardPhasesModel>;

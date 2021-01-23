@@ -28,7 +28,7 @@ export class AddSidingDetailsComponent implements OnInit {
     Titles = FieldLabelsConstant.TITLE;
     pagination =Constants.PAGINATION_NUMBERS;    
     title: string =  Constants.EVENTS.ADD;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     save: boolean = true;
     update: boolean = false;
     isSubmit: boolean = false;
@@ -49,7 +49,7 @@ export class AddSidingDetailsComponent implements OnInit {
     divisionsList:any;
     zonesList:any;
     depotList:any;
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     zoneList: FacilityModel [] = [];
     divisionList:  FacilityModel [] = [];
     subDivList:  FacilityModel [] = [];

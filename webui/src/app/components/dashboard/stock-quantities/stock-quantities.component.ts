@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./stock-quantities.component.css']
 })
 export class StockQuantitiesComponent implements OnInit {
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   isSubmit: boolean = false;
   addStockQuantities: FormGroup;
   stockQuantitiesErrors: any;

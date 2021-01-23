@@ -24,8 +24,8 @@ export class CheckPointsComponent implements OnInit {
   addPermission: boolean = true;
   deletePermission: boolean = true;
   title: string = Constants.EVENTS.UPDATE;
-  originalDepotsData: any = JSON.parse(localStorage.getItem('depotData'));
-  divisionData: any = JSON.parse(localStorage.getItem('divisionData'));
+  originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
+  divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
 
    
 

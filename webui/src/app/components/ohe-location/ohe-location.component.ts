@@ -26,7 +26,7 @@ export class OheLocationComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'division', 'section', 'pwi', 'trackLine', 'oheMast', 'structureType','date','oheFeature','longitude','latitude','altitude','satellites','actions'];
   dataSource: MatTableDataSource<OheLocationModel>;

@@ -22,7 +22,7 @@ export class DivisionHistoryDialogComponent implements OnInit {
     }
 
     ngOnInit() {      
-        this.type = localStorage.getItem("type");
+        this.type = sessionStorage.getItem("type");
         const divisionHistoryData: DivisionHistoryModel[] = [];
             for (let i = 0; i < this.response.length; i++) {               
                   this.response[i].sno = i + 1;

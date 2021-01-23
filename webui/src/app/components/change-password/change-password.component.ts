@@ -19,7 +19,7 @@ import { Constants } from 'src/app/common/constants';
   encapsulation: ViewEncapsulation.None
 })
 export class ChangePasswordComponent implements OnInit {
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   tokenMessage: boolean = false;
   tokenValid: boolean = true;
   passwordBlock: boolean = true;

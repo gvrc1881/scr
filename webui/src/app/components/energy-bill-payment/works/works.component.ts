@@ -33,10 +33,10 @@ export class WorksComponent implements OnInit {
     editWorkResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     displayedColumns = ['sno' ,  'division'  , 'workName' , 'section' , 'executedBy' , 'physicalProgressPercentage' , 'latestRevisedCost' , 'actions' ];
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     statusItems: any;
     execAgencyList: any;
-    userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
+    userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
     divisionList:  FacilityModel [] = [];
     workResponse: any;
     currentYear: any;

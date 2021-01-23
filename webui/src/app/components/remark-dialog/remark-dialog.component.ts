@@ -15,7 +15,7 @@ export class RemarkDialogComponent implements OnInit {
     remarkFormGroup: FormGroup;
     remarkErrors: any;
     public response:any=[];
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,

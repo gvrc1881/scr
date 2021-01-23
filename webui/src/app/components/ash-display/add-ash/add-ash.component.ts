@@ -27,8 +27,8 @@ export class AddAshComponent implements OnInit {
   save: boolean = true;
   update: boolean = false;
   today = new Date();
-  loggedHierarchyList: any = JSON.parse(localStorage.getItem('userHierarchy'));
-  loggedUserData: any=JSON.parse(localStorage.getItem('userData'));
+  loggedHierarchyList: any = JSON.parse(sessionStorage.getItem('userHierarchy'));
+  loggedUserData: any=JSON.parse(sessionStorage.getItem('userData'));
   isSubmit: boolean = false;
   resp: any;
   List = [];

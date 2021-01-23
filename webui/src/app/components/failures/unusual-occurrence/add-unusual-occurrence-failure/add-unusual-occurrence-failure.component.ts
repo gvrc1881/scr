@@ -16,8 +16,8 @@ export class AddUnusualOccurrenceFailureComponent implements OnInit {
 
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData')); 
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  facilityHierarchy:any = JSON.parse(sessionStorage.getItem('depotData')); 
   save: boolean = true;
   update: boolean = false;
   id: number = 0;

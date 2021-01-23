@@ -17,9 +17,9 @@ tpcBoardFormGroup: FormGroup;
 depotData:any;
 facilityData:any;
 divisionList:any;
-loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-userHierarchy:any = JSON.parse(localStorage.getItem('userHierarchy'));
-selectedTpcBoard: any = localStorage.getItem('tpcBoard');
+loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
+selectedTpcBoard: any = sessionStorage.getItem('tpcBoard');
   constructor(
     private commonService: CommonService,
     private formBuilder: FormBuilder,
@@ -67,11 +67,11 @@ selectedTpcBoard: any = localStorage.getItem('tpcBoard');
    }
    getFacilityList(){
     var tpcBoard = this.tpcBoardFormGroup.value.tpcBoard ;
-    localStorage.setItem("tpcBoard", tpcBoard);
+    sessionStorage.setItem("tpcBoard", tpcBoard);
   this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_TPC_BOARD + tpcBoard).subscribe((response) => {
              this.facilityData = response;
-             localStorage.setItem("depotData", JSON.stringify(response));
-             let depotData=JSON.parse(localStorage.getItem('depotData'));
+             sessionStorage.setItem("depotData", JSON.stringify(response));
+             let depotData=JSON.parse(sessionStorage.getItem('depotData'));
              // console.log("depotData"+JSON.stringify(depotData));
         });
 }

@@ -23,7 +23,7 @@ export class DocumentDialogComponent implements OnInit {
     }
 
     ngOnInit() {      
-       // this.type = localStorage.getItem("type");
+       // this.type = sessionStorage.getItem("type");
       // console.log('response:::from document dialog:::'+this.response);
         const contentManagementData: ContentManagementModel[] = [];
             for (let i = 0; i < this.response.length; i++) {               

@@ -33,7 +33,7 @@ pagination = Constants.PAGINATION_NUMBERS;
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   filterData;
   displayedColumns = ['sno', 'Feeder_Name', 'Previous_Date', 'Multification_Factor', 'Joint_Reading',/*  'CMD', */
     'Old_KWH', 'Current_KWH', "Consumption_KWH", 'Old_KVAH', 'Current_KVAH', 'Consumption_KVAH',
@@ -65,12 +65,12 @@ pagination = Constants.PAGINATION_NUMBERS;
   ]
   divisionCode: string;
   feederId: string;
-  zoneData: any = JSON.parse(localStorage.getItem('zoneData'));
-  divisionData: any = JSON.parse(localStorage.getItem('divisionData'));
+  zoneData: any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
   zoneObject: any;
   zoneCode: string
   userDefaultData: any;
-  loggedUser: any = JSON.parse(localStorage.getItem('loggedUser'));
+  loggedUser: any = JSON.parse(sessionStorage.getItem('loggedUser'));
   previousUrl: string;
 
   constructor(
@@ -120,10 +120,10 @@ pagination = Constants.PAGINATION_NUMBERS;
    // this.divisionDetails();
     // commented by  adiReddy   if (previousUrl == '/energy-consumption/') {
     if (previousUrl != '/energy-consumption') {
-      var query = !!localStorage.getItem('query') ? localStorage.getItem('query') : this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
+      var query = !!sessionStorage.getItem('query') ? sessionStorage.getItem('query') : this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId;
       console.log('query = ' + query);
-      if (localStorage.getItem('query')) {
-        var values = localStorage.getItem('query').split('/');
+      if (sessionStorage.getItem('query')) {
+        var values = sessionStorage.getItem('query').split('/');
         console.log(values);
         if (values[1] == 'exact') {
           this.exactDate = true;
@@ -145,7 +145,7 @@ pagination = Constants.PAGINATION_NUMBERS;
         }
       }
       query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
-      localStorage.setItem('query', query);
+      sessionStorage.setItem('query', query);
       this.findEnergyConsumptionData(query)
     }
 
@@ -281,8 +281,8 @@ pagination = Constants.PAGINATION_NUMBERS;
     })*/
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
-    localStorage.setItem('query', query);
-    localStorage.setItem('ec', JSON.stringify(row));
+    sessionStorage.setItem('query', query);
+    sessionStorage.setItem('ec', JSON.stringify(row));
     this.router.navigate([row.feederId], { relativeTo: this.route });
   }
   processCancelAction(row) {
@@ -320,7 +320,7 @@ pagination = Constants.PAGINATION_NUMBERS;
          this.findEnergyConsumptionData(query);
       }
     }
-      localStorage.setItem('query', query);
+      sessionStorage.setItem('query', query);
   }
   exactDateEvent($event) {
     this.selectedExactDate = new Date($event.value);
@@ -355,7 +355,7 @@ pagination = Constants.PAGINATION_NUMBERS;
   executeQuery() {
     var query = "";
     query = this.exactDate ? this.datePipe.transform(this.selectedExactDate, 'yyyy-MM-dd') + '/exact/' + this.selectedFeederId + '/' + this.selectedDivision : this.datePipe.transform(this.selectedBWFrom, 'yyyy-MM-dd') + '/' + this.datePipe.transform(this.selectedBWTo, 'yyyy-MM-dd') + '/' + this.selectedFeederId + '/' + this.selectedDivision;
-    localStorage.setItem('query', query);
+    sessionStorage.setItem('query', query);
     this.findEnergyConsumptionData(query);
   }
 }

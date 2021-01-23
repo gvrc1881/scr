@@ -20,7 +20,7 @@ export class TestComponent implements OnInit {
   
   id: number = 0;
   today = new Date();
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   isSubmit: boolean = false;
   resp: any;

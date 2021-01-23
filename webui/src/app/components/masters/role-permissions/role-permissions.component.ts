@@ -37,7 +37,7 @@ export class RolePermissionsComponent implements OnInit {
   permission: RolePermissionModel[] = [];
   permissionRole: boolean = true;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   permissionType = false;
   @ViewChild(MatPaginator,{static:true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static:true}) sort: MatSort;

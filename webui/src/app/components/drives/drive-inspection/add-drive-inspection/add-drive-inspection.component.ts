@@ -29,7 +29,7 @@ export class AddDriveInspectionComponent implements OnInit {
   pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   title:string = Constants.EVENTS.ADD;
@@ -323,7 +323,7 @@ export class AddDriveInspectionComponent implements OnInit {
           "fileName":rowid,
           "type":'Inspection'
       }
-          var id = localStorage.getItem('driveFileTypeId');
+          var id = sessionStorage.getItem('driveFileTypeId');
           this.sendAndRequestService.requestForPOST(Constants.app_urls.INSPECTIONS.INSPECTIONS.DELETE_FILE, data, false).subscribe(data => {
               this.commonService.showAlertMessage("Deleted File Successfully");
              this.findAttachedFiles(commonFileid);

@@ -17,7 +17,7 @@ export class AddFailureOccurrenceComponent implements OnInit {
 
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   save: boolean = true;
   update: boolean = false;
   id: number = 0;
@@ -42,10 +42,10 @@ export class AddFailureOccurrenceComponent implements OnInit {
   minDate=new Date();
   maxDate = new Date();
   dateFormat = 'dd-MM-yyyy hh:mm:ss';  
-  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
-  divisionHierarchy:any = JSON.parse(localStorage.getItem('divisionData'));   
-  subDivisionHierarchy:any = JSON.parse(localStorage.getItem('subDivData'));   
-  facilityHierarchy:any = JSON.parse(localStorage.getItem('depotData'));  
+  zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(sessionStorage.getItem('subDivData'));   
+  facilityHierarchy:any = JSON.parse(sessionStorage.getItem('depotData'));  
   facilityList:any;
   constructor(
     private formBuilder: FormBuilder,    

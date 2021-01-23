@@ -26,7 +26,7 @@ export class AssistanceComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   
   displayedColumns = ['sno' ,'typeOfAssistance','requestTo','assistance' , 'requestedDate' ,  'responseDate' ,'responseBy','attachment','actions'] ;
@@ -156,8 +156,8 @@ export class AssistanceComponent implements OnInit {
   filesInfor: any;
   viewFilesDetails(id) {
     this.spinnerService.show();
-    localStorage.setItem('assistanceFileType', 'assistance');
-    localStorage.setItem('assistanceFileTypeId', id);
+    sessionStorage.setItem('assistanceFileType', 'assistance');
+    sessionStorage.setItem('assistanceFileTypeId', id);
     this.sendAndRequestService.requestForGET(Constants.app_urls.DAILY_SUMMARY.OBSERVATION.GET_OBSERVATION_CONTENT_ID + id).subscribe((response) => {
       this.filesInfor = response;
       this.spinnerService.hide();

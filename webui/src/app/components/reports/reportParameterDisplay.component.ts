@@ -40,7 +40,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        scheduleData: ScheduleModel;
        submitedForm: any;
        facilityId: any;
-       userHierarchy: any = JSON.parse(localStorage.getItem('userHierarchy'));
+       userHierarchy: any = JSON.parse(sessionStorage.getItem('userHierarchy'));
        reportModel: ReportModel;
        formValuses: any;
        zoneList: FacilityModel[] = [];
@@ -48,7 +48,7 @@ export class ReportParameterDisplayComponent implements OnInit {
        subDivList: FacilityModel[] = [];
        facilityList: FacilityModel[] = [];
        pbSwitchControlData: any;
-       userData: any = JSON.parse(localStorage.getItem('loggedUser'));
+       userData: any = JSON.parse(sessionStorage.getItem('loggedUser'));
        userDefaultData: any ;
        zoneObject: any;
        zoneCode: any;

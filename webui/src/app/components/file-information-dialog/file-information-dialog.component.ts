@@ -37,7 +37,7 @@ export class FilesInformationDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.type = localStorage.getItem("driveFileType");
+        this.type = sessionStorage.getItem("driveFileType");
         if(this.type == 'inspection'){
             this.url = environment.inspectionUrl;
         }else{
@@ -85,7 +85,7 @@ export class FilesInformationDialogComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.spinnerService.show();
-                var id = localStorage.getItem('driveFileTypeId');
+                var id = sessionStorage.getItem('driveFileTypeId');
                 var data ={
                     "id":id,
                     "fileName":rowid,

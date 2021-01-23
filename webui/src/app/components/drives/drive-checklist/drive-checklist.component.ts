@@ -21,7 +21,7 @@ export class DriveChecklistComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'drive', 'measureActivityList','activityPositionId', 'displayOrder', 'lowerLimit', 'upperLimit', 'active', 'actions'];
   dataSource: MatTableDataSource<DriveChecklistModel>;

@@ -28,7 +28,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   occurenceDisplayedColumns = ['sno', 'subStation', 'location', 'causeOfFailure', 'fromDateTime', 
   'thruDateTime',  'duration','internalExternal', 'actions','failureActions'];
@@ -62,7 +62,7 @@ export class UnusualOccurrenceFailureComponent implements OnInit {
     unUsualOccurenceFailId: any;
     documentDialogRef:MatDialogRef<DocumentDialogComponent>;
     pattern = "[a-zA-Z][a-zA-Z ]*";
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     id: any;
  
 

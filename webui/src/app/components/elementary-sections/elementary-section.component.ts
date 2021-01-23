@@ -25,7 +25,7 @@ export class ElementarySectionComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'elementarySectionCode', 'facilityId', 'stationCode', 'sectorCode','subSectorCode','protectionCrossover','protectionTurnout','actions','switch'];
   dataSource: MatTableDataSource<ElementarySectionModel>;

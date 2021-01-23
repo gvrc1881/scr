@@ -53,7 +53,7 @@ export class MilestoneTargetsComponent implements OnInit {
     targetsDisplayColumns = ['sno' ,'workId','workGroupId','targetType','rkm' , 'tkm' ,'targetDate','status','remarks', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     
     editTargetsResponse: any;
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;

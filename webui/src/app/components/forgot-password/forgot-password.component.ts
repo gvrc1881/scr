@@ -189,7 +189,7 @@ export class ForgotPasswordComponent implements OnInit {
             this.mailConfirmationMessage=true;
             this.resetPasswordForm = false;
             this.email = email;
-           // localStorage.setItem("email", email);
+           // sessionStorage.setItem("email", email);
           } else {
             this.forgotPasswordMessageCondition = true;
             this.forgotPasswordMessage = response.message;

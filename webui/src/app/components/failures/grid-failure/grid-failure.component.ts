@@ -24,7 +24,7 @@ export class GridFailureComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'feedOf', 'fromDateTime', 'thruDateTime', 'duration', 'extendedOf',
     'feedExtendedFromDateTime', 'feedExtendedThruDateTime', 'feedExtendedDuration', 'maxDemand',

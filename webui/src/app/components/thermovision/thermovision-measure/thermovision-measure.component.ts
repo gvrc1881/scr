@@ -33,7 +33,7 @@ export class ThermovisionMeasureComponent implements OnInit{
   Titles = FieldLabelsConstant.TITLE;
     inputFormGroup: FormGroup;
     //divisionsList: any;
-    depotsData: any = JSON.parse(localStorage.getItem('depotData'));
+    depotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
     displayedColumns =['sno','description','fixed','c-clamp','ambientTemp','criticality','remark','fixedDiff','CClampDiff']//,'fixed',
@@ -43,11 +43,11 @@ export class ThermovisionMeasureComponent implements OnInit{
     maxDate = new Date();
     resp: any;
     ambientTemp : any;
-    divisionsList: any = JSON.parse(localStorage.getItem('divisionData'));
+    divisionsList: any = JSON.parse(sessionStorage.getItem('divisionData'));
     checkDivisionUser: boolean;
     divCode: string;
     userDefaultData: any;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   
 
     constructor(

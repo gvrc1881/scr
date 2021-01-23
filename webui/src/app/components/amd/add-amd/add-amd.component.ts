@@ -26,8 +26,8 @@ export class AddAmdComponent implements OnInit {
   pagination = Constants.PAGINATION_NUMBERS;
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
-  loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
-  zoneHierarchy:any = JSON.parse(localStorage.getItem('zoneData'));
+  loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
   save: boolean = true;
   update: boolean = false;
   title: string = Constants.EVENTS.ADD;

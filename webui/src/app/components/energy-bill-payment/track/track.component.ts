@@ -25,7 +25,7 @@ export class TrackComponent implements OnInit{
 	addPermission: boolean = true;
     editPermission: boolean = true;
     deletePermission: boolean = true;
-    loggedUserData: any = JSON.parse(localStorage.getItem('userData'));
+    loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     trackFormGroup: FormGroup;
     addTrack: boolean = false;
     title: string = Constants.EVENTS.ADD;

@@ -26,7 +26,7 @@ export class DriveElectrificationTargetsComponent implements OnInit {
   editPermission: boolean = true;
   addPermission: boolean = true;
   deletePermission: boolean = true;
-  userdata: any = JSON.parse(localStorage.getItem('userData'));
+  userdata: any = JSON.parse(sessionStorage.getItem('userData'));
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   displayedColumns = ['sno', 'section', 'guage', 'targetDate', 'status', 'division', 'executionAgency',
     'TKM', 'RKM', 'targetSetBy', 'doublingTrippling',

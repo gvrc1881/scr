@@ -39,7 +39,7 @@ export class CommonService {
             url === Constants.app_urls.AUTHENTICATION.FORGOT_PASSWORD) ? false : true;
     }
     findPermission(value, type, permissionType) {
-        let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
+        let loggerUser = JSON.parse(sessionStorage.getItem('loggedUser'));
         if (type == 'menu') {
             if (loggerUser) {
                 let pageRolePermissions = loggerUser.menuPermissionResponses;
@@ -63,8 +63,8 @@ export class CommonService {
         }
     }
     rolePermission() {
-        if (!!localStorage.getItem("loggedUser") && localStorage.getItem("loggedUser") != "[object Object]") {
-            let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        if (!!sessionStorage.getItem("loggedUser") && sessionStorage.getItem("loggedUser") != "[object Object]") {
+            let loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
             return !!loggedUser.roleName && loggedUser.roleName == 'User' ? false : true;
         }
         else {
@@ -73,7 +73,7 @@ export class CommonService {
     }
     
     getPermissionNameByLoggedData(menu, submenu){
-    	let loggerUser = JSON.parse(localStorage.getItem('loggedUser'));
+    	let loggerUser = JSON.parse(sessionStorage.getItem('loggedUser'));
   		let pageRolePermissions = loggerUser.menuPermissionResponses;
 	   var p= !!pageRolePermissions && pageRolePermissions.filter(element => {
           return element.menuName.toLowerCase() == menu.toLowerCase() && element.subMenuName.toLowerCase() == submenu.toLowerCase() ;//&& element.permissionName != null && element.permissionName != 'No Permissions' ? true : false;
@@ -92,8 +92,8 @@ export class CommonService {
     }
 
     getPermission(permissionType) {
-        if (!!localStorage.getItem("loggedUser") && localStorage.getItem("loggedUser") != "[object Object]") {
-            let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        if (!!sessionStorage.getItem("loggedUser") && sessionStorage.getItem("loggedUser") != "[object Object]") {
+            let loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
             let permission = !!loggedUser.roleName && loggedUser.permissionName;
             if (permission != null && !!permission && permission.includes(permissionType)) {
                 return true;
