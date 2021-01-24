@@ -176,7 +176,7 @@ export class GridFailureComponent implements OnInit {
       { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_THRU_DATE_TIME, value:data.feedExtendedThruDateTime },
       { label:FieldLabelsConstant.LABELS.FEED_EXTENDED_DURATION, value:data.feedExtendedDuration },
       { label:FieldLabelsConstant.LABELS.MAX_DEMAND, value:data.maxDemand },
-      { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure, },
+      { label:FieldLabelsConstant.LABELS.INTERNAL, value:data.cbInternalFailure},
       { label:FieldLabelsConstant.LABELS.INTERNAL_EXTERNAL, value:data.internalExternal },
       { label:FieldLabelsConstant.LABELS.REMARKS, value:data.remarks },
       { label:FieldLabelsConstant.LABELS.TYPE_OF_FAILURE, value:data.typeOfFailure }
