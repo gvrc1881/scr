@@ -900,10 +900,11 @@ END; $BODY$;
 CREATE OR REPLACE FUNCTION public.tcp_measure_v_func(
 	requested_station integer,
 	schedule_date date)
-    RETURNS TABLE(rs_id bigint, rs_facility_id character varying, rs_facility_name character varying, 
+    RETURNS TABLE(rs_id bigint, rs_facility_id character varying, rs_facility_name character varying,tcp_id bigint,
 	tcp_check_point_part character varying, tcp_check_point_description character varying, 
 	tcp_type_of_check_point character varying, tcp_display_group character varying, tcp_display_order character varying, 
-	tcp_active character varying, tcp_commparison_points bigint, tcpm_id bigint, tcpm_fixed_measure character varying,
+	tcp_active character varying, tcp_commparison_points bigint, tcp_display_of_temp_diff character varying ,
+	tcpm_id bigint, tcpm_fixed_measure character varying,
 	tcpm_c_clamp_measure character varying, tcpm_ambient_temp double precision, tcpm_image_id character varying, 
 	tcpm_remark character varying, tcpm_criticality bigint, tcpm_variance_with_other_point double precision, 
 	f_diff double precision, c_clamp_diff double precision, tcpm_comp_tcp_id bigint, tcpm_fixed_measure_comp_point character varying, 
@@ -928,6 +929,7 @@ rs.id rs_id,
 rs.facility_id rs_facility_id,
 rs.facility_name rs_facility_name,
 
+rs.tcp_id,
 rs.tcp_check_point_part,
 rs.tcp_check_point_description,
 rs.tcp_type_of_check_point,
@@ -935,6 +937,7 @@ rs.tcp_display_group,
 rs.tcp_display_order,
 rs.tcp_active,
 rs.tcp_commparison_points ,
+rs.tcp_display_of_temp_diff,
 
 -- current measures v_thermovision_measures cur_m
 cur_m.tcpm_id ,

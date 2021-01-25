@@ -3698,21 +3698,25 @@ ALTER TABLE public.v_asset_monthly_targets
 ------------------74
 
 --drop view v_thermovision_check_points cascade;
+--alter table thermovision_check_points add column display_of_temp_diff varchar;
+
+--drop view v_thermovision_check_points cascade;
+
 create view v_thermovision_check_points as
-select 
-tcp.id as  tcp_id,
-tcp.facility_id as  tcp_facility_id ,
-f.facility_name tcp_facility_name,
-f.depot_type as tcp_station_type ,
-check_point_part as  tcp_check_point_part,
-check_point_description as  tcp_check_point_description,
-type_of_check_point as  tcp_type_of_check_point,
-display_group as  tcp_display_group,
-display_order as  tcp_display_order,
-active as  tcp_active,
-commparison_points as  tcp_commparison_points
-from thermovision_check_points tcp
-left outer join facility f on (tcp.facility_id::text = f.facility_id) ;
+SELECT tcp.id AS tcp_id,
+    tcp.facility_id AS tcp_facility_id,
+    f.facility_name AS tcp_facility_name,
+    f.depot_type AS tcp_station_type,
+    tcp.check_point_part AS tcp_check_point_part,
+    tcp.check_point_description AS tcp_check_point_description,
+    tcp.type_of_check_point AS tcp_type_of_check_point,
+    tcp.display_group AS tcp_display_group,
+    tcp.display_order AS tcp_display_order,
+    tcp.active AS tcp_active,
+    tcp.commparison_points AS tcp_commparison_points,
+	tcp.display_of_temp_diff as tcp_display_of_temp_diff
+   FROM thermovision_check_points tcp
+     LEFT JOIN facility f ON tcp.facility_id::text = f.facility_id::text;
 
 
 ------------------75
@@ -3737,10 +3741,10 @@ where tcps.facility_id::text = f.facility_id ;
 ------------------76
 
 --drop view  v_thermovision_measures ; 
-
-
-select * from v_thermovision_measures
-	drop view v_thermovision_measures ;
+	 
+	 
+--select * from v_thermovision_measures
+--	drop view v_thermovision_measures ;
 	create view  v_thermovision_measures as
 	 SELECT vtcp.tcp_check_point_part,
     vtcp.tcp_check_point_description,
@@ -3749,6 +3753,7 @@ select * from v_thermovision_measures
     vtcp.tcp_display_order,
     vtcp.tcp_active,
     vtcp.tcp_commparison_points,
+	vtcp.tcp_display_of_temp_diff,
 	vtcp.tcp_id as tcp_id ,
     tcpm.id AS tcpm_id,
     tcpm.tcp_schedule_id AS tcpm_tcp_schedule_id,

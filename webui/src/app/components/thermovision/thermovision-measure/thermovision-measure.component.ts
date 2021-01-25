@@ -89,7 +89,8 @@ export class ThermovisionMeasureComponent implements OnInit{
         console.log('rowvalue***'+JSON.stringify(row));
         //console.log('row comp point ***'+row.tcpCommparisonPoints);
         if(row.tcpCommparisonPoints){
-            let index = row.tcpCommparisonPoints - 1;
+            //let index = row.tcpCommparisonPoints - 1;
+            let index = this.thermovisionMeasureData.findIndex(value => value.tcpId === row.tcpCommparisonPoints );
             console.log('*** index value ***'+index);
             console.log('indext is row '+JSON.stringify(this.thermovisionMeasureData[index]));
             let indexObject = this.thermovisionMeasureData[index];
