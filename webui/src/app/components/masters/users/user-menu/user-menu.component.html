@@ -88,9 +88,9 @@
                             <mat-row *matRowDef="let row; columns: displayedColumns;">
                             </mat-row>
                         </mat-table>
-                        <div [hidden]="!status" style="color: rgb(244, 67, 54);text-align: center">deleted Successfully!!!
-                        </div>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        <!-- <div [hidden]="!status" style="color: rgb(244, 67, 54);text-align: center">deleted Successfully!!!
+                        </div> -->
+                        <mat-paginator [pageSizeOptions]="pagination"></mat-paginator>
                     </div>
                 </div>
             </div>

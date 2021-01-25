@@ -89,7 +89,7 @@
                     	<div class="clear"></div>
                     	<div class = "col-md-3" >
                         	<mat-form-field fxFlex="30">
-                            	<input matInput placeholder = "{{FiledLabels.TEMP_DIFF}}" decimalNumber [(ngModel)]="ambientTemp"  (ngModelChange)="applyAmbientTemp()" />
+                            	<input matInput autocomplete="off" placeholder = "{{FiledLabels.TEMP_DIFF}}" decimalNumber [(ngModel)]="ambientTemp"  (ngModelChange)="applyAmbientTemp()" />
                             </mat-form-field>
                         </div>
                     	<div class="clear"> </div>
@@ -110,7 +110,7 @@
 	                                    	<ng-container *matCellDef="let row" >
 	                                    	<mat-cell *ngIf = "row.enableFixed   ; else fixedElseBlock">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmFixedMeasure"  decimalNumber
+													<input matInput autocomplete="off" [value]="row.tcpmFixedMeasure"  decimalNumber
 												    	[(ngModel)]="row.tcpmFixedMeasure" (ngModelChange)="compareTwoPoints(row)">
 												</mat-form-field>
 	                                        </mat-cell>
@@ -129,8 +129,8 @@
 	                                    	<ng-container *matCellDef="let row" >
 	                                    	<mat-cell *ngIf = "row.enableCClamp   ; else CClampElseBlock">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmCClampMeasure" decimalNumber
-												    	[(ngModel)]="row.tcpmCClampMeasure">
+													<input matInput autocomplete="off" [value]="row.tcpmCClampMeasure" decimalNumber
+												    	[(ngModel)]="row.tcpmCClampMeasure" (ngModelChange)="compareTwoPoints(row)">
 												</mat-form-field>
 	                                        </mat-cell>
 	                                        <ng-template #CClampElseBlock>
@@ -147,7 +147,7 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TEMP_DIFF}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmAmbientTemp" decimalNumber
+													<input matInput autocomplete="off" [value]="row.tcpmAmbientTemp" decimalNumber
 												    	[(ngModel)]="row.tcpmAmbientTemp">
 												</mat-form-field>
 	                                        </mat-cell>
@@ -156,7 +156,7 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CRITICALITY}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmCriticality" decimalNumber
+													<input matInput autocomplete="off"  [value]="row.tcpmCriticality" decimalNumber
 												    	[(ngModel)]="row.tcpmCriticality">
 												</mat-form-field>
 	                                        </mat-cell>
@@ -165,7 +165,7 @@
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.REMARK}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
-													<input matInput  [value]="row.tcpmRemark" 
+													<input matInput autocomplete="off"  [value]="row.tcpmRemark" 
 												    	[(ngModel)]="row.tcpmRemark">
 												</mat-form-field>
 	                                        </mat-cell>

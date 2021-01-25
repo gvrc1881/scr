@@ -37,7 +37,7 @@ export class UsersComponent implements OnInit {
     rolePermission:boolean= true;
     data: any;
 
-    pattern = "[a-zA-Z][a-zA-Z ]*";
+    pattern = "[a-zA-Z][a-zA-Z_ ]*";
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -71,15 +71,14 @@ export class UsersComponent implements OnInit {
         this.id = +this.route.snapshot.params['id'];
         this.rolePermission = this.commonService.rolePermission();        
         if (!isNaN(this.id)) {
-            console.log('in if condiition');
             this.users = this.formBuilder.group({
                 id: 0,
-                'userName': [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.-]+$')])],
+                'userName': [null, Validators.compose([Validators.required, Validators.pattern(this.pattern)])], // Validators.pattern('^[a-zA-Z0-9_.-]+$')
                 'firstName': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
                 'lastName': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(this.pattern)])],
                 'gender': [null, Validators.required],
                 'email': [null, Validators.compose([Validators.required])],
-                'mobilenum': [null, Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(12)])],
+                'mobilenum': [null, Validators.compose([Validators.required,Validators.maxLength(10)])],
                 'repositoryCode': [null, Validators.required]
             });
                 //'role': [null, Validators.required],
@@ -340,6 +339,7 @@ this.resp = resp;
 
     onGoBack() {
         this._router.navigate(['../'], { relativeTo: this.route });
+        this.users.reset();
 
 
     }

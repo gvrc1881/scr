@@ -49,7 +49,7 @@
 
                                                             <mat-error
                                                                 *ngIf="users.controls['userName'].hasError('pattern') && users.controls['userName'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
+                                                                class="alert alert-danger">Only alphabets and underscore allowed
                                                             </mat-error>
 
                                                         </mat-form-field>
@@ -67,7 +67,7 @@
                                                                 class="alert alert-danger">Enter FirstName</mat-error>
                                                             <mat-error
                                                                 *ngIf="users.controls['firstName'].hasError('pattern') && users.controls['firstName'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
+                                                                class="alert alert-danger">Only alphabets and underscore allowed
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
@@ -81,7 +81,7 @@
                                                                 class="alert alert-danger">Enter LastName.</mat-error>
                                                             <mat-error
                                                                 *ngIf="users.controls['lastName'].hasError('pattern') && users.controls['lastName'].touched"
-                                                                class="alert alert-danger">Only alphabets allowed
+                                                                class="alert alert-danger">Only alphabets and underscore allowed
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>

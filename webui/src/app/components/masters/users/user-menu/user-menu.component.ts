@@ -37,6 +37,7 @@ export class UserMenuComponent implements OnInit {
     displayedColumns = ['sno', 'userid', 'email','userName', 'divisionCode', 'status', 'id'];
     dataSource: MatTableDataSource<UsersModel>;
     paramSubscription: Subscription;
+    pagination =Constants.PAGINATION_NUMBERS;
     
     @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static:true}) sort: MatSort;
@@ -83,6 +84,7 @@ export class UserMenuComponent implements OnInit {
             this.sendAndRequestService.requestForGET(Constants.app_urls.MASTERS.USERS.DELETE_USERS + id)
             .subscribe((data) => {
                 if(data){
+                    this.commonService.showAlertMessage('User Deleted Successfully.')
                     this.status = false;
                 }
                 setTimeout(()=>{ this.status = false }, 4000)
