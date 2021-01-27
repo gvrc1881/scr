@@ -39,8 +39,8 @@
                     <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}" 
                         [formControl]="assetSchAssocFormGroup.controls['assetType']" required>
                         <mat-option *ngFor="let assetType of assetsList"
-                            [value]="assetType.productId">
-                            {{ assetType.productId }}
+                            [value]="assetType">
+                            {{ assetType }}
                         </mat-option>
                     </mat-select>                                                            
                 </mat-form-field>

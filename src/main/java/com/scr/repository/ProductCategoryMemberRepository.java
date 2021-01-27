@@ -11,11 +11,13 @@ import com.scr.model.ProductCategoryMember;
 @Repository
 public interface ProductCategoryMemberRepository extends JpaRepository<ProductCategoryMember, Long> {
 	//repository
-	List<ProductCategoryMember> findByProductCategoryId(String productCategoryId);
+	@Query(value = "select  productId from ProductCategoryMember  where productCategoryId = :productCategoryId")
+	List<String> findByProductCategoryId(@Param("productCategoryId")String productCategoryId);
 	
-	@Query(value = "select * from product_category_member where product_category_id in('OHE_FIXED_ASSET','PSI_FIXED_ASSET','RCC_FIXED_ASSET') order by product_id ASC",
-            nativeQuery=true )
-    public List<ProductCategoryMember> findByProductId(String productCategoryId);
+	//@Query(value = "select distinct(product_id) from product_category_member where product_category_id in('OHE_FIXED_ASSET','PSI_FIXED_ASSET','RCC_FIXED_ASSET') order by product_id ASC",
+      //      nativeQuery=true )
+	@Query(value = "select distinct productId from ProductCategoryMember  where productCategoryId in :depotTypes Order by productId ASC")
+    public List<String> findDistinctProductIdByProductCategoryIdInOrderByProductIdAsc(@Param("depotTypes")List<String> depotTypes);
 	
 	@Query(value = "SELECT case when count(pcm)> 0 then true else false  end  FROM ProductCategoryMember pcm WHERE pcm.productCategoryId = :productCategoryId and pcm.productId  = :productId")
 	Boolean existsByProductCategoryIdAndProductId(@Param("productCategoryId") String productCategoryId,

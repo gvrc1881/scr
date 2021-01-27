@@ -195,11 +195,11 @@ public class ReportService {
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
 	}
-	public List<ProductCategoryMember> findAllAssetTypes(String assetType) {	
+	public List<String> findAllAssetTypes(String assetType) {	
 		return productCategoryMemberRepository.findByProductCategoryId(assetType);
 	}
-	public List<ProductCategoryMember> findByProductId(String productCategoryId) {	
-		return productCategoryMemberRepository.findByProductId(productCategoryId);
+	public List<String> findByProductId(List<String> depotTypes) {	
+		return productCategoryMemberRepository.findDistinctProductIdByProductCategoryIdInOrderByProductIdAsc(depotTypes);
 	}
 	
 	public List<ReportParameter> findall() {	
@@ -484,5 +484,9 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	}
 	public List<TpcBoard> findByDataDiv(String dataDiv) {
 		return tpcBoardRepository.findByDataDiv(dataDiv);
+	}
+	public List<String> findByProductId(String productCategoryId) {
+		// TODO Auto-generated method stub
+		return productCategoryMemberRepository.findByProductCategoryId(productCategoryId);
 	}
 }

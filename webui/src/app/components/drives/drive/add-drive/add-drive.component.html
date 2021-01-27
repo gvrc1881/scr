@@ -188,8 +188,8 @@
                                                             <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}"
                                                                 [formControl]="addDriveFormGroup.controls['assetType']" (ngModelChange)="IsRequire()">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
-                                                                    [value]="assetType.productId">
-                                                                    {{ assetType.productId }}
+                                                                    [value]="assetType">
+                                                                    {{ assetType }}
                                                                 </mat-option>
                                                             </mat-select>
                                                             <mat-error

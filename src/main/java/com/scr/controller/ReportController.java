@@ -1,6 +1,7 @@
 package com.scr.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.Product;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.ProductCategoryType;
 import com.scr.model.ProductMakeModelAssociation;
@@ -61,7 +63,6 @@ import com.scr.model.TssFeederMaster;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
-import com.scr.model.Product;
 import com.scr.services.ReportService;
 import com.scr.util.Helper;
 
@@ -90,16 +91,23 @@ public class ReportController {
 			return new ResponseEntity<List<ReportRepository>>(reportNamesGroup, HttpStatus.OK);		
 	}
 	@RequestMapping(value = "/getAssetTypesBasedOnDepotType/{depotType}",method = RequestMethod.GET  , headers="accept=application/json" )
-	public ResponseEntity<List<ProductCategoryMember>> findAllAssetTypes(@PathVariable("depotType") String depotType){
+	public ResponseEntity<List<String>> findAllAssetTypes(@PathVariable("depotType") String depotType){
 		log.info("assetType"+depotType);
-		List<ProductCategoryMember> assetTypes = null;
+		List<String> assetTypes = null;
+		
 		
 		String productCategoryId = null;
 		if("OHE_FIXED_ASSET".equals(depotType) || "PSI_FIXED_ASSET".equals(depotType) || "FP".equals(depotType)|| "TowerCar".equals(depotType) || "DASH_BOARD_CATEGORY".equals(depotType)) 
 			assetTypes = reportService.findAllAssetTypes(depotType); 
-		else 
-			assetTypes= reportService.findByProductId(productCategoryId);
-		return new ResponseEntity<List<ProductCategoryMember>>(assetTypes, HttpStatus.OK);
+		else {
+			List<String> depotTypes = new ArrayList();
+			depotTypes.add("OHE_FIXED_ASSET");
+			depotTypes.add("PSI_FIXED_ASSET");
+			depotTypes.add("RCC_FIXED_ASSET");
+			assetTypes= reportService.findByProductId(depotTypes);
+		}
+		log.info("*** product id list ***"+assetTypes);
+		return new ResponseEntity<List<String>>(assetTypes, HttpStatus.OK);
 }
 	
 	@RequestMapping(value = "/reportParameterNames", method = RequestMethod.GET ,headers = "accept=application/json")	
@@ -371,9 +379,13 @@ public class ReportController {
 		return new ResponseEntity<List<Facility>>(oheAndPsiDepotType,HttpStatus.OK);			
 	}
 	@RequestMapping(value = "/findAllAssetTypes", method = RequestMethod.GET ,headers = "accept=application/json")	
-	public ResponseEntity<List<ProductCategoryMember>> findByProductId(String productCategoryId){
-		List<ProductCategoryMember> assets= reportService.findByProductId(productCategoryId);
-		return new ResponseEntity<List<ProductCategoryMember>>(assets,HttpStatus.OK);	
+	public ResponseEntity<List<String>> findByProductId(){
+		List<String> depotTypes = new ArrayList();
+		depotTypes.add("OHE_FIXED_ASSET");
+		depotTypes.add("PSI_FIXED_ASSET");
+		depotTypes.add("RCC_FIXED_ASSET");
+		List<String> assets= reportService.findByProductId(depotTypes);
+		return new ResponseEntity<List<String>>(assets,HttpStatus.OK);	
 		
 	}
 	@RequestMapping(value = "/getObservationCheckListBasedOnObservationCate/{observationCategory}",method = RequestMethod.GET  , headers="accept=application/json" )

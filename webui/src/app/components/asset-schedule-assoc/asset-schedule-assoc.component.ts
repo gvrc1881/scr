@@ -103,6 +103,7 @@ export class AssetScheduleAssocComponent implements OnInit {
     let asaSeqId: string = this.assetSchAssocFormGroup.value.asaSeqId;
 
     if (this.title == Constants.EVENTS.ADD) {
+      this.addSchAssoc=false;
       var saveAssocModel = {
         'assetType': assetType,
         'scheduleCode': scheduleCode,
@@ -179,6 +180,7 @@ export class AssetScheduleAssocComponent implements OnInit {
         this.AssocList = data;
         for (let i = 0; i < this.AssocList.length; i++) {
           this.AssocList[i].sno = i + 1;
+        
           assoc.push(this.AssocList[i]);
         }
         this.assetSchAssocDataSource = new MatTableDataSource(assoc);
@@ -271,7 +273,7 @@ export class AssetScheduleAssocComponent implements OnInit {
           id: this.editAssetSchAssocResponse.id,
           assetType: this.editAssetSchAssocResponse.assetType,
           scheduleCode: this.editAssetSchAssocResponse.scheduleCode,
-          isDpr: this.editAssetSchAssocResponse.isDpr,
+          isDpr: this.editAssetSchAssocResponse.isDpr == 'true' ?  true : false,         
           targetPlanMonths: this.editAssetSchAssocResponse.targetPlanMonths,
           sequenceCode: this.editAssetSchAssocResponse.sequenceCode,
           duration: this.editAssetSchAssocResponse.duration,

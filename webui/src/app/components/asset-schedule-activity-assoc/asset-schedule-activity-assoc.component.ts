@@ -10,6 +10,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -63,6 +64,8 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
         private commonService: CommonService,
         private spinnerService: Ng4LoadingSpinnerService,
         private sendAndRequestService:SendAndRequestService,
+        private router: Router,
+        private route: ActivatedRoute,
         public dialog: MatDialog,
         private datePipe: DatePipe,){
             this.activityAssocErrors = {
@@ -93,6 +96,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
     	this.deletePermission = this.commonService.getPermissionByType("Delete", permissionName);
     
         //this.getAllActivityAssocData(0, 30);
+      
         this.getAllActivityAssocData();   
 
         this.filterData = {
@@ -165,6 +169,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
    
           //  getAllActivityAssocData(from: number, to: number)
         getAllActivityAssocData() {
+        
           this.spinnerService.show();
             const assoc : AssetScheduleActivityAssocModel[] = [];     
            // this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.ASSET_SCH_ACTIVITY_ASSOC. GET_ASSET_SCH_ACT_ASSOC+ '/' + from + '/' + to)   
@@ -249,6 +254,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
    let description: string=this.assetSchActAssocFormGroup.value.description;
 
    if (this.title ==  Constants.EVENTS.ADD) {
+    this.addSchActAssoc = false;
        var saveActAssocModel={
                                'asaSeqId':asaSeqId,
                                'activityId': activityId,
@@ -269,6 +275,7 @@ export class AssetScheduleActivityAssocComponent implements OnInit{
            if(this.assetSchActassocResponse.code == 200 && !!this.assetSchActassocResponse) {
                this.commonService.showAlertMessage(this.assetSchActassocResponse.message);
                //this.getAllActivityAssocData(0, 30);
+              
                this.getAllActivityAssocData();
                this.assetSchActAssocFormGroup.reset();
            }else {

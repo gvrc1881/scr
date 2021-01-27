@@ -66,6 +66,7 @@ public class AssetStatusUpdateMapper {
 				logger.info("*** after ash  ***"+ashistory.get().getAssetId()+ashistory.get().getAssetType()+ashistory.get().getFacilityId());
 				 Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ashistory.get().getAssetType(),ashistory.get().getScheduleCode());
 				 LocalDate currentDate =LocalDate.now();
+				 if(asa.isPresent()) {
 					logger.info("** current date***"+currentDate);
 				 	if(asa.get().getUomOfDuration().equals("Time in Months" ))
 						{
@@ -87,6 +88,7 @@ public class AssetStatusUpdateMapper {
 						asur.setNextAoh(resultDate);
 						asur.setNextPoh(resultDate);
 					}
+				 }
 			}
 			}	
 			logger.info("before max date");
@@ -157,6 +159,7 @@ public class AssetStatusUpdateMapper {
 					logger.info("*** after ash  ***"+ashistory.get().getAssetId()+ashistory.get().getAssetType()+ashistory.get().getFacilityId());
 					 Optional<AssetScheduleAssoc> asa = assetScheduleAssocRepository.findByAssetTypeAndScheduleCode(ashistory.get().getAssetType(),ashistory.get().getScheduleCode());
 					 LocalDate currentDate =LocalDate.now();
+					 if(asa.isPresent()) {
 						logger.info("** current date***"+currentDate);
 					 	if(asa.get().getUomOfDuration().equals("Time in Months" ))
 							{
@@ -176,6 +179,7 @@ public class AssetStatusUpdateMapper {
 							asur.setNextAoh(resultDate);
 							asur.setNextPoh(resultDate);
 						}
+					 }
 				}
 				}
 			Timestamp astu = assetStatusUpdateRepository.findByAssetTypeAndAssetIdAndFacilityId
