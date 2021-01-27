@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit,Inject, ɵConsole } from '@angular/core';
 import { Constants } from 'src/app/common/constants';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -52,8 +52,7 @@ export class AddActionsComponent implements OnInit {
   trainNo:boolean=false;
   maxDate = new Date();
   minDate=new Date();
-  subStation:any;
-  occurenceId:any;
+  subStation:any;  
   failure:any;
   occurenceLocation:any;
   UnusualOccurrenceFailList:any;
@@ -62,6 +61,7 @@ export class AddActionsComponent implements OnInit {
   displayedColumnsActions = ['sno', 'failureActivity', 'fromTime', 'thruTime','by','specialRemarks',
     'remarks','location','trainNo'];
   dataSourceActions: MatTableDataSource<any>;
+  failureId:any;
 
   constructor(
     private formBuilder: FormBuilder,    
@@ -89,7 +89,8 @@ export class AddActionsComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];    
-    this.occurenceId = +this.route.snapshot.params['occurenceId']; 
+    this.failureId = +this.route.snapshot.params['occurenceId']; 
+    //this.failureId=this.occurenceId;
     this.createForm();
     this.findActions();
     this.getActionsFailureData();
@@ -101,12 +102,8 @@ export class AddActionsComponent implements OnInit {
     this.specialRemarks=true;
     this.rootCause=false;
     this.trainNo=false;
-    
-     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+this.occurenceId).subscribe((data) => {
-       this.UnusualOccurrenceFailList = data;   
-       console.log("occurence"+this.UnusualOccurrenceFailList) 
-          this.occurenceLocation = this.UnusualOccurrenceFailList.location
-         },error => {} );
+    this.getOccurence();
+   
 
     if (!isNaN(this.id)) {
       this.addActionsFailFromGroup.valueChanges.subscribe(() => {
@@ -124,7 +121,19 @@ export class AddActionsComponent implements OnInit {
     }
   }
 
-
+getOccurence(){
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+this.failureId).subscribe((data) => {
+    this.UnusualOccurrenceFailList = data;   
+    console.log("occurence"+JSON.stringify(this.UnusualOccurrenceFailList) );
+      if (this.UnusualOccurrenceFailList) {
+        this.occurenceLocation = this.UnusualOccurrenceFailList.location
+        console.log("location ==="+this.occurenceLocation)
+         
+      }
+       
+      
+      },error => {} );
+}
   createForm() {
     this.addActionsFailFromGroup
       = this.formBuilder.group({
@@ -212,17 +221,19 @@ export class AddActionsComponent implements OnInit {
         this.resp = resp;
         console.log(this.resp);
         this.minDate=new Date(this.resp.fromTime),
-        
+        this.failureId = this.resp.failureSeqId; 
+        console.log("**** get data based on iid ****"+this.failureId);
          console.log("get response=="+JSON.stringify(this.resp));
        this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+this.resp.failureSeqId).subscribe((response) => {
         this.failure = response;
         console.log("failures=="+JSON.stringify(this.failure));
-           this.addActionsFailFromGroup.patchValue({ failureSeqId: this.failure.location })
+        this.occurenceLocation = this.failure.location;
+           //this.addActionsFailFromGroup.patchValue({ failureSeqId: this.failure.location })
           });
         this.addActionsFailFromGroup.patchValue({
           id: this.resp.id,
           failureActivity:this.resp.failureActivity,
-         // failureSeqId:this.occurenceLocation,
+          failureSeqId:this.resp.failureSeqId,
           by:this.resp.by,
           specialRemarks:this.resp.specialRemarks,
           trainNo:this.resp.trainNo,
@@ -269,7 +280,7 @@ export class AddActionsComponent implements OnInit {
   getActionsFailureData() {
     const ActionsFail: any[] = [];
   
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_ACTIONS_ID+this.occurenceId).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_ACTIONS_ID+this.failureId).subscribe((data) => {
       this.ActionsFailListActions = data;   
       for (let i = 0; i < this.ActionsFailListActions.length; i++) {
         this.ActionsFailListActions[i].sno = i + 1;
@@ -301,7 +312,7 @@ export class AddActionsComponent implements OnInit {
     if (this.save) {
       data = {
         'failureActivity': this.addActionsFailFromGroup.value.failureActivity ,
-        'failureSeqId':this.occurenceId,
+        'failureSeqId':this.failureId,
         'by':this.addActionsFailFromGroup.value.by,
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
@@ -319,7 +330,13 @@ export class AddActionsComponent implements OnInit {
         this.resp = response;
         if (this.resp.code == Constants.CODES.SUCCESS) {
         this.commonService.showAlertMessage("Actions Fail Data "+message+" Successfully");
-        this.router.navigate(['../../'], { relativeTo: this.route });
+     
+        this.addActionsFailFromGroup.reset();
+      
+        console.log("failure=="+this.failureId);
+      
+        this.getOccurence();
+     
         }else{
           this.commonService.showAlertMessage("Actions Fail Data "+failedMessage+" Failed.");
         }
@@ -329,10 +346,11 @@ export class AddActionsComponent implements OnInit {
         this.commonService.showAlertMessage("Actions Fail Data "+failedMessage+" Failed.");
       })
     }else if(this.update){
+      console.log('*** save update ***'+this.failureId);
       data = {
         "id":this.id,
         'failureActivity': this.addActionsFailFromGroup.value.failureActivity ,
-        'failureSeqId':this.occurenceId,
+        'failureSeqId':this.failureId,
         'by':this.addActionsFailFromGroup.value.by,
         'specialRemarks':this.addActionsFailFromGroup.value.specialRemarks,
         'trainNo':this.addActionsFailFromGroup.value.trainNo,
@@ -345,6 +363,7 @@ export class AddActionsComponent implements OnInit {
       }   
       message = 'Updated';
       failedMessage = "Updating";
+      console.log("update==="+JSON.stringify(data));
       this.sendAndRequestService.requestForPUT(Constants.app_urls.FAILURES.UPDATE_ACTIONS,data, false).subscribe(response => {
         this.spinnerService.hide();
         this.resp = response;

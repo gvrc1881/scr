@@ -108,6 +108,7 @@ public class FailureActionsCausesImpactController {
 		try {			
 			logger.info("Calling service with request parameters.");
 			FailureActionsCausesImpact failureImpact = failureImpactService.saveActions(failureRequest);
+			failureRequest.setSeqId(failureImpact.getId().toString());
 			failureRequest.setFailureSeqId(failureRequest.getFailureSeqId());
 			failureImpactService.saveActions(failureRequest);
 			logger.info("Preparing the return response");
