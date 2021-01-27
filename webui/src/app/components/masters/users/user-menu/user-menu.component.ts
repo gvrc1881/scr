@@ -42,6 +42,7 @@ export class UserMenuComponent implements OnInit {
     @ViewChild(MatPaginator, {static:true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static:true}) sort: MatSort;
     @ViewChild('filter', {static:true}) filter: ElementRef;
+    
     constructor(
         public dialog: MatDialog,
         private _router: Router,

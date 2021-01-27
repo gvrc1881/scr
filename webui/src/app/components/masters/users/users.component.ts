@@ -81,6 +81,7 @@ export class UsersComponent implements OnInit {
                 'mobilenum': [null, Validators.compose([Validators.required,Validators.maxLength(10)])],
                 'repositoryCode': [null, Validators.required]
             });
+            
                 //'role': [null, Validators.required],
                 //'department': [null, Validators.required],
 
