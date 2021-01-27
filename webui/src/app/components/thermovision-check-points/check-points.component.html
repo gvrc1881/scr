@@ -106,7 +106,7 @@
                                                     <mat-form-field floatLabel="never" >
                                                             <mat-select >
                                                             <mat-option *ngFor="let checkPointsList of row.checkPointsList"
-                                                            [value]="row.id" [(ngModel)]="checkPointsList.checkPointDescription">
+                                                            [value]="row.id" [(ngModel)]="row.checkPointDescription">
                                                               {{ checkPointsList.checkPointDescription }}
                                                             </mat-option>
                                                           </mat-select>
@@ -121,7 +121,7 @@
                                                             <mat-select >
                                                             <mat-option *ngFor="let tempDiff of tempDiff"
                                                             [value]="row.tempDiff" >
-                                                              {{ tempDiff }}
+                                                              {{ tempDiff.tempDiff }}
                                                             </mat-option>
                                                           </mat-select>
                                                     </mat-form-field>

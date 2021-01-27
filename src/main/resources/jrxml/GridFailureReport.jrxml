@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="1350" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1310" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa3d40b6-1d9b-43d9-b193-f3ae3ed93140">
 	<property name="ireport.zoom" value="1.0000000000000027"/>
-	<property name="ireport.x" value="679"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-select f.created_date,f.remarks,FAC.facility_name as feedof,facility.facility_name as extended,$P{fromDate} as fromDate,
+		<![CDATA[select f.created_date,f.remarks,FAC.facility_name as feedof,facility.facility_name as extended,$P{fromDate} as fromDate,
 f.max_demand,f.load_relief_break_down,
 f.feed_of,
 to_char(f.from_date_time, 'yyyy-mm-dd HH24:MM:SS') as fromTime ,
@@ -57,7 +56,7 @@ and f.current_status = 'ACTIVE']]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Power Failures]]></text>
+				<text><![CDATA[Grid Supply Failures]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="31" width="100" height="26" uuid="e2ae91a2-6163-4e4f-b6ff-5f0e54e0f403"/>

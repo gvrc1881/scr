@@ -210,10 +210,17 @@ order by tcp_display_order
 		<band height="27" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="960" height="27" uuid="d38aba73-3953-4e94-9962-742ef660a0e4"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Thermo Vision Report]]></text>
+				<text><![CDATA[Thermo Vision Measures Report]]></text>
 			</staticText>
 		</band>
 	</title>

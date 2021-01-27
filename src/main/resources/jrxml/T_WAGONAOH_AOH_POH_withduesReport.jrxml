@@ -93,8 +93,15 @@ and asu.asset_id = amd.asset_id
 		<band height="60" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="800" height="31" uuid="a6a9b695-bba5-44d4-ba5b-70b0b2377f88"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AOH/POH Details of Tower Cars Available over South Central Railway]]></text>
 			</staticText>
@@ -106,12 +113,23 @@ and asu.asset_id = amd.asset_id
 				<text><![CDATA[Date : -]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="109" y="31" width="100" height="29" uuid="4453ad64-a591-483a-80f8-2308cdb786fa"/>
+				<reportElement x="109" y="31" width="346" height="29" uuid="4453ad64-a591-483a-80f8-2308cdb786fa"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="31" width="800" height="29" uuid="cfc9b24b-1d20-4f63-963e-eb2c7390a729"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

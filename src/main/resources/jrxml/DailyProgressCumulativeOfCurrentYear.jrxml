@@ -38,7 +38,7 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cumulative of the Current Year - Reported Cases ]]></text>
 			</staticText>
@@ -151,6 +151,20 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="560" height="30" uuid="ae0f1161-7d5e-4bcd-b0cc-598e2262eda7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -242,7 +256,10 @@ group by FAC.division,type_of_failure,train_no,internal_external]]>
 			</textField>
 			<staticText>
 				<reportElement x="403" y="0" width="74" height="20" uuid="3e09e1a2-4330-41bf-9801-bfb2c13607eb"/>
-				<text><![CDATA[Generated On]]></text>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On : ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="477" y="0" width="83" height="20" uuid="e0a36e68-80f7-49bf-b087-5f8e35791a8e"/>

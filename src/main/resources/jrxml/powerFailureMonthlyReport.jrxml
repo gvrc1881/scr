@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="875" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="835" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8568e421-b6ac-4cd9-b179-6f3a556f0aa3">
 	<property name="ireport.zoom" value="1.0000000000000027"/>
-	<property name="ireport.x" value="186"/>
+	<property name="ireport.x" value="84"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -92,11 +92,29 @@ group by feed_of,facility_name
 				<text><![CDATA[From Date : ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="68" y="31" width="100" height="41" uuid="d6ef93e2-056d-4f62-87b8-6080fee872ea"/>
+				<reportElement x="68" y="31" width="300" height="41" uuid="d6ef93e2-056d-4f62-87b8-6080fee872ea"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="31" width="835" height="41" uuid="cf115cbd-855c-4044-9855-c114e129423f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="571" y="0" width="264" height="31" uuid="e4e328bc-a684-430c-8327-88586e3aab05"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mm}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -213,7 +231,72 @@ group by feed_of,facility_name
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="0" width="100" height="20" uuid="9447b1f6-2109-4dec-acf1-1ef658b69cc1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="268" y="0" width="100" height="20" uuid="aff0f7f1-763b-4767-b708-e0aa3eea754d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{load_relief_break_down}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="471" y="0" width="100" height="20" uuid="f68b01f1-1edb-4c5e-b0f4-71f54b81548a"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{month_total_interruption}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="571" y="0" width="132" height="20" uuid="243f3f0f-adae-4894-ab92-16aa07da8e0d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fy_total_interruption}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="68" height="20" uuid="2d3d2123-3448-4f0b-a0d4-ebda540beb2f"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="0" width="100" height="20" uuid="a1b650e6-fffd-437b-b763-03e09201032a"/>
+				<textFieldExpression><![CDATA[$F{month_count}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="20" splitType="Stretch">

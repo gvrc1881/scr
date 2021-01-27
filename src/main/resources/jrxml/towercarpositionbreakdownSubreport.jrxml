@@ -11,8 +11,7 @@
 target_date_of_ready
 from asset_status_update asu
 left join facility f on asu.facility_id=f.facility_id
-where date_of_status ::date = $P{fromDate}::date
-]]>
+where date_of_status ::date = $P{fromDate}::date]]>
 	</queryString>
 	<field name="facility_name" class="java.lang.String"/>
 	<field name="asset_id" class="java.lang.String"/>
@@ -36,7 +35,7 @@ where date_of_status ::date = $P{fromDate}::date
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Position of Breakdown vehicles and Tower cars]]></text>
 			</staticText>
@@ -157,12 +156,23 @@ where date_of_status ::date = $P{fromDate}::date
 				<text><![CDATA[Date : - ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="110" y="0" width="100" height="29" uuid="2e50a5cc-a67c-4bba-891e-b631d3d24073"/>
+				<reportElement x="110" y="0" width="300" height="29" uuid="2e50a5cc-a67c-4bba-891e-b631d3d24073"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="660" height="29" uuid="1acf5606-d730-41c4-b4fb-b174748051b6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>

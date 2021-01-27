@@ -37,7 +37,7 @@ f.created_date = $P{fromDate}::date
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cumulative of the Last Year - Total Reported Cases]]></text>
 			</staticText>
@@ -130,12 +130,23 @@ f.created_date = $P{fromDate}::date
 				<text><![CDATA[Date : -]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="103" y="0" width="100" height="30" uuid="018d51bd-7ade-400c-a7c1-3737acd3edba"/>
+				<reportElement x="103" y="0" width="300" height="30" uuid="018d51bd-7ade-400c-a7c1-3737acd3edba"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="560" height="30" uuid="12452d14-768e-4bc7-b05f-413869eddd2b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>

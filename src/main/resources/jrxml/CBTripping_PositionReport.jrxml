@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CBTripping_PositionReport" pageWidth="800" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ffa18e9-1470-4fc8-a6de-8e303a05b764">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CBTripping_PositionReport" pageWidth="950" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="910" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ffa18e9-1470-4fc8-a6de-8e303a05b764">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -13,7 +13,7 @@ FAC.division,
 facility_name,
 cascade_assets,
 relay_indication ,
-f.remarks,
+f.remarks,load_relief_break_down,
 to_char(f.from_date_time, 'HH24:MI')as tripedat,
 to_char(f.thru_date_time, 'HH24:MI')as closedat
 from failures f
@@ -25,7 +25,7 @@ and type_of_failure ='POWER_FAILURE'
 and current_status = 'ACTIVE'
 Group by asset_id,  facility_name,
 to_char(f.from_date_time, 'HH24:MI'),to_char(f.thru_date_time, 'HH24:MI'),relay_indication ,
-f.remarks,FAC.division,created_date,cascade_assets]]>
+f.remarks,FAC.division,created_date,cascade_assets,load_relief_break_down]]>
 	</queryString>
 	<field name="fromdate" class="java.lang.String"/>
 	<field name="created_date" class="java.sql.Timestamp"/>
@@ -34,6 +34,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 	<field name="cascade_assets" class="java.lang.String"/>
 	<field name="relay_indication" class="java.lang.String"/>
 	<field name="remarks" class="java.lang.String"/>
+	<field name="load_relief_break_down" class="java.lang.String"/>
 	<field name="tripedat" class="java.lang.String"/>
 	<field name="closedat" class="java.lang.String"/>
 	<background>
@@ -42,7 +43,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 	<title>
 		<band height="50" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="760" height="25" uuid="3be80c51-5050-4a95-b2e5-ac375a05097e"/>
+				<reportElement x="0" y="0" width="910" height="25" uuid="3be80c51-5050-4a95-b2e5-ac375a05097e"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -51,7 +52,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[CB TRIPPING POSITION  ]]></text>
 			</staticText>
@@ -70,12 +71,23 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<text><![CDATA[Date :-]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="108" y="25" width="110" height="25" uuid="f2877dfc-49bb-469e-abe6-b290da6703d7"/>
+				<reportElement x="108" y="25" width="245" height="25" uuid="f2877dfc-49bb-469e-abe6-b290da6703d7"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="25" width="910" height="25" uuid="7b2ea1c7-e7d0-45dd-9e51-7cb546e67bad"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -92,8 +104,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Sl. No
-]]></text>
+				<text><![CDATA[Sl. No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="40" y="0" width="68" height="25" uuid="482377d0-6812-417f-9d58-ccedb2b8917e"/>
@@ -107,8 +118,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date
-]]></text>
+				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="108" y="0" width="52" height="25" uuid="c5b5598d-7ab9-4e58-b083-9e3ffed81d8b"/>
@@ -122,8 +132,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Division
-]]></text>
+				<text><![CDATA[Division]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="0" width="58" height="25" uuid="1075da63-597f-48f1-ae09-bee4d42da6fd"/>
@@ -137,8 +146,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[TSS
-]]></text>
+				<text><![CDATA[TSS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="218" y="0" width="58" height="25" uuid="586d3d22-ec91-478e-b632-87f647dcc253"/>
@@ -152,8 +160,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[CB No
-]]></text>
+				<text><![CDATA[CB No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="276" y="0" width="77" height="25" uuid="d2f68ed2-9a88-4dc4-bb1c-cdf90d77be11"/>
@@ -167,8 +174,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tripped at
-]]></text>
+				<text><![CDATA[Tripped at]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="353" y="0" width="66" height="25" uuid="d67d1497-9d59-4e89-ad85-edd99a08b8f3"/>
@@ -182,8 +188,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Closed at
-]]></text>
+				<text><![CDATA[Closed at]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="419" y="0" width="147" height="25" uuid="955d2a21-8126-4161-92a9-c918e88bfb48"/>
@@ -197,8 +202,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relays
-]]></text>
+				<text><![CDATA[Relays]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="566" y="0" width="194" height="25" uuid="a11ab0cb-b8ff-46cf-a2e5-183b0d41216f"/>
@@ -212,8 +216,21 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[REMARKS
-]]></text>
+				<text><![CDATA[Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="760" y="0" width="150" height="25" uuid="27039fa8-1a6e-4b27-bbcf-0a7825bda4bf"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Load Relief / Break Down]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -228,7 +245,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -240,7 +257,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{cascade_assets}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -252,7 +269,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{tripedat}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -264,7 +281,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{closedat}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -276,7 +293,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{relay_indication}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -288,7 +305,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -300,7 +317,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -312,7 +329,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
@@ -324,20 +341,34 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{created_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="760" y="0" width="150" height="20" uuid="ab96959b-15cc-4773-bc23-2e06c9f0d673"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{load_relief_break_down}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="566" y="0" width="194" height="20" uuid="d2606c19-a4c0-4a5e-87b3-c633c1bb7608"/>
+				<reportElement x="760" y="0" width="150" height="20" uuid="d2606c19-a4c0-4a5e-87b3-c633c1bb7608"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="419" y="0" width="147" height="20" uuid="202fbb03-d5e0-4357-9f38-6bf95f9c5bf0"/>
-				<textElement textAlignment="Right"/>
+				<reportElement x="566" y="0" width="194" height="20" uuid="202fbb03-d5e0-4357-9f38-6bf95f9c5bf0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Generated On:]]></text>
 			</staticText>
 			<textField>
@@ -346,7 +377,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="355" y="0" width="64" height="20" uuid="1d4395b5-4417-4c37-b7e2-a967525d6de1"/>
+				<reportElement x="353" y="0" width="66" height="20" uuid="1d4395b5-4417-4c37-b7e2-a967525d6de1"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -354,7 +385,7 @@ f.remarks,FAC.division,created_date,cascade_assets]]>
 	<noData>
 		<band height="34">
 			<staticText>
-				<reportElement x="0" y="0" width="760" height="34" forecolor="#FF0000" uuid="f857a226-3fba-45e2-89dd-a15bc05ebc0d"/>
+				<reportElement x="0" y="0" width="910" height="34" forecolor="#FF0000" uuid="f857a226-3fba-45e2-89dd-a15bc05ebc0d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyEngergyMeterReport" pageWidth="900" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="22309e2d-f810-4bdc-aea6-ac3a2a45b6ec">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="61"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -73,9 +73,20 @@ where ec.energy_reading_date = $P{fromDate}::date]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Energy Consumption Daily]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="860" height="20" uuid="c3aa8c39-9d69-4a76-96fb-8ad208276138"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
 			</staticText>
 		</band>
 	</title>

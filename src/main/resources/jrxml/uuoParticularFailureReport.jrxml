@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="1500" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa3d40b6-1d9b-43d9-b193-f3ae3ed93140">
 	<property name="ireport.zoom" value="1.0000000000000027"/>
-	<property name="ireport.x" value="764"/>
+	<property name="ireport.x" value="673"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -130,7 +130,7 @@ and train_no is not null]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reported Failues]]></text>
+				<text><![CDATA[Unusual Occurence Particular Reported Failures]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="31" width="100" height="26" uuid="e2ae91a2-6163-4e4f-b6ff-5f0e54e0f403"/>
@@ -140,7 +140,7 @@ and train_no is not null]]>
 				<text><![CDATA[From Date : ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="31" width="100" height="26" uuid="d2f8416c-7905-4b47-b58a-ed1102ebc547"/>
+				<reportElement x="100" y="31" width="200" height="26" uuid="d2f8416c-7905-4b47-b58a-ed1102ebc547"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
@@ -443,6 +443,17 @@ and train_no is not null]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[$F{reason_detail}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="1303" y="0" width="157" height="20" uuid="88b848a5-a405-44bf-9598-eb0f0f5327ca"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

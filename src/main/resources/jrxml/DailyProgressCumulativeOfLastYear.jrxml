@@ -25,7 +25,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 	<title>
 		<band height="34">
 			<staticText>
-				<reportElement x="0" y="0" width="514" height="34" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
+				<reportElement x="0" y="0" width="515" height="34" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -103,6 +103,17 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="515" height="25" uuid="eafa693c-bc76-4d7a-bfb6-698c1df80010"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>

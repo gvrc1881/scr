@@ -155,7 +155,7 @@ order by report_order]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{drive_category_name}]]></textFieldExpression>
 			</textField>

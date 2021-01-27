@@ -1,583 +1,503 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyOHEProgress" pageWidth="2800" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="2760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1242cb5d-7f9c-4833-b34f-189ead426a54">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="637"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="date" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select facility_id,depot_name, division ,$P{date} fromDate,
-split_part(depot_row, ';',  7  ) as  sc1,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 1) sc1_AT ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 2) sc1_st ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 3) sc1_pop ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 4)::integer sc1_target_month,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 5)::integer sc1_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 6) sc1_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 7) sc1_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 8)::integer sc1_progress_this_month ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 9)::integer sc1_progress_of_day ,
-split_part( split_part(depot_row, ';',  1  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  1  ) , ',' , 7)::integer as sc1_latesttarget_set_for_the_month,
+		<![CDATA[select b.facility_id , b.depot_name ,division , tg.facility_name,$P{date} as date, atd_aoh_ct,atd_poh_ct,crossover_aoh_ct,gantry_aoh_ct,mcl_aoh_ct,mcl_poh_ct,
+overlap_aoh_ct,ptfe_aoh_ct,scl_aoh_ct,scl_poh_ct,si_aoh_ct,sm_aoh_ct,turnout_aoh_ct,
+	tm_atd_aoh, ctm_atd_aoh,tm_atd_poh, ctm_atd_poh, tm_crossover_aoh, ctm_crossover_aoh, tm_gantry_aoh , ctm_gantry_aoh,
+	tm_mcl_aoh ,ctm_mcl_aoh,tm_mcl_poh,ctm_mcl_poh,tm_overlap_aoh,ctm_overlap_aoh,tm_ptfe_aoh,ctm_ptfe_aoh,tm_scl_aoh,ctm_scl_aoh,
+	tm_scl_poh,ctm_scl_poh,tm_si_aoh,ctm_si_aoh,tm_sm_aoh,ctm_sm_aoh,tm_turnout_aoh,ctm_turnout_aoh,
+		case when FY_atd_aoh is null then 0 else FY_atd_aoh end as FY_atd_aoh ,
+		case when FY_atd_poh is null then 0 else FY_atd_poh end as FY_atd_poh ,
+		case when FY_crossover_aoh is null then 0 else FY_crossover_aoh end as FY_crossover_aoh ,
+		case when FY_gantry_aoh is null then 0 else FY_gantry_aoh end as FY_gantry_aoh ,
+		case when FY_mcl_aoh is null then 0 else FY_mcl_aoh end as FY_mcl_aoh ,
+		case when FY_mcl_poh is null then 0 else FY_mcl_poh end as FY_mcl_poh ,
+		case when FY_overlap_aoh is null then 0 else FY_overlap_aoh end as FY_overlap_aoh ,
+		case when FY_ptfe_aoh is null then 0 else FY_ptfe_aoh end as FY_ptfe_aoh ,
+		case when FY_scl_aoh is null then 0 else FY_scl_aoh  end as FY_scl_aoh ,
+		case when FY_scl_poh is null then 0 else FY_scl_poh end as FY_scl_poh ,
+		case when FY_si_aoh is null then 0 else FY_si_aoh end as FY_si_aoh ,
+		case when FY_sm_aoh is null then 0 else FY_sm_aoh end as FY_sm_aoh ,
+		case when FY_turnout_aoh is null then 0 else FY_turnout_aoh end as FY_turnout_aoh ,
 
-split_part( split_part(depot_row, ';',  2  ) , ',' , 1) sc2_AT ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 2) sc2_st ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 3) sc2_pop ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 4)::integer sc2_target_month ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 5) sc2_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 6) sc2_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 7) sc2_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 8)::integer sc2_progress_this_month ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 9)::integer sc2_progress_of_day ,
-split_part( split_part(depot_row, ';',  2  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  2  ) , ',' , 7)::integer as sc2_latesttarget_set_for_the_month,
+		case when mon_atd_aoh is null then 0 else mon_atd_aoh end as mon_atd_aoh ,
+		case when mon_atd_poh is null then 0 else mon_atd_poh end as mon_atd_poh ,
+		case when mon_crossover_aoh is null then 0 else mon_crossover_aoh end as mon_crossover_aoh ,
+		case when mon_gantry_aoh is null then 0 else mon_gantry_aoh end as mon_gantry_aoh ,
+		case when mon_mcl_aoh is null then 0 else mon_mcl_aoh end as mon_mcl_aoh ,
+		case when mon_mcl_poh is null then 0 else mon_mcl_poh end as mon_mcl_poh ,
+		case when mon_overlap_aoh is null then 0 else mon_overlap_aoh end as mon_overlap_aoh ,
+		case when mon_ptfe_aoh is null then 0 else mon_ptfe_aoh end as mon_ptfe_aoh ,
+		case when mon_scl_aoh is null then 0 else mon_scl_aoh end as mon_scl_aoh ,
+		case when mon_scl_poh is null then 0 else mon_scl_poh end as mon_scl_poh ,
+		case when mon_si_aoh is null then 0 else mon_si_aoh end as mon_si_aoh ,
+		case when mon_sm_aoh is null then 0 else mon_sm_aoh end as mon_sm_aoh ,
+		case when mon_turnout_aoh is null then 0 else mon_turnout_aoh end as mon_turnout_aoh ,
 
-
-split_part( split_part(depot_row, ';',  3  ) , ',' , 1) sc3_AT ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 2) sc3_st ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 3) sc3_pop ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 4)::integer sc3_target_month ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 5) sc3_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 6) sc3_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 7) sc3_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 8)::integer sc3_progress_this_month ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 9)::integer sc3_progress_of_day ,
-split_part( split_part(depot_row, ';',  3  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  3  ) , ',' , 7)::integer as sc3_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  4  ) , ',' , 1) sc4_AT ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 2) sc4_st ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 3) sc4_pop ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 4)::integer sc4_target_month ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 5) sc4_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 6) sc4_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 7) sc4_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 8)::integer sc4_progress_this_month ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 9)::integer sc4_progress_of_day ,
-split_part( split_part(depot_row, ';',  4  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  4  ) , ',' , 7)::integer as sc4_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  5  ) , ',' , 1) sc5_AT ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 2) sc5_st ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 3) sc5_pop ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 4)::integer sc5_target_month ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 5) sc5_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 6) sc5_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 7) sc5_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 8)::integer sc5_progress_this_month ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 9)::integer sc5_progress_of_day ,
-split_part( split_part(depot_row, ';',  5  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  5  ) , ',' , 7)::integer as sc5_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  6  ) , ',' , 1) sc6_AT ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 2) sc6_st ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 3) sc6_pop ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 4)::integer sc6_target_month ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 5) sc6_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 6) sc6_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 7) sc6_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 8)::integer sc6_progress_this_month ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 9)::integer sc6_progress_of_day ,
-split_part( split_part(depot_row, ';',  6  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  6  ) , ',' , 7)::integer as sc6_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  7  ) , ',' , 1) sc7_AT ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 2) sc7_st ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 3) sc7_pop ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 4)::integer sc7_target_month ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 5) sc7_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 6) sc7_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 7) sc7_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 8)::integer sc7_progress_this_month ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 9)::integer sc7_progress_of_day ,
-split_part( split_part(depot_row, ';',  7  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  7  ) , ',' , 7)::integer as sc7_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  8  ) , ',' , 1) sc8_AT ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 2) sc8_st ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 3) sc8_pop ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 4)::integer sc8_target_month ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 5) sc8_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 6) sc8_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 7) sc8_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 8)::integer sc8_progress_this_month ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 9)::integer sc8_progress_of_day ,
-split_part( split_part(depot_row, ';',  8  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  8  ) , ',' , 7)::integer as sc8_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  9  ) , ',' , 1) sc9_AT ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 2) sc9_st ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 3) sc9_pop ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 4)::integer sc9_target_month ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 5) sc9_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 6) sc9_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 7) sc9_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 8)::integer sc9_progress_this_month ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 9)::integer sc9_progress_of_day ,
-split_part( split_part(depot_row, ';',  9  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  9  ) , ',' , 7)::integer as sc9_latesttarget_set_for_the_month,
-
-
-
-split_part( split_part(depot_row, ';',  10  ) , ',' , 1) sc10_AT ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 2) sc10_st ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 3) sc10_pop ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 4)::integer sc10_target_month ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 5) sc10_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 6) sc10_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 7) sc10_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 8)::integer sc10_progress_this_month ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 9)::integer sc10_progress_of_day ,
-split_part( split_part(depot_row, ';',  10  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  10  ) , ',' , 7)::integer as sc10_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  11  ) , ',' , 1) sc11_AT ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 2) sc11_st ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 3) sc11_pop ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 4)::integer sc11_target_month ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 5) sc11_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 6) sc11_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 7) sc11_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 8)::integer sc11_progress_this_month ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 9)::integer sc11_progress_of_day ,
-split_part( split_part(depot_row, ';',  11  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  11  ) , ',' , 7)::integer as sc11_latesttarget_set_for_the_month ,
-
-
-split_part( split_part(depot_row, ';',  12  ) , ',' , 1) sc12_AT ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 2) sc12_st ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 3) sc12_pop ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 4)::integer sc12_target_month ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 5) sc12_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 6) sc12_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 7) sc12_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 8)::integer sc12_progress_this_month ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 9)::integer sc12_progress_of_day ,
-split_part( split_part(depot_row, ';',  12  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  12  ) , ',' , 7)::integer as sc12_latesttarget_set_for_the_month,
-
-
-split_part( split_part(depot_row, ';',  13  ) , ',' , 1) sc13_AT ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 2) sc13_st ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 3) sc13_pop ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 4)::integer sc13_target_month ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 5) sc13_cum_target_till_month ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 6) sc13_tg_depot_set_or_not ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 7) sc13_progress_till_last_month ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 8)::integer sc13_progress_this_month ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 9)::integer sc13_progress_of_day ,
-split_part( split_part(depot_row, ';',  13  ) , ',' , 5)::integer -
-split_part( split_part(depot_row, ';',  13  ) , ',' , 7)::integer as sc13_latesttarget_set_for_the_month
+		case when atd_aoh is null then 0 else atd_poh end as atd_aoh,
+		case when atd_poh  is null then 0 else atd_poh end as atd_poh ,
+		case when crossover_aoh  is null then 0 else crossover_aoh end as crossover_aoh  ,
+		case when gantry_aoh  is null then 0 else gantry_aoh end as gantry_aoh ,
+		case when mcl_aoh  is null then 0 else mcl_aoh end as  mcl_aoh ,
+		case when mcl_poh  is null then 0 else mcl_poh end as mcl_poh  ,
+		case when overlap_aoh  is null then 0 else overlap_aoh end as overlap_aoh  ,
+		case when ptfe_aoh  is null then 0 else ptfe_aoh end as ptfe_aoh  ,
+		case when scl_aoh  is null then 0 else scl_aoh end as scl_aoh  ,
+		case when scl_poh  is null then 0 else scl_poh end as scl_poh  ,
+		case when si_aoh  is null then 0 else  si_aoh end as  si_aoh ,
+		case when sm_aoh  is null then 0 else sm_aoh end as sm_aoh  ,
+		case when turnout_aoh  is null then 0 else turnout_aoh end as turnout_aoh
 from
-(
-
--- concatenate one depot as a row
-Select 	facility_id, division ,depot_name,
-string_agg(asset_type||','||schedule_type||','||poulation||','||
- Target_set_this_month||','||
-		   Cum_target_this_month||','||
-tg_depot||','||progress_till_last_month ||','|| progress_this_month||','|| progress_of_day,';') as depot_row
---asset_type , schedule_type, poulation, Target_set_this_month , Cum_target_this_month ,
---tg_depot ,progress_till_last_month , progress_this_month, progress_of_day , report_order
-from
-(
-select
-	b.facility_id , b.depot_name ,division , b.drv_id ,  b.drv_name , drv_frequency , tg.facility_name, b.report_order ,
-case when asset_type is null then b.drv_name else asset_type end as asset_type,
-	case when schedule_type is null then b.drv_name else schedule_type end as schedule_type,
-case when total_population::integer is null then 0 else total_population::integer end as poulation,
-	case when TM::integer is null then 0 else TM::integer end as Target_set_this_month ,
-	case when cum_TM::integer is null then 0 else cum_TM::integer end as Cum_target_this_month ,
-	case when tg.facility_name is null then 'not defined' else tg.facility_name end as tg_depot , --,	progress_till_now
-	case when progress_till_last_month::integer is null then 0 else progress_till_last_month::integer end as progress_till_last_month ,
-	case when progress_this_month::integer is null then 0 else progress_this_month::integer end as progress_this_month ,
-	case when progress_of_day::integer is null then 0 else progress_of_day::integer end as progress_of_day
-	from
-	(
-	select facility_id ,depot_name , division ,  drv_id ,  drv_name , drv_frequency , report_order
-	from ( select facility_id ,facility_name depot_name,division  from facility
-		  where zone = 'SCR' and depot_type='OHE'
-		 ) div ,
-		  ( select dca.drv_id ,  dca.drv_name , drv_frequency , report_order from v_drive_category_asso dca
-		  where drive_category_id = 17  order by drv_id ) a
-	)b
+	( select facility_id , facility_name depot_name , division
+	from facility where zone = 'SCR' and depot_type='OHE'
+	) b
 	left outer join
-	-- targets
-		( select  fy, asset_type||'-'||schedule_type asset_type_schedule , asset_type , schedule_type,facility_name,
-		 total_population ,-- population to add
-			case when mm = 4 then target_apr
-				 when mm = 5 then target_may
-				 when mm = 6 then target_jun
-				 when mm = 7 then target_jul
-				 when mm = 8 then target_aug
-				 when mm = 9 then target_sep
-				 when mm = 10 then target_oct
-				 when mm = 11 then target_nov
-				 when mm = 12 then target_dec
-				 when mm = 1 then target_jan
-				 when mm = 2 then target_feb
-				 when mm = 3 then target_mar
-			end as TM,
-			case when mm = 4 then target_apr
-				 when mm = 5 then cum_target_may
-				 when mm = 6 then cum_target_jun
-				 when mm = 7 then cum_target_jul
-				 when mm = 8 then cum_target_aug
-				 when mm = 9 then cum_target_sep
-				 when mm = 10 then cum_target_oct
-				 when mm = 11 then cum_target_nov
-				 when mm = 12 then cum_target_dec
-				 when mm = 1 then cum_target_jan
-				 when mm = 2 then cum_target_feb
-				 when mm = 3 then cum_target_mar
-			end as cum_TM
-			from v_asset_monthly_targets , v_now_dd_mm_fy_data
-			where FY =fy_yyyyyy
-			and depot_type= 'OHE'
-			order by facility_name
-		) tg
-		 on (b.depot_name = facility_name and b.drv_name =tg.asset_type_schedule)
-	left outer join
-	--- to get the count till end of last month
-	(select sum(performed_count) progress_till_last_month, drive_id, drv_name , depot facility_id
-		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
-		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
-		and drv_from_date >= fy_start_date
-		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and performed_date::date < date_trunc('month',$P{date}::Date)::date --now() to replace date parameter
-		group by drive_id, drv_name ,facility_id
-	 ) TLm -- Till last month
-	 on (b.facility_id = tlm.facility_id  and b.drv_id = tlm.drive_id and b.drv_name =tlm.drv_name)
-
-	left outer join
-	--- to get the count of current month
-		(select
-		 case when sum(performed_count) is null then 0 else sum(performed_count) end as progress_this_month,
-		 drive_id, drv_name , depot facility_id
-		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
-		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
-		and drv_from_date >= fy_start_date
-		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and date_trunc('month',performed_date::date) = date_trunc('month',$P{date}::Date)::date  --now() to replace date parameter
-		and date_trunc('year',performed_date::date) = date_trunc('year',$P{date}::Date)::date --now() to replace date parameter
-		group by drive_id, drv_name , facility_id
-		 ) CM -- current month
-	 on (b.facility_id = cm.facility_id  and b.drv_id = cm.drive_id and b.drv_name =cm.drv_name)
-	Left Outer Join
-	--- to get the count of given day
 		(
-		select performed_count progress_of_day, drive_id, drv_name , depot facility_id
-		from v_drive_daily_progress ddp, v_now_dd_mm_fy_data vn
-		where drive_id in (select drive_id from drive_category_asso where drive_category_id = 17)
-		and drv_from_date >= fy_start_date
-		and (drv_to_date is null or drv_to_date <= fy_end_date)
-		and performed_date::date = $P{date}::date
-		) day
-		 on (b.facility_id = day.facility_id  and b.drv_id = day.drive_id and b.drv_name =day.drv_name)
-	order by b.facility_id, division , report_order
-) bs
-group by bs.facility_id, division,depot_name
+			select
+				SUM(case when asset_type_schedule = 'atd_aoh' then TM end)  as tm_atd_aoh,
+				SUM(case when asset_type_schedule = 'atd_aoh' then cum_TM end)  as ctm_atd_aoh,
 
-) fi -- split depot row to 13 values]]>
+				SUM(case when asset_type_schedule = 'atd_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'atd_aoh' then cum_TM end)  as atd_aoh_ct,
+
+
+				SUM(case when asset_type_schedule = 'atd_poh' then TM end)   as tm_atd_poh ,
+				SUM(case when asset_type_schedule = 'atd_poh' then cum_TM end) as  ctm_atd_poh,
+
+
+				SUM(case when asset_type_schedule = 'atd_poh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'atd_poh' then cum_TM end) as  atd_poh_ct,
+
+
+				SUM(case when asset_type_schedule = 'crossover_aoh' then TM end) as tm_crossover_aoh ,
+				SUM(case when asset_type_schedule = 'crossover_aoh' then cum_TM end) as ctm_crossover_aoh,
+
+				SUM(case when asset_type_schedule = 'crossover_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'crossover_aoh' then cum_TM end)::integer as crossover_aoh_ct,
+
+
+				SUM(case when asset_type_schedule = 'gantry_aoh' then TM end) as tm_gantry_aoh ,
+				SUM(case when asset_type_schedule = 'gantry_aoh' then cum_TM end) as ctm_gantry_aoh,
+
+
+				SUM(case when asset_type_schedule = 'gantry_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'gantry_aoh' then cum_TM end)::integer as gantry_aoh_ct,
+
+
+
+				SUM(case when asset_type_schedule = 'mcl_aoh' then TM end) tm_mcl_aoh ,
+				SUM(case when asset_type_schedule = 'mcl_aoh' then cum_TM end) as ctm_mcl_aoh,
+
+				SUM(case when asset_type_schedule = 'mcl_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'mcl_aoh' then cum_TM end)::integer as mcl_aoh_ct,
+
+				SUM(case when asset_type_schedule = 'mcl_poh' then TM end) as tm_mcl_poh ,
+				SUM(case when asset_type_schedule = 'mcl_poh' then cum_TM end) as ctm_mcl_poh,
+
+				SUM(case when asset_type_schedule = 'mcl_poh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'mcl_poh' then cum_TM end)::integer as mcl_poh_ct,
+
+
+				SUM(case when asset_type_schedule = 'overlap_aoh' then TM end) as tm_overlap_aoh ,
+				SUM(case when asset_type_schedule = 'overlap_aoh' then cum_TM end) as ctm_overlap_aoh,
+
+				SUM(case when asset_type_schedule = 'overlap_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'overlap_aoh' then cum_TM end)::integer as overlap_aoh_ct,
+
+
+				SUM(case when asset_type_schedule = 'ptfe_aoh' then TM end) as tm_ptfe_aoh ,
+				SUM(case when asset_type_schedule = 'ptfe_aoh' then cum_TM end) as ctm_ptfe_aoh,
+
+				SUM(case when asset_type_schedule = 'ptfe_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'ptfe_aoh' then cum_TM end)::integer as ptfe_aoh_ct,
+
+
+				SUM(case when asset_type_schedule = 'scl_aoh' then TM end)  as tm_scl_aoh ,
+				SUM(case when asset_type_schedule = 'scl_aoh' then cum_TM end) as ctm_scl_aoh,
+
+				SUM(case when asset_type_schedule = 'scl_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'scl_aoh' then cum_TM end)::integer  as scl_aoh_ct,
+
+				SUM(case when asset_type_schedule = 'scl_poh' then TM end) as tm_scl_poh ,
+				SUM(case when asset_type_schedule = 'scl_poh' then cum_TM end) as ctm_scl_poh,
+
+				SUM(case when asset_type_schedule = 'scl_poh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'scl_poh' then cum_TM end)::integer  as scl_poh_ct,
+
+
+				SUM(case when asset_type_schedule = 'si_aoh' then TM end) as tm_si_aoh ,
+				SUM(case when asset_type_schedule = 'si_aoh' then cum_TM end) as ctm_si_aoh,
+
+				SUM(case when asset_type_schedule = 'si_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'si_aoh' then cum_TM end)::integer as si_aoh_ct,
+
+
+
+				SUM(case when asset_type_schedule = 'sm_aoh' then TM end) as tm_sm_aoh ,
+				SUM(case when asset_type_schedule = 'sm_aoh' then cum_TM end) as ctm_sm_aoh,
+
+
+				SUM(case when asset_type_schedule = 'sm_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'sm_aoh' then cum_TM end)::integer as sm_aoh_ct,
+
+				SUM(case when asset_type_schedule = 'turnout_aoh' then TM end) as tm_turnout_aoh ,
+				SUM(case when asset_type_schedule = 'turnout_aoh' then cum_TM end) as ctm_turnout_aoh,
+
+				SUM(case when asset_type_schedule = 'turnout_aoh' then TM end)::integer -
+				SUM(case when asset_type_schedule = 'turnout_aoh' then cum_TM end)::integer as turnout_aoh_ct,
+
+				facility_name, fy , mm
+				from
+				(
+				select  fy, lower(asset_type||'_'||schedule_type) asset_type_schedule , asset_type , schedule_type,facility_name,
+						 total_population , mm ,
+							case when mm = 4 then target_apr
+								 when mm = 5 then target_may
+								 when mm = 6 then target_jun
+								 when mm = 7 then target_jul
+								 when mm = 8 then target_aug
+								 when mm = 9 then target_sep
+								 when mm = 10 then target_oct
+								 when mm = 11 then target_nov
+								 when mm = 12 then target_dec
+								 when mm = 1 then target_jan
+								 when mm = 2 then target_feb
+								 when mm = 3 then target_mar
+							end as TM,
+							case when mm = 4 then target_apr
+								 when mm = 5 then cum_target_may
+								 when mm = 6 then cum_target_jun
+								 when mm = 7 then cum_target_jul
+								 when mm = 8 then cum_target_aug
+								 when mm = 9 then cum_target_sep
+								 when mm = 10 then cum_target_oct
+								 when mm = 11 then cum_target_nov
+								 when mm = 12 then cum_target_dec
+								 when mm = 1 then cum_target_jan
+								 when mm = 2 then cum_target_feb
+								 when mm = 3 then cum_target_mar
+							end as cum_TM
+							from v_asset_monthly_targets , date_dd_mm_fy_details($P{date}::date) dt
+							where FY =fy_yyyyyy
+							and depot_type= 'OHE'
+							order by facility_name
+				) 	mm_tg
+				group by
+				facility_name, fy ,mm
+		) tg
+		 on (b.depot_name = facility_name )
+	left outer join
+
+	(
+		select adp.date::date , adp.fy_yyyy adp_fy_yyyy, fac_id, facility_id, facility_name ,
+		case when sum(atd_aoh) is null then 0 else sum(atd_aoh) end as FY_atd_aoh ,
+		case when sum(atd_poh) is null then 0 else sum(atd_poh) end as FY_atd_poh ,
+		case when sum(crossover_aoh) is null then 0 else sum(crossover_aoh) end as FY_crossover_aoh ,
+		case when sum(gantry_aoh) is null then 0 else sum(gantry_aoh) end as FY_gantry_aoh ,
+		case when sum(mcl_aoh) is null then 0 else sum(mcl_aoh) end as FY_mcl_aoh ,
+		case when sum(mcl_poh) is null then 0 else sum(mcl_poh) end as FY_mcl_poh ,
+		case when sum(overlap_aoh) is null then 0 else sum(overlap_aoh) end as FY_overlap_aoh ,
+		case when sum(ptfe_aoh) is null then 0 else sum(ptfe_aoh) end as FY_ptfe_aoh ,
+		case when sum(scl_aoh) is null then 0 else sum(scl_aoh) end as FY_scl_aoh ,
+		case when sum(scl_poh) is null then 0 else sum(scl_poh) end as FY_scl_poh ,
+		case when sum(si_aoh) is null then 0 else sum(si_aoh) end as FY_si_aoh ,
+		case when sum(sm_aoh) is null then 0 else sum(sm_aoh) end as FY_sm_aoh ,
+		case when sum(turnout_aoh) is null then 0 else sum(turnout_aoh) end as FY_turnout_aoh
+		from v_ash_daily_progress adp,  date_dd_mm_fy_details($P{date}::date) dt
+		where adp.fy_yyyy = dt.fy_yyyy
+		group by adp.date::date , fac_id,  facility_id, facility_name , adp.fy_yyyy
+	 ) FY
+	 on (b.depot_name = fy.facility_name   )
+
+	left outer join
+		(
+			select adp.date::date , adp.fy_yyyy adp_fy_yyyy, adp.mm adp_mm, fac_id,  facility_id, facility_name ,
+			case when sum(atd_aoh) is null then 0 else sum(atd_aoh) end as mon_atd_aoh ,
+			case when sum(atd_poh) is null then 0 else sum(atd_poh) end as mon_atd_poh ,
+			case when sum(crossover_aoh) is null then 0 else sum(crossover_aoh) end as mon_crossover_aoh ,
+			case when sum(gantry_aoh) is null then 0 else sum(gantry_aoh) end as mon_gantry_aoh ,
+			case when sum(mcl_aoh) is null then 0 else sum(mcl_aoh) end as mon_mcl_aoh ,
+			case when sum(mcl_poh) is null then 0 else sum(mcl_poh) end as mon_mcl_poh ,
+			case when sum(overlap_aoh) is null then 0 else sum(overlap_aoh) end as mon_overlap_aoh ,
+			case when sum(ptfe_aoh) is null then 0 else sum(ptfe_aoh) end as mon_ptfe_aoh ,
+			case when sum(scl_aoh) is null then 0 else sum(scl_aoh) end as mon_scl_aoh ,
+			case when sum(scl_poh) is null then 0 else sum(scl_poh) end as mon_scl_poh ,
+			case when sum(si_aoh) is null then 0 else sum(si_aoh) end as mon_si_aoh ,
+			case when sum(sm_aoh) is null then 0 else sum(sm_aoh) end as mon_sm_aoh ,
+			case when sum(turnout_aoh) is null then 0 else sum(turnout_aoh) end as mon_turnout_aoh
+			from v_ash_daily_progress adp,  date_dd_mm_fy_details($P{date}::date) dt
+			where adp.fy_yyyy = dt.fy_yyyy
+			and adp.mm = dt.mm
+			group by adp.date::date , fac_id,  facility_id, facility_name , adp.fy_yyyy  , adp.mm
+
+		 ) CM
+	 on (b.depot_name = cm.facility_name  )
+	Left Outer Join
+		(
+		select 	case when atd_aoh is null then 0 else atd_poh end as atd_aoh,
+				case when atd_poh  is null then 0 else atd_poh end as atd_poh ,
+				case when crossover_aoh  is null then 0 else crossover_aoh end as crossover_aoh  ,
+				case when gantry_aoh  is null then 0 else gantry_aoh end as gantry_aoh ,
+				case when mcl_aoh  is null then 0 else mcl_aoh end as  mcl_aoh ,
+				case when mcl_poh  is null then 0 else mcl_poh end as mcl_poh  ,
+				case when overlap_aoh  is null then 0 else overlap_aoh end as overlap_aoh  ,
+				case when ptfe_aoh  is null then 0 else ptfe_aoh end as ptfe_aoh  ,
+				case when scl_aoh  is null then 0 else scl_aoh end as scl_aoh  ,
+				case when scl_poh  is null then 0 else scl_poh end as scl_poh  ,
+				case when si_aoh  is null then 0 else  si_aoh end as  si_aoh ,
+				case when sm_aoh  is null then 0 else sm_aoh end as sm_aoh  ,
+				case when turnout_aoh  is null then 0 else turnout_aoh end as turnout_aoh   ,
+				remark	,date	facility , facility_name
+		from v_ash_daily_progress
+		where date =$P{date}::date
+		) day
+		 on (b.depot_name = day.facility_name )
+	order by division , depot_name]]>
 	</queryString>
 	<field name="facility_id" class="java.lang.String"/>
 	<field name="depot_name" class="java.lang.String"/>
 	<field name="division" class="java.lang.String"/>
-	<field name="fromdate" class="java.lang.String"/>
-	<field name="sc1" class="java.lang.String"/>
-	<field name="sc1_at" class="java.lang.String"/>
-	<field name="sc1_st" class="java.lang.String"/>
-	<field name="sc1_pop" class="java.lang.String"/>
-	<field name="sc1_target_month" class="java.lang.Integer"/>
-	<field name="sc1_cum_target_till_month" class="java.lang.Integer"/>
-	<field name="sc1_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc1_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc1_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc1_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc1_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc2_at" class="java.lang.String"/>
-	<field name="sc2_st" class="java.lang.String"/>
-	<field name="sc2_pop" class="java.lang.String"/>
-	<field name="sc2_target_month" class="java.lang.Integer"/>
-	<field name="sc2_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc2_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc2_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc2_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc2_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc2_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc3_at" class="java.lang.String"/>
-	<field name="sc3_st" class="java.lang.String"/>
-	<field name="sc3_pop" class="java.lang.String"/>
-	<field name="sc3_target_month" class="java.lang.Integer"/>
-	<field name="sc3_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc3_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc3_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc3_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc3_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc3_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc4_at" class="java.lang.String"/>
-	<field name="sc4_st" class="java.lang.String"/>
-	<field name="sc4_pop" class="java.lang.String"/>
-	<field name="sc4_target_month" class="java.lang.Integer"/>
-	<field name="sc4_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc4_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc4_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc4_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc4_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc4_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc5_at" class="java.lang.String"/>
-	<field name="sc5_st" class="java.lang.String"/>
-	<field name="sc5_pop" class="java.lang.String"/>
-	<field name="sc5_target_month" class="java.lang.Integer"/>
-	<field name="sc5_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc5_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc5_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc5_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc5_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc5_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc6_at" class="java.lang.String"/>
-	<field name="sc6_st" class="java.lang.String"/>
-	<field name="sc6_pop" class="java.lang.String"/>
-	<field name="sc6_target_month" class="java.lang.Integer"/>
-	<field name="sc6_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc6_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc6_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc6_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc6_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc6_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc7_at" class="java.lang.String"/>
-	<field name="sc7_st" class="java.lang.String"/>
-	<field name="sc7_pop" class="java.lang.String"/>
-	<field name="sc7_target_month" class="java.lang.Integer"/>
-	<field name="sc7_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc7_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc7_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc7_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc7_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc7_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc8_at" class="java.lang.String"/>
-	<field name="sc8_st" class="java.lang.String"/>
-	<field name="sc8_pop" class="java.lang.String"/>
-	<field name="sc8_target_month" class="java.lang.Integer"/>
-	<field name="sc8_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc8_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc8_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc8_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc8_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc8_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc9_at" class="java.lang.String"/>
-	<field name="sc9_st" class="java.lang.String"/>
-	<field name="sc9_pop" class="java.lang.String"/>
-	<field name="sc9_target_month" class="java.lang.Integer"/>
-	<field name="sc9_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc9_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc9_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc9_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc9_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc9_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc10_at" class="java.lang.String"/>
-	<field name="sc10_st" class="java.lang.String"/>
-	<field name="sc10_pop" class="java.lang.String"/>
-	<field name="sc10_target_month" class="java.lang.Integer"/>
-	<field name="sc10_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc10_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc10_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc10_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc10_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc10_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc11_at" class="java.lang.String"/>
-	<field name="sc11_st" class="java.lang.String"/>
-	<field name="sc11_pop" class="java.lang.String"/>
-	<field name="sc11_target_month" class="java.lang.Integer"/>
-	<field name="sc11_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc11_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc11_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc11_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc11_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc11_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc12_at" class="java.lang.String"/>
-	<field name="sc12_st" class="java.lang.String"/>
-	<field name="sc12_pop" class="java.lang.String"/>
-	<field name="sc12_target_month" class="java.lang.Integer"/>
-	<field name="sc12_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc12_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc12_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc12_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc12_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc12_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<field name="sc13_at" class="java.lang.String"/>
-	<field name="sc13_st" class="java.lang.String"/>
-	<field name="sc13_pop" class="java.lang.String"/>
-	<field name="sc13_target_month" class="java.lang.Integer"/>
-	<field name="sc13_cum_target_till_month" class="java.lang.String"/>
-	<field name="sc13_tg_depot_set_or_not" class="java.lang.String"/>
-	<field name="sc13_progress_till_last_month" class="java.lang.String"/>
-	<field name="sc13_progress_this_month" class="java.lang.Integer"/>
-	<field name="sc13_progress_of_day" class="java.lang.Integer"/>
-	<field name="sc13_latesttarget_set_for_the_month" class="java.lang.Integer"/>
-	<variable name="scl_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc1_target_month}]]></variableExpression>
+	<field name="facility_name" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="atd_aoh_ct" class="java.lang.Double"/>
+	<field name="atd_poh_ct" class="java.lang.Double"/>
+	<field name="crossover_aoh_ct" class="java.lang.Integer"/>
+	<field name="gantry_aoh_ct" class="java.lang.Integer"/>
+	<field name="mcl_aoh_ct" class="java.lang.Integer"/>
+	<field name="mcl_poh_ct" class="java.lang.Integer"/>
+	<field name="overlap_aoh_ct" class="java.lang.Integer"/>
+	<field name="ptfe_aoh_ct" class="java.lang.Integer"/>
+	<field name="scl_aoh_ct" class="java.lang.Integer"/>
+	<field name="scl_poh_ct" class="java.lang.Integer"/>
+	<field name="si_aoh_ct" class="java.lang.Integer"/>
+	<field name="sm_aoh_ct" class="java.lang.Integer"/>
+	<field name="turnout_aoh_ct" class="java.lang.Integer"/>
+	<field name="tm_atd_aoh" class="java.lang.Double"/>
+	<field name="ctm_atd_aoh" class="java.lang.Double"/>
+	<field name="tm_atd_poh" class="java.lang.Double"/>
+	<field name="ctm_atd_poh" class="java.lang.Double"/>
+	<field name="tm_crossover_aoh" class="java.lang.Double"/>
+	<field name="ctm_crossover_aoh" class="java.lang.Double"/>
+	<field name="tm_gantry_aoh" class="java.lang.Double"/>
+	<field name="ctm_gantry_aoh" class="java.lang.Double"/>
+	<field name="tm_mcl_aoh" class="java.lang.Double"/>
+	<field name="ctm_mcl_aoh" class="java.lang.Double"/>
+	<field name="tm_mcl_poh" class="java.lang.Double"/>
+	<field name="ctm_mcl_poh" class="java.lang.Double"/>
+	<field name="tm_overlap_aoh" class="java.lang.Double"/>
+	<field name="ctm_overlap_aoh" class="java.lang.Double"/>
+	<field name="tm_ptfe_aoh" class="java.lang.Double"/>
+	<field name="ctm_ptfe_aoh" class="java.lang.Double"/>
+	<field name="tm_scl_aoh" class="java.lang.Double"/>
+	<field name="ctm_scl_aoh" class="java.lang.Double"/>
+	<field name="tm_scl_poh" class="java.lang.Double"/>
+	<field name="ctm_scl_poh" class="java.lang.Double"/>
+	<field name="tm_si_aoh" class="java.lang.Double"/>
+	<field name="ctm_si_aoh" class="java.lang.Double"/>
+	<field name="tm_sm_aoh" class="java.lang.Double"/>
+	<field name="ctm_sm_aoh" class="java.lang.Double"/>
+	<field name="tm_turnout_aoh" class="java.lang.Double"/>
+	<field name="ctm_turnout_aoh" class="java.lang.Double"/>
+	<field name="fy_atd_aoh" class="java.lang.Long"/>
+	<field name="fy_atd_poh" class="java.lang.Long"/>
+	<field name="fy_crossover_aoh" class="java.lang.Long"/>
+	<field name="fy_gantry_aoh" class="java.lang.Long"/>
+	<field name="fy_mcl_aoh" class="java.lang.Long"/>
+	<field name="fy_mcl_poh" class="java.lang.Long"/>
+	<field name="fy_overlap_aoh" class="java.lang.Long"/>
+	<field name="fy_ptfe_aoh" class="java.lang.Long"/>
+	<field name="fy_scl_aoh" class="java.lang.Long"/>
+	<field name="fy_scl_poh" class="java.lang.Long"/>
+	<field name="fy_si_aoh" class="java.lang.Long"/>
+	<field name="fy_sm_aoh" class="java.lang.Long"/>
+	<field name="fy_turnout_aoh" class="java.lang.Long"/>
+	<field name="mon_atd_aoh" class="java.lang.Long"/>
+	<field name="mon_atd_poh" class="java.lang.Long"/>
+	<field name="mon_crossover_aoh" class="java.lang.Long"/>
+	<field name="mon_gantry_aoh" class="java.lang.Long"/>
+	<field name="mon_mcl_aoh" class="java.lang.Long"/>
+	<field name="mon_mcl_poh" class="java.lang.Long"/>
+	<field name="mon_overlap_aoh" class="java.lang.Long"/>
+	<field name="mon_ptfe_aoh" class="java.lang.Long"/>
+	<field name="mon_scl_aoh" class="java.lang.Long"/>
+	<field name="mon_scl_poh" class="java.lang.Long"/>
+	<field name="mon_si_aoh" class="java.lang.Long"/>
+	<field name="mon_sm_aoh" class="java.lang.Long"/>
+	<field name="mon_turnout_aoh" class="java.lang.Long"/>
+	<field name="atd_aoh" class="java.lang.Integer"/>
+	<field name="atd_poh" class="java.lang.Integer"/>
+	<field name="crossover_aoh" class="java.lang.Integer"/>
+	<field name="gantry_aoh" class="java.lang.Integer"/>
+	<field name="mcl_aoh" class="java.lang.Integer"/>
+	<field name="mcl_poh" class="java.lang.Integer"/>
+	<field name="overlap_aoh" class="java.lang.Integer"/>
+	<field name="ptfe_aoh" class="java.lang.Integer"/>
+	<field name="scl_aoh" class="java.lang.Integer"/>
+	<field name="scl_poh" class="java.lang.Integer"/>
+	<field name="si_aoh" class="java.lang.Integer"/>
+	<field name="sm_aoh" class="java.lang.Integer"/>
+	<field name="turnout_aoh" class="java.lang.Integer"/>
+	<variable name="sclaohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_scl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="scl_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc1_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="sclaohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_scl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="scl_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc1_progress_this_month}]]></variableExpression>
+	<variable name="sclaohtc" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{scl_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="scl_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc1_progress_of_day}]]></variableExpression>
+	<variable name="sclpohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_scl_poh}]]></variableExpression>
 	</variable>
-	<variable name="scl_poh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc2_target_month}]]></variableExpression>
+	<variable name="sclpohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_scl_poh}]]></variableExpression>
 	</variable>
-	<variable name="scl_poh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc2_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="sclpohtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{scl_poh_ct}]]></variableExpression>
 	</variable>
-	<variable name="scl_poh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc2_progress_this_month}]]></variableExpression>
+	<variable name="mclaohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_mcl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="scl_poh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc2_progress_of_day}]]></variableExpression>
+	<variable name="mclaohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_mcl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="mcl_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc3_target_month}]]></variableExpression>
+	<variable name="mclaohtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{mcl_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="mcl_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc3_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="mclpohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_mcl_poh}]]></variableExpression>
 	</variable>
-	<variable name="mcl_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc3_progress_this_month}]]></variableExpression>
+	<variable name="mclpohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_mcl_poh}]]></variableExpression>
 	</variable>
-	<variable name="mcl_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc3_progress_of_day}]]></variableExpression>
+	<variable name="mclpohtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{mcl_poh_ct}]]></variableExpression>
 	</variable>
-	<variable name="mcl_poh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc4_target_month}]]></variableExpression>
+	<variable name="atdaohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_atd_aoh}]]></variableExpression>
 	</variable>
-	<variable name="mcl_poh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc4_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="atdaohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_atd_aoh}]]></variableExpression>
 	</variable>
-	<variable name="mcl_poh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc4_progress_this_month}]]></variableExpression>
+	<variable name="atdaohtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{atd_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="mcl_poh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc4_progress_of_day}]]></variableExpression>
+	<variable name="atdpohtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_atd_poh}]]></variableExpression>
 	</variable>
-	<variable name="atd_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc5_target_month}]]></variableExpression>
+	<variable name="atdpohcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_atd_poh}]]></variableExpression>
 	</variable>
-	<variable name="atd_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc5_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="atdpohtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{atd_poh_ct}]]></variableExpression>
 	</variable>
-	<variable name="atd_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc5_progress_this_month}]]></variableExpression>
+	<variable name="sitmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_si_aoh}]]></variableExpression>
 	</variable>
-	<variable name="atd_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc5_progress_of_day}]]></variableExpression>
+	<variable name="sicmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_sm_aoh}]]></variableExpression>
 	</variable>
-	<variable name="atd_poh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc6_target_month}]]></variableExpression>
+	<variable name="sitctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{si_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="atd_poh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc6_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="smtmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_sm_aoh}]]></variableExpression>
 	</variable>
-	<variable name="atd_poh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc6_progress_this_month}]]></variableExpression>
+	<variable name="smcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_sm_aoh}]]></variableExpression>
 	</variable>
-	<variable name="atd_poh_d" class="java.lang.Integer">
-		<variableExpression><![CDATA[$F{sc6_progress_of_day}]]></variableExpression>
+	<variable name="smtctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{sm_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="si_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc7_target_month}]]></variableExpression>
+	<variable name="totmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_turnout_aoh}]]></variableExpression>
 	</variable>
-	<variable name="si_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc7_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="tocmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_turnout_aoh}]]></variableExpression>
 	</variable>
-	<variable name="si_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc7_progress_this_month}]]></variableExpression>
+	<variable name="totctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{turnout_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="si_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc7_progress_of_day}]]></variableExpression>
+	<variable name="crosstmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_crossover_aoh}]]></variableExpression>
 	</variable>
-	<variable name="sm_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc8_target_month}]]></variableExpression>
+	<variable name="crosscmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_crossover_aoh}]]></variableExpression>
 	</variable>
-	<variable name="sm_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc8_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="crosstctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{crossover_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="sm_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc8_progress_this_month}]]></variableExpression>
+	<variable name="overlaptmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_overlap_aoh}]]></variableExpression>
 	</variable>
-	<variable name="sm_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc8_progress_of_day}]]></variableExpression>
+	<variable name="overlapcmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{tm_overlap_aoh}]]></variableExpression>
 	</variable>
-	<variable name="to_aoh_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc9_target_month}]]></variableExpression>
+	<variable name="overlaptctotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{overlap_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="to_aoh_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc9_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="gantrytmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_crossover_aoh}]]></variableExpression>
 	</variable>
-	<variable name="to_aoh_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc9_progress_this_month}]]></variableExpression>
+	<variable name="gantrycmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_gantry_aoh}]]></variableExpression>
 	</variable>
-	<variable name="to_aoh_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc9_progress_of_day}]]></variableExpression>
+	<variable name="gantrycttotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{gantry_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="xo_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc10_target_month}]]></variableExpression>
+	<variable name="ptfetmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ptfe_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="xo_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc10_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="ptfecmtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ctm_ptfe_aoh}]]></variableExpression>
 	</variable>
-	<variable name="xo_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc10_progress_this_month}]]></variableExpression>
+	<variable name="ptfecttotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ptfe_aoh_ct}]]></variableExpression>
 	</variable>
-	<variable name="xo_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc10_progress_of_day}]]></variableExpression>
+	<variable name="sclaohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{scl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ol_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc11_target_month}]]></variableExpression>
+	<variable name="sclpohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{scl_poh}]]></variableExpression>
 	</variable>
-	<variable name="ol_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc11_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="mclaohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{mcl_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ol_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc11_progress_this_month}]]></variableExpression>
+	<variable name="mclpohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{mcl_poh}]]></variableExpression>
 	</variable>
-	<variable name="ol_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc11_progress_of_day}]]></variableExpression>
+	<variable name="atdaohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{atd_aoh}]]></variableExpression>
 	</variable>
-	<variable name="gantry_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc12_target_month}]]></variableExpression>
+	<variable name="atdpohdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{atd_poh}]]></variableExpression>
 	</variable>
-	<variable name="gantry_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc12_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="sidtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{si_aoh}]]></variableExpression>
 	</variable>
-	<variable name="gantry_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc12_progress_this_month}]]></variableExpression>
+	<variable name="smdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{sm_aoh}]]></variableExpression>
 	</variable>
-	<variable name="gantry_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc12_progress_of_day}]]></variableExpression>
+	<variable name="todtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{turnout_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ptfe_tm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc13_target_month}]]></variableExpression>
+	<variable name="crossdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{crossover_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ptfe_tc" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc13_latesttarget_set_for_the_month}]]></variableExpression>
+	<variable name="gantrydtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{gantry_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ptfe_cm" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc13_progress_this_month}]]></variableExpression>
+	<variable name="overlapdtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{overlap_aoh}]]></variableExpression>
 	</variable>
-	<variable name="ptfe_d" class="java.lang.Integer" calculation="Sum">
-		<variableExpression><![CDATA[$F{sc13_progress_of_day}]]></variableExpression>
+	<variable name="ptfedtotal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ptfe_aoh}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -594,12 +514,12 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DAILY MAINTENANCE ON OVER HEAD EQUIPMENT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2500" y="0" width="260" height="15" uuid="e8f11563-65c7-4565-8a52-e2fcba20f042"/>
+				<reportElement x="2550" y="0" width="210" height="15" uuid="e8f11563-65c7-4565-8a52-e2fcba20f042"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -613,7 +533,7 @@ group by bs.facility_id, division,depot_name
 				<text><![CDATA[DATE]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="2500" y="15" width="260" height="20" uuid="a91e18b5-ccb6-4b04-b531-6ee57f7fec4d"/>
+				<reportElement x="2550" y="15" width="210" height="20" uuid="a91e18b5-ccb6-4b04-b531-6ee57f7fec4d"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -624,7 +544,7 @@ group by bs.facility_id, division,depot_name
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -645,7 +565,7 @@ group by bs.facility_id, division,depot_name
 				<text><![CDATA[TM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="40" width="50" height="20" forecolor="#EA0F36" uuid="233e88b8-6933-4fbb-8852-54e6d2966618"/>
+				<reportElement x="300" y="40" width="50" height="20" forecolor="#EA0F36" backcolor="#FFFFFF" uuid="233e88b8-6933-4fbb-8852-54e6d2966618"/>
 				<box>
 					<pen lineWidth="0.75" lineColor="#170407"/>
 					<topPen lineWidth="0.75" lineColor="#170407"/>
@@ -1629,7 +1549,19 @@ group by bs.facility_id, division,depot_name
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="81" y="0" width="69" height="20" uuid="12a9b54d-e174-484f-b469-f8367f81cb75"/>
+				<reportElement x="950" y="0" width="50" height="20" uuid="12a832cf-c8e8-4e0c-b3cd-19e4c0550557"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tm_atd_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="81" y="0" width="69" height="20" uuid="a8581276-81eb-45ef-920b-83c56c217d76"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1641,55 +1573,19 @@ group by bs.facility_id, division,depot_name
 				<textFieldExpression><![CDATA[$F{depot_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="150" y="0" width="50" height="20" uuid="95e07390-459f-484d-837e-be0f3d799a6f"/>
+				<reportElement x="1000" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="c72851ce-6ca2-4635-9b01-1d4fe5d1a276"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc1_target_month}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ctm_atd_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="350" y="0" width="50" height="20" uuid="2e0f0cce-6e66-49c3-80ec-74711a34d5fb"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc2_target_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="400" y="0" width="50" height="20" forecolor="#2A34E5" uuid="6c5a9fc5-04c6-438f-8527-f15f3dda5a0e"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc2_progress_this_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="450" y="0" width="50" height="20" forecolor="#2A34E5" uuid="2f20bfb6-ec89-4a44-891c-7069b4c9c72e"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc12_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="550" y="0" width="50" height="20" uuid="04777031-c8f9-47f0-a25b-873656e11955"/>
+				<reportElement x="1150" y="0" width="50" height="20" uuid="b3a6304a-291d-4d99-b79f-d7c872de72b9"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1698,10 +1594,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc3_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_atd_poh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="750" y="0" width="50" height="20" uuid="ca3f8997-cc2d-4280-a8ba-8fdb8e6ed783"/>
+				<reportElement x="1200" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="5f99e179-fdf5-487b-81dd-8496f4c5a7fa"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ctm_atd_poh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="550" y="0" width="50" height="20" uuid="3a1a9e32-728b-4a45-bef6-aeb34c09a8a5"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1710,34 +1618,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc4_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_mcl_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="800" y="0" width="50" height="20" forecolor="#2A34E5" uuid="2a3d3a67-3bd0-4a6a-b677-81fcf03f6de6"/>
+				<reportElement x="600" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="c211ed4c-7cba-4e0e-b84c-eeb802c2972f"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc4_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_mcl_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="850" y="0" width="50" height="20" forecolor="#2A34E5" uuid="a6712e17-03e7-4330-8283-ca6bb79dd6f5"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc4_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="950" y="0" width="50" height="20" uuid="910f1704-706b-494f-9e1f-7c9c1f7e4a4c"/>
+				<reportElement x="750" y="0" width="50" height="20" uuid="1bba2bae-7332-4d2d-99a5-e0d9cb94c11f"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1746,34 +1642,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc5_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_mcl_poh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1000" y="0" width="50" height="20" forecolor="#2A34E5" uuid="888a235a-43cf-4a53-a14c-7de303ccb0e5"/>
+				<reportElement x="800" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="c8a41700-7807-48e9-a89a-0835fa09c6a2"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc5_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_mcl_poh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1050" y="0" width="50" height="20" forecolor="#2A34E5" uuid="ea7ad83d-f69b-4df3-8885-f83b2a029591"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc5_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1150" y="0" width="50" height="20" uuid="9db48174-7d69-4d1c-8699-69a5fec08eeb"/>
+				<reportElement x="150" y="0" width="50" height="20" uuid="976d85b4-fdfe-43da-8c03-ed8f6704c670"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1782,34 +1666,10 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_scl_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1200" y="0" width="50" height="20" forecolor="#2A34E5" uuid="f24d13f1-aca5-4c56-aef0-8345ad5825c8"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_progress_this_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1250" y="0" width="50" height="20" forecolor="#2A34E5" uuid="40de982d-84c1-4af4-8595-56c4252c65f5"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1350" y="0" width="50" height="20" uuid="4d739ebc-9a56-4cb1-9de9-e5fa21997276"/>
+				<reportElement x="1350" y="0" width="50" height="20" uuid="fd27ae02-1874-4ef1-aa7a-54f939735e43"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1818,58 +1678,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc7_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_si_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1400" y="0" width="50" height="20" forecolor="#2A34E5" uuid="0ce0d7d4-9e4a-41fb-9401-469d2913600e"/>
+				<reportElement x="1400" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="38ab1558-80ea-4b1b-ba77-9698fa90995b"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_si_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1450" y="0" width="50" height="20" forecolor="#2A34E5" uuid="b6114d8d-50a7-419e-86a8-6a1192752b79"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1600" y="0" width="50" height="20" forecolor="#2A34E5" uuid="d8af5c51-703d-4c05-b7e8-e86d127ac31c"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc8_progress_this_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1650" y="0" width="50" height="20" forecolor="#2A34E5" uuid="adb9ba42-b26a-4c7f-8742-1a0d807ccc73"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc8_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1750" y="0" width="50" height="20" uuid="d1cd4047-ab12-4572-a721-be5008e825f5"/>
+				<reportElement x="1550" y="0" width="50" height="20" uuid="715205c0-22ab-485a-816e-1516ea7fc7c3"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1878,34 +1702,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc9_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_sm_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1800" y="0" width="50" height="20" forecolor="#2A34E5" uuid="c6e2f579-25b2-42dc-8acf-e19e88fbce08"/>
+				<reportElement x="1600" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="86e7f571-5c07-4c3c-b1f7-ebf165fe1a27"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc9_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_sm_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1850" y="0" width="50" height="20" forecolor="#2A34E5" uuid="37305d59-7c8f-4632-8648-3336d8059084"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc9_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1950" y="0" width="50" height="20" uuid="983c7cc8-078b-4cab-91c0-f87ae2710135"/>
+				<reportElement x="2350" y="0" width="50" height="20" uuid="535c2c92-e54f-465b-ae14-1dfe6794e115"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1914,34 +1726,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc10_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_turnout_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2000" y="0" width="50" height="20" forecolor="#2A34E5" uuid="72909732-1645-4043-b554-4fa5245b4462"/>
+				<reportElement x="2400" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="47f6fb12-a00d-4e10-b6a1-1ed7293fbb78"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc10_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_gantry_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2050" y="0" width="50" height="20" forecolor="#2A34E5" uuid="4cc8cf80-4201-42ac-816b-8176820872b1"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc10_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2150" y="0" width="50" height="20" uuid="05bb2619-5aa7-4957-8b7e-87c6651269e3"/>
+				<reportElement x="2550" y="0" width="50" height="20" uuid="d4564a9d-60dc-48c0-a427-a61bad1389d3"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1950,34 +1750,22 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc11_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_ptfe_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2200" y="0" width="50" height="20" forecolor="#2A34E5" uuid="c4dae369-779b-4a40-aedf-9ad88b0f1727"/>
+				<reportElement x="2600" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="d3a2df4d-c396-4c3d-bc4a-b55630400beb"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc11_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_ptfe_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2250" y="0" width="50" height="20" forecolor="#2A34E5" uuid="309ec5ea-67e9-4a81-aa06-d3c2264e0ea6"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc11_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2350" y="0" width="50" height="20" uuid="5ca1e842-8cc4-4a47-ab6c-931a17eb2900"/>
+				<reportElement x="1750" y="0" width="50" height="20" uuid="337e3d54-8e02-452a-8c9a-28a881e389ba"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -1986,34 +1774,34 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc12_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_turnout_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2400" y="0" width="50" height="20" forecolor="#2A34E5" uuid="5151b706-84fb-41e7-8402-afb7698827ab"/>
+				<reportElement x="1800" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="1c0f5daa-510f-496a-98e9-1c5cdd14d826"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc12_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_turnout_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2450" y="0" width="50" height="20" forecolor="#2A34E5" uuid="cb918d5f-4917-40f0-9e7d-e445a6437fe2"/>
+				<reportElement x="200" y="0" width="50" height="20" forecolor="#1328DC" uuid="8bb3ad87-6bc6-46ec-862d-0be6c2bda749"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#220D0D"/>
+					<topPen lineWidth="0.75" lineColor="#220D0D"/>
+					<leftPen lineWidth="0.75" lineColor="#220D0D"/>
+					<bottomPen lineWidth="0.75" lineColor="#220D0D"/>
+					<rightPen lineWidth="0.75" lineColor="#220D0D"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc12_progress_of_day}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_scl_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2550" y="0" width="50" height="20" uuid="c46314d2-fe2e-4692-a24f-6411acffa07f"/>
+				<reportElement x="350" y="0" width="50" height="20" uuid="13f87f8c-7f43-4921-9ed2-5e7036a3ace9"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -2022,34 +1810,70 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc13_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_scl_poh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2600" y="0" width="50" height="20" forecolor="#2A34E5" uuid="6b12719c-0489-41d0-87f1-8e4e97253c2d"/>
+				<reportElement x="400" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="e7c982fa-5a12-4cfe-be51-65411dbd4e92"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc13_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ctm_scl_poh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2650" y="0" width="60" height="20" forecolor="#2A34E5" uuid="1b1f7c12-1442-49e9-ad59-df21f0e0b0ce"/>
+				<reportElement x="2150" y="0" width="50" height="20" uuid="7193c348-2110-4f85-9f2e-895e2c1451ad"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc13_progress_of_day}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tm_overlap_aoh}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="36" y="0" width="45" height="20" uuid="2a5bcb4f-7ede-40d3-aa4a-18222bf0820e"/>
+				<reportElement x="2200" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="04173c40-5e0f-4a0a-bcc2-370e2cbfba3e"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ctm_overlap_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1950" y="0" width="50" height="20" uuid="b34e94b7-888b-481c-95fa-669ea8210c6d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tm_crossover_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2000" y="0" width="50" height="20" forecolor="#1C1BF9" uuid="7456266d-101d-4078-ba41-d45e7b6d46c9"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#1C1212"/>
+					<topPen lineWidth="0.75" lineColor="#1C1212"/>
+					<leftPen lineWidth="0.75" lineColor="#1C1212"/>
+					<bottomPen lineWidth="0.75" lineColor="#1C1212"/>
+					<rightPen lineWidth="0.75" lineColor="#1C1212"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ctm_crossover_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="36" y="0" width="45" height="20" uuid="80424e69-5d3c-4590-800b-2874b48cc929"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -2061,151 +1885,7 @@ group by bs.facility_id, division,depot_name
 				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="300" y="0" width="50" height="20" forecolor="#F90A1B" uuid="4a7a09be-14c0-4519-a351-6a2835bda3a8"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#240E10"/>
-					<topPen lineWidth="0.75" lineColor="#240E10"/>
-					<leftPen lineWidth="0.75" lineColor="#240E10"/>
-					<bottomPen lineWidth="0.75" lineColor="#240E10"/>
-					<rightPen lineWidth="0.75" lineColor="#240E10"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc1_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="500" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="56e15450-bd3c-493f-881f-9f5fc8d4df3a"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc2_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="700" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="13d067da-d264-45db-9840-46c0926f7aa5"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc3_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="900" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="8de7cd88-63d1-4589-a049-43308ca0adeb"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc4_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1100" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="62affa65-d112-4041-a4c2-eb5883c48a6d"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc5_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1300" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="0fc3d8e3-b0fc-4293-afb8-31e94c5ba407"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc6_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1500" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="8dd2066d-2994-4bec-a440-45fd796d17d4"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc7_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1900" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="51880799-c777-4ab2-b7e1-33333b6bec2a"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc9_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2100" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="b2f9a981-cc5c-47ba-a845-0375b0959d1c"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc10_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2300" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="de594f24-1a32-4a39-99a6-d04f960a3312"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc11_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2500" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="e8200748-0406-46ff-a4a2-bc6cc782fff1"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc12_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2710" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="8a623c5b-2c85-4726-be84-2a36c678f88a"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc13_latesttarget_set_for_the_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="1550" y="0" width="50" height="20" uuid="55caaae4-eb75-4e2e-bf59-3429cdc8de3d"/>
+				<reportElement x="0" y="0" width="36" height="20" uuid="e70af918-f963-4e84-a74d-bbe8103689bc"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -2214,79 +1894,319 @@ group by bs.facility_id, division,depot_name
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc8_target_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1700" y="0" width="50" height="20" forecolor="#EB0A2C" uuid="7bcb1e5c-3bd0-453d-aea5-c006e8568ab5"/>
+				<reportElement x="1100" y="0" width="50" height="20" forecolor="#F10425" uuid="13ea211a-f2e4-491f-b422-e61dc52aeb9f"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc8_latesttarget_set_for_the_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{atd_aoh_ct}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="36" height="20" uuid="ac89ab0c-8d9f-4b92-9031-5b4860ccf4c0"/>
+				<reportElement x="1300" y="0" width="50" height="20" forecolor="#F10425" uuid="9bf2b8d4-41ad-4121-b2dd-59c5f6b743b8"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{atd_poh_ct}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="250" y="0" width="50" height="20" forecolor="#1F26D0" uuid="7ea48d67-6d20-4c25-b5cc-f20f0765eb43"/>
+				<reportElement x="300" y="0" width="50" height="20" forecolor="#F10425" uuid="65fdfba5-1689-471c-bb4b-fdf247bdab3d"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#1B1C2D"/>
-					<topPen lineWidth="0.75" lineColor="#1B1C2D"/>
-					<leftPen lineWidth="0.75" lineColor="#1B1C2D"/>
-					<bottomPen lineWidth="0.75" lineColor="#1B1C2D"/>
-					<rightPen lineWidth="0.75" lineColor="#1B1C2D"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc1_progress_of_day}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="0" width="50" height="20" forecolor="#3320EE" uuid="dc13188c-9cdb-440d-891b-04b4459ef5ac"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#1A1924"/>
-					<topPen lineWidth="0.75" lineColor="#1A1924"/>
-					<leftPen lineWidth="0.75" lineColor="#1A1924"/>
-					<bottomPen lineWidth="0.75" lineColor="#1A1924"/>
-					<rightPen lineWidth="0.75" lineColor="#1A1924"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{sc1_progress_this_month}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="600" y="0" width="50" height="20" forecolor="#2A34E5" uuid="4b1ba42f-e55b-477c-9b4b-c150ffdd7de7"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#0F0708"/>
+					<topPen lineWidth="0.75" lineColor="#0F0708"/>
+					<leftPen lineWidth="0.75" lineColor="#0F0708"/>
+					<bottomPen lineWidth="0.75" lineColor="#0F0708"/>
+					<rightPen lineWidth="0.75" lineColor="#0F0708"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc3_progress_this_month}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{scl_aoh_ct}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="650" y="0" width="50" height="20" forecolor="#2A34E5" uuid="15268ddc-afc8-49c3-9954-a7a7b3e852d2"/>
+				<reportElement x="500" y="0" width="50" height="20" forecolor="#F10425" uuid="adb1501f-11e0-4a6a-8fdc-48e4081b7ae2"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{sc3_progress_of_day}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{scl_poh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="700" y="0" width="50" height="20" forecolor="#F10425" uuid="7aab08e6-1532-4a74-a664-1553c7325ef2"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mcl_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="900" y="0" width="50" height="20" forecolor="#F10425" uuid="62e5586a-9951-4b5b-bbe2-37c77fb6a1eb"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mcl_poh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1500" y="0" width="50" height="20" forecolor="#F10425" uuid="062b677b-20ae-4891-b032-a7c75162008b"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{si_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1700" y="0" width="50" height="20" forecolor="#F10425" uuid="018bb505-cb97-4085-91ab-0d3e56848278"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sm_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1900" y="0" width="50" height="20" forecolor="#F10425" uuid="6f31e016-c46e-4a2b-a711-c2749beefc75"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{turnout_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2100" y="0" width="50" height="20" forecolor="#F10425" uuid="a2068ca5-591b-4fb3-acb9-adfe4dd85185"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{crossover_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2300" y="0" width="50" height="20" forecolor="#F10425" uuid="59cb7ec4-6bf2-4fcf-8b71-39f7bbbc04c0"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{overlap_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2500" y="0" width="50" height="20" forecolor="#F10425" uuid="12b20692-eb8b-413c-8288-0b523cebddd2"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gantry_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2710" y="0" width="50" height="20" forecolor="#F10425" uuid="d7c0d01b-5523-42e2-8954-4aa72e8eb982"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210505"/>
+					<topPen lineWidth="0.75" lineColor="#210505"/>
+					<leftPen lineWidth="0.75" lineColor="#210505"/>
+					<bottomPen lineWidth="0.75" lineColor="#210505"/>
+					<rightPen lineWidth="0.75" lineColor="#210505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ptfe_aoh_ct}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="50" height="20" forecolor="#1B12E5" uuid="66ef76f9-c9c8-49c0-b852-c2b92d97d819"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{scl_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="50" height="20" forecolor="#1B12E5" uuid="384a6801-ff92-4c43-9f5e-60a25eec5b99"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{scl_poh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="650" y="0" width="50" height="20" forecolor="#1B12E5" uuid="4b6c577f-6e8e-45f5-a6ca-b0e06a486c85"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mcl_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="50" height="20" forecolor="#1B12E5" uuid="bfa48ce0-6f80-48b5-ac02-f30250380c45"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mcl_poh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1050" y="0" width="50" height="20" forecolor="#1B12E5" uuid="aefb86a6-6286-4d8c-aac4-c13f53e0e794"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atd_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1250" y="0" width="50" height="20" forecolor="#1B12E5" uuid="7de8182a-6c9b-4f41-8ec4-6ad2d4316084"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atd_poh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1450" y="0" width="50" height="20" forecolor="#1B12E5" uuid="e807a500-4373-4e21-99d8-827145eabc3b"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{si_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1650" y="0" width="50" height="20" forecolor="#1D22F1" uuid="280ed796-5963-4770-b980-b571269309b2"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#190909"/>
+					<topPen lineWidth="0.75" lineColor="#190909"/>
+					<leftPen lineWidth="0.75" lineColor="#190909"/>
+					<bottomPen lineWidth="0.75" lineColor="#190909"/>
+					<rightPen lineWidth="0.75" lineColor="#190909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sm_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1850" y="0" width="50" height="20" forecolor="#1D22F1" uuid="bb99d359-c632-469c-b1af-59f17ff9e848"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#190909"/>
+					<topPen lineWidth="0.75" lineColor="#190909"/>
+					<leftPen lineWidth="0.75" lineColor="#190909"/>
+					<bottomPen lineWidth="0.75" lineColor="#190909"/>
+					<rightPen lineWidth="0.75" lineColor="#190909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{turnout_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2050" y="0" width="50" height="20" forecolor="#1B12E5" uuid="4db7073b-9602-48c0-b733-e9fc70c94b7b"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{crossover_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2250" y="0" width="50" height="20" forecolor="#1B12E5" uuid="02d11909-dd94-4795-946b-aeef20761686"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{overlap_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2450" y="0" width="50" height="20" forecolor="#1B12E5" uuid="c28b8f22-05e5-461c-a5ad-90c574b26777"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gantry_aoh}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2650" y="0" width="60" height="20" forecolor="#1B12E5" uuid="bb73b93a-0c04-4917-95e0-3f47672eb6a8"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#210909"/>
+					<topPen lineWidth="0.75" lineColor="#210909"/>
+					<leftPen lineWidth="0.75" lineColor="#210909"/>
+					<bottomPen lineWidth="0.75" lineColor="#210909"/>
+					<rightPen lineWidth="0.75" lineColor="#210909"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ptfe_aoh}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -2305,737 +2225,477 @@ group by bs.facility_id, division,depot_name
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="35">
+		<band height="20">
 			<textField isBlankWhenNull="true">
-				<reportElement x="150" y="0" width="50" height="35" uuid="a9013201-2954-485b-a599-1899cf925a51"/>
+				<reportElement x="150" y="0" width="50" height="20" uuid="a6908312-7074-4c69-9375-3bc6840965af"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_aoh_tm}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="300" y="0" width="50" height="35" uuid="fc351f09-07da-41d3-b88b-d9b74bdf158f"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_aoh_tc}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="200" y="0" width="50" height="35" uuid="43e84b12-9974-4307-89b9-a996f8cea03d"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_aoh_cm}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="0" width="50" height="35" uuid="cd46d431-d808-4765-b478-9a15447ebb23"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_aoh_d}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="350" y="0" width="50" height="35" uuid="2884c87e-7248-4acb-ba37-8289c14df18b"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_poh_tm}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="500" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="c98a9ab9-d2c2-497c-be86-b2e5906e40b8"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_poh_tc}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="400" y="0" width="50" height="35" forecolor="#2A34E5" uuid="25aacf23-cb4a-4844-bd5f-0ad3e9ede504"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_poh_cm}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="450" y="0" width="50" height="35" forecolor="#2A34E5" uuid="91e1a2fb-2e9e-4dd2-b01e-04e29e0643da"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{scl_poh_d}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="550" y="0" width="50" height="35" uuid="55dcc833-2700-4f96-95df-a2befa0e53d6"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_aoh_tm}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="700" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="f42ac3f8-52cc-4b27-853d-9d1e60e22470"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_aoh_tc}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="650" y="0" width="50" height="35" forecolor="#2A34E5" uuid="cadc42a0-36a3-4935-b340-623cc7edfdba"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_aoh_d}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="600" y="0" width="50" height="35" forecolor="#2A34E5" uuid="7ec0a70e-7f4d-4201-a20f-5fd857cd4b25"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_aoh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclaohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="850" y="0" width="50" height="35" forecolor="#2A34E5" uuid="6fae56ac-30ba-468e-b8d3-122030f914da"/>
+				<reportElement x="200" y="0" width="50" height="20" forecolor="#1A28E7" uuid="9f142b54-b80a-4c34-a9b1-fc7aa42eae72"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_poh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclaohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="800" y="0" width="50" height="35" forecolor="#2A34E5" uuid="db1bd239-1964-41b0-ac22-179dfde86847"/>
+				<reportElement x="300" y="0" width="50" height="20" forecolor="#F4092E" uuid="dbb15964-ce02-4534-bc1f-2b217f697c20"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_poh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclaohtc}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="900" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="fbf79bce-f91d-4c95-8d51-5cbd243ba44c"/>
+				<reportElement x="350" y="0" width="50" height="20" uuid="0429dfee-5315-45cb-b257-4c9a5192ee76"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_poh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclpohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="750" y="0" width="50" height="35" uuid="218725ba-0a01-435e-ad7f-ae3edaa3de3a"/>
+				<reportElement x="400" y="0" width="50" height="20" forecolor="#1A28E7" uuid="587389fc-643c-45fd-9bf8-03e75ddcea47"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{mcl_poh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclpohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1050" y="0" width="50" height="35" forecolor="#2A34E5" uuid="ce7dc5b6-341c-464e-948a-98894392f8a4"/>
+				<reportElement x="500" y="0" width="53" height="20" forecolor="#F4092E" uuid="4fbb3b83-2a60-482a-bf61-7c3cd0a3784c"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_aoh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclpohtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1000" y="0" width="50" height="35" forecolor="#2A34E5" uuid="30f06996-8d1e-4044-9d51-5c88d9bf0e46"/>
+				<reportElement x="553" y="0" width="47" height="20" uuid="e0fc1dc9-58a1-4d9e-acc3-21bb06f07118"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_aoh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclaohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1100" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="c35476d4-3258-4fea-b23b-322e5fabe97e"/>
+				<reportElement x="600" y="0" width="50" height="20" forecolor="#1A28E7" uuid="f76d4cbc-bd3e-4ed2-9e5d-ae6eab17855a"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_aoh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclaohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="950" y="0" width="50" height="35" uuid="4704334e-6ed4-44a4-9b1a-c7a1f35ec14b"/>
+				<reportElement x="700" y="0" width="50" height="20" forecolor="#F4092E" uuid="f1771452-9fee-4c6e-864e-020e86f0186e"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_aoh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclaohtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1250" y="0" width="50" height="35" forecolor="#2A34E5" uuid="826e4816-7179-4d19-adcc-01127ba83769"/>
+				<reportElement x="750" y="0" width="50" height="20" uuid="d18ea80f-c322-4229-ab71-715a0427de6e"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_poh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclpohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1200" y="0" width="50" height="35" forecolor="#2A34E5" uuid="19b21ecb-3ac5-4148-8ab5-b44ca3b8ccbe"/>
+				<reportElement x="800" y="0" width="50" height="20" forecolor="#1A28E7" uuid="8cb9c8db-4341-4858-8637-9289d5c387d6"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_poh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclpohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1300" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="e1b1d26a-0723-40ae-825c-08da30043fc7"/>
+				<reportElement x="900" y="0" width="50" height="20" forecolor="#F4092E" uuid="ef8eba01-5406-4589-b990-1a3f7aa015b9"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_poh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclpohtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1150" y="0" width="50" height="35" uuid="add1af4b-6b9d-4615-a3cc-d05616369367"/>
+				<reportElement x="950" y="0" width="50" height="20" uuid="bd6b9f66-b3a4-45b8-a4c9-8f5d5f2a3476"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{atd_poh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdaohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1350" y="0" width="50" height="35" uuid="24be28db-88f9-4477-9f7f-84c35b5494dd"/>
+				<reportElement x="1000" y="0" width="50" height="20" forecolor="#1A28E7" uuid="2b40c100-70d9-4ba9-b1c5-9659b3014104"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{si_aoh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdaohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1450" y="0" width="50" height="35" forecolor="#2A34E5" uuid="9dbba122-4c5f-4deb-8778-5a561ba57cc2"/>
+				<reportElement x="1100" y="0" width="50" height="20" forecolor="#F4092E" uuid="a9a64945-cdba-4fa9-a556-dd8a19581691"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{si_aoh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdaohtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1400" y="0" width="50" height="35" forecolor="#2A34E5" uuid="9f9094c9-6eac-4f3e-9720-7545dd8823f6"/>
+				<reportElement x="1150" y="0" width="50" height="20" uuid="fb43bab5-ab48-42af-87bb-4f19f68a368d"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{si_aoh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdpohtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1500" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="164c2e42-d682-476e-ad3b-9e4a006805fd"/>
+				<reportElement x="1200" y="0" width="50" height="20" forecolor="#1A28E7" uuid="0fa265bb-f94d-49b2-87d1-e783916f85dc"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{si_aoh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdpohcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1650" y="0" width="50" height="35" forecolor="#2A34E5" uuid="8435d456-fba3-489c-8fab-d59efee85620"/>
+				<reportElement x="1300" y="0" width="50" height="20" forecolor="#F4092E" uuid="03f11ff3-37ef-4667-a55d-ff13c658d0bc"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{sm_aoh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdpohtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1600" y="0" width="50" height="35" forecolor="#2A34E5" uuid="b4e561b0-a194-4210-9ce3-3a556aed0c54"/>
+				<reportElement x="1350" y="0" width="50" height="20" uuid="75e5513e-6604-4edb-8903-d6f98d17d12d"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{sm_aoh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sitmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1700" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="d2673fb6-2959-42b7-8509-80778ffe09b4"/>
+				<reportElement x="1400" y="0" width="50" height="20" forecolor="#1A28E7" uuid="76b8bfc1-2640-4007-a599-96643aec6c1d"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{sm_aoh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sicmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1550" y="0" width="50" height="35" uuid="6e164a11-2306-42a6-97a8-60104499cf9a"/>
+				<reportElement x="1500" y="0" width="50" height="20" forecolor="#F4092E" uuid="d06c55d5-9b93-4b4d-84ab-a46f443edeef"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{sm_aoh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sitctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1750" y="0" width="50" height="35" uuid="45b60d1f-9d9e-44d0-9ea5-8f02d015bcf3"/>
+				<reportElement x="1550" y="0" width="50" height="20" uuid="da2d2147-42c8-48f0-b6eb-80c329d3a557"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{to_aoh_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{smtmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1900" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="85a16879-12bb-4305-b1a8-60c7a4921404"/>
+				<reportElement x="1600" y="0" width="50" height="20" forecolor="#1A28E7" uuid="bc91cc7b-f1a9-4631-8399-4725f1e5ad1e"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{to_aoh_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{smcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1800" y="0" width="50" height="35" forecolor="#2A34E5" uuid="591406dd-5929-493a-9884-c021228e2041"/>
+				<reportElement x="1700" y="0" width="50" height="20" forecolor="#F4092E" uuid="3197c3b8-406f-4694-8a62-448020b6df4a"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{to_aoh_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{smtctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1850" y="0" width="50" height="35" forecolor="#2A34E5" uuid="821b28eb-eb5e-4040-b5b1-6e58da04a749"/>
+				<reportElement x="1800" y="0" width="50" height="20" forecolor="#1A28E7" uuid="4f4c21df-03c5-4a2e-a66b-75b8e1a51321"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{to_aoh_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{tocmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1950" y="0" width="50" height="35" uuid="f8251ce8-16de-4e19-a4df-bb4406f35838"/>
+				<reportElement x="1900" y="0" width="50" height="20" forecolor="#F4092E" uuid="57244d6a-43a4-492f-a363-a37e28a33624"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{xo_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2100" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="6b35df26-4f5d-42d4-a1e0-3ae2af6a80d3"/>
+				<reportElement x="1950" y="0" width="50" height="20" uuid="fcdcfa0b-3592-473c-ad7f-cb3c856d34d8"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{xo_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{crosstmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2000" y="0" width="50" height="35" forecolor="#2A34E5" uuid="4c2da461-405c-46a6-b7c4-62c5dd4df06c"/>
+				<reportElement x="2000" y="0" width="50" height="20" forecolor="#1A28E7" uuid="da5339e7-9cf2-405a-86df-eef6c6e16b31"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{xo_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{crosscmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2050" y="0" width="50" height="35" forecolor="#2A34E5" uuid="b4c1237b-6558-49ec-a10e-cf0eb29ab6f3"/>
+				<reportElement x="2100" y="0" width="50" height="20" forecolor="#F4092E" uuid="1d27d60f-3ba4-48e2-8f32-9889b1f83ecb"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{xo_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{crosstctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2250" y="0" width="50" height="35" forecolor="#2A34E5" uuid="9a897634-aba4-45d8-94d7-6bbaed7fcb85"/>
+				<reportElement x="2200" y="0" width="50" height="20" forecolor="#1A28E7" uuid="2aa6bcbc-2295-4902-88ec-2b11643d646d"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ol_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{overlapcmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2200" y="0" width="50" height="35" forecolor="#2A34E5" uuid="61898f1f-fb87-4f08-ae80-ca5b342521d8"/>
+				<reportElement x="2300" y="0" width="50" height="20" forecolor="#F4092E" uuid="3b2d08d8-8ec3-43ca-a7ef-b12353c777e9"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ol_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{overlaptctotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2300" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="ff74e23e-f484-4b0a-9c93-13129c09ee4d"/>
+				<reportElement x="2350" y="0" width="50" height="20" uuid="a2d776df-cccd-4937-97a9-8b5644360e0f"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ol_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{gantrytmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2150" y="0" width="50" height="35" uuid="b57dcb7c-5dc5-4c60-91fa-6e144fdc1d1d"/>
+				<reportElement x="2400" y="0" width="50" height="20" forecolor="#1A28E7" uuid="3b090faa-2526-4113-8bdb-976511c0a689"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ol_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{gantrycmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2450" y="0" width="50" height="35" forecolor="#2A34E5" uuid="036f1116-9461-4503-ae6a-f2aa813c2342"/>
+				<reportElement x="2500" y="0" width="50" height="20" forecolor="#F4092E" uuid="bfaad3ad-1ada-473b-8fe9-64d6df288b76"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{gantry_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{gantrycttotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2400" y="0" width="50" height="35" forecolor="#2A34E5" uuid="c4dcafd5-e0df-4b20-bf57-b26303a9373b"/>
+				<reportElement x="2710" y="0" width="50" height="20" forecolor="#F4092E" uuid="9fd12eaa-0f4f-454d-89f1-28b021b26bc6"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0303"/>
+					<topPen lineWidth="0.75" lineColor="#1F0303"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0303"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0303"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0303"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{gantry_cm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ptfecttotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2500" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="6ddb9fe8-19d9-44e6-89ad-793dd92b0eb4"/>
+				<reportElement x="2600" y="0" width="50" height="20" forecolor="#1A28E7" uuid="dee48bd0-b1ec-4340-95a4-8f247d24d445"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{gantry_tc}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ptfecmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2350" y="0" width="50" height="35" uuid="a42d6042-f6cd-45d7-a281-4fa9c4262169"/>
+				<reportElement x="2550" y="0" width="50" height="20" uuid="dff264eb-4268-4a9f-a61f-653b16217a36"/>
 				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{gantry_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ptfetmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2650" y="0" width="60" height="35" forecolor="#2A34E5" uuid="edfd01bb-89ce-4085-8bba-5c0efeac6332"/>
+				<reportElement x="2150" y="0" width="50" height="20" uuid="d335521c-aea5-4b42-bf70-4f6277e3f990"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ptfe_d}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{overlaptmtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2600" y="0" width="50" height="35" forecolor="#2A34E5" uuid="fb6bd629-7147-4540-8d86-056af6727ec0"/>
+				<reportElement x="1750" y="0" width="50" height="20" uuid="2cddbe59-6171-4d11-801c-b8b7e7804981"/>
 				<box>
-					<pen lineWidth="0.75" lineColor="#000000"/>
-					<topPen lineWidth="0.75" lineColor="#000000"/>
-					<leftPen lineWidth="0.75" lineColor="#000000"/>
-					<bottomPen lineWidth="0.75" lineColor="#000000"/>
-					<rightPen lineWidth="0.75" lineColor="#000000"/>
+					<pen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<topPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<leftPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<bottomPen lineWidth="0.75" lineColor="#1F0F0F"/>
+					<rightPen lineWidth="0.75" lineColor="#1F0F0F"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ptfe_cm}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2710" y="0" width="50" height="35" forecolor="#EB0A2C" uuid="cd082e6d-5f96-457d-a0c3-a29841d61e9a"/>
-				<box>
-					<pen lineWidth="0.75" lineColor="#110909"/>
-					<topPen lineWidth="0.75" lineColor="#110909"/>
-					<leftPen lineWidth="0.75" lineColor="#110909"/>
-					<bottomPen lineWidth="0.75" lineColor="#110909"/>
-					<rightPen lineWidth="0.75" lineColor="#110909"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ptfe_tm}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="2550" y="0" width="50" height="35" uuid="e5b6ff5a-d523-4b6e-9b16-a3c71f82f25b"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{ptfe_tm}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{totmtotal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="81" y="0" width="69" height="35" uuid="c798f3ce-6ee6-466e-80fd-5dc932820e8e"/>
+				<reportElement x="0" y="0" width="150" height="20" uuid="0601846c-9fc9-4313-b6a8-41cbdb237364"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -3046,8 +2706,164 @@ group by bs.facility_id, division,depot_name
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total : -]]></text>
+				<text><![CDATA[Grand Total : -]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="ff320078-7012-4ca0-aec4-2a5501f7e6f7"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclaohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="f07a17bc-a3b1-4377-baee-41fd523263d1"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sclpohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="650" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="79dffaa4-a9fb-4d1d-b4a1-ec292d91b872"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclaohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="6976c7dc-9d23-49f0-aebd-1f7e173feebf"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{mclpohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1050" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="1c86c269-0fad-489d-b17f-3a500422caab"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdaohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1250" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="007d9387-dfbc-4f1c-b2b2-dcc7db060820"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{atdpohdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1450" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="b6894d76-0374-4ed8-91a1-dc99a0851781"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{sidtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1650" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="f861ef74-d902-489e-a3a5-f946e5a7f5c9"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{smdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1850" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="1be03b6b-8310-4f0f-910a-46983e4e792e"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{todtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2050" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="ff379e85-f9c6-4f5a-a497-32ab20bc6dbb"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{crossdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2450" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="f864b643-54be-4af6-80c3-2971d01d0e6e"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{gantrydtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2250" y="0" width="50" height="20" forecolor="#1B0EE6" uuid="4222a50e-0564-4e4d-8f08-8e3b825a7445"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{overlapdtotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2650" y="0" width="60" height="20" forecolor="#1B0EE6" uuid="f5e1ee67-b930-4762-8145-215dcf88dc77"/>
+				<box>
+					<pen lineWidth="0.75" lineColor="#110505"/>
+					<topPen lineWidth="0.75" lineColor="#110505"/>
+					<leftPen lineWidth="0.75" lineColor="#110505"/>
+					<bottomPen lineWidth="0.75" lineColor="#110505"/>
+					<rightPen lineWidth="0.75" lineColor="#110505"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ptfedtotal}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 	<noData>
