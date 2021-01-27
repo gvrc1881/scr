@@ -39,7 +39,7 @@
 								</div>
 								<div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.DEPOT_TYPE}}" [formControl]="searchInputFormGroup.controls['depotType']"  (selectionChange)="getFacilitys()">
+                                        <mat-select placeholder="Station Type" [formControl]="searchInputFormGroup.controls['depotType']"  (selectionChange)="getFacilitys()">
                                             <mat-option *ngFor="let funLocTypeData of distinctDepotType "
                                                 [value]="funLocTypeData">
                                                 {{ funLocTypeData}}
@@ -104,9 +104,9 @@
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>Commparison Points</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                     <mat-form-field floatLabel="never" >
-                                                            <mat-select >
+                                                            <mat-select   [(ngModel)]="row.commparisonPoints">
                                                             <mat-option *ngFor="let checkPointsList of row.checkPointsList"
-                                                            [value]="row.id" [(ngModel)]="row.checkPointDescription">
+                                                            [value]="checkPointsList.id">
                                                               {{ checkPointsList.checkPointDescription }}
                                                             </mat-option>
                                                           </mat-select>
@@ -114,14 +114,14 @@
                                                 </mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="tempDiff">
+                                        <ng-container matColumnDef="displayOfTempDiff">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>Temp Diff</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                     <mat-form-field floatLabel="never" >
-                                                            <mat-select >
+                                                            <mat-select [(ngModel)]="row.displayOfTempDiff">
                                                             <mat-option *ngFor="let tempDiff of tempDiff"
-                                                            [value]="row.tempDiff" >
-                                                              {{ tempDiff.tempDiff }}
+                                                            [value]="tempDiff" >
+                                                              {{ tempDiff }}
                                                             </mat-option>
                                                           </mat-select>
                                                     </mat-form-field>

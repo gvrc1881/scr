@@ -38,6 +38,7 @@ export class TPCBoardComponent implements OnInit{
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     editTpcBoardResponse: any;
     userHierarchy:any = JSON.parse(sessionStorage.getItem('userHierarchy'));
+    divisionData:any = JSON.parse(sessionStorage.getItem('divisionData'));
     divisionList:  FacilityModel [] = [];    
     confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
     dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;

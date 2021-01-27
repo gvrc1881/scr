@@ -114,6 +114,7 @@ this.spinnerService.show();
       "commparisonPoints": this.addCheckPointsFormGroup.value.commparisonPoints,
       "typeOfCheckPoint": this.addCheckPointsFormGroup.value.typeOfCheckPoint,
       "displayOrder": this.addCheckPointsFormGroup.value.displayOrder,
+      "displayOfTempDiff":this.addCheckPointsFormGroup.value.displayOfTempDiff
     }
     this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.SAVE_CHECK_POINTS, saveCheckPointsModel, false).subscribe(response => {
       this.spinnerService.hide();

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name = "tpc_board" , uniqueConstraints={@UniqueConstraint(columnNames ={"seq_id"})})
+@Table(name = "tpc_board")
 @NamedQuery(name="TpcBoard.findAll", query="SELECT t FROM TpcBoard t")
 public class TpcBoard implements Serializable {
 	private static final long serialVersionUID = 1L;
