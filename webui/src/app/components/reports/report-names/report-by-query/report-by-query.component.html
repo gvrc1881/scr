@@ -146,6 +146,40 @@
                                                             </mat-form-field>
                                                        </div>
 
+                                                       <div *ngIf="(names.parameterName=='checkPointsDepot')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Depot" 
+                                                                      [formControl]="reportsByQuery.controls['checkPointsDepot']">
+                                                                      <mat-option *ngFor="let facility of orginalDepotData"
+                                                                           [value]="facility.id">
+                                                                           {{ facility.facilityName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+                                                       <div *ngIf="(names.parameterName=='depots')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Depot" 
+                                                                      [formControl]="reportsByQuery.controls['depot']">
+                                                                      <mat-option *ngFor="let facility of orginalDepotData"
+                                                                           [value]="facility">
+                                                                           {{ facility.facilityName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+                                                       <div *ngIf="(names.parameterName=='equipmentno')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Equipment" 
+                                                                      [formControl]="reportsByQuery.controls['equipmentno']">
+                                                                      <mat-option *ngFor="let equipment of equipmentsData"
+                                                                           [value]="equipment.equipment">
+                                                                           {{ equipment.equipment}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+
                                                        <!-- DEPARTMENT -->
                                                        <div *ngIf="(names.parameterName=='department')">
                                                             <mat-form-field fxFlex="30">

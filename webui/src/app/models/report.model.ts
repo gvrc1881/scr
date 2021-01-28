@@ -44,4 +44,6 @@ export class ReportModel{
     driveName:any;
     feederName:any;
     location:any;
+    checkPointsDepot:any;
+    equipmentno:any;
 }

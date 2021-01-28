@@ -33,8 +33,8 @@ to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
 and to_char(f.from_date_time, 'yyyy-mm-dd')::date <= $P{toDate}::date
 and case when $P{equipmentno} != '' then cascade_assets = $P{equipmentno}
 else cascade_assets is not null or cascade_assets is null end
-and case when $P{depot} != '' then facility_name = $P{depot}
-else facility_name is not null or facility_name is null end
+and case when $P{depot} != '' then sub_station = $P{depot}
+else sub_station is not null or sub_station is null end
 and type_of_failure ='POWER_FAILURE'
 and current_status = 'ACTIVE'
 Group by asset_id,  facility_name,

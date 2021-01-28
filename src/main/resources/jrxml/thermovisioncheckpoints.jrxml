@@ -10,8 +10,8 @@
 		<![CDATA[select check_point_description,check_point_part,
 commparison_points,display_of_temp_diff,
 type_of_check_point,tvcp.facility_id,fac.facility_name from thermovision_check_points  tvcp
-inner join facility fac on fac.id = tvcp.facility_id where case when $P{depot} != '' then fac.facility_id = $P{depot}
-else fac.facility_id is not null or fac.facility_id is null end]]>
+inner join facility fac on fac.id = tvcp.facility_id where case when $P{depot} != '' then fac.id = $P{depot}::Integer
+else fac.id is not null or fac.id is null end]]>
 	</queryString>
 	<field name="check_point_description" class="java.lang.String"/>
 	<field name="check_point_part" class="java.lang.String"/>

@@ -57,6 +57,8 @@ public class ReportRequest {
 	private Works workName;
 	private String WpaName;
 	private String driveName;
+	private Long checkPointsDepot;
+	private String equipmentno;
 
 	
 	public ObservationsCheckList getObservationCategory() {
@@ -385,6 +387,22 @@ public class ReportRequest {
 
 	public void setDriveName(String driveName) {
 		this.driveName = driveName;
+	}
+
+	public Long getCheckPointsDepot() {
+		return checkPointsDepot;
+	}
+
+	public void setCheckPointsDepot(Long checkPointsDepot) {
+		this.checkPointsDepot = checkPointsDepot;
+	}
+
+	public String getEquipmentno() {
+		return equipmentno;
+	}
+
+	public void setEquipmentno(String equipmentno) {
+		this.equipmentno = equipmentno;
 	}
 
 	

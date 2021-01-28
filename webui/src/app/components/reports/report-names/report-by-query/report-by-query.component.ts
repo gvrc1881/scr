@@ -34,6 +34,7 @@ export class ReportByQueryComponent implements OnInit {
        parameterData: any;
        parameterNamesData: any;
        observationCategory: any;
+       equipmentsData:any;
        facilityData: any;
        failuresModel: any;
        productModel: ProductModel;
@@ -123,6 +124,7 @@ this.workName();
               this.observationCategories();
               this.powerBlocks();
               this.pbSwitchControl();
+              this.equipmets();
               this.tpcBoardDetails();
               this.wpaNameDetails();
               this.reportParameterNames();
@@ -177,6 +179,8 @@ this.workName();
                      'driveName': [null],
                      'feederName': [null],
                      'location': [null],
+                     'checkPointsDepot':[null],
+                     'equipmentno':[null]
                      
               });
        }
@@ -212,6 +216,7 @@ this.workName();
               const facilityData: ReportParameterModel[] = [];
               this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
                      this.facilityData = data;
+                     console.log("facility name******"+JSON.stringify(this.facilityData));
               }
               );
 
@@ -412,6 +417,14 @@ this.workName();
               );
 
        }
+       equipmets() {
+
+              this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_BY_TYPE+Constants.FAILURE_TYPES.CB_FAILURE).subscribe((data) => {
+                     this.equipmentsData = data;
+              }
+              );
+
+       }
 
 
        public activityType = ['measurement', 'activity', 'multi_measure_activity'];
@@ -450,6 +463,8 @@ this.workName();
               this.reportModel.driveName = this.reportsByQuery.controls.driveName.value;
               this.reportModel.feederName = this.reportsByQuery.controls.feederName.value;
               this.reportModel.location = this.reportsByQuery.controls.location.value;
+              this.reportModel.checkPointsDepot = this.reportsByQuery.controls.checkPointsDepot.value;
+              this.reportModel.equipmentno =this.reportsByQuery.controls.equipmentno.value;
 
               console.log("generateReport" + this.id)
               this.submitedForm = "";
