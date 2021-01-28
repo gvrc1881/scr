@@ -1044,17 +1044,25 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 14,
         menuName: 'SCH MAINT',
-        menuUrl: 'ashd',
+        menuUrl: 'sch-maintenance-dashboard',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
         permission:true,
        // permission: this.commonService.findPermission('ash', 'menu', 'view'),
-        currentTab: !!path && path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
+        currentTab: !!path && path.includes("sch-maintenance-dashboard") || path.includes("ashd") || path.includes("daily-summary") || path.includes("daily-summary-forecast")
           || path.includes("officers-movement") || path.includes("powerBlocks") 
           || path.includes("asset-status-change") || path.includes("Special-works") || path.includes("Special-works-master")
           || path.includes("asset-schedule-progress")|| path.includes("asset-monthly-targets")? "open" : "",
         subMenus: [
+          {
+            subMenuName: "SCH Maintenance",
+            subMenuURL: "ashd",
+            subMenuIcon: "fa fa-file",
+            rolePermission: this.rolePermission,
+            permission: this.commonService.findPermission('SCH Maintenance', 'submenu', 'view'),
+            currentSubMenu: !!path && path.includes("ashd") ? "active-item" : "",
+          },
           {
             subMenuName: "Daily Summary",
             subMenuURL: "daily-summary",

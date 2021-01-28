@@ -575,6 +575,11 @@ const routes: Routes = [
     loadChildren: './components/ash-daily-progress/ash-daily-progress.module#AshDailyProgressModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'sch-maintenance-dashboard',
+    loadChildren: './components/dashboard/sch-maintenance-dashboard/sch-maintenance-graphs.module#SchMaintenanceGraphsModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
