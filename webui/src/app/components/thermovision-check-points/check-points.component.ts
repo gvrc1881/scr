@@ -35,7 +35,7 @@ export class CheckPointsComponent implements OnInit {
   searchInputFormGroup: FormGroup;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   dataSource: MatTableDataSource<ChekPointsModel>;
-  displayedColumns = ['sno','checkPointPart', 'checkPointDescription','commparisonPoints','displayOrder','displayOfTempDiff'];
+  displayedColumns = ['sno','checkPointPart', 'checkPoint1Description','checkPoint2Description','displayOrder'];
   enableUpdate: boolean; 
   divisionsList:any;
   funLocTypeData:any;
@@ -97,11 +97,9 @@ getCheckPoints() {
            if(this.checkPointsList.length > 0) {
                for(let i =0 ; i < this.checkPointsList.length ; i++ ){
                    this.checkPointsList[i].sno = i+1;
-                   this.checkPoints = this.checkPointsList.filter(value => {
-                    return value.id != this.checkPointsList[i].id;
-                  });
-                  this.checkPointsList[i].checkPointsList = this.checkPoints;
-                  //this.checkPointsList[i].commparisonPoints = ''; 
+                  
+                  // this.checkPointsList[i].checkPointsList = this.checkPoints;
+                  // //this.checkPointsList[i].commparisonPoints = ''; 
                   console.log('checkPointPart'+this.checkPointsList[i].checkPointsList);
                }
                this.enableSave = true;
@@ -111,11 +109,11 @@ getCheckPoints() {
 }
 updateCheckPoints()
  {
-   console.log("checkPoints")
-   for(let i =0 ; i < this.checkPointsList.length ; i++ ){
-    this.checkPointsList[i].checkPointsList = [];
-  }
-  console.log('** request **'+JSON.stringify(this.checkPointsList));
+  //  console.log("checkPoints")
+  //  for(let i =0 ; i < this.checkPointsList.length ; i++ ){
+  //   this.checkPointsList[i].checkPointsList = [];
+  // }
+  // console.log('** request **'+JSON.stringify(this.checkPointsList));
   this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.UPDATE_CHECK_POINTS,this.checkPointsList,true).subscribe((response) => {
     this.spinnerService.hide();
     

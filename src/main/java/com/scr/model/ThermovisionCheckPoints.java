@@ -23,105 +23,103 @@ public class ThermovisionCheckPoints implements Serializable {
 
 	private String checkPointPart;
 
-	private String checkPointDescription;
+	private String checkPoint1Description;
+	
+	private String checkPoint2Description;
 
-	private String typeOfCheckPoint;
 
 	private String displayGroup;
 
 	private String displayOrder;
 	
-	@Column(name="display_of_temp_diff")
-	private String displayOfTempDiff;
-
+	
 	private String active;
 
-	private Long commparisonPoints;
 
 	@ManyToOne
 	@JoinColumn(name = "facility_id")
 	private Facility facilityId;
-	
+
+
 	public Long getId() {
 		return id;
 	}
+
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+
 	public String getCheckPointPart() {
 		return checkPointPart;
 	}
+
 
 	public void setCheckPointPart(String checkPointPart) {
 		this.checkPointPart = checkPointPart;
 	}
 
-	public String getCheckPointDescription() {
-		return checkPointDescription;
+
+	public String getCheckPoint1Description() {
+		return checkPoint1Description;
 	}
 
-	public void setCheckPointDescription(String checkPointDescription) {
-		this.checkPointDescription = checkPointDescription;
+
+	public void setCheckPoint1Description(String checkPoint1Description) {
+		this.checkPoint1Description = checkPoint1Description;
 	}
 
-	public String getTypeOfCheckPoint() {
-		return typeOfCheckPoint;
+
+	public String getCheckPoint2Description() {
+		return checkPoint2Description;
 	}
 
-	public void setTypeOfCheckPoint(String typeOfCheckPoint) {
-		this.typeOfCheckPoint = typeOfCheckPoint;
+
+	public void setCheckPoint2Description(String checkPoint2Description) {
+		this.checkPoint2Description = checkPoint2Description;
 	}
+
 
 	public String getDisplayGroup() {
 		return displayGroup;
 	}
 
+
 	public void setDisplayGroup(String displayGroup) {
 		this.displayGroup = displayGroup;
 	}
+
 
 	public String getDisplayOrder() {
 		return displayOrder;
 	}
 
+
 	public void setDisplayOrder(String displayOrder) {
 		this.displayOrder = displayOrder;
 	}
+
 
 	public String getActive() {
 		return active;
 	}
 
+
 	public void setActive(String active) {
 		this.active = active;
 	}
 
-	public Long getCommparisonPoints() {
-		return commparisonPoints;
-	}
-
-	public void setCommparisonPoints(Long commparisonPoints) {
-		this.commparisonPoints = commparisonPoints;
-	}
 
 	public Facility getFacilityId() {
 		return facilityId;
 	}
 
+
 	public void setFacilityId(Facility facilityId) {
 		this.facilityId = facilityId;
 	}
-
-	public String getDisplayOfTempDiff() {
-		return displayOfTempDiff;
-	}
-
-	public void setDisplayOfTempDiff(String displayOfTempDiff) {
-		this.displayOfTempDiff = displayOfTempDiff;
-	}
-
+	
 	
 
 }

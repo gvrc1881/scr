@@ -11,11 +11,11 @@ import com.scr.model.ThermovisionCheckPoints;
 @Repository
 public interface ThermovisionCheckPointsRepository extends JpaRepository<ThermovisionCheckPoints, Long>{
 
-	Optional<ThermovisionCheckPoints> findByCheckPointDescription(String tcpCheckPointDescription);
+	Optional<ThermovisionCheckPoints> findByCheckPoint1Description(String tcpCheckPoint1Description);
 	
 	List<ThermovisionCheckPoints> findByFacilityIdOrderByDisplayOrderAsc(Facility facility);
 	
-	Optional<ThermovisionCheckPoints> findByCheckPointPartAndCheckPointDescription(String checkPointPart, String checkPointDescription);
+	Optional<ThermovisionCheckPoints> findByCheckPointPartAndCheckPoint1Description(String checkPointPart, String checkPoint1Description);
 	List<ThermovisionCheckPoints> findByFacilityIdAndIdNotIn(Facility facilityId, Long id);
 
 

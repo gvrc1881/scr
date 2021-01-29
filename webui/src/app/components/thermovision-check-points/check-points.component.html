@@ -91,30 +91,26 @@
                                                     </mat-form-field>
                                                 </mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="checkPointDescription">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>Check Point Description</span></mat-header-cell>
+                                        <ng-container matColumnDef="checkPoint1Description">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>Description Of Check Point1</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                     <mat-form-field floatLabel="never">
-                                                        <textarea matInput  [value]="row.checkPointDescription" 
-                                                            [(ngModel)]="row.checkPointDescription"></textarea>
+                                                        <textarea matInput  [value]="row.checkPoint1Description" 
+                                                            [(ngModel)]="row.checkPoint1Description"></textarea>
                                                     </mat-form-field>
                                                 </mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="commparisonPoints">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>Commparison Points</span></mat-header-cell>
+                                        <ng-container matColumnDef="checkPoint2Description">
+                                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>Description Of Check Point2</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
-                                                    <mat-form-field floatLabel="never" >
-                                                            <mat-select   [(ngModel)]="row.commparisonPoints">
-                                                            <mat-option *ngFor="let checkPointsList of row.checkPointsList"
-                                                            [value]="checkPointsList.id">
-                                                              {{ checkPointsList.checkPointDescription }}
-                                                            </mat-option>
-                                                          </mat-select>
+                                                    <mat-form-field floatLabel="never">
+                                                        <textarea matInput  [value]="row.checkPoint2Description" 
+                                                            [(ngModel)]="row.checkPoint2Description"></textarea>
                                                     </mat-form-field>
                                                 </mat-cell>
                                         </ng-container>
                                         
-                                        <ng-container matColumnDef="displayOfTempDiff">
+                                        <!--<ng-container matColumnDef="displayOfTempDiff">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>Temp Diff</span></mat-header-cell>
                                                 <mat-cell *matCellDef="let row">
                                                     <mat-form-field floatLabel="never" >
@@ -126,7 +122,7 @@
                                                           </mat-select>
                                                     </mat-form-field>
                                                 </mat-cell>
-										</ng-container>
+										</ng-container>-->
 										
 										<ng-container matColumnDef="displayOrder">
                                             <mat-header-cell *matHeaderCellDef mat-sort-header><span>Display Order</span></mat-header-cell>

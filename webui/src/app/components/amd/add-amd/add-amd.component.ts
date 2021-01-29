@@ -325,7 +325,7 @@ export class AddAmdComponent implements OnInit {
   updateAssertType($event) {
     if ($event.value) {
       this.depoTypeList.filter(element => {
-        if(element.id === $event.value){
+        if(element.code === $event.value){
             this.depotCode = element.code;
         }
       });  

@@ -23,8 +23,8 @@ public class ThermovisionCheckPointsService {
 	@Autowired
 	private ThermovisionCheckPointsRepository thermovisionCheckPointsRepository;
 
-	public Optional<ThermovisionCheckPoints> findByCheckPointDescription(String tcpCheckPointDescription) {
-		return thermovisionCheckPointsRepository.findByCheckPointDescription(tcpCheckPointDescription);
+	public Optional<ThermovisionCheckPoints> findByCheckPoint1Description(String tcpCheckPoint1Description) {
+		return thermovisionCheckPointsRepository.findByCheckPoint1Description(tcpCheckPoint1Description);
 	}
 	
      public ThermovisionCheckPoints save (ThermovisionCheckPoints checkPoints) {
@@ -38,18 +38,15 @@ public class ThermovisionCheckPointsService {
  		
  		for (ThermovisionCheckPoints checkPoints : checkPointsData) {
  			
- 			Optional<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByCheckPointDescription(checkPoints.getCheckPointDescription());
+ 			Optional<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByCheckPoint1Description(checkPoints.getCheckPoint1Description());
 			if (cpData.isPresent()) {
  				ThermovisionCheckPoints updateCheckPointsData = cpData.get();
  				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
- 				updateCheckPointsData.setCheckPointDescription(checkPoints.getCheckPointDescription());
- 				updateCheckPointsData.setCommparisonPoints(checkPoints.getCommparisonPoints());
- 				logger.info("checkPointDesc"+checkPoints.getCommparisonPoints());
+ 				updateCheckPointsData.setCheckPoint1Description(checkPoints.getCheckPoint1Description());
+ 				updateCheckPointsData.setCheckPoint2Description(checkPoints.getCheckPoint2Description());
  				logger.info("checkPointDesc"+updateCheckPointsData);
- 				logger.info("checkPointDesc"+updateCheckPointsData.getCommparisonPoints());
- 				updateCheckPointsData.setTypeOfCheckPoint(checkPoints.getTypeOfCheckPoint());
  				updateCheckPointsData.setDisplayOrder(checkPoints.getDisplayOrder());
- 				updateCheckPointsData.setDisplayOfTempDiff(checkPoints.getDisplayOfTempDiff());
+ 				updateCheckPointsData.setActive(checkPoints.getActive());
  				thermovisionCheckPointsRepository.save(updateCheckPointsData); 			
  		} 
  		

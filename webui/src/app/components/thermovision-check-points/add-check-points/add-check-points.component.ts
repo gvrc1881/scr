@@ -89,11 +89,13 @@ this.addCheckPointsFormGroup = this.formBuilder.group({
   id: 0, 
   'facilityId':[null, Validators.compose([Validators.required])],
   'checkPointPart': [null, Validators.compose([Validators.required])],
-  'checkPointDescription': [null],
-  'commparisonPoints':[null],
-  'typeOfCheckPoint':[null],
+  'checkPoint1Description': [null],
+  'checkPoint2Description': [null],
+
+  //'commparisonPoints':[null],
+  //'typeOfCheckPoint':[null],
   'displayOrder':[null],
-  'displayOfTempDiff':['NO']
+  //'displayOfTempDiff':['NO']
 });
 }
 
@@ -110,11 +112,12 @@ this.spinnerService.show();
       "active":"Yes",
       "facilityId": this.addCheckPointsFormGroup.value.facilityId,
       "checkPointPart": this.addCheckPointsFormGroup.value.checkPointPart,
-      "checkPointDescription": this.addCheckPointsFormGroup.value.checkPointDescription,
-      "commparisonPoints": this.addCheckPointsFormGroup.value.commparisonPoints,
-      "typeOfCheckPoint": this.addCheckPointsFormGroup.value.typeOfCheckPoint,
+      "checkPoint1Description": this.addCheckPointsFormGroup.value.checkPoint1Description,
+      "checkPoint2Description": this.addCheckPointsFormGroup.value.checkPoint2Description,
+      //"commparisonPoints": this.addCheckPointsFormGroup.value.commparisonPoints,
+      //"typeOfCheckPoint": this.addCheckPointsFormGroup.value.typeOfCheckPoint,
       "displayOrder": this.addCheckPointsFormGroup.value.displayOrder,
-      "displayOfTempDiff":this.addCheckPointsFormGroup.value.displayOfTempDiff
+      //"displayOfTempDiff":this.addCheckPointsFormGroup.value.displayOfTempDiff
     }
     this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.SAVE_CHECK_POINTS, saveCheckPointsModel, false).subscribe(response => {
       this.spinnerService.hide();

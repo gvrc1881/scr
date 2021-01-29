@@ -65,7 +65,7 @@ public class ThermovisionMeasuresServices {
 					resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
 				}
 				if (resultTcpSchedule != null) {
-					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPointDescription(thermovisionMeasureResponse.getTcpCheckPointDescription());
+					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1Description(thermovisionMeasureResponse.getTcpCheckPointDescription());
 					if (thermoCheckPointObject.isPresent()) {
 						//logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);

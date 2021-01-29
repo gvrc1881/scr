@@ -33,6 +33,14 @@ export class TPCBoardDepotAssocComponent implements OnInit{
     id: number = 0;
     facilityData:any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
+
+    depotsList:any;
+
+
+   distinctDepotType:any = this.originalDepotsData.map(item => item.depotType)
+   .filter((value, index, self) => self.indexOf(value) === index)
+
     tpcBoardDepotAssocDataSource: MatTableDataSource<TPCBoardDepotAssocModel>;
     tpcBoardDepotAssocDisplayColumns = ['sno' , 'tpcBoard' ,'unitType','unitName','description', 'id' ] ;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -220,11 +228,12 @@ duplicateTpcBoard() {
         this.tpcBoardDepotAssocDataSource.filter = filterValue;
     }
     getFacilitys(){
-        var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
-    	this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+unitType).subscribe((data) => {
-                 this.facilityData = data;
-        		});
+      var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
+      this.depotsList = this.originalDepotsData.filter(value => {
+        return value.unitType == unitType;
+      });
     }
+
     getFacilityNames(){
         this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_NAMES).subscribe((data) => {
             this.facilityNames = data;
@@ -234,6 +243,7 @@ duplicateTpcBoard() {
         let dataDiv=this.divisionList.division
          this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_TPC_BOARD_BASED_ON_DIVISION+dataDiv).subscribe((data) => {
            this.tpcBoardData = data;
+           console.log("tpcBoard"+JSON.stringify(data))
      }
          );
    
