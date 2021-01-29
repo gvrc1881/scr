@@ -37,7 +37,6 @@ export class OheLocationAssetsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
   gridData = [];
-
   categoryMemberList: any;
 
   constructor(

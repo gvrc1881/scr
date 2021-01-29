@@ -361,8 +361,8 @@ ViewData(data){
       
     { label:FieldLabelsConstant.LABELS.DIVISION, value:data.dataDiv },
     { label:FieldLabelsConstant.LABELS.FEEDER, value:data.feederName },
-    { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description },
-    { label:FieldLabelsConstant.LABELS.STATE_ELECTRICITY_BOARD, value:data.stateElectricityBoard }
+    { label:FieldLabelsConstant.LABELS.STATE_ELECTRICITY_BOARD, value:data.stateElectricityBoard },
+    { label:FieldLabelsConstant.LABELS.DESCRIPTION, value:data.description }
     
   ]
   }
