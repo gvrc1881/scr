@@ -30,8 +30,8 @@ where to_char(f.created_date, 'yyyy-mm-dd')::date >= $P{fromDate}::date
 and to_char(f.created_date, 'yyyy-mm-dd')::date <= $P{toDate}::date
 and f.type_of_failure ='GRID_FAILURE'
 and f.current_status = 'ACTIVE'
-and case when $P{depot} != '' then fac.facility_name=$P{depot}
-else fac.facility_name is not null or fac.facility_name is null end]]>
+and case when $P{depot} != '' then f.feed_of=$P{depot}
+else f.feed_of is not null or f.feed_of is null end]]>
 	</queryString>
 	<field name="created_date" class="java.sql.Timestamp"/>
 	<field name="remarks" class="java.lang.String"/>

@@ -76,7 +76,7 @@ public class ReportResource {
 			parameters.put("depot", report.getFacility().getFacilityId());
 			log.info("depot==="+parameters.put("depot", report.getFacility().getFacilityId()));
 		}
-		parameters.put("fromDate", report.getFromDate());
+		parameters.put("fromDate",report.getFromDate());
 		log.info("from date"+parameters.put("fromDate", report.getFromDate()));
 		parameters.put("DayReadingsAndConsumptionDate", report.getFromDate());
 		parameters.put("toDate", report.getToDate());
