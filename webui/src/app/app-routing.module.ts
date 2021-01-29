@@ -580,6 +580,11 @@ const routes: Routes = [
     loadChildren: './components/dashboard/sch-maintenance-dashboard/sch-maintenance-graphs.module#SchMaintenanceGraphsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'energy-dashboard',
+    loadChildren: './components/dashboard/energy-dashboard/energy-graphs.module#EnergyGraphsModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

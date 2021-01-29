@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.MeasureOrActivityList;
+import com.scr.model.TssFeederMaster;
 import com.scr.model.Works;
 import com.scr.mapper.ContentManagementMapper;
 import com.scr.mapper.FailureMapper;
@@ -258,11 +259,12 @@ public class FailureService {
 	public List<Failure> findFailureByTypeAndDataDiv(String failureType, List<String> fac) {
 		logger.info("fac in service=="+fac);		
 		return failuresRepository.findFailureByTypeOfFailureAndDataDivInAndCurrentStatus(failureType,fac,Constants.ACTIVE );
+	}	
+	
+	
+	public Optional<AssetMasterData> findByAssetId(String assetId) {
+		return assetMasterdataRepository.findByAssetId(assetId);
 	}
-	
-	
-	
-	
 
 
 

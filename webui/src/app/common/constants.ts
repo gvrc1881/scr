@@ -623,6 +623,7 @@ export const Constants = {
             EXIST_STATION_LOCATION_FROMDATETIME_ID:'/findBySubStationAndLocationAndFromDateTimeAndId',
             UNUSUALOCCURENCE_FAILURE_UPLOAD_FILES:"/unUsualOccurenceFailureUploadFiles",
             UNUSUALOCCURENCE_FAILURE_ATTACHMENT_LIST:"/unUsualOccurenceFailureAttachedDocumentList/",
+            GET_FACILITYID_BASEDON_ASSETID:"/findFaciltiyBasedOnAssetId/"
 
              
         },

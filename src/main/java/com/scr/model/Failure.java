@@ -187,6 +187,9 @@ public class Failure implements Serializable {
 	@Column(name="CB_external_failure")
 	private String cbExternalFailure;
 	
+	@Column(name="cascade_remarks")
+	private String cascadeRemarks;
+	
 	public Failure() {
 		
 	}
@@ -672,6 +675,14 @@ public class Failure implements Serializable {
 		this.cbExternalFailure = cbExternalFailure;
 	}
 
+	public String getCascadeRemarks() {
+		return cascadeRemarks;
+	}
+
+	public void setCascadeRemarks(String cascadeRemarks) {
+		this.cascadeRemarks = cascadeRemarks;
+	}
+
 	@Override
 	public String toString() {
 		return "Failure [id=" + id + ", actualFaultDistance=" + actualFaultDistance + ", assetId=" + assetId
@@ -695,9 +706,10 @@ public class Failure implements Serializable {
 				+ ", voltage=" + voltage + ", xValue=" + xValue + ", zConstant=" + zConstant + ", loadReliefBreakDown="
 				+ loadReliefBreakDown + ", majorSection=" + majorSection + ", minorSection=" + minorSection
 				+ ", contentLink=" + contentLink + ", cbInternalFailure=" + cbInternalFailure + ", cbExternalFailure="
-				+ cbExternalFailure + "]";
+				+ cbExternalFailure + ", cascadeRemarks=" + cascadeRemarks + "]";
 	}
 
+	
 	
 
 	

@@ -189,6 +189,32 @@ public class FailureController {
 		return new ResponseEntity<List<AssetMasterData>>(assetId,HttpStatus.OK);	
 		
 	}
+	/*@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}", method = RequestMethod.GET ,headers = "accept=application/json")	
+	public ResponseEntity<List<AssetMasterData>> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId){
+		List<AssetMasterData> facilityId= failureService.findByAssetId(assetId);
+		logger.info("Fetched assets data = "+facilityId.size());
+		return new ResponseEntity<List<AssetMasterData>>(facilityId,HttpStatus.OK);	
+		
+	}*/
+	
+	@RequestMapping(value = "/findFaciltiyBasedOnAssetId/{assetId}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<AssetMasterData> findFaciltiyBasedOnAssetId(@PathVariable("assetId") String assetId) {
+		logger.info("** Enter into findFaciltiyBasedOnAssetId function ***");
+		Optional<AssetMasterData> amd = null;
+		try {
+			logger.info("** assetId = " + assetId);
+			amd = failureService.findByAssetId(assetId);
+			if (amd.isPresent()) {
+				return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.CONFLICT);
+
+		} catch (Exception e) {
+			logger.error("Error >>  while find facility Details by assetId, " + e.getMessage());
+			return new ResponseEntity<AssetMasterData>(amd.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 	@RequestMapping(value = "/findByFeedOfAndFromDateTime/{feedOf}/{fromDateTime}/{typeOfFailure}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean findByFeedOfAndFromDateTime(@PathVariable("feedOf") String feedOf ,@PathVariable("fromDateTime") Timestamp fromDateTime,@PathVariable("typeOfFailure") String typeOfFailure){
 		logger.info("Exist====="+feedOf+"fromDateTime"+fromDateTime);

@@ -895,12 +895,12 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 12,
         menuName: 'ENERGY',
-        menuUrl: 'energy-consumption',
+        menuUrl: 'energy-dashboard',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('ENERGY', 'menu', 'view'),
-        currentTab: !!path && path.includes("energyMeter")
+        currentTab: !!path && path.includes("energy-dashboard") ||path.includes("energyMeter")
           || path.includes("tractionEneTariff") || path.includes("energyBillPayment") || path.includes("energy-consumption")
           ? "open" : "",
         subMenus: [

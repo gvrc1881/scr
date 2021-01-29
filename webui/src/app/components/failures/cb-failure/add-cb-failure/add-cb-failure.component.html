@@ -42,7 +42,7 @@
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div> -->
-                                                    <div class="col-md-3">
+                                                    <!-- <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.STATION_TYPE}}" (selectionChange)="updatesubStation()"
                                                                 [formControl]="addCbFailFromGroup.controls['depotType']" >
@@ -52,7 +52,7 @@
                                                                 </mat-option>
                                                             </mat-select>                                                            
                                                         </mat-form-field>
-                                                    </div>
+                                                    </div> -->
 
                                                      <div *ngIf ="enableStation">
                                                     </div>
@@ -93,7 +93,17 @@
                                                             </mat-select>                                                            
                                                         </mat-form-field>
                                                     </div>
-
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.SWITCHING_STATION}}" (ngModelChange)="findCascades()"
+                                                                [formControl]="addCbFailFromGroup.controls['station']" >
+                                                                <mat-option *ngFor="let depot of depotList"
+                                                                    [value]="depot.facilityId">
+                                                                    {{ depot.facilityName }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.CASCADE_ASSETS}}"  multiple="true"
@@ -103,6 +113,21 @@
                                                                     {{ master.assetId }}
                                                                 </mat-option>
                                                             </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <textarea matInput placeholder="{{FiledLabels.CASCADE_REMARKS}}" 
+                                                                [formControl]="addCbFailFromGroup.controls['cascadeRemarks']"
+                                                                > </textarea>                       
+                                                                <mat-error
+                                                                *ngIf="addCbFailFromGroup.controls['cascadeRemarks'].hasError('pattern') && addCbFailFromGroup.controls['cascadeRemarks'].touched"
+                                                                class="alert alert-danger">Special characters are not allowed
+                                                            </mat-error>                                   
+                                                            <mat-error
+                                                                *ngIf="addCbFailFromGroup.controls['cascadeRemarks'].hasError('maxlength') && addCbFailFromGroup.controls['cascadeRemarks'].touched"
+                                                                class="alert alert-danger">Max 250 characters only
+                                                            </mat-error>
                                                         </mat-form-field>
                                                     </div>
 
@@ -300,6 +325,7 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                   
 
                                                     
                                                 <div class="clearfix"></div>

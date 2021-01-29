@@ -43,7 +43,7 @@ export class AddCbFailureComponent implements OnInit {
   toMinDate=new Date();
   dateFormat = 'dd-MM-yyyy hh:mm:ss';  
   failureList:any;
-  
+  switchingStationList:any;
   failurecasList:any;
   difference:any;
   duration:any;
@@ -58,6 +58,7 @@ export class AddCbFailureComponent implements OnInit {
 
   divisionList:any; 
   facilityList:any;
+  depotList:any;
   enableStation:boolean;
   constructor(
     private formBuilder: FormBuilder,    
@@ -71,7 +72,8 @@ export class AddCbFailureComponent implements OnInit {
     // Reactive form errors
     this.cbFailFormErrors = {
       depotType:{},
-      subStation: {}, 
+      subStation: {},
+      station:{}, 
       equipment: {}, 
       cascadeAssets: {}, 
       fromDateTime: {},
@@ -91,6 +93,7 @@ export class AddCbFailureComponent implements OnInit {
       divisionLocal: {},
       internalExternal: {}, 
       remarks:{},
+      cascadeRemarks:{}
      
     };
   }
@@ -103,6 +106,7 @@ export class AddCbFailureComponent implements OnInit {
     this.findCbInternal();
     this.findCbExternal();
     this.findFacilities();
+    this.findSubStation();
     this.id = +this.route.snapshot.params['id'];   
   
       if (!isNaN(this.id)) {
@@ -135,13 +139,17 @@ export class AddCbFailureComponent implements OnInit {
       } 
       , error => {});
      
-      this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT+substation)
-      .subscribe((data) => {
-        
-        this.failurecasList = data;
-      //  this.extendedFromList = response;
-        this.spinnerService.hide();
-      })
+     
+  }
+  findCascades(){
+    let station= this.addCbFailFromGroup.controls['station'].value;
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_EQUIPMENT+station)
+    .subscribe((data) => {
+      
+      this.failurecasList = data;
+    //  this.extendedFromList = response;
+      this.spinnerService.hide();
+    })
   }
  
 
@@ -152,6 +160,7 @@ export class AddCbFailureComponent implements OnInit {
         'depotType':[null],
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
+        'station':[null],
         'cascadeAssets': [null], 
         'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndEquipmentAndFromDateTime.bind(this)],
         'thruDateTime': [null],
@@ -170,6 +179,7 @@ export class AddCbFailureComponent implements OnInit {
         'cbInternalFailure': [null],
         'cbExternalFailure': [null], 
         'remarks': [null, Validators.maxLength(250)],
+        'cascadeRemarks':[null, Validators.maxLength(250)],
         
       });
   } 
@@ -182,6 +192,7 @@ export class AddCbFailureComponent implements OnInit {
         'depotType':[null],
         'subStation': [null,Validators.compose([Validators.required])], 
         'equipment': [null,Validators.compose([Validators.required])], 
+        'station':[null],
         'cascadeAssets': [null], 
         'fromDateTime': [null,Validators.compose([Validators.required]),this.duplicateSubStationAndEquipmentAndFromDateTimeAndId.bind(this)],
         'thruDateTime': [null],
@@ -200,6 +211,7 @@ export class AddCbFailureComponent implements OnInit {
         'cbInternalFailure': [null],
         'cbExternalFailure': [null], 
         'remarks': [null, Validators.maxLength(250)],
+        'cascadeRemarks':[null, Validators.maxLength(250)],
        
       });
   }
@@ -226,11 +238,17 @@ export class AddCbFailureComponent implements OnInit {
         this.resp = resp;             
         this.minDate = new Date(this.resp.fromDateTime);
 
-         this.facilityHierarchy.filter(value => {
-            if(value.facilityId == this.resp.subStation){
-              this.addCbFailFromGroup.patchValue({depotType :value.depotType})
-            }
-        });
+        //  this.facilityHierarchy.filter(value => {
+        //     if(value.facilityId == this.resp.subStation){
+        //       this.addCbFailFromGroup.patchValue({station :value.depotType})
+        //     }
+        // });
+
+        this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FACILITYID_BASEDON_ASSETID+this.resp.cascadeAssets)
+        .subscribe((data) => {          
+          this.switchingStationList = data;        
+          this.addCbFailFromGroup.patchValue({station: this.switchingStationList.facilityId})
+        })
 
         this.addCbFailFromGroup.patchValue({
           id: this.resp.id,
@@ -256,9 +274,11 @@ export class AddCbFailureComponent implements OnInit {
          cbInternalFailure:this.resp.cbInternalFailure,
          cbExternalFailure:this.resp.cbExternalFailure,
           remarks: this.resp.remarks,
+          cascadeRemarks:this.resp.cascadeRemarks
          
         });
-       this. updatesubStation();
+     //  this. updatesubStation();  
+     this.findSubStation();    
         this.spinnerService.hide();
        
 
@@ -310,7 +330,7 @@ export class AddCbFailureComponent implements OnInit {
     //  this.enableStation=true;
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-        if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+        if( this.facilityHierarchy[i].depotType == 'TSS'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
             //this.facilityHierarchy.facilityList;
@@ -323,7 +343,7 @@ export class AddCbFailureComponent implements OnInit {
       
       for (let i = 0; i < this.facilityHierarchy.length; i++) {
         
-        if( this.facilityHierarchy[i].depotType == 'TSS'|| this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP'){
+        if( this.facilityHierarchy[i].depotType == 'TSS'){
            
            this.facilityList.push(this.facilityHierarchy[i]);
           
@@ -334,14 +354,37 @@ export class AddCbFailureComponent implements OnInit {
 
     }    
 }
-updatesubStation() {
+// updatesubStation() {
  
-  this.facilityList = this.facilityHierarchy.filter(value => {
-    return value.depotType == this.addCbFailFromGroup.controls['depotType'].value;
-  });
+//   this.facilityList = this.facilityHierarchy.filter(value => {
+//     return value.depotType == this.addCbFailFromGroup.controls['depotType'].value;
+//   });
   
-}
+// }
 
+// updateStation() {
+ 
+//   this.depotList = this.failurecasList.filter(value => {
+//     return value.facilityId == this.addCbFailFromGroup.controls['station'].value;
+//   });
+  
+// }
+
+findSubStation(){
+
+  this.depotList=[]; 
+
+  for (let i = 0; i < this.facilityHierarchy.length; i++) {
+        
+    if( this.facilityHierarchy[i].depotType == 'SP'|| this.facilityHierarchy[i].depotType == 'SSP' ){
+       
+       this.depotList.push(this.facilityHierarchy[i]);
+      
+       // this.facilityHierarchy.facilityList;
+        
+    }
+ } 
+}
 timeDuration(){
     
   //   var fromDateTime=this.sendAndRequestService.convertIndiaStandardTimeToTimestamp(this.addCbFailFromGroup.value.fromDateTime);
@@ -432,7 +475,7 @@ function(){
         'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
         'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
-       
+       'cascadeRemarks':this.addCbFailFromGroup.value.cascadeRemarks,
         "typeOfFailure":Constants.FAILURE_TYPES.CB_FAILURE,
         "createdDate":this.addCbFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,
@@ -482,7 +525,7 @@ function(){
         'cbInternalFailure':this.addCbFailFromGroup.value.cbInternalFailure,
         'cbExternalFailure':this.addCbFailFromGroup.value.cbExternalFailure,
         'remarks': this.addCbFailFromGroup.value.remarks,
-       
+        'cascadeRemarks':this.addCbFailFromGroup.value.cascadeRemarks,
         "typeOfFailure":this.resp.typeOfFailure,
         "createdDate": this.addCbFailFromGroup.value.fromDateTime,
         "createdBy": this.loggedUserData.username,

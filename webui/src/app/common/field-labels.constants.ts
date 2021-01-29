@@ -318,6 +318,7 @@ export const FieldLabelsConstant = {
       REMARK_ONE: "Remark One",
       REMARK_TWO: "Remark Two",
       REMARKS: "Remarks",
+      CASCADE_REMARKS:"Cascade Reamrks",     
       REQUESTED_DATE:"Requested Date",
       RESPONSE_DATE:"ResponseDate",
       RESPONSE_BY:"Response By",

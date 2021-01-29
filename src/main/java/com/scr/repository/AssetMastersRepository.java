@@ -63,5 +63,8 @@ public interface AssetMastersRepository extends JpaRepository<AssetMasterData, L
 			@Param("assetId") String assetId);
 	
 	Optional<AssetMasterData>findByFacilityIdAndAssetTypeAndAssetId(String facilityId,String assetType,String assetId);
+	Optional<AssetMasterData> findByAssetId(String assetId);
+	
+	
 }
 

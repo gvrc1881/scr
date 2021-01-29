@@ -96,8 +96,8 @@
                                                                 [formControl]="assetMasterFormGroup.controls['assetType']"
                                                                 required (selectionChange)="getAssetTypes()">
                                                                 <mat-option *ngFor="let assetType of assetTypeList"
-                                                                    [value]="assetType.productId">
-                                                                    {{ assetType.productId }}
+                                                                    [value]="assetType">
+                                                                    {{ assetType }}
                                                                 </mat-option>
                                                             </mat-select>
                                                         </mat-form-field>
