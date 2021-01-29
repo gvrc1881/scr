@@ -54,13 +54,34 @@ public class DashboardUtility {
 		case Constants.DIVISION_WISE_ENERGY_CONSUMPTION:
 			return fetchDivisonWiseEnergyConsumption(request);
 		case Constants.FEEDER_WISE_ENERGY_CONSUMPTION:
-			return fetchFeederWiseEnergyConsumption(request);	
+			return fetchFeederWiseEnergyConsumption(request);
+		case Constants.TOWER_CAR:
+			return fetchTowerCarData(request);	
 		default:
 			break;
 		}
 		return null;
 	}
 	
+	private List<DashboardGraphsResponse> fetchTowerCarData(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+			try {
+				connection = dataSource.getConnection();
+				preparedStatement = connection.prepareStatement(DashboardQueries.TOWER_CAR);
+				resultSet = preparedStatement.executeQuery();
+				if(resultSet != null) {
+					return prepareListForTowerCarFromResultSet(resultSet, request.getQueryType());
+				}
+			} catch (SQLException e) {
+				logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+			}finally {
+				closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+			}
+		return null;
+	}
+
 	private List<DashboardGraphsResponse> fetchFeederWiseEnergyConsumption(@Valid DashboardParametersRequest request) {
 		Connection connection = null;
 		ResultSet resultSet = null;
@@ -380,5 +401,23 @@ public class DashboardUtility {
 		}
 		return responseList;
 	}
+	
+	private List<DashboardGraphsResponse> prepareListForTowerCarFromResultSet(ResultSet resultSet, String queryType) throws SQLException {
+		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
+		DashboardGraphsResponse response = null;
+		while (resultSet != null && resultSet.next()) {
+			response = new DashboardGraphsResponse();
+			response.setGtlCount(resultSet.getString("gtl_cnt"));
+			response.setGntCount(resultSet.getString("gnt_cnt"));
+			response.setScCount(resultSet.getString("sc_cnt"));
+			response.setBzaCount(resultSet.getString("bza_cnt"));
+			response.setHybCount(resultSet.getString("hyb_cnt"));
+			response.setfStatus(resultSet.getString("f_status"));
+			response.setProductCategoryId(resultSet.getString("product_category_id"));
+			responseList.add(response);
+		}
+		return responseList;
+	}
+	
 
 }

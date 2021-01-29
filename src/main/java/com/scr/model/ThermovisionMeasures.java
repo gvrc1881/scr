@@ -18,19 +18,23 @@ public class ThermovisionMeasures {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String fixedMeasure;
+	//private String fixedMeasure;
 
-	private String cClampMeasure;
+	//private String cClampMeasure;
 
-	private Double ambientTemp;
+	//private Double ambientTemp;
+	
+	private Double measurePoint1;
+	
+	private Double measurePoint2;
 
 	private String imageId;
 
 	private String remark;
 
-	private Long criticality;
+	private String criticality;
 
-	private Double varianceWithOtherPoint;
+	//private Double varianceWithOtherPoint;
 
 	@ManyToOne
 	@JoinColumn(name = "tcp_id")
@@ -49,7 +53,7 @@ public class ThermovisionMeasures {
 		this.id = id;
 	}
 
-	public String getFixedMeasure() {
+	/*public String getFixedMeasure() {
 		return fixedMeasure;
 	}
 
@@ -71,7 +75,7 @@ public class ThermovisionMeasures {
 
 	public void setAmbientTemp(Double ambientTemp) {
 		this.ambientTemp = ambientTemp;
-	}
+	}*/
 
 	public String getImageId() {
 		return imageId;
@@ -89,20 +93,36 @@ public class ThermovisionMeasures {
 		this.remark = remark;
 	}
 
-	public Long getCriticality() {
-		return criticality;
-	}
-
-	public void setCriticality(Long criticality) {
-		this.criticality = criticality;
-	}
-
-	public Double getVarianceWithOtherPoint() {
+	/*public Double getVarianceWithOtherPoint() {
 		return varianceWithOtherPoint;
 	}
 
 	public void setVarianceWithOtherPoint(Double varianceWithOtherPoint) {
 		this.varianceWithOtherPoint = varianceWithOtherPoint;
+	}*/
+
+	public Double getMeasurePoint1() {
+		return measurePoint1;
+	}
+
+	public void setMeasurePoint1(Double measurePoint1) {
+		this.measurePoint1 = measurePoint1;
+	}
+
+	public Double getMeasurePoint2() {
+		return measurePoint2;
+	}
+
+	public void setMeasurePoint2(Double measurePoint2) {
+		this.measurePoint2 = measurePoint2;
+	}
+
+	public String getCriticality() {
+		return criticality;
+	}
+
+	public void setCriticality(String criticality) {
+		this.criticality = criticality;
 	}
 
 	public TcpSchedule getTcpScheduleId() {

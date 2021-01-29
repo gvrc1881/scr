@@ -20,6 +20,14 @@ public class DashboardGraphsResponse {
 	private Double multiplicationFac;
 	private Double consumption;
 	private String requestedReadingDate;
+	private String gntCount;
+	private String gtlCount;
+	private String scCount;
+	private String bzaCount;
+	private String hybCount;
+	private String fStatus;
+	private String productCategoryId;
+	
 	
 	public String getZone() {
 		return zone;
@@ -129,6 +137,48 @@ public class DashboardGraphsResponse {
 	}
 	public void setRequestedReadingDate(String requestedReadingDate) {
 		this.requestedReadingDate = requestedReadingDate;
+	}
+	public String getGntCount() {
+		return gntCount;
+	}
+	public void setGntCount(String gntCount) {
+		this.gntCount = gntCount;
+	}
+	public String getGtlCount() {
+		return gtlCount;
+	}
+	public void setGtlCount(String gtlCount) {
+		this.gtlCount = gtlCount;
+	}
+	public String getScCount() {
+		return scCount;
+	}
+	public void setScCount(String scCount) {
+		this.scCount = scCount;
+	}
+	public String getBzaCount() {
+		return bzaCount;
+	}
+	public void setBzaCount(String bzaCount) {
+		this.bzaCount = bzaCount;
+	}
+	public String getHybCount() {
+		return hybCount;
+	}
+	public void setHybCount(String hybCount) {
+		this.hybCount = hybCount;
+	}
+	public String getfStatus() {
+		return fStatus;
+	}
+	public void setfStatus(String fStatus) {
+		this.fStatus = fStatus;
+	}
+	public String getProductCategoryId() {
+		return productCategoryId;
+	}
+	public void setProductCategoryId(String productCategoryId) {
+		this.productCategoryId = productCategoryId;
 	}
 	
 }

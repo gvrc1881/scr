@@ -13,9 +13,21 @@
       </div>
       <div class="clear"></div>
       <div class="row-fluid" >
+      
+      	<div class="panel panel-primary">
+            <div class="panel-heading">Charts</div>
+            	<div class="panel-body">
+            		<div class="col-12">
+            			<div class="col-md-6 col-lg-6" *ngIf="showTowerCarChart">
+            				<fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat" 
+			                      [dataSource]="towerCarDataSource"></fusioncharts>
+            			</div>
+            		</div>
+            	</div>
+      </div>
 
-
-        <!-- Current Date Tracking Info Graphs -->
+<!-- 
+        Current Date Tracking Info Graphs
         <div class="panel panel-primary">
           <div class="panel-heading">Tracking Info Graphs</div>
           <div class="panel-body">
@@ -43,7 +55,7 @@
             </div>
             </div>
             <div class="col-12">
-            <!-- Last One Week Division Wise Info Graphs -->
+            Last One Week Division Wise Info Graphs
             <div class="col-md-12 col-lg-12">
               <div class="panel panel-primary">
                 <div class="panel-heading">Last One Week Division Wise Tracking Info Graphs</div>
@@ -60,7 +72,7 @@
           </div>
 
 
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

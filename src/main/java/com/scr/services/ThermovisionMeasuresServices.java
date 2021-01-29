@@ -70,21 +70,21 @@ public class ThermovisionMeasuresServices {
 						//logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);
 						if (thermoMeasureObject.isPresent()) {
-							thermoMeasureObject.get().setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
+							/*thermoMeasureObject.get().setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
 							thermoMeasureObject.get().setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
 							thermoMeasureObject.get().setCriticality(thermovisionMeasureResponse.getTcpmCriticality());
-							thermoMeasureObject.get().setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());
+							thermoMeasureObject.get().setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());*/
 							thermoMeasureObject.get().setRemark(thermovisionMeasureResponse.getTcpmRemark());
-							thermoMeasureObject.get().setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());
+							//thermoMeasureObject.get().setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());
 							thermovisionMeasuresRepository.save(thermoMeasureObject.get());
 						}else {
 							ThermovisionMeasures thermovisionMeasures = new ThermovisionMeasures();
-							thermovisionMeasures.setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
+							/*thermovisionMeasures.setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
 							thermovisionMeasures.setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
 							thermovisionMeasures.setCriticality(thermovisionMeasureResponse.getTcpmCriticality());
 							thermovisionMeasures.setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());
 							thermovisionMeasures.setRemark(thermovisionMeasureResponse.getTcpmRemark());
-							thermovisionMeasures.setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());
+							thermovisionMeasures.setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());*/
 							thermovisionMeasures.setTcpId(thermoCheckPointObject.get());
 							thermovisionMeasures.setTcpScheduleId(resultTcpSchedule);
 							thermovisionMeasuresRepository.save(thermovisionMeasures);

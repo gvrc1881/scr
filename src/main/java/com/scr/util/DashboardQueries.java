@@ -786,5 +786,26 @@ public class DashboardQueries {
 			"			) final  " + 
 			" order by requested_reading_date " + 
 			") a " ;
+	
+	public static String TOWER_CAR = "select " + 
+			"sum(case when data_div ='GTL'  then 1 else 0 end ) as GTL_cnt, " + 
+			" sum(case when data_div ='GNT'  then 1 else 0 end ) as GNT_cnt, " + 
+			" sum(case when data_div ='SC'  then 1 else 0 end ) as SC_cnt, " + 
+			" sum(case when data_div ='BZA'  then 1 else 0 end ) as BZA_cnt, " + 
+			" sum(case when data_div ='HYB'  then 1 else 0 end ) as HYB_cnt, " + 
+			" c.f_status,product_category_id " + 
+			"from ( " + 
+			"select case when asu.status is null then 'IN_USE' else asu.status end as f_status,asm.data_div, " + 
+			//"	--asu.status," + 
+			"	product_category_id from asset_master_data asm " + 
+			"inner join product_category_member on product_id =asset_type  " + 
+			"left join ( " + 
+			"SELECT distinct b.date_of_status,status,b.asset_id  FROM " + 
+			"      (SELECT asset_id,  max(date_of_status) as max_timestamp " + 
+			"       FROM asset_status_update GROUP BY asset_id ORDER BY asset_id) a " + 
+			"JOIN asset_status_update b ON a.max_timestamp = b.date_of_status " + 
+			")asu on asm.asset_id = asu.asset_id " + 
+			"where product_category_id in ('4 Wheel TW','8 Wheel TW' )) c " + 
+			"group by  c.f_status, product_category_id";
 
 }
