@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -57,12 +58,43 @@ public class DashboardUtility {
 			return fetchFeederWiseEnergyConsumption(request);
 		case Constants.TOWER_CAR:
 			return fetchTowerCarData(request);	
+		case Constants.ENERGY:
+			return fetchEnergyData(request);
 		default:
 			break;
 		}
 		return null;
 	}
 	
+
+
+	private List<DashboardGraphsResponse> fetchEnergyData(@Valid DashboardParametersRequest request) {
+		
+		Connection connection =null;
+		ResultSet resultSet = null;		
+		PreparedStatement preparedStatement = null;
+		//Date energyReadingDate = new Date();
+		
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.ENERGY);
+			preparedStatement.setString(1,"2021-01-04");
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet != null) {
+				logger.info("** in resulu set ==="+resultSet);
+				return prepareListForEnergyFromResultSet(resultSet, request.getQueryType());
+			}
+			
+		}catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data "+e.getLocalizedMessage());
+		}finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
+
+
+
 	private List<DashboardGraphsResponse> fetchTowerCarData(@Valid DashboardParametersRequest request) {
 		Connection connection = null;
 		ResultSet resultSet = null;
@@ -419,5 +451,23 @@ public class DashboardUtility {
 		return responseList;
 	}
 	
+	private List<DashboardGraphsResponse> prepareListForEnergyFromResultSet(ResultSet resultSet, String queryType)  throws SQLException {
+		
+		logger.info("In result set Preparation");
+		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
+		DashboardGraphsResponse response = null;
+		Date energyReadingDate= new Date();
+		while (resultSet != null && resultSet.next()) {
+			response = new DashboardGraphsResponse();
+			response.setConsumed(resultSet.getString("consumed"));
+			response.setExceeded(resultSet.getString("exceeded"));
+			response.setCanbeconsume(resultSet.getString("canbeconsume"));
+			response.setLocation(resultSet.getString("location"));
+			//response.setEnergyReadingDate(energyReadingDate);			
+			responseList.add(response);
+		}
+		
+		return responseList;
+	}
 
 }

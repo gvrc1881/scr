@@ -429,6 +429,7 @@ export const Constants = {
         DRIVE:{
             DRIVE:{
                 GET_DRIVES:"/drives",
+                GET_DRIVES_BASEDON_DIVISION:"/getDrivesBasedOnDivison/",
                 GET_DRIVE_ID:"/driveById/",
                 SAVE_DRIVE:"/saveDrive",
                 UPDATE_DRIVE:"/updateDrive",
@@ -764,7 +765,7 @@ export const Constants = {
                 GET_TOWERCARS_BASEDON_DIVISION:"/getTowerCarBasedOnDivsion/",
                 SAVE:"/addAssetStatusChange",
                 UPDATE:"/updateAssetStatus",
-                GET_ALL_TOWERCARS:"/findAllAssetStatus",
+                GET_ALL_TOWERCARS:"/findAllAssetStatus/",
                 GET_TOWERCAR_ID:"/findAssetStatusById/",
                 DELETE:"/deleteAssetStatus/",
                 GET_BY_ASSETID:"/getByAssetId/"

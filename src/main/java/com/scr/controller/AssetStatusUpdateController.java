@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.response.AssetStatusUpdateResponse;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
@@ -53,14 +54,25 @@ public class AssetStatusUpdateController {
 	@Autowired
 	private FacilityRepository facilityRepository;
 
+	@Autowired
+	private CommonUtility  commonUtility;
+
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/findAllAssetStatus", method = RequestMethod.GET, headers = "Accept=application/json")
-	public List<AssetStatusUpdate> findAllAssetStatus() throws JSONException {
+	@RequestMapping(value = "/findAllAssetStatus/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<AssetStatusUpdate> findAllAssetStatus(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
 		logger.info("Enter into findAll AssetStatus function");
 		List<AssetStatusUpdate> assetStatusList = null;
+		List<String> fac= new ArrayList<>();
 		try {
 			logger.info("Calling service for assetStatus data");
-			assetStatusList = assetStatusService.findAll();
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			logger.info("facilities=="+facility.size());
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getFacilityId());
+				
+			}
+			assetStatusList = assetStatusService.findByFacilityId(fac);
 			logger.info("Fetched assetStatus data = " + assetStatusList.size());
 			return assetStatusList;
 		} catch (NullPointerException npe) {
@@ -85,7 +97,7 @@ public class AssetStatusUpdateController {
 				Optional<Facility> fac = facilityRepository.findByFacilityName(asu.getFacilityId());
 				assetStatusUpdate.setFacilityId(fac.get().getFacilityId());
 			}
-					
+				logger.info("saveee-----"+assetStatusUpdate);	
 			assetStatusService.save(assetStatusUpdate);
 			logger.info("Preparing the return response");
 			return Helper.findResponseStatus("AssetStatusUpdate Added successfully", Constants.SUCCESS_CODE);

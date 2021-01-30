@@ -45,9 +45,9 @@ export class AssetStatusChangeComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   statusDataSource: MatTableDataSource<AssetStatusChangeModel>;
   dataSource: MatTableDataSource<AssetStatusChangeModel>;
-  statusDisplayedColumns = ['sno', 'facility', 'asset', 'asetId', 'dateStatus', 'curentStatus', 'stats', 'targetDateReady', 'remark', 'actions'];
+  statusDisplayedColumns = ['sno', 'facility', 'asset', 'asetId', 'dateStatus', 'curentStatus', 'stats', 'dateOfChange', 'remark', 'actions'];
   //displayedColumns = ['sno','facilityId','assetType', 'assetId','make','nextAoh','nextPoh','dateOfStatus','actions'];
-  displayedColumns = ['sno', 'facility', 'asset', 'asetId', 'make', 'nextAoh', 'nextPoh', 'dateStatus', 'stats','remark', 'actions'];
+  displayedColumns = ['sno', 'facility', 'asset', 'asetId', 'make', 'nextAoh', 'nextPoh', 'dateStatus','currentStatus', 'stats','remark','dateOfChange', 'actions'];
   enableUpdate: boolean;
   AssetStatusList: any;
   activity = [];
@@ -57,6 +57,8 @@ export class AssetStatusChangeComponent implements OnInit {
   dateFormat = 'dd-MM-yyyy';
   id: number;
   editStatusResponse: any;
+  dateOfStatus:any;
+  
 
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   userHierarchy: any = JSON.parse(sessionStorage.getItem('userHierarchy'));
@@ -92,6 +94,8 @@ export class AssetStatusChangeComponent implements OnInit {
   editAssetId:number=0;
   dateStatusEdit:boolean = false;
   statsEdit:boolean = false;
+  dateOfChangeEdit:boolean = false;
+  curentStatusEdit:boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -117,15 +121,6 @@ export class AssetStatusChangeComponent implements OnInit {
       'subDiv': [null],
       'facilityId': [null]
     });
-
-    //   const toGroups = this.list.value.map(entity => {
-    //     return new FormGroup({
-    //      dateOfStatus:  new FormControl(entity.dateOfStatus, Validators.required)
-
-    //     },{updateOn: "blur"});
-    //   });
-
-    //  this.controls = new FormArray(toGroups);
 
 
   }
@@ -215,31 +210,6 @@ export class AssetStatusChangeComponent implements OnInit {
     });
   }
 
-
-  updateField(index, field) {
-    const control = this.getControl(index, field);
-    if (control.valid) {
-      this.statusList.update(index, field, control.value);
-    }
-
-  }
-
-  getControl(index, fieldName) {
-    const a = this.controls.at(index).get(fieldName) as FormControl;
-    return this.controls.at(index).get(fieldName) as FormControl;
-  }
-  update(index, field, value) {
-    this.statusList = this.statusList.map((e, i) => {
-      if (index === i) {
-        return {
-          ...e,
-          [field]: value
-        }
-      }
-      return e;
-    });
-    this.list.next(this.statusList);
-  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -248,7 +218,7 @@ export class AssetStatusChangeComponent implements OnInit {
 
   getAllData() {
     const status: AssetStatusChangeModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.GET_ALL_TOWERCARS).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.GET_ALL_TOWERCARS+this.loggedUserData.username).subscribe((data) => {
       this.towerCarList = data;
       for (let i = 0; i < this.towerCarList.length; i++) {
         this.towerCarList[i].sno = i + 1;
@@ -313,20 +283,29 @@ export class AssetStatusChangeComponent implements OnInit {
 
   saveAction(row) {
     
+   if (row.assetId == 0 ) {
+   
+     this.dateOfStatus = row.dateOfStatus
+     
+   } else{
+    this.dateOfStatus = row.dateOfChange
+    
+   }
     let towerCar = {
+      
       "assetType": row.assetType,
       "assetId": row.assetId,
       "facilityId": row.facilityId,
-      "dateOfStatus": row.dateOfStatus,
+      "dateOfStatus": this.dateOfStatus,
       "currentStatus": row.currentStatus,
       "status": row.status,
-      "targetDateOfReady": row.targetDateOfReady,
+     // "dateOfChange": row.dateOfChange,
       "remarks": row.remarks,
       "createdBy": this.loggedUserData.username,
       "createdOn": new Date()
+      
 
     }
-
     this.sendAndRequestService.requestForPOST(Constants.app_urls.OPERATIONS.ASSET_STATUS_CHANGE.SAVE, towerCar, false).subscribe(response => {
       this.spinnerService.show();
       this.resp = response;
@@ -336,8 +315,7 @@ export class AssetStatusChangeComponent implements OnInit {
         this.searchInputFormGroup.reset();
         this.dataSource = new MatTableDataSource();
         this.getAllData();
-        this.enableUpdate = false;
-        this.addPermission = true;
+       
         //this.router.navigate(['../'], { relativeTo: this.route });
       } else {
         this.commonService.showAlertMessage("TW Status Added Failed.");
@@ -451,7 +429,18 @@ export class AssetStatusChangeComponent implements OnInit {
     });
     console.log(this.dataSource.filteredData)
   }
-
+  addChangeEvent($event, assetId){
+    this.toMinDate = new Date($event.value);
+    console.log('assetId: '+assetId);
+    console.log($event.target.value);
+    this.dateOfChangeEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['dateOfChange']= this.toMinDate;
+      }
+    });
+    console.log(this.dataSource.filteredData)
+  }
   onGoBack() {
     this.location.back();
   }
@@ -548,5 +537,39 @@ export class AssetStatusChangeComponent implements OnInit {
     });
     console.log(this.dataSource.filteredData)
   }
+  enableDateOfChange($event, assetId) {
+    console.log($event);
+    this.dateOfChangeEdit = true;
+    this.editAssetId = assetId
+  }
+  disableDateOfChangeEdit($event, assetId){
+    console.log('assetId: '+assetId);
+    console.log($event.target.value);
+    this.dateOfChangeEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['dateOfChange']=$event.target.value;
+      }
+    });
+    console.log(this.dataSource.filteredData)
+  }
+
+  enableCurentStatus($event, assetId) {
+    console.log($event);
+    this.curentStatusEdit = true;
+    this.editAssetId = assetId
+  }
+  selectedCurrentStatus(value, assetId){
+    console.log('assetId: '+assetId);
+    console.log(value);
+    this.curentStatusEdit = false;
+    this.dataSource.filteredData.map((item, index) =>{
+      if(item.assetId == assetId){
+        this.dataSource.filteredData[index]['currentStatus']=value;
+      }
+    });
+    console.log(this.dataSource.filteredData)
+  }
+  
 }
 

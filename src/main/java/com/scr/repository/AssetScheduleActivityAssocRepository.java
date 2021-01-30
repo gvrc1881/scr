@@ -16,7 +16,8 @@ import com.scr.model.Make;
 
 public interface AssetScheduleActivityAssocRepository extends JpaRepository<AssetScheduleActivityAssoc, Long>{
 	
-	List<AssetScheduleActivityAssoc> findAll();
+	@Query("FROM AssetScheduleActivityAssoc ORDER BY createdOn DESC")
+	List<AssetScheduleActivityAssoc> findAllOrderByCreatedOnDesc();
 	
 	@Query(value = "SELECT case when count(asaa)> 0 then true else false  end  FROM AssetScheduleActivityAssoc asaa WHERE asaa.asaSeqId = :asaSeqId and asaa.activityPositionId = :activityPositionId and asaa.makeCode = :makeCode and asaa.modelCode = :modelCode")
 	Boolean existsByAsaSeqIdAndActivityPositionIdAndMakeCodeAndModelCode(@Param("asaSeqId")String asaSeqId, @Param("activityPositionId") String activityPositionId,

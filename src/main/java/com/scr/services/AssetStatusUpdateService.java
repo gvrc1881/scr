@@ -12,6 +12,7 @@ import com.scr.model.AssetMasterData;
 import com.scr.model.AssetStatusUpdate;
 import com.scr.model.WorkPhases;
 import com.scr.repository.AssetStatusUpdateRepository;
+import com.scr.util.Constants;
 
 
 @Service
@@ -57,6 +58,11 @@ public class AssetStatusUpdateService {
 	public List<AssetStatusUpdate> findByAssetId(String assetId) {
 		// TODO Auto-generated method stub
 		return assetStatusRepository.findByAssetIdOrderByDateOfStatusDesc(assetId);
+	}
+
+	public List<AssetStatusUpdate> findByFacilityId(List<String> fac) {
+		
+	return	assetStatusRepository.findByFacilityIdIn(fac);
 	}		
 
 

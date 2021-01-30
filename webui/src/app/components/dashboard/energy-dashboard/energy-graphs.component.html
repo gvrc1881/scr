@@ -15,10 +15,12 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Day Wise</div>
                 <div class="panel-body">
+                  <div class="col-md-6 col-lg-6" *ngIf="showEnergyChart">
                   <fusioncharts [width]="width" [height]="height" type="type" [dataFormat]="dataFormat"
                     [dataSource]="energyDataSource"
                     >
                   </fusioncharts>
+                </div>
                 </div>
               </div>
             </div>

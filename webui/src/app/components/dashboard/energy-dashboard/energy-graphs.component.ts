@@ -15,11 +15,12 @@ import { DatePipe } from '@angular/common';
     
 export class EnergyGraphsComponent implements OnInit {
 
-  response:any;
+  energyResponse:any;
   energyDataSource: any = {};
+  requestBody: any;
   width: any;
   	height = 400;
-	  showGraph : boolean = false;
+	  showEnergyChart : boolean = false;
 	  type = "scrollstackedcolumn2d";
   	dataFormat = "json";
     
@@ -37,17 +38,87 @@ export class EnergyGraphsComponent implements OnInit {
   }
   
   ngOnInit() {
-
-    // this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, false).subscribe((data) => {
-    //   console.log(data);
-    //   this.response = data;
-    //   if(this.response) {
-    //   	this.energyDataSource = this.energyConsumptionGraph(this.response);
-      
-    //   }
-    // })
+    this.energyData();
+   
   }
   
+  energyData(){
+
+    this.requestBody = {
+      queryType:'ENERGY'    
+  }
+  this.sendAndRequestService.requestForPOST(Constants.app_urls.DASHBOARD.GET_GRAPHS_DATA, this.requestBody, false).subscribe((data) => {
+    console.log(data);
+    this.energyResponse = data;    
+    if(this.energyResponse) {
+      this.energyDataSource = this.prepareEnergyGraphData(this.energyResponse);
+       console.log('*** log***'+JSON.stringify(this.energyDataSource));
+        if(this.energyDataSource){
+          this.showEnergyChart = true;    
+        }
+      //this.showReportBotton = true; 
+    }
+  }) 
+  }
+
+  prepareEnergyGraphData(data: any){
+    let location = [];
+    let consumed =[];
+    let exceeded =[];
+    let canbeconsume =[];
+    for(let i=0;i<data.length;i++){
+        this.width = this.width +200;
+        location.push({               
+                
+                    label: data[i].location                
+            
+        })
+        consumed.push({
+          value:data[i].consumed
+        })
+        exceeded.push({
+          value:data[i].exceeded
+        })
+        canbeconsume.push({
+          value:data[i].canbeconsume
+        })
+    }
+    console.log("locations=="+JSON.stringify(location))
+    console.log("data consumed==="+consumed);
+    return {
+        chart: {
+        caption: "Energy",
+        xaxisname: "TSS",
+        yaxisname: "Percentage",
+        formatnumberscale: "1",
+        plottooltext:
+        "$label has $dataValue (<b>$percentValue</b>) $seriesName ",
+       
+        theme: "fusion"
+      },
+      categories: [
+        {
+          category: location
+        }
+      ],      
+       dataset: [
+	    	{
+	        seriesname: "consumed",
+	        data: consumed
+	      },
+	      {
+	        seriesname: "exceeded",
+	        data: exceeded
+	      },
+	      {
+	        seriesname: "canbeconsume",
+	        data: canbeconsume
+	      },
+      ]  
+      
+    }
+   
+}
   
 }
 

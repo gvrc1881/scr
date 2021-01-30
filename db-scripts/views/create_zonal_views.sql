@@ -3708,20 +3708,19 @@ SELECT tcp.id AS tcp_id,
     f.facility_name AS tcp_facility_name,
     f.depot_type AS tcp_station_type,
     tcp.check_point_part AS tcp_check_point_part,
-    tcp.check_point_description AS tcp_check_point_description,
-    tcp.type_of_check_point AS tcp_type_of_check_point,
+    tcp.check_point1description AS tcp_check_point1_description,
+	tcp.check_point2description AS tcp_check_point2_description,
     tcp.display_group AS tcp_display_group,
     tcp.display_order AS tcp_display_order,
-    tcp.active AS tcp_active,
-    tcp.commparison_points AS tcp_commparison_points,
-	tcp.display_of_temp_diff as tcp_display_of_temp_diff
+    tcp.active AS tcp_active
    FROM thermovision_check_points tcp
      LEFT JOIN facility f ON tcp.facility_id::text = f.facility_id::text;
-
 
 ------------------75
 
 --drop view v_tcp_schedule cascade;
+
+
 create view v_tcp_schedule as 
 select 
 tcps.id as  tcps_id,
@@ -3747,24 +3746,21 @@ where tcps.facility_id::text = f.facility_id ;
 --	drop view v_thermovision_measures ;
 	create view  v_thermovision_measures as
 	 SELECT vtcp.tcp_check_point_part,
-    vtcp.tcp_check_point_description,
-    vtcp.tcp_type_of_check_point,
+    vtcp.tcp_check_point1_description,
+	vtcp.tcp_check_point2_description,
     vtcp.tcp_display_group,
     vtcp.tcp_display_order,
     vtcp.tcp_active,
-    vtcp.tcp_commparison_points,
-	vtcp.tcp_display_of_temp_diff,
 	vtcp.tcp_id as tcp_id ,
     tcpm.id AS tcpm_id,
     tcpm.tcp_schedule_id AS tcpm_tcp_schedule_id,
     tcpm.tcp_id AS tcpm_tcp_id,
-    tcpm.fixed_measure AS tcpm_fixed_measure,
-    tcpm.c_clamp_measure AS tcpm_c_clamp_measure,
-    tcpm.ambient_temp AS tcpm_ambient_temp,
+    tcpm.measure_point1 AS tcpm_measure_point1,
+    tcpm.measure_point2 AS tcpm_measure_point2,
+ --   tcpm.ambient_temp AS tcpm_ambient_temp,
     tcpm.image_id AS tcpm_image_id,
     tcpm.remark AS tcpm_remark,
     tcpm.criticality AS tcpm_criticality,
-    tcpm.variance_with_other_point AS tcpm_variance_with_other_point,
     vtcps.tcps_facility_id,
     vtcps.tcps_facility_name,
     vtcps.tcps_station_type,
@@ -3777,3 +3773,7 @@ where tcps.facility_id::text = f.facility_id ;
     v_tcp_schedule vtcps,
     v_thermovision_check_points vtcp
   WHERE tcpm.tcp_schedule_id = vtcps.tcps_id AND tcpm.tcp_id = vtcp.tcp_id;
+  
+  
+  
+  

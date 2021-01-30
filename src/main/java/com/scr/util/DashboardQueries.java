@@ -98,6 +98,8 @@ public class DashboardQueries {
 			" on (div = q.data_div and div.zone = q.zone and subdiv = q.sub_division and q.FACILITY_NAME = depot_name and q.facility_id = div.FACILITY_ID )" + 
 			" group by div.zone , div, product_id  ,  abbreviation " + 
 			"        ORDER BY div.zone , div,  PRODUCT_ID ";
+
+	
 	
 	String SUB_DIVISION_QUERY = "select div.zone , div, subdiv , product_id as material_desc , " + 
 			"case when sum(QOH) is null then 0 else sum(QOH) end QOH ," + 
@@ -808,4 +810,23 @@ public class DashboardQueries {
 			"where product_category_id in ('4 Wheel TW','8 Wheel TW' )) c " + 
 			"group by  c.f_status, product_category_id";
 
+	public static String ENERGY = "select cmd,rmd,(cmd-rmd), (rmd - cmd)," + 
+			"case when (cmd-rmd) > 0 then Round(rmd/cmd*100,2) else " + 
+			"	case when (cmd-rmd) < 0 then Round(cmd/cmd*100,2) else Round(cmd/cmd*100,2) end " + 
+			"end as consumed," + 			
+			"case when (cmd-rmd) > 0 then 0 else " + 
+			"	case when (cmd-rmd) < 0 then Round((rmd-cmd)/cmd*100,2) else 0 end " + 
+			"end as exceeded," + 
+			"case when (cmd-rmd) > 0 then Round((cmd-rmd)/cmd*100,2) else " + 
+			"	case when (cmd-rmd) < 0 then 0 else 0 end " + 
+			"end as canbeconsume," + 			
+			"case when cmd is null then 'No CMD' " + 
+			"else round((rmd/cmd::decimal*100),2)::varchar end as per_rmd," + 
+			"energy_reading_date,feeder_id,location" + 
+			" from v_energy_consumption" + 
+			" where energy_reading_date= ? ::date";
+
+	
+
+	
 }

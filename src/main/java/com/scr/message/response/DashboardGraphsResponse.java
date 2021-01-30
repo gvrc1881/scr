@@ -1,5 +1,7 @@
 package com.scr.message.response;
 
+import java.util.Date;
+
 public class DashboardGraphsResponse {
 	
 	private String zone;
@@ -27,6 +29,12 @@ public class DashboardGraphsResponse {
 	private String hybCount;
 	private String fStatus;
 	private String productCategoryId;
+	private String consumed;
+	private String exceeded;
+	private String canbeconsume;
+	private Date energyReadingDate;
+	private String location;
+	
 	
 	
 	public String getZone() {
@@ -179,6 +187,36 @@ public class DashboardGraphsResponse {
 	}
 	public void setProductCategoryId(String productCategoryId) {
 		this.productCategoryId = productCategoryId;
+	}
+	public String getConsumed() {
+		return consumed;
+	}
+	public void setConsumed(String consumed) {
+		this.consumed = consumed;
+	}
+	public String getExceeded() {
+		return exceeded;
+	}
+	public void setExceeded(String exceeded) {
+		this.exceeded = exceeded;
+	}
+	public String getCanbeconsume() {
+		return canbeconsume;
+	}
+	public void setCanbeconsume(String canbeconsume) {
+		this.canbeconsume = canbeconsume;
+	}
+	public Date getEnergyReadingDate() {
+		return energyReadingDate;
+	}
+	public void setEnergyReadingDate(Date energyReadingDate) {
+		this.energyReadingDate = energyReadingDate;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 }

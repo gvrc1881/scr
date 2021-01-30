@@ -239,7 +239,7 @@
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.LOAD_RELIEF_BREAK_DOWN}}"
-                                                                [formControl]="addGridFailFromGroup.controls['loadReliefBreakDown']">
+                                                                [formControl]="addGridFailFromGroup.controls['loadReliefBreakDown']" required>
                                                                 <mat-option *ngFor="let loadRelief of loadReliefList"
                                                                     [value]="loadRelief.statusCode">
                                                                     {{ loadRelief.statusCode }}

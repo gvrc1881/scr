@@ -900,18 +900,15 @@ END; $BODY$;
 CREATE OR REPLACE FUNCTION public.tcp_measure_v_func(
 	requested_station integer,
 	schedule_date date)
-    RETURNS TABLE(rs_id bigint, rs_facility_id character varying, rs_facility_name character varying,tcp_id bigint,
-	tcp_check_point_part character varying, tcp_check_point_description character varying, 
-	tcp_type_of_check_point character varying, tcp_display_group character varying, tcp_display_order character varying, 
-	tcp_active character varying, tcp_commparison_points bigint, tcp_display_of_temp_diff character varying ,
-	tcpm_id bigint, tcpm_fixed_measure character varying,
-	tcpm_c_clamp_measure character varying, tcpm_ambient_temp double precision, tcpm_image_id character varying, 
-	tcpm_remark character varying, tcpm_criticality bigint, tcpm_variance_with_other_point double precision, 
-	f_diff double precision, c_clamp_diff double precision, tcpm_comp_tcp_id bigint, tcpm_fixed_measure_comp_point character varying, 
-	tcpm_c_clamp_measure_comp_point character varying, vtm_tcp_display_order character varying ,
-	pre1_m_tcps_date timestamp without time zone, pre1_m_tcpm_fixed_measure character varying, pre1_m_tcpm_c_clamp_measure character varying, 
-	pre2_m_tcps_date timestamp without time zone, pre2_m_tcpm_fixed_measure character varying, pre2_m_tcpm_c_clamp_measure character varying, 
-	pre3_m_tcps_date timestamp without time zone, pre3_m_tcpm_fixed_measure character varying, pre3_m_tcpm_c_clamp_measure character varying, 
+    RETURNS TABLE(rs_id bigint, rs_facility_id character varying, rs_facility_name character varying, 
+	tcp_check_point_part character varying, tcp_check_point1_description character varying , tcp_check_point2_description character varying,
+	tcp_display_group character varying, tcp_display_order character varying, tcp_active character varying, 
+	tcpm_id bigint, tcpm_measure_point1 double precision ,  tcpm_measure_point2 double precision,
+    tcpm_image_id character varying, tcpm_remark character varying, tcpm_criticality character varying,
+ 	f_diff double precision, vtm_tcp_display_order character varying ,
+	pre1_m_tcps_date timestamp without time zone, pre1_m_tcpm_measure_point1 double precision, pre1_m_tcpm_measure_point2 double precision , 
+	pre2_m_tcps_date timestamp without time zone, pre2_m_tcpm_measure_point1 double precision, pre2_m_tcpm_measure_point2 double precision ,  
+	pre3_m_tcps_date timestamp without time zone, pre3_m_tcpm_measure_point1 double precision, pre3_m_tcpm_measure_point2 double precision ,  
 	tcps_facility_id bigint, tcps_facility_name character varying, tcps_date timestamp without time zone, tcps_date_time timestamp without time zone,
 	tcps_time text, tcps_by character varying, tcps_general_remark character varying) 
     LANGUAGE 'plpgsql'
@@ -929,43 +926,35 @@ rs.id rs_id,
 rs.facility_id rs_facility_id,
 rs.facility_name rs_facility_name,
 
-rs.tcp_id,
 rs.tcp_check_point_part,
-rs.tcp_check_point_description,
-rs.tcp_type_of_check_point,
+rs.tcp_check_point1_description,
+rs.tcp_check_point2_description,
 rs.tcp_display_group,
 rs.tcp_display_order,
 rs.tcp_active,
-rs.tcp_commparison_points ,
-rs.tcp_display_of_temp_diff,
+
 
 -- current measures v_thermovision_measures cur_m
 cur_m.tcpm_id ,
-cur_m.tcpm_fixed_measure,
-cur_m.tcpm_c_clamp_measure ,
-cur_m.tcpm_ambient_temp,
+cur_m.tcpm_measure_point1,
+cur_m.tcpm_measure_point2 ,
 cur_m.tcpm_image_id,
 cur_m.tcpm_remark,
 cur_m.tcpm_criticality,
-cur_m.tcpm_variance_with_other_point ,
 
 cur_m.f_diff,
-cur_m.c_clamp_diff ,
-cur_m.tcpm_comp_tcp_id ,
-cur_m.tcpm_fixed_measure_comp_point ,
-cur_m.tcpm_c_clamp_measure_comp_point ,
 cur_m.vtm_tcp_display_order  ,
 
 -- previous readings
 	pre1_m.tcps_date as pre1_m_tcps_date, 
-	pre1_m.tcpm_fixed_measure as pre1_m_tcpm_fixed_measure,
-	pre1_m.tcpm_c_clamp_measure as pre1_m_tcpm_c_clamp_measure,
+	pre1_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre1_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
 	pre2_m.tcps_date as pre2_m_tcps_date, 
-	pre2_m.tcpm_fixed_measure as pre2_m_tcpm_fixed_measure,
-	pre2_m.tcpm_c_clamp_measure as pre2_m_tcpm_c_clamp_measure,
+	pre2_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre2_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
 	pre3_m.tcps_date as pre3_m_tcps_date, 
-	pre3_m.tcpm_fixed_measure as pre3_m_tcpm_fixed_measure,
-	pre3_m.tcpm_c_clamp_measure as pre3_m_tcpm_c_clamp_measure,
+	pre3_m.tcpm_measure_point1 as pre1_m_tcpm_measure_point1,
+	pre3_m.tcpm_measure_point2 as pre1_m_tcpm_measure_point2,
 -- cur schedule
 cur.tcps_facility_id,
 cur.tcps_facility_name ,
@@ -973,16 +962,19 @@ cur.tcps_date, cur.tcps_date_time, cur.tcps_time,
 cur.tcps_by,
 cur.tcps_general_remark
 -- facility/station tss /sp/ssp etc
---select * 
+--
+/*
+select * 
+*/
 from (select id ,facility_id , facility_name , vtpc.*
 	  from v_thermovision_check_points vtpc,
-	  facility f where f.id = requested_station
+	  facility f where f.id = requested_station -- 18413--- 
 	  and f.id =  vtpc.tcp_facility_id
 	  and upper(vtpc.tcp_active) = 'YES'
-	  ) rs
+	  ) rs  -- required station 
 left outer join v_tcp_schedule cur
-on (cur.tcps_date::date =  Schedule_date 	
-	and rs.id = cur.tcps_facility_id::integer)
+on (cur.tcps_date::date = Schedule_date -- '2021-01-30'-- 	
+	and rs.id = cur.tcps_facility_id)
 left outer join ( select tcp_sch_id , 
 split_part(tcp_sch_id, ',',  1 )  as  Pre_tcp_sch_1,
 split_part(tcp_sch_id, ',',  2 )  as  Pre_tcp_sch_2,
@@ -991,9 +983,9 @@ split_part(tcp_sch_id, ',',  4 )  as  Pre_tcp_sch_4
 from (
 select	string_agg(tcps_id::character varying,',' order by a.tcps_date desc) tcp_sch_id
 from (select ROW_NUMBER() OVER() seq ,cur_h.tcps_date ,cur_h.tcps_id
-from v_tcp_schedule	cur_h  	
-where cur_h.tcps_date < Schedule_date 
-	  and cur_h.tcps_facility_id = requested_station::integer
+from v_tcp_schedule	cur_h  	-- schedule history before current schedule
+where cur_h.tcps_date <  Schedule_date  --'2021-01-30'--
+	  and cur_h.tcps_facility_id = requested_station -- 18413---::integer
 order by tcps_date desc limit  4
 ) a	 )b
 ) p on (1=1)
@@ -1001,24 +993,15 @@ order by tcps_date desc limit  4
 left outer join 
 	(	select * from
 			(select 
-				case when (vtm.tcpm_fixed_measure is not null and vtm_c.tcpm_fixed_measure is not null) then
-					abs(vtm.tcpm_fixed_measure::float - vtm_c.tcpm_fixed_measure::float)  end as f_diff, 
-				case when (vtm.tcpm_fixed_measure is not null and vtm_c.tcpm_fixed_measure is not null) then
-					abs(vtm.tcpm_c_clamp_measure::float - vtm_c.tcpm_c_clamp_measure::float) end as c_clamp_diff,
-				vtm_c.tcp_id as tcpm_comp_tcp_id ,
-				vtm_c.tcpm_fixed_measure as tcpm_fixed_measure_comp_point ,
-				vtm_c.tcpm_c_clamp_measure as tcpm_c_clamp_measure_comp_point ,
-			 vtm.tcp_id as vtm_tcp_id ,
-			 vtm.tcp_display_order vtm_tcp_display_order,
-				--vtm.tcpm_fixed_measure , vtm.tcpm_c_clamp_measure ,
-				vtm.* 
-				from v_thermovision_measures vtm 
-				left outer join v_thermovision_measures vtm_c
-				on( vtm_c.tcpm_tcp_schedule_id = vtm.tcpm_tcp_schedule_id and vtm.tcp_commparison_points = vtm_c.tcp_id)
-				order by vtm.tcp_display_order::integer
-				) tm ,
-				facility f 
-		where f.id =  requested_station
+				case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
+					abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2)  end as f_diff, 
+					 vtm.tcp_id as vtm_tcp_id , vtm.tcp_display_order vtm_tcp_display_order, tcpm_tcp_schedule_id,
+			 		 vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2 , vtm.tcps_facility_id ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
+			 		vtm.tcpm_image_id , vtm.tcpm_criticality, vtm.tcpm_remark
+					from v_thermovision_measures vtm 
+			) tm ,
+			facility f 
+		where f.id =  18413 -- requested_station
 		and f.id =  tm.tcps_facility_id 
 	) cur_m
 on (cur.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id ) 
@@ -1035,4 +1018,4 @@ END;
 $BODY$;
 
 ALTER FUNCTION public.tcp_measure_v_func(integer, date)
-    OWNER TO postgres;
+   OWNER TO postgres;

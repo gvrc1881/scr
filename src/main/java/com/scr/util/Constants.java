@@ -102,4 +102,6 @@ public class Constants {
 	public static final String FEEDER_WISE_ENERGY_CONSUMPTION = "FEEDER_WISE_ENERGY_CONSUMPTION";
 	
 	public static final String TOWER_CAR = "TOWER_CAR";
+	
+	public static final String ENERGY = "ENERGY";
 }

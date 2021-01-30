@@ -135,8 +135,8 @@
                                               <mat-select placeholder="{{FiledLabels.ASSET_TYPE}}" 
                                                 [formControl]="addFailureAnalysisFormGroup.controls['assetType']" >
                                                 <mat-option *ngFor="let assetTypes of assetsList"
-                                                  [value]="assetTypes.productId">
-                                                  {{ assetTypes.productId }}
+                                                  [value]="assetTypes">
+                                                  {{ assetTypes }}
                                                 </mat-option>
                                               </mat-select>
                                             </mat-form-field>
