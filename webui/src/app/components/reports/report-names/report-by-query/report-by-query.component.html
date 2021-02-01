@@ -157,7 +157,20 @@
                                                                  </mat-select>
                                                             </mat-form-field>
                                                        </div>
+                                                      <!-- Depots List for Only TSS,SP,SSP context base -->
                                                        <div *ngIf="(names.parameterName=='depots')">
+                                                            <mat-form-field fxFlex="30">
+                                                                 <mat-select placeholder="Depot" 
+                                                                      [formControl]="reportsByQuery.controls['depot']">
+                                                                      <mat-option *ngFor="let facility of depotList"
+                                                                           [value]="facility">
+                                                                           {{ facility.facilityName}}
+                                                                      </mat-option>
+                                                                 </mat-select>
+                                                            </mat-form-field>
+                                                       </div>
+                                                       <!-- Alldepots based on context -->
+                                                       <div *ngIf="(names.parameterName=='Depots')">
                                                             <mat-form-field fxFlex="30">
                                                                  <mat-select placeholder="Depot" 
                                                                       [formControl]="reportsByQuery.controls['depot']">

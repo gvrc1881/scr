@@ -74,7 +74,9 @@ public class ReportResource {
 			parameters.put("subDivision", report.getFacility().getSubDivision());
 			parameters.put("depot", report.getFacility().getFacilityName());
 			parameters.put("depot", report.getFacility().getFacilityId());
-			log.info("depot==="+parameters.put("depot", report.getFacility().getFacilityId()));
+			parameters.put("subStation",report.getFacility().getFacilityName());
+			
+			log.info("subStation==="+parameters.put("subStation",report.getFacility().getFacilityName()));
 		}
 		parameters.put("fromDate",report.getFromDate());
 		log.info("from date"+parameters.put("fromDate", report.getFromDate()));

@@ -50,6 +50,7 @@ export class ReportByQueryComponent implements OnInit {
        subDivList: FacilityModel[] = [];
        facilityList: FacilityModel[] = [];
        pbSwitchControlData: any;
+       depotList:any;
        userData: any = JSON.parse(sessionStorage.getItem('loggedUser'));
        userDefaultData: any;
        zoneObject: any;
@@ -130,6 +131,7 @@ this.workName();
               this.reportParameterNames();
               this.driveName();
               this.feederName();
+              this.finddepot();
               ReportPayload.GET.reportId = this.id;
            /*
               for (let i = 0; i < this.userHierarchy.length; i++) {
@@ -437,8 +439,8 @@ this.workName();
               this.reportModel.division = this.reportsByQuery.controls.division.value;
               this.reportModel.subDivision = this.reportsByQuery.controls.subDivision.value;
               this.reportModel.fromDate = this.reportsByQuery.controls.fromDate.value;
-              this.reportModel.toDate = this.reportsByQuery.controls.toDate.value;
-              this.reportModel.facility = this.reportsByQuery.controls.depot.value;
+              this.reportModel.toDate = this.reportsByQuery.controls.toDate.value;              
+              this.reportModel.facility = this.reportsByQuery.controls.depot.value;              
               this.reportModel.department = this.reportsByQuery.controls.department.value;
               this.reportModel.observationCategory = this.reportsByQuery.controls.observationCategory.value;
               this.reportModel.scheduleCode = this.reportsByQuery.controls.scheduleType.value;
@@ -538,6 +540,21 @@ this.workName();
               )
            */
        }
+       finddepot(){
+
+              this.depotList=[]; 
+            
+              for (let i = 0; i < this.orginalDepotData.length; i++) {
+                    
+                if( this.orginalDepotData[i].depotType == 'TSS' ||this.orginalDepotData[i].depotType == 'SP'|| this.orginalDepotData[i].depotType == 'SSP' ){
+                   
+                   this.depotList.push(this.orginalDepotData[i]);
+                  
+                   // this.facilityHierarchy.facilityList;
+                    
+                }
+             } 
+            }
        onGoBack() {
               this.location.back();
        }
