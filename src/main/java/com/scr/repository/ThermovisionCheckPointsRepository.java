@@ -18,5 +18,8 @@ public interface ThermovisionCheckPointsRepository extends JpaRepository<Thermov
 	Optional<ThermovisionCheckPoints> findByCheckPointPartAndCheckPoint1Description(String checkPointPart, String checkPoint1Description);
 	List<ThermovisionCheckPoints> findByFacilityIdAndIdNotIn(Facility facilityId, Long id);
 
+	Optional<ThermovisionCheckPoints> findByCheckPoint1DescriptionAndCheckPoint2Description(
+			String tcpCheckPoint1Description, String tcpCheckPoint2Description);
+
 
 }

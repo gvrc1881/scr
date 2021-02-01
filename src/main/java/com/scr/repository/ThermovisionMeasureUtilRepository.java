@@ -45,32 +45,30 @@ public class ThermovisionMeasureUtilRepository {
 				ThermovisionMeasureResponse response = null;
 				while(resultSet != null && resultSet.next()) {
 					response = new ThermovisionMeasureResponse();
-					response.setTcpmCriticality(resultSet.getLong("tcpm_criticality"));
-					response.setTcpmFixedMeasure(resultSet.getString("tcpm_fixed_measure"));
-					response.setTcpmCClampMeasure(resultSet.getString("tcpm_c_clamp_measure"));
-					response.setPre1MTcpmFixedMeasure(resultSet.getString("pre1_m_tcpm_fixed_measure"));
-					response.setPre1MTcpmCClampMeasure(resultSet.getString("pre1_m_tcpm_c_clamp_measure"));
+					response.setTcpmCriticality(resultSet.getString("tcpm_criticality"));
+					response.setTcpmMeasurePoint1(resultSet.getDouble("tcpm_measure_point1"));
+					response.setTcpmMeasurePoint2(resultSet.getDouble("tcpm_measure_point2"));
+					response.setPre1MTcpmMeasurePoint1(resultSet.getDouble("pre1_m_tcpm_measure_point1"));
+					response.setPre1MTcpmMeasurePoint2(resultSet.getDouble("pre1_m_tcpm_measure_point2"));
 					response.setPre1MTcpsDate(resultSet.getTimestamp("pre1_m_tcps_date"));
-					response.setPre2MTcpmFixedMeasure(resultSet.getString("pre2_m_tcpm_fixed_measure"));
-					response.setPre2MTcpmCClampMeasure(resultSet.getString("pre2_m_tcpm_c_clamp_measure"));
+					response.setPre2MTcpmMeasurePoint1(resultSet.getDouble("pre2_m_tcpm_measure_point1"));
+					response.setPre2MTcpmMeasurePoint2(resultSet.getDouble("pre2_m_tcpm_measure_point2"));
 					response.setPre2MTcpsDate(resultSet.getTimestamp("pre2_m_tcps_date"));
-					response.setPre3MTcpmFixedMeasure(resultSet.getString("pre3_m_tcpm_fixed_measure"));
-					response.setPre3MTcpmCClampMeasure(resultSet.getString("pre3_m_tcpm_c_clamp_measure"));
+					response.setPre3MTcpmMeasurePoint1(resultSet.getDouble("pre3_m_tcpm_measure_point1"));
+					response.setPre3MTcpmMeasurePoint2(resultSet.getDouble("pre3_m_tcpm_measure_point2"));
 					response.setPre3MTcpsDate(resultSet.getTimestamp("pre3_m_tcps_date"));
 					response.setRsFacilityId(resultSet.getString("rs_facility_id"));
 					response.setRsFacilityName(resultSet.getString("rs_facility_name"));
 					response.setRsId(resultSet.getString("rs_id"));
-					response.setTcpCheckPointDescription(resultSet.getString("tcp_check_point_description"));
+					response.setTcpCheckPoint1Description(resultSet.getString("tcp_check_point1_description"));
+					response.setTcpCheckPoint2Description(resultSet.getString("tcp_check_point2_description"));
 					response.setTcpCheckPointPart(resultSet.getString("tcp_check_point_part"));
-					response.setTcpCommparisonPoints(resultSet.getLong("tcp_commparison_points"));
 					response.setTcpDisplayGroup(resultSet.getString("tcp_display_group"));
 					response.setTcpDisplayOrder(resultSet.getString("tcp_display_order"));
-					response.setTcpmAmbientTemp(resultSet.getDouble("tcpm_ambient_temp"));
 					response.setTcpmId(resultSet.getLong("tcpm_id"));
 					response.setTcpmImageId(resultSet.getString("tcpm_image_id"));
 					//response.setTcpmMeasure(resultSet.getString("tcpm_measure"));
 					response.setTcpmRemark(resultSet.getString("tcpm_remark"));
-					response.setTcpmVarianceWithOtherPoint(resultSet.getDouble("tcpm_variance_with_other_point"));
 					response.setTcpsBy(resultSet.getString("tcps_by"));
 					response.setTcpsDate(resultSet.getTimestamp("tcps_date"));
 					response.setTcpsDateTime(resultSet.getTimestamp("tcps_date_time"));
@@ -78,11 +76,7 @@ public class ThermovisionMeasureUtilRepository {
 					response.setTcpsFacilityName(resultSet.getString("tcps_facility_name"));
 					response.setTcpsGeneralRemark(resultSet.getString("tcps_general_remark"));
 					response.setTcpsTime(resultSet.getString("tcps_time"));
-					response.setTcpTypeOfCheckPoint(resultSet.getString("tcp_type_of_check_point"));
-					response.setfDiff(resultSet.getString("f_diff"));
-					response.setcClampDiff(resultSet.getString("c_clamp_diff"));
-					response.setTcpDisplayOfTempDiff(resultSet.getString("tcp_display_of_temp_diff"));
-					response.setTcpId(resultSet.getLong("tcp_id"));
+					response.setfDiff(resultSet.getDouble("f_diff"));
 					list.add(response);
 				}
 		}catch (Exception e) {

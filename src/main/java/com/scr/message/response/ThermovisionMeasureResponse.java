@@ -8,29 +8,27 @@ public class ThermovisionMeasureResponse {
 	private String rsFacilityId;
 	private String rsFacilityName;
 	private String tcpCheckPointPart;
-	private String tcpCheckPointDescription;
-	private String tcpTypeOfCheckPoint;
+	private String tcpCheckPoint1Description;
+	private String tcpCheckPoint2Description;
 	private String tcpDisplayGroup;
 	private String tcpDisplayOrder;
-	private Long tcpCommparisonPoints;
 	private Long tcpmId;
-	private String tcpmFixedMeasure;
-	private String tcpmCClampMeasure;
-	private String tcpmMeasure;
-	private double tcpmAmbientTemp;
+	private Double tcpmMeasurePoint1;
+	private Double tcpmMeasurePoint2;
 	private String tcpmImageId;
 	private String tcpmRemark;
-	private Long tcpmCriticality;
-	private double tcpmVarianceWithOtherPoint;
+	private String tcpmCriticality;
+	private Double fDiff;
+	private String vtmTcpDisplayOrder;
 	private Timestamp pre1MTcpsDate;
-	private String pre1MTcpmFixedMeasure;
-	private String pre1MTcpmCClampMeasure;
+	private Double pre1MTcpmMeasurePoint1;
+	private Double pre1MTcpmMeasurePoint2;
 	private Timestamp pre2MTcpsDate;
-	private String pre2MTcpmFixedMeasure;
-	private String pre2MTcpmCClampMeasure;
+	private Double pre2MTcpmMeasurePoint1;
+	private Double pre2MTcpmMeasurePoint2;
 	private Timestamp pre3MTcpsDate;
-	private String pre3MTcpmFixedMeasure;
-	private String pre3MTcpmCClampMeasure;
+	private Double pre3MTcpmMeasurePoint1;
+	private Double pre3MTcpmMeasurePoint2;
 	private Long tcpsFacilityId;
 	private String tcpsFacilityName;
 	private Timestamp tcpsDate;
@@ -38,10 +36,7 @@ public class ThermovisionMeasureResponse {
 	private String tcpsTime;
 	private String tcpsBy;
 	private String tcpsGeneralRemark;
-	private String fDiff;
-	private String cClampDiff;
-	private String tcpDisplayOfTempDiff;
-	private Long tcpId;
+	private String tcpsLocation;
 
 	public String getRsId() {
 		return rsId;
@@ -75,20 +70,20 @@ public class ThermovisionMeasureResponse {
 		this.tcpCheckPointPart = tcpCheckPointPart;
 	}
 
-	public String getTcpCheckPointDescription() {
-		return tcpCheckPointDescription;
+	public String getTcpCheckPoint1Description() {
+		return tcpCheckPoint1Description;
 	}
 
-	public void setTcpCheckPointDescription(String tcpCheckPointDescription) {
-		this.tcpCheckPointDescription = tcpCheckPointDescription;
+	public void setTcpCheckPoint1Description(String tcpCheckPoint1Description) {
+		this.tcpCheckPoint1Description = tcpCheckPoint1Description;
 	}
 
-	public String getTcpTypeOfCheckPoint() {
-		return tcpTypeOfCheckPoint;
+	public String getTcpCheckPoint2Description() {
+		return tcpCheckPoint2Description;
 	}
 
-	public void setTcpTypeOfCheckPoint(String tcpTypeOfCheckPoint) {
-		this.tcpTypeOfCheckPoint = tcpTypeOfCheckPoint;
+	public void setTcpCheckPoint2Description(String tcpCheckPoint2Description) {
+		this.tcpCheckPoint2Description = tcpCheckPoint2Description;
 	}
 
 	public String getTcpDisplayGroup() {
@@ -107,14 +102,6 @@ public class ThermovisionMeasureResponse {
 		this.tcpDisplayOrder = tcpDisplayOrder;
 	}
 
-	public Long getTcpCommparisonPoints() {
-		return tcpCommparisonPoints;
-	}
-
-	public void setTcpCommparisonPoints(Long tcpCommparisonPoints) {
-		this.tcpCommparisonPoints = tcpCommparisonPoints;
-	}
-
 	public Long getTcpmId() {
 		return tcpmId;
 	}
@@ -123,36 +110,20 @@ public class ThermovisionMeasureResponse {
 		this.tcpmId = tcpmId;
 	}
 
-	public String getTcpmFixedMeasure() {
-		return tcpmFixedMeasure;
+	public Double getTcpmMeasurePoint1() {
+		return tcpmMeasurePoint1;
 	}
 
-	public void setTcpmFixedMeasure(String tcpmFixedMeasure) {
-		this.tcpmFixedMeasure = tcpmFixedMeasure;
+	public void setTcpmMeasurePoint1(Double tcpmMeasurePoint1) {
+		this.tcpmMeasurePoint1 = tcpmMeasurePoint1;
 	}
 
-	public String getTcpmCClampMeasure() {
-		return tcpmCClampMeasure;
+	public Double getTcpmMeasurePoint2() {
+		return tcpmMeasurePoint2;
 	}
 
-	public void setTcpmCClampMeasure(String tcpmCClampMeasure) {
-		this.tcpmCClampMeasure = tcpmCClampMeasure;
-	}
-
-	public String getTcpmMeasure() {
-		return tcpmMeasure;
-	}
-
-	public void setTcpmMeasure(String tcpmMeasure) {
-		this.tcpmMeasure = tcpmMeasure;
-	}
-
-	public double getTcpmAmbientTemp() {
-		return tcpmAmbientTemp;
-	}
-
-	public void setTcpmAmbientTemp(double tcpmAmbientTemp) {
-		this.tcpmAmbientTemp = tcpmAmbientTemp;
+	public void setTcpmMeasurePoint2(Double tcpmMeasurePoint2) {
+		this.tcpmMeasurePoint2 = tcpmMeasurePoint2;
 	}
 
 	public String getTcpmImageId() {
@@ -171,20 +142,28 @@ public class ThermovisionMeasureResponse {
 		this.tcpmRemark = tcpmRemark;
 	}
 
-	public Long getTcpmCriticality() {
+	public String getTcpmCriticality() {
 		return tcpmCriticality;
 	}
 
-	public void setTcpmCriticality(Long tcpmCriticality) {
+	public void setTcpmCriticality(String tcpmCriticality) {
 		this.tcpmCriticality = tcpmCriticality;
 	}
 
-	public double getTcpmVarianceWithOtherPoint() {
-		return tcpmVarianceWithOtherPoint;
+	public Double getfDiff() {
+		return fDiff;
 	}
 
-	public void setTcpmVarianceWithOtherPoint(double tcpmVarianceWithOtherPoint) {
-		this.tcpmVarianceWithOtherPoint = tcpmVarianceWithOtherPoint;
+	public void setfDiff(Double fDiff) {
+		this.fDiff = fDiff;
+	}
+
+	public String getVtmTcpDisplayOrder() {
+		return vtmTcpDisplayOrder;
+	}
+
+	public void setVtmTcpDisplayOrder(String vtmTcpDisplayOrder) {
+		this.vtmTcpDisplayOrder = vtmTcpDisplayOrder;
 	}
 
 	public Timestamp getPre1MTcpsDate() {
@@ -195,20 +174,20 @@ public class ThermovisionMeasureResponse {
 		pre1MTcpsDate = pre1mTcpsDate;
 	}
 
-	public String getPre1MTcpmFixedMeasure() {
-		return pre1MTcpmFixedMeasure;
+	public Double getPre1MTcpmMeasurePoint1() {
+		return pre1MTcpmMeasurePoint1;
 	}
 
-	public void setPre1MTcpmFixedMeasure(String pre1mTcpmFixedMeasure) {
-		pre1MTcpmFixedMeasure = pre1mTcpmFixedMeasure;
+	public void setPre1MTcpmMeasurePoint1(Double pre1mTcpmMeasurePoint1) {
+		pre1MTcpmMeasurePoint1 = pre1mTcpmMeasurePoint1;
 	}
 
-	public String getPre1MTcpmCClampMeasure() {
-		return pre1MTcpmCClampMeasure;
+	public Double getPre1MTcpmMeasurePoint2() {
+		return pre1MTcpmMeasurePoint2;
 	}
 
-	public void setPre1MTcpmCClampMeasure(String pre1mTcpmCClampMeasure) {
-		pre1MTcpmCClampMeasure = pre1mTcpmCClampMeasure;
+	public void setPre1MTcpmMeasurePoint2(Double pre1mTcpmMeasurePoint2) {
+		pre1MTcpmMeasurePoint2 = pre1mTcpmMeasurePoint2;
 	}
 
 	public Timestamp getPre2MTcpsDate() {
@@ -219,20 +198,20 @@ public class ThermovisionMeasureResponse {
 		pre2MTcpsDate = pre2mTcpsDate;
 	}
 
-	public String getPre2MTcpmFixedMeasure() {
-		return pre2MTcpmFixedMeasure;
+	public Double getPre2MTcpmMeasurePoint1() {
+		return pre2MTcpmMeasurePoint1;
 	}
 
-	public void setPre2MTcpmFixedMeasure(String pre2mTcpmFixedMeasure) {
-		pre2MTcpmFixedMeasure = pre2mTcpmFixedMeasure;
+	public void setPre2MTcpmMeasurePoint1(Double pre2mTcpmMeasurePoint1) {
+		pre2MTcpmMeasurePoint1 = pre2mTcpmMeasurePoint1;
 	}
 
-	public String getPre2MTcpmCClampMeasure() {
-		return pre2MTcpmCClampMeasure;
+	public Double getPre2MTcpmMeasurePoint2() {
+		return pre2MTcpmMeasurePoint2;
 	}
 
-	public void setPre2MTcpmCClampMeasure(String pre2mTcpmCClampMeasure) {
-		pre2MTcpmCClampMeasure = pre2mTcpmCClampMeasure;
+	public void setPre2MTcpmMeasurePoint2(Double pre2mTcpmMeasurePoint2) {
+		pre2MTcpmMeasurePoint2 = pre2mTcpmMeasurePoint2;
 	}
 
 	public Timestamp getPre3MTcpsDate() {
@@ -243,20 +222,20 @@ public class ThermovisionMeasureResponse {
 		pre3MTcpsDate = pre3mTcpsDate;
 	}
 
-	public String getPre3MTcpmFixedMeasure() {
-		return pre3MTcpmFixedMeasure;
+	public Double getPre3MTcpmMeasurePoint1() {
+		return pre3MTcpmMeasurePoint1;
 	}
 
-	public void setPre3MTcpmFixedMeasure(String pre3mTcpmFixedMeasure) {
-		pre3MTcpmFixedMeasure = pre3mTcpmFixedMeasure;
+	public void setPre3MTcpmMeasurePoint1(Double pre3mTcpmMeasurePoint1) {
+		pre3MTcpmMeasurePoint1 = pre3mTcpmMeasurePoint1;
 	}
 
-	public String getPre3MTcpmCClampMeasure() {
-		return pre3MTcpmCClampMeasure;
+	public Double getPre3MTcpmMeasurePoint2() {
+		return pre3MTcpmMeasurePoint2;
 	}
 
-	public void setPre3MTcpmCClampMeasure(String pre3mTcpmCClampMeasure) {
-		pre3MTcpmCClampMeasure = pre3mTcpmCClampMeasure;
+	public void setPre3MTcpmMeasurePoint2(Double pre3mTcpmMeasurePoint2) {
+		pre3MTcpmMeasurePoint2 = pre3mTcpmMeasurePoint2;
 	}
 
 	public Long getTcpsFacilityId() {
@@ -315,55 +294,12 @@ public class ThermovisionMeasureResponse {
 		this.tcpsGeneralRemark = tcpsGeneralRemark;
 	}
 
-	public String getfDiff() {
-		return fDiff;
+	public String getTcpsLocation() {
+		return tcpsLocation;
 	}
 
-	public void setfDiff(String fDiff) {
-		this.fDiff = fDiff;
-	}
-
-	public String getcClampDiff() {
-		return cClampDiff;
-	}
-
-	public void setcClampDiff(String cClampDiff) {
-		this.cClampDiff = cClampDiff;
-	}
-
-	public String getTcpDisplayOfTempDiff() {
-		return tcpDisplayOfTempDiff;
-	}
-
-	public void setTcpDisplayOfTempDiff(String tcpDisplayOfTempDiff) {
-		this.tcpDisplayOfTempDiff = tcpDisplayOfTempDiff;
-	}
-
-	public Long getTcpId() {
-		return tcpId;
-	}
-
-	public void setTcpId(Long tcpId) {
-		this.tcpId = tcpId;
-	}
-
-	@Override
-	public String toString() {
-		return "ThermovisionMeasureResponse [rsId=" + rsId + ", rsFacilityId=" + rsFacilityId + ", rsFacilityName="
-				+ rsFacilityName + ", tcpCheckPointPart=" + tcpCheckPointPart + ", tcpCheckPointDescription="
-				+ tcpCheckPointDescription + ", tcpTypeOfCheckPoint=" + tcpTypeOfCheckPoint + ", tcpDisplayGroup="
-				+ tcpDisplayGroup + ", tcpDisplayOrder=" + tcpDisplayOrder + ", tcpCommparisonPoints="
-				+ tcpCommparisonPoints + ", tcpmId=" + tcpmId + ", tcpmFixedMeasure=" + tcpmFixedMeasure
-				+ ", tcpmCClampMeasure=" + tcpmCClampMeasure + ", tcpmMeasure=" + tcpmMeasure + ", tcpmAmbientTemp="
-				+ tcpmAmbientTemp + ", tcpmImageId=" + tcpmImageId + ", tcpmRemark=" + tcpmRemark + ", tcpmCriticality="
-				+ tcpmCriticality + ", tcpmVarianceWithOtherPoint=" + tcpmVarianceWithOtherPoint + ", pre1MTcpsDate="
-				+ pre1MTcpsDate + ", pre1MTcpmFixedMeasure=" + pre1MTcpmFixedMeasure + ", pre1MTcpmCClampMeasure="
-				+ pre1MTcpmCClampMeasure + ", pre2MTcpsDate=" + pre2MTcpsDate + ", pre2MTcpmFixedMeasure="
-				+ pre2MTcpmFixedMeasure + ", pre2MTcpmCClampMeasure=" + pre2MTcpmCClampMeasure + ", pre3MTcpsDate="
-				+ pre3MTcpsDate + ", pre3MTcpmFixedMeasure=" + pre3MTcpmFixedMeasure + ", pre3MTcpmCClampMeasure="
-				+ pre3MTcpmCClampMeasure + ", tcpsFacilityId=" + tcpsFacilityId + ", tcpsFacilityName="
-				+ tcpsFacilityName + ", tcpsDate=" + tcpsDate + ", tcpsDateTime=" + tcpsDateTime + ", tcpsTime="
-				+ tcpsTime + ", tcpsBy=" + tcpsBy + ", tcpsGeneralRemark=" + tcpsGeneralRemark + "]";
+	public void setTcpsLocation(String tcpsLocation) {
+		this.tcpsLocation = tcpsLocation;
 	}
 
 }

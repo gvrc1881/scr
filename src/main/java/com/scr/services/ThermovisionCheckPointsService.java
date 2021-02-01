@@ -57,4 +57,9 @@ public class ThermovisionCheckPointsService {
  		List<ThermovisionCheckPoints> checkPointList = thermovisionCheckPointsRepository.findByFacilityIdAndIdNotIn(facilityId,id);
  		return checkPointList;
  	}
+
+	public Optional<ThermovisionCheckPoints> findByCheckPoint1DescriptionAndCheckPoint2Description(
+			String tcpCheckPoint1Description, String tcpCheckPoint2Description) {
+		return thermovisionCheckPointsRepository.findByCheckPoint1DescriptionAndCheckPoint2Description(tcpCheckPoint1Description,tcpCheckPoint2Description);
+	}
 }

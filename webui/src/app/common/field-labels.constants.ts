@@ -600,10 +600,14 @@ export const FieldLabelsConstant = {
       TARGETS:"Targets",
       TARGET_TYPE:"Target Type",
       GROUPS_SECTIONS:'Groups Sections',
-      USER:"User"
-     
-      
-      
+      USER:"User",
+      POINT1_DESCRIPTION:"Point1 Description",
+      POINT2_DESCRIPTION:"Point2 Description",
+      MEASURE1: "Measure1",
+      MEASURE2: "Measure2",
+      PREVIOUS1: "Previous1",
+      PREVIOUS2: "Previous2",
+      PREVIOUS3: "Previous3"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",

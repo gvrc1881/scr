@@ -54,18 +54,20 @@ public class ThermovisionMeasuresServices {
 				TcpSchedule resultTcpSchedule = null;
 				if (tcpScheduleObj.isPresent()) {
 					tcpScheduleObj.get().setBy(thermovisionMeasureResponse.getTcpsBy());
+					tcpScheduleObj.get().setLocation(thermovisionMeasureResponse.getTcpsLocation());
 					tcpScheduleObj.get().setGeneralRemark(thermovisionMeasureResponse.getTcpsGeneralRemark());
 					resultTcpSchedule = tcpScheduleService.save(tcpScheduleObj.get());
 				}else {
 					TcpSchedule tcpSchedule = new TcpSchedule();
 					tcpSchedule.setBy(thermovisionMeasureResponse.getTcpsBy());
 					tcpSchedule.setGeneralRemark(thermovisionMeasureResponse.getTcpsGeneralRemark());
+					tcpSchedule.setLocation(thermovisionMeasureResponse.getTcpsLocation());
 					tcpSchedule.setFacility(facilityObj.get());
 					tcpSchedule.setDateTime(thermovisionMeasureResponse.getTcpsDate());
 					resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
 				}
 				if (resultTcpSchedule != null) {
-					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1Description(thermovisionMeasureResponse.getTcpCheckPointDescription());
+					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1DescriptionAndCheckPoint2Description(thermovisionMeasureResponse.getTcpCheckPoint1Description(),thermovisionMeasureResponse.getTcpCheckPoint2Description());
 					if (thermoCheckPointObject.isPresent()) {
 						//logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);
@@ -74,6 +76,8 @@ public class ThermovisionMeasuresServices {
 							thermoMeasureObject.get().setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
 							thermoMeasureObject.get().setCriticality(thermovisionMeasureResponse.getTcpmCriticality());
 							thermoMeasureObject.get().setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());*/
+							thermoMeasureObject.get().setMeasurePoint1(thermovisionMeasureResponse.getTcpmMeasurePoint1());
+							thermoMeasureObject.get().setMeasurePoint2(thermovisionMeasureResponse.getTcpmMeasurePoint2());
 							thermoMeasureObject.get().setRemark(thermovisionMeasureResponse.getTcpmRemark());
 							//thermoMeasureObject.get().setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());
 							thermovisionMeasuresRepository.save(thermoMeasureObject.get());
@@ -81,10 +85,12 @@ public class ThermovisionMeasuresServices {
 							ThermovisionMeasures thermovisionMeasures = new ThermovisionMeasures();
 							/*thermovisionMeasures.setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
 							thermovisionMeasures.setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
-							thermovisionMeasures.setCriticality(thermovisionMeasureResponse.getTcpmCriticality());
 							thermovisionMeasures.setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());
-							thermovisionMeasures.setRemark(thermovisionMeasureResponse.getTcpmRemark());
 							thermovisionMeasures.setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());*/
+							thermovisionMeasures.setCriticality(thermovisionMeasureResponse.getTcpmCriticality());
+							thermovisionMeasures.setRemark(thermovisionMeasureResponse.getTcpmRemark());
+							thermovisionMeasures.setMeasurePoint1(thermovisionMeasureResponse.getTcpmMeasurePoint1());
+							thermovisionMeasures.setMeasurePoint2(thermovisionMeasureResponse.getTcpmMeasurePoint2());
 							thermovisionMeasures.setTcpId(thermoCheckPointObject.get());
 							thermovisionMeasures.setTcpScheduleId(resultTcpSchedule);
 							thermovisionMeasuresRepository.save(thermovisionMeasures);

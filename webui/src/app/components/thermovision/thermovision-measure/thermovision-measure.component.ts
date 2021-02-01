@@ -36,7 +36,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     depotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
-    displayedColumns =['sno','description','fixed','c-clamp','ambientTemp','criticality','remark','fixedDiff','CClampDiff']//,'fixed',
+    displayedColumns =['sno','point1description','measure1','point2description','measure2','tempDiff','criticality','remark','previous1','previous2','previous3']//,'fixed',
     dataSource: MatTableDataSource<any>;
     thermovisionMeasuresList: any[] = [];
     enableSave: boolean;
@@ -48,6 +48,8 @@ export class ThermovisionMeasureComponent implements OnInit{
     divCode: string;
     userDefaultData: any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    depotTypes:any = this.depotsData.map(item => item.depotType)
+   .filter((value, index, self) => self.indexOf(value) === index)
   
 
     constructor(
@@ -66,6 +68,7 @@ export class ThermovisionMeasureComponent implements OnInit{
         this.inputFormGroup = this.formBuilder.group({
             'dateTime': [null , Validators.required ],
             'division': [null , Validators.required ],
+            'depotType' : [null, Validators.required],
             'facilityId' : [null , Validators.required ],
             'location' : [null],
             'by' : [null],
@@ -88,8 +91,10 @@ export class ThermovisionMeasureComponent implements OnInit{
     compareTwoPoints(row){
         console.log('rowvalue***'+JSON.stringify(row));
         //console.log('row comp point ***'+row.tcpCommparisonPoints);
-        if(row.tcpCommparisonPoints){
-            //let index = row.tcpCommparisonPoints - 1;
+        if(row.tcpmMeasurePoint1 && row.tcpmMeasurePoint2){
+            let commpare = row.tcpmMeasurePoint1 - row.tcpmMeasurePoint2;
+            row.tempDiff = Math.abs(commpare);
+           /*
             let index = this.thermovisionMeasureData.findIndex(value => value.tcpId === row.tcpCommparisonPoints );
             console.log('*** index value ***'+index);
             console.log('indext is row '+JSON.stringify(this.thermovisionMeasureData[index]));
@@ -114,7 +119,9 @@ export class ThermovisionMeasureComponent implements OnInit{
             }else {
                 row.CClampDiff = '';
                 this.thermovisionMeasureData[index].CClampDiff = '';
-            }
+            } */
+        }else {
+            row.tempDiff = 0;
         }
     }
     
@@ -152,14 +159,20 @@ export class ThermovisionMeasureComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_THERMO_MEASURES
             +this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd')+'/'+this.inputFormGroup.value.facilityId
             ).subscribe((data)=>{
-                //console.log('infor***'+JSON.stringify(data));
+                console.log('infor***'+JSON.stringify(data));
                 this.thermovisionMeasureData = data;
-                if(this.thermovisionMeasureData){
+                if(this.thermovisionMeasureData.length > 0){
                     this.enableSave = true;
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
-                        this.thermovisionMeasureData[i].fixedDiff = this.thermovisionMeasureData[i].fDiff;
-                        this.thermovisionMeasureData[i].CClampDiff = this.thermovisionMeasureData[i].cClampDiff;
+                        this.thermovisionMeasureData[i].tempDiff = this.thermovisionMeasureData[i].fDiff;
+                        if(this.thermovisionMeasureData[i].pre1MTcpsDate)
+                        this.thermovisionMeasureData[i].previous1 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre1MTcpsDate, 'dd-MMM-yyyy') +  '('+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2+') '+Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2) ; 
+                        if(this.thermovisionMeasureData[i].pre2MTcpsDate)
+                        this.thermovisionMeasureData[i].previous2 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre2MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2+') '+ Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2) ;
+                        if(this.thermovisionMeasureData[i].pre3MTcpsDate)
+                        this.thermovisionMeasureData[i].previous3 = this.datePipe.transform(this.thermovisionMeasureData[i].pre3MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2+') '+  Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2) ;
+                       /*
                         if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED_CClamp"){
                             this.thermovisionMeasureData[i].enableFixed = true;
                             this.thermovisionMeasureData[i].enableCClamp = true;
@@ -170,9 +183,11 @@ export class ThermovisionMeasureComponent implements OnInit{
                             this.thermovisionMeasureData[i].enableCClamp = true;
                             this.thermovisionMeasureData[i].enableFixed = false;
                         }
+                        */
                         this.thermovisionMeasureData[i].tcpsDate = this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd');
                         this.thermovisionMeasureData[i].tcpsGeneralRemark = this.inputFormGroup.value.generalRemark;
                         this.thermovisionMeasureData[i].tcpsBy = this.inputFormGroup.value.by;
+                        this.thermovisionMeasureData[i].tcpsLocation = this.inputFormGroup.value.location;
                         this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);                            
                     }
                     this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
@@ -194,6 +209,15 @@ export class ThermovisionMeasureComponent implements OnInit{
           .subscribe((data) => {
             this.divisionsList = data;
           });
+    }
+    
+    getFacilitys(){
+      var depotType = this.inputFormGroup.value.depotType ;
+        this.inputFormGroup.patchValue( {'facilityId':null} );
+        this.inputFormGroup.setErrors({ 'invalid': true });
+      this.depotsList = this.depotsData.filter(value => {
+        return value.depotType == depotType;
+      });
     }
     
     getDepots(){
