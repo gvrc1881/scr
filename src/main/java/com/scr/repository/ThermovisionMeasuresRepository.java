@@ -1,5 +1,6 @@
 package com.scr.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,10 @@ public interface ThermovisionMeasuresRepository extends JpaRepository<Thermovisi
 
 	Optional<ThermovisionMeasures> findByTcpIdAndTcpScheduleId(ThermovisionCheckPoints thermovisionCheckPoints,
 			TcpSchedule returnTcpSchedule);
+
+	Optional<ThermovisionMeasures> findByTcpScheduleIdAndConnectionPoint(TcpSchedule resultTcpSchedule,
+			String connectionPoint);
+
+	List<ThermovisionMeasures> findByTcpScheduleIdInOrderByCreatedOnDesc(List<TcpSchedule> tcpSchs);
 
 }

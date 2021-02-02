@@ -1,5 +1,7 @@
 package com.scr.services;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scr.message.request.OheThermovisionMeasureRequest;
 import com.scr.message.response.ThermovisionMeasureResponse;
 import com.scr.model.Facility;
 import com.scr.model.TcpSchedule;
@@ -101,6 +104,54 @@ public class ThermovisionMeasuresServices {
 			
 		}
 		
+	}
+
+
+	public void saveOheThermovisionMeasure(OheThermovisionMeasureRequest oheThermovisionMeasureRequest) {
+		Optional<TcpSchedule> tcpScheduleObj = tcpScheduleService.findByFacilityIdAndDateTime(oheThermovisionMeasureRequest.getFacilityId().getId(),oheThermovisionMeasureRequest.getDateTime());
+		TcpSchedule resultTcpSchedule = null;
+		if (tcpScheduleObj.isPresent()) {
+			tcpScheduleObj.get().setBy(oheThermovisionMeasureRequest.getBy());
+			//tcpScheduleObj.get().setLocation(oheThermovisionMeasureRequest.getLocation());
+			tcpScheduleObj.get().setGeneralRemark(oheThermovisionMeasureRequest.getGeneralRemark());
+			resultTcpSchedule = tcpScheduleService.save(tcpScheduleObj.get());
+		}else {
+			TcpSchedule tcpSchedule = new TcpSchedule();
+			tcpSchedule.setBy(oheThermovisionMeasureRequest.getBy());
+			tcpSchedule.setGeneralRemark(oheThermovisionMeasureRequest.getGeneralRemark());
+			tcpSchedule.setFacility(oheThermovisionMeasureRequest.getFacilityId());
+			tcpSchedule.setDateTime(oheThermovisionMeasureRequest.getDateTime());
+			resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
+		}
+		if (resultTcpSchedule != null ) {
+			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint(resultTcpSchedule,oheThermovisionMeasureRequest.getConnectionPoint());
+			if (thermovisionMeasures.isPresent()) {
+				thermovisionMeasures.get().setLocation(oheThermovisionMeasureRequest.getLocation());
+				thermovisionMeasures.get().setAmbientTemp(oheThermovisionMeasureRequest.getAmbientTemp());
+				thermovisionMeasures.get().setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure());
+				thermovisionMeasures.get().setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				thermovisionMeasuresRepository.save(thermovisionMeasures.get());
+			}else {
+				ThermovisionMeasures thermovisionMeasure = new ThermovisionMeasures();
+				thermovisionMeasure.setLocation(oheThermovisionMeasureRequest.getLocation());
+				thermovisionMeasure.setAmbientTemp(oheThermovisionMeasureRequest.getAmbientTemp());
+				thermovisionMeasure.setConnectionPoint(oheThermovisionMeasureRequest.getConnectionPoint());
+				thermovisionMeasure.setTcpScheduleId(resultTcpSchedule);
+				thermovisionMeasure.setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure());
+				thermovisionMeasure.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				thermovisionMeasure.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				thermovisionMeasuresRepository.save(thermovisionMeasure);	
+			}
+			
+		}
+	}
+
+
+	public List<ThermovisionMeasures> findOheThermovisionMeasure(Long facilityId) {
+		// TODO Auto-generated method stub
+		List<TcpSchedule> tcpSchs = tcpScheduleService.findByFacilityId(facilityId);
+		List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInOrderByCreatedOnDesc(tcpSchs);
+		return thermovisionMeasures;
 	}
 
 }

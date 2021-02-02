@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scr.message.request.OheThermovisionMeasureRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.message.response.ThermovisionMeasureResponse;
+import com.scr.model.ThermovisionMeasures;
 import com.scr.model.WPADailyProgress;
 import com.scr.services.ThermovisionMeasuresServices;
 import com.scr.util.Constants;
@@ -71,5 +73,41 @@ public class ThermovisionMeasuresController {
 		}
 	}
 	
+	
+	@PostMapping(value="/saveOheThermovisionMeasure")
+	@ResponseBody
+	public ResponseStatus saveOheThermovisionMeasure(@RequestBody OheThermovisionMeasureRequest oheThermovisionMeasureRequest) {
+		logger.info("*** Enter into saveOheThermovisionMeasure function ***");
+		try {			
+			thermovisionMeasuresServices.saveOheThermovisionMeasure(oheThermovisionMeasureRequest);
+			logger.info("Preparing the return response and saveThermovisionMeasures function end ");
+			return Helper.findResponseStatus("Thermovision Measure Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+npe.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+e.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/getOherThermovisionMeasures/{facilityId}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<ThermovisionMeasures>> findOheThermovisionMeasure(
+				@PathVariable("facilityId") Long facilityId) throws JSONException {
+		logger.info("Enter into ohe Thermovision Measure function");
+		List<ThermovisionMeasures> thermovisionMeasureList = null;
+		try {			
+			logger.info("Calling service for Thermovision Measure data");
+			thermovisionMeasureList = thermovisionMeasuresServices.findOheThermovisionMeasure( facilityId);	
+			logger.info("Fetched Thermovision Measure data = "+thermovisionMeasureList);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the Thermovision Measure data = "+e.getMessage());
+		}
+		logger.info("Exit from Thermovision Measure function");
+		return ResponseEntity.ok((thermovisionMeasureList));
+	}
 
 }

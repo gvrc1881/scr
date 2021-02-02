@@ -1,6 +1,7 @@
 package com.scr.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class TcpScheduleService {
 
 	public TcpSchedule save(TcpSchedule tcpSchedule) {
 		return tcpScheduleRepository.save(tcpSchedule);
+	}
+
+	public List<TcpSchedule> findByFacilityId(Long facilityId) {
+		return tcpScheduleRepository.findByFacilityId(facilityId);
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.scr.model;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +36,20 @@ public class ThermovisionMeasures {
 	private String remark;
 
 	private String criticality;
+	
+	private String Location;
+	
+	private String connectionPoint;
+	
+	private double ambientTemp;
+	
+	private String createdBy;
+
+	private String updatedBy;
+
+	private Timestamp createdOn;
+
+	private Timestamp updatedOn;
 
 	//private Double varianceWithOtherPoint;
 
@@ -139,6 +156,62 @@ public class ThermovisionMeasures {
 
 	public void setTcpId(ThermovisionCheckPoints tcpId) {
 		this.tcpId = tcpId;
+	}
+
+	public String getLocation() {
+		return Location;
+	}
+
+	public void setLocation(String location) {
+		Location = location;
+	}
+
+	public String getConnectionPoint() {
+		return connectionPoint;
+	}
+
+	public void setConnectionPoint(String connectionPoint) {
+		this.connectionPoint = connectionPoint;
+	}
+
+	public double getAmbientTemp() {
+		return ambientTemp;
+	}
+
+	public void setAmbientTemp(double ambientTemp) {
+		this.ambientTemp = ambientTemp;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Timestamp createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Timestamp getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Timestamp updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 }

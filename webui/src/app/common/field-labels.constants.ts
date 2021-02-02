@@ -607,7 +607,9 @@ export const FieldLabelsConstant = {
       MEASURE2: "Measure2",
       PREVIOUS1: "Previous1",
       PREVIOUS2: "Previous2",
-      PREVIOUS3: "Previous3"
+      PREVIOUS3: "Previous3",
+      MEASURE: "Measure",
+      CONNECTION_POINT: "Connection Point"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
@@ -712,5 +714,6 @@ export const FieldLabelsConstant = {
     TOWERCAR_STATUS:'TowerCar Status',
     THERMOVISION_MEASURE_INFORMATION: 'Thermovision Measure Information',
     THERMOVISION_CHECK_POINTS:'Thermovision Check Points',
+    OHE_THERMOVISION_MEASURE_INFORMATION: 'Ohe Thermovision Measure Information'
    }
 };

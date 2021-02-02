@@ -585,6 +585,11 @@ const routes: Routes = [
     loadChildren: './components/dashboard/energy-dashboard/energy-graphs.module#EnergyGraphsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'ohe-thermovision-measure',
+    loadChildren: './components/thermovision/ohe-thermovision-measures/ohe-thermovision-measure.module#OheThermovisionMeasureModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
