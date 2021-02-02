@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyOHEProgress" pageWidth="1120" pageHeight="942" whenNoDataType="NoDataSection" columnWidth="1080" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1242cb5d-7f9c-4833-b34f-189ead426a54">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailyOHEProgress" pageWidth="1000" pageHeight="942" whenNoDataType="NoDataSection" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1242cb5d-7f9c-4833-b34f-189ead426a54">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="342"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select check_point_description,check_point_part,
-commparison_points,display_of_temp_diff,
-type_of_check_point,tvcp.facility_id,fac.facility_name from thermovision_check_points  tvcp
-inner join facility fac on fac.id = tvcp.facility_id where case when $P{depot} != '' then fac.id = $P{depot}::Integer
-else fac.id is not null or fac.id is null end]]>
+		<![CDATA[
+select check_point2description  ,
+check_point1description ,check_point_part,
+tvcp.facility_id,fac.facility_name from thermovision_check_points  tvcp
+inner join facility fac on fac.id = tvcp.facility_id where case when $P{depot} != '' then fac.facility_id = $P{depot}
+else fac.facility_id is not null or fac.facility_id is null end]]>
 	</queryString>
-	<field name="check_point_description" class="java.lang.String"/>
+	<field name="check_point2description" class="java.lang.String"/>
+	<field name="check_point1description" class="java.lang.String"/>
 	<field name="check_point_part" class="java.lang.String"/>
-	<field name="commparison_points" class="java.lang.Long"/>
-	<field name="display_of_temp_diff" class="java.lang.String"/>
-	<field name="type_of_check_point" class="java.lang.String"/>
 	<field name="facility_id" class="java.lang.Long"/>
 	<field name="facility_name" class="java.lang.String"/>
 	<background>
@@ -26,7 +25,7 @@ else fac.id is not null or fac.id is null end]]>
 	<title>
 		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="1080" height="35" uuid="aa2250ee-1dd6-4450-8438-ee471f7907cc"/>
+				<reportElement x="0" y="0" width="960" height="35" uuid="aa2250ee-1dd6-4450-8438-ee471f7907cc"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -58,7 +57,35 @@ else fac.id is not null or fac.id is null end]]>
 				<text><![CDATA[S No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="0" width="350" height="20" uuid="59227f2c-0d61-4290-a668-33865c188846"/>
+				<reportElement x="290" y="0" width="350" height="20" uuid="59227f2c-0d61-4290-a668-33865c188846"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check Point Description1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="640" y="0" width="320" height="20" uuid="9d1dde6b-7b36-4e8a-bf3e-1661f9be0bef"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Check Point Description2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="120" height="20" uuid="058e6657-df65-404c-a5dc-8e1c8cbcc2c8"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -72,7 +99,7 @@ else fac.id is not null or fac.id is null end]]>
 				<text><![CDATA[Check Point Part]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="0" width="320" height="20" uuid="9d1dde6b-7b36-4e8a-bf3e-1661f9be0bef"/>
+				<reportElement x="50" y="0" width="120" height="20" uuid="e4292334-63cf-4c6f-86a7-85afc34b2ae7"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -83,49 +110,7 @@ else fac.id is not null or fac.id is null end]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Check Point Description]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="720" y="0" width="120" height="20" uuid="058e6657-df65-404c-a5dc-8e1c8cbcc2c8"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Commparison Points]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="840" y="0" width="120" height="20" uuid="e4292334-63cf-4c6f-86a7-85afc34b2ae7"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Display Of Temp Diff]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="960" y="0" width="120" height="20" uuid="94ea023b-7546-4216-9815-6a6a690497d7"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Type Of Check Point]]></text>
+				<text><![CDATA[Depot Name]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -141,10 +126,34 @@ else fac.id is not null or fac.id is null end]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="50" y="0" width="350" height="20" uuid="41498a41-0832-42be-8f8e-5aa21ecca68d"/>
+				<reportElement stretchType="RelativeToTallestObject" x="290" y="0" width="350" height="20" uuid="41498a41-0832-42be-8f8e-5aa21ecca68d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{check_point1description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="640" y="0" width="320" height="20" uuid="3f5d160b-1043-4bdb-9065-7da29ca81f8c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{check_point2description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="170" y="0" width="120" height="20" uuid="fade4c16-e3cb-4444-9736-c6551ca85f38"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -156,7 +165,7 @@ else fac.id is not null or fac.id is null end]]>
 				<textFieldExpression><![CDATA[$F{check_point_part}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="400" y="0" width="320" height="20" uuid="3f5d160b-1043-4bdb-9065-7da29ca81f8c"/>
+				<reportElement stretchType="RelativeToTallestObject" x="50" y="0" width="120" height="20" uuid="b30e44f0-0868-465e-ae7d-ed21f43707e6"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -165,60 +174,24 @@ else fac.id is not null or fac.id is null end]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{check_point_description}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="720" y="0" width="120" height="20" uuid="fade4c16-e3cb-4444-9736-c6551ca85f38"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{commparison_points}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="840" y="0" width="120" height="20" uuid="b30e44f0-0868-465e-ae7d-ed21f43707e6"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{display_of_temp_diff}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="960" y="0" width="120" height="20" uuid="e685629d-f4a5-4b35-b9b8-07ca216f2b78"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{type_of_check_point}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{facility_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="400" y="0" width="320" height="20" uuid="2287452d-c9ef-412d-b7f8-698ebc0df367"/>
+				<reportElement x="290" y="0" width="154" height="20" uuid="2287452d-c9ef-412d-b7f8-698ebc0df367"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="720" y="0" width="120" height="20" uuid="7d5e4f4f-73ff-4898-8058-4ec392c84d23"/>
+				<reportElement x="444" y="0" width="196" height="20" uuid="7d5e4f4f-73ff-4898-8058-4ec392c84d23"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="960" y="0" width="120" height="20" uuid="a91e18b5-ccb6-4b04-b531-6ee57f7fec4d"/>
+				<reportElement x="842" y="0" width="118" height="20" uuid="a91e18b5-ccb6-4b04-b531-6ee57f7fec4d"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -232,7 +205,7 @@ else fac.id is not null or fac.id is null end]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="840" y="0" width="120" height="20" uuid="e8f11563-65c7-4565-8a52-e2fcba20f042"/>
+				<reportElement x="722" y="0" width="120" height="20" uuid="e8f11563-65c7-4565-8a52-e2fcba20f042"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -250,7 +223,7 @@ else fac.id is not null or fac.id is null end]]>
 	<noData>
 		<band height="33">
 			<staticText>
-				<reportElement x="0" y="0" width="1080" height="33" forecolor="#F90A4E" uuid="02466c75-d06e-4d19-a8fb-85f2e1860ef4"/>
+				<reportElement x="0" y="0" width="960" height="33" forecolor="#F90A4E" uuid="02466c75-d06e-4d19-a8fb-85f2e1860ef4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>

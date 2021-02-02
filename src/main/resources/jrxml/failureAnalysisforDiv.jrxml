@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="failureAnalysisforDiv" pageWidth="1500" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ae06caf9-982c-4454-a9b6-2c383a979ff1">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="764"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -90,7 +90,7 @@ from
 	) d_ag  -- division string concatenation
 	group by division
 ) split1
-order by division]]>  
+order by division]]>
 	</queryString>
 	<field name="division" class="java.lang.String"/>
 	<field name="div1_fy" class="java.lang.String"/>
@@ -386,7 +386,7 @@ order by division]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="35" y="0" width="70" height="20" uuid="d9d58bf7-dda4-4737-95bd-88b6d67aba53"/>

@@ -12,7 +12,7 @@
 	<parameter name="toDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="subStation" class="java.lang.String">
+	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -30,9 +30,9 @@ LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id )
 where
 to_char(f.from_date_time, 'yyyy-mm-dd')::date >= $P{fromDate}::date
 and to_char(f.from_date_time, 'yyyy-mm-dd')::date <= $P{toDate}::date
-and case when $P{equipmentno} != '' then equipment = $P{equipmentno}
-else equipment is not null or equipment is null end
-and case when  $P{subStation}!= '' then facility_name = $P{subStation}
+and case when $P{equipmentno} != '' then cascade_assets = $P{equipmentno}
+else cascade_assets is not null or cascade_assets is null end
+and case when $P{depot} != '' then facility_name = $P{depot}
 else facility_name is not null or facility_name is null end
 and type_of_failure ='POWER_FAILURE'
 and current_status = 'ACTIVE'

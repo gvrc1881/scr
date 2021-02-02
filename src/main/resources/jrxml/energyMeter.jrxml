@@ -475,7 +475,7 @@ order by em.data_div,start_date desc]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="960" y="0" width="179" height="20" uuid="b8f7e0be-a427-4ff7-a8e0-41012b810027"/>

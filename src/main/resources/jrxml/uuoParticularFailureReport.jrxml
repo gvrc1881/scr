@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Alternative Feeding" pageWidth="1500" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa3d40b6-1d9b-43d9-b193-f3ae3ed93140">
 	<property name="ireport.zoom" value="1.0000000000000027"/>
-	<property name="ireport.x" value="673"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fromDate" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -140,7 +140,7 @@ and train_no is not null]]>
 				<text><![CDATA[From Date : ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="31" width="200" height="26" uuid="d2f8416c-7905-4b47-b58a-ed1102ebc547"/>
+				<reportElement x="100" y="31" width="303" height="26" uuid="d2f8416c-7905-4b47-b58a-ed1102ebc547"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
@@ -333,7 +333,7 @@ and train_no is not null]]>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="100" y="0" width="100" height="20" uuid="865f8d57-38d6-4796-ba0f-e8fe8676eebe"/>
@@ -470,8 +470,10 @@ and train_no is not null]]>
 			</textField>
 			<staticText>
 				<reportElement x="1203" y="0" width="100" height="20" uuid="25aa960c-0f55-4195-a7a6-88010e867d52"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Generated On]]></text>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On :- ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="1303" y="0" width="156" height="20" uuid="cfdf2542-4ffb-4d5c-8ba3-d5e51525cf84"/>

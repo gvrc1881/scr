@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" pageWidth="1050" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1010" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dc6e324-fa21-4062-821e-33bcc6ca98b4">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="223"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="depot" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -22,7 +22,7 @@ where  pm.facility_id = fac.facility_id and  pmm.id = pm.precautionary_measure
 and case when $P{depot} != '' then pm.facility_id = $P{depot}
 else pm.facility_id is not null or pm.facility_id is null end
 
-and case when $P{fromDate}!= '' then to_char(created_date,'yyyy-mm-dd')::Date >= $P{fromDate}::Date
+and case when $P{fromDate} != '' then to_char(created_date,'yyyy-mm-dd') >= $P{fromDate}
 else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyyy-mm-dd') is null end]]>
 	</queryString>
 	<field name="precautionary_measure1" class="java.lang.Integer"/>
@@ -184,7 +184,7 @@ else to_char(created_date,'yyyy-mm-dd') is not null or to_char(created_date,'yyy
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="664" y="0" width="246" height="20" uuid="19bebaac-865b-471f-acc6-2ea24d094ad9"/>

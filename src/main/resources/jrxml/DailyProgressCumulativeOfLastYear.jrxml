@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DpTopPageSubCumLastyear_subreport1" pageWidth="555" pageHeight="802" whenNoDataType="NoDataSection" columnWidth="515" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ffeada2-ba87-4a88-9300-e3885a4dfe27">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DpTopPageSubCumLastyear_subreport1" pageWidth="600" pageHeight="802" whenNoDataType="NoDataSection" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ffeada2-ba87-4a88-9300-e3885a4dfe27">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -25,7 +25,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 	<title>
 		<band height="34">
 			<staticText>
-				<reportElement x="0" y="0" width="515" height="34" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
+				<reportElement x="0" y="0" width="560" height="34" uuid="bbd09f38-497a-4690-b41d-418f88353118"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -43,7 +43,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 	<columnHeader>
 		<band height="45" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="25" width="177" height="20" uuid="0349782a-b076-49c6-825f-1c1fea8047be"/>
+				<reportElement x="45" y="25" width="177" height="20" uuid="0349782a-b076-49c6-825f-1c1fea8047be"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -57,7 +57,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<text><![CDATA[Division]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="362" y="25" width="153" height="20" uuid="1a662ea4-0bf2-40b4-9a04-4d87a2c35f12"/>
+				<reportElement x="407" y="25" width="153" height="20" uuid="1a662ea4-0bf2-40b4-9a04-4d87a2c35f12"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -71,7 +71,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<text><![CDATA[No.of.Trains]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="177" y="25" width="185" height="20" uuid="14b3aa10-c7d9-49e5-92fa-1c0e5f7b0921"/>
+				<reportElement x="222" y="25" width="185" height="20" uuid="14b3aa10-c7d9-49e5-92fa-1c0e5f7b0921"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -104,7 +104,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<textFieldExpression><![CDATA[$F{fromdate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="515" height="25" uuid="eafa693c-bc76-4d7a-bfb6-698c1df80010"/>
+				<reportElement x="0" y="0" width="560" height="25" uuid="eafa693c-bc76-4d7a-bfb6-698c1df80010"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -114,12 +114,26 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				</box>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="45" height="20" uuid="f3f58b17-c00f-464c-89e9-32a789063386"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[S No]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="177" height="20" uuid="89b7f545-82fa-41a2-b081-1067d7930c86"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="45" y="0" width="177" height="20" uuid="89b7f545-82fa-41a2-b081-1067d7930c86"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -131,7 +145,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<textFieldExpression><![CDATA[$F{division}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="177" y="0" width="185" height="20" uuid="34dbaa16-9740-431f-b5bf-fafc0a1b505a"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="222" y="0" width="185" height="20" uuid="34dbaa16-9740-431f-b5bf-fafc0a1b505a"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -143,7 +157,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<textFieldExpression><![CDATA[$F{no_of_incidence}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="362" y="0" width="153" height="20" uuid="bd9d9e54-949b-4374-9709-8d599001f781"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="407" y="0" width="153" height="20" uuid="bd9d9e54-949b-4374-9709-8d599001f781"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -154,26 +168,40 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{no_of_trains}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="45" height="20" uuid="a1938664-4dcb-46aa-a8d4-697ab2989c9c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="20">
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="413" y="0" width="101" height="20" uuid="dc4dac57-a4d4-40ea-afda-bf7029d2345e"/>
+				<reportElement x="459" y="0" width="101" height="20" uuid="dc4dac57-a4d4-40ea-afda-bf7029d2345e"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="313" y="0" width="100" height="20" uuid="20627653-a9b2-42ca-b744-797a24f53647"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Generated On:]]></text>
+				<reportElement x="359" y="0" width="100" height="20" uuid="20627653-a9b2-42ca-b744-797a24f53647"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generated On: -]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="177" y="0" width="111" height="20" uuid="bedac45f-7a92-452a-85e1-bccc2cbc7ff1"/>
+				<reportElement x="223" y="0" width="111" height="20" uuid="bedac45f-7a92-452a-85e1-bccc2cbc7ff1"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="101" y="0" width="76" height="20" uuid="9668a0e6-5ddc-4821-8999-1df0dfb2e6ea"/>
+				<reportElement x="45" y="0" width="178" height="20" uuid="9668a0e6-5ddc-4821-8999-1df0dfb2e6ea"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
@@ -182,7 +210,7 @@ f.created_date =to_date( $P{fromDate},'yyyy-mm-dd') - interval '1 year'
 	<noData>
 		<band height="25">
 			<staticText>
-				<reportElement x="0" y="0" width="515" height="25" forecolor="#EE0542" uuid="49e0a919-430c-46ad-a8f8-126caadb8d2f"/>
+				<reportElement x="0" y="0" width="560" height="25" forecolor="#EE0542" uuid="49e0a919-430c-46ad-a8f8-126caadb8d2f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
