@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CheckPointsComponent } from './check-points.component';
+import { CheckPointsComponent,CopyCheckPointsComponent } from './check-points.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +30,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         CheckPointsComponent, 
+        CopyCheckPointsComponent,
         AddCheckPointsComponent 
     ],
     imports: [
@@ -51,7 +52,7 @@ const routes: Routes = [
     exports: [
         CheckPointsComponent,
     ],
-   
+    entryComponents: [ CopyCheckPointsComponent ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CheckPointsModule {

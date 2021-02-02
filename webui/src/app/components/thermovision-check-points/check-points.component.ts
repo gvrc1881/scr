@@ -45,7 +45,7 @@ export class CheckPointsComponent implements OnInit {
   res: any;
   enableSave: boolean;
   checkPoints =[];
-  public tempDiff = ['YES','NO'];
+  public stationType = ['PSI','SP','SSP','TSS','FP'];
 
 
   constructor(
@@ -97,9 +97,6 @@ getCheckPoints() {
            if(this.checkPointsList.length > 0) {
                for(let i =0 ; i < this.checkPointsList.length ; i++ ){
                    this.checkPointsList[i].sno = i+1;
-                  
-                  // this.checkPointsList[i].checkPointsList = this.checkPoints;
-                  // //this.checkPointsList[i].commparisonPoints = ''; 
                   console.log('checkPointPart'+this.checkPointsList[i].checkPointsList);
                }
                this.enableSave = true;
@@ -109,14 +106,9 @@ getCheckPoints() {
 }
 updateCheckPoints()
  {
-  //  console.log("checkPoints")
-  //  for(let i =0 ; i < this.checkPointsList.length ; i++ ){
-  //   this.checkPointsList[i].checkPointsList = [];
-  // }
-  // console.log('** request **'+JSON.stringify(this.checkPointsList));
   this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.UPDATE_CHECK_POINTS,this.checkPointsList,true).subscribe((response) => {
     this.spinnerService.hide();
-    
+    console.log('** update Response **'+JSON.stringify(this.checkPointsList));
    this.res = response;
    this.enableSave = false;
    if (this.res.code == Constants.CODES.SUCCESS) {
@@ -125,7 +117,6 @@ updateCheckPoints()
       this.dataSource=new MatTableDataSource();
       this.enableUpdate=false;
       this.addPermission=true;
-      //this.router.navigate(['../'], { relativeTo: this.route });
     } else {
       this.commonService.showAlertMessage("Check Points Updating Failed.");
     }
@@ -159,5 +150,102 @@ getDepot(){
     return value.division == division;
   });
 }
+copy() {
+  const dialogRef = this.dialog.open(CopyCheckPointsComponent, {
+    height: '400px',
+    width: '80%',
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    this.ngOnInit();
+  });
+}
 }
 
+@Component({
+  selector: 'copy-check-points',
+  templateUrl: 'copy-check-points.component.html',
+})
+export class CopyCheckPointsComponent implements OnInit {
+  FiledLabels = FieldLabelsConstant.LABELS;
+  Titles = FieldLabelsConstant.TITLE;
+
+  checkPointFormGroup: FormGroup;
+  copyPoints = [];
+  checkPointsExists: boolean;
+  dataSource: MatTableDataSource<ChekPointsModel>;
+  displayedColumns = ['sno', 'active','checkPointPart','checkPoint1Description','checkPoint2Description','displayOrder'];
+  facilityId: any;
+  createCheckPoints: boolean;
+  res: any;
+  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
+
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private sendAndRequestService: SendAndRequestService,
+    private dialogRef: MatDialogRef<CopyCheckPointsComponent>,
+    private commonService: CommonService,
+    public dialog: MatDialog
+  ) { }
+
+  ngOnInit() {
+    this.createCheckPoints = false;
+    this.checkPointFormGroup = this.formBuilder.group({
+      facilityId: [null]
+    })
+  }
+
+  saveAction() {
+    this.confirmDialogRef = this.dialog.open(FuseConfirmDialogComponent, {
+      disableClose: false
+
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Do you want to copy existing documents to new Check Points ?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.COPY_CHECK_POINTS,this.copyPoints,true).subscribe((response) => {
+          this.spinnerService.hide();
+         this.res = response;
+         if (this.res.code == Constants.CODES.SUCCESS) {
+            this.commonService.showAlertMessage("Copy Check Points Data Saved Successfully");
+            this.checkPointFormGroup.reset();
+            this.dataSource=new MatTableDataSource();
+          } else {
+            this.commonService.showAlertMessage("Copy Check Points Data Saving Failed.");
+          }
+        }, error => {
+          console.log('ERROR >>>');
+          this.spinnerService.hide();
+          this.commonService.showAlertMessage("Copy Check Points Data Saving Failed.");
+        });           
+    }); 
+  }
+
+
+  
+
+  copyCheckPointsFormSubmit() {
+    this.copyPoints = [];
+    this.facilityId = this.checkPointFormGroup.controls['facilityId'].value;
+    this.dataSource = new MatTableDataSource(this.copyPoints);
+    this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.GET_CHECK_POINTS_BASED_ON_FACILITY_ID+this.facilityId).subscribe((data) => {
+      this.copyPoints = data;
+      console.log('** rseponse **'+JSON.stringify(this.copyPoints));
+      if(this.copyPoints.length > 0) {
+          for(let i =0 ; i < this.copyPoints.length ; i++ ){
+              this.copyPoints[i].sno = i+1;
+          }
+          this.checkPointsExists = true;
+      }
+       this.dataSource = new MatTableDataSource(this.copyPoints);
+});
+  }
+
+  
+
+  onGoBack(): void {
+    this.dialogRef.close();
+  }
+
+}

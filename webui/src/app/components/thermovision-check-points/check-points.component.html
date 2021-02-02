@@ -18,6 +18,10 @@
             		<div class="panel-body">
                         <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
                             <div class="p-24" style="text-align: right">
+                                <button class="mat-raised-button mat-accent" color="accent" mat-raised-button=""
+                                            (click)="copy()">
+                                            Copy
+                                        </button>&nbsp;
                                 <button class="mat-raised-button mat-accent" color="accent" mat-raised-button="" 
                                     [routerLink]="['add-check-points']"> 
                                     Add Check Points
@@ -40,7 +44,7 @@
 								<div class="col-md-2">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="Station Type" [formControl]="searchInputFormGroup.controls['depotType']"  (selectionChange)="getFacilitys()">
-                                            <mat-option *ngFor="let funLocTypeData of distinctDepotType "
+                                            <mat-option *ngFor="let funLocTypeData of stationType "
                                                 [value]="funLocTypeData">
                                                 {{ funLocTypeData}}
                                             </mat-option>
@@ -66,13 +70,12 @@
 								</div>
 		                    </form>
 						</div> 
-						<div class="example-header">
-							<div class="col-sm-4">
-								<mat-form-field>
+                    	<div class="clear"></div>
+                    	<div class = "col-md-3" >
+                            <mat-form-field>
 								  <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 								</mat-form-field>
 							</div>
-						</div>
 						<div class="clear"> </div>
 									
 		                		<div class="mat-elevation-z8">

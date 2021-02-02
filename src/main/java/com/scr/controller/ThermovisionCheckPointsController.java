@@ -2,7 +2,11 @@ package com.scr.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scr.message.request.CopyCheckPointsRequest;
+import com.scr.message.request.OheLocationAndAssetsRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
 import com.scr.model.ThermovisionCheckPoints;
@@ -107,5 +114,24 @@ private Logger logger = Logger.getLogger(ThermovisionCheckPointsController.class
 			logger.error("Error >>  while find check points based on facility Id, "+e.getMessage());
 		}
 		return checkPoints;
+	}
+	
+	@RequestMapping(value = "/saveCopyCheckPoints", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveCopyCheckPoints(@Valid @RequestBody List<ThermovisionCheckPoints> thermovisionCheckPoints) throws JSONException {	
+		logger.info("Enter into saveOheLocationAndAssets function with below request parameters ");
+		logger.info("Request Parameters = "+thermovisionCheckPoints.toString());
+		try {			
+			logger.info("Calling service with request parameters.");
+			thermovisionCheckPointServices.saveCopyCheckPointsData(thermovisionCheckPoints);
+			logger.info("Preparing the return response");
+			return Helper.findResponseStatus("Copy Thermovision CheckPoints Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding Copy Thermovision CheckPoints data. "+npe.getMessage());
+			return Helper.findResponseStatus("Copy Thermovision CheckPoints Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding Copy Thermovision CheckPoints. "+e.getMessage());
+			return Helper.findResponseStatus("Copy Thermovision CheckPoints Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
 	}
 }

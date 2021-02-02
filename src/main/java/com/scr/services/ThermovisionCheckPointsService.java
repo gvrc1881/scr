@@ -1,5 +1,6 @@
 package com.scr.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,23 +36,26 @@ public class ThermovisionCheckPointsService {
  		return thermovisionCheckPointsRepository.findByFacilityIdOrderByDisplayOrderAsc(facility);
  	}
      public void updateCheckPoints(List<ThermovisionCheckPoints> checkPointsData) {
- 		
- 		for (ThermovisionCheckPoints checkPoints : checkPointsData) {
- 			
- 			Optional<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByCheckPoint1Description(checkPoints.getCheckPoint1Description());
-			if (cpData.isPresent()) {
- 				ThermovisionCheckPoints updateCheckPointsData = cpData.get();
- 				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
- 				updateCheckPointsData.setCheckPoint1Description(checkPoints.getCheckPoint1Description());
- 				updateCheckPointsData.setCheckPoint2Description(checkPoints.getCheckPoint2Description());
- 				logger.info("checkPointDesc"+updateCheckPointsData);
- 				updateCheckPointsData.setDisplayOrder(checkPoints.getDisplayOrder());
- 				updateCheckPointsData.setActive(checkPoints.getActive());
- 				thermovisionCheckPointsRepository.save(updateCheckPointsData); 			
- 		} 
- 		
- 		}
- 	}
+  		
+  		for (ThermovisionCheckPoints checkPoints : checkPointsData) {
+  			logger.info("forLoop Service");
+  			Optional<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByActive(checkPoints.getActive());
+ 			if (cpData.isPresent()) {
+ 				logger.info("Enter into if Service");
+  				ThermovisionCheckPoints updateCheckPointsData = cpData.get();
+  				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
+  				logger.info("checkPointPart"+checkPoints.getCheckPointPart());
+  				updateCheckPointsData.setCheckPoint1Description(checkPoints.getCheckPoint1Description());
+  				logger.info("CheckPoint1Description"+checkPoints.getCheckPoint1Description());
+  				updateCheckPointsData.setCheckPoint2Description(checkPoints.getCheckPoint2Description());
+  				logger.info("checkPointDesc2"+checkPoints.getCheckPoint2Description());
+  				updateCheckPointsData.setDisplayOrder(checkPoints.getDisplayOrder());
+  				thermovisionCheckPointsRepository.save(updateCheckPointsData); 			
+  		} 
+  		
+  		}
+  		
+  	}
      
      public List<ThermovisionCheckPoints> findByFacilityIdAndIdNotIn(Facility facilityId,Long id) {
  		List<ThermovisionCheckPoints> checkPointList = thermovisionCheckPointsRepository.findByFacilityIdAndIdNotIn(facilityId,id);
@@ -62,4 +66,18 @@ public class ThermovisionCheckPointsService {
 			String tcpCheckPoint1Description, String tcpCheckPoint2Description) {
 		return thermovisionCheckPointsRepository.findByCheckPoint1DescriptionAndCheckPoint2Description(tcpCheckPoint1Description,tcpCheckPoint2Description);
 	}
+	public void saveCopyCheckPointsData(List<ThermovisionCheckPoints> thermovisionCheckPoints) {
+	       List<ThermovisionCheckPoints> checkPoints = new ArrayList<>();
+	 		for (ThermovisionCheckPoints checkPoint:thermovisionCheckPoints) {
+	 			ThermovisionCheckPoints  tcp = new ThermovisionCheckPoints();
+	 			tcp.setFacilityId(checkPoint.getFacilityId());
+	 			tcp.setActive(checkPoint.getActive());
+	 			tcp.setCheckPoint1Description(checkPoint.getCheckPoint1Description());
+	 			tcp.setCheckPoint2Description(checkPoint.getCheckPoint2Description());
+	 			tcp.setCheckPointPart(checkPoint.getCheckPointPart());
+	 			tcp.setDisplayOrder(checkPoint.getDisplayOrder());
+	 			thermovisionCheckPointsRepository.save(tcp);
+	 		}
+	     }
+	
 }

@@ -1,9 +1,9 @@
 export interface ChekPointsModel{
-    id: number;    
+    id: number; 
+    active:any;   
     facilityId:any;
     checkPointPart: any;
-    checkPointDescription: String;
-    commparisonPoints:any;
-    displayGroup:any;
+    checkPoint1Description: String;
+    checkPoint2Description: String;
     displayOrder: any;
 }
