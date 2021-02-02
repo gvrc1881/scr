@@ -83,6 +83,9 @@ public class FailureService {
 			logger.info("before save"+failureRequest.getId().toString());
 			failureAnalysis.setFailureId(failure.getId().toString());
 			failureAnalysis.setStatusId(Constants.ACTIVE_STATUS_ID);
+			failureAnalysis.setReported("YES");
+			failureAnalysis.setDiv(failureRequest.getDataDiv());
+			
 			logger.info("save=="+failureAnalysis);
 			driveFailureAnalysisRepository.save(failureAnalysis);
 			

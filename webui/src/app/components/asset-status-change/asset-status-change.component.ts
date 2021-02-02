@@ -45,7 +45,7 @@ export class AssetStatusChangeComponent implements OnInit {
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   statusDataSource: MatTableDataSource<AssetStatusChangeModel>;
   dataSource: MatTableDataSource<AssetStatusChangeModel>;
-  statusDisplayedColumns = ['sno', 'facility', 'asset', 'asetId', 'dateStatus', 'curentStatus', 'stats', 'dateOfChange', 'remark', 'actions'];
+  statusDisplayedColumns = ['sno', 'facility', 'asset', 'asetId', 'dateStatus', 'currentStatus', 'stats', 'dateOfChange', 'remark', 'actions'];
   //displayedColumns = ['sno','facilityId','assetType', 'assetId','make','nextAoh','nextPoh','dateOfStatus','actions'];
   displayedColumns = ['sno', 'facility', 'asset', 'asetId', 'make', 'nextAoh', 'nextPoh', 'dateStatus','currentStatus', 'stats','remark','dateOfChange', 'actions'];
   enableUpdate: boolean;
@@ -96,7 +96,7 @@ export class AssetStatusChangeComponent implements OnInit {
   statsEdit:boolean = false;
   dateOfChangeEdit:boolean = false;
   curentStatusEdit:boolean = false;
-
+  status:any;
   constructor(
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -283,13 +283,20 @@ export class AssetStatusChangeComponent implements OnInit {
 
   saveAction(row) {
     
-   if (row.assetId == 0 ) {
+   if (row.dateOfChange == null ) {
    
      this.dateOfStatus = row.dateOfStatus
+     
      
    } else{
     this.dateOfStatus = row.dateOfChange
     
+   }
+   if(row.status == null){
+     this.status=  row.currentStatus
+   }
+   else{
+    this.status=  row.status
    }
     let towerCar = {
       
@@ -297,8 +304,8 @@ export class AssetStatusChangeComponent implements OnInit {
       "assetId": row.assetId,
       "facilityId": row.facilityId,
       "dateOfStatus": this.dateOfStatus,
-      "currentStatus": row.currentStatus,
-      "status": row.status,
+      "currentStatus": this.status,
+      //"status": row.status,
      // "dateOfChange": row.dateOfChange,
       "remarks": row.remarks,
       "createdBy": this.loggedUserData.username,

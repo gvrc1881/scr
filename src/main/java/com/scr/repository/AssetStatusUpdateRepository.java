@@ -25,7 +25,7 @@ public interface AssetStatusUpdateRepository extends JpaRepository<AssetStatusUp
 
 	Optional<AssetStatusUpdate> getByAssetId(String assetId);
 
-	@Query(value = "SELECT max(dateOfStatus)  FROM AssetStatusUpdate asu ")
+	@Query(value = "SELECT max(dateOfStatus)  FROM AssetStatusUpdate asu where assetType =:assetType and assetId =:assetId and facilityId =:facilityId ")
 	Timestamp findByAssetTypeAndAssetIdAndFacilityId(String assetType, String assetId, String facilityId);
 
 

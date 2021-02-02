@@ -15,5 +15,7 @@ public interface DriveFailureAnalysisRepository extends JpaRepository<FailureAna
 	Optional<FailureAnalysis> findByIdAndStatusId(Long id, Integer statusId);
 
 	List<FailureAnalysis> findByStatusIdAndDiv(int activeStatusId, String division);
+	
+	List<FailureAnalysis> findByDivInAndStatusId(List<String> fac, Integer activeStatusId);
 
 }

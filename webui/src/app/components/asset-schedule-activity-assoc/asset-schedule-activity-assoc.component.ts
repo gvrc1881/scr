@@ -579,9 +579,9 @@ ActAssocEditAction(id: number) {
       'title':this.Titles.ASSET_SCHEDULE_ACTIVITY_ASSOC,
       'dataSource':[
     
-      { label:FieldLabelsConstant.LABELS.ASSET_SCHEDULE, value:data.assetSchedule },
+      { label:FieldLabelsConstant.LABELS.ASSET_SCHEDULE, value:data.asaSeqId },
       { label:FieldLabelsConstant.LABELS.ACTIVITY, value:data.activityId },
-      { label:FieldLabelsConstant.LABELS.ACTIVITY_POSITION, value:data.activityPosition },
+      { label:FieldLabelsConstant.LABELS.ACTIVITY_POSITION, value:data.activityPositionId },
       { label:FieldLabelsConstant.LABELS.MAKE_CODE, value:data.makeCode },
       { label:FieldLabelsConstant.LABELS.MODEL_CODE, value:data.modelCode },
       { label:FieldLabelsConstant.LABELS.ACTIVITY_FLAG, value:data.activityFlag },

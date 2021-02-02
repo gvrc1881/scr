@@ -249,13 +249,13 @@
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS_DATE}}
 										</mat-header-cell>
 										<mat-cell *matCellDef="let row" (dblclick)="enableDateStatus($event, row.assetId)">  
-										<span *ngIf="!dateStatusEdit || row.assetId != editAssetId">	
+										<span *ngIf="!dateStatusEdit || row.assetId != editAssetId || row.editPermission">	
 											{{row.dateOfStatus | date:'dd-MM-yyyy'}}
 										</span>
-										<div class="col-md-12" *ngIf="dateStatusEdit  && row.assetId == editAssetId">
+										<div class="col-md-12" *ngIf="dateStatusEdit  && row.assetId == editAssetId && !row.editPermission">
 											<mat-form-field fxFlex="30">
 												<input matInput [matDatepicker]="picker2"
-													placeholder="{{FiledLabels.STATUS_DATE}}"
+													placeholder="{{FiledLabels.STATUS_DATE}}" [max] = "maxDate"
 													(dateChange)="addEvent($event, row.assetId)" 
 													 required
 													value="{{row.dateOfStatus}}">
@@ -279,10 +279,10 @@
 										<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CURRENT_STATUS}}
 										</mat-header-cell>
 										<mat-cell *matCellDef="let row" (dblclick)="enableCurentStatus($event, row.assetId)">
-											<span *ngIf="!curentStatusEdit || row.assetId != editAssetId">
-												{{row.curentStatus}}
+											<span *ngIf="!curentStatusEdit || row.assetId != editAssetId || row.editPermission">
+												{{row.currentStatus}}
 											</span> 
-											<div class="col-md-12" *ngIf="curentStatusEdit  && row.assetId == editAssetId">
+											<div class="col-md-12" *ngIf="curentStatusEdit  && row.assetId == editAssetId && !row.editPermission">
 												<mat-form-field fxFlex="30" class="example-full-width">
 													<mat-select placeholder="{{FiledLabels.CURRENT_STATUS}}" 
 													(selectionChange)="selectedCurrentStatus($event.value, row.assetId)">
@@ -345,7 +345,7 @@
 											<mat-form-field fxFlex="30">
 												<input matInput [matDatepicker]="picker3"
 													placeholder="{{FiledLabels.DATE_OF_CHANGE}}"
-													(dateChange)="addChangeEvent($event, row.assetId)" 
+													(dateChange)="addChangeEvent($event, row.assetId)"  [max] = "maxDate" [min]="toMinDate"
 													 required
 													value="{{row.dateOfChange}}">
 												<mat-datepicker-toggle matSuffix [for]="picker3" >
@@ -380,7 +380,7 @@
 											<mat-icon style="color: rgb(0, 145, 234);">edit</mat-icon>
 										  </a>	 -->
 										  <button mat-raised-button color="accent" 
-													(click)="saveAction(row)" >
+													(click)="saveAction(row)" [disabled]="row.status == null || row.dateOfChange == null">
 													Save
 													</button>
 										  <a mat-icon-button matTooltip="History"  
@@ -392,7 +392,7 @@
 												<ng-template #permissionElseBlock>
 													<button mat-raised-button color="accent" 
 													(click)="saveAction(row)"
-													[disabled]="row.dateOfStatus ==null || row.curentStatus == null">
+													[disabled]="row.dateOfStatus == null || row.currentStatus == null">
 													{{title}}
 													</button>
 												
@@ -435,11 +435,11 @@
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.STATUS_DATE}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.dateOfStatus}}</mat-cell>
 								</ng-container>  
-								<ng-container matColumnDef="curentStatus">
+								<ng-container matColumnDef="currentStatus">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.CURRENT_STATUS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.currentStatus}}</mat-cell>
 								</ng-container> 
-								<ng-container matColumnDef="stats">
+								 <ng-container matColumnDef="stats">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.NEW_STATUS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
 								</ng-container>  
@@ -447,7 +447,7 @@
 								<ng-container matColumnDef="dateOfChange">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.DATE_OF_CHANGE}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.dateOfChange}}</mat-cell>
-								</ng-container> 
+								</ng-container>  
 								<ng-container matColumnDef="remark">
 									<mat-header-cell *matHeaderCellDef mat-sort-header>{{FiledLabels.REMARKS}}</mat-header-cell>
 									<mat-cell *matCellDef="let row"> {{row.remarks}}</mat-cell>

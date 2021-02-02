@@ -37,6 +37,7 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
+import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.FunctionalLocationTypes;
 import com.scr.model.GuidenceItem;
@@ -1234,6 +1235,12 @@ public ResponseStatus storeUploadedFiles(List<MultipartFile> multipartFile, Stri
 	}
 	return responseStatus;
 }
+
+public List<FailureAnalysis> findByDiv(List<String> fac) {
+	
+	return driveFailureAnalysisRepository.findByDivInAndStatusId(fac,Constants.ACTIVE_STATUS_ID);
+}
+
 
 
 

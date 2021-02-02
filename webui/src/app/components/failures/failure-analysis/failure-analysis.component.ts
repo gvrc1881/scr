@@ -112,7 +112,7 @@ export class FailureAnalysisComponent implements OnInit {
 }
   getFailureAnalysisData() {
     const driveTarget: FailureAnalysisModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES
+    this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.GET_FAILURES_BASEDON_DIVISION+this.userdata.username
     ).subscribe((data) => {
       this.driveTargetList = data;
       for (let i = 0; i < this.driveTargetList.length; i++) {

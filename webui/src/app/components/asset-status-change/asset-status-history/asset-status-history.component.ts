@@ -34,7 +34,7 @@ export class AssetStatusDialogComponent implements OnInit {
     ChangeStatus:any;
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
-    assetStatusDisplayedColumns = ['sno', 'assetId','dateOfStatus', 'status', 'remarks','actions'];
+    assetStatusDisplayedColumns = ['sno', 'assetId','dateOfStatus', 'currentStatus', 'remarks','actions'];
     assetStatusDataSource: MatTableDataSource<AssetStatusChangeModel>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -97,7 +97,7 @@ export class AssetStatusDialogComponent implements OnInit {
           facilityId:this.updateStatusChangeFormGroup.value.facilityId,                  
           dateOfStatus:this.updateStatusChangeFormGroup.value.dateOfStatus,
           currentStatus:this.updateStatusChangeFormGroup.value.currentStatus,
-          status:this.updateStatusChangeFormGroup.value.status,
+          //status:this.updateStatusChangeFormGroup.value.status,
           targetDateOfReady:this.updateStatusChangeFormGroup.value.targetDateOfReady,
           remarks:this.updateStatusChangeFormGroup.value.remarks ,
           "createdBy": this.loggedUserData.username,

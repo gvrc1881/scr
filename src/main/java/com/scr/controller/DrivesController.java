@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scr.jobs.CommonUtility;
 import com.scr.message.request.CopyDrivesRequest;
 import com.scr.message.request.DriveFileDeleteRequest;
 import com.scr.message.request.DriveRequest;
@@ -45,6 +46,7 @@ import com.scr.model.DriveTarget;
 import com.scr.model.Drives;
 import com.scr.model.ElectrificationTargets;
 import com.scr.model.Facility;
+import com.scr.model.Failure;
 import com.scr.model.FailureAnalysis;
 import com.scr.model.GuidenceItem;
 import com.scr.model.InspectionType;
@@ -100,6 +102,8 @@ public class DrivesController {
 	
 	@Autowired
 	private ContentManagementService contentManagementService;
+	@Autowired
+	private CommonUtility  commonUtility;
 	
 	
 	@RequestMapping(value = "/drives", method = RequestMethod.GET , headers = "Accept=application/json")
@@ -118,6 +122,27 @@ public class DrivesController {
 		logger.info("Exit from findAllDrives function");
 		return ResponseEntity.ok((usersList));
 	}
+	/*@RequestMapping(value = "/getDrivesBasedOnDivison/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<List<Drives>> findAllDrives(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+		logger.info("Enter into findAllDrives function");
+		List<Drives> usersList = null;
+		logger.info("loggedUserData*****"+loggedUserData);
+		try {	
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			logger.info("facilities=="+facility.size());
+			
+			logger.info("Calling service for dirves data");
+			usersList = service.findByCreatedBy(loggedUserData);	
+			logger.info("Fetched drives data = "+usersList);
+		} catch (NullPointerException e) {			
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+		} catch (Exception e) {			
+			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
+		}
+		logger.info("Exit from findAllDrives function");
+		logger.info("return list==="+usersList.size());
+		return ResponseEntity.ok((usersList));
+	}*/
 	
 	@RequestMapping(value = "/saveDrive", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveDriveData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {	
@@ -722,6 +747,34 @@ public class DrivesController {
 		return ResponseEntity.ok((failureAnalysis));
 	}
 	
+
+@RequestMapping(value = "/failureAnalysisBasedOnDivision/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+public ResponseEntity<List<FailureAnalysis>> failureAnalysisBasedOnDivision(
+			@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+	logger.info("Enter into FailureAnalysis function");	
+	logger.info("user=="+loggedUserData);
+	List<FailureAnalysis> failureList = null;
+	List<String> fac= new ArrayList<>();
+	try {			
+		logger.info("Calling service for getting relevent type data");
+		List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+		logger.info("facilities=="+facility.size());
+		for (Facility facility2 : facility) {
+			
+			fac.add(facility2.getDivision());
+			
+		}	
+			
+		failureList = service.findByDiv(fac);	
+		logger.info("Fetched data = "+failureList);
+	} catch (NullPointerException e) {			
+		logger.error("ERROR >>> while fetching the failure type data = "+e.getMessage());
+	} catch (Exception e) {			
+		logger.error("ERROR >>> while fetching the failure type data = "+e.getMessage());
+	}
+	logger.info("Exit from failures function");
+	return ResponseEntity.ok((failureList));
+}
 	@RequestMapping(value = "/saveFailureAnalysis", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveFailureAnalysisData(@Valid @RequestBody DriveRequest failureAnalysisRequest) throws JSONException {		
 		try {			

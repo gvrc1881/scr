@@ -88,6 +88,8 @@ public class FailureAnalysis implements Serializable {
 	@Column(name = "remark_brief")
 	private String remarkBrief;
 	
+	private String contentLink;
+	
 
 	public long getId() {
 		return id;
@@ -331,6 +333,14 @@ public class FailureAnalysis implements Serializable {
 		this.remarkBrief = remarkBrief;
 	}
 
+	public String getContentLink() {
+		return contentLink;
+	}
+
+	public void setContentLink(String contentLink) {
+		this.contentLink = contentLink;
+	}
+
 	@Override
 	public String toString() {
 		return "FailureAnalysis [id=" + id + ", failureId=" + failureId + ", reported=" + reported
@@ -342,7 +352,9 @@ public class FailureAnalysis implements Serializable {
 				+ actionCompletedDate + ", actionDescription=" + actionDescription + ", createdBy=" + createdBy
 				+ ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", statusId="
 				+ statusId + ", description=" + description + ", avoidable=" + avoidable + ", remarkDetails="
-				+ remarkDetails + ", remarkBrief=" + remarkBrief + "]";
+				+ remarkDetails + ", remarkBrief=" + remarkBrief + ", contentLink=" + contentLink + "]";
 	}
+
+	
 
 }

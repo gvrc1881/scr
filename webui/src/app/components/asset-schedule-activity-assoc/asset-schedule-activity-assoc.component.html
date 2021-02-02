@@ -130,7 +130,7 @@
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">            
                     <mat-select placeholder="{{FiledLabels.MAKE}}" 
-                        [formControl]="assetSchActAssocFormGroup.controls['makeCode']">
+                        [formControl]="assetSchActAssocFormGroup.controls['makeCode']" required>
                         <mat-option *ngFor="let make of makeList"
                             [value]="make.makeCode">
                             {{ make.makeCode }}
@@ -145,7 +145,7 @@
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">            
                     <mat-select placeholder="{{FiledLabels.MODEL}}" 
-                        [formControl]="assetSchActAssocFormGroup.controls['modelCode']" >
+                        [formControl]="assetSchActAssocFormGroup.controls['modelCode']" required >
                         <mat-option *ngFor="let model of modelList"
                             [value]="model.modelCode">
                             {{ model.modelCode }}
@@ -182,7 +182,7 @@
             </div>    
             <div class="col-md-3">
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="{{FiledLabels.DISPLAY_ORDER}}" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']" numbersOnly/>
+                    <input matInput placeholder="{{FiledLabels.DISPLAY_ORDER}}" [formControl]="assetSchActAssocFormGroup.controls['displayOrder']" numbersOnly required/>
                     <mat-error
                     *ngIf="assetSchActAssocFormGroup.controls['displayOrder'].hasError('duplicateasaSeqActivityDispaly')" 
                     class="alert alert-danger" >
