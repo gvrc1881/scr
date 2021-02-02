@@ -130,7 +130,7 @@ public class AssetScheduleActivityAssocService {
 	public List<AssetScheduleActivityAssoc> findAll() {
 		logger.info("Calling mapper for preparing to get All Asset schedule activity assoc model object");
 		List<AssetScheduleActivityAssoc> asaa = new ArrayList<>();
-		List<AssetScheduleActivityAssoc> assetScheduleActivityAssocs = assetSchActivityAssocRepository.findAll();
+		List<AssetScheduleActivityAssoc> assetScheduleActivityAssocs = assetSchActivityAssocRepository.findAllOrderByCreatedOnDesc();
 		for (AssetScheduleActivityAssoc assetScheduleActivityAssoc : assetScheduleActivityAssocs) {
 			assetScheduleActivityAssoc = assetSchActivityAssocDataMapper.prepareAssetSchActivityData(assetScheduleActivityAssoc);
 			asaa.add(assetScheduleActivityAssoc);

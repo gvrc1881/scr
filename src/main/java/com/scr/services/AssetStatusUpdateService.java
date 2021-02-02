@@ -61,8 +61,18 @@ public class AssetStatusUpdateService {
 	}
 
 	public List<AssetStatusUpdate> findByFacilityId(List<String> fac) {
+		List<AssetStatusUpdate> assetStatusList = new ArrayList<>();
+		List<AssetStatusUpdate> assetStatusUpdateList = assetStatusRepository.findByFacilityIdIn(fac);
+		for (AssetStatusUpdate assetStatusUpdate : assetStatusUpdateList) {
+			
+			assetStatusUpdate = assetStatusUpdateMapper.prepareAssetStatusUpdateBasedOnFacility(assetStatusUpdate);
+			assetStatusList.add(assetStatusUpdate);
+			
+		}
 		
-	return	assetStatusRepository.findByFacilityIdIn(fac);
+		 return assetStatusList;
+		
+	
 	}		
 
 
