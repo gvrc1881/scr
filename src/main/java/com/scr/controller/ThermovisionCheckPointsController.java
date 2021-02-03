@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scr.message.request.CopyCheckPointsRequest;
+//import com.scr.message.request.CopyCheckPointsRequest;
 import com.scr.message.request.OheLocationAndAssetsRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
