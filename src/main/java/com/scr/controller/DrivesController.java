@@ -2027,5 +2027,57 @@ public ResponseEntity<List<FailureAnalysis>> failureAnalysisBasedOnDivision(
 		}	
 	}
 	
+
+@PostMapping("/failureAnalysisUploadFiles")
+@ResponseBody
+public ResponseStatus uploadAttachedFile(
+		@RequestParam("file") List<MultipartFile> file,
+		@RequestParam("failureAnalysisId") Long failureAnalysisId,
+		@RequestParam("contentCategory") String contentCategory,
+		@RequestParam("description") String description,
+		@RequestParam("divisionCode") String divisionCode,
+		@RequestParam("createdBy") String createdBy,
+		@RequestParam("zonal") String zonal, 
+		@RequestParam("FU") String FU,
+		@RequestParam("contentTopic") String contentTopic) {
+	ResponseStatus responseStatus = new ResponseStatus();
+	try {
+		logger.info("File Name: "+contentCategory);
+		logger.info("fun_unit=="+FU);
+		logger.info("divisionCode****"+divisionCode);
+		responseStatus = service.storeUploadedFile(file, contentCategory, description, divisionCode, createdBy, zonal,FU, contentTopic,failureAnalysisId);
+		logger.info("File Saved Successfully!");
+	} catch (NullPointerException e) {
+		logger.error(e);
+		return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+	} catch (Exception e) {
+		logger.error(e);
+		return Helper.findResponseStatus("File saving is Fail with "+e.getMessage(), Constants.FAILURE_CODE);			
+	}
+	return responseStatus;
+}
+
+@RequestMapping(value = "/failureAnalysisAttachedDocumentList/{failureAnalysisId}", method = RequestMethod.GET ,headers = "Accept=application/json")	
+public ResponseEntity<List<ContentManagement>> getDocumentsList( @PathVariable("failureAnalysisId") Long failureAnalysisId){
+	List<ContentManagement> contentManagementList = new ArrayList<>();
+	try {
+		logger.info("Getting Project  Details  = "+failureAnalysisId);	
+		Optional<FailureAnalysis> failObj =service.findFailureAnalysisById(failureAnalysisId);
+		if (failObj.isPresent()) {
+			FailureAnalysis failureAnalysis = failObj.get();
+			if(failureAnalysis.getContentLink() != null) {
+				contentManagementList = contentManagementService.findByCommonFileId(Long.parseLong(failureAnalysis.getContentLink()));
+			}
+			
+			logger.info("content size:::"+contentManagementList.size());
+		}
+		return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.OK);
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.error("Error while getting DivisionHistory Details"+e.getMessage());
+		return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
+	}	
+}
+
 	
 }

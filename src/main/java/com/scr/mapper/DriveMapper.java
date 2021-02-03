@@ -133,7 +133,7 @@ logger.info("depot=="+driveRequest.getDepotType());
 			drive.setFunctionalUnit(driveRequest.getFunctionalUnit());
 			drive.setChecklist(driveRequest.getChecklist());
 			drive.setActive(driveRequest.getActive());
-
+			drive.setCreatedBy(driveRequest.getCreatedBy());
 			drive.setUpdatedBy(driveRequest.getUpdatedBy());
 			drive.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 		}
@@ -169,7 +169,7 @@ logger.info("depot=="+driveRequest.getDepotType());
 			driveCategory.setFromDate(driveRequest.getFromDate());
 			driveCategory.setToDate(driveRequest.getToDate());
 			driveCategory.setAuthority(driveRequest.getAuthority());
-
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
 			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
 			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 			
@@ -218,7 +218,7 @@ logger.info("depot=="+driveRequest.getDepotType());
 			if(drive.isPresent()) {
 				driveCategory.setDriveId(drive.get());
 			}
-			
+			driveCategory.setCreatedBy(driveRequest.getCreatedBy());
 			driveCategory.setUpdatedBy(driveRequest.getUpdatedBy());
 			driveCategory.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				

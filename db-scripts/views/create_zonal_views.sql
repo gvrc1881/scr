@@ -3717,25 +3717,28 @@ SELECT tcp.id AS tcp_id,
      LEFT JOIN facility f ON tcp.facility_id::text = f.facility_id::text;
 
 ------------------75
+--View: public.v_tcp_schedule
 
---drop view v_tcp_schedule cascade;
+-- DROP VIEW public.v_tcp_schedule;
 
+CREATE OR REPLACE VIEW public.v_tcp_schedule AS
+ SELECT tcps.id AS tcps_id,
+    tcps.facility_id AS tcps_facility_id,
+    f.facility_name AS tcps_facility_name,
+    f.depot_type AS tcps_station_type,
+    tcps.location AS tcps_location,
+    tcps.asset_type AS tcps_asset_type,
+    tcps.date_time AS tcps_date,
+    tcps.date_time AS tcps_date_time,
+    to_char(tcps.date_time, 'HH:MM'::text) AS tcps_time,
+    tcps.by AS tcps_by,
+    tcps.general_remark AS tcps_general_remark
+   FROM tcp_schedule tcps,
+    facility f
+  WHERE tcps.facility_id = f.id;
 
-create view v_tcp_schedule as 
-select 
-tcps.id as  tcps_id,
-tcps.facility_id as  tcps_facility_id,
-f.facility_name as tcps_facility_name,
-f.depot_type as tcps_station_type ,
-location as  tcps_location,
-asset_type as  tcps_asset_type,
-date_time as  tcps_date,
-tcps.date_time AS tcps_date_time,
-to_char(tcps.date_time, 'HH:MM'::text) AS tcps_time,
-by as  tcps_by,
-general_remark as  tcps_general_remark
-from tcp_schedule tcps ,  facility f
-where tcps.facility_id::text = f.facility_id ;
+ALTER TABLE public.v_tcp_schedule
+     OWNER TO postgres;
 
 ------------------76
 

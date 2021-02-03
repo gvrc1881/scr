@@ -147,6 +147,8 @@ public class DrivesService {
 	@Value("${drive.path}")
 	private String drivePath;
 	
+	@Value("${failureAnalysis.path}")
+	private String failureAnalysisPath;
 	
 	public List<Drives> findAllDrives() {
 		logger.info("Fetcing drives data where active is 1.");
@@ -1239,6 +1241,53 @@ public ResponseStatus storeUploadedFiles(List<MultipartFile> multipartFile, Stri
 public List<FailureAnalysis> findByDiv(List<String> fac) {
 	
 	return driveFailureAnalysisRepository.findByDivInAndStatusId(fac,Constants.ACTIVE_STATUS_ID);
+}
+
+public ResponseStatus storeUploadedFile(List<MultipartFile> file, String contentCategory, String description,
+		String divisionCode, String createdBy, String zonal, String fU, String contentTopic, Long failureAnalysisId) {
+	ResponseStatus responseStatus = new ResponseStatus();
+	try {
+		ResponseStatus folderResponse = contentManagementMapper.checkAndCreateFolderStructure(failureAnalysisPath, contentCategory );
+		if(folderResponse.getCode() == Constants.SUCCESS_CODE) {				
+			List<ContentManagement> liContentManagements = new ArrayList<ContentManagement>();	
+			ContentManagement fileId = repository.findTopByOrderByCommonFileIdDesc();
+			Long commonFileId = (long) 0.0; 
+			if(fileId == null || fileId.getCommonFileId() == null) {
+				commonFileId = (long) 1;
+			}else {
+				commonFileId = fileId.getCommonFileId()+1;
+			}
+			Optional<FailureAnalysis> failureId =driveFailureAnalysisRepository.findById(failureAnalysisId);
+			if (failureId.isPresent()) {
+				FailureAnalysis failureDetails = failureId.get();
+				if (failureDetails.getContentLink() != null) {
+					commonFileId = Long.parseLong(failureDetails.getContentLink());
+				} else {
+					failureDetails.setContentLink(String.valueOf(commonFileId));
+				}
+				
+				driveFailureAnalysisRepository.save(failureDetails);
+			}
+			
+			for(MultipartFile mf: file)
+			{
+				String folderPath = folderResponse.getMessage();
+				liContentManagements.add(contentManagementMapper.saveAndStoreDetails(mf, divisionCode, createdBy, zonal, fU, contentTopic, description, contentCategory, folderPath, commonFileId));									
+			}
+			if(!liContentManagements.isEmpty()) {
+				liContentManagements = repository.saveAll(liContentManagements);
+									logger.info("Files Details saved in to Database Successfully.");
+			}
+		}					
+		responseStatus.setCode(Constants.SUCCESS_CODE);
+		responseStatus.setMessage(Constants.JOB_SUCCESS_MESSAGE);
+	} catch (Exception e) {
+		e.printStackTrace();
+		logger.error("Error while saving files "+e.getMessage());
+		responseStatus.setCode(Constants.FAILURE_CODE);
+		responseStatus.setMessage("ERROR >>> "+e.getMessage());
+	}
+	return responseStatus;
 }
 
 

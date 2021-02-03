@@ -10,10 +10,13 @@ import { Constants } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 import { DataViewDialogComponent } from 'src/app/components/data-view-dialog/data-view-dialog.component';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DocumentDialogComponent } from '../../document-view-dialog/document-dialog.component';
+
 @Component({
   selector: 'app-failure-analysis',
   templateUrl: './failure-analysis.component.html',
-  styleUrls: []
+  styleUrls: ['./failure-analysis.component.scss']
 })
 export class FailureAnalysisComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
@@ -28,19 +31,29 @@ export class FailureAnalysisComponent implements OnInit {
   dataViewDialogRef:MatDialogRef<DataViewDialogComponent>;
   displayedColumns = ['sno', 'reported', 'div','date',
     'failureSection', 'assetType', 'assetId',
-    'rootCause', 'actionPlan', 'actionStatus', 'actionTargetDate', 'actionCompletedDate',
-    'actionDescription', 'actions'];
+    'rootCause', 'actionPlan', 'actionStatus',  'actionCompletedDate',
+     'actions'];
   dataSource: MatTableDataSource<FailureAnalysisModel>;
   filterData;
   gridData = [];
   divisionList:any;
+  driveTargetList: any;
+  contentCategoryList: any;
+    contentTopicList: any;
+    uploadFile: boolean = false;
+    contentManagementFormGroup: FormGroup;
+    selectedFiles: File[] = [];
+    filesExists: boolean = false;
+    failureAnalysisId: any;
+    documentDialogRef:MatDialogRef<DocumentDialogComponent>;
+    pattern = "[a-zA-Z][a-zA-Z ]*";
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
  
 
-  driveTargetList: any;
+ 
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -50,6 +63,7 @@ export class FailureAnalysisComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private datePipe: DatePipe,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -197,5 +211,96 @@ export class FailureAnalysisComponent implements OnInit {
       data:result,  
     });            
   }
+
+
+viewDocumentDetails(id){
+  this.spinnerService.show();    
+  this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILUREANALYSIS_ATTACHMENT_LIST + id).subscribe((response) => {     
+    this.spinnerService.hide(); 
+    this.documentDialogRef = this.dialog.open(DocumentDialogComponent, {
+        disableClose: false,
+        height: '600px',
+        width: '80%',       
+        data:response,       
+      });            
+  }, error => this.commonService.showAlertMessage(error));
+}    
+
+fileUpload(id) {
+  this.uploadFile = true;
+  this.addPermission = false;
+  this.failureAnalysisId = id;
+  this.contentManagementFormGroup = this.formBuilder.group({
+        contentCategory: [''],
+        description: ['', Validators.compose([Validators.required, Validators.pattern(this.pattern)])],
+        uploadFiles: ['', Validators.required],
+        contentTopic: [''],
+    });
+  }
+    public get f() { return this.contentManagementFormGroup.controls; }
+    
+onContentManagementSubmit () {
+  //console.log('*** guidence item id ***'+this.guidenceItemId);
+  let category = this.contentManagementFormGroup.value.contentCategory;
+    this.uploadFile = false;
+  let saveDetails = {
+    'failureAnalysisId': this.failureAnalysisId,
+            'description': this.contentManagementFormGroup.value.description,
+            'divisionCode': this.userdata.divisionCode,
+            'createdBy': this.userdata.id,
+            'createdDate': new Date(),
+            'contentCategory': 'OPERATIONS',
+            'zonal': 'zonal',
+            'FU': 'division',
+            'contentTopic': 'FAILURE_ANALYSIS',
+      }
+      let formdata: FormData = new FormData();
+      for(var i=0;i<this.selectedFiles.length;i++){
+          formdata.append('file', this.selectedFiles[i]);
+      }
+      formdata.append('failureAnalysisId', saveDetails.failureAnalysisId);
+      formdata.append('contentCategory', saveDetails.contentCategory);
+      formdata.append('description', saveDetails.description);
+      formdata.append('divisionCode', saveDetails.divisionCode);
+      formdata.append('createdBy', saveDetails.createdBy);
+      formdata.append('zonal', saveDetails.zonal);
+      formdata.append('FU', saveDetails.FU);
+      formdata.append('contentTopic', saveDetails.contentTopic);
+  this.sendAndRequestService.requestForPOST(Constants.app_urls.FAILURES.FAILUREANALYSIS_UPLOAD_FILES, formdata, true).subscribe(data => {
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Files Uploaded and Saved Successfully");
+            this.selectedFiles = [];
+            this.filesExists = false;
+            //window.location.reload();
+        }, error => {
+            console.log('ERROR >>>');
+            this.spinnerService.hide();
+            this.commonService.showAlertMessage("Files Uploading Failed.");
+        })
+        
+}
+
+upload(event) {
+    if (event.target.files.length > 0) { this.filesExists = true; }
+    for (var i = 0; i < event.target.files.length; i++) {
+        this.selectedFiles.push(event.target.files[i]);
+    }
+}
+
+removeFile(id) {
+    this.selectedFiles.splice(id, 1);
+    if(this.selectedFiles.length === 0) {
+      this.filesExists = false;
+        this.contentManagementFormGroup.reset();
+    }
+}
+
+close() {
+  this.contentManagementFormGroup.reset();
+    this.uploadFile = false;
+    this.selectedFiles = [];
+    this.filesExists = false;
+    this.addPermission = true;
+}
 
 }
