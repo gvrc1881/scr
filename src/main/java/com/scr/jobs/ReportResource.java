@@ -74,6 +74,7 @@ public class ReportResource {
 			parameters.put("subDivision", report.getFacility().getSubDivision());
 			parameters.put("depot", report.getFacility().getFacilityName());
 			parameters.put("depot", report.getFacility().getFacilityId());
+			parameters.put("depotId", report.getFacility().getId());
 			parameters.put("subStation",report.getFacility().getFacilityName());
 			
 			log.info("subStation==="+parameters.put("subStation",report.getFacility().getFacilityName()));

@@ -6,7 +6,7 @@
 	<parameter name="date" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="depot" class="java.lang.String">
+	<parameter name="depotId" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -71,7 +71,7 @@ cur.tcps_general_remark
 
 from (select id ,facility_id , facility_name , vtpc.*
 	  from v_thermovision_check_points vtpc,
-	  facility f where f.id =  $P{depot}::integer
+	  facility f where f.id =  $P{depotId}::integer
 	  and f.id =  vtpc.tcp_facility_id
 	  and upper(vtpc.tcp_active) = 'YES'
 	  ) rs
@@ -88,7 +88,7 @@ select	string_agg(tcps_id::character varying,',' order by a.tcps_date desc) tcp_
 from (select ROW_NUMBER() OVER() seq ,cur_h.tcps_date ,cur_h.tcps_id
 from v_tcp_schedule	cur_h  	-- schedule history before current schedule
 where cur_h.tcps_date <= $P{date}::date
-	  and cur_h.tcps_facility_id =  $P{depot}::integer
+	  and cur_h.tcps_facility_id =  $P{depotId}::integer
 order by tcps_date desc limit  4
 ) a	 )b
 ) p on (1=1)
@@ -105,7 +105,7 @@ left outer join
 					from v_thermovision_measures vtm
 			) tm ,
 			facility f
-		where f.id =  $P{depot}::integer
+		where f.id =  $P{depotId}::integer
 		and f.id =  tm.tcps_facility_id
 	) cur_m
 on (cur.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id )
