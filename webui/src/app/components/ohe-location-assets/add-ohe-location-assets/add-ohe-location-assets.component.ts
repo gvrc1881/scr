@@ -24,6 +24,8 @@ export class AddOheLocationAssetsComponent implements OnInit {
   id: number = 0;
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
+  depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
   resp: any;
   assetType: any;
   assetTypeData:any;

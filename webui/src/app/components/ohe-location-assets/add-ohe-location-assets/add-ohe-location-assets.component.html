@@ -85,7 +85,7 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select  placeholder="Depot" [formControl]="addOheLocationAndAssetsFormGroup.controls['facilityId']" required>
-                                                                <mat-option *ngFor="let facilityData of facilityData"
+                                                                <mat-option *ngFor="let facilityData of depotData"
                                                                     [value]="facilityData.facilityId">
                                                                     {{ facilityData.facilityName }}
                                                                 </mat-option>
@@ -157,7 +157,7 @@
                                                        <mat-grid-list cols="6" rowHeight="7:1">
                                                            <ul *ngFor="let assetTypeData of assetTypeData">
                                                            <mat-grid-tile >
-                                                            <mat-checkbox [formControl]="addOheLocationAndAssetsFormGroup.controls['assetType']"  name="assetTypeData" [value]="assetTypeData.productId">{{assetTypeData.productId}}</mat-checkbox>
+                                                            <mat-checkbox [formControl]="addOheLocationAndAssetsFormGroup.controls['assetType']"  name="assetTypeData" [value]="assetTypeData">{{assetTypeData}}</mat-checkbox>
                                                         </mat-grid-tile>
                                                     </ul>
                                                        </mat-grid-list>

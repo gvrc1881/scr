@@ -3,16 +3,11 @@ package com.scr.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.log4j.Logger;
-import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.scr.controller.ThermovisionCheckPointsController;
 import com.scr.model.Facility;
 import com.scr.model.ThermovisionCheckPoints;
-import com.scr.model.WorkPhases;
 import com.scr.repository.ThermovisionCheckPointsRepository;
 
 @Service
