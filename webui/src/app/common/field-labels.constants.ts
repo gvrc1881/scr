@@ -609,7 +609,8 @@ export const FieldLabelsConstant = {
       PREVIOUS2: "Previous2",
       PREVIOUS3: "Previous3",
       MEASURE: "Measure",
-      CONNECTION_POINT: "Connection Point"
+      CONNECTION_POINT: "Connection Point",
+      ROLE: "Role"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",

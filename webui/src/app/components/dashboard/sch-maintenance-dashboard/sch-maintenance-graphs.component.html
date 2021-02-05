@@ -16,10 +16,15 @@
             		<div class="panel-heading">Charts</div>
             			<div class="panel-body">
             				<div class="col-12">
-            					<div class="col-md-6 col-lg-6" *ngIf="showTowerCarChart">
-            						<fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat" 
-			                      [dataSource]="towerCarDataSource"></fusioncharts>
-            					</div>
+              						<div class="panel panel-primary">
+                						<div class="panel-heading">Division Wise Tower Car Information</div>
+                							<div class="panel-body">
+				            					<div class="col-md-6 col-lg-6" *ngIf="showTowerCarChart">
+				            						<fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat" 
+							                      [dataSource]="towerCarDataSource"></fusioncharts>
+				            					</div>
+            								</div>
+            						</div>
             				</div>
             			</div>
             	</div>

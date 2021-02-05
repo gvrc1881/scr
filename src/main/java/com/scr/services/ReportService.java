@@ -4,12 +4,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.scr.jobs.CommonUtility;
 import com.scr.jobs.ReportResource;
 import com.scr.message.request.ReportRequest;
+import com.scr.message.request.UserRoleRequest;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
@@ -33,6 +37,7 @@ import com.scr.model.ObservationsCheckList;
 import com.scr.model.PbSwitchControl;
 import com.scr.model.PowerBlock;
 import com.scr.model.PrecautionaryMeasuresMaster;
+import com.scr.model.Product;
 import com.scr.model.ProductCategoryMember;
 import com.scr.model.ProductCategoryType;
 import com.scr.model.ProductMakeModelAssociation;
@@ -51,7 +56,6 @@ import com.scr.model.TssFeederMaster;
 import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
-import com.scr.model.Product;
 import com.scr.repository.AssetMastersRepository;
 import com.scr.repository.AssetSchAssoRepository;
 import com.scr.repository.AssetsScheduleHistoryRepository;
@@ -78,6 +82,7 @@ import com.scr.repository.PrecautionaryMeasureMasterRepository;
 import com.scr.repository.ProductCategoryMemberRepository;
 import com.scr.repository.ProductCategoryTypeRepository;
 import com.scr.repository.ProductMakeModelAssocRepository;
+import com.scr.repository.ProductRepository;
 import com.scr.repository.ReportParametersRepository;
 import com.scr.repository.ReportRepositoryRepository;
 import com.scr.repository.SectionRepository;
@@ -92,7 +97,6 @@ import com.scr.repository.TcpScheduleRepository;
 import com.scr.repository.UomRepository;
 import com.scr.repository.UserDefualtFacConsIndEtcRepository;
 import com.scr.repository.ZoneRepository;
-import com.scr.repository.ProductRepository;
 
 
 @Service
@@ -191,6 +195,9 @@ public class ReportService {
 	
 	@Autowired
 	private TcpScheduleRepository tcpScheduleRepository;
+	
+	@Autowired
+	private CommonUtility commonUtility;
 	
 	public List<ReportRepository> findAllReportNames(String reportType) {	
 		return reportRepositoryRepository.findByReportCategory(reportType);
@@ -488,5 +495,11 @@ public List<Stipulations> findStipulationsBasedOnInspectionIdAndAssetType(String
 	public List<String> findByProductId(String productCategoryId) {
 		// TODO Auto-generated method stub
 		return productCategoryMemberRepository.findByProductCategoryId(productCategoryId);
+	}
+	public Long getUserRoleBasedOnUser(Long userId) {
+		return commonUtility.getUserRoleBasedOnUser(userId);
+	}
+	public void saveUserRole(UserRoleRequest userRoleRequest) {
+		commonUtility.saveUserRole(userRoleRequest);
 	}
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './users.component';
-import { UserMenuComponent } from './user-menu/user-menu.component';
+import { UserMenuComponent,AddUserRolesComponent } from './user-menu/user-menu.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { MaterialModule } from 'src/app/modules/material.modules';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -39,13 +39,15 @@ const routes: Routes = [
     declarations: [
         UsersComponent,
         UserMenuComponent,
+        AddUserRolesComponent
        
     ],
     providers: [
     ],
     exports     : [
         UsersComponent
-    ]
+    ],
+     entryComponents: [ AddUserRolesComponent ]
 })
 export class UserModule
 {

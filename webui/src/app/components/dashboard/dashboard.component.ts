@@ -56,22 +56,27 @@ export class DashboardComponent implements OnInit {
         for(let i=0;i<data.length;i++){
             this.width = this.width +200;
             dataSet.push({
-                seriesname: data[i].fStatus+'('+data[i].productCategoryId+')',
+                seriesname: data[i].fStatus+data[i].productCategoryId,
                 data:[
                     {
-                        value: data[i].gtlCount    
+                        value: data[i].gtlCount,
+                        displayvalue:data[i].gtlCount+" "+data[i].fStatus +" "+data[i].productCategoryId   
                     },
                     {
-                        value: data[i].gntCount    
+                        value: data[i].gntCount,
+                        displayvalue:data[i].gntCount+" "+data[i].fStatus +" "+data[i].productCategoryId   
                     },
                     {
-                        value: data[i].scCount    
+                        value: data[i].scCount,
+                        displayvalue:data[i].scCount+" "+data[i].fStatus +" "+data[i].productCategoryId    
                     },
                     {
-                        value: data[i].bzaCount    
+                        value: data[i].bzaCount,
+                        displayvalue:data[i].bzaCount+" "+data[i].fStatus +" "+data[i].productCategoryId    
                     },
                     {
-                        value: data[i].hybCount    
+                        value: data[i].hybCount,
+                        displayvalue:data[i].hybCount+" "+data[i].fStatus +" "+data[i].productCategoryId    
                     }
                 ]
             })
@@ -82,6 +87,9 @@ export class DashboardComponent implements OnInit {
             xaxisname: "Divisions",
             yaxisname: "Count",
             formatnumberscale: "1",
+            showValues: "1",
+            rotateValues: "1",
+            valueFontColor: "#000000",
             plottooltext:
               "<b>$dataValue</b> <b>$seriesName</b> in $label",
             theme: "fusion"

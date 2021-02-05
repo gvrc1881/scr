@@ -445,7 +445,7 @@ public class DashboardUtility {
 			response.setBzaCount(resultSet.getString("bza_cnt"));
 			response.setHybCount(resultSet.getString("hyb_cnt"));
 			response.setfStatus(resultSet.getString("f_status"));
-			response.setProductCategoryId(resultSet.getString("product_category_id"));
+			response.setProductCategoryId(resultSet.getString("product_category_id").length() > 0 ? "( "+resultSet.getString("product_category_id").substring(0,2)+"WHE)": "");
 			responseList.add(response);
 		}
 		return responseList;

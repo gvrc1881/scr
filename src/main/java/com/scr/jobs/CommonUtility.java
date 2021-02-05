@@ -21,12 +21,12 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.eclipse.jdt.internal.compiler.ast.IfStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.scr.jobs.response.ExecuteInsertReaponse;
 import com.scr.jobs.response.InsertQueriesResponse;
+import com.scr.message.request.UserRoleRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
 import com.scr.model.SchedulerJob;
@@ -825,6 +825,59 @@ public class CommonUtility {
 		}
 		
 		
+	}
+
+	public Long getUserRoleBasedOnUser(Long userId) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Long masterRoleId = null;
+		final String selectQuery = "select master_role_id from user_roles where user_id = "+userId;
+		try {
+			conn = dataSource.getConnection();
+			preparedStatement = conn.prepareStatement(selectQuery);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				masterRoleId = resultSet.getLong("master_role_id");
+				logger.info("*** master_role_id"+masterRoleId);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.releaseResouces(conn, preparedStatement, resultSet);
+		}	
+		return masterRoleId;
+	}
+
+
+
+	public void saveUserRole(UserRoleRequest userRoleRequest) {
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		final String selectQuery = "select master_role_id from user_roles where user_id = "+userRoleRequest.getUserId();
+		try {
+			conn = dataSource.getConnection();
+			preparedStatement = conn.prepareStatement(selectQuery);
+			resultSet = preparedStatement.executeQuery();
+			if(!resultSet.next()) {
+				preparedStatement = conn.prepareStatement("insert into user_roles values(?,?)");
+				preparedStatement.setLong(1, userRoleRequest.getUserId());
+				preparedStatement.setLong(2, userRoleRequest.getMasterRoleId());
+				preparedStatement.executeUpdate();
+			}else {
+				String updateQuery = "update user_roles set master_role_id=? where user_id="+userRoleRequest.getUserId();
+				preparedStatement = conn.prepareStatement(updateQuery);
+				preparedStatement.setLong(1, userRoleRequest.getMasterRoleId());
+				preparedStatement.executeUpdate();    
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeJDBCObjects.releaseResouces(conn, preparedStatement, resultSet);
+		}
 	}
 
 

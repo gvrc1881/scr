@@ -81,7 +81,9 @@ export const Constants = {
             GET_SEVERITY_PRIORITY_ON_OBSITEM:"/getSeverityPriorityOnObsItem/",
             GET_TCP_SCHEDULES_BASED_ON_FACID:"/getTcpSchedulesBasedOnFacId/",
             GET_DIVISION_BASED_ON_LOGIN_USER:"/getDivisionBasedOnUserLoginId/",
-            GET_TPC_BOARD_BASED_ON_DIVISION:"/getTpcBoardBasedOnDivision/"
+            GET_TPC_BOARD_BASED_ON_DIVISION:"/getTpcBoardBasedOnDivision/",
+            GET_USER_ROLE_BASED_ON_USER:"/getUserRoleBasedOnUser/",
+            SAVE_USER_ROLE:"/saveUserRole"
         },        
         MASTERS:{
             ROLE_TYPE:{

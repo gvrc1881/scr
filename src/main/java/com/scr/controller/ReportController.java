@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scr.message.request.ReportRequest;
+import com.scr.message.request.UserRoleRequest;
+import com.scr.message.response.ResponseStatus;
 import com.scr.model.AssetMasterData;
 import com.scr.model.AssetScheduleAssoc;
 import com.scr.model.AssetsScheduleHistory;
@@ -64,6 +67,7 @@ import com.scr.model.Uom;
 import com.scr.model.UserDefualtFacConsIndEtc;
 import com.scr.model.Zone;
 import com.scr.services.ReportService;
+import com.scr.util.Constants;
 import com.scr.util.Helper;
 
 
@@ -636,6 +640,27 @@ public class ReportController {
 		List<TpcBoard> boardList= reportService.findByDataDiv(dataDiv);
 		log.info("** preparing response and get TpcBoard OnDivision function end ***");
 			return new ResponseEntity<List<TpcBoard>>(boardList, HttpStatus.OK);		
+	}
+	
+	@RequestMapping(value = "/getUserRoleBasedOnUser/{userId}",method = RequestMethod.GET  , headers="accept=application/json" )
+	public Long getUserRoleBasedOnUser(@PathVariable("userId") Long userId){
+		log.info("** Enter into getUserRoleBasedOnUser functions ***"+userId);
+		Long masterRoleId = reportService.getUserRoleBasedOnUser(userId);
+		log.info("** preparing response and get TpcBoard OnDivision function end ***");
+			//return new ResponseEntity<List<TpcBoard>>(boardList, HttpStatus.OK);*/
+		return masterRoleId;
+	}
+	
+	@RequestMapping(value = "/saveUserRole", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseStatus saveUserRole(@RequestBody UserRoleRequest userRoleRequest) throws JSONException {
+		try {
+			 reportService.saveUserRole(userRoleRequest);
+			 return Helper.findResponseStatus("Password Updated Successfully.", Constants.SUCCESS_CODE);
+		} catch (NullPointerException e) {			
+			return Helper.findResponseStatus("Password Updated Failed", Constants.FAILURE_CODE);
+		} catch (Exception e) {			
+			return Helper.findResponseStatus("Password Updated Failed", Constants.FAILURE_CODE);
+		}
 	}
 
 }
