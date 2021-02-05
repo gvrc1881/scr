@@ -76,7 +76,7 @@ export class SpecialWorksComponent implements OnInit {
   }
   getSpecialWorksData() {
     const specialWorks: SpecialWorksModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.GET_SPECIAL_WORKS).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.SPECIALWORKS.GET_SPECIAL_WORKS_BASED_ON_DIV+this.userdata.username).subscribe((data) => {
       this.specialWorksList = data;
       for (let i = 0; i < this.specialWorksList.length; i++) {
         this.specialWorksList[i].sno = i + 1;

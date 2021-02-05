@@ -32,6 +32,7 @@ export class AddSpecialWorksComponent implements OnInit {
   isSubmit: boolean = false;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
+  divisionData: any = JSON.parse(sessionStorage.getItem('divisionData'));
   resp: any;
   title:string = Constants.EVENTS.ADD;
   addSpecialWorksFormGroup: FormGroup;
@@ -101,6 +102,7 @@ export class AddSpecialWorksComponent implements OnInit {
   createSpecialWorksForm() {
     this.addSpecialWorksFormGroup = this.formBuilder.group({
       id: 0,
+      'dataDiv':[null],
       'facilityId': [null, Validators.compose([Validators.required])],
       'location': [null, Validators.compose([Validators.required])],
       'precautionaryMeasure': [null,Validators.compose([Validators.required])],
@@ -114,6 +116,7 @@ export class AddSpecialWorksComponent implements OnInit {
   updateSpecialWorksForm() {
     this.addSpecialWorksFormGroup = this.formBuilder.group({
       id: 0,
+      'dataDiv':[null],
       'facilityId': [null, Validators.compose([Validators.required])],
       'location': [null, Validators.compose([Validators.required])],
       'precautionaryMeasure': [null,Validators.compose([Validators.required])],
@@ -166,6 +169,7 @@ export class AddSpecialWorksComponent implements OnInit {
     this.spinnerService.show();
     if (this.save) {
       var saveSpecialWorksModel = {
+        "dataDiv": this.addSpecialWorksFormGroup.value.dataDiv,
         "facilityId": this.addSpecialWorksFormGroup.value.facilityId,
         "location": this.addSpecialWorksFormGroup.value.location,
         "precautionaryMeasure": this.selectedWork,
@@ -198,6 +202,7 @@ export class AddSpecialWorksComponent implements OnInit {
     } else if (this.update) {
       var updateSpecialWorksModel = {
         "id": this.id,
+        "dataDiv": this.addSpecialWorksFormGroup.value.dataDiv,
         "facilityId": this.addSpecialWorksFormGroup.value.facilityId,
         "location": this.addSpecialWorksFormGroup.value.location,
         "precautionaryMeasure": this.selectedWork,

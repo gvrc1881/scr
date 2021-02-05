@@ -34,10 +34,9 @@ public class ThermovisionCheckPointsService {
   		
   		for (ThermovisionCheckPoints checkPoints : checkPointsData) {
   			logger.info("forLoop Service");
-  			Optional<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByActive(checkPoints.getActive());
- 			if (cpData.isPresent()) {
+  			List<ThermovisionCheckPoints> cpData = thermovisionCheckPointsRepository.findByActive(checkPoints.getActive());
  				logger.info("Enter into if Service");
-  				ThermovisionCheckPoints updateCheckPointsData = cpData.get();
+  				ThermovisionCheckPoints updateCheckPointsData = cpData.get(0);
   				updateCheckPointsData.setCheckPointPart(checkPoints.getCheckPointPart());
   				logger.info("checkPointPart"+checkPoints.getCheckPointPart());
   				updateCheckPointsData.setCheckPoint1Description(checkPoints.getCheckPoint1Description());
@@ -50,7 +49,7 @@ public class ThermovisionCheckPointsService {
   		
   		}
   		
-  	}
+  	
      
      public List<ThermovisionCheckPoints> findByFacilityIdAndIdNotIn(Facility facilityId,Long id) {
  		List<ThermovisionCheckPoints> checkPointList = thermovisionCheckPointsRepository.findByFacilityIdAndIdNotIn(facilityId,id);

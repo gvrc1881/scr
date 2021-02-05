@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.mapper.PrecautionaryMeasureMapper;
-import com.scr.model.GantryMasterData;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.repository.PrecautionaryMeasureMasterRepository;
@@ -71,7 +70,10 @@ public class PrecautionaryMeasureService {
 		}
 		 return pm;
 	}
-	
+     public List<PrecautionaryMeasure> getAllOrderByPrecautionaryMeasureAsc(List<String> fac) {
+		
+		return precautionaryMeasureRepository.getAllByDataDivIn(fac);
+	}
 	//precautionary Measure Master
 	
 	public void save(PrecautionaryMeasuresMaster precautionaryMeasureMaster) {

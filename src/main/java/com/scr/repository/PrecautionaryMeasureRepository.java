@@ -1,6 +1,7 @@
 package com.scr.repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,6 @@ public interface PrecautionaryMeasureRepository extends JpaRepository<Precaution
 	
 	
 	Optional<PrecautionaryMeasure> findByFacilityIdAndPrecautionaryMeasureAndDateOfWork(String facilityId,PrecautionaryMeasuresMaster precautionaryMeasure,Timestamp dateOfWork);
+	List<PrecautionaryMeasure> getAllByDataDivIn(List<String> fac);
 
 }

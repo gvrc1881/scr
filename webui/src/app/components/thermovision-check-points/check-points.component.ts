@@ -178,8 +178,9 @@ export class CopyCheckPointsComponent implements OnInit {
   createCheckPoints: boolean;
   res: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-  originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
-
+  depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
+  filterDepot: any = this.depotData.filter(u => 
+    u.depotType == 'SP' || u.depotType == 'SSP' || u.depotType == 'TSS');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -204,6 +205,7 @@ export class CopyCheckPointsComponent implements OnInit {
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Do you want to copy existing documents to new Check Points ?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
+      if(result){
         this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.COPY_CHECK_POINTS,this.copyPoints,true).subscribe((response) => {
           this.spinnerService.hide();
          this.res = response;
@@ -218,13 +220,11 @@ export class CopyCheckPointsComponent implements OnInit {
           console.log('ERROR >>>');
           this.spinnerService.hide();
           this.commonService.showAlertMessage("Copy Check Points Data Saving Failed.");
-        });           
+        });  
+      }         
     }); 
   }
-
-
   
-
   copyCheckPointsFormSubmit() {
     this.copyPoints = [];
     this.facilityId = this.checkPointFormGroup.controls['facilityId'].value;

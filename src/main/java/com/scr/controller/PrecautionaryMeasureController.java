@@ -1,5 +1,6 @@
 package com.scr.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.log4j.LogManager;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.scr.jobs.CommonUtility;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.Facility;
 import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.PrecautionaryMeasuresMaster;
 import com.scr.services.PrecautionaryMeasureService;
@@ -32,6 +35,9 @@ public class PrecautionaryMeasureController {
 	
 	@Autowired
 	private PrecautionaryMeasureService precautionaryMeasureService;
+	
+	@Autowired
+	private CommonUtility  commonUtility;
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/findAllPrecautionaryMeasures", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -190,7 +196,27 @@ public class PrecautionaryMeasureController {
 			return false;
 		}
 	}
-	
+	@RequestMapping(value = "/findAllPrecaMeasureBasedOnDivision/{loggedUserData}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public List<PrecautionaryMeasure> findAllPrecaMeasureBasedOnDivision(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
+		List<PrecautionaryMeasure> precautionaryMeasureList = null;
+		List<String> fac= new ArrayList<>();
+		try {
+			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getDivision());
+				
+			}
+			precautionaryMeasureList = precautionaryMeasureService.getAllOrderByPrecautionaryMeasureAsc(fac);
+		return precautionaryMeasureList;
+		} catch (NullPointerException e) {
+			logger.error(e);
+		}
+		catch (Exception e) {
+			logger.error(e);
+		}
+		return precautionaryMeasureList;	
+	}
 	//Precautionary Measure Master
 	
 	@RequestMapping(value = "/findAllPrecautionaryMeasureMaster", method = RequestMethod.GET, headers = "Accept=application/json")

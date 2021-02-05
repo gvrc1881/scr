@@ -31,8 +31,8 @@
                                                     <div class="col-md-3" >
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                           <mat-select placeholder="{{FiledLabels.DEPOT}}" 
-                                                            [formControl]="addCheckPointsFormGroup.controls['facilityId']" (selectionChange)="getComparisonPoints()"  required>
-                                                            <mat-option *ngFor="let depotData of depotData"
+                                                            [formControl]="addCheckPointsFormGroup.controls['facilityId']"   required>
+                                                            <mat-option *ngFor="let depotData of filterDepot"
                                                               [value]="depotData">
                                                               {{ depotData.facilityName }}
                                                             </mat-option>

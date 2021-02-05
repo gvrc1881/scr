@@ -14,7 +14,7 @@
 			                                   	<mat-form-field  fxFlex="30">
 			                                    	<mat-label>Station</mat-label>
 			                                        	<mat-select [formControl]="checkPointFormGroup.controls['facilityId']"  required>
-			                                                	<mat-option *ngFor="let depot of originalDepotsData" 
+			                                                	<mat-option *ngFor="let depot of filterDepot" 
 			                                                    	[value]="depot.id">{{depot.facilityName}}</mat-option>
 			                                            </mat-select>
 			                                    </mat-form-field>

@@ -15,7 +15,7 @@ import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
 })
 
 export class AddCheckPointsComponent implements OnInit {
-e
+
     FiledLabels = FieldLabelsConstant.LABELS;
     Titles = FieldLabelsConstant.TITLE;
     save: boolean = true;
@@ -23,6 +23,11 @@ e
     id: number = 0;
     isSubmit: boolean = false;
     depotData: any = JSON.parse(sessionStorage.getItem('depotData'));
+
+     filterDepot: any = this.depotData.filter(u => 
+      u.depotType == 'SP' || u.depotType == 'SSP' || u.depotType == 'TSS');
+   
+
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
     resp: any;    
     title:string;      
@@ -30,6 +35,7 @@ e
     checkPointFormErrors:any;
     pattern = "[a-zA-Z][a-zA-Z ]*";
     facilityData: any;
+    facilityList:any;
     comparisonPointsData:any;
     dependencyValidation:boolean=false;
     public tempDiff = ['YES','NO'];
@@ -53,7 +59,6 @@ e
   }
 
   ngOnInit() { 
-    this.depotTypeForOhe(); 
     this.id = +this.route.snapshot.params['id'];
       if (!isNaN(this.id)) { 
     
