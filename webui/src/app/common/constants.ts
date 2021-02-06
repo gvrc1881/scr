@@ -882,7 +882,17 @@ export const Constants = {
             GET_COMPARISON_POINTS_BASED_ON_FACILITY_DESCRIP:"/getComparisonPointsOnFacilityIdAndDescription/",
             COPY_CHECK_POINTS:"/saveCopyCheckPoints"
         }    
-    }
+    },
+    INSPECTION:{
+        TEST_INSPECTION:{
+            GET_TEST_INSPECTION:"/findAllTestInspection",
+            SAVE_TEST_INSPECTION:"/addTestInspection",
+            UPDATE_TEST_INSPECTION:"/updateTestInspection",
+            GET_TEST_INSPECTION_BY_ID:"/findTestInspectionById/",
+            DELETE_TEST_INSPECTION:"/deleteTestInspection/"
+        }
+    },
+
 },
     EVENTS:{
         ADD:"Add",

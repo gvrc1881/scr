@@ -1342,6 +1342,26 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
           },
         ]
       },
+      {
+        ID: 19,
+        menuName: 'TEST INSPECTION',
+        menuUrl: 'test-inspection',
+        icon: "fa fa-thermometer-full",
+        color: "#12E1EE",
+        isSelected: true,
+        permission: this.commonService.findPermission('TEST INSPECTION', 'menu', 'view'),
+        currentTab: !!path && path.includes("test-inspection") ? "open" : "",
+        subMenus: [       
+          {
+            subMenuName: "Test Inspection",
+            subMenuURL: "test-inspection",
+            subMenuIcon: "fa fa-train",
+            permission: this.commonService.findPermission('Test Inspection', 'submenu', 'view'),
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("test-inspection") ? "active-item" : "",
+          },
+        ]
+      },
     ];
   //  this.clicked = path;
     sessionStorage.setItem("MenusList", this.MenusList);
