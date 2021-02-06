@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="342"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="depot" class="java.lang.String">
+	<parameter name="depotId" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -11,7 +11,7 @@
 select check_point2description  ,
 check_point1description ,check_point_part,
 tvcp.facility_id,fac.facility_name from thermovision_check_points  tvcp
-inner join facility fac on fac.id = tvcp.facility_id where case when $P{depot} != '' then fac.facility_id = $P{depot}
+inner join facility fac on fac.id = tvcp.facility_id where case when $P{depotId} != '' then fac.facility_id = $P{depotId}
 else fac.facility_id is not null or fac.facility_id is null end]]>
 	</queryString>
 	<field name="check_point2description" class="java.lang.String"/>

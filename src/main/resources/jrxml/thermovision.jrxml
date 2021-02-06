@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovision" pageWidth="3200" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="3160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="fbdf8d56-efb2-4628-9e20-bb5ab5f8340e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovision" pageWidth="2000" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="fbdf8d56-efb2-4628-9e20-bb5ab5f8340e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -177,7 +177,7 @@ order by rs.tcp_display_order::integer
 					<textFieldExpression><![CDATA[$F{tcp_check_point_part}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="0" width="3160" height="20" uuid="0c0e2d6f-fc87-48e1-9b44-ceb1a76476a7"/>
+					<reportElement x="0" y="0" width="1960" height="20" uuid="0c0e2d6f-fc87-48e1-9b44-ceb1a76476a7"/>
 					<box>
 						<pen lineWidth="0.75"/>
 						<topPen lineWidth="0.75"/>
@@ -213,7 +213,7 @@ order by rs.tcp_display_order::integer
 	<title>
 		<band height="27" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="3160" height="27" uuid="d38aba73-3953-4e94-9962-742ef660a0e4"/>
+				<reportElement x="0" y="0" width="1960" height="27" uuid="d38aba73-3953-4e94-9962-742ef660a0e4"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -273,7 +273,7 @@ order by rs.tcp_display_order::integer
 				<text><![CDATA[Depot : - ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="3160" height="20" uuid="e6d2e272-7b55-4d12-8dcc-9a8b26e37646"/>
+				<reportElement x="0" y="0" width="1960" height="20" uuid="e6d2e272-7b55-4d12-8dcc-9a8b26e37646"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -384,90 +384,6 @@ order by rs.tcp_display_order::integer
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Prev 3 Date Measure Details]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="1960" y="0" width="200" height="20" uuid="191082e5-0e32-4bfe-9d1d-b3078f4b955c"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre1 M Tcpm Measure Point1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2160" y="0" width="200" height="20" uuid="9567ce01-172e-4d7e-a315-bcdd7512ea80"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre1 M Tcpm_measure Point2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2360" y="0" width="200" height="20" uuid="da67b753-ee0d-4401-ad87-6435db7fdd48"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre2 M Tcpm Measure Point1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2560" y="0" width="200" height="20" uuid="7c11db89-148e-4eaa-90e6-852c11304d1c"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre2 M Tcpm Measure Point2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2760" y="0" width="200" height="20" uuid="90546dbc-ca41-49ad-b1f7-d01637e6e7a3"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre3 M Tcpm Measure Point1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2960" y="0" width="200" height="20" uuid="53b7604e-4561-4d05-8117-25fdc6f232db"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Pre3 M Tcpm Measure Point2]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="530" height="20" uuid="c5ae7b5d-f324-44f5-9a57-13ef402bb6b6"/>
@@ -613,90 +529,6 @@ order by rs.tcp_display_order::integer
 				</textElement>
 				<textFieldExpression><![CDATA[$F{prev_3_date_measure_details}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="1960" y="0" width="200" height="20" uuid="7dc56c6a-9eb9-4356-a4fa-c9e70ae75ae9"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre1_m_tcpm_measure_point1}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="2160" y="0" width="200" height="20" uuid="69a56a4c-2a52-4cec-adf7-0d553150fd75"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre1_m_tcpm_measure_point2}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="2360" y="0" width="200" height="20" uuid="c215284f-f34a-405f-8fea-4c4b5366eb43"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre2_m_tcpm_measure_point1}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="2560" y="0" width="200" height="20" uuid="c9f74ac8-be2f-4e60-b70e-331ca63a32b7"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre2_m_tcpm_measure_point2}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="2760" y="0" width="200" height="20" uuid="a4d173cf-0fa5-4961-ac61-2252b03c6037"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre3_m_tcpm_measure_point1}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="2960" y="0" width="200" height="20" uuid="f7707bf9-9c25-4dd1-835a-6699d7e1354b"/>
-				<box>
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pre3_m_tcpm_measure_point2}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
@@ -715,7 +547,7 @@ order by rs.tcp_display_order::integer
 	<noData>
 		<band height="32">
 			<staticText>
-				<reportElement x="0" y="0" width="3160" height="32" forecolor="#F61111" uuid="228610b4-9482-48a7-978f-65b949993ff0"/>
+				<reportElement x="0" y="0" width="1960" height="32" forecolor="#F61111" uuid="228610b4-9482-48a7-978f-65b949993ff0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>
