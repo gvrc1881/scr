@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
 import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { MY_CUSTOM_FORMATS } from 'src/app/common/date-filter.pipe';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
-
+ 
 @Component({
   selector: 'app-add-cb-failure',
   templateUrl: './add-cb-failure.component.html',
