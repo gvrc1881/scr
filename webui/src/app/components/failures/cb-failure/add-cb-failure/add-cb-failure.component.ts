@@ -174,7 +174,7 @@ export class AddCbFailureComponent implements OnInit {
         'actualFaultDistance': [null],
         'current': [null],
         'voltage': [null],
-        'phaseAngle': [null],
+        'phaseAngle': [null,Validators.compose([Validators.min(-180), Validators.max(180)])],
         'trippedIdentifiedFault': [null],
         'cbInternalFailure': [null],
         'cbExternalFailure': [null], 
