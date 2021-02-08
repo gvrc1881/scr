@@ -716,6 +716,8 @@ export const FieldLabelsConstant = {
     TOWERCAR_STATUS:'TowerCar Status',
     PSI_THERMOVISION_MEASUREMENT_INFORMATION: 'PSI Thermovision Measurement Information',
     THERMOVISION_CHECK_POINTS:'Thermovision Check Points',
-    OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'OHE Thermovision Measurement Information'
+    OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'OHE Thermovision Measurement Information',
+    TEST_INSPECTION_FORM:'Test Inspection',
+    TEST_INSPECTION_DATA:'Test Inspection Data'
    }
 };
