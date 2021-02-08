@@ -590,6 +590,11 @@ const routes: Routes = [
     loadChildren: './components/thermovision/ohe-thermovision-measures/ohe-thermovision-measure.module#OheThermovisionMeasureModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'test-inspection',
+    loadChildren: './components/test_inspection/test-inspection.module#TestInspectionModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

@@ -28,6 +28,8 @@ export class AddAmdComponent implements OnInit {
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionData:any = JSON.parse(sessionStorage.getItem('divisionData'));
+  subDivData:any = JSON.parse(sessionStorage.getItem('subDivData'));
   save: boolean = true;
   update: boolean = false;
   title: string = Constants.EVENTS.ADD;
@@ -51,12 +53,14 @@ export class AddAmdComponent implements OnInit {
   zone: any;
   facilityData: any;
   division: any;
+  depotsList:any;
   toMinDate = new Date();
   currentDate = new Date();
   dateFormat = 'MM-dd-yyyy ';
   depotCode: any;
   makeName: any;
   modelName: any;
+  subDivList:any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -343,7 +347,19 @@ export class AddAmdComponent implements OnInit {
           this.functionalUnitList = data;
     });
   }
-
+  getDepot(){
+    var zone = this.assetMasterFormGroup.value.zone ;
+    this.depotsList = this.divisionData.filter(value => {
+      return value.zone == zone;
+    });
+  }
+  getSubDiv(){
+    var division = this.assetMasterFormGroup.value.division ;
+    this.subDivList = this.subDivData.filter(value => {
+      return value.division == division;
+    });
+    console.log("subDivList"+JSON.stringify(this.subDivList))
+  }
   getAssetMasterDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.ASSETMASTERDATA.GET_ASSET_MASTER_DATA_ID + id)
     .subscribe((resp) => {

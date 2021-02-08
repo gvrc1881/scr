@@ -6,11 +6,11 @@ import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the tpc_board database table.
+ * The persistent class for the tpc_board_reporting_facilitys database table.
  * 
  */
 @Entity
-@Table(name = "tpc_board")
+@Table(name = "tpc_board" , uniqueConstraints={@UniqueConstraint(name = "old_pk_tpc_board_uniq", columnNames ={"seq_id"})})
 @NamedQuery(name="TpcBoard.findAll", query="SELECT t FROM TpcBoard t")
 public class TpcBoard implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,11 +42,8 @@ public class TpcBoard implements Serializable {
 	@Column(name="tpc_board")
 	private String tpcBoard;
 
-	public TpcBoard() {
-	}
-
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -54,7 +51,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public Timestamp getCreatedStamp() {
-		return this.createdStamp;
+		return createdStamp;
 	}
 
 	public void setCreatedStamp(Timestamp createdStamp) {
@@ -62,7 +59,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public Timestamp getCreatedTxStamp() {
-		return this.createdTxStamp;
+		return createdTxStamp;
 	}
 
 	public void setCreatedTxStamp(Timestamp createdTxStamp) {
@@ -70,7 +67,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public String getDataDiv() {
-		return this.dataDiv;
+		return dataDiv;
 	}
 
 	public void setDataDiv(String dataDiv) {
@@ -78,7 +75,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public String getDescription() {
-		return this.description;
+		return description;
 	}
 
 	public void setDescription(String description) {
@@ -86,7 +83,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public Timestamp getLastUpdatedStamp() {
-		return this.lastUpdatedStamp;
+		return lastUpdatedStamp;
 	}
 
 	public void setLastUpdatedStamp(Timestamp lastUpdatedStamp) {
@@ -94,7 +91,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public Timestamp getLastUpdatedTxStamp() {
-		return this.lastUpdatedTxStamp;
+		return lastUpdatedTxStamp;
 	}
 
 	public void setLastUpdatedTxStamp(Timestamp lastUpdatedTxStamp) {
@@ -102,7 +99,7 @@ public class TpcBoard implements Serializable {
 	}
 
 	public String getSeqId() {
-		return this.seqId;
+		return seqId;
 	}
 
 	public void setSeqId(String seqId) {
@@ -110,18 +107,18 @@ public class TpcBoard implements Serializable {
 	}
 
 	public String getTpcBoard() {
-		return this.tpcBoard;
+		return tpcBoard;
 	}
 
 	public void setTpcBoard(String tpcBoard) {
 		this.tpcBoard = tpcBoard;
 	}
 
-	@Override
-	public String toString() {
-		return "TpcBoard [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
-				+ ", dataDiv=" + dataDiv + ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp
-				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", seqId=" + seqId + ", tpcBoard=" + tpcBoard + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
+	
+
+	
 }

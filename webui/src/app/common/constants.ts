@@ -889,7 +889,11 @@ export const Constants = {
             SAVE_TEST_INSPECTION:"/addTestInspection",
             UPDATE_TEST_INSPECTION:"/updateTestInspection",
             GET_TEST_INSPECTION_BY_ID:"/findTestInspectionById/",
-            DELETE_TEST_INSPECTION:"/deleteTestInspection/"
+            DELETE_TEST_INSPECTION:"/deleteTestInspection/",
+            EXIST_NAME_AND_MAKE_CODE_MODEL_CODE:"/findByNameMakeCodeAndModelCode/",
+            EXIST_NAME_AND_MAKE_CODE_MODEL_CODE_ID:"/existNameMakeCodeAndModelCodeAndId/",
+            EXIST_MAKE_CODE_MODEL_CODE_AND_DESCRI:"/findByMakeCodeModelCodeAndDescription/",
+            EXIST_MAKE_CODE_MODEL_CODE_AND_DESCRI_ID:"/existMakeCodeModelCodeAndDescriptionAndId/",
         }
     },
 

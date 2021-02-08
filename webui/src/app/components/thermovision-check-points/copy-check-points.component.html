@@ -92,7 +92,7 @@
 	                                        </mat-row>
                                  	</mat-table>
                                  </div>
-                                 <div class="float-right" style="float: right;" >
+                                 <div class="float-right" style="float: right;" *ngIf="createCheckPoints">
                                  	<button mat-raised-button color="accent" [disabled]="checkPointFormGroup.invalid"
 															(click)="saveAction()">
 														    	Create Check Points

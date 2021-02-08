@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.response.ResponseStatus;
+import com.scr.model.PrecautionaryMeasure;
 import com.scr.model.TpcBoard;
 import com.scr.services.TPCBoardService;
 import com.scr.util.Constants;
@@ -46,8 +47,7 @@ public class TPCBoardController {
 		log.info("Exit from findAllTPCBoard function");
 		return tpcBoard;
 	}
-	
-	@RequestMapping(value = "/addTPCBoard" , method = RequestMethod.POST , headers = "Accept=application/json")
+	@RequestMapping(value="/addTPCBoard",method=RequestMethod.POST,headers="Accept=application/json")
 	public ResponseStatus addTPCBoard(@RequestBody TpcBoard tpcBoard) {
 		log.info("Enter into addTPCBoard function with below request parameters ");
 		log.info("Request Parameters = "+tpcBoard.toString());
@@ -55,17 +55,16 @@ public class TPCBoardController {
 			log.info("Calling service with request parameters.");
 			tpcBoardService.save(tpcBoard);
 			log.info("Preparing the return response");
-			return Helper.findResponseStatus("Tpc Board added successfully", Constants.SUCCESS_CODE);
+			return Helper.findResponseStatus("tpcBoard Added successfully",Constants.SUCCESS_CODE);
 		}catch(NullPointerException npe) {
-			log.error("ERROR >> While adding Tpc Board data. "+npe.getMessage());
-			return Helper.findResponseStatus("Tpc Board save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+			log.error("ERROR >> While adding tpcBoard data. "+npe.getMessage());
+			return Helper.findResponseStatus("tpcBoard save is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
 		}
 		catch (Exception e) {
-			log.error("ERROR >> While adding Tpc Board data. "+e.getMessage());
-			return Helper.findResponseStatus("Tpc Board save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+			log.error("ERROR >> While adding tpcBoard data. "+e.getMessage());
+			return Helper.findResponseStatus("tpcBoard save is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
 		}
 	}
-	
 	
 	@RequestMapping(value = "/findTPCBoardById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<TpcBoard> findTPCBoardById(@PathVariable Long id){

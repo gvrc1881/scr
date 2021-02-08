@@ -23,6 +23,7 @@ export class AssetMonthlyTargetsComponent implements OnInit {
     workGroupList: any;
     workPhaseList: any;
     searchInputFormGroup: FormGroup;
+    originalDepotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     assetMonthlyTargetsList =  [];
     dataSource: MatTableDataSource<AssetMonthltTargetsModel>;
     displayedColumns = ['sno','assetType','scheduleType','totalPopulaion','targetApr','targetMay','targetJune','targetJuly',

@@ -58,13 +58,8 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                          <input matInput placeholder="{{FiledLabels.LOCATION}}"
-                                                            [formControl]="addSpecialWorksFormGroup.controls['location']" required
-                                                            pattern="^[a-zA-Z0-9\/]+$" />
-                                                          <mat-error
-                                                            *ngIf="addSpecialWorksFormGroup.controls['location'].hasError('pattern') && addSpecialWorksFormGroup.controls['location'].touched"
-                                                            class="alert alert-danger">Special Character are not allowed
-                                                          </mat-error>
+                                                          <input matInput placeholder="Display Order" decimalNumber
+                                                            [formControl]="addSpecialWorksFormGroup.controls['location']" required/>
                                                         </mat-form-field>
                                                       </div>
 

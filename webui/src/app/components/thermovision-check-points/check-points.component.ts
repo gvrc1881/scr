@@ -45,7 +45,7 @@ export class CheckPointsComponent implements OnInit {
   res: any;
   enableSave: boolean;
   checkPoints =[];
-  public stationType = ['PSI','SP','SSP','TSS','FP'];
+  public stationType = ['PSI','SP','SSP','TSS'];
 
 
   constructor(
@@ -192,7 +192,7 @@ export class CopyCheckPointsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.createCheckPoints = false;
+    this.createCheckPoints = true;
     this.checkPointFormGroup = this.formBuilder.group({
       facilityId: [null]
     })
@@ -216,6 +216,7 @@ export class CopyCheckPointsComponent implements OnInit {
           } else {
             this.commonService.showAlertMessage("Copy Check Points Data Saving Failed.");
           }
+          this.createCheckPoints = true;
         }, error => {
           console.log('ERROR >>>');
           this.spinnerService.hide();
