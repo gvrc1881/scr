@@ -39,9 +39,11 @@ public class ThermovisionMeasures {
 	
 	private String Location;
 	
-	private String connectionPoint;
+	private String connectionPoint1;
 	
-	private double ambientTemp;
+	private String connectionPoint2;
+	
+	private Double ambientTemp;
 	
 	private String createdBy;
 
@@ -166,14 +168,6 @@ public class ThermovisionMeasures {
 		Location = location;
 	}
 
-	public String getConnectionPoint() {
-		return connectionPoint;
-	}
-
-	public void setConnectionPoint(String connectionPoint) {
-		this.connectionPoint = connectionPoint;
-	}
-
 	public double getAmbientTemp() {
 		return ambientTemp;
 	}
@@ -212,6 +206,22 @@ public class ThermovisionMeasures {
 
 	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getConnectionPoint1() {
+		return connectionPoint1;
+	}
+
+	public void setConnectionPoint1(String connectionPoint1) {
+		this.connectionPoint1 = connectionPoint1;
+	}
+
+	public String getConnectionPoint2() {
+		return connectionPoint2;
+	}
+
+	public void setConnectionPoint2(String connectionPoint2) {
+		this.connectionPoint2 = connectionPoint2;
 	}
 
 }

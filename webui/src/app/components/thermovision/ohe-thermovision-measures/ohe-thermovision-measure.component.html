@@ -6,14 +6,14 @@
 				<nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thermovision Measure</li>
+                        <li class="breadcrumb-item active" aria-current="page">OHE Thermovision Measurement</li>
                     </ol>
                 </nav>
 			</div>
 			<div class="clear"> </div>
             <div class="row-fluid">
             	<div class="panel panel-primary">
-            		<div class="panel-heading">{{Titles.OHE_THERMOVISION_MEASURE_INFORMATION}}</div>
+            		<div class="panel-heading">{{Titles.OHE_THERMOVISION_MEASUREMENT_INFORMATION}}</div>
             		<div class="panel-body">
             			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
@@ -81,12 +81,12 @@
 								<div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.LOCATION}}"
-                                        	[formControl]="inputFormGroup.controls['location']">
+                                        	[formControl]="inputFormGroup.controls['location']" required>
                                         </mat-form-field>
 					           	</div>
 					           	<div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
-                                        <mat-select placeholder="{{FiledLabels.CONNECTION_POINT}}" [formControl]="inputFormGroup.controls['connectionPoint']"   required>
+                                        <mat-select placeholder="{{FiledLabels.CONNECTION_POINT1}}" [formControl]="inputFormGroup.controls['connectionPoint1']"   required>
                                             <mat-option *ngFor="let statusItem of statusItems "
                                                 [value]="statusItem.statusCode">
                                                 {{ statusItem.statusCode}}
@@ -95,21 +95,33 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-3">
+                                    <mat-form-field fxFlex="30">
+                                    	<input matInput placeholder="{{FiledLabels.CONNECTION_POINT2}}" autocomplete="off"
+                                        	[formControl]="inputFormGroup.controls['connectionPoint2']" >
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
-                                    	<input matInput placeholder="{{FiledLabels.MEASURE}}" autocomplete="off"
-                                        	[formControl]="inputFormGroup.controls['measure']" decimalNumber required>
-                                        </mat-form-field>
+                                    	<input matInput placeholder="{{FiledLabels.MEASURE1}}" autocomplete="off"
+                                        	[formControl]="inputFormGroup.controls['measure1']" decimalNumber required>
+                                    </mat-form-field>
 					           	</div>
 					           	<div class="col-md-3">
+                                	<mat-form-field fxFlex="30">
+                                    	<input matInput placeholder="{{FiledLabels.MEASURE2}}" autocomplete="off"
+                                        	[formControl]="inputFormGroup.controls['measure2']" decimalNumber >
+                                        </mat-form-field>
+					           	</div>
+					           <!-- 	<div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.AMBIENT_TEMP}}" autocomplete="off"
                                         	[formControl]="inputFormGroup.controls['ambientTemp']" decimalNumber >
                                         </mat-form-field>
-					           	</div>
+					           	</div> -->
 					           	<div class="col-md-3">
                                 	<mat-form-field fxFlex="30">
                                     	<input matInput placeholder="{{FiledLabels.DONE_BY}}" 
-                                        	[formControl]="inputFormGroup.controls['by']" >
+                                        	[formControl]="inputFormGroup.controls['by']" required>
                                         </mat-form-field>
 					           </div>
 					           <div class="col-md-3">
@@ -128,6 +140,12 @@
 							</form>
                     	</div>
                     	<div class="clear"></div>
+                    	<div class = "col-md-3" >
+                            <mat-form-field>
+								  <input class="filter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+								</mat-form-field>
+							</div>
+						<div class="clear"> </div>
                     	<!-- <div class = "col-md-3" >
                         	<mat-form-field fxFlex="30">
                             	<input matInput autocomplete="off" placeholder = "{{FiledLabels.TEMP_DIFF}}" decimalNumber [(ngModel)]="ambientTemp"  (ngModelChange)="applyAmbientTemp()" />
@@ -159,22 +177,40 @@
 	                                    		{{row.location}}
 	                                        </mat-cell>
 	                                </ng-container>
-	                                <ng-container matColumnDef="connectionPoint">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CONNECTION_POINT}}</span></mat-header-cell>
+	                                <ng-container matColumnDef="connectionPoint1">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT1}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row" >
-	                                        	{{row.connectionPoint}}
+	                                        	{{row.connectionPoint1}}
 	                                        </mat-cell>
 	                                </ng-container>
-	                                <ng-container matColumnDef="measure">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE}}</span></mat-header-cell>
+	                                <ng-container matColumnDef="measure2">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE1}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		{{row.measurePoint1}}
 	                                        </mat-cell>
 	                                </ng-container>
-	                                <ng-container matColumnDef="ambientTemp">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.AMBIENT_TEMP}}</span></mat-header-cell>
+	                                <ng-container matColumnDef="connectionPoint2">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT2}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row" >
+	                                        	{{row.connectionPoint2}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="measure1">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE2}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                    		{{row.ambientTemp}}
+	                                    		{{row.measurePoint2}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="diff">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DIFF}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.diff}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="doneBy">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DONE_BY}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.doneBy}}
 	                                        </mat-cell>
 	                                </ng-container>
 	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

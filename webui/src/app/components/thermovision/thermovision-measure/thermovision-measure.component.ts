@@ -48,9 +48,11 @@ export class ThermovisionMeasureComponent implements OnInit{
     divCode: string;
     userDefaultData: any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    depotTypes = ['TSS','SP','SSP'];
+    /*
     depotTypes:any = this.depotsData.map(item => item.depotType)
    .filter((value, index, self) => self.indexOf(value) === index)
-  
+   */
 
     constructor(
         private commonService: CommonService,
@@ -92,8 +94,10 @@ export class ThermovisionMeasureComponent implements OnInit{
         console.log('rowvalue***'+JSON.stringify(row));
         //console.log('row comp point ***'+row.tcpCommparisonPoints);
         if(row.tcpmMeasurePoint1 && row.tcpmMeasurePoint2){
+            console.log('tcpmMeasurePoint1***'+row.tcpmMeasurePoint1);
+            console.log('tcpmMeasurePoint1***'+row.tcpmMeasurePoint2);
             let commpare = row.tcpmMeasurePoint1 - row.tcpmMeasurePoint2;
-            row.tempDiff = Math.abs(commpare);
+            row.tempDiff = Math.abs(commpare).toFixed(2) ;
            /*
             let index = this.thermovisionMeasureData.findIndex(value => value.tcpId === row.tcpCommparisonPoints );
             console.log('*** index value ***'+index);
@@ -121,7 +125,7 @@ export class ThermovisionMeasureComponent implements OnInit{
                 this.thermovisionMeasureData[index].CClampDiff = '';
             } */
         }else {
-            row.tempDiff = 0;
+            row.tempDiff = '';
         }
     }
     
@@ -144,7 +148,8 @@ export class ThermovisionMeasureComponent implements OnInit{
             this.resp = response;
             this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
-                this.commonService.showAlertMessage("Measures Data Updated Successfully");    
+                this.commonService.showAlertMessage("Measures Data Updated Successfully");
+                //this.getThermoMeasuresData();   
             }else
                 this.commonService.showAlertMessage("Measures Data Updating Failed");
             
@@ -166,13 +171,29 @@ export class ThermovisionMeasureComponent implements OnInit{
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
                         this.thermovisionMeasureData[i].tempDiff = this.thermovisionMeasureData[i].fDiff;
-                        if(this.thermovisionMeasureData[i].pre1MTcpsDate)
-                        this.thermovisionMeasureData[i].previous1 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre1MTcpsDate, 'dd-MMM-yyyy') +  '('+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2+') '+Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2) ; 
-                        if(this.thermovisionMeasureData[i].pre2MTcpsDate)
-                        this.thermovisionMeasureData[i].previous2 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre2MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2+') '+ Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2) ;
-                        if(this.thermovisionMeasureData[i].pre3MTcpsDate)
-                        this.thermovisionMeasureData[i].previous3 = this.datePipe.transform(this.thermovisionMeasureData[i].pre3MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2+') '+  Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2) ;
-                       /*
+                        if(this.thermovisionMeasureData[i].pre1MTcpsDate){
+                            this.thermovisionMeasureData[i].previous1 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre1MTcpsDate, 'dd-MMM-yyyy') +  '('+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2+') '+Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previousDiff1 = Math.abs(this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre1MTcpmMeasurePoint2).toFixed(2);
+                        } 
+                        if(this.thermovisionMeasureData[i].pre2MTcpsDate) {
+                            this.thermovisionMeasureData[i].previous2 =  this.datePipe.transform(this.thermovisionMeasureData[i].pre2MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2+') '+ Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previousDiff2 = Math.abs(this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre2MTcpmMeasurePoint2).toFixed(2);
+                        } 
+                        if(this.thermovisionMeasureData[i].pre3MTcpsDate) {
+                            this.thermovisionMeasureData[i].previous3 = this.datePipe.transform(this.thermovisionMeasureData[i].pre3MTcpsDate, 'dd-MMM-yyyy')  +'('+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 +'-'+this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2+') '+  Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2).toFixed(2) ;
+                            this.thermovisionMeasureData[i].previousDiff3 = Math.abs(this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint1 - this.thermovisionMeasureData[i]. pre3MTcpmMeasurePoint2).toFixed(2);
+                        }
+                        if(this.thermovisionMeasureData[i].tcpmMeasurePoint1 == 0) {
+                           this.thermovisionMeasureData[i].tcpmMeasurePoint1 = ''; 
+                        }
+                        if(this.thermovisionMeasureData[i].tcpmMeasurePoint2 == 0) {
+                           this.thermovisionMeasureData[i].tcpmMeasurePoint2 = ''; 
+                        }
+                        if(this.thermovisionMeasureData[i].tempDiff == 0) {
+                           this.thermovisionMeasureData[i].tempDiff = ''; 
+                        }else 
+                           this.thermovisionMeasureData[i].tempDiff = this.thermovisionMeasureData[i].tempDiff.toFixed(2)  
+                        /*
                         if(this.thermovisionMeasureData[i].tcpTypeOfCheckPoint == "FIXED_CClamp"){
                             this.thermovisionMeasureData[i].enableFixed = true;
                             this.thermovisionMeasureData[i].enableCClamp = true;

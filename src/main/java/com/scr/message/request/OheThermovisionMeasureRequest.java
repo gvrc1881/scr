@@ -8,8 +8,10 @@ public class OheThermovisionMeasureRequest {
 
 	private Timestamp dateTime;
 	private Facility facilityId;
-	private String connectionPoint;
-	private double measure;
+	private String connectionPoint1;
+	private String connectionPoint2;
+	private double measure1;
+	private double measure2;
 	private double ambientTemp;
 	private String by;
 	private String generalRemark;
@@ -29,22 +31,6 @@ public class OheThermovisionMeasureRequest {
 
 	public void setFacilityId(Facility facilityId) {
 		this.facilityId = facilityId;
-	}
-
-	public String getConnectionPoint() {
-		return connectionPoint;
-	}
-
-	public void setConnectionPoint(String connectionPoint) {
-		this.connectionPoint = connectionPoint;
-	}
-
-	public double getMeasure() {
-		return measure;
-	}
-
-	public void setMeasure(double measure) {
-		this.measure = measure;
 	}
 
 	public double getAmbientTemp() {
@@ -77,6 +63,38 @@ public class OheThermovisionMeasureRequest {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getConnectionPoint1() {
+		return connectionPoint1;
+	}
+
+	public void setConnectionPoint1(String connectionPoint1) {
+		this.connectionPoint1 = connectionPoint1;
+	}
+
+	public String getConnectionPoint2() {
+		return connectionPoint2;
+	}
+
+	public void setConnectionPoint2(String connectionPoint2) {
+		this.connectionPoint2 = connectionPoint2;
+	}
+
+	public double getMeasure1() {
+		return measure1;
+	}
+
+	public void setMeasure1(double measure1) {
+		this.measure1 = measure1;
+	}
+
+	public double getMeasure2() {
+		return measure2;
+	}
+
+	public void setMeasure2(double measure2) {
+		this.measure2 = measure2;
 	}
 
 }

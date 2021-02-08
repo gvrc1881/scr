@@ -6,14 +6,14 @@
 				<nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thermovision Measure</li>
+                        <li class="breadcrumb-item active" aria-current="page">PSI Thermovision Measurement</li>
                     </ol>
                 </nav>
 			</div>
 			<div class="clear"> </div>
             <div class="row-fluid">
             	<div class="panel panel-primary">
-            		<div class="panel-heading">{{Titles.THERMOVISION_MEASURE_INFORMATION}}</div>
+            		<div class="panel-heading">{{Titles.PSI_THERMOVISION_MEASUREMENT_INFORMATION}}</div>
             		<div class="panel-body">
             			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
                     		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
@@ -106,12 +106,12 @@
                     	<div class="clear"> </div>
 		                	 <div class="mat-elevation-z8">
 		                		<mat-table [dataSource]="dataSource" matSort>
-		                			<ng-container matColumnDef="sno" >
+		                			<ng-container matColumnDef="sno">
 	                                	<mat-header-cell  *matHeaderCellDef mat-sort-header><span>{{FiledLabels.S_NO}}</span></mat-header-cell>
 	                                    <mat-cell  *matCellDef="let row" > {{row.sno}}</mat-cell>
 	                               	</ng-container>
 	                               	<ng-container matColumnDef="point1description">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT1_DESCRIPTION}}</span></mat-header-cell>
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT1}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		{{row.tcpCheckPoint1Description}}
 	                                        </mat-cell>
@@ -119,14 +119,14 @@
 	                                <ng-container matColumnDef="measure1">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE1}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row" >
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="50">
 													<input matInput autocomplete="off" [value]="row.tcpmMeasurePoint1"  decimalNumber
 												    	[(ngModel)]="row.tcpmMeasurePoint1" (ngModelChange)="compareTwoPoints(row)">
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="point2description">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT2_DESCRIPTION}}</span></mat-header-cell>
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.POINT2}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
 	                                    		{{row.tcpCheckPoint2Description}}
 	                                        </mat-cell>
@@ -134,14 +134,14 @@
 	                                <ng-container matColumnDef="measure2">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.MEASURE2}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row" >
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="50">
 													<input matInput autocomplete="off" [value]="row.tcpmMeasurePoint2"  decimalNumber
 												    	[(ngModel)]="row.tcpmMeasurePoint2" (ngModelChange)="compareTwoPoints(row)">
 												</mat-form-field>
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="tempDiff">
-	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TEMP_DIFF}}</span></mat-header-cell>
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DIFF}}</span></mat-header-cell>
 	                                    		<mat-cell  *matCellDef="let row" 
 	                                    			[ngClass]="{
 											            'highlight' : row.tempDiff > 5
@@ -161,7 +161,7 @@
 	                                <ng-container matColumnDef="criticality">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.CRITICALITY}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="50">
 													<input matInput autocomplete="off"  [value]="row.tcpmCriticality" decimalNumber
 												    	[(ngModel)]="row.tcpmCriticality">
 												</mat-form-field>
@@ -170,7 +170,7 @@
 	                                <ng-container matColumnDef="remark">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.REMARK}}</span></mat-header-cell>
 	                                    	<mat-cell *matCellDef="let row">
-	                                        	<mat-form-field floatLabel="never" [style.width.px]="100">
+	                                        	<mat-form-field floatLabel="never" [style.width.px]="80">
 													<input matInput autocomplete="off"  [value]="row.tcpmRemark" 
 												    	[(ngModel)]="row.tcpmRemark">
 												</mat-form-field>
@@ -178,19 +178,28 @@
 	                                </ng-container>
 	                                <ng-container matColumnDef="previous1">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PREVIOUS1}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<mat-cell *matCellDef="let row"
+	                                    	[ngClass]="{
+											            'highlight' : row.previousDiff1 > 5
+											         }">
 	                                    		{{row.previous1}}
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="previous2">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PREVIOUS2}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<mat-cell *matCellDef="let row"
+	                                    	[ngClass]="{
+											            'highlight' : row.previousDiff2 > 5
+											         }">
 	                                    		{{row.previous2}}
 	                                        </mat-cell>
 	                                </ng-container>
 	                                <ng-container matColumnDef="previous3">
 	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.PREVIOUS3}}</span></mat-header-cell>
-	                                    	<mat-cell *matCellDef="let row">
+	                                    	<mat-cell *matCellDef="let row"
+	                                    	[ngClass]="{
+											            'highlight' : row.previousDiff3 > 5
+											         }">
 	                                    		{{row.previous3}}
 	                                        </mat-cell>
 	                                </ng-container>

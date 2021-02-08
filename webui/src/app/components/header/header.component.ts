@@ -1317,10 +1317,10 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
         currentTab: !!path && path.includes("thermovision-measure") ? "open" : "",
         subMenus: [       
           {
-            subMenuName: "Thermovision Measure",
+            subMenuName: "PSI Thermovision Measurement",
             subMenuURL: "thermovision-measure",
             subMenuIcon: "fa fa-file",
-            permission: this.commonService.findPermission('Thermovision Measure', 'submenu', 'view'),
+            permission: this.commonService.findPermission('PSI Thermovision Measurement', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("thermovision-measure") ? "active-item" : "",
           },
@@ -1333,10 +1333,10 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             currentSubMenu: !!path && path.includes("check-points") ? "active-item" : "",
           },
           {
-            subMenuName: "Ohe Thermovision Measure",
+            subMenuName: "OHE Thermovision Measurement",
             subMenuURL: "ohe-thermovision-measure",
             subMenuIcon: "fa fa-file",
-            permission: this.commonService.findPermission('Ohe Thermovision Measure', 'submenu', 'view'),
+            permission: this.commonService.findPermission('OHE Thermovision Measurement', 'submenu', 'view'),
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("ohe-thermovision-measure") ? "active-item" : "",
           },

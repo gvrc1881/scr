@@ -36,7 +36,7 @@ export class OheThermovisionMeasureComponent implements OnInit{
     depotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
-    displayedColumns =['sno','Date','Depot','Location','connectionPoint','measure','ambientTemp'];
+    displayedColumns =['sno','Date','Depot','Location','connectionPoint1','measure1','connectionPoint2','measure2','diff','doneBy'];
     dataSource: MatTableDataSource<any>;
     thermovisionMeasuresList: any[] = [];
     enableSave: boolean;
@@ -72,12 +72,14 @@ export class OheThermovisionMeasureComponent implements OnInit{
             'division': [null , Validators.required ],
             'depotType' : [null, Validators.required],
             'facilityId' : [null , Validators.required ],
-            'location' : [null],
-            'by' : [null],
+            'location' : [null,Validators.required],
+            'by' : [null,Validators.required],
             'generalRemark' : [null],
-            'connectionPoint':[null, Validators.required ],
-            'measure':[null, Validators.required ],
-            'ambientTemp': [null,]
+            'connectionPoint1':[null, Validators.required ],
+            'connectionPoint2':[ null ],
+            'measure1':[null, Validators.required ],
+            'measure2':[null],
+            //'ambientTemp': [null,]
         });
         if(this.divisionsList.length > 0){
             this.checkDivisionUser = true;
@@ -95,9 +97,11 @@ export class OheThermovisionMeasureComponent implements OnInit{
         let OheTherMeasureObject = {
             'dateTime': this.inputFormGroup.value.dateTime,
             'facilityId': this.inputFormGroup.value.facilityId,
-            'connectionPoint': this.inputFormGroup.value.connectionPoint,
-            'measure': this.inputFormGroup.value.measure,
-            'ambientTemp': this.inputFormGroup.value.ambientTemp,
+            'connectionPoint1': this.inputFormGroup.value.connectionPoint1,
+            'measure1': this.inputFormGroup.value.measure1,
+            'connectionPoint2': this.inputFormGroup.value.connectionPoint2,
+            'measure2': this.inputFormGroup.value.measure2,
+            //'ambientTemp': this.inputFormGroup.value.ambientTemp,
             'by': this.inputFormGroup.value.by,
             'generalRemark': this.inputFormGroup.value.generalRemark,
             'location': this.inputFormGroup.value.location
@@ -150,12 +154,26 @@ export class OheThermovisionMeasureComponent implements OnInit{
                         this.thermovisionMeasureData[i].sno = i+1;
                         this.thermovisionMeasureData[i].facilityName = this.inputFormGroup.value.facilityId.facilityName;
                         this.thermovisionMeasureData[i].date = this.datePipe.transform(this.thermovisionMeasureData[i].tcpScheduleId.dateTime, 'yyyy-MM-dd');
-                        this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);                            
+                        this.thermovisionMeasureData[i].doneBy = this.thermovisionMeasureData[i].tcpScheduleId.by; 
+                        this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);
+                        if( this.thermovisionMeasureData[i].measurePoint1 && this.thermovisionMeasureData[i].measurePoint2 ){
+                        	 let commpare = this.thermovisionMeasureData[i].measurePoint1 - this.thermovisionMeasureData[i].measurePoint2;
+            				 this.thermovisionMeasureData[i].diff = Math.abs(commpare).toFixed(2) ;
+                        }else{
+                        	 this.thermovisionMeasureData[i].diff = '';
+                        	 this.thermovisionMeasureData[i].measurePoint2 = '';
+                        }                            
                     }
                     this.dataSource = new MatTableDataSource(this.thermovisionMeasuresList);
                 }
         });    
     }
+    
+    applyFilter(filterValue: string) {
+  		filterValue = filterValue.trim();
+  		filterValue = filterValue.toLowerCase();
+   		this.dataSource.filter = filterValue;
+	}
     
     divisionDetails() {
         this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.GET_DIVISIONS)

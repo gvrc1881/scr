@@ -70,9 +70,9 @@ public class ThermovisionMeasuresServices {
 					resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
 				}
 				if (resultTcpSchedule != null) {
-					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1DescriptionAndCheckPoint2Description(thermovisionMeasureResponse.getTcpCheckPoint1Description(),thermovisionMeasureResponse.getTcpCheckPoint2Description());
+					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(thermovisionMeasureResponse.getTcpCheckPoint1Description(),thermovisionMeasureResponse.getTcpCheckPoint2Description(),facilityObj.get());
 					if (thermoCheckPointObject.isPresent()) {
-						//logger.info("*** finding measure objcet  ***");
+						logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);
 						if (thermoMeasureObject.isPresent()) {
 							/*thermoMeasureObject.get().setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
@@ -124,20 +124,25 @@ public class ThermovisionMeasuresServices {
 			resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
 		}
 		if (resultTcpSchedule != null ) {
-			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint(resultTcpSchedule,oheThermovisionMeasureRequest.getConnectionPoint());
+			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint1(resultTcpSchedule,oheThermovisionMeasureRequest.getConnectionPoint1());
 			if (thermovisionMeasures.isPresent()) {
 				thermovisionMeasures.get().setLocation(oheThermovisionMeasureRequest.getLocation());
 				thermovisionMeasures.get().setAmbientTemp(oheThermovisionMeasureRequest.getAmbientTemp());
-				thermovisionMeasures.get().setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure());
+				thermovisionMeasures.get().setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure1());
+				thermovisionMeasures.get().setMeasurePoint2(oheThermovisionMeasureRequest.getMeasure2());
+				thermovisionMeasures.get().setConnectionPoint1(oheThermovisionMeasureRequest.getConnectionPoint1());
+				thermovisionMeasures.get().setConnectionPoint2(oheThermovisionMeasureRequest.getConnectionPoint2());
 				thermovisionMeasures.get().setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				thermovisionMeasuresRepository.save(thermovisionMeasures.get());
 			}else {
 				ThermovisionMeasures thermovisionMeasure = new ThermovisionMeasures();
 				thermovisionMeasure.setLocation(oheThermovisionMeasureRequest.getLocation());
 				thermovisionMeasure.setAmbientTemp(oheThermovisionMeasureRequest.getAmbientTemp());
-				thermovisionMeasure.setConnectionPoint(oheThermovisionMeasureRequest.getConnectionPoint());
+				thermovisionMeasure.setConnectionPoint1(oheThermovisionMeasureRequest.getConnectionPoint1());
+				thermovisionMeasure.setConnectionPoint2(oheThermovisionMeasureRequest.getConnectionPoint2());
 				thermovisionMeasure.setTcpScheduleId(resultTcpSchedule);
-				thermovisionMeasure.setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure());
+				thermovisionMeasure.setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure1());
+				thermovisionMeasure.setMeasurePoint2(oheThermovisionMeasureRequest.getMeasure2());
 				thermovisionMeasure.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				thermovisionMeasure.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				thermovisionMeasuresRepository.save(thermovisionMeasure);	

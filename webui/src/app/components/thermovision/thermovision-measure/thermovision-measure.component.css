@@ -5,31 +5,31 @@
     max-width: 320px;
 }
 .mat-column-measure1 {
-    max-width: 60px;
+    max-width: 70px;
 }
 .mat-column-point2description {
     max-width: 320px;
 }
 .mat-column-measure2 {
-    max-width: 60px;
+    max-width: 70px;
 }
 .mat-column-tempDiff {
-    max-width: 60px;
+    max-width: 50px;
 }
 .mat-column-criticality {
     max-width: 80px;
 }
 .mat-column-remark {
-    max-width: 80px;
+    max-width: 100px;
 }
 .mat-column-previous1 {
-    max-width: 150px;
+    max-width: 140px;
 }
 .mat-column-previous2 {
-    max-width: 150px;
+    max-width: 140px;
 }
 .mat-column-previous3 {
-    max-width: 150px;
+    max-width: 140px;
 }
 
 .highlight {

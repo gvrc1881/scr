@@ -22,4 +22,7 @@ public interface ThermovisionCheckPointsRepository extends JpaRepository<Thermov
 			String tcpCheckPoint1Description, String tcpCheckPoint2Description);
 
 	List<ThermovisionCheckPoints> findByActive(String active);
+
+	Optional<ThermovisionCheckPoints> findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(
+			String tcpCheckPoint1Description, String tcpCheckPoint2Description, Facility facility);
 }

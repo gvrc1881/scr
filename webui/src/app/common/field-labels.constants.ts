@@ -26,7 +26,7 @@ export const FieldLabelsConstant = {
       ALTITUDE: "Altitude",
       AMOUNT: "Amount",
       AMBIENT_TEMP:"Ambient Temp",
-      TEMP_DIFF: "Temp Diff",
+      DIFF: "Diff",
       FIXED_DIFF: "Fixed Diff",
       CCLAMP_DIFF: "C Clamp Diff",
       TOWERCAR_TYPE:"TW Type",
@@ -601,15 +601,16 @@ export const FieldLabelsConstant = {
       TARGET_TYPE:"Target Type",
       GROUPS_SECTIONS:'Groups Sections',
       USER:"User",
-      POINT1_DESCRIPTION:"Point1 Description",
-      POINT2_DESCRIPTION:"Point2 Description",
+      POINT1:"Point1",
+      POINT2:"Point2",
       MEASURE1: "Measure1",
       MEASURE2: "Measure2",
       PREVIOUS1: "Previous1",
       PREVIOUS2: "Previous2",
       PREVIOUS3: "Previous3",
       MEASURE: "Measure",
-      CONNECTION_POINT: "Connection Point",
+      CONNECTION_POINT1: "Connection Point1",
+      CONNECTION_POINT2: "Connection Point2",
       ROLE: "Role"
    },
    TITLE:{
@@ -713,8 +714,8 @@ export const FieldLabelsConstant = {
     SPECIAL_WORKS_FORM:'Special Works',
     SPECIAL_WORKS_MATER_FORM:'Special Works Master',
     TOWERCAR_STATUS:'TowerCar Status',
-    THERMOVISION_MEASURE_INFORMATION: 'Thermovision Measure Information',
+    PSI_THERMOVISION_MEASUREMENT_INFORMATION: 'PSI Thermovision Measurement Information',
     THERMOVISION_CHECK_POINTS:'Thermovision Check Points',
-    OHE_THERMOVISION_MEASURE_INFORMATION: 'Ohe Thermovision Measure Information'
+    OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'OHE Thermovision Measurement Information'
    }
 };

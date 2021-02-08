@@ -73,5 +73,10 @@ public class ThermovisionCheckPointsService {
 	 			thermovisionCheckPointsRepository.save(tcp);
 	 		}
 	     }
+
+	public Optional<ThermovisionCheckPoints> findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(
+			String tcpCheckPoint1Description, String tcpCheckPoint2Description, Facility facility) {
+		return thermovisionCheckPointsRepository.findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(tcpCheckPoint1Description,tcpCheckPoint2Description,facility);
+	}
 	
 }
