@@ -42,7 +42,7 @@
                                                             class="alert alert-danger">Special characters are not allowed
                                                         </mat-error>
                                                         <mat-error
-                                                            *ngIf="addTestInspectionFormGroup.controls['name'].hasError('maxlength') && addDriveFormGroup.controls['name'].touched"
+                                                            *ngIf="addTestInspectionFormGroup.controls['name'].hasError('maxlength') && addTestInspectionFormGroup.controls['name'].touched"
                                                             class="alert alert-danger">Max 250 characters only
                                                         </mat-error>
                                                     </mat-form-field>
