@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="thermovision" pageWidth="2000" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="fbdf8d56-efb2-4628-9e20-bb5ab5f8340e">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="663"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="date" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -10,9 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[-- thermovision measures report query
-
-select
+		<![CDATA[select
 rs.facility_name rs_facility_name,
 rs.tcp_display_group,
 rs.tcp_display_order,
@@ -63,60 +61,67 @@ cur_m.vtm_tcp_display_order  ,
 	round( CAST( pre3_m.tcpm_measure_point1 as numeric) ,2) pre3_m_tcpm_measure_point1,
 	round( CAST( pre3_m.tcpm_measure_point2 as numeric) ,2) pre3_m_tcpm_measure_point2,
 -- cur schedule
-cur.tcps_facility_id,
-cur.tcps_facility_name ,
-cur.tcps_date, cur.tcps_date_time, cur.tcps_time,
-cur.tcps_by,
-cur.tcps_general_remark
+cur_s.tcps_facility_id,
+cur_s.tcps_facility_name ,
+cur_s.tcps_date, cur_s.tcps_date_time, cur_s.tcps_time,
+cur_s.tcps_by,
+cur_s.tcps_general_remark
 
 from (select id ,facility_id , facility_name , vtpc.*
 	  from v_thermovision_check_points vtpc,
-	  facility f where f.id =  $P{depotId}::integer
+	  facility f where f.id =$P{depotId}::integer
 	  and f.id =  vtpc.tcp_facility_id
 	  and upper(vtpc.tcp_active) = 'YES'
 	  ) rs
-left outer join v_tcp_schedule cur
-on (cur.tcps_date::date =  $P{date}::date
-	and rs.id = cur.tcps_facility_id)
+left outer join v_tcp_schedule cur_s
+on (cur_s.tcps_date::date = $P{date}::date
+	and rs.id = cur_s.tcps_facility_id)
 left outer join ( select tcp_sch_id ,
-split_part(tcp_sch_id, ',',  1 )  as  Pre_tcp_sch_1,
-split_part(tcp_sch_id, ',',  2 )  as  Pre_tcp_sch_2,
-split_part(tcp_sch_id, ',',  3 )  as  Pre_tcp_sch_3,
-split_part(tcp_sch_id, ',',  4 )  as  Pre_tcp_sch_4
+case when split_part(tcp_sch_id, ',',  1 ) ='' then 0 else split_part(tcp_sch_id, ',',  1 )::bigint  end
+				 as Pre_tcp_sch_1 ,
+				 split_part(tcp_sch_id, ',',  2 )  sp2 ,
+case when split_part(tcp_sch_id, ',',  2 ) ='' then -1 else (split_part(tcp_sch_id, ',',  2 ))::bigint
+			end	 as Pre_tcp_sch_2 ,
+case when split_part(tcp_sch_id, ',',  3 ) ='' then -2 else (split_part(tcp_sch_id, ',',  3 ))::bigint
+			end	 as Pre_tcp_sch_3 ,
+case when split_part(tcp_sch_id, ',',  4 ) ='' then -2 else (split_part(tcp_sch_id, ',',  4 ))::bigint
+			end	 as Pre_tcp_sch_4
+
+
+
 from (
 select	string_agg(tcps_id::character varying,',' order by a.tcps_date desc) tcp_sch_id
 from (select ROW_NUMBER() OVER() seq ,cur_h.tcps_date ,cur_h.tcps_id
 from v_tcp_schedule	cur_h  	-- schedule history before current schedule
-where cur_h.tcps_date <= $P{date}::date
-	  and cur_h.tcps_facility_id =  $P{depotId}::integer
+where cur_h.tcps_date < $P{date}::date
+	  and cur_h.tcps_facility_id = $P{depotId}::integer
 order by tcps_date desc limit  4
 ) a	 )b
 ) p on (1=1)
 
 left outer join
-	(	select tm.*,f.id , f.facility_name
-	 from
+	(	select * from
 			(select
 				case when (vtm.tcpm_measure_point1 is not null and vtm.tcpm_measure_point2 is not null) then
 					abs(vtm.tcpm_measure_point1 - vtm.tcpm_measure_point2)  end as f_diff,
 					 vtm.tcp_id as vtm_tcp_id , vtm.tcp_display_order vtm_tcp_display_order, tcpm_tcp_schedule_id,
 			 		 vtm.tcpm_measure_point1 ,  vtm.tcpm_measure_point2 , vtm.tcps_facility_id ,vtm.tcpm_tcp_id ,vtm.tcpm_id,
-			 		vtm.tcpm_image_id , vtm.tcpm_criticality, vtm.tcpm_remark
+			 		vtm.tcpm_image_id , vtm.tcpm_criticality, vtm.tcpm_remark , vtm.tcps_date::date tcps_date
 					from v_thermovision_measures vtm
 			) tm ,
 			facility f
-		where f.id =  $P{depotId}::integer
+		where f.id = $P{depotId}::integer
+		and tm.tcps_date::date = $P{date}::date
 		and f.id =  tm.tcps_facility_id
 	) cur_m
-on (cur.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id )
+on (cur_s.tcps_id = cur_m.tcpm_tcp_schedule_id and  rs.tcp_id = cur_m.tcpm_tcp_id )
 left outer join v_thermovision_measures pre1_m
-on (Pre_tcp_sch_1::bigint = pre1_m.tcpm_tcp_schedule_id and  vtm_tcp_id = pre1_m.tcpm_tcp_id )
+on (Pre_tcp_sch_1::bigint = pre1_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre1_m.tcpm_tcp_id )
 left outer join v_thermovision_measures pre2_m
-on (Pre_tcp_sch_2::bigint = pre2_m.tcpm_tcp_schedule_id and  vtm_tcp_id = pre2_m.tcpm_tcp_id )
+on (Pre_tcp_sch_2::bigint = pre2_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre2_m.tcpm_tcp_id )
 left outer join v_thermovision_measures pre3_m
-on (Pre_tcp_sch_3::bigint = pre3_m.tcpm_tcp_schedule_id and  vtm_tcp_id = pre3_m.tcpm_tcp_id )
-order by rs.tcp_display_order::integer
-;]]>
+on (Pre_tcp_sch_3::bigint = pre3_m.tcpm_tcp_schedule_id and  rs.tcp_id = pre3_m.tcpm_tcp_id )
+order by rs.tcp_display_order::integer;]]>
 	</queryString>
 	<field name="rs_facility_name" class="java.lang.String"/>
 	<field name="tcp_display_group" class="java.lang.String"/>
@@ -133,7 +138,7 @@ order by rs.tcp_display_order::integer
 	<field name="prev_3_date_measure_details" class="java.lang.String"/>
 	<field name="tcpm_image_id" class="java.lang.String"/>
 	<field name="tcpm_remark" class="java.lang.String"/>
-	<field name="tcpm_criticality" class="java.lang.Long"/>
+	<field name="tcpm_criticality" class="java.lang.String"/>
 	<field name="rs_id" class="java.lang.Long"/>
 	<field name="rs_facility_id" class="java.lang.String"/>
 	<field name="tcpm_id" class="java.lang.Long"/>
@@ -163,7 +168,7 @@ order by rs.tcp_display_order::integer
 		<groupHeader>
 			<band height="20">
 				<textField isBlankWhenNull="true">
-					<reportElement x="326" y="0" width="204" height="20" uuid="f0636e69-a4a9-416e-b800-adefe14b0789"/>
+					<reportElement x="246" y="0" width="204" height="20" uuid="f0636e69-a4a9-416e-b800-adefe14b0789"/>
 					<box>
 						<pen lineWidth="0.0"/>
 						<topPen lineWidth="0.0"/>
@@ -177,21 +182,7 @@ order by rs.tcp_display_order::integer
 					<textFieldExpression><![CDATA[$F{tcp_check_point_part}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="0" width="1960" height="20" uuid="0c0e2d6f-fc87-48e1-9b44-ceb1a76476a7"/>
-					<box>
-						<pen lineWidth="0.75"/>
-						<topPen lineWidth="0.75"/>
-						<leftPen lineWidth="0.75"/>
-						<bottomPen lineWidth="0.75"/>
-						<rightPen lineWidth="0.75"/>
-					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[S No]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="218" y="0" width="108" height="20" uuid="adea6521-ef7b-4589-a01d-eca8512a3420"/>
+					<reportElement x="128" y="0" width="118" height="20" uuid="adea6521-ef7b-4589-a01d-eca8512a3420"/>
 					<box>
 						<pen lineWidth="0.0"/>
 						<topPen lineWidth="0.0"/>
@@ -203,6 +194,20 @@ order by rs.tcp_display_order::integer
 						<font size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Check Point Part : - ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="1960" height="20" uuid="0c0e2d6f-fc87-48e1-9b44-ceb1a76476a7"/>
+					<box>
+						<pen lineWidth="0.75"/>
+						<topPen lineWidth="0.75"/>
+						<leftPen lineWidth="0.75"/>
+						<bottomPen lineWidth="0.75"/>
+						<rightPen lineWidth="0.75"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[  S No]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -224,14 +229,14 @@ order by rs.tcp_display_order::integer
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Thermo Vision Measures Report]]></text>
+				<text><![CDATA[Thermo Vision Measure Report]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="40" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="20" width="530" height="20" uuid="d1fa8b69-01bd-4e7b-8dc2-97473d715aa4"/>
+				<reportElement x="0" y="20" width="449" height="20" uuid="d1fa8b69-01bd-4e7b-8dc2-97473d715aa4"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -245,7 +250,7 @@ order by rs.tcp_display_order::integer
 				<text><![CDATA[Part/Group]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="264" y="0" width="111" height="20" uuid="eebb513f-c711-4302-b48f-4d28fa9e2fcc"/>
+				<reportElement x="246" y="0" width="204" height="20" uuid="eebb513f-c711-4302-b48f-4d28fa9e2fcc"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -259,7 +264,7 @@ order by rs.tcp_display_order::integer
 				<textFieldExpression><![CDATA[$F{rs_facility_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="209" y="0" width="55" height="20" uuid="c23a3ac4-6900-4e2d-8537-4d316a538ffc"/>
+				<reportElement x="194" y="0" width="52" height="20" uuid="c23a3ac4-6900-4e2d-8537-4d316a538ffc"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -283,12 +288,26 @@ order by rs.tcp_display_order::integer
 				</box>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="449" y="20" width="1511" height="20" uuid="ac4a35d2-d65f-4a70-8f6a-9944ba622312"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="530" y="0" width="340" height="20" uuid="ac3c9ef6-0d05-420b-912e-d14d2a3a7f59"/>
+				<reportElement x="449" y="0" width="421" height="20" uuid="ac3c9ef6-0d05-420b-912e-d14d2a3a7f59"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -386,7 +405,7 @@ order by rs.tcp_display_order::integer
 				<text><![CDATA[Prev 3 Date Measure Details]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="530" height="20" uuid="c5ae7b5d-f324-44f5-9a57-13ef402bb6b6"/>
+				<reportElement x="0" y="0" width="449" height="20" uuid="c5ae7b5d-f324-44f5-9a57-13ef402bb6b6"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -404,7 +423,7 @@ order by rs.tcp_display_order::integer
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="35" y="0" width="495" height="20" uuid="a4155583-a6f3-4b18-ba8b-edf0c33bb94b"/>
+				<reportElement stretchType="RelativeToTallestObject" x="35" y="0" width="414" height="20" uuid="a4155583-a6f3-4b18-ba8b-edf0c33bb94b"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -418,7 +437,7 @@ order by rs.tcp_display_order::integer
 				<textFieldExpression><![CDATA[$F{tcp_check_point1_description}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="530" y="0" width="340" height="20" uuid="fa3a847a-62f6-4a31-9c8a-7b1dfd07c484"/>
+				<reportElement stretchType="RelativeToTallestObject" x="449" y="0" width="421" height="20" uuid="fa3a847a-62f6-4a31-9c8a-7b1dfd07c484"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -534,7 +553,7 @@ order by rs.tcp_display_order::integer
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="530" y="0" width="340" height="20" uuid="2d03d413-e452-4835-aaf9-c285f01e8a89"/>
+				<reportElement x="449" y="0" width="421" height="20" uuid="2d03d413-e452-4835-aaf9-c285f01e8a89"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>

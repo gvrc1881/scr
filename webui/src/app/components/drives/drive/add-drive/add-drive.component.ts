@@ -39,6 +39,8 @@ export class AddDriveComponent implements OnInit {
   isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
+  ScopeList = [{ 'id': 1, "value": 'ZONE' }, { 'id': 2, "value": 'DIV' },{ 'id': 3, "value": 'SUBDIV' },
+  { 'id': 4, "value": 'TRD' },{ 'id': 5, "value": 'PSI' },{ 'id': 6, "value": 'RCC' }];
   assetTypeList = [];
   functionalUnitsList: any;
   functionalUnitList: any; 
@@ -235,7 +237,9 @@ export class AddDriveComponent implements OnInit {
         this.allFunctionalUnitsList = units;
       })
   }
-  
+  updateFunctionalUnit($event){
+    
+  }
   updateAssertType($event) {
     if ($event.value) {
       this.depoTypeList.filter(element => {
