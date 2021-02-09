@@ -67,7 +67,7 @@
 
                                                 <ng-container matColumnDef="location">
                                                     <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                        <span>{{FiledLabels.LOCATION}}</span>
+                                                        <span>Display Order</span>
                                                         <input matInput type="text" (keyup) ="updatePagination()" [(ngModel)]="filterData.filterColumnNames[2].Value" [filter]="filterData">
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let row"> {{row.location}}</mat-cell>

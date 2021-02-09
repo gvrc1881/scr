@@ -71,6 +71,13 @@ public class PrecautionaryMeasureService {
 		 return pm;
 	}
      public List<PrecautionaryMeasure> getAllOrderByPrecautionaryMeasureAsc(List<String> fac) {
+    	 logger.info("Calling mapper for preparing to get PrecautionaryMeasure Allmodel object");
+ 		List<PrecautionaryMeasure> pm = new ArrayList<>();
+ 		List<PrecautionaryMeasure> precautionaryMeasures = precautionaryMeasureRepository.findAll();
+ 		for (PrecautionaryMeasure precautionaryMeasure : precautionaryMeasures) {
+ 			precautionaryMeasure = precautionaryMeasureMapper.preparePreacutionaryMeasureData(precautionaryMeasure);
+ 			pm.add(precautionaryMeasure);
+ 		}
 		
 		return precautionaryMeasureRepository.getAllByDataDivIn(fac);
 	}

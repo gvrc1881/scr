@@ -147,6 +147,7 @@ export class AddSpecialWorksComponent implements OnInit {
         console.log("list==="+this.resp.precautionaryMeasure.id);
         this.addSpecialWorksFormGroup.patchValue({
           id: this.resp.id,
+          dataDiv: this.resp.dataDiv,
           facilityId: this.resp.facilityId,
           location: this.resp.location,
           precautionaryMeasure: this.resp.precautionaryMeasure.id,
