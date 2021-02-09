@@ -64,6 +64,7 @@ public class WorkMapper {
 					Optional<WPADailyProgress> wpaDailyProgress = wpaDailyProgressRepository.findByWorkGroupIdAndWorkPhaseActivityIdAndDate(workGroup,workPhaseActivity,date);
 					if (wpaDailyProgress.isPresent()) {
 						wpaDailyProgressResponse.setPerformedCount(wpaDailyProgress.get().getPerformedCount());
+						wpaDailyProgressResponse.setId(wpaDailyProgress.get().getId());
 					} else {
 						wpaDailyProgressResponse.setPerformedCount(new Double(0));
 					}

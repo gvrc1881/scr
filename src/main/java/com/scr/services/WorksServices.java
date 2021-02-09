@@ -417,4 +417,8 @@ public List<WorkPhases> getWorkPhasesBasedOnWorkId(Works works) {
 	return workPhaseRepository.findByWorkId(works);
 }
 
+public Optional<WPADailyProgress> getWPADailyProgressBasedOnId(Integer wpaDailyProgressId) {
+	return wpaDailyProgressRepository.findById(wpaDailyProgressId);
+}
+
 }

@@ -595,6 +595,11 @@ const routes: Routes = [
     loadChildren: './components/test_inspection/test-inspection.module#TestInspectionModule',
      canActivate: [AuthGuard]
    },
+  {
+    path: 'work-daily-progress/prj-act-measure/:wpaId',
+    loadChildren: './components/project-activity-inspection/project-activity-inspection.module#ProjectActivityInspectionModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

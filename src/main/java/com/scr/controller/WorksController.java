@@ -30,6 +30,7 @@ import com.scr.message.response.WPADailyProgressResponse;
 import com.scr.message.response.WPASectionTargetsResponse;
 import com.scr.model.Assistance;
 import com.scr.model.ContentManagement;
+import com.scr.model.EnergyMeter;
 import com.scr.model.MilestoneTargets;
 import com.scr.model.TractionEnergyTariff;
 import com.scr.model.WPADailyProgress;
@@ -474,6 +475,25 @@ public class WorksController {
 			log.error("Error while getting DivisionHistory Details"+e.getMessage());
 			return new ResponseEntity<List<ContentManagement>>(contentManagementList, HttpStatus.CONFLICT);
 		}	
+	}
+	
+	@RequestMapping(value = "/getWPADailyProgressBasedOnId/{wpaDailyProgressId}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	public ResponseEntity<WPADailyProgress> getWPADailyProgressBasedOnId(@PathVariable("wpaDailyProgressId") Integer wpaDailyProgressId){
+		log.info("Enter into getWorkPhasesBasedOnWork function Id***"+wpaDailyProgressId);
+		Optional<WPADailyProgress> wpaDailyProgresses = null;
+		
+		try {
+			wpaDailyProgresses = worksServices.getWPADailyProgressBasedOnId(wpaDailyProgressId);
+			if(wpaDailyProgresses.isPresent()) {
+				return new ResponseEntity<WPADailyProgress>(wpaDailyProgresses.get(), HttpStatus.OK);
+			}
+			else
+				return new ResponseEntity<WPADailyProgress>(wpaDailyProgresses.get(), HttpStatus.CONFLICT);
+			
+		} catch (Exception e) {
+			log.error("Error >>  while find WPA daily progess data by id, "+e.getMessage());
+			return new ResponseEntity<WPADailyProgress>(wpaDailyProgresses.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

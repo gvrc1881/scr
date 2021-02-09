@@ -70,6 +70,10 @@ public class WorkPhaseActivity {
 	@ManyToOne
 	@JoinColumn(name = "work_phase_id", foreignKey = @ForeignKey(name = "fk_work_phase_activity_work_phases"))
 	private WorkPhases workPhaseId;
+	
+	@ManyToOne
+	@JoinColumn(name = "test_inspection_id", foreignKey = @ForeignKey(name = "fk_work_phase_activity_test_inspection"))
+	private TestInspection testInspectionId;
 
 	public Integer getId() {
 		return id;
@@ -223,6 +227,14 @@ public class WorkPhaseActivity {
 		this.uom = uom;
 	}
 
+	public TestInspection getTestInspectionId() {
+		return testInspectionId;
+	}
+
+	public void setTestInspectionId(TestInspection testInspectionId) {
+		this.testInspectionId = testInspectionId;
+	}
+
 	@Override
 	public String toString() {
 		return "WorkPhaseActivity [id=" + id + ", name=" + name + ", depotType=" + depotType + ", assetType="
@@ -231,7 +243,9 @@ public class WorkPhaseActivity {
 				+ ", uom=" + uom + ", plannedStartDate=" + plannedStartDate + ", commenceDate=" + commenceDate
 				+ ", targetCompletionDate=" + targetCompletionDate + ", completionDate=" + completionDate
 				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", createdOn=" + createdOn + ", updatedOn="
-				+ updatedOn + ", workPhaseId=" + workPhaseId + "]";
+				+ updatedOn + ", workPhaseId=" + workPhaseId + ", testInspectionId=" + testInspectionId + "]";
 	}
+
+	
 
 }

@@ -11,6 +11,7 @@ import { WPADailyProgressModel } from 'src/app/models/works.model';
 import { FieldLabelsConstant } from 'src/app/common/field-labels.constants';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/common/date.adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'wpa-daily-progress',
@@ -35,7 +36,7 @@ export class WPADailyProgressComponent implements OnInit {
     WPADailyProgressList: any;
     wpaDailyProgress = [];
     dataSource: MatTableDataSource<WPADailyProgressModel>;
-    displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done'];
+    displayedColumns = ['sno','section', 'activity', 'population','alreadyDoneCount','uom','done','action'];
     enableSave: boolean;
     maxDate = new Date();
     workList: any = JSON.parse(sessionStorage.getItem('projectList'));
@@ -47,7 +48,9 @@ export class WPADailyProgressComponent implements OnInit {
         private formBuilder: FormBuilder,
         private spinnerService: Ng4LoadingSpinnerService,
         private commonService: CommonService,
-        private sendAndRequestService:SendAndRequestService        
+        private sendAndRequestService:SendAndRequestService,
+        private router: Router,
+        private route: ActivatedRoute     
     ) {
     }
     ngOnInit() {
@@ -90,9 +93,11 @@ export class WPADailyProgressComponent implements OnInit {
                     this.WPADailyProgressList[i].sno = i+1;
                     this.WPADailyProgressList[i].errorMessage = false;
                     this.enableSave = true;
+                    if(this.WPADailyProgressList[i].workPhaseActivityId.testInspectionId)
+                        this.WPADailyProgressList[i].testIns = 'yes';
                    // this.WPADailyProgressList[i].date = this.inputFormGroup.value.date;
                     this.wpaDailyProgress.push(this.WPADailyProgressList[i]);
-                   // console.log('***loop***'+JSON.stringify(this.WPADailyProgressList[i]));
+                    //console.log('***loop***'+JSON.stringify(this.WPADailyProgressList[i]));
                 }
           //  console.log("*** daily progress ***"+JSON.stringify(wpaDailyProgress));
                 this.dataSource = new MatTableDataSource(this.wpaDailyProgress);
@@ -135,6 +140,10 @@ export class WPADailyProgressComponent implements OnInit {
         return true;
     
       }
+    
+    proActIns(wpaId: any) {
+       this.router.navigate(['prj-act-measure/'+wpaId], { relativeTo: this.route }); 
+    }
     
 
 }

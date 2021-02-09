@@ -225,6 +225,7 @@ export const Constants = {
                 ATTACHMENT_LIST:"/projectsAttachedDocumentList/",
                 PROJECT_UPLOAD_FILES:'/projectUploadFiles',
                 DELETE_PROJECT:"/deleteProject/",
+                GET_WPA_DAILY_PROGRESS_BASED_ON_ID:"/getWPADailyProgressBasedOnId/"
             },
             SIDINGS:{
                 GET_SIDINGS:"/findAllSidingsItems",
@@ -894,6 +895,12 @@ export const Constants = {
             EXIST_NAME_AND_MAKE_CODE_MODEL_CODE_ID:"/existNameMakeCodeAndModelCodeAndId/",
             EXIST_MAKE_CODE_MODEL_CODE_AND_DESCRI:"/findByMakeCodeModelCodeAndDescription/",
             EXIST_MAKE_CODE_MODEL_CODE_AND_DESCRI_ID:"/existMakeCodeModelCodeAndDescriptionAndId/",
+        },
+        INSPECTION_CHECK_LIST:{
+            GET_INS_CHECK_LIST_BASED_ON_TEST_INS_ID:"/getInsCheckListBasedOnTestInsId/"  
+        },
+        PROJECT_ACTIVITY_INSPECTION:{
+            SAVE_PRJ_ACT_INS: "/saveProjActIns"    
         }
     },
 

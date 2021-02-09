@@ -45,14 +45,18 @@ public class InspectionCheckList {
 	private String reportColumnHeader;
 
 	private String remark;
-
-	@ManyToOne
-	@JoinColumn(name = "inspection_version_id", foreignKey = @ForeignKey(name = "fk_ins_check_list_ins_versions"))
-	private InspectionVersions inspectionVersionId;
+	
+	private int versionNo;
 
 	@ManyToOne
 	@JoinColumn(name = "uom_id", foreignKey = @ForeignKey(name = "fk_ins_check_list_uom"))
 	private Uom uomId;
+	
+	@ManyToOne
+	@JoinColumn(name = "test_inspection_id", foreignKey = @ForeignKey(name = "fk_ins_check_list_test_ins"))
+	private TestInspection testInspectionId;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -158,14 +162,6 @@ public class InspectionCheckList {
 		this.remark = remark;
 	}
 
-	public InspectionVersions getInspectionVersionId() {
-		return inspectionVersionId;
-	}
-
-	public void setInspectionVersionId(InspectionVersions inspectionVersionId) {
-		this.inspectionVersionId = inspectionVersionId;
-	}
-
 	public Uom getUomId() {
 		return uomId;
 	}
@@ -174,14 +170,31 @@ public class InspectionCheckList {
 		this.uomId = uomId;
 	}
 
+	public int getVersionNo() {
+		return versionNo;
+	}
+
+	public void setVersionNo(int versionNo) {
+		this.versionNo = versionNo;
+	}
+
+	public TestInspection getTestInspectionId() {
+		return testInspectionId;
+	}
+
+	public void setTestInspectionId(TestInspection testInspectionId) {
+		this.testInspectionId = testInspectionId;
+	}
+
 	@Override
 	public String toString() {
 		return "InspectionCheckList [id=" + id + ", active=" + active + ", measureActivityMma=" + measureActivityMma
 				+ ", measureActivityCode=" + measureActivityCode + ", description=" + description
 				+ ", activityPositionId=" + activityPositionId + ", displayOrder=" + displayOrder + ", lowerLimit="
 				+ lowerLimit + ", upperLimit=" + upperLimit + ", makeCode=" + makeCode + ", modelCode=" + modelCode
-				+ ", reportColumnHeader=" + reportColumnHeader + ", remark=" + remark + ", inspectionVersionId="
-				+ inspectionVersionId + ", uomId=" + uomId + "]";
+				+ ", reportColumnHeader=" + reportColumnHeader + ", remark=" + remark + ", versionNo=" + versionNo
+				+ ", uomId=" + uomId + ", testInspectionId=" + testInspectionId + "]";
 	}
+
 
 }
