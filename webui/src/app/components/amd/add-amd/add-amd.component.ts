@@ -354,9 +354,10 @@ export class AddAmdComponent implements OnInit {
     });
   }
   getSubDiv(){
-    var division = this.assetMasterFormGroup.value.division ;
+    var dataDiv = this.assetMasterFormGroup.value.dataDiv ;
+    console.log("dataDiv"+dataDiv)
     this.subDivList = this.subDivData.filter(value => {
-      return value.division == division;
+      return value.division == dataDiv;
     });
     console.log("subDivList"+JSON.stringify(this.subDivList))
   }
