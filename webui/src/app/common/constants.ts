@@ -368,11 +368,11 @@ export const Constants = {
                 EXISTS_STATION_NAME_AND_ID:"/findByStationNameAndId/",
             },
             TPC_BOARD:{
-                GET_TPC_BOARD:"/findAllTPCBoard",
-                GET_TPC_BOARD_ID:"/findTPCBoardById/",
-                SAVE_TPC_BOARD:"/addTPCBoard",
-                UPDATE_TPC_BOARD:"/updateTPCBoard",
-                DELETE_TPC_BOARD:"/deleteTPCBoard/",
+                GET_TPC_BOARD:"/findAllTpcBoard",
+                GET_TPC_BOARD_ID:"/findTpcBoardById/",
+                SAVE_TPC_BOARD:"/addTpcBoard",
+                UPDATE_TPC_BOARD:"/updateTpcBoard",
+                DELETE_TPC_BOARD:"/deleteTpcBoard/",
                 EXISTS_TPC_BOARD_DATADIV:"/existsTpcBoardAndDataDiv/",
                 EXISTS_TPC_BOARD_DATADIV_AND_ID:"/existTpcBoardDataDivAndId/"
             },

@@ -30,7 +30,7 @@ public class TPCBoardController {
 	@Autowired
 	private TPCBoardService tpcBoardService;
 	
-	@RequestMapping(value = "/findAllTPCBoard" , method = RequestMethod.GET , headers = "Accept=application/json")
+	@RequestMapping(value = "/findAllTpcBoard" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public List<TpcBoard> findAllTPCBoard(){
 		log.info("Enter into findAllTPCBoard function");
 		List<TpcBoard> tpcBoard = null;
@@ -47,7 +47,7 @@ public class TPCBoardController {
 		log.info("Exit from findAllTPCBoard function");
 		return tpcBoard;
 	}
-	@RequestMapping(value="/addTPCBoard",method=RequestMethod.POST,headers="Accept=application/json")
+	@RequestMapping(value="/addTpcBoard",method=RequestMethod.POST,headers="Accept=application/json")
 	public ResponseStatus addTPCBoard(@RequestBody TpcBoard tpcBoard) {
 		log.info("Enter into addTPCBoard function with below request parameters ");
 		log.info("Request Parameters = "+tpcBoard.toString());
@@ -66,7 +66,7 @@ public class TPCBoardController {
 		}
 	}
 	
-	@RequestMapping(value = "/findTPCBoardById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
+	@RequestMapping(value = "/findTpcBoardById/{id}" , method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<TpcBoard> findTPCBoardById(@PathVariable Long id){
 		Optional<TpcBoard> tpcBoard = null;
 		try {
@@ -83,7 +83,7 @@ public class TPCBoardController {
 			return new ResponseEntity<TpcBoard>(tpcBoard.get(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	@RequestMapping(value = "/updateTPCBoard" ,method = RequestMethod.PUT , headers = "Accept=application/json")
+	@RequestMapping(value = "/updateTpcBoard" ,method = RequestMethod.PUT , headers = "Accept=application/json")
 	public ResponseStatus updateTPCBoard(@RequestBody TpcBoard tpcBoard) {
 		log.info("Enter into updateTPCBoard function with below request parameters ");
 		log.info("Request Parameters = "+tpcBoard.toString());
@@ -102,7 +102,7 @@ public class TPCBoardController {
 		}
 	}
 	
-	@RequestMapping(value = "/deleteTPCBoard/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
+	@RequestMapping(value = "/deleteTpcBoard/{id}" ,method = RequestMethod.DELETE , headers = "Accept=application/json")
 	public ResponseStatus deleteTPCBoardById(@PathVariable Long id) {
 		log.info("Enter into deleteTPCBoardById function");
 		log.info("Selected Tpc Board Id = "+id);

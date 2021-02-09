@@ -94,7 +94,7 @@ const routes: Routes = [
   },
   {
     path: 'tpc-board',
-    loadChildren: './components/energy-bill-payment/tpc-board/tpc-board.module#TPCBoardModule',
+    loadChildren: './components/tpc-boards/tpc-boards.module#TpcBoardsModule',
     canActivate: [AuthGuard]
   },
   {

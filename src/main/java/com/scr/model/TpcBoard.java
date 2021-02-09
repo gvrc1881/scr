@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 @Table(name = "tpc_board" , uniqueConstraints={@UniqueConstraint(name = "old_pk_tpc_board_uniq", columnNames ={"seq_id"})})
 @NamedQuery(name="TpcBoard.findAll", query="SELECT t FROM TpcBoard t")
 public class TpcBoard implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,8 +113,11 @@ public class TpcBoard implements Serializable {
 		this.tpcBoard = tpcBoard;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public String toString() {
+		return "TpcBoard [id=" + id + ", createdStamp=" + createdStamp + ", createdTxStamp=" + createdTxStamp
+				+ ", dataDiv=" + dataDiv + ", description=" + description + ", lastUpdatedStamp=" + lastUpdatedStamp
+				+ ", lastUpdatedTxStamp=" + lastUpdatedTxStamp + ", seqId=" + seqId + ", tpcBoard=" + tpcBoard + "]";
 	}
 
 	

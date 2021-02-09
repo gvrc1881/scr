@@ -230,7 +230,7 @@ duplicateTpcBoard() {
     getFacilitys(){
       var unitType = this.tpcBoardDepotAssocFormGroup.value.unitType ;
       this.depotsList = this.originalDepotsData.filter(value => {
-        return value.unitType == unitType;
+        return value.depotType == unitType;
       });
     }
 
@@ -264,7 +264,7 @@ duplicateTpcBoard() {
         this.addTPCBoardDepotAssoc = false;
         this.title = Constants.EVENTS.ADD;
     }
-
+    
     NewTPCBoardDepotAssoc () {
         this.tpcBoardDepotAssocFormGroup = this.formBuilder.group({
             id: 0,
