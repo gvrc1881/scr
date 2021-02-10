@@ -1290,6 +1290,11 @@ public ResponseStatus storeUploadedFile(List<MultipartFile> file, String content
 	return responseStatus;
 }
 
+public List<Drives> findByFunctionalUnit(List<String> fac) {
+	
+	return driveRepository.findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusId(fac,Constants.ACTIVE_STATUS_ID);
+}
+
 
 
 

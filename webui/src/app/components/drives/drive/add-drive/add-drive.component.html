@@ -201,8 +201,8 @@
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30" class="example-full-width">
                                                             <mat-select placeholder="{{FiledLabels.ZONAL_SCOPE}}"
-                                                                (selectionChange)="updateFunctionalUnit($event)"
-                                                                [formControl]="addDriveFormGroup.controls['depotType']">
+                                                                (selectionChange)="updateFunctionalUnit()"
+                                                                [formControl]="addDriveFormGroup.controls['scope']">
                                                                 <mat-option *ngFor="let depoType of ScopeList"
                                                                     [value]="depoType.value">
                                                                     {{ depoType.value }}
@@ -220,7 +220,7 @@
                                                                 <mat-option
                                                                     *ngFor="let functionalUnit of functionalUnitList"
                                                                     [value]="functionalUnit.facilityName"
-                                                                    id="functionalUnit.id">
+                                                                   >
                                                                     {{ functionalUnit.facilityName }}
                                                                 </mat-option>
                                                             </mat-select>

@@ -19,6 +19,7 @@ import com.scr.message.response.ResponseStatus;
 
 import com.scr.model.Facility;
 import com.scr.model.Make;
+import com.scr.model.TssFeederMaster;
 import com.scr.services.FacilityService;
 import com.scr.util.Constants;
 import com.scr.util.Helper;
@@ -135,6 +136,24 @@ public class FacilityController {
 		}
 	}
 	
+	@RequestMapping(value = "/getDepotTypeBasedOnFacilityName/{facilityName}", method = RequestMethod.GET, headers = "accept=application/json")
+	public ResponseEntity<Facility> getDepotTypeBasedOnFacilityName(@PathVariable("facilityName") String facilityName) {
+		logger.info("** Enter into getTssFeederBasedOnFeederId function ***");
+		Optional<Facility> facility = null;
+		try {
+			logger.info("** facilityName = " + facilityName);
+			facility = facilityService.findByFacilityName(facilityName);
+			if (facility.isPresent()) {
+				return new ResponseEntity<Facility>(facility.get(), HttpStatus.OK);
+			} else
+				return new ResponseEntity<Facility>(facility.get(), HttpStatus.CONFLICT);
+
+		} catch (Exception e) {
+			logger.error("Error >>  while find facility Details by facilityName, " + e.getMessage());
+			return new ResponseEntity<Facility>(facility.get(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 	
 	@RequestMapping(value = "/findByFacilityName/{facilityName}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existFacilityName(@PathVariable("facilityName") String facilityname){		

@@ -698,6 +698,7 @@ export const Constants = {
                         EXIST_FACILITYNAME_AND_ID:"/findByFacilityNameAndId/",
                         EXIST_FACILITYID_AND_ID:"/findByFacilityIdAndId/",
                         FIND_FACILITY_BY_FACILITYID:"/findFacilityByFacilityId/",
+                        FIND_DEPOT_BY_FACILITYNAME:"/getDepotTypeBasedOnFacilityName/"
                         },
                         ASSETS_SCHEDULE:{  
                             GET_ASSET_SCHEDULES:"/findAllSchedule",

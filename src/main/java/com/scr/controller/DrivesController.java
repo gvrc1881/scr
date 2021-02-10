@@ -122,17 +122,22 @@ public class DrivesController {
 		logger.info("Exit from findAllDrives function");
 		return ResponseEntity.ok((usersList));
 	}
-	/*@RequestMapping(value = "/getDrivesBasedOnDivison/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
+	@RequestMapping(value = "/getDrivesBasedOnDivison/{loggedUserData}", method = RequestMethod.GET , headers = "Accept=application/json")
 	public ResponseEntity<List<Drives>> findAllDrives(@PathVariable("loggedUserData") String loggedUserData) throws JSONException {
 		logger.info("Enter into findAllDrives function");
 		List<Drives> usersList = null;
+		List<String> fac= new ArrayList<>();
 		logger.info("loggedUserData*****"+loggedUserData);
 		try {	
 			List<Facility> facility = commonUtility.findUserHierarchy(loggedUserData);
 			logger.info("facilities=="+facility.size());
-			
+			for (Facility facility2 : facility) {
+				
+				fac.add(facility2.getFacilityName());
+				
+			}
 			logger.info("Calling service for dirves data");
-			usersList = service.findByCreatedBy(loggedUserData);	
+			usersList = service.findByFunctionalUnit(fac);	
 			logger.info("Fetched drives data = "+usersList);
 		} catch (NullPointerException e) {			
 			logger.error("ERROR >>> while fetching the drives data = "+e.getMessage());
@@ -142,7 +147,7 @@ public class DrivesController {
 		logger.info("Exit from findAllDrives function");
 		logger.info("return list==="+usersList.size());
 		return ResponseEntity.ok((usersList));
-	}*/
+	}
 	
 	@RequestMapping(value = "/saveDrive", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseStatus saveDriveData(@Valid @RequestBody DriveRequest driveRequest) throws JSONException {	

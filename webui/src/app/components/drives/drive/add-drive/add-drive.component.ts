@@ -28,6 +28,10 @@ export class AddDriveComponent implements OnInit {
   FiledLabels = FieldLabelsConstant.LABELS;
   Titles = FieldLabelsConstant.TITLE;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+  zoneHierarchy:any = JSON.parse(sessionStorage.getItem('zoneData'));
+  divisionHierarchy:any = JSON.parse(sessionStorage.getItem('divisionData'));   
+  subDivisionHierarchy:any = JSON.parse(sessionStorage.getItem('subDivData'));    
+  facilityHierarchy:any = JSON.parse(sessionStorage.getItem('depotData'));
   save: boolean = true;
   update: boolean = false;
   title: string = '';
@@ -39,8 +43,8 @@ export class AddDriveComponent implements OnInit {
   isIdRequiredsList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   CheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   statusList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
-  ScopeList = [{ 'id': 1, "value": 'ZONE' }, { 'id': 2, "value": 'DIV' },{ 'id': 3, "value": 'SUBDIV' },
-  { 'id': 4, "value": 'TRD' },{ 'id': 5, "value": 'PSI' },{ 'id': 6, "value": 'RCC' }];
+  ScopeList = [{ 'id': 1, "value": 'ZONE' }, { 'id': 2, "value": 'DIV' },{ 'id': 3, "value": 'SUB_DIV' },
+  { 'id': 4, "value": 'PSI' },{ 'id': 5, "value": 'OHE' },{ 'id': 6, "value": 'RCC' }];
   assetTypeList = [];
   functionalUnitsList: any;
   functionalUnitList: any; 
@@ -52,6 +56,7 @@ export class AddDriveComponent implements OnInit {
   dateFormat = 'MM-dd-yyyy ';
   scheduleList:any;
   depotCode: any;
+  facilityList:any;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -79,11 +84,12 @@ export class AddDriveComponent implements OnInit {
       isIdRequired: {},
       functionalUnit: {},
       checklist: {},
-      status: {}     
+      status: {} ,
+      scope:{}    
     };
   }
 
-  ngOnInit() {
+  ngOnInit() {   
     this.id = +this.route.snapshot.params['id'];
     this.findFunctionalUnits();
     this.findDepoTypeList();
@@ -135,7 +141,8 @@ export class AddDriveComponent implements OnInit {
       'isIdRequired': ['No'],
       'functionalUnit': [null],
       'checklist': ['No'],
-      'status': ['Yes']
+      'status': ['Yes'],
+      'scope':[null]
       
     });
   }
@@ -156,6 +163,7 @@ export class AddDriveComponent implements OnInit {
       'functionalUnit': [null],
       'checklist': ['No'],
       'status': ['Yes'],
+      'scope':[null]
       
     });
     this.addDriveFormGroup.patchValue({
@@ -164,8 +172,8 @@ export class AddDriveComponent implements OnInit {
     });
     this.depotCode = 'TRD';    
     this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
-    this.functionalUnitsList = [];
-    this.getFunctionalUnits(this.depotCode);
+    //this.functionalUnitsList = [];
+    //this.getFunctionalUnits(this.depotCode);
 
   }
 
@@ -237,8 +245,31 @@ export class AddDriveComponent implements OnInit {
         this.allFunctionalUnitsList = units;
       })
   }
-  updateFunctionalUnit($event){
+
+  updateFunctionalUnit(){
+        
+    if(this.addDriveFormGroup.controls['scope'].value ==  'ZONE'){
+     
+      this.functionalUnitList = this.zoneHierarchy.filter(element => {
+        return element.depotType == this.addDriveFormGroup.controls['scope'].value;
+      });
+    }else if(this.addDriveFormGroup.controls['scope'].value ==  'DIV'){
+     
+      this.functionalUnitList = this.divisionHierarchy.filter(element => {
+        return element.depotType == this.addDriveFormGroup.controls['scope'].value;
+      });
+    }else if(this.addDriveFormGroup.controls['scope'].value ==  'SUB_DIV'){
+      
+      this.functionalUnitList = this.subDivisionHierarchy.filter(element => {
+        return element.depotType == this.addDriveFormGroup.controls['scope'].value;
+      });
+    }
+      
+      this.functionalUnitList = this.facilityHierarchy.filter(element => {
+        return element.depotType == this.addDriveFormGroup.controls['scope'].value;
+      });
     
+
   }
   updateAssertType($event) {
     if ($event.value) {
@@ -249,27 +280,32 @@ export class AddDriveComponent implements OnInit {
       });  
       
       this.findAssetTypeList(Constants.ASSERT_TYPE[this.depotCode]);
-      this.functionalUnitList = [];
-      this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
-        return element.depotType == this.depotCode;
-      });
+     // this.functionalUnitList = [];
+     // this.functionalUnitList = this.allFunctionalUnitsList.filter(element => {
+       // return element.depotType == this.depotCode;
+     // });
     }
   }
 
-  getFunctionalUnits (depotType){    
+ /* getFunctionalUnits (depotType){    
 
           this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_FACILITY_BASED_ON_DEPOTTYPE+depotType).subscribe((data) => {
           this.functionalUnitList = data;
     });
-  }
+  }*/
 
   getDriveDataById(id) {
  
     this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVE_ID+id)
     .subscribe((resp) => {
         this.resp = resp;
-        this.getFunctionalUnits(this.resp.depotType['code'] );
-        console.log("")
+       // this.getFunctionalUnits(this.resp.depotType['code'] );
+       this.sendAndRequestService.requestForGET(Constants.app_urls.CONFIG.FACILITY.FIND_DEPOT_BY_FACILITYNAME+this.resp.functionalUnit).subscribe((data) => {
+           this.facilityList = data;          
+           this.addDriveFormGroup.patchValue({scope :this.facilityList.depotType})
+           this.updateFunctionalUnit();
+         });         
+       
         this.addDriveFormGroup.patchValue({
           id: this.resp.id,
           name: this.resp.name,
@@ -289,6 +325,7 @@ export class AddDriveComponent implements OnInit {
           
         });
         this.IsRequire();
+        
         //this.save = false;       
       this.toMinDate = new Date(this.resp.fromDate);
       this.depotCode = this.resp.depotType['code'];

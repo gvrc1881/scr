@@ -68,6 +68,8 @@ public interface DrivesRepository extends JpaRepository<Drives, Long> {
 	@Query(value="select d from Drives d where d.id=:id and( d.toDate >=:date or d.toDate is null)")
 	Optional<Drives> findByIdAndToDateGreaterThanEqualOrToDateIsNull(Long id, Date date);
 
+	List<Drives> findByFunctionalUnitInOrFunctionalUnitIsNullAndStatusId(List<String> fac, Integer activeStatusId);
+
 
 
 

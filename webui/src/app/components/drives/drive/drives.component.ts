@@ -241,7 +241,7 @@ export class DrivesComponent implements OnInit {
   }
   getDrivesData() {
     const drive: DriveModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE.GET_DRIVES_BASEDON_DIVISION+this.userdata.username).subscribe((data) => {
       this.drivesList = data;
       for (let i = 0; i < this.drivesList.length; i++) {
         this.drivesList[i].sno = i + 1;
