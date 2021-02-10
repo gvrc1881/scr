@@ -1,95 +1,121 @@
 <ng4-loading-spinner> </ng4-loading-spinner>
-<div class="clearfix"> </div>
-<div class="content">
-	<div class="">
+<div class="content container-fluid">
+	<div class="row">
 		<div class="col-12">
 			<div class="breadcrumb-section">
 				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
+                    <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Project Activity Inspection</li>
+                        <li class="breadcrumb-item"><a [routerLink]="['/progress']">Project Progress</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Project Daily Progress</li>
                     </ol>
-				</nav>
+                </nav>
 			</div>
 			<div class="clear"> </div>
             <div class="row-fluid">
             	<div class="panel panel-primary">
-            		 <div id="forms" class="page-layout simple fullwidth" fxLayout="column" fusePerfectScrollbar>
-                        <div class="panel panel-primary">
-		            		<div class="panel-heading">Activity Inspection</div>
-		            			<div class="panel-body">
-		            			 	<div class="p-24">
-			            				<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
-											<div class="col-md-12" *ngIf="wpaDailyProgressData" >
+            		<div class="panel-heading">Project Activity Inspection</div>
+            		<div class="panel-body">
+            			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+            				<div class="col-md-12" *ngIf="wpaDailyProgressData" >
 												<div class="alert alert-info" role="alert">
-												<strong><b>Project:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.workPhaseId.workId.workName}}
-												<strong><b>Phase:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.workPhaseId.phaseName}}
-												<strong><b>Activity:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.name}}
-												<strong><b>Section:</b></strong>{{wpaDailyProgressData.workGroupId.section}}
-												<strong><b>Test Inspection:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.testInspectionId.name}}
+												<strong width="200"><b>Project:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.workPhaseId.workId.workName}}&nbsp;&nbsp;&nbsp;
+												<strong><b>Phase:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.workPhaseId.phaseName}}&nbsp;&nbsp;&nbsp;
+												<strong><b>Activity:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.name}}&nbsp;&nbsp;&nbsp;
+												<strong><b>Section:</b></strong>{{wpaDailyProgressData.workGroupId.section}}&nbsp;&nbsp;&nbsp;
+												<strong><b>Test Inspection:</b></strong>{{wpaDailyProgressData.workPhaseActivityId.testInspectionId.name}}&nbsp;&nbsp;&nbsp;
 												</div>
 											</div>
-											<form  fxLayout="column"
-			                                            fxLayoutAlign="start" fxFlex="1 0 auto" name="form"
-			                                            [formGroup]="prjActivityIns"
-			                                            (ngSubmit)="projectActivityInsSubmit();">
-			                                	<hr size="8" width="100%" color="balck">
-			                                            <p style="color:green">MEASURES</p>
-			                                            {{measureExists}}
-			                                            <div class="col-md-12" >
-			                                            	<div fxLayout="row" fxLayoutGap="25px"
-			                                                    *ngFor="let measure of measureList; let i = index">
-			                                                    <div class="col-md-3">
-			                                                        <mat-form-field fxFlex="25">
-			                                                            <input matInput placeholder="{{measure.measureActivityCode}}" 
-			                                                                 name="measure.measureActivityCode-i" (change)="changeMeasure(i,$event.target.value)" decimalNumber>
-			
-			                                                        </mat-form-field>
-			                                                    </div>
-			                                                    <div ng-message='required' style="color:red">Required Range[ {{measure.seqId}} - {{measure.seqId}} ]</div>
-			                                                    <div class="clear"> </div>
-			                                                </div>
-			                                            </div>
-			                                            <hr size="8" width="100%" color="balck">
-			                                            <p style="color:green">ACTIVITY</p>
-			                                            <hr size="8" width="100%" color="balck">
-			                                            <div class="col-md-8">
-			                                                <div fxLayout="row" fxLayoutGap="25px"
-			                                                    *ngFor="let activity of activityList; let i = index"> 
-			                                                         <mat-form-field fxFlex="30" >
-			                                                            <!-- <div class="col-md-2">
-			                                                                <mat-checkbox  class="example-margin"
-			                                                                    labelPosition="before">
-			                                                                    <label>{{activity.measureActivityCode}}</label>
-			                                                                </mat-checkbox>
-			                                                            </div> -->
-			                                                            <div class="col-md-4">
-			                                                                    <input matInput placeholder="{{activity.measureActivityCode}}" 
-			                                                                    name="activity.measureActivityCode" (change)="changeActivity(i,$event.target.value)" >
-			                                                             </div> 
-			                                                        </mat-form-field>
-			                                                </div>
-			                                            </div>
-			                                            <hr size="6" width="100%" color="balck">
-			                                            <div class="col-md-3 mt-15">
-			                                                <div class="float-right" style="float: right;">
-			                                                    <button class="mat-raised-button mat-accent" color="accent"
-			                                                        class="d-inline" mat-raised-button="" type="submit" >
-			                                                        {{title}}
-			                                                    </button>&nbsp;&nbsp;
-			                                                    <!-- <span class="mat-raised-button mat-accent d-inline"
-			                                                        (click)="onGoBack()" color="warn" mat-raised-button="">
-			                                                        Back
-			                                                    </span> -->
-			                                                </div>
-			                                            </div>
-			                                </form>            
-			            				</div>
-		            				</div>
-		            			</div>	
-		            	</div>
+                    		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="prjActivityIns">
+	                            <div class="col-md-3">
+			                    	<mat-form-field floatLabel="never" [style.width.px]="180">
+			                    	<input matInput placeholder="{{FiledLabels.DONE_BY}}"
+                                        	[formControl]="prjActivityIns.controls['doneBy']">
+                                        </mat-form-field>
+			                    </div>
+			                    <div class="col-md-3">
+			                    	<mat-form-field floatLabel="never" [style.width.px]="180">
+			                    	<input matInput placeholder="{{FiledLabels.REMARK}}"
+                                        	[formControl]="prjActivityIns.controls['remark']">
+                                        </mat-form-field>
+			                    </div>
+			                    <div class="col-md-2">
+			                    	<mat-form-field floatLabel="never" [style.width.px]="180">
+			                    	<input matInput placeholder="{{FiledLabels.STATUS}}"
+                                        	[formControl]="prjActivityIns.controls['status']">
+                                        </mat-form-field>
+			                    </div>
+							</form>
+                    	</div>
+                    	<div class="clear"> </div>
+		                	<div class="mat-elevation-z8">
+		                		<mat-table [dataSource]="dataSource" matSort>
+		                			<ng-container matColumnDef="activityCode" >
+	                                	<mat-header-cell fxFlex="10" *matHeaderCellDef mat-sort-header><span>{{FiledLabels.ACTIVITY_CODE}}</span></mat-header-cell>
+	                                    <mat-cell fxFlex="10"  *matCellDef="let row" > {{row.measureActivityCode}}</mat-cell>
+	                               	</ng-container>
+	                               	<ng-container matColumnDef="description">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.DESCRIPTION}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.description}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="valueObservation">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.VALUE_OBSERVATION}}</span></mat-header-cell>
+	                                    	<ng-container *matCellDef="let row" >
+		                                    	<mat-cell  *ngIf = "row.measureActivityMma == 'Activity' ; else typeElseBlock">
+		                                        	<mat-form-field floatLabel="never" [style.width.px]="180">
+		                                        		<input matInput placeholder="{{FiledLabels.ENTER_OBSERVATION}}" 
+			                                                   (change)="changeActivity(row,$event.target.value)" >
+													</mat-form-field>
+		                                        </mat-cell>
+	                                        <ng-template #typeElseBlock>
+	                                            	<mat-cell>
+		                                        		<mat-form-field fxFlex="30">
+															<input matInput placeholder="{{FiledLabels.ENTER_NUMBERS_ONLY}}"   
+													               decimalNumber (change)="changeMeasure(row,$event.target.value)" >
+													    </mat-form-field>
+		                                        	</mat-cell>
+	                                            </ng-template>
+	                                        </ng-container>    
+	                                </ng-container>
+	                                <ng-container matColumnDef="type">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.TYPE}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.measureActivityMma}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="units">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UNITS}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.uomId}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="lowerLimit">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.LOWER_LIMIT}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                    		{{row.lowerLimit}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                                <ng-container matColumnDef="upperLimit">
+	                                	<mat-header-cell *matHeaderCellDef mat-sort-header><span>{{FiledLabels.UPPER_LIMIT}}</span></mat-header-cell>
+	                                    	<mat-cell *matCellDef="let row">
+	                                        	{{row.upperLimit}}
+	                                        </mat-cell>
+	                                </ng-container>
+	                               	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+	                                	<mat-row *matRowDef="let row; columns: displayedColumns;">
+	                                    </mat-row>
+		                		</mat-table>
+		                	</div>
+		                	<div class="col-md-6 mt-15">
+			                	<div class="float-right" style="float: right;" >
+	                                 	<button mat-raised-button color="accent" (click)="projectActivityInsSubmit()">{{title}}</button>
+	                            </div>
+                            </div>
             		</div>
-            	</div>	
+            	</div>
             </div>
 		</div>
 	</div>	

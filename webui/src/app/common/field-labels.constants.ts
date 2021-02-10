@@ -612,7 +612,11 @@ export const FieldLabelsConstant = {
       CONNECTION_POINT1: "Connection Point1",
       CONNECTION_POINT2: "Connection Point2",
       ROLE: "Role",
-      ZONAL_SCOPE:"Zonal Scope"
+      ZONAL_SCOPE:"Zonal Scope",
+      ACTIVITY_CODE:"Activity Code",
+      VALUE_OBSERVATION: "Value/Observation",
+      ENTER_NUMBERS_ONLY: "Enter Numbers Only",
+      ENTER_OBSERVATION: "Enter Observation"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",

@@ -23,7 +23,11 @@ public class ProjectActivityInspectionMapper {
 		try {
 			Field[] fields = ProjectActivityInspection.class.getDeclaredFields();
 			HashMap<String, String> measuresMap = projectActivityInspectionRequest.getMeasureMap();
-			
+			prjActIns.setDoneBy(projectActivityInspectionRequest.getDoneBy());
+			prjActIns.setRemark(projectActivityInspectionRequest.getRemark());
+			prjActIns.setStatus(projectActivityInspectionRequest.getStatus());
+			prjActIns.setDate(projectActivityInspectionRequest.getDate());
+			prjActIns.setActivityId(projectActivityInspectionRequest.getActivityId());
 			for (Map.Entry<String, String> entry : measuresMap.entrySet()) {
 				for (Field field : fields) {
 					if (entry.getKey().equals(field.getName())) {

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "project_activity_inspection")
@@ -26,6 +28,7 @@ public class ProjectActivityInspection {
 	
 	private String division;
 	
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	private String location;
@@ -473,6 +476,12 @@ public class ProjectActivityInspection {
 	private String a99;
 	
 	private int inspectionVersionNo;
+	
+	private String remark;
+	
+	@ManyToOne
+	@JoinColumn(name = "activity_id", foreignKey = @ForeignKey(name = "fk_prj_act_ins_work_phase_id"))
+	private WorkPhaseActivity activityId;
 	
 	@ManyToOne
 	@JoinColumn(name = "facility_id", foreignKey = @ForeignKey(name = "fk_prj_act_ins_facility"))
@@ -2262,6 +2271,22 @@ public class ProjectActivityInspection {
 		this.facilityId = facilityId;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public WorkPhaseActivity getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(WorkPhaseActivity activityId) {
+		this.activityId = activityId;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectActivityInspection [id=" + id + ", status=" + status + ", division=" + division + ", date="
@@ -2303,7 +2328,10 @@ public class ProjectActivityInspection {
 				+ a85 + ", a86=" + a86 + ", a87=" + a87 + ", a88=" + a88 + ", a89=" + a89 + ", a9=" + a9 + ", a90="
 				+ a90 + ", a91=" + a91 + ", a92=" + a92 + ", a93=" + a93 + ", a94=" + a94 + ", a95=" + a95 + ", a96="
 				+ a96 + ", a97=" + a97 + ", a98=" + a98 + ", a99=" + a99 + ", inspectionVersionNo="
-				+ inspectionVersionNo + ", facilityId=" + facilityId + "]";
+				+ inspectionVersionNo + ", remark=" + remark + ", activityId=" + activityId + ", facilityId="
+				+ facilityId + "]";
 	}
+
+
 
 }

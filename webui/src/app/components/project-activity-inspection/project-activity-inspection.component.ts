@@ -27,6 +27,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ProjectActivityInspectionComponent implements OnInit {
         
+    FiledLabels = FieldLabelsConstant.LABELS;
     wpaDailyProgressId: any;
     wpaDailyProgressData: any;
     insCheckListData: any;
@@ -36,6 +37,8 @@ export class ProjectActivityInspectionComponent implements OnInit {
     measureExists: boolean;
     title: any;
     resp: any;
+    dataSource: MatTableDataSource<any>;
+    displayedColumns = ['activityCode','description', 'valueObservation','type','units','lowerLimit','upperLimit'];
 
     constructor(
         public dialog: MatDialog,
@@ -65,6 +68,11 @@ export class ProjectActivityInspectionComponent implements OnInit {
       convActivityMap[key] = val;
       });
        var saveModel = {
+        "doneBy": this.prjActivityIns.controls['doneBy'].value,
+        "status": this.prjActivityIns.controls['status'].value,
+        "remark": this.prjActivityIns.controls['remark'].value,
+        "activityId": this.wpaDailyProgressData.workPhaseActivityId,
+        "date":this.wpaDailyProgressData.date,
         "measureMap":convMeasureMap,
         "activityMap":convActivityMap    
        }
@@ -96,7 +104,8 @@ export class ProjectActivityInspectionComponent implements OnInit {
                     this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTION.INSPECTION_CHECK_LIST.GET_INS_CHECK_LIST_BASED_ON_TEST_INS_ID+this.wpaDailyProgressData.workPhaseActivityId.testInspectionId.id
                     ).subscribe((response) => {
                         this.insCheckListData = response;
-                        //console.log('*** check list response ***'+JSON.stringify(response));
+                        this.dataSource = new MatTableDataSource(this.insCheckListData);
+                        console.log('*** check list response ***'+JSON.stringify(response));
                         if(this.insCheckListData){
                             this.title = "Save";
                              this.measureList = this.insCheckListData.filter(value => {
@@ -114,18 +123,16 @@ export class ProjectActivityInspectionComponent implements OnInit {
     }
     
     measureMap = new Map<string, string>();
-    changeMeasure(index,val) {
-        this.measureMap.set(this.measureList[index].activityPositionId,val);
+    changeMeasure(row,val) {
+        this.measureMap.set(row.activityPositionId,val);
         //console.log("updated value is::"+JSON.stringify(this.measureMap.get(this.measureList[index].activityPositionId)));
-       
     }
     
     activityMap = new Map<string, string>();
-    changeActivity(index,val) {
+    changeActivity(row,val) {
         //console.log('*** position id ***'+this.activityList[index].activityPositionId);
-        this.activityMap.set(this.activityList[index].activityPositionId,val);
+        this.activityMap.set(row.activityPositionId,val);
        // console.log("updated value is::"+JSON.stringify(this.activityMap.get(this.activityList[index].activityPositionId)));
-       
     }
     
     onGoBack() {
@@ -142,7 +149,10 @@ export class ProjectActivityInspectionComponent implements OnInit {
           
           'Schedule': [null, Validators.compose([Validators.required])],
           //'0':[null, Validators.compose([Validators.required])],
-          'Asset_Id': [null, Validators.compose([Validators.required])]
+          'Asset_Id': [null, Validators.compose([Validators.required])],
+          'doneBy':[null],
+          'remark':[null],
+          'status':[null]
         });    
     }
 

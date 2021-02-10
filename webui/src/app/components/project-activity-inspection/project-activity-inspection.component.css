@@ -1,0 +1,21 @@
+.mat-column-activityCode {
+    max-width: 350px;
+}
+.mat-column-description {
+    max-width: 350px;
+}
+.mat-column-valueObservation {
+    max-width: 200px;
+}
+.mat-column-type {
+    max-width: 100px;
+}
+.mat-column-units {
+    max-width: 150px;
+}
+.mat-column-lowerLimit {
+    max-width: 150px;
+}
+.mat-column-upperLimit {
+    max-width: 150px;
+}
