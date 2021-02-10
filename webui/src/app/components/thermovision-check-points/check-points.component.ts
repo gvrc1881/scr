@@ -45,7 +45,7 @@ export class CheckPointsComponent implements OnInit {
   res: any;
   enableSave: boolean;
   checkPoints =[];
-  public stationType = ['PSI','SP','SSP','TSS'];
+  public stationType = ['SP','SSP','TSS'];
 
 
   constructor(

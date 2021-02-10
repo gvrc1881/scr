@@ -48,7 +48,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     divCode: string;
     userDefaultData: any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
-    depotTypes = ['TSS','SP','SSP'];
+    depotTypes = ['SP','SSP','TSS'];
     /*
     depotTypes:any = this.depotsData.map(item => item.depotType)
    .filter((value, index, self) => self.indexOf(value) === index)
