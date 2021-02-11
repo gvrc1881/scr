@@ -15,7 +15,7 @@ import com.scr.model.TestInspection;
 @Repository
 public interface TestInspectionRepository extends JpaRepository<TestInspection, Long>{
 	
-	@Query(value = "SELECT case when count(ti)> 0 then true else false  end  FROM TestInspection ti WHERE ti.name = :name and ti.makeCode = :makeCode and ti.modelCode = :modelCode ")
+	@Query(value = "SELECT case when count(ti)> 0 then true else false  end  FROM TestInspection ti WHERE ti.name = :name and ti.makeCode = :makeCode and ti.modelCode = :modelCode")
 	Boolean existsByNameAndMakeCodeAndModelCode(@Param("name") String name,@Param("makeCode") Make makeCode,@Param("modelCode") Model modelCode);	
 	
 	

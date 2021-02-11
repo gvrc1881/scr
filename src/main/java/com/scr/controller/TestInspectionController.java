@@ -127,17 +127,6 @@ public class TestInspectionController {
 			return Helper.findResponseStatus("testInspection Deletion is Failed with "+e.getMessage(), Constants.FAILURE_CODE);			
 		}
 	}
-	@RequestMapping(value = "/findByNameMakeCodeAndModelCode/{name}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
-	public Boolean existsNameMakeCodeAndModelCode(@PathVariable("name") String name ,@PathVariable("makeCode") Long makeCode,@PathVariable("modelCode") Long modelCode){
-		
-		try {
-			logger.info("Request for checking exists name,makeCode and modelCode...");
-			return testInspectionService.existsByNameAndMakeCodeAndModelCode(name,makeService.findMakeById(makeCode).get(),modelService.findModelById(modelCode).get());
-		} catch (Exception e) {
-			logger.error("Error while checking exists name "+e.getMessage());
-			return false;
-		}
-	}
 	@RequestMapping(value = "/existNameMakeCodeAndModelCodeAndId/{id}/{name}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
 	public Boolean existNameMakeCodeAndModelCodeAndId(@PathVariable("id") Long id,@PathVariable("name") String name,@PathVariable("makeCode") Long makeCode,@PathVariable("modelCode") Long modelCode){
 		
@@ -159,6 +148,17 @@ public class TestInspectionController {
 				return  result = false;
 		} catch (Exception e) {
 			logger.error("Error while checking exists id and name..."+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/findByNameMakeCodeAndModelCode/{name}/{makeCode}/{modelCode}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsNameMakeCodeAndModelCode(@PathVariable("name") String name ,@PathVariable("makeCode") Long makeCode,@PathVariable("modelCode") Long modelCode){
+		
+		try {
+			logger.info("Request for checking exists makeCode  modelCode and description...");
+			return testInspectionService.existsByNameAndMakeCodeAndModelCode(name,makeService.findMakeById(makeCode).get(),modelService.findModelById(modelCode).get());
+		} catch (Exception e) {
+			logger.error("Error while checking exists name "+e.getMessage());
 			return false;
 		}
 	}

@@ -33,18 +33,10 @@
                                                     <mat-form-field fxFlex="30">
                                                         <input matInput placeholder="{{FiledLabels.NAME}}"
                                                             [formControl]="addTestInspectionFormGroup.controls['name']"
-                                                            required pattern="^[a-zA-Z0-9,\s._-]+(\s[a-zA-Z0-9,._-]+)?$">
+                                                            required>
                                                         <mat-error
                                                             *ngIf="addTestInspectionFormGroup.controls['name'].hasError('required') && addTestInspectionFormGroup.controls['name'].touched"
                                                             class="alert alert-danger">Enter Name</mat-error>
-                                                        <mat-error
-                                                            *ngIf="addTestInspectionFormGroup.controls['name'].hasError('pattern') && addTestInspectionFormGroup.controls['name'].touched"
-                                                            class="alert alert-danger">Special characters are not allowed
-                                                        </mat-error>
-                                                        <mat-error
-                                                            *ngIf="addTestInspectionFormGroup.controls['name'].hasError('maxlength') && addTestInspectionFormGroup.controls['name'].touched"
-                                                            class="alert alert-danger">Max 250 characters only
-                                                        </mat-error>
                                                     </mat-form-field>
                                                 </div>
 
@@ -83,7 +75,16 @@
                                                             *ngIf="addTestInspectionFormGroup.controls['description'].hasError('maxlength') && addTestInspectionFormGroup.controls['description'].touched"
                                                             class="alert alert-danger">Max 250 characters only
                                                           </mat-error>
-                                                          
+                                                          <mat-error
+                                                                *ngIf="addTestInspectionFormGroup.controls['description'].hasError('duplicateMakeCodeModelCodeAndDescri')"
+                                                                class="alert alert-danger">
+                                                                 combination Already Exist
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="addTestInspectionFormGroup.controls['description'].hasError('duplicateMakeCodeAndModelCodeDescriAndId')"
+                                                                class="alert alert-danger">
+                                                                 combination Already Exist
+                                                            </mat-error>
                                                         </mat-form-field>
                                                       </div>
                                                    
