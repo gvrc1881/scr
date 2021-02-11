@@ -72,6 +72,7 @@ pagination = Constants.PAGINATION_NUMBERS;
   userDefaultData: any;
   loggedUser: any = JSON.parse(sessionStorage.getItem('loggedUser'));
   previousUrl: string;
+  enableZone:boolean ;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -86,15 +87,23 @@ pagination = Constants.PAGINATION_NUMBERS;
   }
 
   ngOnInit() {
+    
     const previousUrl = this.routerService.getPreviousUrl();
     console.log(previousUrl)
     this.sendAndRequestService.requestForGET(Constants.app_urls.REPORTS.GET_USER_DEFAULT_DATA + this.loggedUser.userName).subscribe((data) => {
       this.userDefaultData = data;
-      if (this.userDefaultData.zone) {
+      if (this.userDefaultData.zone) {        
         this.zoneCode = this.userDefaultData.zone.toUpperCase();
         //this.getDivisions(this.userDefaultData.zone);
+        this.enableZone = false;
       }
-       this.divisionsList = this.divisionData;
+      if (this.zoneData.length > 0) {
+       
+        //this.zoneCode = this.userDefaultData.zone.toUpperCase();
+        //this.getDivisions(this.userDefaultData.zone);
+        this.enableZone = true;
+      }
+        this.divisionsList = this.divisionData;
       if (this.userDefaultData.division) {
         this.divisionCode = this.userDefaultData.division.toUpperCase();
        // commented by adiReddy  if(previousUrl != "/energy-consumption/"){

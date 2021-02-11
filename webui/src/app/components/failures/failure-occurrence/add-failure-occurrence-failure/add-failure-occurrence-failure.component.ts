@@ -47,6 +47,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
   subDivisionHierarchy:any = JSON.parse(sessionStorage.getItem('subDivData'));   
   facilityHierarchy:any = JSON.parse(sessionStorage.getItem('depotData'));  
   facilityList:any;
+  cbInternalFailList:any;
+  cbExternalFailList:any;
   constructor(
     private formBuilder: FormBuilder,    
     private spinnerService: Ng4LoadingSpinnerService,
@@ -67,7 +69,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
       internalExternal: {}, 
       remarks:{},
       dataDiv:{},
-      subStation:{}
+      subStation:{},
+      cbInternalFailure: {},
+      cbExternalFailure: {}
     };
   }
 
@@ -75,6 +79,8 @@ export class AddFailureOccurrenceComponent implements OnInit {
     this.id = +this.route.snapshot.params['id'];    
     this.findDivisions();
     //this.findFacilities();
+    this.findCbInternal();
+    this.findCbExternal();
     if (!isNaN(this.id)) {
       this.updateForm();
       this.addFailureOccurrenceFailFromGroup.valueChanges.subscribe(() => {
@@ -144,7 +150,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'internalExternal': [null], 
         'remarks': [null, Validators.maxLength(250)],
         'dataDiv':[null],
-        'subStation':[null]
+        'subStation':[null],
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null]
       });
   }
   updateForm() {
@@ -161,7 +169,9 @@ export class AddFailureOccurrenceComponent implements OnInit {
         'internalExternal': [null], 
         'remarks': [null, Validators.maxLength(250)],
         'dataDiv':[null],
-        'subStation':[null]
+        'subStation':[null],
+        'cbInternalFailure': [null],
+        'cbExternalFailure': [null]
       });
   }
 
@@ -206,6 +216,20 @@ findDivisions(){
          }
       }
     }
+
+    findCbInternal(){
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_INTERNAL_FAILURE)
+      .subscribe((resp) => {
+        this.cbInternalFailList = resp;
+      });
+    }
+  
+    findCbExternal(){
+      this.sendAndRequestService.requestForGET(Constants.app_urls.DRIVE.DRIVE_CHECK_LIST.GET_STATUS_ITEM + Constants.STATUS_ITEMS.CB_EXTERNAL_FAILURE)
+      .subscribe((resp) => {
+        this.cbExternalFailList = resp;
+      });
+    }
   getFailureOccurrenceFailDataById(id) {
     this.sendAndRequestService.requestForGET(Constants.app_urls.FAILURES.FAILURE_TYPE_BY_ID+id)
       .subscribe((resp) => {
@@ -220,8 +244,10 @@ findDivisions(){
           fromDateTime:!!this.resp.fromDateTime ? new Date(this.resp.fromDateTime) : '',
           thruDateTime:!!this.resp.thruDateTime ? new Date(this.resp.thruDateTime) : '',
           duration:this.resp.duration, 
-          divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
-          internalExternal:this.resp.internalExternal == 'true' ? true: false,
+          // divisionLocal:this.resp.divisionLocal == 'true' ? true: false,
+          // internalExternal:this.resp.internalExternal == 'true' ? true: false,
+          cbInternalFailure: this.resp.cbInternalFailure,
+          cbExternalFailure:this.resp.cbExternalFailure, 
           remarks: this.resp.remarks,
           dataDiv:this.resp.dataDiv,
         subStation:this.resp.subStation
@@ -261,9 +287,11 @@ findDivisions(){
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
-        'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
+       // 'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+       // 'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
+       'cbInternalFailure': this.addFailureOccurrenceFailFromGroup.value.cbInternalFailure,
+       'cbExternalFailure':this.addFailureOccurrenceFailFromGroup.value.cbExternalFailure,        
+       'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":Constants.FAILURE_TYPES.FAILURE_OCCURRENCE,
         "createdDate": this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'dataDiv':this.addFailureOccurrenceFailFromGroup.value.dataDiv,
@@ -296,8 +324,10 @@ findDivisions(){
         'fromDateTime': this.addFailureOccurrenceFailFromGroup.value.fromDateTime,
         'thruDateTime': this.addFailureOccurrenceFailFromGroup.value.thruDateTime,
         'duration': this.addFailureOccurrenceFailFromGroup.value.duration, 
-        'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
-        'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
+        // 'divisionLocal': this.addFailureOccurrenceFailFromGroup.value.divisionLocal == true ?  'true' : 'false',
+        // 'internalExternal': this.addFailureOccurrenceFailFromGroup.value.internalExternal == true ? 'true' : 'false', 
+        'cbInternalFailure': this.addFailureOccurrenceFailFromGroup.value.cbInternalFailure,
+       'cbExternalFailure':this.addFailureOccurrenceFailFromGroup.value.cbExternalFailure,
         'remarks': this.addFailureOccurrenceFailFromGroup.value.remarks,
         "typeOfFailure":this.resp.typeOfFailure,
         'dataDiv':this.addFailureOccurrenceFailFromGroup.value.dataDiv,

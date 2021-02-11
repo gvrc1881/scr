@@ -27,6 +27,8 @@
                                         [checked]="op.checked" value="{{op.name}}" >{{ op.name}}</mat-radio-button>
                                     </mat-radio-group>
                                 </div>
+                                
+                                <div *ngIf="enableZone; else ZoneElseBlock">
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.ZONE}}" (selectionChange)="getDivisions(zoneCode)" [(ngModel)]="zoneCode" >
@@ -37,6 +39,14 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
+                                </div>
+                                <ng-template #ZoneElseBlock>
+                                    <div class = "col-md-2" >
+                                        <mat-form-field fxFlex="30">
+                                            <input matInput placeholder = "{{FiledLabels.ZONE}}" [(ngModel)]="zoneCode" readonly/>
+                                        </mat-form-field>
+                                      </div>
+                              </ng-template>  
                                 <div class="col-md-3">
                                     <mat-form-field fxFlex="30" class="example-full-width">
                                         <mat-select placeholder="{{FiledLabels.DIVISION}}" (selectionChange)="updateDivision($event)" [(ngModel)]="divisionCode">

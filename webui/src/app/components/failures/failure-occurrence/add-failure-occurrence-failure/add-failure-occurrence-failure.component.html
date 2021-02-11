@@ -129,14 +129,37 @@
 
                                                   
                                                      <!-- assetId -->
-                                                     <div class="col-md-3" fxFlex="30">                                                        
+                                                     <!-- <div class="col-md-3" fxFlex="30">                                                        
                                                             <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['divisionLocal']">Local</mat-checkbox>                                                        
-                                                    </div>
+                                                    </div> -->
 
                                                      <!-- subAssetType -->
-                                                     <div class="col-md-3" fxFlex="30">                                                        
+                                                     <!-- <div class="col-md-3" fxFlex="30">                                                        
                                                         <mat-checkbox [formControl]="addFailureOccurrenceFailFromGroup.controls['internalExternal']">External</mat-checkbox>                                                          
-                                                      </div>
+                                                      </div> -->
+
+                                                      <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.INTERNAL}}" 
+                                                                [formControl]="addFailureOccurrenceFailFromGroup.controls['cbInternalFailure']"  >
+                                                                <mat-option *ngFor="let internal of cbInternalFailList"
+                                                                    [value]="internal.statusCode">
+                                                                    {{ internal.statusCode }}
+                                                                </mat-option> 
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30" class="example-full-width">
+                                                            <mat-select placeholder="{{FiledLabels.EXTERNAL}}" 
+                                                                [formControl]="addFailureOccurrenceFailFromGroup.controls['cbExternalFailure']"  >
+                                                                <mat-option *ngFor="let external of cbExternalFailList"
+                                                                    [value]="external.statusCode">
+                                                                    {{ external.statusCode }}
+                                                                </mat-option>
+                                                            </mat-select>                                                            
+                                                        </mat-form-field>
+                                                    </div>
 
                                                      <!-- actionPlan -->
                                                      <div class="clearfix"></div>
