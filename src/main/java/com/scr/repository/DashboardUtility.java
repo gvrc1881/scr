@@ -78,7 +78,7 @@ public class DashboardUtility {
 		try {
 			connection = dataSource.getConnection();
 			preparedStatement = connection.prepareStatement(DashboardQueries.ENERGY);
-			preparedStatement.setString(1,"2021-01-04");
+			preparedStatement.setString(1,new Date().toString());
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet != null) {
 				logger.info("** in resulu set ==="+resultSet);

@@ -91,6 +91,7 @@ export class EnergyGraphsComponent implements OnInit {
         xaxisname: "TSS",
         yaxisname: "Percentage",
         formatnumberscale: "1",
+        stack200percent: "1",
         plottooltext:
         "$label has $dataValue (<b>$percentValue</b>) $seriesName ",
        
