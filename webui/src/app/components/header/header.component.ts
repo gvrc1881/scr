@@ -573,22 +573,22 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
       {
         ID: 8,
         menuName: 'Failures',
-        menuUrl: 'cb-failure',
+        menuUrl: 'failures-dashboard',
         icon: "fa fa-file",
         color: "#12E1EE",
         isSelected: true,
         permission: this.commonService.findPermission('Failures', 'menu', 'view'),
-        currentTab: !!path && path.includes("cb-failure") || path.includes("grid-failure") ||
+        currentTab: !!path && path.includes("failures-dashboard") || path && path.includes("cb-failure") || path.includes("grid-failure") ||
           path.includes("rc-failure") || path.includes("unusual-occurrence") ||
           path.includes("failure-occurrence") || path.includes("actions") || path.includes("failure-analysis") ? "open" : "",
         subMenus: [
           {
-            subMenuName: "CB Tripping",
+            subMenuName: "CB Trippings",
             subMenuURL: "cb-failure",
             subMenuIcon: "fa fa-file",
             rolePermission: this.rolePermission,
-            //permission: this.commonService.findPermission('CB Tripping', 'submenu', 'view'),
-            permission:true,
+            permission: this.commonService.findPermission('CB Trippings', 'submenu', 'view'),
+            //permission:true,
             currentSubMenu: !!path && path.includes("cb-failure") ? "active-item" : "",
           },
           {

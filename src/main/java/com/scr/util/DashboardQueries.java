@@ -825,6 +825,19 @@ public class DashboardQueries {
 			"energy_reading_date,feeder_id,location" + 
 			" from v_energy_consumption" + 
 			" where energy_reading_date= ? ::date";
+	
+	public static String CB_FAILURE = " select  facility_name,count(*), " + 
+			"sum(EXTRACT(EPOCH FROM (f.thru_date_time- f.from_date_time) )) " + 
+			"from failures f " + 
+			"LEFT OUTER JOIN facility FAC ON (f.sub_station = fac.facility_id ) " + 
+			"where " + 
+			"to_char(f.from_date_time, 'yyyy-mm-dd')::date = ? ::date " + 
+			"and " + 
+			"type_of_failure ='POWER_FAILURE' " + 
+			"and current_status = 'ACTIVE' " + 
+			"Group by  " + 
+			"facility_name, " + 
+			"FAC.division";
 
 	
 

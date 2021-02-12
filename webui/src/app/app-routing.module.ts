@@ -600,6 +600,11 @@ const routes: Routes = [
     loadChildren: './components/project-activity-inspection/project-activity-inspection.module#ProjectActivityInspectionModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'failures-dashboard',
+    loadChildren: './components/dashboard/failures-dashboard/failures-graphs.module#FailuresGraphsModule',
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

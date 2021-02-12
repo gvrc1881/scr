@@ -104,4 +104,6 @@ public class Constants {
 	public static final String TOWER_CAR = "TOWER_CAR";
 	
 	public static final String ENERGY = "ENERGY";
+	
+	public static final String CB_FAILURE = "CB_FAILURE";
 }

@@ -34,6 +34,8 @@ public class DashboardGraphsResponse {
 	private String canbeconsume;
 	private Date energyReadingDate;
 	private String location;
+	private Long count;
+	private Double sum;
 	
 	
 	
@@ -217,6 +219,18 @@ public class DashboardGraphsResponse {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public Long getCount() {
+		return count;
+	}
+	public void setCount(Long count) {
+		this.count = count;
+	}
+	public Double getSum() {
+		return sum;
+	}
+	public void setSum(Double sum) {
+		this.sum = sum;
 	}
 	
 }

@@ -60,6 +60,8 @@ public class DashboardUtility {
 			return fetchTowerCarData(request);	
 		case Constants.ENERGY:
 			return fetchEnergyData(request);
+		case Constants.CB_FAILURE:
+			return fetchCBFailuresData(request);	
 		default:
 			break;
 		}
@@ -67,6 +69,27 @@ public class DashboardUtility {
 	}
 	
 
+
+	private List<DashboardGraphsResponse> fetchCBFailuresData(@Valid DashboardParametersRequest request) {
+		Connection connection = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = dataSource.getConnection();
+			preparedStatement = connection.prepareStatement(DashboardQueries.CB_FAILURE);
+			preparedStatement.setString(1, "2021-02-05");//new Date().toString()
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet != null) {
+				return prepareListForCBFailuresFromResultSet(resultSet, request.getQueryType());
+			}
+
+		} catch (SQLException e) {
+			logger.error("ERROR >>> while fetching data " + e.getLocalizedMessage());
+		} finally {
+			closeJDBCObjects.releaseResouces(connection, preparedStatement, resultSet);
+		}
+		return null;
+	}
 
 	private List<DashboardGraphsResponse> fetchEnergyData(@Valid DashboardParametersRequest request) {
 		
@@ -448,6 +471,19 @@ public class DashboardUtility {
 			response.setProductCategoryId(resultSet.getString("product_category_id").length() > 0 ? "( "+resultSet.getString("product_category_id").substring(0,2)+"WHE)": "");
 			responseList.add(response);
 		}
+		return responseList;
+	}
+	
+	private List<DashboardGraphsResponse> prepareListForCBFailuresFromResultSet(ResultSet resultSet, String queryType) throws SQLException {
+		List<DashboardGraphsResponse> responseList = new ArrayList<DashboardGraphsResponse>();
+		DashboardGraphsResponse response = null;
+			while (resultSet != null && resultSet.next()) {
+				response = new DashboardGraphsResponse();
+				response.setDepotName(resultSet.getString("facility_name"));
+				response.setCount(resultSet.getLong("count"));
+				response.setSum(resultSet.getDouble("sum"));
+				responseList.add(response);
+			}
 		return responseList;
 	}
 	
