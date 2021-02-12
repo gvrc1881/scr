@@ -124,9 +124,9 @@ public class ThermovisionMeasuresServices {
 			resultTcpSchedule = tcpScheduleService.save(tcpSchedule);
 		}
 		if (resultTcpSchedule != null ) {
-			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint1(resultTcpSchedule,oheThermovisionMeasureRequest.getConnectionPoint1());
+			Optional<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdAndConnectionPoint1AndLocation(resultTcpSchedule,oheThermovisionMeasureRequest.getConnectionPoint1(),oheThermovisionMeasureRequest.getLocation());
 			if (thermovisionMeasures.isPresent()) {
-				thermovisionMeasures.get().setLocation(oheThermovisionMeasureRequest.getLocation());
+				//thermovisionMeasures.get().setLocation(oheThermovisionMeasureRequest.getLocation());
 				thermovisionMeasures.get().setAmbientTemp(oheThermovisionMeasureRequest.getAmbientTemp());
 				thermovisionMeasures.get().setMeasurePoint1(oheThermovisionMeasureRequest.getMeasure1());
 				thermovisionMeasures.get().setMeasurePoint2(oheThermovisionMeasureRequest.getMeasure2());
@@ -155,7 +155,7 @@ public class ThermovisionMeasuresServices {
 	public List<ThermovisionMeasures> findOheThermovisionMeasure(Long facilityId) {
 		// TODO Auto-generated method stub
 		List<TcpSchedule> tcpSchs = tcpScheduleService.findByFacilityId(facilityId);
-		List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInOrderByCreatedOnDesc(tcpSchs);
+		List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInOrderByUpdatedOnDesc(tcpSchs);
 		return thermovisionMeasures;
 	}
 

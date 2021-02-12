@@ -21,4 +21,9 @@ public interface ThermovisionMeasuresRepository extends JpaRepository<Thermovisi
 
 	List<ThermovisionMeasures> findByTcpScheduleIdInOrderByCreatedOnDesc(List<TcpSchedule> tcpSchs);
 
+	Optional<ThermovisionMeasures> findByTcpScheduleIdAndConnectionPoint1AndLocation(TcpSchedule resultTcpSchedule,
+			String connectionPoint1, String location);
+
+	List<ThermovisionMeasures> findByTcpScheduleIdInOrderByUpdatedOnDesc(List<TcpSchedule> tcpSchs);
+
 }

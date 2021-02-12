@@ -37,7 +37,7 @@ public class ThermovisionMeasures {
 
 	private String criticality;
 	
-	private String Location;
+	private String location;
 	
 	private String connectionPoint1;
 	
@@ -160,14 +160,6 @@ public class ThermovisionMeasures {
 		this.tcpId = tcpId;
 	}
 
-	public String getLocation() {
-		return Location;
-	}
-
-	public void setLocation(String location) {
-		Location = location;
-	}
-
 	public double getAmbientTemp() {
 		return ambientTemp;
 	}
@@ -222,6 +214,14 @@ public class ThermovisionMeasures {
 
 	public void setConnectionPoint2(String connectionPoint2) {
 		this.connectionPoint2 = connectionPoint2;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

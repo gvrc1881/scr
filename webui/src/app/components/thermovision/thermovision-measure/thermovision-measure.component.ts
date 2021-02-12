@@ -36,7 +36,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     depotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
-    displayedColumns =['sno','point1description','measure1','point2description','measure2','tempDiff','criticality','remark','previous1','previous2','previous3']//,'fixed',
+    displayedColumns =['sno','point1description','measure1','point2description','measure2','tempDiff','remark','previous1','previous2','previous3']//,'fixed','criticality',
     dataSource: MatTableDataSource<any>;
     thermovisionMeasuresList: any[] = [];
     enableSave: boolean;

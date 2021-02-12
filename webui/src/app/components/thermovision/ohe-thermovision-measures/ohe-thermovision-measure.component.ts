@@ -48,8 +48,9 @@ export class OheThermovisionMeasureComponent implements OnInit{
     divCode: string;
     userDefaultData: any;
     loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
+    /*
     depotTypes:any = this.depotsData.map(item => item.depotType)
-   .filter((value, index, self) => self.indexOf(value) === index);
+   .filter((value, index, self) => self.indexOf(value) === index); */
     statusItems: any;
     depotType = "OHE";
   
@@ -69,8 +70,8 @@ export class OheThermovisionMeasureComponent implements OnInit{
     ngOnInit () {
         this.inputFormGroup = this.formBuilder.group({
             'dateTime': [null , Validators.required ],
-            'division': [null , Validators.required ],
-            'depotType' : [null, Validators.required],
+            'division': [null],
+            //'depotType' : [null, Validators.required],
             'facilityId' : [null , Validators.required ],
             'location' : [null,Validators.required],
             'by' : [null,Validators.required],
@@ -81,16 +82,19 @@ export class OheThermovisionMeasureComponent implements OnInit{
             'measure2':[null],
             //'ambientTemp': [null,]
         });
-        if(this.divisionsList.length > 0){
-            this.checkDivisionUser = true;
-        }else {
-            this.checkDivisionUser = false;   
-        }
+       
+        
         this.getUserContext();
         this.getStatusItems();
        this.depotsList = this.depotsData.filter(value => {
         return value.depotType == "OHE";
       });
+       if(this.divisionsList.length > 0) {
+            this.checkDivisionUser = true;
+        }else {
+            this.checkDivisionUser = false;
+            this.inputFormGroup.patchValue({ facilityId: this.depotsData[0] })
+        }
     }
     
     saveOheThermovisionMeasure(){
@@ -111,10 +115,10 @@ export class OheThermovisionMeasureComponent implements OnInit{
             this.resp = response;
             this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
-                this.commonService.showAlertMessage("Measures Data Updated Successfully"); 
+                this.commonService.showAlertMessage("Measures Data Saved Successfully"); 
                 this.getThermoMeasuresData();    
             }else
-                this.commonService.showAlertMessage("Measures Data Updating Failed");
+                this.commonService.showAlertMessage("Measures Data Saving Failed");
             
         });
     }
@@ -153,7 +157,7 @@ export class OheThermovisionMeasureComponent implements OnInit{
                     for (let i = 0; i < this.thermovisionMeasureData.length; i++) {
                         this.thermovisionMeasureData[i].sno = i+1;
                         this.thermovisionMeasureData[i].facilityName = this.inputFormGroup.value.facilityId.facilityName;
-                        this.thermovisionMeasureData[i].date = this.datePipe.transform(this.thermovisionMeasureData[i].tcpScheduleId.dateTime, 'yyyy-MM-dd');
+                        this.thermovisionMeasureData[i].date = this.datePipe.transform(this.thermovisionMeasureData[i].tcpScheduleId.dateTime, 'dd-MM-yyyy');
                         this.thermovisionMeasureData[i].doneBy = this.thermovisionMeasureData[i].tcpScheduleId.by; 
                         this.thermovisionMeasuresList.push(this.thermovisionMeasureData[i]);
                         if( this.thermovisionMeasureData[i].measurePoint1 && this.thermovisionMeasureData[i].measurePoint2 ){
