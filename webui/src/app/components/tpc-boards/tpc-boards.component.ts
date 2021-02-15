@@ -71,7 +71,7 @@ export class TpcBoardsComponent implements OnInit {
   }
   getTpcBoardsData() {
     const tpcBoard: TPCBoardModel[] = [];
-    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD).subscribe((data) => {
+    this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.TPC_BOARD.GET_TPC_BOARD_BASED_ON_DIV+this.userdata.username).subscribe((data) => {
       this.tpcBoardsList = data;
       for (let i = 0; i < this.tpcBoardsList.length; i++) {
         this.tpcBoardsList[i].sno = i + 1;

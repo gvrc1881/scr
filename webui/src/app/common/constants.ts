@@ -374,7 +374,8 @@ export const Constants = {
                 UPDATE_TPC_BOARD:"/updateTpcBoard",
                 DELETE_TPC_BOARD:"/deleteTpcBoard/",
                 EXISTS_TPC_BOARD_DATADIV:"/existsTpcBoardAndDataDiv/",
-                EXISTS_TPC_BOARD_DATADIV_AND_ID:"/existTpcBoardDataDivAndId/"
+                EXISTS_TPC_BOARD_DATADIV_AND_ID:"/existTpcBoardDataDivAndId/",
+                GET_TPC_BOARD_BASED_ON_DIV:"/findAllTpcBoardOnDivision/"
             },
             TPC_BOARD_ASSOC:{
                 GET_TPC_BOARD_ASSOC:"/findAllTPCBoardDepotAssoc",
@@ -902,7 +903,14 @@ export const Constants = {
         },
         PROJECT_ACTIVITY_INSPECTION:{
             SAVE_PRJ_ACT_INS: "/saveProjActIns"    
-        }
+        },
+        PRODUCT_ASSOCIATION:{
+            SAVE_PRODUCT_ASSOCIATION:"/addProductAssociation",
+            UPDATE_PRODUCT_ASSOCIATION:"/updateProductAssociation",
+            GET_PRODUCT_ASSOCIATION:"/findAllProductAssociation",
+            GET_PRODUCT_ASSOCIATION_ID:"/findProductAssociationById/",
+            DELETE_PRODUCT_ASSOCIATION:"/deleteProductAssociation/"
+        },
     },
 
 },

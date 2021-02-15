@@ -31,11 +31,13 @@ export class AddProjectPhaseActivityComponent implements OnInit {
   update: boolean = false;
   id: number = 0;
   isSubmit: boolean = false;
+  onlyYes:boolean = false;
   loggedUserData: any = JSON.parse(sessionStorage.getItem('userData'));
   resp: any;    
   title:string;      
    workPhaseData:any; 
    workGroupData:any;
+   testInspecData:any;
   addPhaseActivityFormGroup: FormGroup;
   phaseActivityFormErrors:any;
   pattern = "[a-zA-Z][a-zA-Z ]*";
@@ -51,7 +53,7 @@ export class AddProjectPhaseActivityComponent implements OnInit {
   isCheckList = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   isObjectIdRequired = [{ 'id': 1, "value": 'Yes' }, { 'id': 2, "value": 'No' }];
   depotType = [{ 'id': 1, "value": 'OHE' }, { 'id': 2, "value": 'PSI' },{ 'id': 3, "value": 'TSS'},{ 'id': 4, "value": 'SSP'},{ 'id': 5, "value": 'SP'}];
-
+  testData:any;
 constructor( private formBuilder: FormBuilder,
   private spinnerService: Ng4LoadingSpinnerService,
   private commonService: CommonService,
@@ -80,6 +82,7 @@ constructor( private formBuilder: FormBuilder,
 }
 
 ngOnInit() {      
+  this.findTestInspectionList();
   this.sendAndRequestService.requestForGET(Constants.app_urls.ENERGY_BILL_PAYMENTS.WORK.GET_WORK).subscribe((data) => {
       this.workGroupData = data;
       
@@ -142,6 +145,7 @@ id: 0,
 'dependencyToStart':[null],
 'uom': [null],
 'isCheckList':[null],
+'testInspectionId':[null],
 'isObjectIdRequired':[null],
 'depotType':[null],   
  'assetType':[null],
@@ -164,6 +168,7 @@ id: 0,
 'dependencyToStart':[null],
 'uom': [null],
 'isCheckList':[null],
+'testInspectionId':[null],
 'isObjectIdRequired':[null],
 'depotType':[null],   
  'assetType':[null],
@@ -191,6 +196,7 @@ if (this.save) {
     "dependencyToStart": this.addPhaseActivityFormGroup.value.dependencyToStart,
      "uom": this.addPhaseActivityFormGroup.value.uom,
     "isCheckList": this.addPhaseActivityFormGroup.value.isCheckList,
+    "testInspectionId":this.testData,
     "isObjectIdRequired": this.addPhaseActivityFormGroup.value.isObjectIdRequired,      
     "depotType":  this.addPhaseActivityFormGroup.value.depotType,    
     "assetType":  this.addPhaseActivityFormGroup.value.assetType,    
@@ -260,7 +266,25 @@ duplicateWorkPhaseIdAndSequence() {
   });
   return q;
 }
+statusChange() {
+  if (this.addPhaseActivityFormGroup.value.isCheckList == 'No') {     
+      this.onlyYes = false;
+  } else {
+      this.onlyYes = true;
+  }
+      }
 
+      findTestInspectionList() {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTION.TEST_INSPECTION.GET_TEST_INSPECTION)
+          .subscribe((data) => {
+            this.testInspecData = data;
+          })
+      }
+      getTestInspectionData() {
+        this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTION.TEST_INSPECTION.GET_TEST_INSPECTION_BY_ID+this.addPhaseActivityFormGroup.value.testInspectionId).subscribe((data) => {
+             this.testData = data;
+         });
+      }    
 }
 
 

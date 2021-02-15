@@ -101,6 +101,20 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                    
+                                                    <div class="col-md-3">
+                                                        <mat-form-field fxFlex="30">
+                                                            <mat-select placeholder="{{FiledLabels.IS_CHECKLIST}}"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['isCheckList']" (ngModelChange)="statusChange()">
+                                                                <mat-option
+                                                                    *ngFor="let check of isCheckList"
+                                                                    [value]="check.value">
+                                                                    {{ check.value}}
+                                                                </mat-option>
+                                                            </mat-select>                                                           
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-12" *ngIf="onlyYes">
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.UOM}}"  [formControl]="addPhaseActivityFormGroup.controls['uom']" />
@@ -112,17 +126,17 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field fxFlex="30">
-                                                            <mat-select placeholder="{{FiledLabels.IS_CHECKLIST}}"
-                                                                [formControl]="addPhaseActivityFormGroup.controls['isCheckList']">
+                                                            <mat-select placeholder="{{FiledLabels.TEST_INSPECTION}}"
+                                                                [formControl]="addPhaseActivityFormGroup.controls['testInspectionId']" (ngModelChange)="getTestInspectionData()">
                                                                 <mat-option
-                                                                    *ngFor="let check of isCheckList"
-                                                                    [value]="check.value">
-                                                                    {{ check.value}}
+                                                                    *ngFor="let testInspecData of testInspecData"
+                                                                    [value]="testInspecData.id">
+                                                                    {{ testInspecData.name}}
                                                                 </mat-option>
                                                             </mat-select>                                                           
                                                         </mat-form-field>
                                                     </div>
-                                                   
+                                                </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"

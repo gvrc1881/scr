@@ -2,11 +2,9 @@ package com.scr.repository;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import com.scr.model.TpcBoard;
 
 public interface TPCBoardRepository extends JpaRepository<TpcBoard, Long>{
@@ -16,5 +14,6 @@ public interface TPCBoardRepository extends JpaRepository<TpcBoard, Long>{
 	
     Optional<TpcBoard>findByTpcBoardAndDataDiv(String tpcBoard,String dataDiv);
     List<TpcBoard>findByDataDiv(String dataDiv);
+	List<TpcBoard> getAllByDataDivIn(List<String> fac);
 
 }

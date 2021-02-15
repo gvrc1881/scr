@@ -616,7 +616,8 @@ export const FieldLabelsConstant = {
       ACTIVITY_CODE:"Activity Code",
       VALUE_OBSERVATION: "Value/Observation",
       ENTER_NUMBERS_ONLY: "Enter Numbers Only",
-      ENTER_OBSERVATION: "Enter Observation"
+      ENTER_OBSERVATION: "Enter Observation",
+      TEST_INSPECTION:"Test Inspection"
    },
    TITLE:{
      FAILURE_ANALYSIS :"Failure Analysis",
