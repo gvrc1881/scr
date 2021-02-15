@@ -1,6 +1,7 @@
 package com.scr.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "thermovision_measures")
@@ -52,6 +55,11 @@ public class ThermovisionMeasures {
 	private Timestamp createdOn;
 
 	private Timestamp updatedOn;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dateOfRetest ;
+	
+	private Long thermovisionMeasureId; 
 
 	//private Double varianceWithOtherPoint;
 
@@ -222,6 +230,22 @@ public class ThermovisionMeasures {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Date getDateOfRetest() {
+		return dateOfRetest;
+	}
+
+	public void setDateOfRetest(Date dateOfRetest) {
+		this.dateOfRetest = dateOfRetest;
+	}
+
+	public Long getThermovisionMeasureId() {
+		return thermovisionMeasureId;
+	}
+
+	public void setThermovisionMeasureId(Long thermovisionMeasureId) {
+		this.thermovisionMeasureId = thermovisionMeasureId;
 	}
 
 }

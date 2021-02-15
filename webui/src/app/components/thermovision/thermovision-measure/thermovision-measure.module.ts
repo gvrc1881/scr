@@ -1,5 +1,5 @@
 import { NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ThermovisionMeasureComponent } from './thermovision-measure.component';
+import { ThermovisionMeasureComponent, retestDialogComponent } from './thermovision-measure.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -28,7 +28,8 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        ThermovisionMeasureComponent
+        ThermovisionMeasureComponent,
+        retestDialogComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -48,7 +49,8 @@ const routes: Routes = [
     ],
     exports: [
         ThermovisionMeasureComponent
-    ]
+    ],
+    entryComponents: [ retestDialogComponent ],
 })
 export class ThermovisionMeasureModule{
 

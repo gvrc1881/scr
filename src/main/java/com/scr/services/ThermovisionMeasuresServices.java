@@ -72,7 +72,6 @@ public class ThermovisionMeasuresServices {
 				if (resultTcpSchedule != null) {
 					Optional<ThermovisionCheckPoints> thermoCheckPointObject = thermovisionCheckPointsService.findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(thermovisionMeasureResponse.getTcpCheckPoint1Description(),thermovisionMeasureResponse.getTcpCheckPoint2Description(),facilityObj.get());
 					if (thermoCheckPointObject.isPresent()) {
-						logger.info("*** finding measure objcet  ***");
 						Optional<ThermovisionMeasures> thermoMeasureObject = thermovisionMeasuresRepository.findByTcpIdAndTcpScheduleId(thermoCheckPointObject.get(),resultTcpSchedule);
 						if (thermoMeasureObject.isPresent()) {
 							/*thermoMeasureObject.get().setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
@@ -82,10 +81,13 @@ public class ThermovisionMeasuresServices {
 							thermoMeasureObject.get().setMeasurePoint1(thermovisionMeasureResponse.getTcpmMeasurePoint1());
 							thermoMeasureObject.get().setMeasurePoint2(thermovisionMeasureResponse.getTcpmMeasurePoint2());
 							thermoMeasureObject.get().setRemark(thermovisionMeasureResponse.getTcpmRemark());
+							thermoMeasureObject.get().setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 							//thermoMeasureObject.get().setVarianceWithOtherPoint(thermovisionMeasureResponse.getTcpmVarianceWithOtherPoint());
 							thermovisionMeasuresRepository.save(thermoMeasureObject.get());
 						}else {
 							ThermovisionMeasures thermovisionMeasures = new ThermovisionMeasures();
+							thermovisionMeasures.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+							thermovisionMeasures.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
 							/*thermovisionMeasures.setAmbientTemp(thermovisionMeasureResponse.getTcpmAmbientTemp());
 							thermovisionMeasures.setcClampMeasure(thermovisionMeasureResponse.getTcpmCClampMeasure());
 							thermovisionMeasures.setFixedMeasure(thermovisionMeasureResponse.getTcpmFixedMeasure());
@@ -157,6 +159,24 @@ public class ThermovisionMeasuresServices {
 		List<TcpSchedule> tcpSchs = tcpScheduleService.findByFacilityId(facilityId);
 		List<ThermovisionMeasures> thermovisionMeasures = thermovisionMeasuresRepository.findByTcpScheduleIdInOrderByUpdatedOnDesc(tcpSchs);
 		return thermovisionMeasures;
+	}
+
+
+	public void saveThermoMeasureRetest(ThermovisionMeasureResponse thermovisionMeasureResponse) {
+		Optional<ThermovisionMeasures> thermoMeasure =thermovisionMeasuresRepository.findById(thermovisionMeasureResponse.getTcpmId());
+		if (thermoMeasure.isPresent()) {
+			ThermovisionMeasures newObject = new ThermovisionMeasures();
+			newObject.setDateOfRetest(thermovisionMeasureResponse.getTcpmDateOfRetest());
+			newObject.setMeasurePoint1(thermovisionMeasureResponse.getTcpmMeasurePoint1());
+			newObject.setMeasurePoint2(thermovisionMeasureResponse.getTcpmMeasurePoint2());
+			newObject.setRemark(thermovisionMeasureResponse.getTcpmRemark());
+			newObject.setTcpId(thermoMeasure.get().getTcpId());
+			newObject.setTcpScheduleId(thermoMeasure.get().getTcpScheduleId());
+			newObject.setThermovisionMeasureId(thermovisionMeasureResponse.getTcpmThermovisionMeasureId());
+			newObject.setCreatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			newObject.setUpdatedOn(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			thermovisionMeasuresRepository.save(newObject);
+		}
 	}
 
 }

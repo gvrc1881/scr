@@ -32,6 +32,9 @@
 .mat-column-previous3 {
     max-width: 160px;
 }
+.mat-column-actions {
+    max-width: 80px;
+}
 
 .highlight {
     background-color: red;

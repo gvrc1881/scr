@@ -1,9 +1,9 @@
-import { OnInit, Component, ViewChild } from '@angular/core';
+import { OnInit, Component, ViewChild, Inject } from '@angular/core';
 import { CommonService } from 'src/app/common/common.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from 'src/app/common/constants';
 import { EnergyMeterModel } from 'src/app/models/energy-meter.model';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { FuseConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { SendAndRequestService } from 'src/app/services/sendAndRequest.service';
@@ -36,7 +36,7 @@ export class ThermovisionMeasureComponent implements OnInit{
     depotsData: any = JSON.parse(sessionStorage.getItem('depotData'));
     depotsList: any;
     thermovisionMeasureData = [];
-    displayedColumns =['sno','point1description','measure1','point2description','measure2','tempDiff','remark','previous1','previous2','previous3']//,'fixed','criticality',
+    displayedColumns =['sno','point1description','measure1','point2description','measure2','tempDiff','remark','previous1','previous2','previous3','actions']//,'fixed','criticality',
     dataSource: MatTableDataSource<any>;
     thermovisionMeasuresList: any[] = [];
     enableSave: boolean;
@@ -149,7 +149,7 @@ export class ThermovisionMeasureComponent implements OnInit{
             this.enableSave = false;
             if(this.resp.code == 200 && !!this.resp) {
                 this.commonService.showAlertMessage("Measures Data Updated Successfully");
-                //this.getThermoMeasuresData();   
+                this.getThermoMeasuresData();   
             }else
                 this.commonService.showAlertMessage("Measures Data Updating Failed");
             
@@ -164,7 +164,7 @@ export class ThermovisionMeasureComponent implements OnInit{
         this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.GET_THERMO_MEASURES
             +this.datePipe.transform(this.inputFormGroup.value.dateTime, 'yyyy-MM-dd')+'/'+this.inputFormGroup.value.facilityId
             ).subscribe((data)=>{
-                console.log('infor***'+JSON.stringify(data));
+                //console.log('infor***'+JSON.stringify(data));
                 this.thermovisionMeasureData = data;
                 if(this.thermovisionMeasureData.length > 0){
                     this.enableSave = true;
@@ -250,5 +250,100 @@ export class ThermovisionMeasureComponent implements OnInit{
           });
     }
     
+    retestDialog(row){
+         const dialogRef = this.dialog.open(retestDialogComponent, {
+          height: '300px',
+          width: '80%', 
+          data: { thermovisionMeasureId : row,
+                }
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+           this.getThermoMeasuresData();
+        });
+    }    
     
- }   
+ }
+
+
+@Component({
+  selector: 'retest-dialog',
+  templateUrl: 'retest-dialog.component.html',
+  providers: [
+    {
+        provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+    ]
+})
+export class retestDialogComponent implements OnInit  {
+    
+    FiledLabels = FieldLabelsConstant.LABELS;
+    Titles = FieldLabelsConstant.TITLE;  
+    retestFormGroup: FormGroup;
+    facilityId: any;
+    date: any;
+    tcpmId: any;
+    resp: any;
+    point1: any;
+    point2: any;
+    
+    constructor(
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,  
+    private sendAndRequestService:SendAndRequestService,
+    private dialog: MatDialog,
+    private commonService: CommonService,
+    private dialogRef: MatDialogRef<retestDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private datePipe: DatePipe
+    ) {
+      
+      if(data) {
+          console.log('*** row ***'+JSON.stringify(data))
+          this.facilityId = data.thermovisionMeasureId.tcpsFacilityId;
+          this.date = data.thermovisionMeasureId.tcpsDate;
+          this.tcpmId = data.thermovisionMeasureId.tcpmId;
+          this.point1 = data.thermovisionMeasureId.tcpCheckPoint1Description;
+          this.point2 = data.thermovisionMeasureId.tcpCheckPoint2Description;
+      }
+  }
+    
+    ngOnInit() {
+        this.retestFormGroup = this.formBuilder.group({
+            date:[null ,  Validators.required ],
+            measure1: [null,  Validators.required  ],
+            measure2: [null,  Validators.required ],
+            remarks: [null,  Validators.required ],
+        })
+        
+    }
+    
+    saveThermoMeasure(){
+        let thermoMeasureObject  = {
+            "tcpmMeasurePoint1": this.retestFormGroup.controls['measure1'].value,
+            "tcpmMeasurePoint2": this.retestFormGroup.controls['measure2'].value,
+            "tcpsFacilityId":    this.facilityId,
+            "tcpsDate": this.date,
+            "tcpmRemark": this.retestFormGroup.controls['remarks'].value,
+            "tcpmDateOfRetest": this.retestFormGroup.controls['date'].value,
+            "tcpmThermovisionMeasureId": this.tcpmId,
+            "tcpmId": this.tcpmId
+        }
+        this.sendAndRequestService.requestForPOST(Constants.app_urls.THERMOVISION.THERMOVISION_MEASURE.SAVE_THERMO_MEASURE_RETEST,thermoMeasureObject,false).subscribe((response) => {
+            this.spinnerService.hide();
+            this.resp = response;
+            if(this.resp.code == 200 && !!this.resp) {
+                this.dialogRef.close();
+                this.commonService.showAlertMessage("Measures Data Saved Successfully");
+                //this.getThermoMeasuresData();   
+            }else
+                this.commonService.showAlertMessage("Measures Data Saving Failed");
+            
+        });  
+    }
+        
+}
+    

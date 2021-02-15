@@ -724,6 +724,7 @@ export const FieldLabelsConstant = {
     THERMOVISION_CHECK_POINTS:'Thermovision Check Points',
     OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'OHE Thermovision Measurement Information',
     TEST_INSPECTION_FORM:'Test Inspection',
-    TEST_INSPECTION_DATA:'Test Inspection Data'
+    TEST_INSPECTION_DATA:'Test Inspection Data',
+    RETEST_MEASUREMENTS: 'Retest Measurements'
    }
 };

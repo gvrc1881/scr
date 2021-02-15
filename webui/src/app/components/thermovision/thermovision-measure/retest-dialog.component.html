@@ -1,0 +1,53 @@
+<div class="row-fluid">
+            	<div class="panel panel-primary">
+            		<div class="panel-heading">{{Titles.RETEST_MEASUREMENTS}}</div>
+            		<div class="panel-body">
+            			<div class="col-md-12">
+							<div class="alert alert-info" role="alert">
+								<strong width="200"><b>Point1: </b></strong>{{point1}}&nbsp;&nbsp;&nbsp;
+								<strong><b>Point2: </b></strong>{{point2}}&nbsp;&nbsp;&nbsp;
+							</div>
+						</div>
+            			<div fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-md="row">
+                    		<form class="mat-white-bg mat-elevation-z4 p-24 mr-24 mb-24" fxLayout="column"
+                                fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="retestFormGroup"
+                                (ngSubmit)="saveThermoMeasure();">
+                                <div class="col-md-3">
+                                	<mat-form-field>
+                                    	<input matInput autocomplete = "off" [matDatepicker]="picker2"
+                                        	placeholder="{{FiledLabels.DATE}}"
+                                            	  [max]="maxDate"
+                                                	[formControl]="retestFormGroup.controls['date']" required>
+                                      	<mat-datepicker-toggle matSuffix [for]="picker2">
+                                    	</mat-datepicker-toggle>
+                                    	<mat-datepicker #picker2></mat-datepicker>                                                           
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                	<mat-form-field fxFlex="30">
+                                    	<input matInput autocomplete = "off" placeholder="{{FiledLabels.MEASURE1}}"
+                                        	[formControl]="retestFormGroup.controls['measure1']" decimalNumber >
+                                        </mat-form-field>
+					           </div> 
+					           <div class="col-md-3">
+                                	<mat-form-field fxFlex="30">
+                                    	<input matInput autocomplete = "off" placeholder="{{FiledLabels.MEASURE2}}" 
+                                        	[formControl]="retestFormGroup.controls['measure2']" decimalNumber >
+                                        </mat-form-field>
+					           </div>
+					           <div class="col-md-3">
+                                	<mat-form-field fxFlex="30">
+                                    	<input matInput autocomplete = "off" placeholder="{{FiledLabels.REMARKS}}"
+                                        	[formControl]="retestFormGroup.controls['remarks']">
+                                        </mat-form-field>
+					           </div>
+	                            <div class="col-md-2 mt-15">
+									<div class="float-right" style="float: right;">
+										<button class="mat-raised-button mat-accent" color="accent"
+											class="d-inline" mat-raised-button="" type="submit"
+												[disabled]="retestFormGroup.invalid">Save</button>
+									</div>
+								</div>
+							</form>
+                    	</div>

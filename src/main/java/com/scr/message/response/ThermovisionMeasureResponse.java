@@ -1,6 +1,7 @@
 package com.scr.message.response;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class ThermovisionMeasureResponse {
 
@@ -37,6 +38,8 @@ public class ThermovisionMeasureResponse {
 	private String tcpsBy;
 	private String tcpsGeneralRemark;
 	private String tcpsLocation;
+	private Date tcpmDateOfRetest;
+	private Long tcpmThermovisionMeasureId;
 
 	public String getRsId() {
 		return rsId;
@@ -300,6 +303,22 @@ public class ThermovisionMeasureResponse {
 
 	public void setTcpsLocation(String tcpsLocation) {
 		this.tcpsLocation = tcpsLocation;
+	}
+
+	public Date getTcpmDateOfRetest() {
+		return tcpmDateOfRetest;
+	}
+
+	public void setTcpmDateOfRetest(Date tcpmDateOfRetest) {
+		this.tcpmDateOfRetest = tcpmDateOfRetest;
+	}
+
+	public Long getTcpmThermovisionMeasureId() {
+		return tcpmThermovisionMeasureId;
+	}
+
+	public void setTcpmThermovisionMeasureId(Long tcpmThermovisionMeasureId) {
+		this.tcpmThermovisionMeasureId = tcpmThermovisionMeasureId;
 	}
 
 }

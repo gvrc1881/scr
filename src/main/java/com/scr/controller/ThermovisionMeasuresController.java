@@ -109,5 +109,23 @@ public class ThermovisionMeasuresController {
 		logger.info("Exit from Thermovision Measure function");
 		return ResponseEntity.ok((thermovisionMeasureList));
 	}
+	
+	@PostMapping(value="/saveThermoMeasureRetest")
+	@ResponseBody
+	public ResponseStatus saveThermoMeasureRetest(@RequestBody ThermovisionMeasureResponse thermovisionMeasureResponse) {
+		logger.info("*** Enter into saveThermoMeasureRetest function ***");
+		try {			
+			thermovisionMeasuresServices.saveThermoMeasureRetest(thermovisionMeasureResponse);
+			logger.info("Preparing the return response and saveThermovisionMeasures function end ");
+			return Helper.findResponseStatus("Thermovision Measure Data Added Successfully", Constants.SUCCESS_CODE);
+		}catch(NullPointerException npe) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+npe.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure Addition is Failed with "+npe.getMessage(), Constants.FAILURE_CODE);
+		}
+		catch (Exception e) {
+			logger.error("ERROR >> While adding Thermovision Measure Data. "+e.getMessage());
+			return Helper.findResponseStatus("Thermovision Measure  Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
 
 }

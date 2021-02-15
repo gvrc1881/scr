@@ -36,7 +36,7 @@ public class ThermovisionMeasureUtilRepository {
 		CallableStatement callableStatement = null;
 		try {
 			con = dataSource.getConnection();
-				callableStatement = con.prepareCall("{call tcp_measure_v_func(?,?)}");
+				callableStatement = con.prepareCall("{call tcp_measure_v_func_retest(?,?)}");
 				logger.info("*** id *** = "+Integer.parseInt(facilityId));
 				logger.info("*** date *** = "+Helper.convertStringToDate(date));
 				callableStatement.setInt(1, Integer.parseInt(facilityId));
@@ -77,6 +77,8 @@ public class ThermovisionMeasureUtilRepository {
 					response.setTcpsGeneralRemark(resultSet.getString("tcps_general_remark"));
 					response.setTcpsTime(resultSet.getString("tcps_time"));
 					response.setfDiff(resultSet.getDouble("f_diff"));
+					response.setTcpmDateOfRetest(resultSet.getDate("tcpm_date_of_retest"));
+					response.setTcpmThermovisionMeasureId(resultSet.getLong("tcpm_thermovision_measure_id"));
 					list.add(response);
 				}
 		}catch (Exception e) {
