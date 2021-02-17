@@ -226,6 +226,7 @@ export const FieldLabelsConstant = {
       LOA_NO:"Loa No",
        LOA_DATE:"Loa Date",
        LINE_TYPE:"Line Type",
+       REASON:"Reason",
       LOCATION_POSITION: "Location Position",
       LOAD_RELIEF_BREAK_DOWN:"Load Relief/Break Down",
       LOCATION_TYPE: "Location Type",
