@@ -224,7 +224,7 @@ public class FailureController {
 		logger.info("** Enter into findFaciltiyBasedOnAssetId function ***");
 		Optional<AssetMasterData> amd = null;
 		Optional<Facility> fac = null;
-		Optional<TssSpSspAssoc> sspList =null;
+		Optional<TssSpSspAssoc> sspList =null; 
 		try {
 			logger.info("** assetId = " + assetId);
 			amd = failureService.findByAssetId(assetId);
