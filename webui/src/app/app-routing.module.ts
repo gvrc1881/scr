@@ -605,6 +605,11 @@ const routes: Routes = [
     loadChildren: './components/dashboard/failures-dashboard/failures-graphs.module#FailuresGraphsModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'product-association',
+    loadChildren: './components/product-association/product-association.module#ProductAssociationModule',
+     canActivate: [AuthGuard]
+   },
 ];
 
 @NgModule({

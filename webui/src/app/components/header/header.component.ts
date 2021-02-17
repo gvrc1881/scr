@@ -1360,6 +1360,14 @@ export class HeaderComponent implements OnInit, DoCheck, OnDestroy {
             rolePermission: this.rolePermission,
             currentSubMenu: !!path && path.includes("test-inspection") ? "active-item" : "",
           },
+          {
+            subMenuName: "Product Association",
+            subMenuURL: "product-association",
+            subMenuIcon: "fa fa-product-hunt",
+            permission: true,
+            rolePermission: this.rolePermission,
+            currentSubMenu: !!path && path.includes("product-association") ? "active-item" : "",
+          },
         ]
       },
     ];

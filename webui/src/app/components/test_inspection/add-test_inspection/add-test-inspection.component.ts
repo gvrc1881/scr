@@ -86,7 +86,7 @@ export class AddTestInspectionComponent implements OnInit {
       id: 0,
       'name':[null,Validators.compose([Validators.required, Validators.maxLength(255)])],
       'makeCode': [null],
-      'modelCode': [null,this.duplicateNameMakeCodeAndModelCode.bind(this)],
+      'modelCode': [null,Validators.required,this.duplicateNameMakeCodeAndModelCode.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]),this.duplicateMakeCodeModelCodeAndDescri.bind(this)]
       
     });
@@ -96,7 +96,7 @@ export class AddTestInspectionComponent implements OnInit {
       id: 0,
       'name':[null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       'makeCode': [null],
-      'modelCode': [null],
+      'modelCode': [null,Validators.required,this.duplicateNameMakeCodeAndModelCodeAndId.bind(this)],
       'description': [null, Validators.compose([Validators.required, Validators.maxLength(255)]),this.duplicateMakeCodeAndModelCodeDescriAndId.bind(this)]
     });
   }
@@ -206,24 +206,21 @@ export class AddTestInspectionComponent implements OnInit {
          );
 
  }
- duplicateNameMakeCodeAndModelCode() {
-  const q = new Promise((resolve, reject) => {
-     this.sendAndRequestService.requestForGET(
-            Constants.app_urls.INSPECTION.TEST_INSPECTION.EXIST_NAME_AND_MAKE_CODE_MODEL_CODE+
-          this.addTestInspectionFormGroup.controls['name'].value + '/'+
-          this.addTestInspectionFormGroup.controls['makeCode'].value+'/'+
-          this.addTestInspectionFormGroup.controls['modelCode'].value
-    ).subscribe((duplicate) => {
-      if (duplicate) {
-        resolve({ 'duplicate': true });
-      } else {
-        resolve(null);
-      }
-    }, () => { resolve({ 'duplicate': true }); });
-  });
-  return q;
+  duplicateNameMakeCodeAndModelCode() {
+    const q = new Promise((resolve, reject) => {
+       this.sendAndRequestService.requestForGET(Constants.app_urls.INSPECTION.TEST_INSPECTION.EXIST_NAME_AND_MAKE_CODE_MODEL_CODE +
+        this.addTestInspectionFormGroup.controls['name'].value + '/'+
+        this.addTestInspectionFormGroup.controls['makeCode'].value + '/'+this.addTestInspectionFormGroup.controls['modelCode'].value
+      ).subscribe((duplicate) => {
+        if (duplicate) {
+          resolve({ 'duplicate': true });
+        } else {
+          resolve(null);
+        }
+      }, () => { resolve({ 'duplicate': true }); });
+    });
+    return q;
   }
-
   
     duplicateNameMakeCodeAndModelCodeAndId() {
     let id=this.id;

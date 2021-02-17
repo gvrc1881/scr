@@ -295,6 +295,8 @@ export const FieldLabelsConstant = {
       PRODUCT_CATEGORY_TYPE_ID: "Product Category Type Id",
       PRODUCT_ID: "Product Id",
       PRODUCT_TYPE_ID: "Product Type Id",
+      SCRAP_FACTOR:"Scrap Factor",
+      PRODUCT_ID_TO:"Product Id To",
       PROPOSAL_SCHEME: "Proposal Scheme",
       PROPOSED_DATE: "Proposed Date",
       PROTECTION_LONGITUDINAL_DN: "Protection Longitudinal Dn",
@@ -725,6 +727,8 @@ export const FieldLabelsConstant = {
     OHE_THERMOVISION_MEASUREMENT_INFORMATION: 'OHE Thermovision Measurement Information',
     TEST_INSPECTION_FORM:'Test Inspection',
     TEST_INSPECTION_DATA:'Test Inspection Data',
-    RETEST_MEASUREMENTS: 'Retest Measurements'
+    RETEST_MEASUREMENTS: 'Retest Measurements',
+    PRODUCT_ASSOCIATION_FORM:'Product Association',
+    PRODUCT_ASSOCIATION_DATA:'Product Association',
    }
 };

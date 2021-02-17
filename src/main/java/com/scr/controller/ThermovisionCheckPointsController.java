@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scr.message.request.OheLocationAndAssetsRequest;
 import com.scr.message.response.ResponseStatus;
 import com.scr.model.Facility;
+import com.scr.model.TestInspection;
 import com.scr.model.ThermovisionCheckPoints;
 import com.scr.services.FacilityService;
 import com.scr.services.ThermovisionCheckPointsService;
@@ -132,6 +134,78 @@ private Logger logger = Logger.getLogger(ThermovisionCheckPointsController.class
 		catch (Exception e) {
 			logger.error("ERROR >> While adding Copy Thermovision CheckPoints. "+e.getMessage());
 			return Helper.findResponseStatus("Copy Thermovision CheckPoints Addition is Failed with "+e.getMessage(), Constants.FAILURE_CODE);
+		}
+	}
+	
+	@RequestMapping(value = "/findByFacilityIdCheckPointPartAndCheckPoint1Description/{facilityId}/{checkPointPart}/{checkPoint1Description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFacilityIdCheckPointPartAndCheckPoint1Description(@PathVariable("facilityId") Long facilityId ,@PathVariable("checkPointPart") String checkPointPart,@PathVariable("checkPoint1Description") String checkPoint1Description){
+		
+		try {
+			logger.info("Request for checking exists facilityId checkPointPart  and checkPoint1Description ...");
+			return thermovisionCheckPointServices.existsByFacilityIdAndCheckPointPartAndCheckPoint1Description(facilityService.findFacilityById(facilityId).get(),checkPointPart,checkPoint1Description);
+		} catch (Exception e) {
+			logger.error("Error while checking exists name "+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existFacilityIdCheckPointPartAndCheckPoint1DescriptionAndId/{id}/{facilityId}/{checkPointPart}/{checkPoint1Description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existFacilityIdCheckPointPartAndCheckPoint1DescriptionAndId(@PathVariable("id") Long id,@PathVariable("facilityId") Long facilityId ,@PathVariable("checkPointPart") String checkPointPart,@PathVariable("checkPoint1Description") String checkPoint1Description){
+		
+		logger.info("id=="+id+"facilityId=="+facilityId);
+		Boolean result;
+		try {
+			Optional<ThermovisionCheckPoints> thermovisionCheckPointsData = thermovisionCheckPointServices.findByFacilityIdAndCheckPointPartAndCheckPoint1Description (facilityService.findFacilityById(facilityId).get(),checkPointPart,checkPoint1Description);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(thermovisionCheckPointsData.isPresent()) {
+				ThermovisionCheckPoints checkPoin = thermovisionCheckPointsData.get();
+				logger.info("***id ***"+checkPoin.getId());
+				if (id.equals(checkPoin.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and name..."+e.getMessage());
+			return false;
+		}
+	}
+	
+	@RequestMapping(value = "/findByFacilityIdCheckPointPartAndCheckPoint2Description/{facilityId}/{checkPointPart}/{checkPoint2Description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existsFacilityIdCheckPointPartAndCheckPoint2Description(@PathVariable("facilityId") Long facilityId ,@PathVariable("checkPointPart") String checkPointPart,@PathVariable("checkPoint2Description") String checkPoint2Description){
+		
+		try {
+			logger.info("Request for checking exists facilityId checkPointPart  and checkPoint1Description ...");
+			return thermovisionCheckPointServices.existsByFacilityIdAndCheckPointPartAndCheckPoint2Description(facilityService.findFacilityById(facilityId).get(),checkPointPart,checkPoint2Description);
+		} catch (Exception e) {
+			logger.error("Error while checking exists name "+e.getMessage());
+			return false;
+		}
+	}
+	@RequestMapping(value = "/existFacilityIdCheckPointPartAndCheckPoint2DescriptionAndId/{id}/{facilityId}/{checkPointPart}/{checkPoint2Description}", method = RequestMethod.GET ,produces=MediaType.APPLICATION_JSON_VALUE)	
+	public Boolean existFacilityIdCheckPointPartAndCheckPoint2DescriptionAndId(@PathVariable("id") Long id,@PathVariable("facilityId") Long facilityId ,@PathVariable("checkPointPart") String checkPointPart,@PathVariable("checkPoint2Description") String checkPoint2Description){
+		
+		logger.info("id=="+id+"facilityId=="+facilityId);
+		Boolean result;
+		try {
+			Optional<ThermovisionCheckPoints> thermovisionCheckPointsData = thermovisionCheckPointServices.findByFacilityIdAndCheckPointPartAndCheckPoint2Description (facilityService.findFacilityById(facilityId).get(),checkPointPart,checkPoint2Description);
+			//return makeService.existsByIdAndMakeCode(id,makeCode);
+			if(thermovisionCheckPointsData.isPresent()) {
+				ThermovisionCheckPoints checkPoin = thermovisionCheckPointsData.get();
+				logger.info("***id ***"+checkPoin.getId());
+				if (id.equals(checkPoin.getId())) {
+					return result = false;
+				} else {
+					return result = true;
+				}
+			}
+			else 
+				return  result = false;
+		} catch (Exception e) {
+			logger.error("Error while checking exists id and name..."+e.getMessage());
+			return false;
 		}
 	}
 }

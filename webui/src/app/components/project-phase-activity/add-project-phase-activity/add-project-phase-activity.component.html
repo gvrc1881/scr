@@ -114,8 +114,8 @@
                                                             </mat-select>                                                           
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-12" *ngIf="onlyYes">
-                                                    <div class="col-md-3">
+                                                    
+                                                    <div class="col-md-3" *ngIf = "onlyYes == false">
                                                         <mat-form-field fxFlex="30">
                                                             <input matInput placeholder="{{FiledLabels.UOM}}"  [formControl]="addPhaseActivityFormGroup.controls['uom']" />
                                                             <mat-error
@@ -124,7 +124,7 @@
                                                             </mat-error>
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-3" *ngIf="onlyYes">
                                                         <mat-form-field fxFlex="30">
                                                             <mat-select placeholder="{{FiledLabels.TEST_INSPECTION}}"
                                                                 [formControl]="addPhaseActivityFormGroup.controls['testInspectionId']" (ngModelChange)="getTestInspectionData()">
@@ -136,7 +136,6 @@
                                                             </mat-select>                                                           
                                                         </mat-form-field>
                                                     </div>
-                                                </div>
                                                     <div class="col-md-3">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker1"

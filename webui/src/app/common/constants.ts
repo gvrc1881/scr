@@ -884,7 +884,12 @@ export const Constants = {
             GET_CHECK_POINTS_BASED_ON_FACILITY_ID:"/findCheckPointsBasedOnFacilityId/",
             UPDATE_CHECK_POINTS:"/updateCheckPoints",
             GET_COMPARISON_POINTS_BASED_ON_FACILITY_DESCRIP:"/getComparisonPointsOnFacilityIdAndDescription/",
-            COPY_CHECK_POINTS:"/saveCopyCheckPoints"
+            COPY_CHECK_POINTS:"/saveCopyCheckPoints",
+            EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION1:"/findByFacilityIdCheckPointPartAndCheckPoint1Description/",
+            EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION1_ID:"/existFacilityIdCheckPointPartAndCheckPoint1DescriptionAndId/",
+            EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION2:"/findByFacilityIdCheckPointPartAndCheckPoint2Description/",
+            EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION2_ID:"/existFacilityIdCheckPointPartAndCheckPoint2DescriptionAndId/",
+
         }    
     },
     INSPECTION:{

@@ -53,8 +53,9 @@ public class WorkPhaseActivityService {
 					updateWorkActivityData.setDescription(workPhaseActivity.getDescription());
 					updateWorkActivityData.setSequence(workPhaseActivity.getSequence());
 					updateWorkActivityData.setDependencyToStart(workPhaseActivity.getDependencyToStart());
-					updateWorkActivityData.setUom(workPhaseActivity.getUom());
 					updateWorkActivityData.setIsCheckList(workPhaseActivity.getIsCheckList());
+					updateWorkActivityData.setUom(workPhaseActivity.getUom());
+					updateWorkActivityData.setTestInspectionId(workPhaseActivity.getTestInspectionId());
 					updateWorkActivityData.setIsObjectIdRequired(workPhaseActivity.getIsObjectIdRequired());
 					updateWorkActivityData.setDepotType(workPhaseActivity.getDepotType());				
 					updateWorkActivityData.setAssetType(workPhaseActivity.getAssetType());

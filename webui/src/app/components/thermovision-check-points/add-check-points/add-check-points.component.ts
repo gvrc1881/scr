@@ -94,8 +94,8 @@ this.addCheckPointsFormGroup = this.formBuilder.group({
   id: 0, 
   'facilityId':[null, Validators.compose([Validators.required])],
   'checkPointPart': [null, Validators.compose([Validators.required])],
-  'checkPoint1Description': [null],
-  'checkPoint2Description': [null],
+  'checkPoint1Description': [null,Validators.required,this.duplicateFacilityIdCheckPointPartAndCheckPoint1Description.bind(this)],
+  'checkPoint2Description': [null,Validators.required,this.duplicateFacilityIdCheckPointPartAndCheckPoint2Description.bind(this)],
 
   //'commparisonPoints':[null],
   //'typeOfCheckPoint':[null],
@@ -161,5 +161,43 @@ this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOV
       });
 }
 public checkPoints = ['FIXED', 'FIXED_CClamp','CClamp'];
+
+
+
+duplicateFacilityIdCheckPointPartAndCheckPoint1Description() {
+  const q = new Promise((resolve, reject) => {
+     this.sendAndRequestService.requestForGET(Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION1 +
+      this.addCheckPointsFormGroup.controls['facilityId'].value.id + '/'+
+      this.addCheckPointsFormGroup.controls['checkPointPart'].value + '/'+this.addCheckPointsFormGroup.controls['checkPoint1Description'].value
+    ).subscribe((duplicate) => {
+      if (duplicate) {
+        resolve({ 'duplicate': true });
+      } else {
+        resolve(null);
+      }
+    }, () => { resolve({ 'duplicate': true }); });
+  });
+  return q;
+}
+
+  
+duplicateFacilityIdCheckPointPartAndCheckPoint2Description() {
+  const q = new Promise((resolve, reject) => {
+     this.sendAndRequestService.requestForGET(
+            Constants.app_urls.THERMOVISION.THERMOVISION_CHECK_POINTS.EXIST_FACILITY_AND_CHECK_POINT_DESCRIPTION2+
+          this.addCheckPointsFormGroup.controls['facilityId'].value.id + '/'+
+          this.addCheckPointsFormGroup.controls['checkPointPart'].value+'/'+
+          this.addCheckPointsFormGroup.controls['checkPoint2Description'].value
+    ).subscribe((duplicate) => {
+      if (duplicate) {
+        resolve({ 'duplicate': true });
+      } else {
+        resolve(null);
+      }
+    }, () => { resolve({ 'duplicate': true }); });
+  });
+  return q;
+  }
+  
 
 }

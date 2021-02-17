@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.scr.model.Facility;
+import com.scr.model.Make;
+import com.scr.model.Model;
+import com.scr.model.TestInspection;
 import com.scr.model.ThermovisionCheckPoints;
 import com.scr.repository.ThermovisionCheckPointsRepository;
 
@@ -78,5 +81,20 @@ public class ThermovisionCheckPointsService {
 			String tcpCheckPoint1Description, String tcpCheckPoint2Description, Facility facility) {
 		return thermovisionCheckPointsRepository.findByCheckPoint1DescriptionAndCheckPoint2DescriptionAndFacilityId(tcpCheckPoint1Description,tcpCheckPoint2Description,facility);
 	}
-	
+	public Boolean existsByFacilityIdAndCheckPointPartAndCheckPoint1Description(Facility facilityId,String checkPointPart, String checkPoint1Description) {
+		// TODO Auto-generated method stub
+		return thermovisionCheckPointsRepository.existsByFacilityIdAndCheckPointPartAndCheckPoint1Description(facilityId,checkPointPart,checkPoint1Description);
+	}
+	public Optional<ThermovisionCheckPoints> findByFacilityIdAndCheckPointPartAndCheckPoint1Description(Facility facilityId,String checkPointPart,String checkPoint1Description) {
+		// TODO Auto-generated method stub
+		return thermovisionCheckPointsRepository.findByFacilityIdAndCheckPointPartAndCheckPoint1Description(facilityId,checkPointPart,checkPoint1Description);
+	}
+	public Boolean existsByFacilityIdAndCheckPointPartAndCheckPoint2Description(Facility facilityId,String checkPointPart, String checkPoint2Description) {
+		// TODO Auto-generated method stub
+		return thermovisionCheckPointsRepository.existsByFacilityIdAndCheckPointPartAndCheckPoint2Description(facilityId,checkPointPart,checkPoint2Description);
+	}
+	public Optional<ThermovisionCheckPoints> findByFacilityIdAndCheckPointPartAndCheckPoint2Description(Facility facilityId,String checkPointPart,String checkPoint2Description) {
+		// TODO Auto-generated method stub
+		return thermovisionCheckPointsRepository.findByFacilityIdAndCheckPointPartAndCheckPoint2Description(facilityId,checkPointPart,checkPoint2Description);
+	}
 }
